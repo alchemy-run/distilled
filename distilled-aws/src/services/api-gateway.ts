@@ -4801,19 +4801,21 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 ).pipe(C.withServerError) {}
 
 //# Operations
-/**
- * Create an ApiKey resource.
- */
-export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
-  ApiKey,
+export type CreateApiKeyError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create an ApiKey resource.
+ */
+export const createApiKey: API.OperationMethod<
+  CreateApiKeyRequest,
+  ApiKey,
+  CreateApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiKeyRequest,
@@ -4827,19 +4829,21 @@ export const createApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Adds a new Authorizer resource to an existing RestApi resource.
- */
-export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
-  Authorizer,
+export type CreateAuthorizerError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a new Authorizer resource to an existing RestApi resource.
+ */
+export const createAuthorizer: API.OperationMethod<
+  CreateAuthorizerRequest,
+  Authorizer,
+  CreateAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
@@ -4853,19 +4857,21 @@ export const createAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a new BasePathMapping resource.
- */
-export const createBasePathMapping: API.OperationMethod<
-  CreateBasePathMappingRequest,
-  BasePathMapping,
+export type CreateBasePathMappingError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new BasePathMapping resource.
+ */
+export const createBasePathMapping: API.OperationMethod<
+  CreateBasePathMappingRequest,
+  BasePathMapping,
+  CreateBasePathMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBasePathMappingRequest,
@@ -4879,12 +4885,7 @@ export const createBasePathMapping: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
- */
-export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
-  Deployment,
+export type CreateDeploymentError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
@@ -4892,7 +4893,14 @@ export const createDeployment: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
+ */
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
+  Deployment,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
@@ -4907,19 +4915,21 @@ export const createDeployment: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a documentation part.
- */
-export const createDocumentationPart: API.OperationMethod<
-  CreateDocumentationPartRequest,
-  DocumentationPart,
+export type CreateDocumentationPartError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a documentation part.
+ */
+export const createDocumentationPart: API.OperationMethod<
+  CreateDocumentationPartRequest,
+  DocumentationPart,
+  CreateDocumentationPartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDocumentationPartRequest,
@@ -4933,19 +4943,21 @@ export const createDocumentationPart: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a documentation version
- */
-export const createDocumentationVersion: API.OperationMethod<
-  CreateDocumentationVersionRequest,
-  DocumentationVersion,
+export type CreateDocumentationVersionError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a documentation version
+ */
+export const createDocumentationVersion: API.OperationMethod<
+  CreateDocumentationVersionRequest,
+  DocumentationVersion,
+  CreateDocumentationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDocumentationVersionRequest,
@@ -4959,18 +4971,20 @@ export const createDocumentationVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateDomainNameError =
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a new domain name.
  */
 export const createDomainName: API.OperationMethod<
   CreateDomainNameRequest,
   DomainName,
-  | BadRequestException
-  | ConflictException
-  | LimitExceededException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameRequest,
@@ -4983,6 +4997,13 @@ export const createDomainName: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateDomainNameAccessAssociationError =
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a domain name access association resource between an access association source and a private custom
  * domain name.
@@ -4990,12 +5011,7 @@ export const createDomainName: API.OperationMethod<
 export const createDomainNameAccessAssociation: API.OperationMethod<
   CreateDomainNameAccessAssociationRequest,
   DomainNameAccessAssociation,
-  | BadRequestException
-  | ConflictException
-  | LimitExceededException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateDomainNameAccessAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameAccessAssociationRequest,
@@ -5008,19 +5024,21 @@ export const createDomainNameAccessAssociation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Adds a new Model resource to an existing RestApi resource.
- */
-export const createModel: API.OperationMethod<
-  CreateModelRequest,
-  Model,
+export type CreateModelError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a new Model resource to an existing RestApi resource.
+ */
+export const createModel: API.OperationMethod<
+  CreateModelRequest,
+  Model,
+  CreateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
@@ -5034,19 +5052,21 @@ export const createModel: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a RequestValidator of a given RestApi.
- */
-export const createRequestValidator: API.OperationMethod<
-  CreateRequestValidatorRequest,
-  RequestValidator,
+export type CreateRequestValidatorError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a RequestValidator of a given RestApi.
+ */
+export const createRequestValidator: API.OperationMethod<
+  CreateRequestValidatorRequest,
+  RequestValidator,
+  CreateRequestValidatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRequestValidatorRequest,
@@ -5060,19 +5080,21 @@ export const createRequestValidator: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a Resource resource.
- */
-export const createResource: API.OperationMethod<
-  CreateResourceRequest,
-  Resource,
+export type CreateResourceError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Resource resource.
+ */
+export const createResource: API.OperationMethod<
+  CreateResourceRequest,
+  Resource,
+  CreateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceRequest,
@@ -5086,18 +5108,20 @@ export const createResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateRestApiError =
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a new RestApi resource.
  */
 export const createRestApi: API.OperationMethod<
   CreateRestApiRequest,
   RestApi,
-  | BadRequestException
-  | ConflictException
-  | LimitExceededException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRestApiRequest,
@@ -5110,19 +5134,21 @@ export const createRestApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a new Stage resource that references a pre-existing Deployment for the API.
- */
-export const createStage: API.OperationMethod<
-  CreateStageRequest,
-  Stage,
+export type CreateStageError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Stage resource that references a pre-existing Deployment for the API.
+ */
+export const createStage: API.OperationMethod<
+  CreateStageRequest,
+  Stage,
+  CreateStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStageRequest,
@@ -5136,19 +5162,21 @@ export const createStage: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
- */
-export const createUsagePlan: API.OperationMethod<
-  CreateUsagePlanRequest,
-  UsagePlan,
+export type CreateUsagePlanError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
+ */
+export const createUsagePlan: API.OperationMethod<
+  CreateUsagePlanRequest,
+  UsagePlan,
+  CreateUsagePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsagePlanRequest,
@@ -5162,19 +5190,21 @@ export const createUsagePlan: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a usage plan key for adding an existing API key to a usage plan.
- */
-export const createUsagePlanKey: API.OperationMethod<
-  CreateUsagePlanKeyRequest,
-  UsagePlanKey,
+export type CreateUsagePlanKeyError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a usage plan key for adding an existing API key to a usage plan.
+ */
+export const createUsagePlanKey: API.OperationMethod<
+  CreateUsagePlanKeyRequest,
+  UsagePlanKey,
+  CreateUsagePlanKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsagePlanKeyRequest,
@@ -5188,18 +5218,20 @@ export const createUsagePlanKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateVpcLinkError =
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
  */
 export const createVpcLink: API.OperationMethod<
   CreateVpcLinkRequest,
   VpcLink,
-  | BadRequestException
-  | ConflictException
-  | LimitExceededException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcLinkRequest,
@@ -5212,18 +5244,20 @@ export const createVpcLink: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteApiKeyError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the ApiKey resource.
  */
 export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyRequest,
   DeleteApiKeyResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiKeyRequest,
@@ -5236,18 +5270,20 @@ export const deleteApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteAuthorizerError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an existing Authorizer resource.
  */
 export const deleteAuthorizer: API.OperationMethod<
   DeleteAuthorizerRequest,
   DeleteAuthorizerResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthorizerRequest,
@@ -5260,18 +5296,20 @@ export const deleteAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteBasePathMappingError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the BasePathMapping resource.
  */
 export const deleteBasePathMapping: API.OperationMethod<
   DeleteBasePathMappingRequest,
   DeleteBasePathMappingResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteBasePathMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBasePathMappingRequest,
@@ -5284,18 +5322,20 @@ export const deleteBasePathMapping: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteClientCertificateError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the ClientCertificate resource.
  */
 export const deleteClientCertificate: API.OperationMethod<
   DeleteClientCertificateRequest,
   DeleteClientCertificateResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteClientCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClientCertificateRequest,
@@ -5308,19 +5348,21 @@ export const deleteClientCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
- */
-export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
-  DeleteDeploymentResponse,
+export type DeleteDeploymentError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
+ */
+export const deleteDeployment: API.OperationMethod<
+  DeleteDeploymentRequest,
+  DeleteDeploymentResponse,
+  DeleteDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentRequest,
@@ -5334,18 +5376,20 @@ export const deleteDeployment: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDocumentationPartError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a documentation part
  */
 export const deleteDocumentationPart: API.OperationMethod<
   DeleteDocumentationPartRequest,
   DeleteDocumentationPartResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteDocumentationPartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDocumentationPartRequest,
@@ -5358,18 +5402,20 @@ export const deleteDocumentationPart: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDocumentationVersionError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a documentation version.
  */
 export const deleteDocumentationVersion: API.OperationMethod<
   DeleteDocumentationVersionRequest,
   DeleteDocumentationVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteDocumentationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDocumentationVersionRequest,
@@ -5382,18 +5428,20 @@ export const deleteDocumentationVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDomainNameError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the DomainName resource.
  */
 export const deleteDomainName: API.OperationMethod<
   DeleteDomainNameRequest,
   DeleteDomainNameResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameRequest,
@@ -5406,6 +5454,13 @@ export const deleteDomainName: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDomainNameAccessAssociationError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the DomainNameAccessAssociation resource.
  *
@@ -5414,12 +5469,7 @@ export const deleteDomainName: API.OperationMethod<
 export const deleteDomainNameAccessAssociation: API.OperationMethod<
   DeleteDomainNameAccessAssociationRequest,
   DeleteDomainNameAccessAssociationResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteDomainNameAccessAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameAccessAssociationRequest,
@@ -5432,18 +5482,20 @@ export const deleteDomainNameAccessAssociation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteGatewayResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
  */
 export const deleteGatewayResponse: API.OperationMethod<
   DeleteGatewayResponseRequest,
   DeleteGatewayResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteGatewayResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayResponseRequest,
@@ -5456,18 +5508,20 @@ export const deleteGatewayResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteIntegrationError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a delete integration.
  */
 export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationRequest,
   DeleteIntegrationResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
@@ -5480,18 +5534,20 @@ export const deleteIntegration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteIntegrationResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a delete integration response.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
   DeleteIntegrationResponseRequest,
   DeleteIntegrationResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationResponseRequest,
@@ -5504,17 +5560,19 @@ export const deleteIntegrationResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteMethodError =
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an existing Method resource.
  */
 export const deleteMethod: API.OperationMethod<
   DeleteMethodRequest,
   DeleteMethodResponse,
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMethodRequest,
@@ -5526,18 +5584,20 @@ export const deleteMethod: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteMethodResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an existing MethodResponse resource.
  */
 export const deleteMethodResponse: API.OperationMethod<
   DeleteMethodResponseRequest,
   DeleteMethodResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteMethodResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMethodResponseRequest,
@@ -5550,18 +5610,20 @@ export const deleteMethodResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteModelError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a model.
  */
 export const deleteModel: API.OperationMethod<
   DeleteModelRequest,
   DeleteModelResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
@@ -5574,18 +5636,20 @@ export const deleteModel: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteRequestValidatorError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a RequestValidator of a given RestApi.
  */
 export const deleteRequestValidator: API.OperationMethod<
   DeleteRequestValidatorRequest,
   DeleteRequestValidatorResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteRequestValidatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRequestValidatorRequest,
@@ -5598,18 +5662,20 @@ export const deleteRequestValidator: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteResourceError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a Resource resource.
  */
 export const deleteResource: API.OperationMethod<
   DeleteResourceRequest,
   DeleteResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceRequest,
@@ -5622,18 +5688,20 @@ export const deleteResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteRestApiError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the specified API.
  */
 export const deleteRestApi: API.OperationMethod<
   DeleteRestApiRequest,
   DeleteRestApiResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRestApiRequest,
@@ -5646,19 +5714,21 @@ export const deleteRestApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes a Stage resource.
- */
-export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
-  DeleteStageResponse,
+export type DeleteStageError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Stage resource.
+ */
+export const deleteStage: API.OperationMethod<
+  DeleteStageRequest,
+  DeleteStageResponse,
+  DeleteStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStageRequest,
@@ -5672,18 +5742,20 @@ export const deleteStage: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteUsagePlanError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a usage plan of a given plan Id.
  */
 export const deleteUsagePlan: API.OperationMethod<
   DeleteUsagePlanRequest,
   DeleteUsagePlanResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteUsagePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsagePlanRequest,
@@ -5696,18 +5768,20 @@ export const deleteUsagePlan: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteUsagePlanKeyError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
  */
 export const deleteUsagePlanKey: API.OperationMethod<
   DeleteUsagePlanKeyRequest,
   DeleteUsagePlanKeyResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteUsagePlanKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsagePlanKeyRequest,
@@ -5720,18 +5794,20 @@ export const deleteUsagePlanKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteVpcLinkError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an existing VpcLink of a specified identifier.
  */
 export const deleteVpcLink: API.OperationMethod<
   DeleteVpcLinkRequest,
   DeleteVpcLinkResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcLinkRequest,
@@ -5744,19 +5820,21 @@ export const deleteVpcLink: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Flushes all authorizer cache entries on a stage.
- */
-export const flushStageAuthorizersCache: API.OperationMethod<
-  FlushStageAuthorizersCacheRequest,
-  FlushStageAuthorizersCacheResponse,
+export type FlushStageAuthorizersCacheError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Flushes all authorizer cache entries on a stage.
+ */
+export const flushStageAuthorizersCache: API.OperationMethod<
+  FlushStageAuthorizersCacheRequest,
+  FlushStageAuthorizersCacheResponse,
+  FlushStageAuthorizersCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FlushStageAuthorizersCacheRequest,
@@ -5770,19 +5848,21 @@ export const flushStageAuthorizersCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Flushes a stage's cache.
- */
-export const flushStageCache: API.OperationMethod<
-  FlushStageCacheRequest,
-  FlushStageCacheResponse,
+export type FlushStageCacheError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Flushes a stage's cache.
+ */
+export const flushStageCache: API.OperationMethod<
+  FlushStageCacheRequest,
+  FlushStageCacheResponse,
+  FlushStageCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FlushStageCacheRequest,
@@ -5796,18 +5876,20 @@ export const flushStageCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GenerateClientCertificateError =
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Generates a ClientCertificate resource.
  */
 export const generateClientCertificate: API.OperationMethod<
   GenerateClientCertificateRequest,
   ClientCertificate,
-  | BadRequestException
-  | ConflictException
-  | LimitExceededException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GenerateClientCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateClientCertificateRequest,
@@ -5820,17 +5902,19 @@ export const generateClientCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetAccountError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the current Account resource.
  */
 export const getAccount: API.OperationMethod<
   GetAccountRequest,
   Account,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
@@ -5842,17 +5926,19 @@ export const getAccount: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetApiKeyError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the current ApiKey resource.
  */
 export const getApiKey: API.OperationMethod<
   GetApiKeyRequest,
   ApiKey,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiKeyRequest,
@@ -5864,39 +5950,33 @@ export const getApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetApiKeysError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the current ApiKeys resource.
  */
 export const getApiKeys: API.OperationMethod<
   GetApiKeysRequest,
   ApiKeys,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetApiKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetApiKeysRequest,
   ) => stream.Stream<
     ApiKeys,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetApiKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetApiKeysRequest,
   ) => stream.Stream<
     ApiKey,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetApiKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5915,17 +5995,19 @@ export const getApiKeys: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetAuthorizerError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describe an existing Authorizer resource.
  */
 export const getAuthorizer: API.OperationMethod<
   GetAuthorizerRequest,
   Authorizer,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizerRequest,
@@ -5937,17 +6019,19 @@ export const getAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetAuthorizersError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describe an existing Authorizers resource.
  */
 export const getAuthorizers: API.OperationMethod<
   GetAuthorizersRequest,
   Authorizers,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetAuthorizersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizersRequest,
@@ -5959,17 +6043,19 @@ export const getAuthorizers: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetBasePathMappingError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describe a BasePathMapping resource.
  */
 export const getBasePathMapping: API.OperationMethod<
   GetBasePathMappingRequest,
   BasePathMapping,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetBasePathMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBasePathMappingRequest,
@@ -5981,39 +6067,33 @@ export const getBasePathMapping: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetBasePathMappingsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a collection of BasePathMapping resources.
  */
 export const getBasePathMappings: API.OperationMethod<
   GetBasePathMappingsRequest,
   BasePathMappings,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetBasePathMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBasePathMappingsRequest,
   ) => stream.Stream<
     BasePathMappings,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetBasePathMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBasePathMappingsRequest,
   ) => stream.Stream<
     BasePathMapping,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetBasePathMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6032,17 +6112,19 @@ export const getBasePathMappings: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetClientCertificateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the current ClientCertificate resource.
  */
 export const getClientCertificate: API.OperationMethod<
   GetClientCertificateRequest,
   ClientCertificate,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetClientCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClientCertificateRequest,
@@ -6054,39 +6136,33 @@ export const getClientCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetClientCertificatesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a collection of ClientCertificate resources.
  */
 export const getClientCertificates: API.OperationMethod<
   GetClientCertificatesRequest,
   ClientCertificates,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetClientCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetClientCertificatesRequest,
   ) => stream.Stream<
     ClientCertificates,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetClientCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetClientCertificatesRequest,
   ) => stream.Stream<
     ClientCertificate,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetClientCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6105,18 +6181,20 @@ export const getClientCertificates: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetDeploymentError =
+  | BadRequestException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about a Deployment resource.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
   Deployment,
-  | BadRequestException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
@@ -6129,42 +6207,34 @@ export const getDeployment: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDeploymentsError =
+  | BadRequestException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about a Deployments collection.
  */
 export const getDeployments: API.OperationMethod<
   GetDeploymentsRequest,
   Deployments,
-  | BadRequestException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDeploymentsRequest,
   ) => stream.Stream<
     Deployments,
-    | BadRequestException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDeploymentsRequest,
   ) => stream.Stream<
     Deployment,
-    | BadRequestException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6184,17 +6254,19 @@ export const getDeployments: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetDocumentationPartError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a documentation part.
  */
 export const getDocumentationPart: API.OperationMethod<
   GetDocumentationPartRequest,
   DocumentationPart,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDocumentationPartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentationPartRequest,
@@ -6206,17 +6278,19 @@ export const getDocumentationPart: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDocumentationPartsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets documentation parts.
  */
 export const getDocumentationParts: API.OperationMethod<
   GetDocumentationPartsRequest,
   DocumentationParts,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDocumentationPartsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentationPartsRequest,
@@ -6228,33 +6302,37 @@ export const getDocumentationParts: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDocumentationVersionError =
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a documentation version.
  */
 export const getDocumentationVersion: API.OperationMethod<
   GetDocumentationVersionRequest,
   DocumentationVersion,
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDocumentationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentationVersionRequest,
   output: DocumentationVersion,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
 }));
+export type GetDocumentationVersionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets documentation versions.
  */
 export const getDocumentationVersions: API.OperationMethod<
   GetDocumentationVersionsRequest,
   DocumentationVersions,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDocumentationVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentationVersionsRequest,
@@ -6266,17 +6344,19 @@ export const getDocumentationVersions: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDomainNameError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
 export const getDomainName: API.OperationMethod<
   GetDomainNameRequest,
   DomainName,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameRequest,
@@ -6288,17 +6368,19 @@ export const getDomainName: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDomainNameAccessAssociationsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a collection on DomainNameAccessAssociations resources.
  */
 export const getDomainNameAccessAssociations: API.OperationMethod<
   GetDomainNameAccessAssociationsRequest,
   DomainNameAccessAssociations,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDomainNameAccessAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameAccessAssociationsRequest,
@@ -6310,39 +6392,33 @@ export const getDomainNameAccessAssociations: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDomainNamesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a collection of DomainName resources.
  */
 export const getDomainNames: API.OperationMethod<
   GetDomainNamesRequest,
   DomainNames,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDomainNamesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDomainNamesRequest,
   ) => stream.Stream<
     DomainNames,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetDomainNamesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDomainNamesRequest,
   ) => stream.Stream<
     DomainName,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetDomainNamesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6361,19 +6437,21 @@ export const getDomainNames: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
-/**
- * Exports a deployed version of a RestApi in a specified format.
- */
-export const getExport: API.OperationMethod<
-  GetExportRequest,
-  ExportResponse,
+export type GetExportError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Exports a deployed version of a RestApi in a specified format.
+ */
+export const getExport: API.OperationMethod<
+  GetExportRequest,
+  ExportResponse,
+  GetExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportRequest,
@@ -6387,17 +6465,19 @@ export const getExport: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetGatewayResponseError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a GatewayResponse of a specified response type on the given RestApi.
  */
 export const getGatewayResponse: API.OperationMethod<
   GetGatewayResponseRequest,
   GatewayResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetGatewayResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayResponseRequest,
@@ -6409,17 +6489,19 @@ export const getGatewayResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetGatewayResponsesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
  */
 export const getGatewayResponses: API.OperationMethod<
   GetGatewayResponsesRequest,
   GatewayResponses,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetGatewayResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayResponsesRequest,
@@ -6431,17 +6513,19 @@ export const getGatewayResponses: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetIntegrationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Get the integration settings.
  */
 export const getIntegration: API.OperationMethod<
   GetIntegrationRequest,
   Integration,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationRequest,
@@ -6453,17 +6537,19 @@ export const getIntegration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetIntegrationResponseError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Represents a get integration response.
  */
 export const getIntegrationResponse: API.OperationMethod<
   GetIntegrationResponseRequest,
   IntegrationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationResponseRequest,
@@ -6475,49 +6561,55 @@ export const getIntegrationResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetMethodError =
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describe an existing Method resource.
  */
 export const getMethod: API.OperationMethod<
   GetMethodRequest,
   Method,
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMethodRequest,
   output: Method,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
 }));
+export type GetMethodResponseError =
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes a MethodResponse resource.
  */
 export const getMethodResponse: API.OperationMethod<
   GetMethodResponseRequest,
   MethodResponse,
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetMethodResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMethodResponseRequest,
   output: MethodResponse,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
 }));
+export type GetModelError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes an existing model defined for a RestApi resource.
  */
 export const getModel: API.OperationMethod<
   GetModelRequest,
   Model,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelRequest,
@@ -6529,39 +6621,33 @@ export const getModel: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetModelsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes existing Models defined for a RestApi resource.
  */
 export const getModels: API.OperationMethod<
   GetModelsRequest,
   Models,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetModelsRequest,
   ) => stream.Stream<
     Models,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetModelsRequest,
   ) => stream.Stream<
     Model,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6580,17 +6666,19 @@ export const getModels: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetModelTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Generates a sample mapping template that can be used to transform a payload into the structure of a model.
  */
 export const getModelTemplate: API.OperationMethod<
   GetModelTemplateRequest,
   Template,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetModelTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelTemplateRequest,
@@ -6602,17 +6690,19 @@ export const getModelTemplate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetRequestValidatorError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a RequestValidator of a given RestApi.
  */
 export const getRequestValidator: API.OperationMethod<
   GetRequestValidatorRequest,
   RequestValidator,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRequestValidatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRequestValidatorRequest,
@@ -6624,17 +6714,19 @@ export const getRequestValidator: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetRequestValidatorsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the RequestValidators collection of a given RestApi.
  */
 export const getRequestValidators: API.OperationMethod<
   GetRequestValidatorsRequest,
   RequestValidators,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRequestValidatorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRequestValidatorsRequest,
@@ -6646,55 +6738,51 @@ export const getRequestValidators: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetResourceError =
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists information about a resource.
  */
 export const getResource: API.OperationMethod<
   GetResourceRequest,
   Resource,
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceRequest,
   output: Resource,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
 }));
+export type GetResourcesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists information about a collection of Resource resources.
  */
 export const getResources: API.OperationMethod<
   GetResourcesRequest,
   Resources,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourcesRequest,
   ) => stream.Stream<
     Resources,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourcesRequest,
   ) => stream.Stream<
     Resource,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6713,17 +6801,19 @@ export const getResources: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetRestApiError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the RestApi resource in the collection.
  */
 export const getRestApi: API.OperationMethod<
   GetRestApiRequest,
   RestApi,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRestApiRequest,
@@ -6735,39 +6825,33 @@ export const getRestApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetRestApisError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the RestApis resources for your collection.
  */
 export const getRestApis: API.OperationMethod<
   GetRestApisRequest,
   RestApis,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRestApisError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetRestApisRequest,
   ) => stream.Stream<
     RestApis,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetRestApisError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetRestApisRequest,
   ) => stream.Stream<
     RestApi,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetRestApisError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6786,19 +6870,21 @@ export const getRestApis: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
-/**
- * Generates a client SDK for a RestApi and Stage.
- */
-export const getSdk: API.OperationMethod<
-  GetSdkRequest,
-  SdkResponse,
+export type GetSdkError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Generates a client SDK for a RestApi and Stage.
+ */
+export const getSdk: API.OperationMethod<
+  GetSdkRequest,
+  SdkResponse,
+  GetSdkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdkRequest,
@@ -6812,17 +6898,19 @@ export const getSdk: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetSdkTypeError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets an SDK type.
  */
 export const getSdkType: API.OperationMethod<
   GetSdkTypeRequest,
   SdkType,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetSdkTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdkTypeRequest,
@@ -6834,17 +6922,19 @@ export const getSdkType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetSdkTypesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets SDK types
  */
 export const getSdkTypes: API.OperationMethod<
   GetSdkTypesRequest,
   SdkTypes,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetSdkTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdkTypesRequest,
@@ -6856,19 +6946,21 @@ export const getSdkTypes: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Gets information about a Stage resource.
- */
-export const getStage: API.OperationMethod<
-  GetStageRequest,
-  Stage,
+export type GetStageError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about a Stage resource.
+ */
+export const getStage: API.OperationMethod<
+  GetStageRequest,
+  Stage,
+  GetStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStageRequest,
@@ -6882,19 +6974,21 @@ export const getStage: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Gets information about one or more Stage resources.
- */
-export const getStages: API.OperationMethod<
-  GetStagesRequest,
-  Stages,
+export type GetStagesError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about one or more Stage resources.
+ */
+export const getStages: API.OperationMethod<
+  GetStagesRequest,
+  Stages,
+  GetStagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStagesRequest,
@@ -6908,17 +7002,19 @@ export const getStages: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetTagsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the Tags collection for a given resource.
  */
 export const getTags: API.OperationMethod<
   GetTagsRequest,
   Tags,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
@@ -6930,39 +7026,33 @@ export const getTags: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetUsageError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the usage data of a usage plan in a specified time interval.
  */
 export const getUsage: API.OperationMethod<
   GetUsageRequest,
   Usage,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetUsageError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetUsageRequest,
   ) => stream.Stream<
     Usage,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetUsageError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetUsageRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetUsageError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6981,17 +7071,19 @@ export const getUsage: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetUsagePlanError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a usage plan of a given plan identifier.
  */
 export const getUsagePlan: API.OperationMethod<
   GetUsagePlanRequest,
   UsagePlan,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetUsagePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsagePlanRequest,
@@ -7003,17 +7095,19 @@ export const getUsagePlan: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetUsagePlanKeyError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a usage plan key of a given key identifier.
  */
 export const getUsagePlanKey: API.OperationMethod<
   GetUsagePlanKeyRequest,
   UsagePlanKey,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetUsagePlanKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsagePlanKeyRequest,
@@ -7025,39 +7119,33 @@ export const getUsagePlanKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetUsagePlanKeysError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets all the usage plan keys representing the API keys added to a specified usage plan.
  */
 export const getUsagePlanKeys: API.OperationMethod<
   GetUsagePlanKeysRequest,
   UsagePlanKeys,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetUsagePlanKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetUsagePlanKeysRequest,
   ) => stream.Stream<
     UsagePlanKeys,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetUsagePlanKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetUsagePlanKeysRequest,
   ) => stream.Stream<
     UsagePlanKey,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetUsagePlanKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7076,39 +7164,33 @@ export const getUsagePlanKeys: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetUsagePlansError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets all the usage plans of the caller's account.
  */
 export const getUsagePlans: API.OperationMethod<
   GetUsagePlansRequest,
   UsagePlans,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetUsagePlansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetUsagePlansRequest,
   ) => stream.Stream<
     UsagePlans,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetUsagePlansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetUsagePlansRequest,
   ) => stream.Stream<
     UsagePlan,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetUsagePlansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7127,17 +7209,19 @@ export const getUsagePlans: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetVpcLinkError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a specified VPC link under the caller's account in a region.
  */
 export const getVpcLink: API.OperationMethod<
   GetVpcLinkRequest,
   VpcLink,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinkRequest,
@@ -7149,39 +7233,33 @@ export const getVpcLink: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetVpcLinksError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the VpcLinks collection under the caller's account in a selected region.
  */
 export const getVpcLinks: API.OperationMethod<
   GetVpcLinksRequest,
   VpcLinks,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetVpcLinksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetVpcLinksRequest,
   ) => stream.Stream<
     VpcLinks,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetVpcLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetVpcLinksRequest,
   ) => stream.Stream<
     VpcLink,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    GetVpcLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7200,19 +7278,21 @@ export const getVpcLinks: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
-/**
- * Import API keys from an external source, such as a CSV-formatted file.
- */
-export const importApiKeys: API.OperationMethod<
-  ImportApiKeysRequest,
-  ApiKeyIds,
+export type ImportApiKeysError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Import API keys from an external source, such as a CSV-formatted file.
+ */
+export const importApiKeys: API.OperationMethod<
+  ImportApiKeysRequest,
+  ApiKeyIds,
+  ImportApiKeysError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportApiKeysRequest,
@@ -7226,19 +7306,21 @@ export const importApiKeys: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Imports documentation parts
- */
-export const importDocumentationParts: API.OperationMethod<
-  ImportDocumentationPartsRequest,
-  DocumentationPartIds,
+export type ImportDocumentationPartsError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Imports documentation parts
+ */
+export const importDocumentationParts: API.OperationMethod<
+  ImportDocumentationPartsRequest,
+  DocumentationPartIds,
+  ImportDocumentationPartsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDocumentationPartsRequest,
@@ -7252,19 +7334,21 @@ export const importDocumentationParts: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * A feature of the API Gateway control service for creating a new API from an external API definition file.
- */
-export const importRestApi: API.OperationMethod<
-  ImportRestApiRequest,
-  RestApi,
+export type ImportRestApiError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * A feature of the API Gateway control service for creating a new API from an external API definition file.
+ */
+export const importRestApi: API.OperationMethod<
+  ImportRestApiRequest,
+  RestApi,
+  ImportRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportRestApiRequest,
@@ -7278,19 +7362,21 @@ export const importRestApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
- */
-export const putGatewayResponse: API.OperationMethod<
-  PutGatewayResponseRequest,
-  GatewayResponse,
+export type PutGatewayResponseError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+ */
+export const putGatewayResponse: API.OperationMethod<
+  PutGatewayResponseRequest,
+  GatewayResponse,
+  PutGatewayResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGatewayResponseRequest,
@@ -7304,19 +7390,21 @@ export const putGatewayResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Sets up a method's integration.
- */
-export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
-  Integration,
+export type PutIntegrationError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets up a method's integration.
+ */
+export const putIntegration: API.OperationMethod<
+  PutIntegrationRequest,
+  Integration,
+  PutIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntegrationRequest,
@@ -7330,19 +7418,21 @@ export const putIntegration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Represents a put integration.
- */
-export const putIntegrationResponse: API.OperationMethod<
-  PutIntegrationResponseRequest,
-  IntegrationResponse,
+export type PutIntegrationResponseError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Represents a put integration.
+ */
+export const putIntegrationResponse: API.OperationMethod<
+  PutIntegrationResponseRequest,
+  IntegrationResponse,
+  PutIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntegrationResponseRequest,
@@ -7356,19 +7446,21 @@ export const putIntegrationResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Add a method to an existing Resource resource.
- */
-export const putMethod: API.OperationMethod<
-  PutMethodRequest,
-  Method,
+export type PutMethodError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Add a method to an existing Resource resource.
+ */
+export const putMethod: API.OperationMethod<
+  PutMethodRequest,
+  Method,
+  PutMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMethodRequest,
@@ -7382,19 +7474,21 @@ export const putMethod: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Adds a MethodResponse to an existing Method resource.
- */
-export const putMethodResponse: API.OperationMethod<
-  PutMethodResponseRequest,
-  MethodResponse,
+export type PutMethodResponseError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a MethodResponse to an existing Method resource.
+ */
+export const putMethodResponse: API.OperationMethod<
+  PutMethodResponseRequest,
+  MethodResponse,
+  PutMethodResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMethodResponseRequest,
@@ -7408,6 +7502,14 @@ export const putMethodResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type PutRestApiError =
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * A feature of the API Gateway control service for updating an existing API with an input of external API definitions.
  * The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
@@ -7415,13 +7517,7 @@ export const putMethodResponse: API.OperationMethod<
 export const putRestApi: API.OperationMethod<
   PutRestApiRequest,
   RestApi,
-  | BadRequestException
-  | ConflictException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  PutRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRestApiRequest,
@@ -7435,6 +7531,13 @@ export const putRestApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RejectDomainNameAccessAssociationError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Rejects a domain name access association with a private custom domain name.
  *
@@ -7443,12 +7546,7 @@ export const putRestApi: API.OperationMethod<
 export const rejectDomainNameAccessAssociation: API.OperationMethod<
   RejectDomainNameAccessAssociationRequest,
   RejectDomainNameAccessAssociationResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  RejectDomainNameAccessAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectDomainNameAccessAssociationRequest,
@@ -7461,19 +7559,21 @@ export const rejectDomainNameAccessAssociation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Adds or updates a tag on a given resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates a tag on a given resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7487,17 +7587,19 @@ export const tagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TestInvokeAuthorizerError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeAuthorizer: API.OperationMethod<
   TestInvokeAuthorizerRequest,
   TestInvokeAuthorizerResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  TestInvokeAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestInvokeAuthorizerRequest,
@@ -7509,17 +7611,19 @@ export const testInvokeAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TestInvokeMethodError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeMethod: API.OperationMethod<
   TestInvokeMethodRequest,
   TestInvokeMethodResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  TestInvokeMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestInvokeMethodRequest,
@@ -7531,19 +7635,21 @@ export const testInvokeMethod: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Removes a tag from a given resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a tag from a given resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -7557,19 +7663,21 @@ export const untagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about the current Account resource.
- */
-export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
-  Account,
+export type UpdateAccountError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about the current Account resource.
+ */
+export const updateAccount: API.OperationMethod<
+  UpdateAccountRequest,
+  Account,
+  UpdateAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountRequest,
@@ -7583,19 +7691,21 @@ export const updateAccount: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about an ApiKey resource.
- */
-export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
-  ApiKey,
+export type UpdateApiKeyError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about an ApiKey resource.
+ */
+export const updateApiKey: API.OperationMethod<
+  UpdateApiKeyRequest,
+  ApiKey,
+  UpdateApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiKeyRequest,
@@ -7609,19 +7719,21 @@ export const updateApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates an existing Authorizer resource.
- */
-export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
-  Authorizer,
+export type UpdateAuthorizerError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Authorizer resource.
+ */
+export const updateAuthorizer: API.OperationMethod<
+  UpdateAuthorizerRequest,
+  Authorizer,
+  UpdateAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
@@ -7635,19 +7747,21 @@ export const updateAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about the BasePathMapping resource.
- */
-export const updateBasePathMapping: API.OperationMethod<
-  UpdateBasePathMappingRequest,
-  BasePathMapping,
+export type UpdateBasePathMappingError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about the BasePathMapping resource.
+ */
+export const updateBasePathMapping: API.OperationMethod<
+  UpdateBasePathMappingRequest,
+  BasePathMapping,
+  UpdateBasePathMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBasePathMappingRequest,
@@ -7661,19 +7775,21 @@ export const updateBasePathMapping: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about an ClientCertificate resource.
- */
-export const updateClientCertificate: API.OperationMethod<
-  UpdateClientCertificateRequest,
-  ClientCertificate,
+export type UpdateClientCertificateError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about an ClientCertificate resource.
+ */
+export const updateClientCertificate: API.OperationMethod<
+  UpdateClientCertificateRequest,
+  ClientCertificate,
+  UpdateClientCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClientCertificateRequest,
@@ -7687,12 +7803,7 @@ export const updateClientCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about a Deployment resource.
- */
-export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentRequest,
-  Deployment,
+export type UpdateDeploymentError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
@@ -7700,7 +7811,14 @@ export const updateDeployment: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about a Deployment resource.
+ */
+export const updateDeployment: API.OperationMethod<
+  UpdateDeploymentRequest,
+  Deployment,
+  UpdateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentRequest,
@@ -7715,19 +7833,21 @@ export const updateDeployment: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a documentation part.
- */
-export const updateDocumentationPart: API.OperationMethod<
-  UpdateDocumentationPartRequest,
-  DocumentationPart,
+export type UpdateDocumentationPartError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a documentation part.
+ */
+export const updateDocumentationPart: API.OperationMethod<
+  UpdateDocumentationPartRequest,
+  DocumentationPart,
+  UpdateDocumentationPartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDocumentationPartRequest,
@@ -7741,19 +7861,21 @@ export const updateDocumentationPart: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a documentation version.
- */
-export const updateDocumentationVersion: API.OperationMethod<
-  UpdateDocumentationVersionRequest,
-  DocumentationVersion,
+export type UpdateDocumentationVersionError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a documentation version.
+ */
+export const updateDocumentationVersion: API.OperationMethod<
+  UpdateDocumentationVersionRequest,
+  DocumentationVersion,
+  UpdateDocumentationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDocumentationVersionRequest,
@@ -7767,19 +7889,21 @@ export const updateDocumentationVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about the DomainName resource.
- */
-export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
-  DomainName,
+export type UpdateDomainNameError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about the DomainName resource.
+ */
+export const updateDomainName: API.OperationMethod<
+  UpdateDomainNameRequest,
+  DomainName,
+  UpdateDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
@@ -7793,19 +7917,21 @@ export const updateDomainName: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a GatewayResponse of a specified response type on the given RestApi.
- */
-export const updateGatewayResponse: API.OperationMethod<
-  UpdateGatewayResponseRequest,
-  GatewayResponse,
+export type UpdateGatewayResponseError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a GatewayResponse of a specified response type on the given RestApi.
+ */
+export const updateGatewayResponse: API.OperationMethod<
+  UpdateGatewayResponseRequest,
+  GatewayResponse,
+  UpdateGatewayResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayResponseRequest,
@@ -7819,19 +7945,21 @@ export const updateGatewayResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Represents an update integration.
- */
-export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationRequest,
-  Integration,
+export type UpdateIntegrationError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Represents an update integration.
+ */
+export const updateIntegration: API.OperationMethod<
+  UpdateIntegrationRequest,
+  Integration,
+  UpdateIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationRequest,
@@ -7845,19 +7973,21 @@ export const updateIntegration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Represents an update integration response.
- */
-export const updateIntegrationResponse: API.OperationMethod<
-  UpdateIntegrationResponseRequest,
-  IntegrationResponse,
+export type UpdateIntegrationResponseError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Represents an update integration response.
+ */
+export const updateIntegrationResponse: API.OperationMethod<
+  UpdateIntegrationResponseRequest,
+  IntegrationResponse,
+  UpdateIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationResponseRequest,
@@ -7871,18 +8001,20 @@ export const updateIntegrationResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateMethodError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates an existing Method resource.
  */
 export const updateMethod: API.OperationMethod<
   UpdateMethodRequest,
   Method,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMethodRequest,
@@ -7895,19 +8027,21 @@ export const updateMethod: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates an existing MethodResponse resource.
- */
-export const updateMethodResponse: API.OperationMethod<
-  UpdateMethodResponseRequest,
-  MethodResponse,
+export type UpdateMethodResponseError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing MethodResponse resource.
+ */
+export const updateMethodResponse: API.OperationMethod<
+  UpdateMethodResponseRequest,
+  MethodResponse,
+  UpdateMethodResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMethodResponseRequest,
@@ -7921,19 +8055,21 @@ export const updateMethodResponse: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about a model. The maximum size of the model is 400 KB.
- */
-export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
-  Model,
+export type UpdateModelError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about a model. The maximum size of the model is 400 KB.
+ */
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
+  Model,
+  UpdateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
@@ -7947,19 +8083,21 @@ export const updateModel: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a RequestValidator of a given RestApi.
- */
-export const updateRequestValidator: API.OperationMethod<
-  UpdateRequestValidatorRequest,
-  RequestValidator,
+export type UpdateRequestValidatorError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a RequestValidator of a given RestApi.
+ */
+export const updateRequestValidator: API.OperationMethod<
+  UpdateRequestValidatorRequest,
+  RequestValidator,
+  UpdateRequestValidatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRequestValidatorRequest,
@@ -7973,18 +8111,20 @@ export const updateRequestValidator: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateResourceError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Changes information about a Resource resource.
  */
 export const updateResource: API.OperationMethod<
   UpdateResourceRequest,
   Resource,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceRequest,
@@ -7997,19 +8137,21 @@ export const updateResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about the specified API.
- */
-export const updateRestApi: API.OperationMethod<
-  UpdateRestApiRequest,
-  RestApi,
+export type UpdateRestApiError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about the specified API.
+ */
+export const updateRestApi: API.OperationMethod<
+  UpdateRestApiRequest,
+  RestApi,
+  UpdateRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRestApiRequest,
@@ -8023,19 +8165,21 @@ export const updateRestApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Changes information about a Stage resource.
- */
-export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
-  Stage,
+export type UpdateStageError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about a Stage resource.
+ */
+export const updateStage: API.OperationMethod<
+  UpdateStageRequest,
+  Stage,
+  UpdateStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStageRequest,
@@ -8049,19 +8193,21 @@ export const updateStage: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
- */
-export const updateUsage: API.OperationMethod<
-  UpdateUsageRequest,
-  Usage,
+export type UpdateUsageError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
+ */
+export const updateUsage: API.OperationMethod<
+  UpdateUsageRequest,
+  Usage,
+  UpdateUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsageRequest,
@@ -8075,19 +8221,21 @@ export const updateUsage: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a usage plan of a given plan Id.
- */
-export const updateUsagePlan: API.OperationMethod<
-  UpdateUsagePlanRequest,
-  UsagePlan,
+export type UpdateUsagePlanError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a usage plan of a given plan Id.
+ */
+export const updateUsagePlan: API.OperationMethod<
+  UpdateUsagePlanRequest,
+  UsagePlan,
+  UpdateUsagePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsagePlanRequest,
@@ -8101,19 +8249,21 @@ export const updateUsagePlan: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates an existing VpcLink of a specified identifier.
- */
-export const updateVpcLink: API.OperationMethod<
-  UpdateVpcLinkRequest,
-  VpcLink,
+export type UpdateVpcLinkError =
   | BadRequestException
   | ConflictException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing VpcLink of a specified identifier.
+ */
+export const updateVpcLink: API.OperationMethod<
+  UpdateVpcLinkRequest,
+  VpcLink,
+  UpdateVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcLinkRequest,

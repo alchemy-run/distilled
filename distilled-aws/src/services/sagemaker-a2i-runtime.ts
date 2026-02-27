@@ -350,6 +350,12 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type DeleteHumanLoopError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified human loop for a flow definition.
  *
@@ -359,11 +365,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const deleteHumanLoop: API.OperationMethod<
   DeleteHumanLoopRequest,
   DeleteHumanLoopResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteHumanLoopError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHumanLoopRequest,
@@ -375,6 +377,12 @@ export const deleteHumanLoop: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeHumanLoopError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the specified human loop. If the human loop was deleted, this
  * operation will return a `ResourceNotFoundException` error.
@@ -382,11 +390,7 @@ export const deleteHumanLoop: API.OperationMethod<
 export const describeHumanLoop: API.OperationMethod<
   DescribeHumanLoopRequest,
   DescribeHumanLoopResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeHumanLoopError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHumanLoopRequest,
@@ -398,39 +402,33 @@ export const describeHumanLoop: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListHumanLoopsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
  */
 export const listHumanLoops: API.OperationMethod<
   ListHumanLoopsRequest,
   ListHumanLoopsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListHumanLoopsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHumanLoopsRequest,
   ) => stream.Stream<
     ListHumanLoopsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHumanLoopsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHumanLoopsRequest,
   ) => stream.Stream<
     HumanLoopSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHumanLoopsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -449,18 +447,20 @@ export const listHumanLoops: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartHumanLoopError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a human loop, provided that at least one activation condition is met.
  */
 export const startHumanLoop: API.OperationMethod<
   StartHumanLoopRequest,
   StartHumanLoopResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartHumanLoopError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartHumanLoopRequest,
@@ -473,17 +473,19 @@ export const startHumanLoop: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopHumanLoopError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the specified human loop.
  */
 export const stopHumanLoop: API.OperationMethod<
   StopHumanLoopRequest,
   StopHumanLoopResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopHumanLoopError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopHumanLoopRequest,

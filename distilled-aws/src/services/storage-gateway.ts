@@ -4447,6 +4447,10 @@ export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailab
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type ActivateGatewayError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Activates the gateway you previously deployed on your host. In the activation process,
  * you specify information such as the Amazon Web Services Region that you want to use for
@@ -4459,13 +4463,17 @@ export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailab
 export const activateGateway: API.OperationMethod<
   ActivateGatewayInput,
   ActivateGatewayOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ActivateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateGatewayInput,
   output: ActivateGatewayOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AddCacheError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Configures one or more gateway local disks as cache for a gateway. This operation is
  * only supported in the cached volume, tape, and file gateway type (see How Storage Gateway works (architecture).
@@ -4476,13 +4484,17 @@ export const activateGateway: API.OperationMethod<
 export const addCache: API.OperationMethod<
   AddCacheInput,
   AddCacheOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AddCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddCacheInput,
   output: AddCacheOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AddTagsToResourceError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Adds one or more tags to the specified resource. You use tags to add metadata to
  * resources, which you can use to categorize these resources. For example, you can categorize
@@ -4505,13 +4517,17 @@ export const addCache: API.OperationMethod<
 export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceInput,
   AddTagsToResourceOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AddTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceInput,
   output: AddTagsToResourceOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AddUploadBufferError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Configures one or more gateway local disks as upload buffer for a specified gateway.
  * This operation is supported for the stored volume, cached volume, and tape gateway
@@ -4524,13 +4540,17 @@ export const addTagsToResource: API.OperationMethod<
 export const addUploadBuffer: API.OperationMethod<
   AddUploadBufferInput,
   AddUploadBufferOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AddUploadBufferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddUploadBufferInput,
   output: AddUploadBufferOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AddWorkingStorageError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Configures one or more gateway local disks as working storage for a gateway. This
  * operation is only supported in the stored volume gateway type. This operation is deprecated
@@ -4547,13 +4567,17 @@ export const addUploadBuffer: API.OperationMethod<
 export const addWorkingStorage: API.OperationMethod<
   AddWorkingStorageInput,
   AddWorkingStorageOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AddWorkingStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddWorkingStorageInput,
   output: AddWorkingStorageOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AssignTapePoolError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in
  * the S3 storage class that is associated with the pool. When you use your backup application
@@ -4563,13 +4587,17 @@ export const addWorkingStorage: API.OperationMethod<
 export const assignTapePool: API.OperationMethod<
   AssignTapePoolInput,
   AssignTapePoolOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AssignTapePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssignTapePoolInput,
   output: AssignTapePoolOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AssociateFileSystemError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Associate an Amazon FSx file system with the FSx File Gateway. After the
  * association process is complete, the file shares on the Amazon FSx file system are
@@ -4579,13 +4607,17 @@ export const assignTapePool: API.OperationMethod<
 export const associateFileSystem: API.OperationMethod<
   AssociateFileSystemInput,
   AssociateFileSystemOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AssociateFileSystemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFileSystemInput,
   output: AssociateFileSystemOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type AttachVolumeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Connects a volume to an iSCSI connection and then attaches the volume to the specified
  * gateway. Detaching and attaching a volume enables you to recover your data from one gateway
@@ -4595,13 +4627,17 @@ export const associateFileSystem: API.OperationMethod<
 export const attachVolume: API.OperationMethod<
   AttachVolumeInput,
   AttachVolumeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  AttachVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachVolumeInput,
   output: AttachVolumeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CancelArchivalError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Cancels archiving of a virtual tape to the virtual tape shelf (VTS) after the archiving
  * process is initiated. This operation is only supported in the tape gateway type.
@@ -4609,13 +4645,17 @@ export const attachVolume: API.OperationMethod<
 export const cancelArchival: API.OperationMethod<
   CancelArchivalInput,
   CancelArchivalOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CancelArchivalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelArchivalInput,
   output: CancelArchivalOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CancelCacheReportError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Cancels generation of a specified cache report. You can use this operation to manually
  * cancel an IN-PROGRESS report for any reason. This action changes the report status from
@@ -4626,13 +4666,17 @@ export const cancelArchival: API.OperationMethod<
 export const cancelCacheReport: API.OperationMethod<
   CancelCacheReportInput,
   CancelCacheReportOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CancelCacheReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCacheReportInput,
   output: CancelCacheReportOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CancelRetrievalError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a gateway after
  * the retrieval process is initiated. The virtual tape is returned to the VTS. This operation
@@ -4641,13 +4685,17 @@ export const cancelCacheReport: API.OperationMethod<
 export const cancelRetrieval: API.OperationMethod<
   CancelRetrievalInput,
   CancelRetrievalOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CancelRetrievalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelRetrievalInput,
   output: CancelRetrievalOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateCachediSCSIVolumeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates a cached volume on a specified cached volume gateway. This operation is only
  * supported in the cached volume gateway type.
@@ -4669,13 +4717,17 @@ export const cancelRetrieval: API.OperationMethod<
 export const createCachediSCSIVolume: API.OperationMethod<
   CreateCachediSCSIVolumeInput,
   CreateCachediSCSIVolumeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateCachediSCSIVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCachediSCSIVolumeInput,
   output: CreateCachediSCSIVolumeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateNFSFileShareError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates a Network File System (NFS) file share on an existing S3 File Gateway. In
  * Storage Gateway, a file share is a file system mount point backed by Amazon S3
@@ -4696,13 +4748,17 @@ export const createCachediSCSIVolume: API.OperationMethod<
 export const createNFSFileShare: API.OperationMethod<
   CreateNFSFileShareInput,
   CreateNFSFileShareOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateNFSFileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNFSFileShareInput,
   output: CreateNFSFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateSMBFileShareError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates a Server Message Block (SMB) file share on an existing S3 File Gateway. In
  * Storage Gateway, a file share is a file system mount point backed by Amazon S3
@@ -4723,13 +4779,18 @@ export const createNFSFileShare: API.OperationMethod<
 export const createSMBFileShare: API.OperationMethod<
   CreateSMBFileShareInput,
   CreateSMBFileShareOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateSMBFileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSMBFileShareInput,
   output: CreateSMBFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateSnapshotError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | ServiceUnavailableError
+  | CommonErrors;
 /**
  * Initiates a snapshot of a volume.
  *
@@ -4759,10 +4820,7 @@ export const createSMBFileShare: API.OperationMethod<
 export const createSnapshot: API.OperationMethod<
   CreateSnapshotInput,
   CreateSnapshotOutput,
-  | InternalServerError
-  | InvalidGatewayRequestException
-  | ServiceUnavailableError
-  | CommonErrors,
+  CreateSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotInput,
@@ -4773,6 +4831,11 @@ export const createSnapshot: API.OperationMethod<
     ServiceUnavailableError,
   ],
 }));
+export type CreateSnapshotFromVolumeRecoveryPointError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | ServiceUnavailableError
+  | CommonErrors;
 /**
  * Initiates a snapshot of a gateway from a volume recovery point. This operation is only
  * supported in the cached volume gateway type.
@@ -4797,10 +4860,7 @@ export const createSnapshot: API.OperationMethod<
 export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
   CreateSnapshotFromVolumeRecoveryPointInput,
   CreateSnapshotFromVolumeRecoveryPointOutput,
-  | InternalServerError
-  | InvalidGatewayRequestException
-  | ServiceUnavailableError
-  | CommonErrors,
+  CreateSnapshotFromVolumeRecoveryPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotFromVolumeRecoveryPointInput,
@@ -4811,6 +4871,10 @@ export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
     ServiceUnavailableError,
   ],
 }));
+export type CreateStorediSCSIVolumeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates a volume on a specified gateway. This operation is only supported in the stored
  * volume gateway type.
@@ -4828,13 +4892,17 @@ export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
 export const createStorediSCSIVolume: API.OperationMethod<
   CreateStorediSCSIVolumeInput,
   CreateStorediSCSIVolumeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateStorediSCSIVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStorediSCSIVolumeInput,
   output: CreateStorediSCSIVolumeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateTapePoolError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates a new custom tape pool. You can use custom tape pool to enable tape retention
  * lock on tapes that are archived in the custom pool.
@@ -4842,13 +4910,17 @@ export const createStorediSCSIVolume: API.OperationMethod<
 export const createTapePool: API.OperationMethod<
   CreateTapePoolInput,
   CreateTapePoolOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateTapePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTapePoolInput,
   output: CreateTapePoolOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateTapesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates one or more virtual tapes. You write data to the virtual tapes and then archive
  * the tapes. This operation is only supported in the tape gateway type.
@@ -4859,13 +4931,17 @@ export const createTapePool: API.OperationMethod<
 export const createTapes: API.OperationMethod<
   CreateTapesInput,
   CreateTapesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateTapesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTapesInput,
   output: CreateTapesOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type CreateTapeWithBarcodeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Creates a virtual tape by using your own barcode. You write data to the virtual tape and
  * then archive the tape. A barcode is unique and cannot be reused if it has already been used
@@ -4878,13 +4954,17 @@ export const createTapes: API.OperationMethod<
 export const createTapeWithBarcode: API.OperationMethod<
   CreateTapeWithBarcodeInput,
   CreateTapeWithBarcodeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  CreateTapeWithBarcodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTapeWithBarcodeInput,
   output: CreateTapeWithBarcodeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteAutomaticTapeCreationPolicyError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes the automatic tape creation policy of a gateway. If you delete this policy, new
  * virtual tapes must be created manually. Use the Amazon Resource Name (ARN) of the gateway
@@ -4893,13 +4973,17 @@ export const createTapeWithBarcode: API.OperationMethod<
 export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
   DeleteAutomaticTapeCreationPolicyInput,
   DeleteAutomaticTapeCreationPolicyOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteAutomaticTapeCreationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutomaticTapeCreationPolicyInput,
   output: DeleteAutomaticTapeCreationPolicyOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteBandwidthRateLimitError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes the bandwidth rate limits of a gateway. You can delete either the upload and
  * download bandwidth rate limit, or you can delete both. If you delete only one of the
@@ -4910,13 +4994,17 @@ export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
 export const deleteBandwidthRateLimit: API.OperationMethod<
   DeleteBandwidthRateLimitInput,
   DeleteBandwidthRateLimitOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteBandwidthRateLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBandwidthRateLimitInput,
   output: DeleteBandwidthRateLimitOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteCacheReportError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes the specified cache report and any associated tags from the Storage Gateway database. You can only delete completed reports. If the status of the
  * report you attempt to delete still IN-PROGRESS, the delete operation returns an error. You
@@ -4927,13 +5015,17 @@ export const deleteBandwidthRateLimit: API.OperationMethod<
 export const deleteCacheReport: API.OperationMethod<
   DeleteCacheReportInput,
   DeleteCacheReportOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteCacheReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCacheReportInput,
   output: DeleteCacheReportOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteChapCredentialsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified
  * iSCSI target and initiator pair. This operation is supported in volume and tape gateway
@@ -4942,13 +5034,17 @@ export const deleteCacheReport: API.OperationMethod<
 export const deleteChapCredentials: API.OperationMethod<
   DeleteChapCredentialsInput,
   DeleteChapCredentialsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteChapCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChapCredentialsInput,
   output: DeleteChapCredentialsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteFileShareError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes a file share from an S3 File Gateway. This operation is only supported for S3
  * File Gateways.
@@ -4956,13 +5052,17 @@ export const deleteChapCredentials: API.OperationMethod<
 export const deleteFileShare: API.OperationMethod<
   DeleteFileShareInput,
   DeleteFileShareOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteFileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileShareInput,
   output: DeleteFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteGatewayError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes a gateway. To specify which gateway to delete, use the Amazon Resource Name
  * (ARN) of the gateway in your request. The operation deletes the gateway; however, it does
@@ -4984,13 +5084,17 @@ export const deleteFileShare: API.OperationMethod<
 export const deleteGateway: API.OperationMethod<
   DeleteGatewayInput,
   DeleteGatewayOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayInput,
   output: DeleteGatewayOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteSnapshotScheduleError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes a snapshot of a volume.
  *
@@ -5008,13 +5112,17 @@ export const deleteGateway: API.OperationMethod<
 export const deleteSnapshotSchedule: API.OperationMethod<
   DeleteSnapshotScheduleInput,
   DeleteSnapshotScheduleOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteSnapshotScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotScheduleInput,
   output: DeleteSnapshotScheduleOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteTapeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes the specified virtual tape. This operation is only supported in the tape gateway
  * type.
@@ -5022,13 +5130,17 @@ export const deleteSnapshotSchedule: API.OperationMethod<
 export const deleteTape: API.OperationMethod<
   DeleteTapeInput,
   DeleteTapeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteTapeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTapeInput,
   output: DeleteTapeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteTapeArchiveError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is
  * only supported in the tape gateway type.
@@ -5036,13 +5148,17 @@ export const deleteTape: API.OperationMethod<
 export const deleteTapeArchive: API.OperationMethod<
   DeleteTapeArchiveInput,
   DeleteTapeArchiveOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteTapeArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTapeArchiveInput,
   output: DeleteTapeArchiveOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteTapePoolError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Delete a custom tape pool. A custom tape pool can only be deleted if there are no tapes
  * in the pool and if there are no automatic tape creation policies that reference the custom
@@ -5051,13 +5167,17 @@ export const deleteTapeArchive: API.OperationMethod<
 export const deleteTapePool: API.OperationMethod<
   DeleteTapePoolInput,
   DeleteTapePoolOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteTapePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTapePoolInput,
   output: DeleteTapePoolOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DeleteVolumeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Deletes the specified storage volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API.
  * This operation is only supported in the cached volume and stored volume types. For stored
@@ -5076,13 +5196,17 @@ export const deleteTapePool: API.OperationMethod<
 export const deleteVolume: API.OperationMethod<
   DeleteVolumeInput,
   DeleteVolumeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DeleteVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVolumeInput,
   output: DeleteVolumeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeAvailabilityMonitorTestError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns information about the most recent high availability monitoring test that was
  * performed on the host in a cluster. If a test isn't performed, the status and start
@@ -5091,13 +5215,17 @@ export const deleteVolume: API.OperationMethod<
 export const describeAvailabilityMonitorTest: API.OperationMethod<
   DescribeAvailabilityMonitorTestInput,
   DescribeAvailabilityMonitorTestOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeAvailabilityMonitorTestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAvailabilityMonitorTestInput,
   output: DescribeAvailabilityMonitorTestOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeBandwidthRateLimitError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns the bandwidth rate limits of a gateway. By default, these limits are not set,
  * which means no bandwidth rate limiting is in effect. This operation is supported only for
@@ -5112,13 +5240,17 @@ export const describeAvailabilityMonitorTest: API.OperationMethod<
 export const describeBandwidthRateLimit: API.OperationMethod<
   DescribeBandwidthRateLimitInput,
   DescribeBandwidthRateLimitOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeBandwidthRateLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBandwidthRateLimitInput,
   output: DescribeBandwidthRateLimitOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeBandwidthRateLimitScheduleError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns information about the bandwidth rate limit schedule of a gateway. By default,
  * gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting
@@ -5141,13 +5273,17 @@ export const describeBandwidthRateLimit: API.OperationMethod<
 export const describeBandwidthRateLimitSchedule: API.OperationMethod<
   DescribeBandwidthRateLimitScheduleInput,
   DescribeBandwidthRateLimitScheduleOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeBandwidthRateLimitScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBandwidthRateLimitScheduleInput,
   output: DescribeBandwidthRateLimitScheduleOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeCacheError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns information about the cache of a gateway. This operation is only supported in
  * the cached volume, tape, and file gateway types.
@@ -5158,13 +5294,17 @@ export const describeBandwidthRateLimitSchedule: API.OperationMethod<
 export const describeCache: API.OperationMethod<
   DescribeCacheInput,
   DescribeCacheOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCacheInput,
   output: DescribeCacheOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeCachediSCSIVolumesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a description of the gateway volumes specified in the request. This operation is
  * only supported in the cached volume gateway types.
@@ -5176,13 +5316,17 @@ export const describeCache: API.OperationMethod<
 export const describeCachediSCSIVolumes: API.OperationMethod<
   DescribeCachediSCSIVolumesInput,
   DescribeCachediSCSIVolumesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeCachediSCSIVolumesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCachediSCSIVolumesInput,
   output: DescribeCachediSCSIVolumesOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeCacheReportError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns information about the specified cache report, including completion status and
  * generation progress.
@@ -5190,13 +5334,17 @@ export const describeCachediSCSIVolumes: API.OperationMethod<
 export const describeCacheReport: API.OperationMethod<
   DescribeCacheReportInput,
   DescribeCacheReportOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeCacheReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCacheReportInput,
   output: DescribeCacheReportOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeChapCredentialsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentials
  * information for a specified iSCSI target, one for each target-initiator pair. This
@@ -5205,13 +5353,17 @@ export const describeCacheReport: API.OperationMethod<
 export const describeChapCredentials: API.OperationMethod<
   DescribeChapCredentialsInput,
   DescribeChapCredentialsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeChapCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChapCredentialsInput,
   output: DescribeChapCredentialsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeFileSystemAssociationsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Gets the file system association information. This operation is only supported for FSx
  * File Gateways.
@@ -5219,13 +5371,17 @@ export const describeChapCredentials: API.OperationMethod<
 export const describeFileSystemAssociations: API.OperationMethod<
   DescribeFileSystemAssociationsInput,
   DescribeFileSystemAssociationsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeFileSystemAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFileSystemAssociationsInput,
   output: DescribeFileSystemAssociationsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeGatewayInformationError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns metadata about a gateway such as its name, network interfaces, time zone,
  * status, and software version. To specify which gateway to describe, use the Amazon Resource
@@ -5234,13 +5390,17 @@ export const describeFileSystemAssociations: API.OperationMethod<
 export const describeGatewayInformation: API.OperationMethod<
   DescribeGatewayInformationInput,
   DescribeGatewayInformationOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeGatewayInformationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayInformationInput,
   output: DescribeGatewayInformationOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeMaintenanceStartTimeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns your gateway's maintenance window schedule information, with values for
  * monthly or weekly cadence, specific day and time to begin maintenance, and which types of
@@ -5249,13 +5409,17 @@ export const describeGatewayInformation: API.OperationMethod<
 export const describeMaintenanceStartTime: API.OperationMethod<
   DescribeMaintenanceStartTimeInput,
   DescribeMaintenanceStartTimeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeMaintenanceStartTimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMaintenanceStartTimeInput,
   output: DescribeMaintenanceStartTimeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeNFSFileSharesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Gets a description for one or more Network File System (NFS) file shares from an S3 File
  * Gateway. This operation is only supported for S3 File Gateways.
@@ -5263,13 +5427,17 @@ export const describeMaintenanceStartTime: API.OperationMethod<
 export const describeNFSFileShares: API.OperationMethod<
   DescribeNFSFileSharesInput,
   DescribeNFSFileSharesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeNFSFileSharesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNFSFileSharesInput,
   output: DescribeNFSFileSharesOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeSMBFileSharesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Gets a description for one or more Server Message Block (SMB) file shares from a S3 File
  * Gateway. This operation is only supported for S3 File Gateways.
@@ -5277,13 +5445,17 @@ export const describeNFSFileShares: API.OperationMethod<
 export const describeSMBFileShares: API.OperationMethod<
   DescribeSMBFileSharesInput,
   DescribeSMBFileSharesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeSMBFileSharesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSMBFileSharesInput,
   output: DescribeSMBFileSharesOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeSMBSettingsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Gets a description of a Server Message Block (SMB) file share settings from a file
  * gateway. This operation is only supported for file gateways.
@@ -5291,13 +5463,17 @@ export const describeSMBFileShares: API.OperationMethod<
 export const describeSMBSettings: API.OperationMethod<
   DescribeSMBSettingsInput,
   DescribeSMBSettingsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeSMBSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSMBSettingsInput,
   output: DescribeSMBSettingsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeSnapshotScheduleError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Describes the snapshot schedule for the specified gateway volume. The snapshot schedule
  * information includes intervals at which snapshots are automatically initiated on the
@@ -5307,13 +5483,17 @@ export const describeSMBSettings: API.OperationMethod<
 export const describeSnapshotSchedule: API.OperationMethod<
   DescribeSnapshotScheduleInput,
   DescribeSnapshotScheduleOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeSnapshotScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSnapshotScheduleInput,
   output: DescribeSnapshotScheduleOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeStorediSCSIVolumesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns the description of the gateway volumes specified in the request. The list of
  * gateway volumes in the request must be from one gateway. In the response, Storage Gateway returns volume information sorted by volume ARNs. This operation is only
@@ -5322,13 +5502,17 @@ export const describeSnapshotSchedule: API.OperationMethod<
 export const describeStorediSCSIVolumes: API.OperationMethod<
   DescribeStorediSCSIVolumesInput,
   DescribeStorediSCSIVolumesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeStorediSCSIVolumesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStorediSCSIVolumesInput,
   output: DescribeStorediSCSIVolumesOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeTapeArchivesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This
  * operation is only supported in the tape gateway type.
@@ -5339,21 +5523,21 @@ export const describeStorediSCSIVolumes: API.OperationMethod<
 export const describeTapeArchives: API.OperationMethod<
   DescribeTapeArchivesInput,
   DescribeTapeArchivesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeTapeArchivesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTapeArchivesInput,
   ) => stream.Stream<
     DescribeTapeArchivesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeTapeArchivesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTapeArchivesInput,
   ) => stream.Stream<
     TapeArchive,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeTapeArchivesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5367,6 +5551,10 @@ export const describeTapeArchives: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeTapeRecoveryPointsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a list of virtual tape recovery points that are available for the specified tape
  * gateway.
@@ -5379,21 +5567,21 @@ export const describeTapeArchives: API.OperationMethod<
 export const describeTapeRecoveryPoints: API.OperationMethod<
   DescribeTapeRecoveryPointsInput,
   DescribeTapeRecoveryPointsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeTapeRecoveryPointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTapeRecoveryPointsInput,
   ) => stream.Stream<
     DescribeTapeRecoveryPointsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeTapeRecoveryPointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTapeRecoveryPointsInput,
   ) => stream.Stream<
     TapeRecoveryPointInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeTapeRecoveryPointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5407,6 +5595,10 @@ export const describeTapeRecoveryPoints: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeTapesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a description of virtual tapes that correspond to the specified Amazon Resource
  * Names (ARNs). If `TapeARN` is not specified, returns a description of the
@@ -5423,21 +5615,21 @@ export const describeTapeRecoveryPoints: API.OperationMethod<
 export const describeTapes: API.OperationMethod<
   DescribeTapesInput,
   DescribeTapesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeTapesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTapesInput,
   ) => stream.Stream<
     DescribeTapesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeTapesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTapesInput,
   ) => stream.Stream<
     Tape,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeTapesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5451,6 +5643,10 @@ export const describeTapes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeUploadBufferError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns information about the upload buffer of a gateway. This operation is supported
  * for the stored volume, cached volume, and tape gateway types.
@@ -5461,13 +5657,17 @@ export const describeTapes: API.OperationMethod<
 export const describeUploadBuffer: API.OperationMethod<
   DescribeUploadBufferInput,
   DescribeUploadBufferOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeUploadBufferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUploadBufferInput,
   output: DescribeUploadBufferOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DescribeVTLDevicesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a description of virtual tape library (VTL) devices for the specified tape
  * gateway. In the response, Storage Gateway returns VTL device information.
@@ -5477,21 +5677,21 @@ export const describeUploadBuffer: API.OperationMethod<
 export const describeVTLDevices: API.OperationMethod<
   DescribeVTLDevicesInput,
   DescribeVTLDevicesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeVTLDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeVTLDevicesInput,
   ) => stream.Stream<
     DescribeVTLDevicesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeVTLDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeVTLDevicesInput,
   ) => stream.Stream<
     VTLDevice,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    DescribeVTLDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5505,6 +5705,10 @@ export const describeVTLDevices: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeWorkingStorageError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns information about the working storage of a gateway. This operation is only
  * supported in the stored volumes gateway type. This operation is deprecated in cached
@@ -5519,13 +5723,17 @@ export const describeVTLDevices: API.OperationMethod<
 export const describeWorkingStorage: API.OperationMethod<
   DescribeWorkingStorageInput,
   DescribeWorkingStorageOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DescribeWorkingStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkingStorageInput,
   output: DescribeWorkingStorageOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DetachVolumeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Disconnects a volume from an iSCSI connection and then detaches the volume from the
  * specified gateway. Detaching and attaching a volume enables you to recover your data from
@@ -5536,13 +5744,17 @@ export const describeWorkingStorage: API.OperationMethod<
 export const detachVolume: API.OperationMethod<
   DetachVolumeInput,
   DetachVolumeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DetachVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachVolumeInput,
   output: DetachVolumeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DisableGatewayError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Disables a tape gateway when the gateway is no longer functioning. For example, if your
  * gateway VM is damaged, you can disable the gateway so you can recover virtual tapes.
@@ -5555,13 +5767,17 @@ export const detachVolume: API.OperationMethod<
 export const disableGateway: API.OperationMethod<
   DisableGatewayInput,
   DisableGatewayOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DisableGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableGatewayInput,
   output: DisableGatewayOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type DisassociateFileSystemError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Disassociates an Amazon FSx file system from the specified gateway. After the
  * disassociation process finishes, the gateway can no longer access the Amazon FSx
@@ -5570,13 +5786,17 @@ export const disableGateway: API.OperationMethod<
 export const disassociateFileSystem: API.OperationMethod<
   DisassociateFileSystemInput,
   DisassociateFileSystemOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  DisassociateFileSystemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFileSystemInput,
   output: DisassociateFileSystemOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type EvictFilesFailingUploadError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Starts a process that cleans the specified file share's cache of file entries that are
  * failing upload to Amazon S3. This API operation reports success if the request is
@@ -5594,13 +5814,17 @@ export const disassociateFileSystem: API.OperationMethod<
 export const evictFilesFailingUpload: API.OperationMethod<
   EvictFilesFailingUploadInput,
   EvictFilesFailingUploadOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  EvictFilesFailingUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvictFilesFailingUploadInput,
   output: EvictFilesFailingUploadOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type JoinDomainError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Adds a file gateway to an Active Directory domain. This operation is only supported for
  * file gateways that support the SMB file protocol.
@@ -5617,13 +5841,17 @@ export const evictFilesFailingUpload: API.OperationMethod<
 export const joinDomain: API.OperationMethod<
   JoinDomainInput,
   JoinDomainOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  JoinDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: JoinDomainInput,
   output: JoinDomainOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ListAutomaticTapeCreationPoliciesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists the automatic tape creation policies for a gateway. If there are no automatic tape
  * creation policies for the gateway, it returns an empty list.
@@ -5633,13 +5861,17 @@ export const joinDomain: API.OperationMethod<
 export const listAutomaticTapeCreationPolicies: API.OperationMethod<
   ListAutomaticTapeCreationPoliciesInput,
   ListAutomaticTapeCreationPoliciesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListAutomaticTapeCreationPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAutomaticTapeCreationPoliciesInput,
   output: ListAutomaticTapeCreationPoliciesOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ListCacheReportsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a list of existing cache reports for all file shares associated with your
  * Amazon Web Services account. This list includes all information provided by the
@@ -5649,21 +5881,21 @@ export const listAutomaticTapeCreationPolicies: API.OperationMethod<
 export const listCacheReports: API.OperationMethod<
   ListCacheReportsInput,
   ListCacheReportsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListCacheReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCacheReportsInput,
   ) => stream.Stream<
     ListCacheReportsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListCacheReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCacheReportsInput,
   ) => stream.Stream<
     CacheReportInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListCacheReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5676,6 +5908,10 @@ export const listCacheReports: API.OperationMethod<
     items: "CacheReportList",
   } as const,
 }));
+export type ListFileSharesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Gets a list of the file shares for a specific S3 File Gateway, or the list of file
  * shares that belong to the calling Amazon Web Services account. This operation is only
@@ -5684,21 +5920,21 @@ export const listCacheReports: API.OperationMethod<
 export const listFileShares: API.OperationMethod<
   ListFileSharesInput,
   ListFileSharesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListFileSharesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFileSharesInput,
   ) => stream.Stream<
     ListFileSharesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListFileSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFileSharesInput,
   ) => stream.Stream<
     FileShareInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListFileSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5712,6 +5948,10 @@ export const listFileShares: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListFileSystemAssociationsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Gets a list of `FileSystemAssociationSummary` objects. Each object contains a
  * summary of a file system association. This operation is only supported for FSx File
@@ -5720,21 +5960,21 @@ export const listFileShares: API.OperationMethod<
 export const listFileSystemAssociations: API.OperationMethod<
   ListFileSystemAssociationsInput,
   ListFileSystemAssociationsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListFileSystemAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFileSystemAssociationsInput,
   ) => stream.Stream<
     ListFileSystemAssociationsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListFileSystemAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFileSystemAssociationsInput,
   ) => stream.Stream<
     FileSystemAssociationSummary,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListFileSystemAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5748,6 +5988,10 @@ export const listFileSystemAssociations: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListGatewaysError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists gateways owned by an Amazon Web Services account in an Amazon Web Services Region
  * specified in the request. The returned list is ordered by gateway Amazon Resource Name
@@ -5764,21 +6008,21 @@ export const listFileSystemAssociations: API.OperationMethod<
 export const listGateways: API.OperationMethod<
   ListGatewaysInput,
   ListGatewaysOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewaysInput,
   ) => stream.Stream<
     ListGatewaysOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysInput,
   ) => stream.Stream<
     GatewayInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5792,6 +6036,10 @@ export const listGateways: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListLocalDisksError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Returns a list of the gateway's local disks. To specify which gateway to describe,
  * you use the Amazon Resource Name (ARN) of the gateway in the body of the request.
@@ -5806,13 +6054,17 @@ export const listGateways: API.OperationMethod<
 export const listLocalDisks: API.OperationMethod<
   ListLocalDisksInput,
   ListLocalDisksOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListLocalDisksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLocalDisksInput,
   output: ListLocalDisksOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ListTagsForResourceError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists the tags that have been added to the specified resource. This operation is
  * supported in storage gateways of all types.
@@ -5820,21 +6072,21 @@ export const listLocalDisks: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     ListTagsForResourceOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     Tag,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5848,6 +6100,10 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListTapePoolsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists custom tape pools. You specify custom tape pools to list by specifying one or more
  * custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tape pool ARN,
@@ -5862,21 +6118,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listTapePools: API.OperationMethod<
   ListTapePoolsInput,
   ListTapePoolsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListTapePoolsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTapePoolsInput,
   ) => stream.Stream<
     ListTapePoolsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListTapePoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTapePoolsInput,
   ) => stream.Stream<
     PoolInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListTapePoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5890,6 +6146,10 @@ export const listTapePools: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListTapesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf
  * (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names
@@ -5906,21 +6166,21 @@ export const listTapePools: API.OperationMethod<
 export const listTapes: API.OperationMethod<
   ListTapesInput,
   ListTapesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListTapesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTapesInput,
   ) => stream.Stream<
     ListTapesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListTapesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTapesInput,
   ) => stream.Stream<
     TapeInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListTapesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5934,6 +6194,10 @@ export const listTapes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListVolumeInitiatorsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists iSCSI initiators that are connected to a volume. You can use this operation to
  * determine whether a volume is being used or not. This operation is only supported in the
@@ -5942,13 +6206,17 @@ export const listTapes: API.OperationMethod<
 export const listVolumeInitiators: API.OperationMethod<
   ListVolumeInitiatorsInput,
   ListVolumeInitiatorsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListVolumeInitiatorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumeInitiatorsInput,
   output: ListVolumeInitiatorsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ListVolumeRecoveryPointsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists the recovery points for a specified gateway. This operation is only supported in
  * the cached volume gateway type.
@@ -5961,13 +6229,17 @@ export const listVolumeInitiators: API.OperationMethod<
 export const listVolumeRecoveryPoints: API.OperationMethod<
   ListVolumeRecoveryPointsInput,
   ListVolumeRecoveryPointsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListVolumeRecoveryPointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumeRecoveryPointsInput,
   output: ListVolumeRecoveryPointsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ListVolumesError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The
  * response includes only the volume ARNs. If you want additional volume information, use the
@@ -5983,21 +6255,21 @@ export const listVolumeRecoveryPoints: API.OperationMethod<
 export const listVolumes: API.OperationMethod<
   ListVolumesInput,
   ListVolumesOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ListVolumesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVolumesInput,
   ) => stream.Stream<
     ListVolumesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListVolumesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVolumesInput,
   ) => stream.Stream<
     VolumeInfo,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
+    ListVolumesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6011,6 +6283,10 @@ export const listVolumes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type NotifyWhenUploadedError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Sends you notification through Amazon EventBridge when all files written to your file
  * share have been uploaded to Amazon S3.
@@ -6029,13 +6305,17 @@ export const listVolumes: API.OperationMethod<
 export const notifyWhenUploaded: API.OperationMethod<
   NotifyWhenUploadedInput,
   NotifyWhenUploadedOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  NotifyWhenUploadedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyWhenUploadedInput,
   output: NotifyWhenUploadedOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type RefreshCacheError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Refreshes the cached inventory of objects for the specified file share. This operation
  * finds objects in the Amazon S3 bucket that were added, removed, or replaced since
@@ -6079,13 +6359,17 @@ export const notifyWhenUploaded: API.OperationMethod<
 export const refreshCache: API.OperationMethod<
   RefreshCacheInput,
   RefreshCacheOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  RefreshCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RefreshCacheInput,
   output: RefreshCacheOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type RemoveTagsFromResourceError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource. This operation is supported in
  * storage gateways of all types.
@@ -6093,13 +6377,17 @@ export const refreshCache: API.OperationMethod<
 export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceInput,
   RemoveTagsFromResourceOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  RemoveTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceInput,
   output: RemoveTagsFromResourceOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ResetCacheError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Resets all cache disks that have encountered an error and makes the disks available for
  * reconfiguration as cache storage. If your cache disk encounters an error, the gateway
@@ -6116,13 +6404,17 @@ export const removeTagsFromResource: API.OperationMethod<
 export const resetCache: API.OperationMethod<
   ResetCacheInput,
   ResetCacheOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ResetCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetCacheInput,
   output: ResetCacheOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type RetrieveTapeArchiveError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a tape gateway.
  * Virtual tapes archived in the VTS are not associated with any gateway. However after a tape
@@ -6136,13 +6428,17 @@ export const resetCache: API.OperationMethod<
 export const retrieveTapeArchive: API.OperationMethod<
   RetrieveTapeArchiveInput,
   RetrieveTapeArchiveOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  RetrieveTapeArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveTapeArchiveInput,
   output: RetrieveTapeArchiveOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type RetrieveTapeRecoveryPointError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Retrieves the recovery point for the specified virtual tape. This operation is only
  * supported in the tape gateway type.
@@ -6158,13 +6454,17 @@ export const retrieveTapeArchive: API.OperationMethod<
 export const retrieveTapeRecoveryPoint: API.OperationMethod<
   RetrieveTapeRecoveryPointInput,
   RetrieveTapeRecoveryPointOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  RetrieveTapeRecoveryPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveTapeRecoveryPointInput,
   output: RetrieveTapeRecoveryPointOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type SetLocalConsolePasswordError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Sets the password for your VM local console. When you log in to the local console for
  * the first time, you log in to the VM with the default credentials. We recommend that you
@@ -6174,13 +6474,17 @@ export const retrieveTapeRecoveryPoint: API.OperationMethod<
 export const setLocalConsolePassword: API.OperationMethod<
   SetLocalConsolePasswordInput,
   SetLocalConsolePasswordOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  SetLocalConsolePasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLocalConsolePasswordInput,
   output: SetLocalConsolePasswordOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type SetSMBGuestPasswordError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Sets the password for the guest user `smbguest`. The `smbguest`
  * user is the user when the authentication method for the file share is set to
@@ -6189,13 +6493,17 @@ export const setLocalConsolePassword: API.OperationMethod<
 export const setSMBGuestPassword: API.OperationMethod<
   SetSMBGuestPasswordInput,
   SetSMBGuestPasswordOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  SetSMBGuestPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetSMBGuestPasswordInput,
   output: SetSMBGuestPasswordOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type ShutdownGatewayError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Shuts down a Tape Gateway or Volume Gateway. To specify which gateway to shut down, use
  * the Amazon Resource Name (ARN) of the gateway in the body of your request.
@@ -6224,13 +6532,17 @@ export const setSMBGuestPassword: API.OperationMethod<
 export const shutdownGateway: API.OperationMethod<
   ShutdownGatewayInput,
   ShutdownGatewayOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  ShutdownGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ShutdownGatewayInput,
   output: ShutdownGatewayOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type StartAvailabilityMonitorTestError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Start a test that verifies that the specified gateway is configured for High
  * Availability monitoring in your host environment. This request only initiates the test and
@@ -6243,13 +6555,17 @@ export const shutdownGateway: API.OperationMethod<
 export const startAvailabilityMonitorTest: API.OperationMethod<
   StartAvailabilityMonitorTestInput,
   StartAvailabilityMonitorTestOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  StartAvailabilityMonitorTestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAvailabilityMonitorTestInput,
   output: StartAvailabilityMonitorTestOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type StartCacheReportError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve
  * issues if you have files failing upload from your gateway to Amazon S3. The report
@@ -6283,13 +6599,17 @@ export const startAvailabilityMonitorTest: API.OperationMethod<
 export const startCacheReport: API.OperationMethod<
   StartCacheReportInput,
   StartCacheReportOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  StartCacheReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCacheReportInput,
   output: StartCacheReportOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type StartGatewayError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Starts a gateway that you previously shut down (see ShutdownGateway).
  * After the gateway starts, you can then make other API calls, your applications can read
@@ -6306,13 +6626,17 @@ export const startCacheReport: API.OperationMethod<
 export const startGateway: API.OperationMethod<
   StartGatewayInput,
   StartGatewayOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  StartGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartGatewayInput,
   output: StartGatewayOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateAutomaticTapeCreationPolicyError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the automatic tape creation policy of a gateway. Use this to update the policy
  * with a new set of automatic tape creation rules. This is only supported for tape
@@ -6325,13 +6649,17 @@ export const startGateway: API.OperationMethod<
 export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
   UpdateAutomaticTapeCreationPolicyInput,
   UpdateAutomaticTapeCreationPolicyOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateAutomaticTapeCreationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutomaticTapeCreationPolicyInput,
   output: UpdateAutomaticTapeCreationPolicyOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateBandwidthRateLimitError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the bandwidth rate limits of a gateway. You can update both the upload and
  * download bandwidth rate limit or specify only one of the two. If you don't set a
@@ -6349,13 +6677,17 @@ export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
 export const updateBandwidthRateLimit: API.OperationMethod<
   UpdateBandwidthRateLimitInput,
   UpdateBandwidthRateLimitOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateBandwidthRateLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBandwidthRateLimitInput,
   output: UpdateBandwidthRateLimitOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateBandwidthRateLimitScheduleError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways
  * do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
@@ -6367,13 +6699,17 @@ export const updateBandwidthRateLimit: API.OperationMethod<
 export const updateBandwidthRateLimitSchedule: API.OperationMethod<
   UpdateBandwidthRateLimitScheduleInput,
   UpdateBandwidthRateLimitScheduleOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateBandwidthRateLimitScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBandwidthRateLimitScheduleInput,
   output: UpdateBandwidthRateLimitScheduleOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateChapCredentialsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a
  * specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for
@@ -6386,13 +6722,17 @@ export const updateBandwidthRateLimitSchedule: API.OperationMethod<
 export const updateChapCredentials: API.OperationMethod<
   UpdateChapCredentialsInput,
   UpdateChapCredentialsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateChapCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChapCredentialsInput,
   output: UpdateChapCredentialsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateFileSystemAssociationError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates a file system association. This operation is only supported in the FSx File
  * Gateways.
@@ -6400,13 +6740,17 @@ export const updateChapCredentials: API.OperationMethod<
 export const updateFileSystemAssociation: API.OperationMethod<
   UpdateFileSystemAssociationInput,
   UpdateFileSystemAssociationOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateFileSystemAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileSystemAssociationInput,
   output: UpdateFileSystemAssociationOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateGatewayInformationError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates a gateway's metadata, which includes the gateway's name, time zone,
  * and metadata cache size. To specify which gateway to update, use the Amazon Resource Name
@@ -6419,13 +6763,17 @@ export const updateFileSystemAssociation: API.OperationMethod<
 export const updateGatewayInformation: API.OperationMethod<
   UpdateGatewayInformationInput,
   UpdateGatewayInformationOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateGatewayInformationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayInformationInput,
   output: UpdateGatewayInformationOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateGatewaySoftwareNowError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the gateway virtual machine (VM) software. The request immediately triggers the
  * software update.
@@ -6443,13 +6791,17 @@ export const updateGatewayInformation: API.OperationMethod<
 export const updateGatewaySoftwareNow: API.OperationMethod<
   UpdateGatewaySoftwareNowInput,
   UpdateGatewaySoftwareNowOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateGatewaySoftwareNowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewaySoftwareNowInput,
   output: UpdateGatewaySoftwareNowOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateMaintenanceStartTimeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates a gateway's maintenance window schedule, with settings for monthly or
  * weekly cadence, specific day and time to begin maintenance, and which types of updates to
@@ -6471,13 +6823,17 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
 export const updateMaintenanceStartTime: API.OperationMethod<
   UpdateMaintenanceStartTimeInput,
   UpdateMaintenanceStartTimeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateMaintenanceStartTimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMaintenanceStartTimeInput,
   output: UpdateMaintenanceStartTimeOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateNFSFileShareError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates a Network File System (NFS) file share. This operation is only supported in S3
  * File Gateways.
@@ -6500,13 +6856,17 @@ export const updateMaintenanceStartTime: API.OperationMethod<
 export const updateNFSFileShare: API.OperationMethod<
   UpdateNFSFileShareInput,
   UpdateNFSFileShareOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateNFSFileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNFSFileShareInput,
   output: UpdateNFSFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateSMBFileShareError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates a Server Message Block (SMB) file share. This operation is only supported for S3
  * File Gateways.
@@ -6528,13 +6888,17 @@ export const updateNFSFileShare: API.OperationMethod<
 export const updateSMBFileShare: API.OperationMethod<
   UpdateSMBFileShareInput,
   UpdateSMBFileShareOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateSMBFileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSMBFileShareInput,
   output: UpdateSMBFileShareOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateSMBFileShareVisibilityError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Controls whether the shares on an S3 File Gateway are visible in a net view or browse
  * list. The operation is only supported for S3 File Gateways.
@@ -6542,13 +6906,17 @@ export const updateSMBFileShare: API.OperationMethod<
 export const updateSMBFileShareVisibility: API.OperationMethod<
   UpdateSMBFileShareVisibilityInput,
   UpdateSMBFileShareVisibilityOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateSMBFileShareVisibilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSMBFileShareVisibilityInput,
   output: UpdateSMBFileShareVisibilityOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateSMBLocalGroupsError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the list of Active Directory users and groups that have special permissions for
  * SMB file shares on the gateway.
@@ -6556,13 +6924,17 @@ export const updateSMBFileShareVisibility: API.OperationMethod<
 export const updateSMBLocalGroups: API.OperationMethod<
   UpdateSMBLocalGroupsInput,
   UpdateSMBLocalGroupsOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateSMBLocalGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSMBLocalGroupsInput,
   output: UpdateSMBLocalGroupsOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateSMBSecurityStrategyError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the SMB security strategy level for an Amazon S3 file gateway. This
  * action is only supported for Amazon S3 file gateways.
@@ -6576,13 +6948,17 @@ export const updateSMBLocalGroups: API.OperationMethod<
 export const updateSMBSecurityStrategy: API.OperationMethod<
   UpdateSMBSecurityStrategyInput,
   UpdateSMBSecurityStrategyOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateSMBSecurityStrategyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSMBSecurityStrategyInput,
   output: UpdateSMBSecurityStrategyOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateSnapshotScheduleError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates a snapshot schedule configured for a gateway volume. This operation is only
  * supported in the cached volume and stored volume gateway types.
@@ -6598,13 +6974,17 @@ export const updateSMBSecurityStrategy: API.OperationMethod<
 export const updateSnapshotSchedule: API.OperationMethod<
   UpdateSnapshotScheduleInput,
   UpdateSnapshotScheduleOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateSnapshotScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSnapshotScheduleInput,
   output: UpdateSnapshotScheduleOutput,
   errors: [InternalServerError, InvalidGatewayRequestException],
 }));
+export type UpdateVTLDeviceTypeError =
+  | InternalServerError
+  | InvalidGatewayRequestException
+  | CommonErrors;
 /**
  * Updates the type of medium changer in a tape gateway. When you activate a tape gateway,
  * you select a medium changer type for the tape gateway. This operation enables you to select
@@ -6614,7 +6994,7 @@ export const updateSnapshotSchedule: API.OperationMethod<
 export const updateVTLDeviceType: API.OperationMethod<
   UpdateVTLDeviceTypeInput,
   UpdateVTLDeviceTypeOutput,
-  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  UpdateVTLDeviceTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVTLDeviceTypeInput,

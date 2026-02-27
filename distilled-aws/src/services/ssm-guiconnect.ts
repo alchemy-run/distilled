@@ -234,12 +234,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
- */
-export const getConnectionRecordingPreferences: API.OperationMethod<
-  GetConnectionRecordingPreferencesRequest,
-  GetConnectionRecordingPreferencesResponse,
+export type GetConnectionRecordingPreferencesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -247,7 +242,14 @@ export const getConnectionRecordingPreferences: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
+ */
+export const getConnectionRecordingPreferences: API.OperationMethod<
+  GetConnectionRecordingPreferencesRequest,
+  GetConnectionRecordingPreferencesResponse,
+  GetConnectionRecordingPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRecordingPreferencesRequest,
@@ -262,12 +264,7 @@ export const getConnectionRecordingPreferences: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the preferences for recording RDP connections.
- */
-export const deleteConnectionRecordingPreferences: API.OperationMethod<
-  DeleteConnectionRecordingPreferencesRequest,
-  DeleteConnectionRecordingPreferencesResponse,
+export type DeleteConnectionRecordingPreferencesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -275,7 +272,14 @@ export const deleteConnectionRecordingPreferences: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the preferences for recording RDP connections.
+ */
+export const deleteConnectionRecordingPreferences: API.OperationMethod<
+  DeleteConnectionRecordingPreferencesRequest,
+  DeleteConnectionRecordingPreferencesResponse,
+  DeleteConnectionRecordingPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRecordingPreferencesRequest,
@@ -290,12 +294,7 @@ export const deleteConnectionRecordingPreferences: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the preferences for recording RDP connections.
- */
-export const updateConnectionRecordingPreferences: API.OperationMethod<
-  UpdateConnectionRecordingPreferencesRequest,
-  UpdateConnectionRecordingPreferencesResponse,
+export type UpdateConnectionRecordingPreferencesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -303,7 +302,14 @@ export const updateConnectionRecordingPreferences: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the preferences for recording RDP connections.
+ */
+export const updateConnectionRecordingPreferences: API.OperationMethod<
+  UpdateConnectionRecordingPreferencesRequest,
+  UpdateConnectionRecordingPreferencesResponse,
+  UpdateConnectionRecordingPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionRecordingPreferencesRequest,

@@ -1244,13 +1244,7 @@ export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidP
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
- * Ingestion pipelines.
- */
-export const createPipeline: API.OperationMethod<
-  CreatePipelineRequest,
-  CreatePipelineResponse,
+export type CreatePipelineError =
   | AccessDeniedException
   | DisabledOperationException
   | InternalException
@@ -1258,7 +1252,15 @@ export const createPipeline: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
+ * Ingestion pipelines.
+ */
+export const createPipeline: API.OperationMethod<
+  CreatePipelineRequest,
+  CreatePipelineResponse,
+  CreatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineRequest,
@@ -1273,6 +1275,14 @@ export const createPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePipelineEndpointError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
  * ingest data from your VPC into pipelines that you have access to.
@@ -1280,13 +1290,7 @@ export const createPipeline: API.OperationMethod<
 export const createPipelineEndpoint: API.OperationMethod<
   CreatePipelineEndpointRequest,
   CreatePipelineEndpointResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreatePipelineEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineEndpointRequest,
@@ -1300,6 +1304,14 @@ export const createPipelineEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePipelineError =
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
  * Ingestion pipelines.
@@ -1307,13 +1319,7 @@ export const createPipelineEndpoint: API.OperationMethod<
 export const deletePipeline: API.OperationMethod<
   DeletePipelineRequest,
   DeletePipelineResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeletePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineRequest,
@@ -1327,17 +1333,19 @@ export const deletePipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePipelineEndpointError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
  */
 export const deletePipelineEndpoint: API.OperationMethod<
   DeletePipelineEndpointRequest,
   DeletePipelineEndpointResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ValidationException
-  | CommonErrors,
+  DeletePipelineEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineEndpointRequest,
@@ -1349,19 +1357,21 @@ export const deletePipelineEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a resource-based policy from an OpenSearch Ingestion resource.
- */
-export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
-  DeleteResourcePolicyResponse,
+export type DeleteResourcePolicyError =
   | AccessDeniedException
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a resource-based policy from an OpenSearch Ingestion resource.
+ */
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyResponse,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -1375,18 +1385,20 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPipelineError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
 export const getPipeline: API.OperationMethod<
   GetPipelineRequest,
   GetPipelineResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineRequest,
@@ -1399,6 +1411,13 @@ export const getPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPipelineBlueprintError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are
  * templates for the configuration needed for a `CreatePipeline` request. For more
@@ -1408,12 +1427,7 @@ export const getPipeline: API.OperationMethod<
 export const getPipelineBlueprint: API.OperationMethod<
   GetPipelineBlueprintRequest,
   GetPipelineBlueprintResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPipelineBlueprintError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineBlueprintRequest,
@@ -1426,6 +1440,13 @@ export const getPipelineBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPipelineChangeProgressError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns progress information for the current change happening on an OpenSearch Ingestion
  * pipeline. Currently, this operation only returns information when a pipeline is being
@@ -1436,12 +1457,7 @@ export const getPipelineBlueprint: API.OperationMethod<
 export const getPipelineChangeProgress: API.OperationMethod<
   GetPipelineChangeProgressRequest,
   GetPipelineChangeProgressResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPipelineChangeProgressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineChangeProgressRequest,
@@ -1454,19 +1470,21 @@ export const getPipelineChangeProgress: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
- */
-export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
-  GetResourcePolicyResponse,
+export type GetResourcePolicyError =
   | AccessDeniedException
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
+ */
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
+  GetResourcePolicyResponse,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -1480,6 +1498,13 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPipelineBlueprintsError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all available blueprints for Data Prepper. For more information, see
  * Using
@@ -1488,12 +1513,7 @@ export const getResourcePolicy: API.OperationMethod<
 export const listPipelineBlueprints: API.OperationMethod<
   ListPipelineBlueprintsRequest,
   ListPipelineBlueprintsResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | InvalidPaginationTokenException
-  | ValidationException
-  | CommonErrors,
+  ListPipelineBlueprintsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPipelineBlueprintsRequest,
@@ -1506,42 +1526,34 @@ export const listPipelineBlueprints: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPipelineEndpointConnectionsError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
 export const listPipelineEndpointConnections: API.OperationMethod<
   ListPipelineEndpointConnectionsRequest,
   ListPipelineEndpointConnectionsResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  ListPipelineEndpointConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipelineEndpointConnectionsRequest,
   ) => stream.Stream<
     ListPipelineEndpointConnectionsResponse,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | LimitExceededException
-    | ValidationException
-    | CommonErrors,
+    ListPipelineEndpointConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelineEndpointConnectionsRequest,
   ) => stream.Stream<
     PipelineEndpointConnection,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | LimitExceededException
-    | ValidationException
-    | CommonErrors,
+    ListPipelineEndpointConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1561,42 +1573,34 @@ export const listPipelineEndpointConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPipelineEndpointsError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all pipeline endpoints in your account.
  */
 export const listPipelineEndpoints: API.OperationMethod<
   ListPipelineEndpointsRequest,
   ListPipelineEndpointsResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  ListPipelineEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipelineEndpointsRequest,
   ) => stream.Stream<
     ListPipelineEndpointsResponse,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | LimitExceededException
-    | ValidationException
-    | CommonErrors,
+    ListPipelineEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelineEndpointsRequest,
   ) => stream.Stream<
     PipelineEndpoint,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | LimitExceededException
-    | ValidationException
-    | CommonErrors,
+    ListPipelineEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1616,6 +1620,13 @@ export const listPipelineEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPipelinesError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region.
  * For more information, see Viewing Amazon OpenSearch
@@ -1624,36 +1635,21 @@ export const listPipelineEndpoints: API.OperationMethod<
 export const listPipelines: API.OperationMethod<
   ListPipelinesRequest,
   ListPipelinesResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | InvalidPaginationTokenException
-  | ValidationException
-  | CommonErrors,
+  ListPipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipelinesRequest,
   ) => stream.Stream<
     ListPipelinesResponse,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | InvalidPaginationTokenException
-    | ValidationException
-    | CommonErrors,
+    ListPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelinesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | InvalidPaginationTokenException
-    | ValidationException
-    | CommonErrors,
+    ListPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1672,6 +1668,13 @@ export const listPipelines: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
  * see Tagging Amazon OpenSearch Ingestion pipelines.
@@ -1679,12 +1682,7 @@ export const listPipelines: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1697,6 +1695,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
  * policies grant permissions to principals to perform actions on the resource.
@@ -1704,13 +1710,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -1724,18 +1724,20 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RevokePipelineEndpointConnectionsError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Revokes pipeline endpoints from specified endpoint IDs.
  */
 export const revokePipelineEndpointConnections: API.OperationMethod<
   RevokePipelineEndpointConnectionsRequest,
   RevokePipelineEndpointConnectionsResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  RevokePipelineEndpointConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokePipelineEndpointConnectionsRequest,
@@ -1748,19 +1750,21 @@ export const revokePipelineEndpointConnections: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
- */
-export const startPipeline: API.OperationMethod<
-  StartPipelineRequest,
-  StartPipelineResponse,
+export type StartPipelineError =
   | AccessDeniedException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
+ */
+export const startPipeline: API.OperationMethod<
+  StartPipelineRequest,
+  StartPipelineResponse,
+  StartPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPipelineRequest,
@@ -1774,6 +1778,14 @@ export const startPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopPipelineError =
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops an OpenSearch Ingestion pipeline. For more information, see Stopping
  * an OpenSearch Ingestion pipeline.
@@ -1781,13 +1793,7 @@ export const startPipeline: API.OperationMethod<
 export const stopPipeline: API.OperationMethod<
   StopPipelineRequest,
   StopPipelineResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPipelineRequest,
@@ -1801,6 +1807,14 @@ export const stopPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
  * Ingestion pipelines.
@@ -1808,13 +1822,7 @@ export const stopPipeline: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1828,6 +1836,13 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
  * Amazon OpenSearch Ingestion pipelines.
@@ -1835,12 +1850,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1853,6 +1863,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePipelineError =
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch
  * Ingestion pipelines.
@@ -1860,13 +1878,7 @@ export const untagResource: API.OperationMethod<
 export const updatePipeline: API.OperationMethod<
   UpdatePipelineRequest,
   UpdatePipelineResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipelineRequest,
@@ -1880,6 +1892,12 @@ export const updatePipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ValidatePipelineError =
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For
  * more information, see Creating Amazon OpenSearch
@@ -1888,11 +1906,7 @@ export const updatePipeline: API.OperationMethod<
 export const validatePipeline: API.OperationMethod<
   ValidatePipelineRequest,
   ValidatePipelineResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ValidationException
-  | CommonErrors,
+  ValidatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidatePipelineRequest,

@@ -2110,19 +2110,21 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Changes the Channel's properities to configure log subscription
- */
-export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
-  ConfigureLogsResponse,
+export type ConfigureLogsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes the Channel's properities to configure log subscription
+ */
+export const configureLogs: API.OperationMethod<
+  ConfigureLogsRequest,
+  ConfigureLogsResponse,
+  ConfigureLogsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureLogsRequest,
@@ -2136,19 +2138,21 @@ export const configureLogs: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new Channel.
- */
-export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
-  CreateChannelResponse,
+export type CreateChannelError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Channel.
+ */
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
+  CreateChannelResponse,
+  CreateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
@@ -2162,19 +2166,21 @@ export const createChannel: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new HarvestJob record.
- */
-export const createHarvestJob: API.OperationMethod<
-  CreateHarvestJobRequest,
-  CreateHarvestJobResponse,
+export type CreateHarvestJobError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new HarvestJob record.
+ */
+export const createHarvestJob: API.OperationMethod<
+  CreateHarvestJobRequest,
+  CreateHarvestJobResponse,
+  CreateHarvestJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHarvestJobRequest,
@@ -2188,19 +2194,21 @@ export const createHarvestJob: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new OriginEndpoint record.
- */
-export const createOriginEndpoint: API.OperationMethod<
-  CreateOriginEndpointRequest,
-  CreateOriginEndpointResponse,
+export type CreateOriginEndpointError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new OriginEndpoint record.
+ */
+export const createOriginEndpoint: API.OperationMethod<
+  CreateOriginEndpointRequest,
+  CreateOriginEndpointResponse,
+  CreateOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOriginEndpointRequest,
@@ -2214,19 +2222,21 @@ export const createOriginEndpoint: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes an existing Channel.
- */
-export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
-  DeleteChannelResponse,
+export type DeleteChannelError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing Channel.
+ */
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
+  DeleteChannelResponse,
+  DeleteChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
@@ -2240,19 +2250,21 @@ export const deleteChannel: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes an existing OriginEndpoint.
- */
-export const deleteOriginEndpoint: API.OperationMethod<
-  DeleteOriginEndpointRequest,
-  DeleteOriginEndpointResponse,
+export type DeleteOriginEndpointError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing OriginEndpoint.
+ */
+export const deleteOriginEndpoint: API.OperationMethod<
+  DeleteOriginEndpointRequest,
+  DeleteOriginEndpointResponse,
+  DeleteOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOriginEndpointRequest,
@@ -2266,19 +2278,21 @@ export const deleteOriginEndpoint: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Gets details about a Channel.
- */
-export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
-  DescribeChannelResponse,
+export type DescribeChannelError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets details about a Channel.
+ */
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
+  DescribeChannelResponse,
+  DescribeChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
@@ -2292,19 +2306,21 @@ export const describeChannel: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Gets details about an existing HarvestJob.
- */
-export const describeHarvestJob: API.OperationMethod<
-  DescribeHarvestJobRequest,
-  DescribeHarvestJobResponse,
+export type DescribeHarvestJobError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets details about an existing HarvestJob.
+ */
+export const describeHarvestJob: API.OperationMethod<
+  DescribeHarvestJobRequest,
+  DescribeHarvestJobResponse,
+  DescribeHarvestJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHarvestJobRequest,
@@ -2318,19 +2334,21 @@ export const describeHarvestJob: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Gets details about an existing OriginEndpoint.
- */
-export const describeOriginEndpoint: API.OperationMethod<
-  DescribeOriginEndpointRequest,
-  DescribeOriginEndpointResponse,
+export type DescribeOriginEndpointError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets details about an existing OriginEndpoint.
+ */
+export const describeOriginEndpoint: API.OperationMethod<
+  DescribeOriginEndpointRequest,
+  DescribeOriginEndpointResponse,
+  DescribeOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOriginEndpointRequest,
@@ -2344,45 +2362,35 @@ export const describeOriginEndpoint: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Returns a collection of Channels.
- */
-export const listChannels: API.OperationMethod<
-  ListChannelsRequest,
-  ListChannelsResponse,
+export type ListChannelsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a collection of Channels.
+ */
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  ListChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     Channel,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2403,45 +2411,35 @@ export const listChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a collection of HarvestJob records.
- */
-export const listHarvestJobs: API.OperationMethod<
-  ListHarvestJobsRequest,
-  ListHarvestJobsResponse,
+export type ListHarvestJobsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a collection of HarvestJob records.
+ */
+export const listHarvestJobs: API.OperationMethod<
+  ListHarvestJobsRequest,
+  ListHarvestJobsResponse,
+  ListHarvestJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHarvestJobsRequest,
   ) => stream.Stream<
     ListHarvestJobsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListHarvestJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHarvestJobsRequest,
   ) => stream.Stream<
     HarvestJob,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListHarvestJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2462,45 +2460,35 @@ export const listHarvestJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a collection of OriginEndpoint records.
- */
-export const listOriginEndpoints: API.OperationMethod<
-  ListOriginEndpointsRequest,
-  ListOriginEndpointsResponse,
+export type ListOriginEndpointsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a collection of OriginEndpoint records.
+ */
+export const listOriginEndpoints: API.OperationMethod<
+  ListOriginEndpointsRequest,
+  ListOriginEndpointsResponse,
+  ListOriginEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOriginEndpointsRequest,
   ) => stream.Stream<
     ListOriginEndpointsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListOriginEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOriginEndpointsRequest,
   ) => stream.Stream<
     OriginEndpoint,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListOriginEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2521,32 +2509,35 @@ export const listOriginEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = CommonErrors;
 /**
  *
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
 }));
-/**
- * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
- */
-export const rotateChannelCredentials: API.OperationMethod<
-  RotateChannelCredentialsRequest,
-  RotateChannelCredentialsResponse,
+export type RotateChannelCredentialsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
+ */
+export const rotateChannelCredentials: API.OperationMethod<
+  RotateChannelCredentialsRequest,
+  RotateChannelCredentialsResponse,
+  RotateChannelCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateChannelCredentialsRequest,
@@ -2560,19 +2551,21 @@ export const rotateChannelCredentials: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
- */
-export const rotateIngestEndpointCredentials: API.OperationMethod<
-  RotateIngestEndpointCredentialsRequest,
-  RotateIngestEndpointCredentialsResponse,
+export type RotateIngestEndpointCredentialsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
+ */
+export const rotateIngestEndpointCredentials: API.OperationMethod<
+  RotateIngestEndpointCredentialsRequest,
+  RotateIngestEndpointCredentialsResponse,
+  RotateIngestEndpointCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateIngestEndpointCredentialsRequest,
@@ -2586,45 +2579,49 @@ export const rotateIngestEndpointCredentials: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
+export type TagResourceError = CommonErrors;
 /**
  *
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
 }));
+export type UntagResourceError = CommonErrors;
 /**
  *
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
 }));
-/**
- * Updates an existing Channel.
- */
-export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
-  UpdateChannelResponse,
+export type UpdateChannelError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Channel.
+ */
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
+  UpdateChannelResponse,
+  UpdateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
@@ -2638,19 +2635,21 @@ export const updateChannel: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Updates an existing OriginEndpoint.
- */
-export const updateOriginEndpoint: API.OperationMethod<
-  UpdateOriginEndpointRequest,
-  UpdateOriginEndpointResponse,
+export type UpdateOriginEndpointError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing OriginEndpoint.
+ */
+export const updateOriginEndpoint: API.OperationMethod<
+  UpdateOriginEndpointRequest,
+  UpdateOriginEndpointResponse,
+  UpdateOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOriginEndpointRequest,

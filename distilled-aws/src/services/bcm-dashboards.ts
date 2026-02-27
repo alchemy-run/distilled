@@ -690,18 +690,20 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateDashboardError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
  */
 export const createDashboard: API.OperationMethod<
   CreateDashboardRequest,
   CreateDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDashboardRequest,
@@ -714,17 +716,19 @@ export const createDashboard: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDashboardError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specified dashboard. This action cannot be undone.
  */
 export const deleteDashboard: API.OperationMethod<
   DeleteDashboardRequest,
   DeleteDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardRequest,
@@ -736,18 +740,20 @@ export const deleteDashboard: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDashboardError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
  */
 export const getDashboard: API.OperationMethod<
   GetDashboardRequest,
   GetDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDashboardRequest,
@@ -760,18 +766,20 @@ export const getDashboard: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -784,39 +792,33 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDashboardsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all dashboards in your account.
  */
 export const listDashboards: API.OperationMethod<
   ListDashboardsRequest,
   ListDashboardsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDashboardsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
     ListDashboardsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDashboardsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
     DashboardReference,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDashboardsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -835,17 +837,19 @@ export const listDashboards: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all tags associated with a specified dashboard resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -857,17 +861,19 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tags for a specified dashboard resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -879,17 +885,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes specified tags from a dashboard resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -901,18 +909,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDashboardError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
 export const updateDashboard: API.OperationMethod<
   UpdateDashboardRequest,
   UpdateDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDashboardRequest,

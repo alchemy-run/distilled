@@ -1299,19 +1299,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError, C.withRetryableError) {}
 
 //# Operations
-/**
- * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
- */
-export const amendBenefitApplication: API.OperationMethod<
-  AmendBenefitApplicationInput,
-  AmendBenefitApplicationOutput,
+export type AmendBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
+ */
+export const amendBenefitApplication: API.OperationMethod<
+  AmendBenefitApplicationInput,
+  AmendBenefitApplicationOutput,
+  AmendBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AmendBenefitApplicationInput,
@@ -1325,19 +1327,21 @@ export const amendBenefitApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Links an AWS resource to an existing benefit application for tracking and management purposes.
- */
-export const associateBenefitApplicationResource: API.OperationMethod<
-  AssociateBenefitApplicationResourceInput,
-  AssociateBenefitApplicationResourceOutput,
+export type AssociateBenefitApplicationResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Links an AWS resource to an existing benefit application for tracking and management purposes.
+ */
+export const associateBenefitApplicationResource: API.OperationMethod<
+  AssociateBenefitApplicationResourceInput,
+  AssociateBenefitApplicationResourceOutput,
+  AssociateBenefitApplicationResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateBenefitApplicationResourceInput,
@@ -1351,19 +1355,21 @@ export const associateBenefitApplicationResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels a benefit application that is currently in progress, preventing further processing.
- */
-export const cancelBenefitApplication: API.OperationMethod<
-  CancelBenefitApplicationInput,
-  CancelBenefitApplicationOutput,
+export type CancelBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a benefit application that is currently in progress, preventing further processing.
+ */
+export const cancelBenefitApplication: API.OperationMethod<
+  CancelBenefitApplicationInput,
+  CancelBenefitApplicationOutput,
+  CancelBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelBenefitApplicationInput,
@@ -1377,19 +1383,21 @@ export const cancelBenefitApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new benefit application for a partner to request access to AWS benefits and programs.
- */
-export const createBenefitApplication: API.OperationMethod<
-  CreateBenefitApplicationInput,
-  CreateBenefitApplicationOutput,
+export type CreateBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new benefit application for a partner to request access to AWS benefits and programs.
+ */
+export const createBenefitApplication: API.OperationMethod<
+  CreateBenefitApplicationInput,
+  CreateBenefitApplicationOutput,
+  CreateBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBenefitApplicationInput,
@@ -1403,19 +1411,21 @@ export const createBenefitApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the association between an AWS resource and a benefit application.
- */
-export const disassociateBenefitApplicationResource: API.OperationMethod<
-  DisassociateBenefitApplicationResourceInput,
-  DisassociateBenefitApplicationResourceOutput,
+export type DisassociateBenefitApplicationResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between an AWS resource and a benefit application.
+ */
+export const disassociateBenefitApplicationResource: API.OperationMethod<
+  DisassociateBenefitApplicationResourceInput,
+  DisassociateBenefitApplicationResourceOutput,
+  DisassociateBenefitApplicationResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateBenefitApplicationResourceInput,
@@ -1429,18 +1439,20 @@ export const disassociateBenefitApplicationResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBenefitError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
 export const getBenefit: API.OperationMethod<
   GetBenefitInput,
   GetBenefitOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBenefitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBenefitInput,
@@ -1453,18 +1465,20 @@ export const getBenefit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBenefitAllocationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
 export const getBenefitAllocation: API.OperationMethod<
   GetBenefitAllocationInput,
   GetBenefitAllocationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBenefitAllocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBenefitAllocationInput,
@@ -1477,19 +1491,21 @@ export const getBenefitAllocation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves detailed information about a specific benefit application.
- */
-export const getBenefitApplication: API.OperationMethod<
-  GetBenefitApplicationInput,
-  GetBenefitApplicationOutput,
+export type GetBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific benefit application.
+ */
+export const getBenefitApplication: API.OperationMethod<
+  GetBenefitApplicationInput,
+  GetBenefitApplicationOutput,
+  GetBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBenefitApplicationInput,
@@ -1503,42 +1519,34 @@ export const getBenefitApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBenefitAllocationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of benefit allocations based on specified filter criteria.
  */
 export const listBenefitAllocations: API.OperationMethod<
   ListBenefitAllocationsInput,
   ListBenefitAllocationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBenefitAllocationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBenefitAllocationsInput,
   ) => stream.Stream<
     ListBenefitAllocationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBenefitAllocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBenefitAllocationsInput,
   ) => stream.Stream<
     BenefitAllocationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBenefitAllocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1558,42 +1566,34 @@ export const listBenefitAllocations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListBenefitApplicationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
 export const listBenefitApplications: API.OperationMethod<
   ListBenefitApplicationsInput,
   ListBenefitApplicationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBenefitApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBenefitApplicationsInput,
   ) => stream.Stream<
     ListBenefitApplicationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBenefitApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBenefitApplicationsInput,
   ) => stream.Stream<
     BenefitApplicationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBenefitApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1613,42 +1613,34 @@ export const listBenefitApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListBenefitsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of available benefits based on specified filter criteria.
  */
 export const listBenefits: API.OperationMethod<
   ListBenefitsInput,
   ListBenefitsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBenefitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBenefitsInput,
   ) => stream.Stream<
     ListBenefitsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBenefitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBenefitsInput,
   ) => stream.Stream<
     BenefitSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBenefitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1668,18 +1660,20 @@ export const listBenefits: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all tags associated with a specific resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1692,19 +1686,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Recalls a submitted benefit application, returning it to draft status for further modifications.
- */
-export const recallBenefitApplication: API.OperationMethod<
-  RecallBenefitApplicationInput,
-  RecallBenefitApplicationOutput,
+export type RecallBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Recalls a submitted benefit application, returning it to draft status for further modifications.
+ */
+export const recallBenefitApplication: API.OperationMethod<
+  RecallBenefitApplicationInput,
+  RecallBenefitApplicationOutput,
+  RecallBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecallBenefitApplicationInput,
@@ -1718,19 +1714,21 @@ export const recallBenefitApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Submits a benefit application for review and processing by AWS.
- */
-export const submitBenefitApplication: API.OperationMethod<
-  SubmitBenefitApplicationInput,
-  SubmitBenefitApplicationOutput,
+export type SubmitBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Submits a benefit application for review and processing by AWS.
+ */
+export const submitBenefitApplication: API.OperationMethod<
+  SubmitBenefitApplicationInput,
+  SubmitBenefitApplicationOutput,
+  SubmitBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitBenefitApplicationInput,
@@ -1744,12 +1742,7 @@ export const submitBenefitApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds or updates tags for a specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1757,7 +1750,14 @@ export const tagResource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates tags for a specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1772,12 +1772,7 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes specified tags from a resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1785,7 +1780,14 @@ export const untagResource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes specified tags from a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1800,19 +1802,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing benefit application with new information while maintaining revision control.
- */
-export const updateBenefitApplication: API.OperationMethod<
-  UpdateBenefitApplicationInput,
-  UpdateBenefitApplicationOutput,
+export type UpdateBenefitApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing benefit application with new information while maintaining revision control.
+ */
+export const updateBenefitApplication: API.OperationMethod<
+  UpdateBenefitApplicationInput,
+  UpdateBenefitApplicationOutput,
+  UpdateBenefitApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBenefitApplicationInput,

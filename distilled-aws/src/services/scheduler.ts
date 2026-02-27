@@ -874,17 +874,19 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags associated with the Scheduler resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -896,18 +898,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -920,18 +924,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified EventBridge Scheduler schedule group.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -944,19 +950,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates the specified schedule.
- */
-export const createSchedule: API.OperationMethod<
-  CreateScheduleInput,
-  CreateScheduleOutput,
+export type CreateScheduleError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates the specified schedule.
+ */
+export const createSchedule: API.OperationMethod<
+  CreateScheduleInput,
+  CreateScheduleOutput,
+  CreateScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduleInput,
@@ -970,17 +978,19 @@ export const createSchedule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetScheduleError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified schedule.
  */
 export const getSchedule: API.OperationMethod<
   GetScheduleInput,
   GetScheduleOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduleInput,
@@ -992,6 +1002,13 @@ export const getSchedule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateScheduleError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses all values, including empty values, specified in the request and
  * overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to
@@ -1003,12 +1020,7 @@ export const getSchedule: API.OperationMethod<
 export const updateSchedule: API.OperationMethod<
   UpdateScheduleInput,
   UpdateScheduleOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduleInput,
@@ -1021,18 +1033,20 @@ export const updateSchedule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteScheduleError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified schedule.
  */
 export const deleteSchedule: API.OperationMethod<
   DeleteScheduleInput,
   DeleteScheduleOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduleInput,
@@ -1045,39 +1059,33 @@ export const deleteSchedule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSchedulesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of your EventBridge Scheduler schedules.
  */
 export const listSchedules: API.OperationMethod<
   ListSchedulesInput,
   ListSchedulesOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSchedulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchedulesInput,
   ) => stream.Stream<
     ListSchedulesOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSchedulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchedulesInput,
   ) => stream.Stream<
     ScheduleSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSchedulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1096,18 +1104,20 @@ export const listSchedules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateScheduleGroupError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates the specified schedule group.
  */
 export const createScheduleGroup: API.OperationMethod<
   CreateScheduleGroupInput,
   CreateScheduleGroupOutput,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateScheduleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduleGroupInput,
@@ -1120,17 +1130,19 @@ export const createScheduleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetScheduleGroupError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified schedule group.
  */
 export const getScheduleGroup: API.OperationMethod<
   GetScheduleGroupInput,
   GetScheduleGroupOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetScheduleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduleGroupInput,
@@ -1142,6 +1154,13 @@ export const getScheduleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteScheduleGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group.
  * When you delete a group, it remains in a `DELETING` state until all of its associated schedules are deleted.
@@ -1153,12 +1172,7 @@ export const getScheduleGroup: API.OperationMethod<
 export const deleteScheduleGroup: API.OperationMethod<
   DeleteScheduleGroupInput,
   DeleteScheduleGroupOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteScheduleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduleGroupInput,
@@ -1171,36 +1185,32 @@ export const deleteScheduleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListScheduleGroupsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of your schedule groups.
  */
 export const listScheduleGroups: API.OperationMethod<
   ListScheduleGroupsInput,
   ListScheduleGroupsOutput,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListScheduleGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScheduleGroupsInput,
   ) => stream.Stream<
     ListScheduleGroupsOutput,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScheduleGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScheduleGroupsInput,
   ) => stream.Stream<
     ScheduleGroupSummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScheduleGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

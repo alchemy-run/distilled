@@ -4523,6 +4523,10 @@ export class InternalServerError extends S.TaggedErrorClass<InternalServerError>
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type AddInstanceFleetError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Adds an instance fleet to a running cluster.
  *
@@ -4532,26 +4536,28 @@ export class InternalServerError extends S.TaggedErrorClass<InternalServerError>
 export const addInstanceFleet: API.OperationMethod<
   AddInstanceFleetInput,
   AddInstanceFleetOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  AddInstanceFleetError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddInstanceFleetInput,
   output: AddInstanceFleetOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type AddInstanceGroupsError = InternalServerError | CommonErrors;
 /**
  * Adds one or more instance groups to a running cluster.
  */
 export const addInstanceGroups: API.OperationMethod<
   AddInstanceGroupsInput,
   AddInstanceGroupsOutput,
-  InternalServerError | CommonErrors,
+  AddInstanceGroupsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddInstanceGroupsInput,
   output: AddInstanceGroupsOutput,
   errors: [InternalServerError],
 }));
+export type AddJobFlowStepsError = InternalServerError | CommonErrors;
 /**
  * AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are allowed
  * in each job flow.
@@ -4579,13 +4585,17 @@ export const addInstanceGroups: API.OperationMethod<
 export const addJobFlowSteps: API.OperationMethod<
   AddJobFlowStepsInput,
   AddJobFlowStepsOutput,
-  InternalServerError | CommonErrors,
+  AddJobFlowStepsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddJobFlowStepsInput,
   output: AddJobFlowStepsOutput,
   errors: [InternalServerError],
 }));
+export type AddTagsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR
  * Studio. Tags make it easier to associate resources in various ways, such as grouping
@@ -4596,13 +4606,17 @@ export const addJobFlowSteps: API.OperationMethod<
 export const addTags: API.OperationMethod<
   AddTagsInput,
   AddTagsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  AddTagsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
   output: AddTagsOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CancelStepsError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in
  * each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee
@@ -4613,26 +4627,34 @@ export const addTags: API.OperationMethod<
 export const cancelSteps: API.OperationMethod<
   CancelStepsInput,
   CancelStepsOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  CancelStepsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelStepsInput,
   output: CancelStepsOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type CreatePersistentAppUIError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a persistent application user interface.
  */
 export const createPersistentAppUI: API.OperationMethod<
   CreatePersistentAppUIInput,
   CreatePersistentAppUIOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreatePersistentAppUIError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePersistentAppUIInput,
   output: CreatePersistentAppUIOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateSecurityConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a security configuration, which is stored in the service and can be specified
  * when a cluster is created.
@@ -4640,26 +4662,34 @@ export const createPersistentAppUI: API.OperationMethod<
 export const createSecurityConfiguration: API.OperationMethod<
   CreateSecurityConfigurationInput,
   CreateSecurityConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreateSecurityConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityConfigurationInput,
   output: CreateSecurityConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateStudioError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a new Amazon EMR Studio.
  */
 export const createStudio: API.OperationMethod<
   CreateStudioInput,
   CreateStudioOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreateStudioError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStudioInput,
   output: CreateStudioOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateStudioSessionMappingError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Maps a user or group to the Amazon EMR Studio specified by
  * `StudioId`, and applies a session policy to refine Studio permissions for that
@@ -4670,52 +4700,68 @@ export const createStudio: API.OperationMethod<
 export const createStudioSessionMapping: API.OperationMethod<
   CreateStudioSessionMappingInput,
   CreateStudioSessionMappingResponse,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  CreateStudioSessionMappingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStudioSessionMappingInput,
   output: CreateStudioSessionMappingResponse,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type DeleteSecurityConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Deletes a security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
   DeleteSecurityConfigurationInput,
   DeleteSecurityConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DeleteSecurityConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecurityConfigurationInput,
   output: DeleteSecurityConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DeleteStudioError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Removes an Amazon EMR Studio from the Studio metadata store.
  */
 export const deleteStudio: API.OperationMethod<
   DeleteStudioInput,
   DeleteStudioResponse,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DeleteStudioError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStudioInput,
   output: DeleteStudioResponse,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DeleteStudioSessionMappingError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Removes a user or group from an Amazon EMR Studio.
  */
 export const deleteStudioSessionMapping: API.OperationMethod<
   DeleteStudioSessionMappingInput,
   DeleteStudioSessionMappingResponse,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  DeleteStudioSessionMappingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStudioSessionMappingInput,
   output: DeleteStudioSessionMappingResponse,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type DescribeClusterError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides cluster-level details including status, hardware and software configuration,
  * VPC settings, and so on.
@@ -4723,13 +4769,14 @@ export const deleteStudioSessionMapping: API.OperationMethod<
 export const describeCluster: API.OperationMethod<
   DescribeClusterInput,
   DescribeClusterOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DescribeClusterError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterInput,
   output: DescribeClusterOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DescribeJobFlowsError = InternalServerError | CommonErrors;
 /**
  * This API is no longer supported and will eventually be removed. We recommend you use
  * ListClusters, DescribeCluster, ListSteps, ListInstanceGroups and ListBootstrapActions instead.
@@ -4755,39 +4802,51 @@ export const describeCluster: API.OperationMethod<
 export const describeJobFlows: API.OperationMethod<
   DescribeJobFlowsInput,
   DescribeJobFlowsOutput,
-  InternalServerError | CommonErrors,
+  DescribeJobFlowsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobFlowsInput,
   output: DescribeJobFlowsOutput,
   errors: [InternalServerError],
 }));
+export type DescribeNotebookExecutionError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides details of a notebook execution.
  */
 export const describeNotebookExecution: API.OperationMethod<
   DescribeNotebookExecutionInput,
   DescribeNotebookExecutionOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  DescribeNotebookExecutionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNotebookExecutionInput,
   output: DescribeNotebookExecutionOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type DescribePersistentAppUIError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Describes a persistent application user interface.
  */
 export const describePersistentAppUI: API.OperationMethod<
   DescribePersistentAppUIInput,
   DescribePersistentAppUIOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DescribePersistentAppUIError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePersistentAppUIInput,
   output: DescribePersistentAppUIOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DescribeReleaseLabelError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides Amazon EMR release label details, such as the releases available the
  * Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a
@@ -4796,13 +4855,17 @@ export const describePersistentAppUI: API.OperationMethod<
 export const describeReleaseLabel: API.OperationMethod<
   DescribeReleaseLabelInput,
   DescribeReleaseLabelOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DescribeReleaseLabelError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReleaseLabelInput,
   output: DescribeReleaseLabelOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DescribeSecurityConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides the details of a security configuration by returning the configuration
  * JSON.
@@ -4810,26 +4873,34 @@ export const describeReleaseLabel: API.OperationMethod<
 export const describeSecurityConfiguration: API.OperationMethod<
   DescribeSecurityConfigurationInput,
   DescribeSecurityConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DescribeSecurityConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSecurityConfigurationInput,
   output: DescribeSecurityConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DescribeStepError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides more detail about the cluster step.
  */
 export const describeStep: API.OperationMethod<
   DescribeStepInput,
   DescribeStepOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DescribeStepError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStepInput,
   output: DescribeStepOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DescribeStudioError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns details for the specified Amazon EMR Studio including ID, Name, VPC,
  * Studio access URL, and so on.
@@ -4837,26 +4908,31 @@ export const describeStep: API.OperationMethod<
 export const describeStudio: API.OperationMethod<
   DescribeStudioInput,
   DescribeStudioOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DescribeStudioError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStudioInput,
   output: DescribeStudioOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetAutoTerminationPolicyError = CommonErrors;
 /**
  * Returns the auto-termination policy for an Amazon EMR cluster.
  */
 export const getAutoTerminationPolicy: API.OperationMethod<
   GetAutoTerminationPolicyInput,
   GetAutoTerminationPolicyOutput,
-  CommonErrors,
+  GetAutoTerminationPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutoTerminationPolicyInput,
   output: GetAutoTerminationPolicyOutput,
   errors: [],
 }));
+export type GetBlockPublicAccessConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns the Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see Configure Block
  * Public Access for Amazon EMR in the Amazon EMR
@@ -4865,13 +4941,17 @@ export const getAutoTerminationPolicy: API.OperationMethod<
 export const getBlockPublicAccessConfiguration: API.OperationMethod<
   GetBlockPublicAccessConfigurationInput,
   GetBlockPublicAccessConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetBlockPublicAccessConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlockPublicAccessConfigurationInput,
   output: GetBlockPublicAccessConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetClusterSessionCredentialsError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides temporary, HTTP basic credentials that are associated with a given runtime
  * IAM role and used by a cluster with fine-grained access control
@@ -4881,52 +4961,65 @@ export const getBlockPublicAccessConfiguration: API.OperationMethod<
 export const getClusterSessionCredentials: API.OperationMethod<
   GetClusterSessionCredentialsInput,
   GetClusterSessionCredentialsOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  GetClusterSessionCredentialsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterSessionCredentialsInput,
   output: GetClusterSessionCredentialsOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type GetManagedScalingPolicyError = CommonErrors;
 /**
  * Fetches the attached managed scaling policy for an Amazon EMR cluster.
  */
 export const getManagedScalingPolicy: API.OperationMethod<
   GetManagedScalingPolicyInput,
   GetManagedScalingPolicyOutput,
-  CommonErrors,
+  GetManagedScalingPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedScalingPolicyInput,
   output: GetManagedScalingPolicyOutput,
   errors: [],
 }));
+export type GetOnClusterAppUIPresignedURLError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getOnClusterAppUIPresignedURL: API.OperationMethod<
   GetOnClusterAppUIPresignedURLInput,
   GetOnClusterAppUIPresignedURLOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  GetOnClusterAppUIPresignedURLError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOnClusterAppUIPresignedURLInput,
   output: GetOnClusterAppUIPresignedURLOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type GetPersistentAppUIPresignedURLError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getPersistentAppUIPresignedURL: API.OperationMethod<
   GetPersistentAppUIPresignedURLInput,
   GetPersistentAppUIPresignedURLOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  GetPersistentAppUIPresignedURLError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPersistentAppUIPresignedURLInput,
   output: GetPersistentAppUIPresignedURLOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type GetStudioSessionMappingError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Fetches mapping details for the specified Amazon EMR Studio and identity (user
  * or group).
@@ -4934,34 +5027,38 @@ export const getPersistentAppUIPresignedURL: API.OperationMethod<
 export const getStudioSessionMapping: API.OperationMethod<
   GetStudioSessionMappingInput,
   GetStudioSessionMappingOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  GetStudioSessionMappingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStudioSessionMappingInput,
   output: GetStudioSessionMappingOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type ListBootstrapActionsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides information about the bootstrap actions associated with a cluster.
  */
 export const listBootstrapActions: API.OperationMethod<
   ListBootstrapActionsInput,
   ListBootstrapActionsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListBootstrapActionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBootstrapActionsInput,
   ) => stream.Stream<
     ListBootstrapActionsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListBootstrapActionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBootstrapActionsInput,
   ) => stream.Stream<
     Command,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListBootstrapActionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4974,6 +5071,10 @@ export const listBootstrapActions: API.OperationMethod<
     items: "BootstrapActions",
   } as const,
 }));
+export type ListClustersError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides the status of all clusters visible to this Amazon Web Services account. Allows
  * you to filter the list of clusters based on certain criteria; for example, filtering by
@@ -4984,21 +5085,21 @@ export const listBootstrapActions: API.OperationMethod<
 export const listClusters: API.OperationMethod<
   ListClustersInput,
   ListClustersOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListClustersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersInput,
   ) => stream.Stream<
     ListClustersOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListClustersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersInput,
   ) => stream.Stream<
     ClusterSummary,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListClustersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5011,6 +5112,10 @@ export const listClusters: API.OperationMethod<
     items: "Clusters",
   } as const,
 }));
+export type ListInstanceFleetsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists all available details about the instance fleets in a cluster.
  *
@@ -5020,21 +5125,21 @@ export const listClusters: API.OperationMethod<
 export const listInstanceFleets: API.OperationMethod<
   ListInstanceFleetsInput,
   ListInstanceFleetsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListInstanceFleetsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstanceFleetsInput,
   ) => stream.Stream<
     ListInstanceFleetsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListInstanceFleetsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceFleetsInput,
   ) => stream.Stream<
     InstanceFleet,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListInstanceFleetsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5047,27 +5152,31 @@ export const listInstanceFleets: API.OperationMethod<
     items: "InstanceFleets",
   } as const,
 }));
+export type ListInstanceGroupsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides all available details about the instance groups in a cluster.
  */
 export const listInstanceGroups: API.OperationMethod<
   ListInstanceGroupsInput,
   ListInstanceGroupsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListInstanceGroupsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstanceGroupsInput,
   ) => stream.Stream<
     ListInstanceGroupsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListInstanceGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceGroupsInput,
   ) => stream.Stream<
     InstanceGroup,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListInstanceGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5080,6 +5189,10 @@ export const listInstanceGroups: API.OperationMethod<
     items: "InstanceGroups",
   } as const,
 }));
+export type ListInstancesError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides information for all active Amazon EC2 instances and Amazon EC2
  * instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2
@@ -5089,21 +5202,21 @@ export const listInstanceGroups: API.OperationMethod<
 export const listInstances: API.OperationMethod<
   ListInstancesInput,
   ListInstancesOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListInstancesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstancesInput,
   ) => stream.Stream<
     ListInstancesOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListInstancesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesInput,
   ) => stream.Stream<
     Instance,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListInstancesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5116,6 +5229,10 @@ export const listInstances: API.OperationMethod<
     items: "Instances",
   } as const,
 }));
+export type ListNotebookExecutionsError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides summaries of all notebook executions. You can filter the list based on multiple
  * criteria such as status, time range, and editor id. Returns a maximum of 50 notebook
@@ -5125,21 +5242,21 @@ export const listInstances: API.OperationMethod<
 export const listNotebookExecutions: API.OperationMethod<
   ListNotebookExecutionsInput,
   ListNotebookExecutionsOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  ListNotebookExecutionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotebookExecutionsInput,
   ) => stream.Stream<
     ListNotebookExecutionsOutput,
-    InternalServerError | InvalidRequestException | CommonErrors,
+    ListNotebookExecutionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotebookExecutionsInput,
   ) => stream.Stream<
     NotebookExecutionSummary,
-    InternalServerError | InvalidRequestException | CommonErrors,
+    ListNotebookExecutionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5152,6 +5269,10 @@ export const listNotebookExecutions: API.OperationMethod<
     items: "NotebookExecutions",
   } as const,
 }));
+export type ListReleaseLabelsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Retrieves release labels of Amazon EMR services in the Region where the API is
  * called.
@@ -5159,21 +5280,21 @@ export const listNotebookExecutions: API.OperationMethod<
 export const listReleaseLabels: API.OperationMethod<
   ListReleaseLabelsInput,
   ListReleaseLabelsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListReleaseLabelsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReleaseLabelsInput,
   ) => stream.Stream<
     ListReleaseLabelsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListReleaseLabelsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReleaseLabelsInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListReleaseLabelsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5186,6 +5307,10 @@ export const listReleaseLabels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecurityConfigurationsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists all the security configurations visible to this account, providing their creation
  * dates and times, and their names. This call returns a maximum of 50 clusters per call, but
@@ -5195,21 +5320,21 @@ export const listReleaseLabels: API.OperationMethod<
 export const listSecurityConfigurations: API.OperationMethod<
   ListSecurityConfigurationsInput,
   ListSecurityConfigurationsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListSecurityConfigurationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityConfigurationsInput,
   ) => stream.Stream<
     ListSecurityConfigurationsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListSecurityConfigurationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityConfigurationsInput,
   ) => stream.Stream<
     SecurityConfigurationSummary,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListSecurityConfigurationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5222,6 +5347,10 @@ export const listSecurityConfigurations: API.OperationMethod<
     items: "SecurityConfigurations",
   } as const,
 }));
+export type ListStepsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides a list of steps for the cluster in reverse order unless you specify
  * `stepIds` with the request or filter by `StepStates`. You can
@@ -5233,21 +5362,21 @@ export const listSecurityConfigurations: API.OperationMethod<
 export const listSteps: API.OperationMethod<
   ListStepsInput,
   ListStepsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListStepsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStepsInput,
   ) => stream.Stream<
     ListStepsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListStepsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStepsInput,
   ) => stream.Stream<
     StepSummary,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListStepsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5260,6 +5389,10 @@ export const listSteps: API.OperationMethod<
     items: "Steps",
   } as const,
 }));
+export type ListStudiosError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and
  * creation time for each Studio.
@@ -5267,21 +5400,21 @@ export const listSteps: API.OperationMethod<
 export const listStudios: API.OperationMethod<
   ListStudiosInput,
   ListStudiosOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListStudiosError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStudiosInput,
   ) => stream.Stream<
     ListStudiosOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListStudiosError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStudiosInput,
   ) => stream.Stream<
     StudioSummary,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListStudiosError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5294,6 +5427,10 @@ export const listStudios: API.OperationMethod<
     items: "Studios",
   } as const,
 }));
+export type ListStudioSessionMappingsError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns a list of all user or group session mappings for the Amazon EMR Studio
  * specified by `StudioId`.
@@ -5301,21 +5438,21 @@ export const listStudios: API.OperationMethod<
 export const listStudioSessionMappings: API.OperationMethod<
   ListStudioSessionMappingsInput,
   ListStudioSessionMappingsOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  ListStudioSessionMappingsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStudioSessionMappingsInput,
   ) => stream.Stream<
     ListStudioSessionMappingsOutput,
-    InternalServerError | InvalidRequestException | CommonErrors,
+    ListStudioSessionMappingsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStudioSessionMappingsInput,
   ) => stream.Stream<
     SessionMappingSummary,
-    InternalServerError | InvalidRequestException | CommonErrors,
+    ListStudioSessionMappingsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5328,6 +5465,10 @@ export const listStudioSessionMappings: API.OperationMethod<
     items: "SessionMappings",
   } as const,
 }));
+export type ListSupportedInstanceTypesError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * A list of the instance types that Amazon EMR supports. You can filter the
  * list by Amazon Web Services Region and Amazon EMR release.
@@ -5335,21 +5476,21 @@ export const listStudioSessionMappings: API.OperationMethod<
 export const listSupportedInstanceTypes: API.OperationMethod<
   ListSupportedInstanceTypesInput,
   ListSupportedInstanceTypesOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListSupportedInstanceTypesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSupportedInstanceTypesInput,
   ) => stream.Stream<
     ListSupportedInstanceTypesOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListSupportedInstanceTypesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSupportedInstanceTypesInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListSupportedInstanceTypesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5358,6 +5499,10 @@ export const listSupportedInstanceTypes: API.OperationMethod<
   errors: [InternalServerException, InvalidRequestException],
   pagination: { inputToken: "Marker", outputToken: "Marker" } as const,
 }));
+export type ModifyClusterError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Modifies the number of steps that can be executed concurrently for the cluster specified
  * using ClusterID.
@@ -5365,13 +5510,17 @@ export const listSupportedInstanceTypes: API.OperationMethod<
 export const modifyCluster: API.OperationMethod<
   ModifyClusterInput,
   ModifyClusterOutput,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  ModifyClusterError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyClusterInput,
   output: ModifyClusterOutput,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type ModifyInstanceFleetError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Modifies the target On-Demand and target Spot capacities for the instance fleet with the
  * specified InstanceFleetID within the cluster specified using ClusterID. The call either
@@ -5383,13 +5532,14 @@ export const modifyCluster: API.OperationMethod<
 export const modifyInstanceFleet: API.OperationMethod<
   ModifyInstanceFleetInput,
   ModifyInstanceFleetResponse,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ModifyInstanceFleetError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyInstanceFleetInput,
   output: ModifyInstanceFleetResponse,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type ModifyInstanceGroupsError = InternalServerError | CommonErrors;
 /**
  * ModifyInstanceGroups modifies the number of nodes and configuration settings of an
  * instance group. The input parameters include the new target instance count for the group
@@ -5398,13 +5548,14 @@ export const modifyInstanceFleet: API.OperationMethod<
 export const modifyInstanceGroups: API.OperationMethod<
   ModifyInstanceGroupsInput,
   ModifyInstanceGroupsResponse,
-  InternalServerError | CommonErrors,
+  ModifyInstanceGroupsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyInstanceGroupsInput,
   output: ModifyInstanceGroupsResponse,
   errors: [InternalServerError],
 }));
+export type PutAutoScalingPolicyError = CommonErrors;
 /**
  * Creates or updates an automatic scaling policy for a core instance group or task
  * instance group in an Amazon EMR cluster. The automatic scaling policy defines how
@@ -5414,13 +5565,14 @@ export const modifyInstanceGroups: API.OperationMethod<
 export const putAutoScalingPolicy: API.OperationMethod<
   PutAutoScalingPolicyInput,
   PutAutoScalingPolicyOutput,
-  CommonErrors,
+  PutAutoScalingPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAutoScalingPolicyInput,
   output: PutAutoScalingPolicyOutput,
   errors: [],
 }));
+export type PutAutoTerminationPolicyError = CommonErrors;
 /**
  * Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and
  * later. For more information, see Using an
@@ -5434,13 +5586,17 @@ export const putAutoScalingPolicy: API.OperationMethod<
 export const putAutoTerminationPolicy: API.OperationMethod<
   PutAutoTerminationPolicyInput,
   PutAutoTerminationPolicyOutput,
-  CommonErrors,
+  PutAutoTerminationPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAutoTerminationPolicyInput,
   output: PutAutoTerminationPolicyOutput,
   errors: [],
 }));
+export type PutBlockPublicAccessConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates or updates an Amazon EMR block public access configuration for your
  * Amazon Web Services account in the current Region. For more information see Configure Block
@@ -5450,13 +5606,14 @@ export const putAutoTerminationPolicy: API.OperationMethod<
 export const putBlockPublicAccessConfiguration: API.OperationMethod<
   PutBlockPublicAccessConfigurationInput,
   PutBlockPublicAccessConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  PutBlockPublicAccessConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBlockPublicAccessConfigurationInput,
   output: PutBlockPublicAccessConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type PutManagedScalingPolicyError = CommonErrors;
 /**
  * Creates or updates a managed scaling policy for an Amazon EMR cluster. The
  * managed scaling policy defines the limits for resources, such as Amazon EC2
@@ -5466,52 +5623,59 @@ export const putBlockPublicAccessConfiguration: API.OperationMethod<
 export const putManagedScalingPolicy: API.OperationMethod<
   PutManagedScalingPolicyInput,
   PutManagedScalingPolicyOutput,
-  CommonErrors,
+  PutManagedScalingPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutManagedScalingPolicyInput,
   output: PutManagedScalingPolicyOutput,
   errors: [],
 }));
+export type RemoveAutoScalingPolicyError = CommonErrors;
 /**
  * Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
  */
 export const removeAutoScalingPolicy: API.OperationMethod<
   RemoveAutoScalingPolicyInput,
   RemoveAutoScalingPolicyOutput,
-  CommonErrors,
+  RemoveAutoScalingPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAutoScalingPolicyInput,
   output: RemoveAutoScalingPolicyOutput,
   errors: [],
 }));
+export type RemoveAutoTerminationPolicyError = CommonErrors;
 /**
  * Removes an auto-termination policy from an Amazon EMR cluster.
  */
 export const removeAutoTerminationPolicy: API.OperationMethod<
   RemoveAutoTerminationPolicyInput,
   RemoveAutoTerminationPolicyOutput,
-  CommonErrors,
+  RemoveAutoTerminationPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAutoTerminationPolicyInput,
   output: RemoveAutoTerminationPolicyOutput,
   errors: [],
 }));
+export type RemoveManagedScalingPolicyError = CommonErrors;
 /**
  * Removes a managed scaling policy from a specified Amazon EMR cluster.
  */
 export const removeManagedScalingPolicy: API.OperationMethod<
   RemoveManagedScalingPolicyInput,
   RemoveManagedScalingPolicyOutput,
-  CommonErrors,
+  RemoveManagedScalingPolicyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveManagedScalingPolicyInput,
   output: RemoveManagedScalingPolicyOutput,
   errors: [],
 }));
+export type RemoveTagsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping
  * clusters to track your Amazon EMR resource allocation costs. For more information,
@@ -5523,13 +5687,14 @@ export const removeManagedScalingPolicy: API.OperationMethod<
 export const removeTags: API.OperationMethod<
   RemoveTagsInput,
   RemoveTagsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  RemoveTagsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsInput,
   output: RemoveTagsOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type RunJobFlowError = InternalServerError | CommonErrors;
 /**
  * RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the
  * steps specified. After the steps complete, the cluster stops and the HDFS partition is
@@ -5560,13 +5725,16 @@ export const removeTags: API.OperationMethod<
 export const runJobFlow: API.OperationMethod<
   RunJobFlowInput,
   RunJobFlowOutput,
-  InternalServerError | CommonErrors,
+  RunJobFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunJobFlowInput,
   output: RunJobFlowOutput,
   errors: [InternalServerError],
 }));
+export type SetKeepJobFlowAliveWhenNoStepsError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * You can use the `SetKeepJobFlowAliveWhenNoSteps` to configure a cluster (job flow) to terminate after the step execution, i.e., all your
  * steps are executed. If you want a transient cluster that shuts down after the last of the current executing steps are completed,
@@ -5577,13 +5745,14 @@ export const runJobFlow: API.OperationMethod<
 export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
   SetKeepJobFlowAliveWhenNoStepsInput,
   SetKeepJobFlowAliveWhenNoStepsResponse,
-  InternalServerError | CommonErrors,
+  SetKeepJobFlowAliveWhenNoStepsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetKeepJobFlowAliveWhenNoStepsInput,
   output: SetKeepJobFlowAliveWhenNoStepsResponse,
   errors: [InternalServerError],
 }));
+export type SetTerminationProtectionError = InternalServerError | CommonErrors;
 /**
  * SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances
  * in the cluster cannot be terminated by user intervention, an API call, or in the event of a
@@ -5608,13 +5777,16 @@ export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
 export const setTerminationProtection: API.OperationMethod<
   SetTerminationProtectionInput,
   SetTerminationProtectionResponse,
-  InternalServerError | CommonErrors,
+  SetTerminationProtectionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTerminationProtectionInput,
   output: SetTerminationProtectionResponse,
   errors: [InternalServerError],
 }));
+export type SetUnhealthyNodeReplacementError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * Specify whether to enable unhealthy node replacement, which lets Amazon EMR gracefully
  * replace core nodes on a cluster if any nodes become unhealthy. For example, a node becomes
@@ -5634,13 +5806,14 @@ export const setTerminationProtection: API.OperationMethod<
 export const setUnhealthyNodeReplacement: API.OperationMethod<
   SetUnhealthyNodeReplacementInput,
   SetUnhealthyNodeReplacementResponse,
-  InternalServerError | CommonErrors,
+  SetUnhealthyNodeReplacementError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUnhealthyNodeReplacementInput,
   output: SetUnhealthyNodeReplacementResponse,
   errors: [InternalServerError],
 }));
+export type SetVisibleToAllUsersError = InternalServerError | CommonErrors;
 /**
  * The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be
  * visible to all users in your account. To restrict cluster access using an IAM policy, see Identity and Access
@@ -5660,39 +5833,48 @@ export const setUnhealthyNodeReplacement: API.OperationMethod<
 export const setVisibleToAllUsers: API.OperationMethod<
   SetVisibleToAllUsersInput,
   SetVisibleToAllUsersResponse,
-  InternalServerError | CommonErrors,
+  SetVisibleToAllUsersError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetVisibleToAllUsersInput,
   output: SetVisibleToAllUsersResponse,
   errors: [InternalServerError],
 }));
+export type StartNotebookExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Starts a notebook execution.
  */
 export const startNotebookExecution: API.OperationMethod<
   StartNotebookExecutionInput,
   StartNotebookExecutionOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  StartNotebookExecutionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartNotebookExecutionInput,
   output: StartNotebookExecutionOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type StopNotebookExecutionError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Stops a notebook execution.
  */
 export const stopNotebookExecution: API.OperationMethod<
   StopNotebookExecutionInput,
   StopNotebookExecutionResponse,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  StopNotebookExecutionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopNotebookExecutionInput,
   output: StopNotebookExecutionResponse,
   errors: [InternalServerError, InvalidRequestException],
 }));
+export type TerminateJobFlowsError = InternalServerError | CommonErrors;
 /**
  * TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut
  * down, any step not yet completed is canceled and the Amazon EC2 instances on which
@@ -5706,13 +5888,17 @@ export const stopNotebookExecution: API.OperationMethod<
 export const terminateJobFlows: API.OperationMethod<
   TerminateJobFlowsInput,
   TerminateJobFlowsResponse,
-  InternalServerError | CommonErrors,
+  TerminateJobFlowsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateJobFlowsInput,
   output: TerminateJobFlowsResponse,
   errors: [InternalServerError],
 }));
+export type UpdateStudioError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Updates an Amazon EMR Studio configuration, including attributes such as name,
  * description, and subnets.
@@ -5720,20 +5906,24 @@ export const terminateJobFlows: API.OperationMethod<
 export const updateStudio: API.OperationMethod<
   UpdateStudioInput,
   UpdateStudioResponse,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  UpdateStudioError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStudioInput,
   output: UpdateStudioResponse,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type UpdateStudioSessionMappingError =
+  | InternalServerError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
  */
 export const updateStudioSessionMapping: API.OperationMethod<
   UpdateStudioSessionMappingInput,
   UpdateStudioSessionMappingResponse,
-  InternalServerError | InvalidRequestException | CommonErrors,
+  UpdateStudioSessionMappingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStudioSessionMappingInput,

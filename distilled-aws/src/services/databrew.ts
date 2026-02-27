@@ -2698,6 +2698,11 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type BatchDeleteRecipeVersionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes one or more versions of a recipe at a time.
  *
@@ -2732,27 +2737,26 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
 export const batchDeleteRecipeVersion: API.OperationMethod<
   BatchDeleteRecipeVersionRequest,
   BatchDeleteRecipeVersionResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteRecipeVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteRecipeVersionRequest,
   output: BatchDeleteRecipeVersionResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type CreateDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new DataBrew dataset.
  */
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -2764,18 +2768,20 @@ export const createDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateProfileJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new job to analyze a dataset and create its data profile.
  */
 export const createProfileJob: API.OperationMethod<
   CreateProfileJobRequest,
   CreateProfileJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateProfileJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileJobRequest,
@@ -2788,17 +2794,19 @@ export const createProfileJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateProjectError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new DataBrew project.
  */
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
@@ -2810,16 +2818,18 @@ export const createProject: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRecipeError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new DataBrew recipe.
  */
 export const createRecipe: API.OperationMethod<
   CreateRecipeRequest,
   CreateRecipeResponse,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateRecipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecipeRequest,
@@ -2830,18 +2840,20 @@ export const createRecipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRecipeJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
  */
 export const createRecipeJob: API.OperationMethod<
   CreateRecipeJobRequest,
   CreateRecipeJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateRecipeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecipeJobRequest,
@@ -2854,6 +2866,11 @@ export const createRecipeJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRulesetError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new ruleset that can be used in a profile job to validate
  * the data quality of a dataset.
@@ -2861,10 +2878,7 @@ export const createRecipeJob: API.OperationMethod<
 export const createRuleset: API.OperationMethod<
   CreateRulesetRequest,
   CreateRulesetResponse,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRulesetRequest,
@@ -2875,6 +2889,11 @@ export const createRuleset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateScheduleError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific
  * date and time, or at regular intervals.
@@ -2882,10 +2901,7 @@ export const createRuleset: API.OperationMethod<
 export const createSchedule: API.OperationMethod<
   CreateScheduleRequest,
   CreateScheduleResponse,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduleRequest,
@@ -2896,151 +2912,185 @@ export const createSchedule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDatasetError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a dataset from DataBrew.
  */
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type DeleteJobError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified DataBrew job.
  */
 export const deleteJob: API.OperationMethod<
   DeleteJobRequest,
   DeleteJobResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type DeleteProjectError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing DataBrew project.
  */
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
   output: DeleteProjectResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type DeleteRecipeVersionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a single version of a DataBrew recipe.
  */
 export const deleteRecipeVersion: API.OperationMethod<
   DeleteRecipeVersionRequest,
   DeleteRecipeVersionResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteRecipeVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecipeVersionRequest,
   output: DeleteRecipeVersionResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type DeleteRulesetError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a ruleset.
  */
 export const deleteRuleset: API.OperationMethod<
   DeleteRulesetRequest,
   DeleteRulesetResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRulesetRequest,
   output: DeleteRulesetResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type DeleteScheduleError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified DataBrew schedule.
  */
 export const deleteSchedule: API.OperationMethod<
   DeleteScheduleRequest,
   DeleteScheduleResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DeleteScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduleRequest,
   output: DeleteScheduleResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeDatasetError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the definition of a specific DataBrew dataset.
  */
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeJobError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the definition of a specific DataBrew job.
  */
 export const describeJob: API.OperationMethod<
   DescribeJobRequest,
   DescribeJobResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
   output: DescribeJobResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeJobRunError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Represents one run of a DataBrew job.
  */
 export const describeJobRun: API.OperationMethod<
   DescribeJobRunRequest,
   DescribeJobRunResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRunRequest,
   output: DescribeJobRunResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeProjectError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the definition of a specific DataBrew project.
  */
 export const describeProject: API.OperationMethod<
   DescribeProjectRequest,
   DescribeProjectResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProjectRequest,
   output: DescribeProjectResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeRecipeError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the definition of a specific DataBrew recipe corresponding to a particular
  * version.
@@ -3048,60 +3098,69 @@ export const describeProject: API.OperationMethod<
 export const describeRecipe: API.OperationMethod<
   DescribeRecipeRequest,
   DescribeRecipeResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeRecipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecipeRequest,
   output: DescribeRecipeResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeRulesetError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about the ruleset.
  */
 export const describeRuleset: API.OperationMethod<
   DescribeRulesetRequest,
   DescribeRulesetResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRulesetRequest,
   output: DescribeRulesetResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DescribeScheduleError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the definition of a specific DataBrew schedule.
  */
 export const describeSchedule: API.OperationMethod<
   DescribeScheduleRequest,
   DescribeScheduleResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScheduleRequest,
   output: DescribeScheduleResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListDatasetsError = ValidationException | CommonErrors;
 /**
  * Lists all of the DataBrew datasets.
  */
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  ValidationException | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     ListDatasetsResponse,
-    ValidationException | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     Dataset,
-    ValidationException | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3115,27 +3174,31 @@ export const listDatasets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListJobRunsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the previous runs of a particular DataBrew job.
  */
 export const listJobRuns: API.OperationMethod<
   ListJobRunsRequest,
   ListJobRunsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListJobRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
     ListJobRunsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListJobRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
     JobRun,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListJobRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3149,27 +3212,28 @@ export const listJobRuns: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListJobsError = ValidationException | CommonErrors;
 /**
  * Lists all of the DataBrew jobs that are defined.
  */
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
-  ValidationException | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResponse,
-    ValidationException | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     Job,
-    ValidationException | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3183,27 +3247,28 @@ export const listJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProjectsError = ValidationException | CommonErrors;
 /**
  * Lists all of the DataBrew projects that are defined.
  */
 export const listProjects: API.OperationMethod<
   ListProjectsRequest,
   ListProjectsResponse,
-  ValidationException | CommonErrors,
+  ListProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     ListProjectsResponse,
-    ValidationException | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     Project,
-    ValidationException | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3217,27 +3282,28 @@ export const listProjects: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRecipesError = ValidationException | CommonErrors;
 /**
  * Lists all of the DataBrew recipes that are defined.
  */
 export const listRecipes: API.OperationMethod<
   ListRecipesRequest,
   ListRecipesResponse,
-  ValidationException | CommonErrors,
+  ListRecipesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecipesRequest,
   ) => stream.Stream<
     ListRecipesResponse,
-    ValidationException | CommonErrors,
+    ListRecipesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecipesRequest,
   ) => stream.Stream<
     Recipe,
-    ValidationException | CommonErrors,
+    ListRecipesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3251,6 +3317,7 @@ export const listRecipes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRecipeVersionsError = ValidationException | CommonErrors;
 /**
  * Lists the versions of a particular DataBrew recipe, except for
  * `LATEST_WORKING`.
@@ -3258,21 +3325,21 @@ export const listRecipes: API.OperationMethod<
 export const listRecipeVersions: API.OperationMethod<
   ListRecipeVersionsRequest,
   ListRecipeVersionsResponse,
-  ValidationException | CommonErrors,
+  ListRecipeVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecipeVersionsRequest,
   ) => stream.Stream<
     ListRecipeVersionsResponse,
-    ValidationException | CommonErrors,
+    ListRecipeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecipeVersionsRequest,
   ) => stream.Stream<
     Recipe,
-    ValidationException | CommonErrors,
+    ListRecipeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3286,6 +3353,10 @@ export const listRecipeVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRulesetsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all rulesets available in the current account or rulesets associated
  * with a specific resource (dataset).
@@ -3293,21 +3364,21 @@ export const listRecipeVersions: API.OperationMethod<
 export const listRulesets: API.OperationMethod<
   ListRulesetsRequest,
   ListRulesetsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListRulesetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRulesetsRequest,
   ) => stream.Stream<
     ListRulesetsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListRulesetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesetsRequest,
   ) => stream.Stream<
     RulesetItem,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListRulesetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3321,27 +3392,28 @@ export const listRulesets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSchedulesError = ValidationException | CommonErrors;
 /**
  * Lists the DataBrew schedules that are defined.
  */
 export const listSchedules: API.OperationMethod<
   ListSchedulesRequest,
   ListSchedulesResponse,
-  ValidationException | CommonErrors,
+  ListSchedulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchedulesRequest,
   ) => stream.Stream<
     ListSchedulesResponse,
-    ValidationException | CommonErrors,
+    ListSchedulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchedulesRequest,
   ) => stream.Stream<
     Schedule,
-    ValidationException | CommonErrors,
+    ListSchedulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3355,16 +3427,18 @@ export const listSchedules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the tags for a DataBrew resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3375,16 +3449,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PublishRecipeError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Publishes a new version of a DataBrew recipe.
  */
 export const publishRecipe: API.OperationMethod<
   PublishRecipeRequest,
   PublishRecipeResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  PublishRecipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishRecipeRequest,
@@ -3395,6 +3471,11 @@ export const publishRecipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendProjectSessionActionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Performs a recipe step within an interactive DataBrew session that's currently
  * open.
@@ -3402,27 +3483,26 @@ export const publishRecipe: API.OperationMethod<
 export const sendProjectSessionAction: API.OperationMethod<
   SendProjectSessionActionRequest,
   SendProjectSessionActionResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SendProjectSessionActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendProjectSessionActionRequest,
   output: SendProjectSessionActionResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type StartJobRunError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Runs a DataBrew job.
  */
 export const startJobRun: API.OperationMethod<
   StartJobRunRequest,
   StartJobRunResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRunRequest,
@@ -3434,6 +3514,12 @@ export const startJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartProjectSessionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an interactive session, enabling you to manipulate data in a DataBrew
  * project.
@@ -3441,11 +3527,7 @@ export const startJobRun: API.OperationMethod<
 export const startProjectSession: API.OperationMethod<
   StartProjectSessionRequest,
   StartProjectSessionResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartProjectSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProjectSessionRequest,
@@ -3457,19 +3539,28 @@ export const startProjectSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopJobRunError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops a particular run of a job.
  */
 export const stopJobRun: API.OperationMethod<
   StopJobRunRequest,
   StopJobRunResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  StopJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopJobRunRequest,
   output: StopJobRunResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or
  * schedule.
@@ -3477,10 +3568,7 @@ export const stopJobRun: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3491,16 +3579,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes metadata tags from a DataBrew resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3511,16 +3601,18 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDatasetError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the definition of an existing DataBrew dataset.
  */
 export const updateDataset: API.OperationMethod<
   UpdateDatasetRequest,
   UpdateDatasetResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
@@ -3531,16 +3623,18 @@ export const updateDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProfileJobError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the definition of an existing profile job.
  */
 export const updateProfileJob: API.OperationMethod<
   UpdateProfileJobRequest,
   UpdateProfileJobResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateProfileJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileJobRequest,
@@ -3551,19 +3645,27 @@ export const updateProfileJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProjectError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the definition of an existing DataBrew project.
  */
 export const updateProject: API.OperationMethod<
   UpdateProjectRequest,
   UpdateProjectResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UpdateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectRequest,
   output: UpdateProjectResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateRecipeError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the definition of the `LATEST_WORKING` version of a DataBrew
  * recipe.
@@ -3571,23 +3673,25 @@ export const updateProject: API.OperationMethod<
 export const updateRecipe: API.OperationMethod<
   UpdateRecipeRequest,
   UpdateRecipeResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UpdateRecipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecipeRequest,
   output: UpdateRecipeResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateRecipeJobError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the definition of an existing DataBrew recipe job.
  */
 export const updateRecipeJob: API.OperationMethod<
   UpdateRecipeJobRequest,
   UpdateRecipeJobResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateRecipeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecipeJobRequest,
@@ -3598,29 +3702,35 @@ export const updateRecipeJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateRulesetError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates specified ruleset.
  */
 export const updateRuleset: API.OperationMethod<
   UpdateRulesetRequest,
   UpdateRulesetResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UpdateRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRulesetRequest,
   output: UpdateRulesetResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateScheduleError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the definition of an existing DataBrew schedule.
  */
 export const updateSchedule: API.OperationMethod<
   UpdateScheduleRequest,
   UpdateScheduleResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduleRequest,

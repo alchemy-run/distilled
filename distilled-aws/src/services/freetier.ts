@@ -453,17 +453,19 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type GetAccountActivityError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a specific activity record that is available to the customer.
  */
 export const getAccountActivity: API.OperationMethod<
   GetAccountActivityRequest,
   GetAccountActivityResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccountActivityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountActivityRequest,
@@ -475,18 +477,20 @@ export const getAccountActivity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccountPlanStateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This returns all of the information related to the state of the account plan related to Free Tier.
  */
 export const getAccountPlanState: API.OperationMethod<
   GetAccountPlanStateRequest,
   GetAccountPlanStateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccountPlanStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountPlanStateRequest,
@@ -499,36 +503,32 @@ export const getAccountPlanState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFreeTierUsageError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all Free Tier usage objects that match your filters.
  */
 export const getFreeTierUsage: API.OperationMethod<
   GetFreeTierUsageRequest,
   GetFreeTierUsageResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFreeTierUsageError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFreeTierUsageRequest,
   ) => stream.Stream<
     GetFreeTierUsageResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFreeTierUsageError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFreeTierUsageRequest,
   ) => stream.Stream<
     FreeTierUsage,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFreeTierUsageError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -542,36 +542,32 @@ export const getFreeTierUsage: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAccountActivitiesError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of activities that are available. This operation supports pagination and filtering by status.
  */
 export const listAccountActivities: API.OperationMethod<
   ListAccountActivitiesRequest,
   ListAccountActivitiesResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountActivitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountActivitiesRequest,
   ) => stream.Stream<
     ListAccountActivitiesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountActivitiesRequest,
   ) => stream.Stream<
     ActivitySummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -585,18 +581,20 @@ export const listAccountActivities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpgradeAccountPlanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The account plan type for the Amazon Web Services account.
  */
 export const upgradeAccountPlan: API.OperationMethod<
   UpgradeAccountPlanRequest,
   UpgradeAccountPlanResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpgradeAccountPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeAccountPlanRequest,

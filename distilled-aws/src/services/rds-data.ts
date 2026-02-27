@@ -818,6 +818,23 @@ export class UnsupportedResultException extends S.TaggedErrorClass<UnsupportedRe
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchExecuteStatementError =
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseResumingException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | CommonErrors;
 /**
  * Runs a batch SQL statement over an array of data.
  *
@@ -839,22 +856,7 @@ export class UnsupportedResultException extends S.TaggedErrorClass<UnsupportedRe
 export const batchExecuteStatement: API.OperationMethod<
   BatchExecuteStatementRequest,
   BatchExecuteStatementResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | DatabaseErrorException
-  | DatabaseNotFoundException
-  | DatabaseResumingException
-  | DatabaseUnavailableException
-  | ForbiddenException
-  | HttpEndpointNotEnabledException
-  | InternalServerErrorException
-  | InvalidResourceStateException
-  | InvalidSecretException
-  | SecretsErrorException
-  | ServiceUnavailableError
-  | StatementTimeoutException
-  | TransactionNotFoundException
-  | CommonErrors,
+  BatchExecuteStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchExecuteStatementRequest,
@@ -877,21 +879,7 @@ export const batchExecuteStatement: API.OperationMethod<
     TransactionNotFoundException,
   ],
 }));
-/**
- * Starts a SQL transaction.
- *
- * A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24
- * hours.
- *
- * A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's
- * committed, it's rolled back automatically.
- *
- * For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate
- * `ExecuteStatement` call with `continueAfterTimeout` enabled.
- */
-export const beginTransaction: API.OperationMethod<
-  BeginTransactionRequest,
-  BeginTransactionResponse,
+export type BeginTransactionError =
   | AccessDeniedException
   | BadRequestException
   | DatabaseErrorException
@@ -907,7 +895,23 @@ export const beginTransaction: API.OperationMethod<
   | ServiceUnavailableError
   | StatementTimeoutException
   | TransactionNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a SQL transaction.
+ *
+ * A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24
+ * hours.
+ *
+ * A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's
+ * committed, it's rolled back automatically.
+ *
+ * For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate
+ * `ExecuteStatement` call with `continueAfterTimeout` enabled.
+ */
+export const beginTransaction: API.OperationMethod<
+  BeginTransactionRequest,
+  BeginTransactionResponse,
+  BeginTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BeginTransactionRequest,
@@ -930,13 +934,7 @@ export const beginTransaction: API.OperationMethod<
     TransactionNotFoundException,
   ],
 }));
-/**
- * Ends a SQL transaction started with the `BeginTransaction` operation and
- * commits the changes.
- */
-export const commitTransaction: API.OperationMethod<
-  CommitTransactionRequest,
-  CommitTransactionResponse,
+export type CommitTransactionError =
   | AccessDeniedException
   | BadRequestException
   | DatabaseErrorException
@@ -952,7 +950,15 @@ export const commitTransaction: API.OperationMethod<
   | ServiceUnavailableError
   | StatementTimeoutException
   | TransactionNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Ends a SQL transaction started with the `BeginTransaction` operation and
+ * commits the changes.
+ */
+export const commitTransaction: API.OperationMethod<
+  CommitTransactionRequest,
+  CommitTransactionResponse,
+  CommitTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CommitTransactionRequest,
@@ -975,6 +981,13 @@ export const commitTransaction: API.OperationMethod<
     TransactionNotFoundException,
   ],
 }));
+export type ExecuteSqlError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableError
+  | CommonErrors;
 /**
  * Runs one or more SQL statements.
  *
@@ -985,12 +998,7 @@ export const commitTransaction: API.OperationMethod<
 export const executeSql: API.OperationMethod<
   ExecuteSqlRequest,
   ExecuteSqlResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableError
-  | CommonErrors,
+  ExecuteSqlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteSqlRequest,
@@ -1003,18 +1011,7 @@ export const executeSql: API.OperationMethod<
     ServiceUnavailableError,
   ],
 }));
-/**
- * Runs a SQL statement against a database.
- *
- * If a call isn't part of a transaction because it doesn't include the
- * `transactionID` parameter, changes that result from the call are
- * committed automatically.
- *
- * If the binary response data from the database is more than 1 MB, the call is terminated.
- */
-export const executeStatement: API.OperationMethod<
-  ExecuteStatementRequest,
-  ExecuteStatementResponse,
+export type ExecuteStatementError =
   | AccessDeniedException
   | BadRequestException
   | DatabaseErrorException
@@ -1031,7 +1028,20 @@ export const executeStatement: API.OperationMethod<
   | StatementTimeoutException
   | TransactionNotFoundException
   | UnsupportedResultException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Runs a SQL statement against a database.
+ *
+ * If a call isn't part of a transaction because it doesn't include the
+ * `transactionID` parameter, changes that result from the call are
+ * committed automatically.
+ *
+ * If the binary response data from the database is more than 1 MB, the call is terminated.
+ */
+export const executeStatement: API.OperationMethod<
+  ExecuteStatementRequest,
+  ExecuteStatementResponse,
+  ExecuteStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteStatementRequest,
@@ -1055,12 +1065,7 @@ export const executeStatement: API.OperationMethod<
     UnsupportedResultException,
   ],
 }));
-/**
- * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
- */
-export const rollbackTransaction: API.OperationMethod<
-  RollbackTransactionRequest,
-  RollbackTransactionResponse,
+export type RollbackTransactionError =
   | AccessDeniedException
   | BadRequestException
   | DatabaseErrorException
@@ -1076,7 +1081,14 @@ export const rollbackTransaction: API.OperationMethod<
   | ServiceUnavailableError
   | StatementTimeoutException
   | TransactionNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
+ */
+export const rollbackTransaction: API.OperationMethod<
+  RollbackTransactionRequest,
+  RollbackTransactionResponse,
+  RollbackTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackTransactionRequest,

@@ -1486,6 +1486,13 @@ export class ServiceAttributesLimitExceededException extends S.TaggedErrorClass<
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateHttpNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceAlreadyExists
+  | ResourceLimitExceeded
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates an HTTP namespace. Service instances registered using an HTTP namespace can be
  * discovered using a `DiscoverInstances` request but can't be discovered using
@@ -1497,12 +1504,7 @@ export class ServiceAttributesLimitExceededException extends S.TaggedErrorClass<
 export const createHttpNamespace: API.OperationMethod<
   CreateHttpNamespaceRequest,
   CreateHttpNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceAlreadyExists
-  | ResourceLimitExceeded
-  | TooManyTagsException
-  | CommonErrors,
+  CreateHttpNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHttpNamespaceRequest,
@@ -1515,6 +1517,13 @@ export const createHttpNamespace: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreatePrivateDnsNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceAlreadyExists
+  | ResourceLimitExceeded
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a private namespace based on DNS, which is visible only inside a specified Amazon
  * VPC. The namespace defines your service naming scheme. For example, if you name your namespace
@@ -1528,12 +1537,7 @@ export const createHttpNamespace: API.OperationMethod<
 export const createPrivateDnsNamespace: API.OperationMethod<
   CreatePrivateDnsNamespaceRequest,
   CreatePrivateDnsNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceAlreadyExists
-  | ResourceLimitExceeded
-  | TooManyTagsException
-  | CommonErrors,
+  CreatePrivateDnsNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePrivateDnsNamespaceRequest,
@@ -1546,6 +1550,13 @@ export const createPrivateDnsNamespace: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreatePublicDnsNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceAlreadyExists
+  | ResourceLimitExceeded
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a public namespace based on DNS, which is visible on the internet. The namespace
  * defines your service naming scheme. For example, if you name your namespace
@@ -1560,12 +1571,7 @@ export const createPrivateDnsNamespace: API.OperationMethod<
 export const createPublicDnsNamespace: API.OperationMethod<
   CreatePublicDnsNamespaceRequest,
   CreatePublicDnsNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceAlreadyExists
-  | ResourceLimitExceeded
-  | TooManyTagsException
-  | CommonErrors,
+  CreatePublicDnsNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePublicDnsNamespaceRequest,
@@ -1578,6 +1584,13 @@ export const createPublicDnsNamespace: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateServiceError =
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceLimitExceeded
+  | ServiceAlreadyExists
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a service. This action defines the configuration for the following entities:
  *
@@ -1606,12 +1619,7 @@ export const createPublicDnsNamespace: API.OperationMethod<
 export const createService: API.OperationMethod<
   CreateServiceRequest,
   CreateServiceResponse,
-  | InvalidInput
-  | NamespaceNotFound
-  | ResourceLimitExceeded
-  | ServiceAlreadyExists
-  | TooManyTagsException
-  | CommonErrors,
+  CreateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
@@ -1624,6 +1632,12 @@ export const createService: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type DeleteNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | CommonErrors;
 /**
  * Deletes a namespace from the current account. If the namespace still contains one or more
  * services, the request fails.
@@ -1631,17 +1645,18 @@ export const createService: API.OperationMethod<
 export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceRequest,
   DeleteNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceNotFound
-  | ResourceInUse
-  | CommonErrors,
+  DeleteNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
 }));
+export type DeleteServiceError =
+  | InvalidInput
+  | ResourceInUse
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Deletes a specified service and all associated service attributes. If the service still
  * contains one or more registered instances, the request fails.
@@ -1649,26 +1664,37 @@ export const deleteNamespace: API.OperationMethod<
 export const deleteService: API.OperationMethod<
   DeleteServiceRequest,
   DeleteServiceResponse,
-  InvalidInput | ResourceInUse | ServiceNotFound | CommonErrors,
+  DeleteServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
   output: DeleteServiceResponse,
   errors: [InvalidInput, ResourceInUse, ServiceNotFound],
 }));
+export type DeleteServiceAttributesError =
+  | InvalidInput
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Deletes specific attributes associated with a service.
  */
 export const deleteServiceAttributes: API.OperationMethod<
   DeleteServiceAttributesRequest,
   DeleteServiceAttributesResponse,
-  InvalidInput | ServiceNotFound | CommonErrors,
+  DeleteServiceAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceAttributesRequest,
   output: DeleteServiceAttributesResponse,
   errors: [InvalidInput, ServiceNotFound],
 }));
+export type DeregisterInstanceError =
+  | DuplicateRequest
+  | InstanceNotFound
+  | InvalidInput
+  | ResourceInUse
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the
  * specified instance.
@@ -1676,12 +1702,7 @@ export const deleteServiceAttributes: API.OperationMethod<
 export const deregisterInstance: API.OperationMethod<
   DeregisterInstanceRequest,
   DeregisterInstanceResponse,
-  | DuplicateRequest
-  | InstanceNotFound
-  | InvalidInput
-  | ResourceInUse
-  | ServiceNotFound
-  | CommonErrors,
+  DeregisterInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterInstanceRequest,
@@ -1694,6 +1715,12 @@ export const deregisterInstance: API.OperationMethod<
     ServiceNotFound,
   ],
 }));
+export type DiscoverInstancesError =
+  | InvalidInput
+  | NamespaceNotFound
+  | RequestLimitExceeded
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Discovers registered instances for a specified namespace and service. You can use
  * `DiscoverInstances` to discover instances for any type of namespace.
@@ -1704,11 +1731,7 @@ export const deregisterInstance: API.OperationMethod<
 export const discoverInstances: API.OperationMethod<
   DiscoverInstancesRequest,
   DiscoverInstancesResponse,
-  | InvalidInput
-  | NamespaceNotFound
-  | RequestLimitExceeded
-  | ServiceNotFound
-  | CommonErrors,
+  DiscoverInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverInstancesRequest,
@@ -1720,17 +1743,19 @@ export const discoverInstances: API.OperationMethod<
     ServiceNotFound,
   ],
 }));
+export type DiscoverInstancesRevisionError =
+  | InvalidInput
+  | NamespaceNotFound
+  | RequestLimitExceeded
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Discovers the increasing revision associated with an instance.
  */
 export const discoverInstancesRevision: API.OperationMethod<
   DiscoverInstancesRevisionRequest,
   DiscoverInstancesRevisionResponse,
-  | InvalidInput
-  | NamespaceNotFound
-  | RequestLimitExceeded
-  | ServiceNotFound
-  | CommonErrors,
+  DiscoverInstancesRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverInstancesRevisionRequest,
@@ -1742,19 +1767,29 @@ export const discoverInstancesRevision: API.OperationMethod<
     ServiceNotFound,
   ],
 }));
+export type GetInstanceError =
+  | InstanceNotFound
+  | InvalidInput
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Gets information about a specified instance.
  */
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
   GetInstanceResponse,
-  InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
+  GetInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceRequest,
   output: GetInstanceResponse,
   errors: [InstanceNotFound, InvalidInput, ServiceNotFound],
 }));
+export type GetInstancesHealthStatusError =
+  | InstanceNotFound
+  | InvalidInput
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Gets the current health status (`Healthy`, `Unhealthy`, or
  * `Unknown`) of one or more instances that are associated with a specified
@@ -1766,21 +1801,21 @@ export const getInstance: API.OperationMethod<
 export const getInstancesHealthStatus: API.OperationMethod<
   GetInstancesHealthStatusRequest,
   GetInstancesHealthStatusResponse,
-  InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
+  GetInstancesHealthStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetInstancesHealthStatusRequest,
   ) => stream.Stream<
     GetInstancesHealthStatusResponse,
-    InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
+    GetInstancesHealthStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetInstancesHealthStatusRequest,
   ) => stream.Stream<
     unknown,
-    InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
+    GetInstancesHealthStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1793,19 +1828,21 @@ export const getInstancesHealthStatus: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetNamespaceError = InvalidInput | NamespaceNotFound | CommonErrors;
 /**
  * Gets information about a namespace.
  */
 export const getNamespace: API.OperationMethod<
   GetNamespaceRequest,
   GetNamespaceResponse,
-  InvalidInput | NamespaceNotFound | CommonErrors,
+  GetNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
   errors: [InvalidInput, NamespaceNotFound],
 }));
+export type GetOperationError = InvalidInput | OperationNotFound | CommonErrors;
 /**
  * Gets information about any operation that returns an operation ID in the response, such as a
  * `CreateHttpNamespace` request.
@@ -1815,39 +1852,45 @@ export const getNamespace: API.OperationMethod<
 export const getOperation: API.OperationMethod<
   GetOperationRequest,
   GetOperationResponse,
-  InvalidInput | OperationNotFound | CommonErrors,
+  GetOperationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationRequest,
   output: GetOperationResponse,
   errors: [InvalidInput, OperationNotFound],
 }));
+export type GetServiceError = InvalidInput | ServiceNotFound | CommonErrors;
 /**
  * Gets the settings for a specified service.
  */
 export const getService: API.OperationMethod<
   GetServiceRequest,
   GetServiceResponse,
-  InvalidInput | ServiceNotFound | CommonErrors,
+  GetServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRequest,
   output: GetServiceResponse,
   errors: [InvalidInput, ServiceNotFound],
 }));
+export type GetServiceAttributesError =
+  | InvalidInput
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Returns the attributes associated with a specified service.
  */
 export const getServiceAttributes: API.OperationMethod<
   GetServiceAttributesRequest,
   GetServiceAttributesResponse,
-  InvalidInput | ServiceNotFound | CommonErrors,
+  GetServiceAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceAttributesRequest,
   output: GetServiceAttributesResponse,
   errors: [InvalidInput, ServiceNotFound],
 }));
+export type ListInstancesError = InvalidInput | ServiceNotFound | CommonErrors;
 /**
  * Lists summary information about the instances that you registered by using a specified
  * service.
@@ -1855,21 +1898,21 @@ export const getServiceAttributes: API.OperationMethod<
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
-  InvalidInput | ServiceNotFound | CommonErrors,
+  ListInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     ListInstancesResponse,
-    InvalidInput | ServiceNotFound | CommonErrors,
+    ListInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     unknown,
-    InvalidInput | ServiceNotFound | CommonErrors,
+    ListInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1882,27 +1925,28 @@ export const listInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNamespacesError = InvalidInput | CommonErrors;
 /**
  * Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
  */
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
   ListNamespacesResponse,
-  InvalidInput | CommonErrors,
+  ListNamespacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
     ListNamespacesResponse,
-    InvalidInput | CommonErrors,
+    ListNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
     unknown,
-    InvalidInput | CommonErrors,
+    ListNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1915,27 +1959,28 @@ export const listNamespaces: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOperationsError = InvalidInput | CommonErrors;
 /**
  * Lists operations that match the criteria that you specify.
  */
 export const listOperations: API.OperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
-  InvalidInput | CommonErrors,
+  ListOperationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOperationsRequest,
   ) => stream.Stream<
     ListOperationsResponse,
-    InvalidInput | CommonErrors,
+    ListOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOperationsRequest,
   ) => stream.Stream<
     unknown,
-    InvalidInput | CommonErrors,
+    ListOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1948,6 +1993,7 @@ export const listOperations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServicesError = InvalidInput | CommonErrors;
 /**
  * Lists summary information for all the services that are associated with one or more
  * namespaces.
@@ -1955,21 +2001,21 @@ export const listOperations: API.OperationMethod<
 export const listServices: API.OperationMethod<
   ListServicesRequest,
   ListServicesResponse,
-  InvalidInput | CommonErrors,
+  ListServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
     ListServicesResponse,
-    InvalidInput | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesRequest,
   ) => stream.Stream<
     unknown,
-    InvalidInput | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1982,19 +2028,30 @@ export const listServices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidInput
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  InvalidInput | ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException],
 }));
+export type RegisterInstanceError =
+  | DuplicateRequest
+  | InvalidInput
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Creates or updates one or more records and, optionally, creates a health check based on the
  * settings in a specified service. When you submit a `RegisterInstance` request, the
@@ -2033,12 +2090,7 @@ export const listTagsForResource: API.OperationMethod<
 export const registerInstance: API.OperationMethod<
   RegisterInstanceRequest,
   RegisterInstanceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | ResourceInUse
-  | ResourceLimitExceeded
-  | ServiceNotFound
-  | CommonErrors,
+  RegisterInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterInstanceRequest,
@@ -2051,35 +2103,47 @@ export const registerInstance: API.OperationMethod<
     ServiceNotFound,
   ],
 }));
+export type TagResourceError =
+  | InvalidInput
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds one or more tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidInput
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException, TooManyTagsException],
 }));
+export type UntagResourceError =
+  | InvalidInput
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  InvalidInput | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException],
 }));
+export type UpdateHttpNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | CommonErrors;
 /**
  * Updates an HTTP
  * namespace.
@@ -2087,17 +2151,19 @@ export const untagResource: API.OperationMethod<
 export const updateHttpNamespace: API.OperationMethod<
   UpdateHttpNamespaceRequest,
   UpdateHttpNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceNotFound
-  | ResourceInUse
-  | CommonErrors,
+  UpdateHttpNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHttpNamespaceRequest,
   output: UpdateHttpNamespaceResponse,
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
 }));
+export type UpdateInstanceCustomHealthStatusError =
+  | CustomHealthNotFound
+  | InstanceNotFound
+  | InvalidInput
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Submits a request to change the health status of a custom health check to healthy or
  * unhealthy.
@@ -2112,11 +2178,7 @@ export const updateHttpNamespace: API.OperationMethod<
 export const updateInstanceCustomHealthStatus: API.OperationMethod<
   UpdateInstanceCustomHealthStatusRequest,
   UpdateInstanceCustomHealthStatusResponse,
-  | CustomHealthNotFound
-  | InstanceNotFound
-  | InvalidInput
-  | ServiceNotFound
-  | CommonErrors,
+  UpdateInstanceCustomHealthStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceCustomHealthStatusRequest,
@@ -2128,6 +2190,12 @@ export const updateInstanceCustomHealthStatus: API.OperationMethod<
     ServiceNotFound,
   ],
 }));
+export type UpdatePrivateDnsNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | CommonErrors;
 /**
  * Updates a private DNS
  * namespace.
@@ -2135,34 +2203,37 @@ export const updateInstanceCustomHealthStatus: API.OperationMethod<
 export const updatePrivateDnsNamespace: API.OperationMethod<
   UpdatePrivateDnsNamespaceRequest,
   UpdatePrivateDnsNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceNotFound
-  | ResourceInUse
-  | CommonErrors,
+  UpdatePrivateDnsNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePrivateDnsNamespaceRequest,
   output: UpdatePrivateDnsNamespaceResponse,
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
 }));
+export type UpdatePublicDnsNamespaceError =
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | CommonErrors;
 /**
  * Updates a public DNS namespace.
  */
 export const updatePublicDnsNamespace: API.OperationMethod<
   UpdatePublicDnsNamespaceRequest,
   UpdatePublicDnsNamespaceResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | NamespaceNotFound
-  | ResourceInUse
-  | CommonErrors,
+  UpdatePublicDnsNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePublicDnsNamespaceRequest,
   output: UpdatePublicDnsNamespaceResponse,
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
 }));
+export type UpdateServiceError =
+  | DuplicateRequest
+  | InvalidInput
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Submits a request to perform the following operations:
  *
@@ -2197,23 +2268,25 @@ export const updatePublicDnsNamespace: API.OperationMethod<
 export const updateService: API.OperationMethod<
   UpdateServiceRequest,
   UpdateServiceResponse,
-  DuplicateRequest | InvalidInput | ServiceNotFound | CommonErrors,
+  UpdateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
   errors: [DuplicateRequest, InvalidInput, ServiceNotFound],
 }));
+export type UpdateServiceAttributesError =
+  | InvalidInput
+  | ServiceAttributesLimitExceededException
+  | ServiceNotFound
+  | CommonErrors;
 /**
  * Submits a request to update a specified service to add service-level attributes.
  */
 export const updateServiceAttributes: API.OperationMethod<
   UpdateServiceAttributesRequest,
   UpdateServiceAttributesResponse,
-  | InvalidInput
-  | ServiceAttributesLimitExceededException
-  | ServiceNotFound
-  | CommonErrors,
+  UpdateServiceAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceAttributesRequest,

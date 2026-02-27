@@ -920,16 +920,18 @@ export class ResourceLimitException extends S.TaggedErrorClass<ResourceLimitExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -940,16 +942,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds the specified tags to the given resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -960,16 +964,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified tags from the given resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -980,17 +986,19 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDeploymentError =
+  | InternalServerException
+  | ResourceLimitException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the `Clone deployment` action on.
  */
 export const createDeployment: API.OperationMethod<
   CreateDeploymentInput,
   CreateDeploymentOutput,
-  | InternalServerException
-  | ResourceLimitException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentInput,
@@ -1002,16 +1010,18 @@ export const createDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeploymentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the deployment.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentInput,
   GetDeploymentOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
@@ -1022,17 +1032,19 @@ export const getDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDeploymentError =
+  | InternalServerException
+  | ResourceLimitException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a deployment.
  */
 export const updateDeployment: API.OperationMethod<
   UpdateDeploymentInput,
   UpdateDeploymentOutput,
-  | InternalServerException
-  | ResourceLimitException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentInput,
@@ -1044,17 +1056,19 @@ export const updateDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeploymentError =
+  | InternalServerException
+  | ResourceLimitException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a deployment.
  */
 export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentInput,
   DeleteDeploymentOutput,
-  | InternalServerException
-  | ResourceLimitException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentInput,
@@ -1066,27 +1080,31 @@ export const deleteDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDeploymentsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the deployments that have been created.
  */
 export const listDeployments: API.OperationMethod<
   ListDeploymentsInput,
   ListDeploymentsOutput,
-  InternalServerException | ValidationException | CommonErrors,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
     ListDeploymentsOutput,
-    InternalServerException | ValidationException | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
     DeploymentDataSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1100,36 +1118,32 @@ export const listDeployments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDeploymentEventsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the events of a deployment.
  */
 export const listDeploymentEvents: API.OperationMethod<
   ListDeploymentEventsInput,
   ListDeploymentEventsOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDeploymentEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentEventsInput,
   ) => stream.Stream<
     ListDeploymentEventsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentEventsInput,
   ) => stream.Stream<
     DeploymentEventDataSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1147,16 +1161,18 @@ export const listDeploymentEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetWorkloadError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a workload.
  */
 export const getWorkload: API.OperationMethod<
   GetWorkloadInput,
   GetWorkloadOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadInput,
@@ -1167,27 +1183,31 @@ export const getWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkloadsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
 export const listWorkloads: API.OperationMethod<
   ListWorkloadsInput,
   ListWorkloadsOutput,
-  InternalServerException | ValidationException | CommonErrors,
+  ListWorkloadsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadsInput,
   ) => stream.Stream<
     ListWorkloadsOutput,
-    InternalServerException | ValidationException | CommonErrors,
+    ListWorkloadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadsInput,
   ) => stream.Stream<
     WorkloadDataSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListWorkloadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1201,16 +1221,18 @@ export const listWorkloads: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetWorkloadDeploymentPatternError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
  */
 export const getWorkloadDeploymentPattern: API.OperationMethod<
   GetWorkloadDeploymentPatternInput,
   GetWorkloadDeploymentPatternOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetWorkloadDeploymentPatternError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadDeploymentPatternInput,
@@ -1221,36 +1243,32 @@ export const getWorkloadDeploymentPattern: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkloadDeploymentPatternsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
  */
 export const listWorkloadDeploymentPatterns: API.OperationMethod<
   ListWorkloadDeploymentPatternsInput,
   ListWorkloadDeploymentPatternsOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListWorkloadDeploymentPatternsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadDeploymentPatternsInput,
   ) => stream.Stream<
     ListWorkloadDeploymentPatternsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadDeploymentPatternsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadDeploymentPatternsInput,
   ) => stream.Stream<
     WorkloadDeploymentPatternDataSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadDeploymentPatternsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1268,49 +1286,49 @@ export const listWorkloadDeploymentPatterns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetDeploymentPatternVersionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns information about a deployment pattern version.
  */
 export const getDeploymentPatternVersion: API.OperationMethod<
   GetDeploymentPatternVersionInput,
   GetDeploymentPatternVersionOutput,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  GetDeploymentPatternVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentPatternVersionInput,
   output: GetDeploymentPatternVersionOutput,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type ListDeploymentPatternVersionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the deployment pattern versions.
  */
 export const listDeploymentPatternVersions: API.OperationMethod<
   ListDeploymentPatternVersionsInput,
   ListDeploymentPatternVersionsOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDeploymentPatternVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentPatternVersionsInput,
   ) => stream.Stream<
     ListDeploymentPatternVersionsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentPatternVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentPatternVersionsInput,
   ) => stream.Stream<
     DeploymentPatternVersionDataSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentPatternVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

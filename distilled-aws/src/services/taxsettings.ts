@@ -185,12 +185,12 @@ export const BatchDeleteTaxRegistrationRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchDeleteTaxRegistrationRequest",
 }) as any as S.Schema<BatchDeleteTaxRegistrationRequest>;
-export interface BatchDeleteTaxRegistrationError {
+export interface BatchDeleteTaxRegistrationError_ {
   accountId: string;
   message: string | redacted.Redacted<string>;
   code?: string;
 }
-export const BatchDeleteTaxRegistrationError = S.suspend(() =>
+export const BatchDeleteTaxRegistrationError_ = S.suspend(() =>
   S.Struct({
     accountId: S.String,
     message: SensitiveString,
@@ -198,14 +198,14 @@ export const BatchDeleteTaxRegistrationError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteTaxRegistrationError",
-}) as any as S.Schema<BatchDeleteTaxRegistrationError>;
+}) as any as S.Schema<BatchDeleteTaxRegistrationError_>;
 export type BatchDeleteTaxRegistrationErrors =
-  BatchDeleteTaxRegistrationError[];
+  BatchDeleteTaxRegistrationError_[];
 export const BatchDeleteTaxRegistrationErrors = S.Array(
-  BatchDeleteTaxRegistrationError,
+  BatchDeleteTaxRegistrationError_,
 );
 export interface BatchDeleteTaxRegistrationResponse {
-  errors: BatchDeleteTaxRegistrationError[];
+  errors: BatchDeleteTaxRegistrationError_[];
 }
 export const BatchDeleteTaxRegistrationResponse = S.suspend(() =>
   S.Struct({ errors: BatchDeleteTaxRegistrationErrors }),
@@ -782,12 +782,12 @@ export type TaxRegistrationStatus =
   | "Rejected"
   | (string & {});
 export const TaxRegistrationStatus = S.String;
-export interface BatchPutTaxRegistrationError {
+export interface BatchPutTaxRegistrationError_ {
   accountId: string;
   message: string | redacted.Redacted<string>;
   code?: string;
 }
-export const BatchPutTaxRegistrationError = S.suspend(() =>
+export const BatchPutTaxRegistrationError_ = S.suspend(() =>
   S.Struct({
     accountId: S.String,
     message: SensitiveString,
@@ -795,14 +795,14 @@ export const BatchPutTaxRegistrationError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchPutTaxRegistrationError",
-}) as any as S.Schema<BatchPutTaxRegistrationError>;
-export type BatchPutTaxRegistrationErrors = BatchPutTaxRegistrationError[];
+}) as any as S.Schema<BatchPutTaxRegistrationError_>;
+export type BatchPutTaxRegistrationErrors = BatchPutTaxRegistrationError_[];
 export const BatchPutTaxRegistrationErrors = S.Array(
-  BatchPutTaxRegistrationError,
+  BatchPutTaxRegistrationError_,
 );
 export interface BatchPutTaxRegistrationResponse {
   status?: TaxRegistrationStatus;
-  errors: BatchPutTaxRegistrationError[];
+  errors: BatchPutTaxRegistrationError_[];
 }
 export const BatchPutTaxRegistrationResponse = S.suspend(() =>
   S.Struct({
@@ -1467,6 +1467,11 @@ export class CaseCreationLimitExceededException extends S.TaggedErrorClass<CaseC
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchDeleteTaxRegistrationError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes tax registration for multiple accounts in batch. This can be used to delete tax
  * registrations for up to five accounts in one batch.
@@ -1476,26 +1481,25 @@ export class CaseCreationLimitExceededException extends S.TaggedErrorClass<CaseC
 export const batchDeleteTaxRegistration: API.OperationMethod<
   BatchDeleteTaxRegistrationRequest,
   BatchDeleteTaxRegistrationResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteTaxRegistrationRequest,
   output: BatchDeleteTaxRegistrationResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
 }));
+export type BatchGetTaxExemptionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the active tax exemptions for a given list of accounts. The IAM action is `tax:GetExemptions`.
  */
 export const batchGetTaxExemptions: API.OperationMethod<
   BatchGetTaxExemptionsRequest,
   BatchGetTaxExemptionsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchGetTaxExemptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetTaxExemptionsRequest,
@@ -1506,6 +1510,11 @@ export const batchGetTaxExemptions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchPutTaxRegistrationError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tax registration for multiple accounts in batch. This can be used to add
  * or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first.
@@ -1646,27 +1655,26 @@ export const batchGetTaxExemptions: API.OperationMethod<
 export const batchPutTaxRegistration: API.OperationMethod<
   BatchPutTaxRegistrationRequest,
   BatchPutTaxRegistrationResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  BatchPutTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutTaxRegistrationRequest,
   output: BatchPutTaxRegistrationResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
 }));
+export type DeleteSupplementalTaxRegistrationError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a supplemental tax registration for a single account.
  */
 export const deleteSupplementalTaxRegistration: API.OperationMethod<
   DeleteSupplementalTaxRegistrationRequest,
   DeleteSupplementalTaxRegistrationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSupplementalTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSupplementalTaxRegistrationRequest,
@@ -1678,6 +1686,12 @@ export const deleteSupplementalTaxRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTaxRegistrationError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes tax registration for a single account.
  *
@@ -1686,11 +1700,7 @@ export const deleteSupplementalTaxRegistration: API.OperationMethod<
 export const deleteTaxRegistration: API.OperationMethod<
   DeleteTaxRegistrationRequest,
   DeleteTaxRegistrationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaxRegistrationRequest,
@@ -1702,16 +1712,18 @@ export const deleteTaxRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTaxExemptionTypesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get supported tax exemption types. The IAM action is `tax:GetExemptions`.
  */
 export const getTaxExemptionTypes: API.OperationMethod<
   GetTaxExemptionTypesRequest,
   GetTaxExemptionTypesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetTaxExemptionTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaxExemptionTypesRequest,
@@ -1722,16 +1734,18 @@ export const getTaxExemptionTypes: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTaxInheritanceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * The get account tax inheritance status.
  */
 export const getTaxInheritance: API.OperationMethod<
   GetTaxInheritanceRequest,
   GetTaxInheritanceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetTaxInheritanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaxInheritanceRequest,
@@ -1742,16 +1756,18 @@ export const getTaxInheritance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTaxRegistrationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves tax registration for a single account.
  */
 export const getTaxRegistration: API.OperationMethod<
   GetTaxRegistrationRequest,
   GetTaxRegistrationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaxRegistrationRequest,
@@ -1762,6 +1778,10 @@ export const getTaxRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTaxRegistrationDocumentError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Downloads your tax documents to the Amazon S3 bucket that you specify in your
  * request.
@@ -1769,43 +1789,39 @@ export const getTaxRegistration: API.OperationMethod<
 export const getTaxRegistrationDocument: API.OperationMethod<
   GetTaxRegistrationDocumentRequest,
   GetTaxRegistrationDocumentResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  GetTaxRegistrationDocumentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaxRegistrationDocumentRequest,
   output: GetTaxRegistrationDocumentResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type ListSupplementalTaxRegistrationsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves supplemental tax registrations for a single account.
  */
 export const listSupplementalTaxRegistrations: API.OperationMethod<
   ListSupplementalTaxRegistrationsRequest,
   ListSupplementalTaxRegistrationsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListSupplementalTaxRegistrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSupplementalTaxRegistrationsRequest,
   ) => stream.Stream<
     ListSupplementalTaxRegistrationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSupplementalTaxRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSupplementalTaxRegistrationsRequest,
   ) => stream.Stream<
     SupplementalTaxRegistration,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSupplementalTaxRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1823,36 +1839,32 @@ export const listSupplementalTaxRegistrations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTaxExemptionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is `tax:GetExemptions`.
  */
 export const listTaxExemptions: API.OperationMethod<
   ListTaxExemptionsRequest,
   ListTaxExemptionsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTaxExemptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTaxExemptionsRequest,
   ) => stream.Stream<
     ListTaxExemptionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTaxExemptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTaxExemptionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTaxExemptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1870,6 +1882,11 @@ export const listTaxExemptions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTaxRegistrationsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the tax registration of accounts listed in a consolidated billing family. This
  * can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
@@ -1877,30 +1894,21 @@ export const listTaxExemptions: API.OperationMethod<
 export const listTaxRegistrations: API.OperationMethod<
   ListTaxRegistrationsRequest,
   ListTaxRegistrationsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTaxRegistrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTaxRegistrationsRequest,
   ) => stream.Stream<
     ListTaxRegistrationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTaxRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTaxRegistrationsRequest,
   ) => stream.Stream<
     AccountDetails,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTaxRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1918,35 +1926,39 @@ export const listTaxRegistrations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutSupplementalTaxRegistrationError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stores supplemental tax registration for a single account.
  */
 export const putSupplementalTaxRegistration: API.OperationMethod<
   PutSupplementalTaxRegistrationRequest,
   PutSupplementalTaxRegistrationResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  PutSupplementalTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSupplementalTaxRegistrationRequest,
   output: PutSupplementalTaxRegistrationResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
 }));
-/**
- * Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is `tax:UpdateExemptions`.
- */
-export const putTaxExemption: API.OperationMethod<
-  PutTaxExemptionRequest,
-  PutTaxExemptionResponse,
+export type PutTaxExemptionError =
   | AccessDeniedException
   | AttachmentUploadException
   | CaseCreationLimitExceededException
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is `tax:UpdateExemptions`.
+ */
+export const putTaxExemption: API.OperationMethod<
+  PutTaxExemptionRequest,
+  PutTaxExemptionResponse,
+  PutTaxExemptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTaxExemptionRequest,
@@ -1960,17 +1972,19 @@ export const putTaxExemption: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutTaxInheritanceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * The updated tax inheritance status.
  */
 export const putTaxInheritance: API.OperationMethod<
   PutTaxInheritanceRequest,
   PutTaxInheritanceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutTaxInheritanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTaxInheritanceRequest,
@@ -1982,6 +1996,11 @@ export const putTaxInheritance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutTaxRegistrationError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first.
  *
@@ -2121,10 +2140,7 @@ export const putTaxInheritance: API.OperationMethod<
 export const putTaxRegistration: API.OperationMethod<
   PutTaxRegistrationRequest,
   PutTaxRegistrationResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  PutTaxRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTaxRegistrationRequest,

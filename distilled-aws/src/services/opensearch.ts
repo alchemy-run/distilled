@@ -5774,6 +5774,11 @@ export class SlotNotAvailableException extends S.TaggedErrorClass<SlotNotAvailab
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type AcceptInboundConnectionError =
+  | DisabledOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the destination Amazon OpenSearch Service domain owner to accept an inbound
  * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -5781,10 +5786,7 @@ export class SlotNotAvailableException extends S.TaggedErrorClass<SlotNotAvailab
 export const acceptInboundConnection: API.OperationMethod<
   AcceptInboundConnectionRequest,
   AcceptInboundConnectionResponse,
-  | DisabledOperationException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AcceptInboundConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInboundConnectionRequest,
@@ -5795,6 +5797,15 @@ export const acceptInboundConnection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AddDataSourceError =
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new direct-query data source to the specified domain. For more information,
  * see Creating Amazon OpenSearch Service data source integrations with Amazon
@@ -5803,14 +5814,7 @@ export const acceptInboundConnection: API.OperationMethod<
 export const addDataSource: API.OperationMethod<
   AddDataSourceRequest,
   AddDataSourceResponse,
-  | BaseException
-  | DependencyFailureException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AddDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddDataSourceRequest,
@@ -5825,6 +5829,14 @@ export const addDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AddDirectQueryDataSourceError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a new data source in Amazon OpenSearch Service so that you can perform direct
  * queries on external data.
@@ -5832,13 +5844,7 @@ export const addDataSource: API.OperationMethod<
 export const addDirectQueryDataSource: API.OperationMethod<
   AddDirectQueryDataSourceRequest,
   AddDirectQueryDataSourceResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AddDirectQueryDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddDirectQueryDataSourceRequest,
@@ -5852,6 +5858,12 @@ export const addDirectQueryDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AddTagsError =
+  | BaseException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches tags to an existing Amazon OpenSearch Service domain, data source, or
  * application.
@@ -5862,11 +5874,7 @@ export const addDirectQueryDataSource: API.OperationMethod<
 export const addTags: API.OperationMethod<
   AddTagsRequest,
   AddTagsResponse,
-  | BaseException
-  | InternalException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  AddTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsRequest,
@@ -5878,6 +5886,14 @@ export const addTags: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociatePackageError =
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a package with an Amazon OpenSearch Service domain. For more information,
  * see Custom packages
@@ -5886,13 +5902,7 @@ export const addTags: API.OperationMethod<
 export const associatePackage: API.OperationMethod<
   AssociatePackageRequest,
   AssociatePackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | ConflictException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AssociatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePackageRequest,
@@ -5906,6 +5916,14 @@ export const associatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociatePackagesError =
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Operation in the Amazon OpenSearch Service API for associating multiple packages with
  * a domain simultaneously.
@@ -5913,13 +5931,7 @@ export const associatePackage: API.OperationMethod<
 export const associatePackages: API.OperationMethod<
   AssociatePackagesRequest,
   AssociatePackagesResponse,
-  | BaseException
-  | ConflictException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AssociatePackagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePackagesRequest,
@@ -5933,6 +5945,14 @@ export const associatePackages: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AuthorizeVpcEndpointAccessError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface
  * VPC endpoint.
@@ -5940,13 +5960,7 @@ export const associatePackages: API.OperationMethod<
 export const authorizeVpcEndpointAccess: API.OperationMethod<
   AuthorizeVpcEndpointAccessRequest,
   AuthorizeVpcEndpointAccessResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AuthorizeVpcEndpointAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeVpcEndpointAccessRequest,
@@ -5960,18 +5974,20 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelDomainConfigChangeError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
   CancelDomainConfigChangeRequest,
   CancelDomainConfigChangeResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelDomainConfigChangeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDomainConfigChangeRequest,
@@ -5984,6 +6000,12 @@ export const cancelDomainConfigChange: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelServiceSoftwareUpdateError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a scheduled service software update for an Amazon OpenSearch Service domain.
  * You can only perform this operation before the `AutomatedUpdateDate` and when
@@ -5994,11 +6016,7 @@ export const cancelDomainConfigChange: API.OperationMethod<
 export const cancelServiceSoftwareUpdate: API.OperationMethod<
   CancelServiceSoftwareUpdateRequest,
   CancelServiceSoftwareUpdateResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelServiceSoftwareUpdateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelServiceSoftwareUpdateRequest,
@@ -6010,19 +6028,21 @@ export const cancelServiceSoftwareUpdate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
- */
-export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
-  CreateApplicationResponse,
+export type CreateApplicationError =
   | AccessDeniedException
   | BaseException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
+ */
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  CreateApplicationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -6036,13 +6056,7 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon OpenSearch Service domain. For more information, see Creating and
- * managing Amazon OpenSearch Service domains.
- */
-export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
-  CreateDomainResponse,
+export type CreateDomainError =
   | BaseException
   | DisabledOperationException
   | InternalException
@@ -6050,7 +6064,15 @@ export const createDomain: API.OperationMethod<
   | LimitExceededException
   | ResourceAlreadyExistsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon OpenSearch Service domain. For more information, see Creating and
+ * managing Amazon OpenSearch Service domains.
+ */
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
+  CreateDomainResponse,
+  CreateDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
@@ -6065,12 +6087,7 @@ export const createDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
- */
-export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
-  CreateIndexResponse,
+export type CreateIndexError =
   | AccessDeniedException
   | DependencyFailureException
   | DisabledOperationException
@@ -6079,7 +6096,14 @@ export const createIndex: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
+ */
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
+  CreateIndexResponse,
+  CreateIndexError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexRequest,
@@ -6095,6 +6119,12 @@ export const createIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateOutboundConnectionError =
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain
  * to a destination domain. For more information, see Cross-cluster search
@@ -6103,11 +6133,7 @@ export const createIndex: API.OperationMethod<
 export const createOutboundConnection: API.OperationMethod<
   CreateOutboundConnectionRequest,
   CreateOutboundConnectionResponse,
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateOutboundConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOutboundConnectionRequest,
@@ -6119,6 +6145,15 @@ export const createOutboundConnection: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreatePackageError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a package for use with Amazon OpenSearch Service domains. For more
  * information, see Custom packages
@@ -6127,14 +6162,7 @@ export const createOutboundConnection: API.OperationMethod<
 export const createPackage: API.OperationMethod<
   CreatePackageRequest,
   CreatePackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ValidationException
-  | CommonErrors,
+  CreatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
@@ -6149,19 +6177,21 @@ export const createPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon OpenSearch Service-managed VPC endpoint.
- */
-export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
-  CreateVpcEndpointResponse,
+export type CreateVpcEndpointError =
   | BaseException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon OpenSearch Service-managed VPC endpoint.
+ */
+export const createVpcEndpoint: API.OperationMethod<
+  CreateVpcEndpointRequest,
+  CreateVpcEndpointResponse,
+  CreateVpcEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcEndpointRequest,
@@ -6175,12 +6205,7 @@ export const createVpcEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a specified OpenSearch application.
- */
-export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
-  DeleteApplicationResponse,
+export type DeleteApplicationError =
   | AccessDeniedException
   | BaseException
   | ConflictException
@@ -6188,7 +6213,14 @@ export const deleteApplication: API.OperationMethod<
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a specified OpenSearch application.
+ */
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
+  DeleteApplicationResponse,
+  DeleteApplicationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -6203,6 +6235,14 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataSourceError =
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a direct-query data source. For more information, see Deleting
  * an Amazon OpenSearch Service data source with Amazon S3.
@@ -6210,13 +6250,7 @@ export const deleteApplication: API.OperationMethod<
 export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceRequest,
   DeleteDataSourceResponse,
-  | BaseException
-  | DependencyFailureException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
@@ -6230,6 +6264,13 @@ export const deleteDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDirectQueryDataSourceError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a previously configured direct query data source from Amazon OpenSearch
  * Service.
@@ -6237,12 +6278,7 @@ export const deleteDataSource: API.OperationMethod<
 export const deleteDirectQueryDataSource: API.OperationMethod<
   DeleteDirectQueryDataSourceRequest,
   DeleteDirectQueryDataSourceResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDirectQueryDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDirectQueryDataSourceRequest,
@@ -6255,6 +6291,12 @@ export const deleteDirectQueryDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDomainError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a
  * domain after you delete it.
@@ -6262,11 +6304,7 @@ export const deleteDirectQueryDataSource: API.OperationMethod<
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
@@ -6278,6 +6316,10 @@ export const deleteDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInboundConnectionError =
+  | DisabledOperationException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the destination Amazon OpenSearch Service domain owner to delete an existing
  * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -6285,19 +6327,14 @@ export const deleteDomain: API.OperationMethod<
 export const deleteInboundConnection: API.OperationMethod<
   DeleteInboundConnectionRequest,
   DeleteInboundConnectionResponse,
-  DisabledOperationException | ResourceNotFoundException | CommonErrors,
+  DeleteInboundConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundConnectionRequest,
   output: DeleteInboundConnectionResponse,
   errors: [DisabledOperationException, ResourceNotFoundException],
 }));
-/**
- * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
- */
-export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
-  DeleteIndexResponse,
+export type DeleteIndexError =
   | AccessDeniedException
   | DependencyFailureException
   | DisabledOperationException
@@ -6305,7 +6342,14 @@ export const deleteIndex: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
+ */
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
+  DeleteIndexResponse,
+  DeleteIndexError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexRequest,
@@ -6320,6 +6364,10 @@ export const deleteIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOutboundConnectionError =
+  | DisabledOperationException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the source Amazon OpenSearch Service domain owner to delete an existing
  * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -6327,13 +6375,21 @@ export const deleteIndex: API.OperationMethod<
 export const deleteOutboundConnection: API.OperationMethod<
   DeleteOutboundConnectionRequest,
   DeleteOutboundConnectionResponse,
-  DisabledOperationException | ResourceNotFoundException | CommonErrors,
+  DeleteOutboundConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutboundConnectionRequest,
   output: DeleteOutboundConnectionResponse,
   errors: [DisabledOperationException, ResourceNotFoundException],
 }));
+export type DeletePackageError =
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon OpenSearch Service package. For more information, see Custom packages
  * for Amazon OpenSearch Service.
@@ -6341,13 +6397,7 @@ export const deleteOutboundConnection: API.OperationMethod<
 export const deletePackage: API.OperationMethod<
   DeletePackageRequest,
   DeletePackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | ConflictException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
@@ -6361,17 +6411,19 @@ export const deletePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteVpcEndpointError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
   DeleteVpcEndpointRequest,
   DeleteVpcEndpointResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteVpcEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcEndpointRequest,
@@ -6383,6 +6435,12 @@ export const deleteVpcEndpoint: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeDomainError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the domain configuration for the specified Amazon OpenSearch Service domain,
  * including the domain ID, domain service endpoint, and domain ARN.
@@ -6390,11 +6448,7 @@ export const deleteVpcEndpoint: API.OperationMethod<
 export const describeDomain: API.OperationMethod<
   DescribeDomainRequest,
   DescribeDomainResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
@@ -6406,6 +6460,12 @@ export const describeDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainAutoTunesError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch
  * Service domain. For more information, see Auto-Tune for Amazon
@@ -6414,33 +6474,21 @@ export const describeDomain: API.OperationMethod<
 export const describeDomainAutoTunes: API.OperationMethod<
   DescribeDomainAutoTunesRequest,
   DescribeDomainAutoTunesResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainAutoTunesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDomainAutoTunesRequest,
   ) => stream.Stream<
     DescribeDomainAutoTunesResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeDomainAutoTunesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDomainAutoTunesRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeDomainAutoTunesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6458,6 +6506,12 @@ export const describeDomainAutoTunes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeDomainChangeProgressError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the current blue/green deployment happening on an Amazon
  * OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
@@ -6465,11 +6519,7 @@ export const describeDomainAutoTunes: API.OperationMethod<
 export const describeDomainChangeProgress: API.OperationMethod<
   DescribeDomainChangeProgressRequest,
   DescribeDomainChangeProgressResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainChangeProgressError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainChangeProgressRequest,
@@ -6481,17 +6531,19 @@ export const describeDomainChangeProgress: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainConfigError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the configuration of an Amazon OpenSearch Service domain.
  */
 export const describeDomainConfig: API.OperationMethod<
   DescribeDomainConfigRequest,
   DescribeDomainConfigResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainConfigError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainConfigRequest,
@@ -6503,6 +6555,13 @@ export const describeDomainConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainHealthError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about domain and node health, the standby Availability Zone,
  * number of nodes per Availability Zone, and shard count per node.
@@ -6510,12 +6569,7 @@ export const describeDomainConfig: API.OperationMethod<
 export const describeDomainHealth: API.OperationMethod<
   DescribeDomainHealthRequest,
   DescribeDomainHealthResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainHealthError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainHealthRequest,
@@ -6528,6 +6582,14 @@ export const describeDomainHealth: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainNodesError =
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about domain and nodes, including data nodes, master nodes,
  * ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node
@@ -6536,13 +6598,7 @@ export const describeDomainHealth: API.OperationMethod<
 export const describeDomainNodes: API.OperationMethod<
   DescribeDomainNodesRequest,
   DescribeDomainNodesResponse,
-  | BaseException
-  | DependencyFailureException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainNodesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainNodesRequest,
@@ -6556,6 +6612,11 @@ export const describeDomainNodes: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainsError =
+  | BaseException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns domain configuration information about the specified Amazon OpenSearch Service
  * domains.
@@ -6563,13 +6624,20 @@ export const describeDomainNodes: API.OperationMethod<
 export const describeDomains: API.OperationMethod<
   DescribeDomainsRequest,
   DescribeDomainsResponse,
-  BaseException | InternalException | ValidationException | CommonErrors,
+  DescribeDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainsRequest,
   output: DescribeDomainsResponse,
   errors: [BaseException, InternalException, ValidationException],
 }));
+export type DescribeDryRunProgressError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch
  * Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
@@ -6577,12 +6645,7 @@ export const describeDomains: API.OperationMethod<
 export const describeDryRunProgress: API.OperationMethod<
   DescribeDryRunProgressRequest,
   DescribeDryRunProgressResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDryRunProgressError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDryRunProgressRequest,
@@ -6595,6 +6658,10 @@ export const describeDryRunProgress: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeInboundConnectionsError =
+  | DisabledOperationException
+  | InvalidPaginationTokenException
+  | CommonErrors;
 /**
  * Lists all the inbound cross-cluster search connections for a destination (remote)
  * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -6602,21 +6669,21 @@ export const describeDryRunProgress: API.OperationMethod<
 export const describeInboundConnections: API.OperationMethod<
   DescribeInboundConnectionsRequest,
   DescribeInboundConnectionsResponse,
-  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  DescribeInboundConnectionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInboundConnectionsRequest,
   ) => stream.Stream<
     DescribeInboundConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeInboundConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInboundConnectionsRequest,
   ) => stream.Stream<
     unknown,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeInboundConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6629,6 +6696,14 @@ export const describeInboundConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInstanceTypeLimitsError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the instance count, storage, and master node limits for a given OpenSearch
  * or Elasticsearch version and instance type.
@@ -6636,13 +6711,7 @@ export const describeInboundConnections: API.OperationMethod<
 export const describeInstanceTypeLimits: API.OperationMethod<
   DescribeInstanceTypeLimitsRequest,
   DescribeInstanceTypeLimitsResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeInstanceTypeLimitsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceTypeLimitsRequest,
@@ -6656,6 +6725,10 @@ export const describeInstanceTypeLimits: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeOutboundConnectionsError =
+  | DisabledOperationException
+  | InvalidPaginationTokenException
+  | CommonErrors;
 /**
  * Lists all the outbound cross-cluster connections for a local (source) Amazon
  * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -6663,21 +6736,21 @@ export const describeInstanceTypeLimits: API.OperationMethod<
 export const describeOutboundConnections: API.OperationMethod<
   DescribeOutboundConnectionsRequest,
   DescribeOutboundConnectionsResponse,
-  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  DescribeOutboundConnectionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOutboundConnectionsRequest,
   ) => stream.Stream<
     DescribeOutboundConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeOutboundConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOutboundConnectionsRequest,
   ) => stream.Stream<
     unknown,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeOutboundConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6690,6 +6763,13 @@ export const describeOutboundConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePackagesError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes all packages available to OpenSearch Service. For more information, see
  * Custom packages
@@ -6698,36 +6778,21 @@ export const describeOutboundConnections: API.OperationMethod<
 export const describePackages: API.OperationMethod<
   DescribePackagesRequest,
   DescribePackagesResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribePackagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePackagesRequest,
   ) => stream.Stream<
     DescribePackagesResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribePackagesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePackagesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribePackagesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6746,6 +6811,12 @@ export const describePackages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeReservedInstanceOfferingsError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the available Amazon OpenSearch Service Reserved Instance offerings for a
  * given Region. For more information, see Reserved Instances in Amazon
@@ -6754,33 +6825,21 @@ export const describePackages: API.OperationMethod<
 export const describeReservedInstanceOfferings: API.OperationMethod<
   DescribeReservedInstanceOfferingsRequest,
   DescribeReservedInstanceOfferingsResponse,
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeReservedInstanceOfferingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedInstanceOfferingsRequest,
   ) => stream.Stream<
     DescribeReservedInstanceOfferingsResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedInstanceOfferingsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedInstanceOfferingsRequest,
   ) => stream.Stream<
     unknown,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedInstanceOfferingsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6798,6 +6857,12 @@ export const describeReservedInstanceOfferings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeReservedInstancesError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the Amazon OpenSearch Service instances that you have reserved in a given
  * Region. For more information, see Reserved Instances in Amazon
@@ -6806,33 +6871,21 @@ export const describeReservedInstanceOfferings: API.OperationMethod<
 export const describeReservedInstances: API.OperationMethod<
   DescribeReservedInstancesRequest,
   DescribeReservedInstancesResponse,
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeReservedInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedInstancesRequest,
   ) => stream.Stream<
     DescribeReservedInstancesResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedInstancesRequest,
   ) => stream.Stream<
     unknown,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6850,17 +6903,19 @@ export const describeReservedInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeVpcEndpointsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
   DescribeVpcEndpointsRequest,
   DescribeVpcEndpointsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ValidationException
-  | CommonErrors,
+  DescribeVpcEndpointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVpcEndpointsRequest,
@@ -6872,6 +6927,14 @@ export const describeVpcEndpoints: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DissociatePackageError =
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a package from the specified Amazon OpenSearch Service domain. The package
  * can't be in use with any OpenSearch index for the dissociation to succeed. The package
@@ -6882,13 +6945,7 @@ export const describeVpcEndpoints: API.OperationMethod<
 export const dissociatePackage: API.OperationMethod<
   DissociatePackageRequest,
   DissociatePackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | ConflictException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DissociatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociatePackageRequest,
@@ -6902,19 +6959,21 @@ export const dissociatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Dissociates multiple packages from a domain simultaneously.
- */
-export const dissociatePackages: API.OperationMethod<
-  DissociatePackagesRequest,
-  DissociatePackagesResponse,
+export type DissociatePackagesError =
   | BaseException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Dissociates multiple packages from a domain simultaneously.
+ */
+export const dissociatePackages: API.OperationMethod<
+  DissociatePackagesRequest,
+  DissociatePackagesResponse,
+  DissociatePackagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociatePackagesRequest,
@@ -6928,19 +6987,21 @@ export const dissociatePackages: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the configuration and status of an existing OpenSearch application.
- */
-export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
-  GetApplicationResponse,
+export type GetApplicationError =
   | AccessDeniedException
   | BaseException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the configuration and status of an existing OpenSearch application.
+ */
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
+  GetApplicationResponse,
+  GetApplicationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -6954,6 +7015,13 @@ export const getApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCompatibleVersionsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade
  * them to.
@@ -6961,12 +7029,7 @@ export const getApplication: API.OperationMethod<
 export const getCompatibleVersions: API.OperationMethod<
   GetCompatibleVersionsRequest,
   GetCompatibleVersionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetCompatibleVersionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCompatibleVersionsRequest,
@@ -6979,19 +7042,21 @@ export const getCompatibleVersions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about a direct query data source.
- */
-export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
-  GetDataSourceResponse,
+export type GetDataSourceError =
   | BaseException
   | DependencyFailureException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a direct query data source.
+ */
+export const getDataSource: API.OperationMethod<
+  GetDataSourceRequest,
+  GetDataSourceResponse,
+  GetDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRequest,
@@ -7005,6 +7070,12 @@ export const getDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDefaultApplicationSettingError =
+  | AccessDeniedException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the ARN of the current default application.
  *
@@ -7014,11 +7085,7 @@ export const getDataSource: API.OperationMethod<
 export const getDefaultApplicationSetting: API.OperationMethod<
   GetDefaultApplicationSettingRequest,
   GetDefaultApplicationSettingResponse,
-  | AccessDeniedException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetDefaultApplicationSettingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultApplicationSettingRequest,
@@ -7030,6 +7097,13 @@ export const getDefaultApplicationSetting: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDirectQueryDataSourceError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns detailed configuration information for a specific direct query data source in
  * Amazon OpenSearch Service.
@@ -7037,12 +7111,7 @@ export const getDefaultApplicationSetting: API.OperationMethod<
 export const getDirectQueryDataSource: API.OperationMethod<
   GetDirectQueryDataSourceRequest,
   GetDirectQueryDataSourceResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetDirectQueryDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDirectQueryDataSourceRequest,
@@ -7055,18 +7124,20 @@ export const getDirectQueryDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDomainMaintenanceStatusError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * The status of the maintenance action.
  */
 export const getDomainMaintenanceStatus: API.OperationMethod<
   GetDomainMaintenanceStatusRequest,
   GetDomainMaintenanceStatusResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetDomainMaintenanceStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainMaintenanceStatusRequest,
@@ -7079,12 +7150,7 @@ export const getDomainMaintenanceStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
- */
-export const getIndex: API.OperationMethod<
-  GetIndexRequest,
-  GetIndexResponse,
+export type GetIndexError =
   | AccessDeniedException
   | DependencyFailureException
   | DisabledOperationException
@@ -7092,7 +7158,14 @@ export const getIndex: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
+ */
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
+  GetIndexResponse,
+  GetIndexError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexRequest,
@@ -7107,6 +7180,13 @@ export const getIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPackageVersionHistoryError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Amazon OpenSearch Service package versions, along with their creation
  * time, commit message, and plugin properties (if the package is a zip plugin package). For more
@@ -7116,36 +7196,21 @@ export const getIndex: API.OperationMethod<
 export const getPackageVersionHistory: API.OperationMethod<
   GetPackageVersionHistoryRequest,
   GetPackageVersionHistoryResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPackageVersionHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPackageVersionHistoryRequest,
   ) => stream.Stream<
     GetPackageVersionHistoryResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetPackageVersionHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetPackageVersionHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetPackageVersionHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7164,6 +7229,13 @@ export const getPackageVersionHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetUpgradeHistoryError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch
  * Service domain.
@@ -7171,36 +7243,21 @@ export const getPackageVersionHistory: API.OperationMethod<
 export const getUpgradeHistory: API.OperationMethod<
   GetUpgradeHistoryRequest,
   GetUpgradeHistoryResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetUpgradeHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetUpgradeHistoryRequest,
   ) => stream.Stream<
     GetUpgradeHistoryResponse,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetUpgradeHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetUpgradeHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetUpgradeHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7219,6 +7276,13 @@ export const getUpgradeHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetUpgradeStatusError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the most recent status of the last upgrade or upgrade eligibility check performed on
  * an Amazon OpenSearch Service domain.
@@ -7226,12 +7290,7 @@ export const getUpgradeHistory: API.OperationMethod<
 export const getUpgradeStatus: API.OperationMethod<
   GetUpgradeStatusRequest,
   GetUpgradeStatusResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetUpgradeStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUpgradeStatusRequest,
@@ -7244,45 +7303,35 @@ export const getUpgradeStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all OpenSearch applications under your account.
- */
-export const listApplications: API.OperationMethod<
-  ListApplicationsRequest,
-  ListApplicationsResponse,
+export type ListApplicationsError =
   | AccessDeniedException
   | BaseException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all OpenSearch applications under your account.
+ */
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  ListApplicationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    | AccessDeniedException
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ApplicationSummary,
-    | AccessDeniedException
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7303,6 +7352,14 @@ export const listApplications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDataSourcesError =
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists direct-query data sources for a specific domain. For more information, see For
  * more information, see Working with
@@ -7311,13 +7368,7 @@ export const listApplications: API.OperationMethod<
 export const listDataSources: API.OperationMethod<
   ListDataSourcesRequest,
   ListDataSourcesResponse,
-  | BaseException
-  | DependencyFailureException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDataSourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDataSourcesRequest,
@@ -7331,6 +7382,13 @@ export const listDataSources: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDirectQueryDataSourcesError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists an inventory of all the direct query data sources that you have configured
  * within Amazon OpenSearch Service.
@@ -7338,12 +7396,7 @@ export const listDataSources: API.OperationMethod<
 export const listDirectQueryDataSources: API.OperationMethod<
   ListDirectQueryDataSourcesRequest,
   ListDirectQueryDataSourcesResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDirectQueryDataSourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDirectQueryDataSourcesRequest,
@@ -7356,42 +7409,34 @@ export const listDirectQueryDataSources: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDomainMaintenancesError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * A list of maintenance actions for the domain.
  */
 export const listDomainMaintenances: API.OperationMethod<
   ListDomainMaintenancesRequest,
   ListDomainMaintenancesResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDomainMaintenancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainMaintenancesRequest,
   ) => stream.Stream<
     ListDomainMaintenancesResponse,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDomainMaintenancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainMaintenancesRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDomainMaintenancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7410,6 +7455,10 @@ export const listDomainMaintenances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDomainNamesError =
+  | BaseException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the names of all Amazon OpenSearch Service domains owned by the current user
  * in the active Region.
@@ -7417,13 +7466,20 @@ export const listDomainMaintenances: API.OperationMethod<
 export const listDomainNames: API.OperationMethod<
   ListDomainNamesRequest,
   ListDomainNamesResponse,
-  BaseException | ValidationException | CommonErrors,
+  ListDomainNamesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDomainNamesRequest,
   output: ListDomainNamesResponse,
   errors: [BaseException, ValidationException],
 }));
+export type ListDomainsForPackageError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Amazon OpenSearch Service domains associated with a given package. For more
  * information, see Custom packages
@@ -7432,36 +7488,21 @@ export const listDomainNames: API.OperationMethod<
 export const listDomainsForPackage: API.OperationMethod<
   ListDomainsForPackageRequest,
   ListDomainsForPackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDomainsForPackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsForPackageRequest,
   ) => stream.Stream<
     ListDomainsForPackageResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsForPackageError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsForPackageRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsForPackageError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7480,6 +7521,12 @@ export const listDomainsForPackage: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInstanceTypeDetailsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all instance types and available features for a given OpenSearch or
  * Elasticsearch version.
@@ -7487,33 +7534,21 @@ export const listDomainsForPackage: API.OperationMethod<
 export const listInstanceTypeDetails: API.OperationMethod<
   ListInstanceTypeDetailsRequest,
   ListInstanceTypeDetailsResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListInstanceTypeDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstanceTypeDetailsRequest,
   ) => stream.Stream<
     ListInstanceTypeDetailsResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListInstanceTypeDetailsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceTypeDetailsRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListInstanceTypeDetailsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7531,6 +7566,13 @@ export const listInstanceTypeDetails: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPackagesForDomainError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all packages associated with an Amazon OpenSearch Service domain. For more
  * information, see Custom packages
@@ -7539,36 +7581,21 @@ export const listInstanceTypeDetails: API.OperationMethod<
 export const listPackagesForDomain: API.OperationMethod<
   ListPackagesForDomainRequest,
   ListPackagesForDomainResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListPackagesForDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagesForDomainRequest,
   ) => stream.Stream<
     ListPackagesForDomainResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesForDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagesForDomainRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesForDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7587,6 +7614,13 @@ export const listPackagesForDomain: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListScheduledActionsError =
+  | BaseException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of configuration changes that are scheduled for a domain. These
  * changes can be service
@@ -7595,36 +7629,21 @@ export const listPackagesForDomain: API.OperationMethod<
 export const listScheduledActions: API.OperationMethod<
   ListScheduledActionsRequest,
   ListScheduledActionsResponse,
-  | BaseException
-  | InternalException
-  | InvalidPaginationTokenException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListScheduledActionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScheduledActionsRequest,
   ) => stream.Stream<
     ListScheduledActionsResponse,
-    | BaseException
-    | InternalException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListScheduledActionsRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7643,6 +7662,12 @@ export const listScheduledActions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns all resource tags for an Amazon OpenSearch Service domain, data source, or
  * application. For more information, see Tagging Amazon OpenSearch Service resources.
@@ -7650,11 +7675,7 @@ export const listScheduledActions: API.OperationMethod<
 export const listTags: API.OperationMethod<
   ListTagsRequest,
   ListTagsResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
@@ -7666,6 +7687,12 @@ export const listTags: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListVersionsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service
  * supports.
@@ -7673,33 +7700,21 @@ export const listTags: API.OperationMethod<
 export const listVersions: API.OperationMethod<
   ListVersionsRequest,
   ListVersionsResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListVersionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVersionsRequest,
   ) => stream.Stream<
     ListVersionsResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7717,6 +7732,12 @@ export const listVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListVpcEndpointAccessError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about each Amazon Web Services principal that is allowed to
  * access a given Amazon OpenSearch Service domain through the use of an interface VPC
@@ -7725,11 +7746,7 @@ export const listVersions: API.OperationMethod<
 export const listVpcEndpointAccess: API.OperationMethod<
   ListVpcEndpointAccessRequest,
   ListVpcEndpointAccessResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListVpcEndpointAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointAccessRequest,
@@ -7741,19 +7758,30 @@ export const listVpcEndpointAccess: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListVpcEndpointsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | CommonErrors;
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
   ListVpcEndpointsRequest,
   ListVpcEndpointsResponse,
-  BaseException | DisabledOperationException | InternalException | CommonErrors,
+  ListVpcEndpointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointsRequest,
   output: ListVpcEndpointsResponse,
   errors: [BaseException, DisabledOperationException, InternalException],
 }));
+export type ListVpcEndpointsForDomainError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a
  * particular domain.
@@ -7761,11 +7789,7 @@ export const listVpcEndpoints: API.OperationMethod<
 export const listVpcEndpointsForDomain: API.OperationMethod<
   ListVpcEndpointsForDomainRequest,
   ListVpcEndpointsForDomainResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListVpcEndpointsForDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointsForDomainRequest,
@@ -7777,19 +7801,21 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
- */
-export const purchaseReservedInstanceOffering: API.OperationMethod<
-  PurchaseReservedInstanceOfferingRequest,
-  PurchaseReservedInstanceOfferingResponse,
+export type PurchaseReservedInstanceOfferingError =
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
+ */
+export const purchaseReservedInstanceOffering: API.OperationMethod<
+  PurchaseReservedInstanceOfferingRequest,
+  PurchaseReservedInstanceOfferingResponse,
+  PurchaseReservedInstanceOfferingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseReservedInstanceOfferingRequest,
@@ -7803,6 +7829,12 @@ export const purchaseReservedInstanceOffering: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDefaultApplicationSettingError =
+  | AccessDeniedException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the default application to the application with the specified ARN.
  *
@@ -7814,11 +7846,7 @@ export const purchaseReservedInstanceOffering: API.OperationMethod<
 export const putDefaultApplicationSetting: API.OperationMethod<
   PutDefaultApplicationSettingRequest,
   PutDefaultApplicationSettingResponse,
-  | AccessDeniedException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutDefaultApplicationSettingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDefaultApplicationSettingRequest,
@@ -7830,6 +7858,10 @@ export const putDefaultApplicationSetting: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RejectInboundConnectionError =
+  | DisabledOperationException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the remote Amazon OpenSearch Service domain owner to reject an inbound
  * cross-cluster connection request.
@@ -7837,13 +7869,18 @@ export const putDefaultApplicationSetting: API.OperationMethod<
 export const rejectInboundConnection: API.OperationMethod<
   RejectInboundConnectionRequest,
   RejectInboundConnectionResponse,
-  DisabledOperationException | ResourceNotFoundException | CommonErrors,
+  RejectInboundConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectInboundConnectionRequest,
   output: RejectInboundConnectionResponse,
   errors: [DisabledOperationException, ResourceNotFoundException],
 }));
+export type RemoveTagsError =
+  | BaseException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified set of tags from an Amazon OpenSearch Service domain, data
  * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
@@ -7851,13 +7888,20 @@ export const rejectInboundConnection: API.OperationMethod<
 export const removeTags: API.OperationMethod<
   RemoveTagsRequest,
   RemoveTagsResponse,
-  BaseException | InternalException | ValidationException | CommonErrors,
+  RemoveTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsRequest,
   output: RemoveTagsResponse,
   errors: [BaseException, InternalException, ValidationException],
 }));
+export type RevokeVpcEndpointAccessError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Revokes access to an Amazon OpenSearch Service domain that was provided through an
  * interface VPC endpoint.
@@ -7865,12 +7909,7 @@ export const removeTags: API.OperationMethod<
 export const revokeVpcEndpointAccess: API.OperationMethod<
   RevokeVpcEndpointAccessRequest,
   RevokeVpcEndpointAccessResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RevokeVpcEndpointAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeVpcEndpointAccessRequest,
@@ -7883,6 +7922,13 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartDomainMaintenanceError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the node maintenance process on the data node. These processes can include a
  * node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana
@@ -7891,12 +7937,7 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
 export const startDomainMaintenance: API.OperationMethod<
   StartDomainMaintenanceRequest,
   StartDomainMaintenanceResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartDomainMaintenanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDomainMaintenanceRequest,
@@ -7909,6 +7950,12 @@ export const startDomainMaintenance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartServiceSoftwareUpdateError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Schedules a service software update for an Amazon OpenSearch Service domain. For more
  * information, see Service
@@ -7917,11 +7964,7 @@ export const startDomainMaintenance: API.OperationMethod<
 export const startServiceSoftwareUpdate: API.OperationMethod<
   StartServiceSoftwareUpdateRequest,
   StartServiceSoftwareUpdateResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartServiceSoftwareUpdateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartServiceSoftwareUpdateRequest,
@@ -7933,12 +7976,7 @@ export const startServiceSoftwareUpdate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration and settings of an existing OpenSearch application.
- */
-export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
-  UpdateApplicationResponse,
+export type UpdateApplicationError =
   | AccessDeniedException
   | BaseException
   | ConflictException
@@ -7946,7 +7984,14 @@ export const updateApplication: API.OperationMethod<
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration and settings of an existing OpenSearch application.
+ */
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
+  UpdateApplicationResponse,
+  UpdateApplicationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -7961,6 +8006,14 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDataSourceError =
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a direct-query data source. For more information, see Working
  * with Amazon OpenSearch Service data source integrations with Amazon
@@ -7969,13 +8022,7 @@ export const updateApplication: API.OperationMethod<
 export const updateDataSource: API.OperationMethod<
   UpdateDataSourceRequest,
   UpdateDataSourceResponse,
-  | BaseException
-  | DependencyFailureException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
@@ -7989,6 +8036,13 @@ export const updateDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDirectQueryDataSourceError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration or properties of an existing direct query data source in
  * Amazon OpenSearch Service.
@@ -7996,12 +8050,7 @@ export const updateDataSource: API.OperationMethod<
 export const updateDirectQueryDataSource: API.OperationMethod<
   UpdateDirectQueryDataSourceRequest,
   UpdateDirectQueryDataSourceResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateDirectQueryDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDirectQueryDataSourceRequest,
@@ -8014,6 +8063,14 @@ export const updateDirectQueryDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDomainConfigError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the cluster configuration of the specified Amazon OpenSearch Service
  * domain.
@@ -8021,13 +8078,7 @@ export const updateDirectQueryDataSource: API.OperationMethod<
 export const updateDomainConfig: API.OperationMethod<
   UpdateDomainConfigRequest,
   UpdateDomainConfigResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateDomainConfigError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainConfigRequest,
@@ -8041,12 +8092,7 @@ export const updateDomainConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
- */
-export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
-  UpdateIndexResponse,
+export type UpdateIndexError =
   | AccessDeniedException
   | DependencyFailureException
   | DisabledOperationException
@@ -8054,7 +8100,14 @@ export const updateIndex: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
+ */
+export const updateIndex: API.OperationMethod<
+  UpdateIndexRequest,
+  UpdateIndexResponse,
+  UpdateIndexError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexRequest,
@@ -8069,6 +8122,14 @@ export const updateIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a package for use with Amazon OpenSearch Service domains. For more
  * information, see Custom packages
@@ -8077,13 +8138,7 @@ export const updateIndex: API.OperationMethod<
 export const updatePackage: API.OperationMethod<
   UpdatePackageRequest,
   UpdatePackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageRequest,
@@ -8097,6 +8152,13 @@ export const updatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageScopeError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the scope of a package. Scope of the package defines users who can view and
  * associate a package.
@@ -8104,12 +8166,7 @@ export const updatePackage: API.OperationMethod<
 export const updatePackageScope: API.OperationMethod<
   UpdatePackageScopeRequest,
   UpdatePackageScopeResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageScopeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageScopeRequest,
@@ -8122,6 +8179,15 @@ export const updatePackageScope: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateScheduledActionError =
+  | BaseException
+  | ConflictException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | SlotNotAvailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Reschedules a planned domain configuration change for a later time. This change can be
  * a scheduled service
@@ -8130,14 +8196,7 @@ export const updatePackageScope: API.OperationMethod<
 export const updateScheduledAction: API.OperationMethod<
   UpdateScheduledActionRequest,
   UpdateScheduledActionResponse,
-  | BaseException
-  | ConflictException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | SlotNotAvailableException
-  | ValidationException
-  | CommonErrors,
+  UpdateScheduledActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduledActionRequest,
@@ -8152,19 +8211,21 @@ export const updateScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
- */
-export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
-  UpdateVpcEndpointResponse,
+export type UpdateVpcEndpointError =
   | BaseException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+ */
+export const updateVpcEndpoint: API.OperationMethod<
+  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointResponse,
+  UpdateVpcEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcEndpointRequest,
@@ -8178,6 +8239,14 @@ export const updateVpcEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpgradeDomainError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you to either upgrade your Amazon OpenSearch Service domain or perform an
  * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
@@ -8185,13 +8254,7 @@ export const updateVpcEndpoint: API.OperationMethod<
 export const upgradeDomain: API.OperationMethod<
   UpgradeDomainRequest,
   UpgradeDomainResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpgradeDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeDomainRequest,

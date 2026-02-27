@@ -1464,6 +1464,11 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 ) {}
 
 //# Operations
+export type CancelClusterError =
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | CommonErrors;
 /**
  * Cancels a cluster job. You can only cancel a cluster job while it's in the
  * `AwaitingQuorum` status. You'll have at least an hour after creating a cluster
@@ -1472,10 +1477,7 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 export const cancelCluster: API.OperationMethod<
   CancelClusterRequest,
   CancelClusterResult,
-  | InvalidJobStateException
-  | InvalidResourceException
-  | KMSRequestFailedException
-  | CommonErrors,
+  CancelClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelClusterRequest,
@@ -1486,6 +1488,11 @@ export const cancelCluster: API.OperationMethod<
     KMSRequestFailedException,
   ],
 }));
+export type CancelJobError =
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | CommonErrors;
 /**
  * Cancels the specified job. You can only cancel a job before its `JobState`
  * value changes to `PreparingAppliance`. Requesting the `ListJobs` or
@@ -1495,10 +1502,7 @@ export const cancelCluster: API.OperationMethod<
 export const cancelJob: API.OperationMethod<
   CancelJobRequest,
   CancelJobResult,
-  | InvalidJobStateException
-  | InvalidResourceException
-  | KMSRequestFailedException
-  | CommonErrors,
+  CancelJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
@@ -1509,6 +1513,10 @@ export const cancelJob: API.OperationMethod<
     KMSRequestFailedException,
   ],
 }));
+export type CreateAddressError =
+  | InvalidAddressException
+  | UnsupportedAddressException
+  | CommonErrors;
 /**
  * Creates an address for a Snow device to be shipped to. In most regions,
  * addresses are validated at the time of creation. The address you provide must be located
@@ -1518,13 +1526,19 @@ export const cancelJob: API.OperationMethod<
 export const createAddress: API.OperationMethod<
   CreateAddressRequest,
   CreateAddressResult,
-  InvalidAddressException | UnsupportedAddressException | CommonErrors,
+  CreateAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAddressRequest,
   output: CreateAddressResult,
   errors: [InvalidAddressException, UnsupportedAddressException],
 }));
+export type CreateClusterError =
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | CommonErrors;
 /**
  * Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action separately to create the jobs for each of these nodes. The
  * cluster does not ship until these five node jobs have been created.
@@ -1532,11 +1546,7 @@ export const createAddress: API.OperationMethod<
 export const createCluster: API.OperationMethod<
   CreateClusterRequest,
   CreateClusterResult,
-  | Ec2RequestFailedException
-  | InvalidInputCombinationException
-  | InvalidResourceException
-  | KMSRequestFailedException
-  | CommonErrors,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -1548,6 +1558,13 @@ export const createCluster: API.OperationMethod<
     KMSRequestFailedException,
   ],
 }));
+export type CreateJobError =
+  | ClusterLimitExceededException
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | CommonErrors;
 /**
  * Creates a job to import or export data between Amazon S3 and your on-premises data
  * center. Your Amazon Web Services account must have the right trust policies and permissions in
@@ -1633,12 +1650,7 @@ export const createCluster: API.OperationMethod<
 export const createJob: API.OperationMethod<
   CreateJobRequest,
   CreateJobResult,
-  | ClusterLimitExceededException
-  | Ec2RequestFailedException
-  | InvalidInputCombinationException
-  | InvalidResourceException
-  | KMSRequestFailedException
-  | CommonErrors,
+  CreateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -1651,6 +1663,9 @@ export const createJob: API.OperationMethod<
     KMSRequestFailedException,
   ],
 }));
+export type CreateLongTermPricingError =
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Creates a job with the long-term usage option for a device. The long-term usage is a
  * 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
@@ -1658,25 +1673,27 @@ export const createJob: API.OperationMethod<
 export const createLongTermPricing: API.OperationMethod<
   CreateLongTermPricingRequest,
   CreateLongTermPricingResult,
-  InvalidResourceException | CommonErrors,
+  CreateLongTermPricingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLongTermPricingRequest,
   output: CreateLongTermPricingResult,
   errors: [InvalidResourceException],
 }));
+export type CreateReturnShippingLabelError =
+  | ConflictException
+  | InvalidInputCombinationException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | ReturnShippingLabelAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
  */
 export const createReturnShippingLabel: API.OperationMethod<
   CreateReturnShippingLabelRequest,
   CreateReturnShippingLabelResult,
-  | ConflictException
-  | InvalidInputCombinationException
-  | InvalidJobStateException
-  | InvalidResourceException
-  | ReturnShippingLabelAlreadyExistsException
-  | CommonErrors,
+  CreateReturnShippingLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReturnShippingLabelRequest,
@@ -1689,6 +1706,7 @@ export const createReturnShippingLabel: API.OperationMethod<
     ReturnShippingLabelAlreadyExistsException,
   ],
 }));
+export type DescribeAddressError = InvalidResourceException | CommonErrors;
 /**
  * Takes an `AddressId` and returns specific details about that address in the
  * form of an `Address` object.
@@ -1696,13 +1714,17 @@ export const createReturnShippingLabel: API.OperationMethod<
 export const describeAddress: API.OperationMethod<
   DescribeAddressRequest,
   DescribeAddressResult,
-  InvalidResourceException | CommonErrors,
+  DescribeAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAddressRequest,
   output: DescribeAddressResult,
   errors: [InvalidResourceException],
 }));
+export type DescribeAddressesError =
+  | InvalidNextTokenException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Returns a specified number of `ADDRESS` objects. Calling this API in one of
  * the US regions will return addresses from the list of all addresses associated with this
@@ -1711,21 +1733,21 @@ export const describeAddress: API.OperationMethod<
 export const describeAddresses: API.OperationMethod<
   DescribeAddressesRequest,
   DescribeAddressesResult,
-  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  DescribeAddressesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAddressesRequest,
   ) => stream.Stream<
     DescribeAddressesResult,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
+    DescribeAddressesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAddressesRequest,
   ) => stream.Stream<
     Address,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
+    DescribeAddressesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1739,6 +1761,7 @@ export const describeAddresses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeClusterError = InvalidResourceException | CommonErrors;
 /**
  * Returns information about a specific cluster including shipping information, cluster
  * status, and other important metadata.
@@ -1746,13 +1769,14 @@ export const describeAddresses: API.OperationMethod<
 export const describeCluster: API.OperationMethod<
   DescribeClusterRequest,
   DescribeClusterResult,
-  InvalidResourceException | CommonErrors,
+  DescribeClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
   output: DescribeClusterResult,
   errors: [InvalidResourceException],
 }));
+export type DescribeJobError = InvalidResourceException | CommonErrors;
 /**
  * Returns information about a specific job including shipping information, job status,
  * and other important metadata.
@@ -1760,23 +1784,25 @@ export const describeCluster: API.OperationMethod<
 export const describeJob: API.OperationMethod<
   DescribeJobRequest,
   DescribeJobResult,
-  InvalidResourceException | CommonErrors,
+  DescribeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
   output: DescribeJobResult,
   errors: [InvalidResourceException],
 }));
+export type DescribeReturnShippingLabelError =
+  | ConflictException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
  */
 export const describeReturnShippingLabel: API.OperationMethod<
   DescribeReturnShippingLabelRequest,
   DescribeReturnShippingLabelResult,
-  | ConflictException
-  | InvalidJobStateException
-  | InvalidResourceException
-  | CommonErrors,
+  DescribeReturnShippingLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReturnShippingLabelRequest,
@@ -1787,6 +1813,10 @@ export const describeReturnShippingLabel: API.OperationMethod<
     InvalidResourceException,
   ],
 }));
+export type GetJobManifestError =
+  | InvalidJobStateException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Returns a link to an Amazon S3 presigned URL for the manifest file associated with the
  * specified `JobId` value. You can access the manifest file for up to 60 minutes
@@ -1811,13 +1841,17 @@ export const describeReturnShippingLabel: API.OperationMethod<
 export const getJobManifest: API.OperationMethod<
   GetJobManifestRequest,
   GetJobManifestResult,
-  InvalidJobStateException | InvalidResourceException | CommonErrors,
+  GetJobManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobManifestRequest,
   output: GetJobManifestResult,
   errors: [InvalidJobStateException, InvalidResourceException],
 }));
+export type GetJobUnlockCodeError =
+  | InvalidJobStateException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Returns the `UnlockCode` code value for the specified job. A particular
  * `UnlockCode` value can be accessed for up to 360 days after the associated job
@@ -1838,13 +1872,14 @@ export const getJobManifest: API.OperationMethod<
 export const getJobUnlockCode: API.OperationMethod<
   GetJobUnlockCodeRequest,
   GetJobUnlockCodeResult,
-  InvalidJobStateException | InvalidResourceException | CommonErrors,
+  GetJobUnlockCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobUnlockCodeRequest,
   output: GetJobUnlockCodeResult,
   errors: [InvalidJobStateException, InvalidResourceException],
 }));
+export type GetSnowballUsageError = CommonErrors;
 /**
  * Returns information about the Snow Family service limit for your account, and also the
  * number of Snow devices your account has in use.
@@ -1855,13 +1890,17 @@ export const getJobUnlockCode: API.OperationMethod<
 export const getSnowballUsage: API.OperationMethod<
   GetSnowballUsageRequest,
   GetSnowballUsageResult,
-  CommonErrors,
+  GetSnowballUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnowballUsageRequest,
   output: GetSnowballUsageResult,
   errors: [],
 }));
+export type GetSoftwareUpdatesError =
+  | InvalidJobStateException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Returns an Amazon S3 presigned URL for an update file associated with a specified
  * `JobId`.
@@ -1869,13 +1908,17 @@ export const getSnowballUsage: API.OperationMethod<
 export const getSoftwareUpdates: API.OperationMethod<
   GetSoftwareUpdatesRequest,
   GetSoftwareUpdatesResult,
-  InvalidJobStateException | InvalidResourceException | CommonErrors,
+  GetSoftwareUpdatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSoftwareUpdatesRequest,
   output: GetSoftwareUpdatesResult,
   errors: [InvalidJobStateException, InvalidResourceException],
 }));
+export type ListClusterJobsError =
+  | InvalidNextTokenException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Returns an array of `JobListEntry` objects of the specified length. Each
  * `JobListEntry` object is for a job in the specified cluster and contains a job's
@@ -1884,21 +1927,21 @@ export const getSoftwareUpdates: API.OperationMethod<
 export const listClusterJobs: API.OperationMethod<
   ListClusterJobsRequest,
   ListClusterJobsResult,
-  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  ListClusterJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClusterJobsRequest,
   ) => stream.Stream<
     ListClusterJobsResult,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
+    ListClusterJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClusterJobsRequest,
   ) => stream.Stream<
     JobListEntry,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
+    ListClusterJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1912,6 +1955,7 @@ export const listClusterJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListClustersError = InvalidNextTokenException | CommonErrors;
 /**
  * Returns an array of `ClusterListEntry` objects of the specified length. Each
  * `ClusterListEntry` object contains a cluster's state, a cluster's ID, and other
@@ -1920,21 +1964,21 @@ export const listClusterJobs: API.OperationMethod<
 export const listClusters: API.OperationMethod<
   ListClustersRequest,
   ListClustersResult,
-  InvalidNextTokenException | CommonErrors,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ListClustersResult,
-    InvalidNextTokenException | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ClusterListEntry,
-    InvalidNextTokenException | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1948,6 +1992,10 @@ export const listClusters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCompatibleImagesError =
+  | Ec2RequestFailedException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs)
  * that are owned by your Amazon Web Services accountthat would be supported for use on a Snow
@@ -1957,21 +2005,21 @@ export const listClusters: API.OperationMethod<
 export const listCompatibleImages: API.OperationMethod<
   ListCompatibleImagesRequest,
   ListCompatibleImagesResult,
-  Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
+  ListCompatibleImagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCompatibleImagesRequest,
   ) => stream.Stream<
     ListCompatibleImagesResult,
-    Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
+    ListCompatibleImagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCompatibleImagesRequest,
   ) => stream.Stream<
     CompatibleImage,
-    Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
+    ListCompatibleImagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1985,6 +2033,7 @@ export const listCompatibleImages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListJobsError = InvalidNextTokenException | CommonErrors;
 /**
  * Returns an array of `JobListEntry` objects of the specified length. Each
  * `JobListEntry` object contains a job's state, a job's ID, and a value that
@@ -1995,21 +2044,21 @@ export const listCompatibleImages: API.OperationMethod<
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResult,
-  InvalidNextTokenException | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResult,
-    InvalidNextTokenException | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     JobListEntry,
-    InvalidNextTokenException | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2023,27 +2072,31 @@ export const listJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLongTermPricingError =
+  | InvalidNextTokenException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Lists all long-term pricing types.
  */
 export const listLongTermPricing: API.OperationMethod<
   ListLongTermPricingRequest,
   ListLongTermPricingResult,
-  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  ListLongTermPricingError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLongTermPricingRequest,
   ) => stream.Stream<
     ListLongTermPricingResult,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
+    ListLongTermPricingError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLongTermPricingRequest,
   ) => stream.Stream<
     LongTermPricingListEntry,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
+    ListLongTermPricingError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2057,27 +2110,28 @@ export const listLongTermPricing: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPickupLocationsError = InvalidResourceException | CommonErrors;
 /**
  * A list of locations from which the customer can choose to pickup a device.
  */
 export const listPickupLocations: API.OperationMethod<
   ListPickupLocationsRequest,
   ListPickupLocationsResult,
-  InvalidResourceException | CommonErrors,
+  ListPickupLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPickupLocationsRequest,
   ) => stream.Stream<
     ListPickupLocationsResult,
-    InvalidResourceException | CommonErrors,
+    ListPickupLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPickupLocationsRequest,
   ) => stream.Stream<
     unknown,
-    InvalidResourceException | CommonErrors,
+    ListPickupLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2090,6 +2144,10 @@ export const listPickupLocations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServiceVersionsError =
+  | InvalidNextTokenException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Lists all supported versions for Snow on-device services. Returns an
  * array of `ServiceVersion` object containing the supported versions for a particular service.
@@ -2097,13 +2155,20 @@ export const listPickupLocations: API.OperationMethod<
 export const listServiceVersions: API.OperationMethod<
   ListServiceVersionsRequest,
   ListServiceVersionsResult,
-  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  ListServiceVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListServiceVersionsRequest,
   output: ListServiceVersionsResult,
   errors: [InvalidNextTokenException, InvalidResourceException],
 }));
+export type UpdateClusterError =
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | CommonErrors;
 /**
  * While a cluster's `ClusterState` value is in the `AwaitingQuorum`
  * state, you can update some of the information associated with a cluster. Once the cluster
@@ -2113,12 +2178,7 @@ export const listServiceVersions: API.OperationMethod<
 export const updateCluster: API.OperationMethod<
   UpdateClusterRequest,
   UpdateClusterResult,
-  | Ec2RequestFailedException
-  | InvalidInputCombinationException
-  | InvalidJobStateException
-  | InvalidResourceException
-  | KMSRequestFailedException
-  | CommonErrors,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -2131,6 +2191,14 @@ export const updateCluster: API.OperationMethod<
     KMSRequestFailedException,
   ],
 }));
+export type UpdateJobError =
+  | ClusterLimitExceededException
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | CommonErrors;
 /**
  * While a job's `JobState` value is `New`, you can update some of
  * the information associated with a job. Once the job changes to a different job state, usually
@@ -2139,13 +2207,7 @@ export const updateCluster: API.OperationMethod<
 export const updateJob: API.OperationMethod<
   UpdateJobRequest,
   UpdateJobResult,
-  | ClusterLimitExceededException
-  | Ec2RequestFailedException
-  | InvalidInputCombinationException
-  | InvalidJobStateException
-  | InvalidResourceException
-  | KMSRequestFailedException
-  | CommonErrors,
+  UpdateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
@@ -2159,26 +2221,33 @@ export const updateJob: API.OperationMethod<
     KMSRequestFailedException,
   ],
 }));
+export type UpdateJobShipmentStateError =
+  | InvalidJobStateException
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Updates the state when a shipment state changes to a different state.
  */
 export const updateJobShipmentState: API.OperationMethod<
   UpdateJobShipmentStateRequest,
   UpdateJobShipmentStateResult,
-  InvalidJobStateException | InvalidResourceException | CommonErrors,
+  UpdateJobShipmentStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobShipmentStateRequest,
   output: UpdateJobShipmentStateResult,
   errors: [InvalidJobStateException, InvalidResourceException],
 }));
+export type UpdateLongTermPricingError =
+  | InvalidResourceException
+  | CommonErrors;
 /**
  * Updates the long-term pricing type.
  */
 export const updateLongTermPricing: API.OperationMethod<
   UpdateLongTermPricingRequest,
   UpdateLongTermPricingResult,
-  InvalidResourceException | CommonErrors,
+  UpdateLongTermPricingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLongTermPricingRequest,

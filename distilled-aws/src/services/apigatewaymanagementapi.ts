@@ -207,43 +207,55 @@ export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLarge
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DeleteConnectionError =
+  | ForbiddenException
+  | GoneException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Delete the connection with the provided id.
  */
 export const deleteConnection: API.OperationMethod<
   DeleteConnectionRequest,
   DeleteConnectionResponse,
-  ForbiddenException | GoneException | LimitExceededException | CommonErrors,
+  DeleteConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [ForbiddenException, GoneException, LimitExceededException],
 }));
+export type GetConnectionError =
+  | ForbiddenException
+  | GoneException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Get information about the connection with the provided id.
  */
 export const getConnection: API.OperationMethod<
   GetConnectionRequest,
   GetConnectionResponse,
-  ForbiddenException | GoneException | LimitExceededException | CommonErrors,
+  GetConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
   errors: [ForbiddenException, GoneException, LimitExceededException],
 }));
+export type PostToConnectionError =
+  | ForbiddenException
+  | GoneException
+  | LimitExceededException
+  | PayloadTooLargeException
+  | CommonErrors;
 /**
  * Sends the provided data to the specified connection.
  */
 export const postToConnection: API.OperationMethod<
   PostToConnectionRequest,
   PostToConnectionResponse,
-  | ForbiddenException
-  | GoneException
-  | LimitExceededException
-  | PayloadTooLargeException
-  | CommonErrors,
+  PostToConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostToConnectionRequest,

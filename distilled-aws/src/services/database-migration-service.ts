@@ -7780,6 +7780,10 @@ export class KMSFault extends S.TaggedErrorClass<KMSFault>()("KMSFault", {
 }) {}
 
 //# Operations
+export type AddTagsToResourceError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Adds metadata tags to an DMS resource, including replication instance, endpoint,
  * subnet group, and migration task. These tags can also be used with cost allocation
@@ -7792,13 +7796,16 @@ export class KMSFault extends S.TaggedErrorClass<KMSFault>()("KMSFault", {
 export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceMessage,
   AddTagsToResourceResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  AddTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceMessage,
   output: AddTagsToResourceResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type ApplyPendingMaintenanceActionError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Applies a pending maintenance action to a resource (for example, to a replication
  * instance).
@@ -7806,13 +7813,18 @@ export const addTagsToResource: API.OperationMethod<
 export const applyPendingMaintenanceAction: API.OperationMethod<
   ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResponse,
-  ResourceNotFoundFault | CommonErrors,
+  ApplyPendingMaintenanceActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyPendingMaintenanceActionMessage,
   output: ApplyPendingMaintenanceActionResponse,
   errors: [ResourceNotFoundFault],
 }));
+export type BatchStartRecommendationsError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -7827,48 +7839,54 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
 export const batchStartRecommendations: API.OperationMethod<
   BatchStartRecommendationsRequest,
   BatchStartRecommendationsResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  BatchStartRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchStartRecommendationsRequest,
   output: BatchStartRecommendationsResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type CancelMetadataModelConversionError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Cancels a single metadata model conversion operation that was started with `StartMetadataModelConversion`.
  */
 export const cancelMetadataModelConversion: API.OperationMethod<
   CancelMetadataModelConversionMessage,
   CancelMetadataModelConversionResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  CancelMetadataModelConversionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMetadataModelConversionMessage,
   output: CancelMetadataModelConversionResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type CancelMetadataModelCreationError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Cancels a single metadata model creation operation that was started with `StartMetadataModelCreation`.
  */
 export const cancelMetadataModelCreation: API.OperationMethod<
   CancelMetadataModelCreationMessage,
   CancelMetadataModelCreationResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  CancelMetadataModelCreationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMetadataModelCreationMessage,
   output: CancelMetadataModelCreationResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type CancelReplicationTaskAssessmentRunError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Cancels a single premigration assessment run.
  *
@@ -7879,28 +7897,27 @@ export const cancelMetadataModelCreation: API.OperationMethod<
 export const cancelReplicationTaskAssessmentRun: API.OperationMethod<
   CancelReplicationTaskAssessmentRunMessage,
   CancelReplicationTaskAssessmentRunResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  CancelReplicationTaskAssessmentRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelReplicationTaskAssessmentRunMessage,
   output: CancelReplicationTaskAssessmentRunResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type CreateDataMigrationError =
+  | FailedDependencyFault
+  | InvalidOperationFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a data migration using the provided settings.
  */
 export const createDataMigration: API.OperationMethod<
   CreateDataMigrationMessage,
   CreateDataMigrationResponse,
-  | FailedDependencyFault
-  | InvalidOperationFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  CreateDataMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataMigrationMessage,
@@ -7913,6 +7930,12 @@ export const createDataMigration: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type CreateDataProviderError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceAlreadyExistsFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a data provider using the provided settings. A data provider stores a data store
  * type and location information about your database.
@@ -7920,11 +7943,7 @@ export const createDataMigration: API.OperationMethod<
 export const createDataProvider: API.OperationMethod<
   CreateDataProviderMessage,
   CreateDataProviderResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | ResourceAlreadyExistsFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  CreateDataProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataProviderMessage,
@@ -7936,6 +7955,15 @@ export const createDataProvider: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type CreateEndpointError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | S3AccessDeniedFault
+  | CommonErrors;
 /**
  * Creates an endpoint using the provided settings.
  *
@@ -7949,14 +7977,7 @@ export const createDataProvider: API.OperationMethod<
 export const createEndpoint: API.OperationMethod<
   CreateEndpointMessage,
   CreateEndpointResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | S3AccessDeniedFault
-  | CommonErrors,
+  CreateEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointMessage,
@@ -7971,6 +7992,18 @@ export const createEndpoint: API.OperationMethod<
     S3AccessDeniedFault,
   ],
 }));
+export type CreateEventSubscriptionError =
+  | KMSAccessDeniedFault
+  | KMSDisabledFault
+  | KMSInvalidStateFault
+  | KMSNotFoundFault
+  | KMSThrottlingFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | CommonErrors;
 /**
  * Creates an DMS event notification subscription.
  *
@@ -7992,17 +8025,7 @@ export const createEndpoint: API.OperationMethod<
 export const createEventSubscription: API.OperationMethod<
   CreateEventSubscriptionMessage,
   CreateEventSubscriptionResponse,
-  | KMSAccessDeniedFault
-  | KMSDisabledFault
-  | KMSInvalidStateFault
-  | KMSNotFoundFault
-  | KMSThrottlingFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | SNSInvalidTopicFault
-  | SNSNoAuthorizationFault
-  | CommonErrors,
+  CreateEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventSubscriptionMessage,
@@ -8020,6 +8043,13 @@ export const createEventSubscription: API.OperationMethod<
     SNSNoAuthorizationFault,
   ],
 }));
+export type CreateFleetAdvisorCollectorError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceQuotaExceededFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -8028,12 +8058,7 @@ export const createEventSubscription: API.OperationMethod<
 export const createFleetAdvisorCollector: API.OperationMethod<
   CreateFleetAdvisorCollectorRequest,
   CreateFleetAdvisorCollectorResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceQuotaExceededFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  CreateFleetAdvisorCollectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetAdvisorCollectorRequest,
@@ -8046,12 +8071,7 @@ export const createFleetAdvisorCollector: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
-/**
- * Creates the instance profile using the specified parameters.
- */
-export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileMessage,
-  CreateInstanceProfileResponse,
+export type CreateInstanceProfileError =
   | AccessDeniedFault
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -8061,7 +8081,14 @@ export const createInstanceProfile: API.OperationMethod<
   | ResourceQuotaExceededFault
   | S3AccessDeniedFault
   | S3ResourceNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates the instance profile using the specified parameters.
+ */
+export const createInstanceProfile: API.OperationMethod<
+  CreateInstanceProfileMessage,
+  CreateInstanceProfileResponse,
+  CreateInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceProfileMessage,
@@ -8078,6 +8105,15 @@ export const createInstanceProfile: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type CreateMigrationProjectError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Creates the migration project using the specified parameters.
  *
@@ -8087,14 +8123,7 @@ export const createInstanceProfile: API.OperationMethod<
 export const createMigrationProject: API.OperationMethod<
   CreateMigrationProjectMessage,
   CreateMigrationProjectResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  CreateMigrationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMigrationProjectMessage,
@@ -8109,14 +8138,7 @@ export const createMigrationProject: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
-/**
- * Creates a configuration that you can later provide to configure and start an DMS
- * Serverless replication. You can also provide options to validate the configuration inputs
- * before you start the replication.
- */
-export const createReplicationConfig: API.OperationMethod<
-  CreateReplicationConfigMessage,
-  CreateReplicationConfigResponse,
+export type CreateReplicationConfigError =
   | AccessDeniedFault
   | InvalidResourceStateFault
   | InvalidSubnet
@@ -8125,7 +8147,16 @@ export const createReplicationConfig: API.OperationMethod<
   | ResourceAlreadyExistsFault
   | ResourceNotFoundFault
   | ResourceQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a configuration that you can later provide to configure and start an DMS
+ * Serverless replication. You can also provide options to validate the configuration inputs
+ * before you start the replication.
+ */
+export const createReplicationConfig: API.OperationMethod<
+  CreateReplicationConfigMessage,
+  CreateReplicationConfigResponse,
+  CreateReplicationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationConfigMessage,
@@ -8141,6 +8172,18 @@ export const createReplicationConfig: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type CreateReplicationInstanceError =
+  | AccessDeniedFault
+  | InsufficientResourceCapacityFault
+  | InvalidResourceStateFault
+  | InvalidSubnet
+  | KMSKeyNotAccessibleFault
+  | ReplicationSubnetGroupDoesNotCoverEnoughAZs
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | StorageQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates the replication instance using the specified parameters.
  *
@@ -8156,17 +8199,7 @@ export const createReplicationConfig: API.OperationMethod<
 export const createReplicationInstance: API.OperationMethod<
   CreateReplicationInstanceMessage,
   CreateReplicationInstanceResponse,
-  | AccessDeniedFault
-  | InsufficientResourceCapacityFault
-  | InvalidResourceStateFault
-  | InvalidSubnet
-  | KMSKeyNotAccessibleFault
-  | ReplicationSubnetGroupDoesNotCoverEnoughAZs
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | StorageQuotaExceededFault
-  | CommonErrors,
+  CreateReplicationInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationInstanceMessage,
@@ -8184,6 +8217,14 @@ export const createReplicationInstance: API.OperationMethod<
     StorageQuotaExceededFault,
   ],
 }));
+export type CreateReplicationSubnetGroupError =
+  | AccessDeniedFault
+  | InvalidSubnet
+  | ReplicationSubnetGroupDoesNotCoverEnoughAZs
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a replication subnet group given a list of the subnet IDs in a VPC.
  *
@@ -8200,13 +8241,7 @@ export const createReplicationInstance: API.OperationMethod<
 export const createReplicationSubnetGroup: API.OperationMethod<
   CreateReplicationSubnetGroupMessage,
   CreateReplicationSubnetGroupResponse,
-  | AccessDeniedFault
-  | InvalidSubnet
-  | ReplicationSubnetGroupDoesNotCoverEnoughAZs
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  CreateReplicationSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationSubnetGroupMessage,
@@ -8220,19 +8255,21 @@ export const createReplicationSubnetGroup: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
-/**
- * Creates a replication task using the specified parameters.
- */
-export const createReplicationTask: API.OperationMethod<
-  CreateReplicationTaskMessage,
-  CreateReplicationTaskResponse,
+export type CreateReplicationTaskError =
   | AccessDeniedFault
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
   | ResourceAlreadyExistsFault
   | ResourceNotFoundFault
   | ResourceQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a replication task using the specified parameters.
+ */
+export const createReplicationTask: API.OperationMethod<
+  CreateReplicationTaskMessage,
+  CreateReplicationTaskResponse,
+  CreateReplicationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationTaskMessage,
@@ -8246,45 +8283,53 @@ export const createReplicationTask: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type DeleteCertificateError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified certificate.
  */
 export const deleteCertificate: API.OperationMethod<
   DeleteCertificateMessage,
   DeleteCertificateResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DeleteCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateMessage,
   output: DeleteCertificateResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteConnectionError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the connection between a replication instance and an endpoint.
  */
 export const deleteConnection: API.OperationMethod<
   DeleteConnectionMessage,
   DeleteConnectionResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionMessage,
   output: DeleteConnectionResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteDataMigrationError =
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified data migration.
  */
 export const deleteDataMigration: API.OperationMethod<
   DeleteDataMigrationMessage,
   DeleteDataMigrationResponse,
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteDataMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataMigrationMessage,
@@ -8295,6 +8340,12 @@ export const deleteDataMigration: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type DeleteDataProviderError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified data provider.
  *
@@ -8304,11 +8355,7 @@ export const deleteDataMigration: API.OperationMethod<
 export const deleteDataProvider: API.OperationMethod<
   DeleteDataProviderMessage,
   DeleteDataProviderResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteDataProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataProviderMessage,
@@ -8320,6 +8367,10 @@ export const deleteDataProvider: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type DeleteEndpointError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified endpoint.
  *
@@ -8329,29 +8380,36 @@ export const deleteDataProvider: API.OperationMethod<
 export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointMessage,
   DeleteEndpointResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DeleteEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointMessage,
   output: DeleteEndpointResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteEventSubscriptionError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an DMS event subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
   DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventSubscriptionMessage,
   output: DeleteEventSubscriptionResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteFleetAdvisorCollectorError =
+  | AccessDeniedFault
+  | CollectorNotFoundFault
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -8360,10 +8418,7 @@ export const deleteEventSubscription: API.OperationMethod<
 export const deleteFleetAdvisorCollector: API.OperationMethod<
   DeleteCollectorRequest,
   DeleteFleetAdvisorCollectorResponse,
-  | AccessDeniedFault
-  | CollectorNotFoundFault
-  | InvalidResourceStateFault
-  | CommonErrors,
+  DeleteFleetAdvisorCollectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCollectorRequest,
@@ -8374,6 +8429,11 @@ export const deleteFleetAdvisorCollector: API.OperationMethod<
     InvalidResourceStateFault,
   ],
 }));
+export type DeleteFleetAdvisorDatabasesError =
+  | AccessDeniedFault
+  | InvalidOperationFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -8382,16 +8442,19 @@ export const deleteFleetAdvisorCollector: API.OperationMethod<
 export const deleteFleetAdvisorDatabases: API.OperationMethod<
   DeleteFleetAdvisorDatabasesRequest,
   DeleteFleetAdvisorDatabasesResponse,
-  | AccessDeniedFault
-  | InvalidOperationFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteFleetAdvisorDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetAdvisorDatabasesRequest,
   output: DeleteFleetAdvisorDatabasesResponse,
   errors: [AccessDeniedFault, InvalidOperationFault, ResourceNotFoundFault],
 }));
+export type DeleteInstanceProfileError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified instance profile.
  *
@@ -8401,11 +8464,7 @@ export const deleteFleetAdvisorDatabases: API.OperationMethod<
 export const deleteInstanceProfile: API.OperationMethod<
   DeleteInstanceProfileMessage,
   DeleteInstanceProfileResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceProfileMessage,
@@ -8417,6 +8476,12 @@ export const deleteInstanceProfile: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type DeleteMigrationProjectError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified migration project.
  *
@@ -8425,11 +8490,7 @@ export const deleteInstanceProfile: API.OperationMethod<
 export const deleteMigrationProject: API.OperationMethod<
   DeleteMigrationProjectMessage,
   DeleteMigrationProjectResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteMigrationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMigrationProjectMessage,
@@ -8441,6 +8502,11 @@ export const deleteMigrationProject: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type DeleteReplicationConfigError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an DMS Serverless replication configuration. This effectively deprovisions any
  * and all replications that use this configuration. You can't delete the configuration for an
@@ -8450,16 +8516,17 @@ export const deleteMigrationProject: API.OperationMethod<
 export const deleteReplicationConfig: API.OperationMethod<
   DeleteReplicationConfigMessage,
   DeleteReplicationConfigResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteReplicationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationConfigMessage,
   output: DeleteReplicationConfigResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteReplicationInstanceError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified replication instance.
  *
@@ -8469,42 +8536,53 @@ export const deleteReplicationConfig: API.OperationMethod<
 export const deleteReplicationInstance: API.OperationMethod<
   DeleteReplicationInstanceMessage,
   DeleteReplicationInstanceResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DeleteReplicationInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationInstanceMessage,
   output: DeleteReplicationInstanceResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteReplicationSubnetGroupError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes a subnet group.
  */
 export const deleteReplicationSubnetGroup: API.OperationMethod<
   DeleteReplicationSubnetGroupMessage,
   DeleteReplicationSubnetGroupResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteReplicationSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationSubnetGroupMessage,
   output: DeleteReplicationSubnetGroupResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteReplicationTaskError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified replication task.
  */
 export const deleteReplicationTask: API.OperationMethod<
   DeleteReplicationTaskMessage,
   DeleteReplicationTaskResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DeleteReplicationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationTaskMessage,
   output: DeleteReplicationTaskResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DeleteReplicationTaskAssessmentRunError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the record of a single premigration assessment run.
  *
@@ -8515,16 +8593,14 @@ export const deleteReplicationTask: API.OperationMethod<
 export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
   DeleteReplicationTaskAssessmentRunMessage,
   DeleteReplicationTaskAssessmentRunResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DeleteReplicationTaskAssessmentRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationTaskAssessmentRunMessage,
   output: DeleteReplicationTaskAssessmentRunResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DescribeAccountAttributesError = CommonErrors;
 /**
  * Lists all of the DMS attributes for a customer account. These attributes include DMS
  * quotas for the account and a unique account identifier in a particular DMS region. DMS
@@ -8538,13 +8614,18 @@ export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
 export const describeAccountAttributes: API.OperationMethod<
   DescribeAccountAttributesMessage,
   DescribeAccountAttributesResponse,
-  CommonErrors,
+  DescribeAccountAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountAttributesMessage,
   output: DescribeAccountAttributesResponse,
   errors: [],
 }));
+export type DescribeApplicableIndividualAssessmentsError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Provides a list of individual assessments that you can specify for a new premigration
  * assessment run, given one or more parameters.
@@ -8569,30 +8650,21 @@ export const describeAccountAttributes: API.OperationMethod<
 export const describeApplicableIndividualAssessments: API.OperationMethod<
   DescribeApplicableIndividualAssessmentsMessage,
   DescribeApplicableIndividualAssessmentsResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DescribeApplicableIndividualAssessmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeApplicableIndividualAssessmentsMessage,
   ) => stream.Stream<
     DescribeApplicableIndividualAssessmentsResponse,
-    | AccessDeniedFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeApplicableIndividualAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeApplicableIndividualAssessmentsMessage,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeApplicableIndividualAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8605,27 +8677,28 @@ export const describeApplicableIndividualAssessments: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeCertificatesError = ResourceNotFoundFault | CommonErrors;
 /**
  * Provides a description of the certificate.
  */
 export const describeCertificates: API.OperationMethod<
   DescribeCertificatesMessage,
   DescribeCertificatesResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
     DescribeCertificatesResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8638,6 +8711,7 @@ export const describeCertificates: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeConnectionsError = ResourceNotFoundFault | CommonErrors;
 /**
  * Describes the status of the connections that have been made between the replication
  * instance and an endpoint. Connections are created when you test an endpoint.
@@ -8645,21 +8719,21 @@ export const describeCertificates: API.OperationMethod<
 export const describeConnections: API.OperationMethod<
   DescribeConnectionsMessage,
   DescribeConnectionsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConnectionsMessage,
   ) => stream.Stream<
     DescribeConnectionsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConnectionsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8672,49 +8746,48 @@ export const describeConnections: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeConversionConfigurationError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns configuration parameters for a schema conversion project.
  */
 export const describeConversionConfiguration: API.OperationMethod<
   DescribeConversionConfigurationMessage,
   DescribeConversionConfigurationResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeConversionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConversionConfigurationMessage,
   output: DescribeConversionConfigurationResponse,
   errors: [ResourceNotFoundFault],
 }));
+export type DescribeDataMigrationsError =
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about data migrations.
  */
 export const describeDataMigrations: API.OperationMethod<
   DescribeDataMigrationsMessage,
   DescribeDataMigrationsResponse,
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DescribeDataMigrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDataMigrationsMessage,
   ) => stream.Stream<
     DescribeDataMigrationsResponse,
-    | FailedDependencyFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeDataMigrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataMigrationsMessage,
   ) => stream.Stream<
     DataMigration,
-    | FailedDependencyFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeDataMigrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8732,6 +8805,11 @@ export const describeDataMigrations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDataProvidersError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of data providers for your account in the current
  * region.
@@ -8739,30 +8817,21 @@ export const describeDataMigrations: API.OperationMethod<
 export const describeDataProviders: API.OperationMethod<
   DescribeDataProvidersMessage,
   DescribeDataProvidersResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DescribeDataProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDataProvidersMessage,
   ) => stream.Stream<
     DescribeDataProvidersResponse,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeDataProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataProvidersMessage,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeDataProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8775,27 +8844,28 @@ export const describeDataProviders: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEndpointsError = ResourceNotFoundFault | CommonErrors;
 /**
  * Returns information about the endpoints for your account in the current region.
  */
 export const describeEndpoints: API.OperationMethod<
   DescribeEndpointsMessage,
   DescribeEndpointsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEndpointsMessage,
   ) => stream.Stream<
     DescribeEndpointsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8808,6 +8878,7 @@ export const describeEndpoints: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEndpointSettingsError = CommonErrors;
 /**
  * Returns information about the possible endpoint settings available when you create an
  * endpoint for a specific database engine.
@@ -8815,21 +8886,21 @@ export const describeEndpoints: API.OperationMethod<
 export const describeEndpointSettings: API.OperationMethod<
   DescribeEndpointSettingsMessage,
   DescribeEndpointSettingsResponse,
-  CommonErrors,
+  DescribeEndpointSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEndpointSettingsMessage,
   ) => stream.Stream<
     DescribeEndpointSettingsResponse,
-    CommonErrors,
+    DescribeEndpointSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointSettingsMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEndpointSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8842,27 +8913,28 @@ export const describeEndpointSettings: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEndpointTypesError = CommonErrors;
 /**
  * Returns information about the type of endpoints available.
  */
 export const describeEndpointTypes: API.OperationMethod<
   DescribeEndpointTypesMessage,
   DescribeEndpointTypesResponse,
-  CommonErrors,
+  DescribeEndpointTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEndpointTypesMessage,
   ) => stream.Stream<
     DescribeEndpointTypesResponse,
-    CommonErrors,
+    DescribeEndpointTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointTypesMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEndpointTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8875,27 +8947,28 @@ export const describeEndpointTypes: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEngineVersionsError = CommonErrors;
 /**
  * Returns information about the replication instance versions used in the project.
  */
 export const describeEngineVersions: API.OperationMethod<
   DescribeEngineVersionsMessage,
   DescribeEngineVersionsResponse,
-  CommonErrors,
+  DescribeEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEngineVersionsMessage,
   ) => stream.Stream<
     DescribeEngineVersionsResponse,
-    CommonErrors,
+    DescribeEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineVersionsMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8908,6 +8981,7 @@ export const describeEngineVersions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEventCategoriesError = CommonErrors;
 /**
  * Lists categories for all event source types, or, if specified, for a specified source
  * type. You can see a list of the event categories and source types in Working with Events
@@ -8916,13 +8990,14 @@ export const describeEngineVersions: API.OperationMethod<
 export const describeEventCategories: API.OperationMethod<
   DescribeEventCategoriesMessage,
   DescribeEventCategoriesResponse,
-  CommonErrors,
+  DescribeEventCategoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventCategoriesMessage,
   output: DescribeEventCategoriesResponse,
   errors: [],
 }));
+export type DescribeEventsError = CommonErrors;
 /**
  * Lists events for a given source identifier and source type. You can also specify a
  * start and end time. For more information on DMS events, see Working with Events and
@@ -8931,21 +9006,21 @@ export const describeEventCategories: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsMessage,
   DescribeEventsResponse,
-  CommonErrors,
+  DescribeEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
     DescribeEventsResponse,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8958,6 +9033,9 @@ export const describeEvents: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEventSubscriptionsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Lists all the event subscriptions for a customer account. The description of a
  * subscription includes `SubscriptionName`, `SNSTopicARN`,
@@ -8970,21 +9048,21 @@ export const describeEvents: API.OperationMethod<
 export const describeEventSubscriptions: API.OperationMethod<
   DescribeEventSubscriptionsMessage,
   DescribeEventSubscriptionsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeEventSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
     DescribeEventSubscriptionsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8997,6 +9075,7 @@ export const describeEventSubscriptions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeExtensionPackAssociationsError = CommonErrors;
 /**
  * Returns a paginated list of extension pack associations for the specified migration
  * project. An extension pack is an add-on module that emulates functions present in a source
@@ -9005,21 +9084,21 @@ export const describeEventSubscriptions: API.OperationMethod<
 export const describeExtensionPackAssociations: API.OperationMethod<
   DescribeExtensionPackAssociationsMessage,
   DescribeExtensionPackAssociationsResponse,
-  CommonErrors,
+  DescribeExtensionPackAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeExtensionPackAssociationsMessage,
   ) => stream.Stream<
     DescribeExtensionPackAssociationsResponse,
-    CommonErrors,
+    DescribeExtensionPackAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeExtensionPackAssociationsMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeExtensionPackAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9032,6 +9111,9 @@ export const describeExtensionPackAssociations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeFleetAdvisorCollectorsError =
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9040,21 +9122,21 @@ export const describeExtensionPackAssociations: API.OperationMethod<
 export const describeFleetAdvisorCollectors: API.OperationMethod<
   DescribeFleetAdvisorCollectorsRequest,
   DescribeFleetAdvisorCollectorsResponse,
-  InvalidResourceStateFault | CommonErrors,
+  DescribeFleetAdvisorCollectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetAdvisorCollectorsRequest,
   ) => stream.Stream<
     DescribeFleetAdvisorCollectorsResponse,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorCollectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorCollectorsRequest,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorCollectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9067,6 +9149,9 @@ export const describeFleetAdvisorCollectors: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeFleetAdvisorDatabasesError =
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9075,21 +9160,21 @@ export const describeFleetAdvisorCollectors: API.OperationMethod<
 export const describeFleetAdvisorDatabases: API.OperationMethod<
   DescribeFleetAdvisorDatabasesRequest,
   DescribeFleetAdvisorDatabasesResponse,
-  InvalidResourceStateFault | CommonErrors,
+  DescribeFleetAdvisorDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetAdvisorDatabasesRequest,
   ) => stream.Stream<
     DescribeFleetAdvisorDatabasesResponse,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorDatabasesRequest,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9102,6 +9187,9 @@ export const describeFleetAdvisorDatabases: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeFleetAdvisorLsaAnalysisError =
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9111,21 +9199,21 @@ export const describeFleetAdvisorDatabases: API.OperationMethod<
 export const describeFleetAdvisorLsaAnalysis: API.OperationMethod<
   DescribeFleetAdvisorLsaAnalysisRequest,
   DescribeFleetAdvisorLsaAnalysisResponse,
-  InvalidResourceStateFault | CommonErrors,
+  DescribeFleetAdvisorLsaAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetAdvisorLsaAnalysisRequest,
   ) => stream.Stream<
     DescribeFleetAdvisorLsaAnalysisResponse,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorLsaAnalysisError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorLsaAnalysisRequest,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorLsaAnalysisError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9138,6 +9226,9 @@ export const describeFleetAdvisorLsaAnalysis: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeFleetAdvisorSchemaObjectSummaryError =
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9147,21 +9238,21 @@ export const describeFleetAdvisorLsaAnalysis: API.OperationMethod<
 export const describeFleetAdvisorSchemaObjectSummary: API.OperationMethod<
   DescribeFleetAdvisorSchemaObjectSummaryRequest,
   DescribeFleetAdvisorSchemaObjectSummaryResponse,
-  InvalidResourceStateFault | CommonErrors,
+  DescribeFleetAdvisorSchemaObjectSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
   ) => stream.Stream<
     DescribeFleetAdvisorSchemaObjectSummaryResponse,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorSchemaObjectSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorSchemaObjectSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9174,6 +9265,9 @@ export const describeFleetAdvisorSchemaObjectSummary: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeFleetAdvisorSchemasError =
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9182,21 +9276,21 @@ export const describeFleetAdvisorSchemaObjectSummary: API.OperationMethod<
 export const describeFleetAdvisorSchemas: API.OperationMethod<
   DescribeFleetAdvisorSchemasRequest,
   DescribeFleetAdvisorSchemasResponse,
-  InvalidResourceStateFault | CommonErrors,
+  DescribeFleetAdvisorSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetAdvisorSchemasRequest,
   ) => stream.Stream<
     DescribeFleetAdvisorSchemasResponse,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorSchemasRequest,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | CommonErrors,
+    DescribeFleetAdvisorSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9209,6 +9303,11 @@ export const describeFleetAdvisorSchemas: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeInstanceProfilesError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of instance profiles for your account in the current
  * region.
@@ -9216,30 +9315,21 @@ export const describeFleetAdvisorSchemas: API.OperationMethod<
 export const describeInstanceProfiles: API.OperationMethod<
   DescribeInstanceProfilesMessage,
   DescribeInstanceProfilesResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DescribeInstanceProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstanceProfilesMessage,
   ) => stream.Stream<
     DescribeInstanceProfilesResponse,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeInstanceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstanceProfilesMessage,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeInstanceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9252,19 +9342,26 @@ export const describeInstanceProfiles: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelError =
+  | AccessDeniedFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
  */
 export const describeMetadataModel: API.OperationMethod<
   DescribeMetadataModelMessage,
   DescribeMetadataModelResponse,
-  AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMetadataModelMessage,
   output: DescribeMetadataModelResponse,
   errors: [AccessDeniedFault, ResourceNotFoundFault],
 }));
+export type DescribeMetadataModelAssessmentsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of metadata model assessments for your account in the current
  * region.
@@ -9272,21 +9369,21 @@ export const describeMetadataModel: API.OperationMethod<
 export const describeMetadataModelAssessments: API.OperationMethod<
   DescribeMetadataModelAssessmentsMessage,
   DescribeMetadataModelAssessmentsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelAssessmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelAssessmentsMessage,
   ) => stream.Stream<
     DescribeMetadataModelAssessmentsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelAssessmentsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9299,27 +9396,31 @@ export const describeMetadataModelAssessments: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelChildrenError =
+  | AccessDeniedFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Gets a list of child metadata models for the specified metadata model in the database hierarchy.
  */
 export const describeMetadataModelChildren: API.OperationMethod<
   DescribeMetadataModelChildrenMessage,
   DescribeMetadataModelChildrenResponse,
-  AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelChildrenError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelChildrenMessage,
   ) => stream.Stream<
     DescribeMetadataModelChildrenResponse,
-    AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelChildrenError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelChildrenMessage,
   ) => stream.Stream<
     MetadataModelReference,
-    AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelChildrenError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9333,27 +9434,30 @@ export const describeMetadataModelChildren: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelConversionsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of metadata model conversions for a migration project.
  */
 export const describeMetadataModelConversions: API.OperationMethod<
   DescribeMetadataModelConversionsMessage,
   DescribeMetadataModelConversionsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelConversionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelConversionsMessage,
   ) => stream.Stream<
     DescribeMetadataModelConversionsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelConversionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelConversionsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelConversionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9366,27 +9470,31 @@ export const describeMetadataModelConversions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelCreationsError =
+  | AccessDeniedFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of metadata model creation requests for a migration project.
  */
 export const describeMetadataModelCreations: API.OperationMethod<
   DescribeMetadataModelCreationsMessage,
   DescribeMetadataModelCreationsResponse,
-  AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelCreationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelCreationsMessage,
   ) => stream.Stream<
     DescribeMetadataModelCreationsResponse,
-    AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelCreationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelCreationsMessage,
   ) => stream.Stream<
     SchemaConversionRequest,
-    AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelCreationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9400,27 +9508,30 @@ export const describeMetadataModelCreations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelExportsAsScriptError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of metadata model exports.
  */
 export const describeMetadataModelExportsAsScript: API.OperationMethod<
   DescribeMetadataModelExportsAsScriptMessage,
   DescribeMetadataModelExportsAsScriptResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelExportsAsScriptError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelExportsAsScriptMessage,
   ) => stream.Stream<
     DescribeMetadataModelExportsAsScriptResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelExportsAsScriptError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelExportsAsScriptMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelExportsAsScriptError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9433,27 +9544,30 @@ export const describeMetadataModelExportsAsScript: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelExportsToTargetError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of metadata model exports.
  */
 export const describeMetadataModelExportsToTarget: API.OperationMethod<
   DescribeMetadataModelExportsToTargetMessage,
   DescribeMetadataModelExportsToTargetResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelExportsToTargetError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelExportsToTargetMessage,
   ) => stream.Stream<
     DescribeMetadataModelExportsToTargetResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelExportsToTargetError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelExportsToTargetMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelExportsToTargetError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9466,27 +9580,30 @@ export const describeMetadataModelExportsToTarget: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetadataModelImportsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of metadata model imports.
  */
 export const describeMetadataModelImports: API.OperationMethod<
   DescribeMetadataModelImportsMessage,
   DescribeMetadataModelImportsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeMetadataModelImportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetadataModelImportsMessage,
   ) => stream.Stream<
     DescribeMetadataModelImportsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelImportsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeMetadataModelImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9499,6 +9616,11 @@ export const describeMetadataModelImports: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMigrationProjectsError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of migration projects for your account in the current
  * region.
@@ -9506,30 +9628,21 @@ export const describeMetadataModelImports: API.OperationMethod<
 export const describeMigrationProjects: API.OperationMethod<
   DescribeMigrationProjectsMessage,
   DescribeMigrationProjectsResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DescribeMigrationProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMigrationProjectsMessage,
   ) => stream.Stream<
     DescribeMigrationProjectsResponse,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeMigrationProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMigrationProjectsMessage,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeMigrationProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9542,6 +9655,7 @@ export const describeMigrationProjects: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeOrderableReplicationInstancesError = CommonErrors;
 /**
  * Returns information about the replication instance types that can be created in the
  * specified region.
@@ -9549,21 +9663,21 @@ export const describeMigrationProjects: API.OperationMethod<
 export const describeOrderableReplicationInstances: API.OperationMethod<
   DescribeOrderableReplicationInstancesMessage,
   DescribeOrderableReplicationInstancesResponse,
-  CommonErrors,
+  DescribeOrderableReplicationInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrderableReplicationInstancesMessage,
   ) => stream.Stream<
     DescribeOrderableReplicationInstancesResponse,
-    CommonErrors,
+    DescribeOrderableReplicationInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrderableReplicationInstancesMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeOrderableReplicationInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9576,6 +9690,9 @@ export const describeOrderableReplicationInstances: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribePendingMaintenanceActionsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of upcoming maintenance events for replication instances in your account
  * in the current Region.
@@ -9583,21 +9700,21 @@ export const describeOrderableReplicationInstances: API.OperationMethod<
 export const describePendingMaintenanceActions: API.OperationMethod<
   DescribePendingMaintenanceActionsMessage,
   DescribePendingMaintenanceActionsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribePendingMaintenanceActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
     DescribePendingMaintenanceActionsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribePendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribePendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9610,6 +9727,10 @@ export const describePendingMaintenanceActions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeRecommendationLimitationsError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9619,21 +9740,21 @@ export const describePendingMaintenanceActions: API.OperationMethod<
 export const describeRecommendationLimitations: API.OperationMethod<
   DescribeRecommendationLimitationsRequest,
   DescribeRecommendationLimitationsResponse,
-  AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+  DescribeRecommendationLimitationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRecommendationLimitationsRequest,
   ) => stream.Stream<
     DescribeRecommendationLimitationsResponse,
-    AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+    DescribeRecommendationLimitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRecommendationLimitationsRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+    DescribeRecommendationLimitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9646,6 +9767,10 @@ export const describeRecommendationLimitations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeRecommendationsError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -9655,21 +9780,21 @@ export const describeRecommendationLimitations: API.OperationMethod<
 export const describeRecommendations: API.OperationMethod<
   DescribeRecommendationsRequest,
   DescribeRecommendationsResponse,
-  AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+  DescribeRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRecommendationsRequest,
   ) => stream.Stream<
     DescribeRecommendationsResponse,
-    AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+    DescribeRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+    DescribeRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9682,19 +9807,26 @@ export const describeRecommendations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeRefreshSchemasStatusError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns the status of the RefreshSchemas operation.
  */
 export const describeRefreshSchemasStatus: API.OperationMethod<
   DescribeRefreshSchemasStatusMessage,
   DescribeRefreshSchemasStatusResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DescribeRefreshSchemasStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRefreshSchemasStatusMessage,
   output: DescribeRefreshSchemasStatusResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DescribeReplicationConfigsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns one or more existing DMS Serverless replication configurations as a list of
  * structures.
@@ -9702,21 +9834,21 @@ export const describeRefreshSchemasStatus: API.OperationMethod<
 export const describeReplicationConfigs: API.OperationMethod<
   DescribeReplicationConfigsMessage,
   DescribeReplicationConfigsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationConfigsMessage,
   ) => stream.Stream<
     DescribeReplicationConfigsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationConfigsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9729,6 +9861,9 @@ export const describeReplicationConfigs: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationInstancesError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about replication instances for your account in the current
  * region.
@@ -9736,21 +9871,21 @@ export const describeReplicationConfigs: API.OperationMethod<
 export const describeReplicationInstances: API.OperationMethod<
   DescribeReplicationInstancesMessage,
   DescribeReplicationInstancesResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationInstancesMessage,
   ) => stream.Stream<
     DescribeReplicationInstancesResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationInstancesMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9763,27 +9898,31 @@ export const describeReplicationInstances: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationInstanceTaskLogsError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about the task logs for the specified task.
  */
 export const describeReplicationInstanceTaskLogs: API.OperationMethod<
   DescribeReplicationInstanceTaskLogsMessage,
   DescribeReplicationInstanceTaskLogsResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationInstanceTaskLogsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationInstanceTaskLogsMessage,
   ) => stream.Stream<
     DescribeReplicationInstanceTaskLogsResponse,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationInstanceTaskLogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationInstanceTaskLogsMessage,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationInstanceTaskLogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9796,6 +9935,7 @@ export const describeReplicationInstanceTaskLogs: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationsError = ResourceNotFoundFault | CommonErrors;
 /**
  * Provides details on replication progress by returning status information for one or more
  * provisioned DMS Serverless replications.
@@ -9803,21 +9943,21 @@ export const describeReplicationInstanceTaskLogs: API.OperationMethod<
 export const describeReplications: API.OperationMethod<
   DescribeReplicationsMessage,
   DescribeReplicationsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationsMessage,
   ) => stream.Stream<
     DescribeReplicationsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9830,27 +9970,30 @@ export const describeReplications: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationSubnetGroupsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about the replication subnet groups.
  */
 export const describeReplicationSubnetGroups: API.OperationMethod<
   DescribeReplicationSubnetGroupsMessage,
   DescribeReplicationSubnetGroupsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationSubnetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationSubnetGroupsMessage,
   ) => stream.Stream<
     DescribeReplicationSubnetGroupsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationSubnetGroupsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9863,6 +10006,10 @@ export const describeReplicationSubnetGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationTableStatisticsError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns table and schema statistics for one or more provisioned replications that use a
  * given DMS Serverless replication configuration.
@@ -9870,21 +10017,21 @@ export const describeReplicationSubnetGroups: API.OperationMethod<
 export const describeReplicationTableStatistics: API.OperationMethod<
   DescribeReplicationTableStatisticsMessage,
   DescribeReplicationTableStatisticsResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationTableStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationTableStatisticsMessage,
   ) => stream.Stream<
     DescribeReplicationTableStatisticsResponse,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTableStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTableStatisticsMessage,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTableStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9897,6 +10044,9 @@ export const describeReplicationTableStatistics: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationTaskAssessmentResultsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns the task assessment results from the Amazon S3 bucket that DMS creates in your
  * Amazon Web Services account. This action always returns the latest results.
@@ -9907,21 +10057,21 @@ export const describeReplicationTableStatistics: API.OperationMethod<
 export const describeReplicationTaskAssessmentResults: API.OperationMethod<
   DescribeReplicationTaskAssessmentResultsMessage,
   DescribeReplicationTaskAssessmentResultsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationTaskAssessmentResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationTaskAssessmentResultsMessage,
   ) => stream.Stream<
     DescribeReplicationTaskAssessmentResultsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTaskAssessmentResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTaskAssessmentResultsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTaskAssessmentResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9934,6 +10084,9 @@ export const describeReplicationTaskAssessmentResults: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationTaskAssessmentRunsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of premigration assessment runs based on filter
  * settings.
@@ -9948,21 +10101,21 @@ export const describeReplicationTaskAssessmentResults: API.OperationMethod<
 export const describeReplicationTaskAssessmentRuns: API.OperationMethod<
   DescribeReplicationTaskAssessmentRunsMessage,
   DescribeReplicationTaskAssessmentRunsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationTaskAssessmentRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationTaskAssessmentRunsMessage,
   ) => stream.Stream<
     DescribeReplicationTaskAssessmentRunsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTaskAssessmentRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTaskAssessmentRunsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTaskAssessmentRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9975,6 +10128,9 @@ export const describeReplicationTaskAssessmentRuns: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationTaskIndividualAssessmentsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a paginated list of individual assessments based on filter settings.
  *
@@ -9984,21 +10140,21 @@ export const describeReplicationTaskAssessmentRuns: API.OperationMethod<
 export const describeReplicationTaskIndividualAssessments: API.OperationMethod<
   DescribeReplicationTaskIndividualAssessmentsMessage,
   DescribeReplicationTaskIndividualAssessmentsResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationTaskIndividualAssessmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationTaskIndividualAssessmentsMessage,
   ) => stream.Stream<
     DescribeReplicationTaskIndividualAssessmentsResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTaskIndividualAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTaskIndividualAssessmentsMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTaskIndividualAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10011,6 +10167,9 @@ export const describeReplicationTaskIndividualAssessments: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReplicationTasksError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about replication tasks for your account in the current
  * region.
@@ -10018,21 +10177,21 @@ export const describeReplicationTaskIndividualAssessments: API.OperationMethod<
 export const describeReplicationTasks: API.OperationMethod<
   DescribeReplicationTasksMessage,
   DescribeReplicationTasksResponse,
-  ResourceNotFoundFault | CommonErrors,
+  DescribeReplicationTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationTasksMessage,
   ) => stream.Stream<
     DescribeReplicationTasksResponse,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTasksMessage,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundFault | CommonErrors,
+    DescribeReplicationTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10045,27 +10204,31 @@ export const describeReplicationTasks: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeSchemasError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about the schema for the specified endpoint.
  */
 export const describeSchemas: API.OperationMethod<
   DescribeSchemasMessage,
   DescribeSchemasResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DescribeSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSchemasMessage,
   ) => stream.Stream<
     DescribeSchemasResponse,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+    DescribeSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSchemasMessage,
   ) => stream.Stream<
     unknown,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+    DescribeSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10078,6 +10241,11 @@ export const describeSchemas: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeTableStatisticsError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns table statistics on the database migration task, including table name, rows
  * inserted, rows updated, and rows deleted.
@@ -10089,30 +10257,21 @@ export const describeSchemas: API.OperationMethod<
 export const describeTableStatistics: API.OperationMethod<
   DescribeTableStatisticsMessage,
   DescribeTableStatisticsResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  DescribeTableStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTableStatisticsMessage,
   ) => stream.Stream<
     DescribeTableStatisticsResponse,
-    | AccessDeniedFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeTableStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTableStatisticsMessage,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
+    DescribeTableStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10125,6 +10284,9 @@ export const describeTableStatistics: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type ExportMetadataModelAssessmentError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can
  * save your assessment report as a comma-separated value (CSV) or a PDF file.
@@ -10132,40 +10294,44 @@ export const describeTableStatistics: API.OperationMethod<
 export const exportMetadataModelAssessment: API.OperationMethod<
   ExportMetadataModelAssessmentMessage,
   ExportMetadataModelAssessmentResponse,
-  ResourceNotFoundFault | CommonErrors,
+  ExportMetadataModelAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportMetadataModelAssessmentMessage,
   output: ExportMetadataModelAssessmentResponse,
   errors: [ResourceNotFoundFault],
 }));
+export type GetTargetSelectionRulesError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Converts source selection rules into their target counterparts for schema conversion operations.
  */
 export const getTargetSelectionRules: API.OperationMethod<
   GetTargetSelectionRulesMessage,
   GetTargetSelectionRulesResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  GetTargetSelectionRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTargetSelectionRulesMessage,
   output: GetTargetSelectionRulesResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type ImportCertificateError =
+  | InvalidCertificateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceAlreadyExistsFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Uploads the specified certificate.
  */
 export const importCertificate: API.OperationMethod<
   ImportCertificateMessage,
   ImportCertificateResponse,
-  | InvalidCertificateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceAlreadyExistsFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  ImportCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCertificateMessage,
@@ -10177,6 +10343,10 @@ export const importCertificate: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type ListTagsForResourceError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Lists all metadata tags attached to an DMS resource, including replication instance,
  * endpoint, subnet group, and migration task. For more information, see
@@ -10187,36 +10357,42 @@ export const importCertificate: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceMessage,
   ListTagsForResourceResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceMessage,
   output: ListTagsForResourceResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type ModifyConversionConfigurationError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the specified schema conversion configuration using the provided parameters.
  */
 export const modifyConversionConfiguration: API.OperationMethod<
   ModifyConversionConfigurationMessage,
   ModifyConversionConfigurationResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  ModifyConversionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyConversionConfigurationMessage,
   output: ModifyConversionConfigurationResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type ModifyDataMigrationError =
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies an existing DMS data migration.
  */
 export const modifyDataMigration: API.OperationMethod<
   ModifyDataMigrationMessage,
   ModifyDataMigrationResponse,
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ModifyDataMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDataMigrationMessage,
@@ -10227,6 +10403,12 @@ export const modifyDataMigration: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type ModifyDataProviderError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the specified data provider using the provided settings.
  *
@@ -10236,11 +10418,7 @@ export const modifyDataMigration: API.OperationMethod<
 export const modifyDataProvider: API.OperationMethod<
   ModifyDataProviderMessage,
   ModifyDataProviderResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ModifyDataProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDataProviderMessage,
@@ -10252,6 +10430,13 @@ export const modifyDataProvider: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type ModifyEndpointError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the specified endpoint.
  *
@@ -10265,12 +10450,7 @@ export const modifyDataProvider: API.OperationMethod<
 export const modifyEndpoint: API.OperationMethod<
   ModifyEndpointMessage,
   ModifyEndpointResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ModifyEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyEndpointMessage,
@@ -10283,12 +10463,7 @@ export const modifyEndpoint: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
-/**
- * Modifies an existing DMS event notification subscription.
- */
-export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
-  ModifyEventSubscriptionResponse,
+export type ModifyEventSubscriptionError =
   | AccessDeniedFault
   | KMSAccessDeniedFault
   | KMSDisabledFault
@@ -10299,7 +10474,14 @@ export const modifyEventSubscription: API.OperationMethod<
   | ResourceQuotaExceededFault
   | SNSInvalidTopicFault
   | SNSNoAuthorizationFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies an existing DMS event notification subscription.
+ */
+export const modifyEventSubscription: API.OperationMethod<
+  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionResponse,
+  ModifyEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyEventSubscriptionMessage,
@@ -10317,6 +10499,15 @@ export const modifyEventSubscription: API.OperationMethod<
     SNSNoAuthorizationFault,
   ],
 }));
+export type ModifyInstanceProfileError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceNotFoundFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the specified instance profile using the provided parameters.
  *
@@ -10326,14 +10517,7 @@ export const modifyEventSubscription: API.OperationMethod<
 export const modifyInstanceProfile: API.OperationMethod<
   ModifyInstanceProfileMessage,
   ModifyInstanceProfileResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceNotFoundFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  ModifyInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyInstanceProfileMessage,
@@ -10348,6 +10532,14 @@ export const modifyInstanceProfile: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type ModifyMigrationProjectError =
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the specified migration project using the provided parameters.
  *
@@ -10356,13 +10548,7 @@ export const modifyInstanceProfile: API.OperationMethod<
 export const modifyMigrationProject: API.OperationMethod<
   ModifyMigrationProjectMessage,
   ModifyMigrationProjectResponse,
-  | AccessDeniedFault
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  ModifyMigrationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyMigrationProjectMessage,
@@ -10376,6 +10562,14 @@ export const modifyMigrationProject: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type ModifyReplicationConfigError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | InvalidSubnet
+  | KMSKeyNotAccessibleFault
+  | ReplicationSubnetGroupDoesNotCoverEnoughAZs
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies an existing DMS Serverless replication configuration that you can use to
  * start a replication. This command includes input validation and logic to check the state of
@@ -10390,13 +10584,7 @@ export const modifyMigrationProject: API.OperationMethod<
 export const modifyReplicationConfig: API.OperationMethod<
   ModifyReplicationConfigMessage,
   ModifyReplicationConfigResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | InvalidSubnet
-  | KMSKeyNotAccessibleFault
-  | ReplicationSubnetGroupDoesNotCoverEnoughAZs
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ModifyReplicationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyReplicationConfigMessage,
@@ -10410,6 +10598,15 @@ export const modifyReplicationConfig: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type ModifyReplicationInstanceError =
+  | AccessDeniedFault
+  | InsufficientResourceCapacityFault
+  | InvalidResourceStateFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | StorageQuotaExceededFault
+  | UpgradeDependencyFailureFault
+  | CommonErrors;
 /**
  * Modifies the replication instance to apply new settings. You can change one or more
  * parameters by specifying these parameters and the new values in the request.
@@ -10419,14 +10616,7 @@ export const modifyReplicationConfig: API.OperationMethod<
 export const modifyReplicationInstance: API.OperationMethod<
   ModifyReplicationInstanceMessage,
   ModifyReplicationInstanceResponse,
-  | AccessDeniedFault
-  | InsufficientResourceCapacityFault
-  | InvalidResourceStateFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | StorageQuotaExceededFault
-  | UpgradeDependencyFailureFault
-  | CommonErrors,
+  ModifyReplicationInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyReplicationInstanceMessage,
@@ -10441,19 +10631,21 @@ export const modifyReplicationInstance: API.OperationMethod<
     UpgradeDependencyFailureFault,
   ],
 }));
-/**
- * Modifies the settings for the specified replication subnet group.
- */
-export const modifyReplicationSubnetGroup: API.OperationMethod<
-  ModifyReplicationSubnetGroupMessage,
-  ModifyReplicationSubnetGroupResponse,
+export type ModifyReplicationSubnetGroupError =
   | AccessDeniedFault
   | InvalidSubnet
   | ReplicationSubnetGroupDoesNotCoverEnoughAZs
   | ResourceNotFoundFault
   | ResourceQuotaExceededFault
   | SubnetAlreadyInUse
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies the settings for the specified replication subnet group.
+ */
+export const modifyReplicationSubnetGroup: API.OperationMethod<
+  ModifyReplicationSubnetGroupMessage,
+  ModifyReplicationSubnetGroupResponse,
+  ModifyReplicationSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyReplicationSubnetGroupMessage,
@@ -10467,6 +10659,12 @@ export const modifyReplicationSubnetGroup: API.OperationMethod<
     SubnetAlreadyInUse,
   ],
 }));
+export type ModifyReplicationTaskError =
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the specified replication task.
  *
@@ -10478,11 +10676,7 @@ export const modifyReplicationSubnetGroup: API.OperationMethod<
 export const modifyReplicationTask: API.OperationMethod<
   ModifyReplicationTaskMessage,
   ModifyReplicationTaskResponse,
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ModifyReplicationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyReplicationTaskMessage,
@@ -10494,6 +10688,13 @@ export const modifyReplicationTask: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type MoveReplicationTaskError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Moves a replication task from its current replication instance to a different target
  * replication instance using the specified parameters. The target replication instance must
@@ -10502,12 +10703,7 @@ export const modifyReplicationTask: API.OperationMethod<
 export const moveReplicationTask: API.OperationMethod<
   MoveReplicationTaskMessage,
   MoveReplicationTaskResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  MoveReplicationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveReplicationTaskMessage,
@@ -10520,6 +10716,10 @@ export const moveReplicationTask: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type RebootReplicationInstanceError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Reboots a replication instance. Rebooting results in a momentary outage, until the
  * replication instance becomes available again.
@@ -10527,13 +10727,19 @@ export const moveReplicationTask: API.OperationMethod<
 export const rebootReplicationInstance: API.OperationMethod<
   RebootReplicationInstanceMessage,
   RebootReplicationInstanceResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  RebootReplicationInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootReplicationInstanceMessage,
   output: RebootReplicationInstanceResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type RefreshSchemasError =
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Populates the schema for the specified endpoint. This is an asynchronous operation and
  * can take several minutes. You can check the status of this operation by calling the
@@ -10542,11 +10748,7 @@ export const rebootReplicationInstance: API.OperationMethod<
 export const refreshSchemas: API.OperationMethod<
   RefreshSchemasMessage,
   RefreshSchemasResponse,
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  RefreshSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RefreshSchemasMessage,
@@ -10558,6 +10760,10 @@ export const refreshSchemas: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type ReloadReplicationTablesError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Reloads the target database table with the source data for a given DMS Serverless
  * replication configuration.
@@ -10568,13 +10774,17 @@ export const refreshSchemas: API.OperationMethod<
 export const reloadReplicationTables: API.OperationMethod<
   ReloadReplicationTablesMessage,
   ReloadReplicationTablesResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  ReloadReplicationTablesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReloadReplicationTablesMessage,
   output: ReloadReplicationTablesResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type ReloadTablesError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Reloads the target database table with the source data.
  *
@@ -10584,13 +10794,17 @@ export const reloadReplicationTables: API.OperationMethod<
 export const reloadTables: API.OperationMethod<
   ReloadTablesMessage,
   ReloadTablesResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  ReloadTablesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReloadTablesMessage,
   output: ReloadTablesResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type RemoveTagsFromResourceError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Removes metadata tags from an DMS resource, including replication instance, endpoint,
  * subnet group, and migration task. For more information, see
@@ -10601,13 +10815,17 @@ export const reloadTables: API.OperationMethod<
 export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceMessage,
   RemoveTagsFromResourceResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  RemoveTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceMessage,
   output: RemoveTagsFromResourceResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type RunFleetAdvisorLsaAnalysisError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -10616,25 +10834,27 @@ export const removeTagsFromResource: API.OperationMethod<
 export const runFleetAdvisorLsaAnalysis: API.OperationMethod<
   RunFleetAdvisorLsaAnalysisRequest,
   RunFleetAdvisorLsaAnalysisResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  RunFleetAdvisorLsaAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunFleetAdvisorLsaAnalysisRequest,
   output: RunFleetAdvisorLsaAnalysisResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type StartDataMigrationError =
+  | FailedDependencyFault
+  | InvalidOperationFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Starts the specified data migration.
  */
 export const startDataMigration: API.OperationMethod<
   StartDataMigrationMessage,
   StartDataMigrationResponse,
-  | FailedDependencyFault
-  | InvalidOperationFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  StartDataMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDataMigrationMessage,
@@ -10647,14 +10867,7 @@ export const startDataMigration: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
-/**
- * Applies the extension pack to your target database. An extension pack is an add-on
- * module that emulates functions present in a source database that are required when
- * converting objects to the target database.
- */
-export const startExtensionPackAssociation: API.OperationMethod<
-  StartExtensionPackAssociationMessage,
-  StartExtensionPackAssociationResponse,
+export type StartExtensionPackAssociationError =
   | AccessDeniedFault
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10663,7 +10876,16 @@ export const startExtensionPackAssociation: API.OperationMethod<
   | ResourceQuotaExceededFault
   | S3AccessDeniedFault
   | S3ResourceNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Applies the extension pack to your target database. An extension pack is an add-on
+ * module that emulates functions present in a source database that are required when
+ * converting objects to the target database.
+ */
+export const startExtensionPackAssociation: API.OperationMethod<
+  StartExtensionPackAssociationMessage,
+  StartExtensionPackAssociationResponse,
+  StartExtensionPackAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExtensionPackAssociationMessage,
@@ -10679,6 +10901,16 @@ export const startExtensionPackAssociation: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type StartMetadataModelAssessmentError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Creates a database migration assessment report by assessing the migration complexity for
  * your source database. A database migration assessment report summarizes all of the schema
@@ -10688,15 +10920,7 @@ export const startExtensionPackAssociation: API.OperationMethod<
 export const startMetadataModelAssessment: API.OperationMethod<
   StartMetadataModelAssessmentMessage,
   StartMetadataModelAssessmentResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  StartMetadataModelAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataModelAssessmentMessage,
@@ -10712,12 +10936,7 @@ export const startMetadataModelAssessment: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
-/**
- * Converts your source database objects to a format compatible with the target database.
- */
-export const startMetadataModelConversion: API.OperationMethod<
-  StartMetadataModelConversionMessage,
-  StartMetadataModelConversionResponse,
+export type StartMetadataModelConversionError =
   | AccessDeniedFault
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10726,7 +10945,14 @@ export const startMetadataModelConversion: API.OperationMethod<
   | ResourceQuotaExceededFault
   | S3AccessDeniedFault
   | S3ResourceNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Converts your source database objects to a format compatible with the target database.
+ */
+export const startMetadataModelConversion: API.OperationMethod<
+  StartMetadataModelConversionMessage,
+  StartMetadataModelConversionResponse,
+  StartMetadataModelConversionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataModelConversionMessage,
@@ -10742,6 +10968,12 @@ export const startMetadataModelConversion: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type StartMetadataModelCreationError =
+  | AccessDeniedFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates source metadata model of the given type with the specified properties for schema conversion operations.
  *
@@ -10750,11 +10982,7 @@ export const startMetadataModelConversion: API.OperationMethod<
 export const startMetadataModelCreation: API.OperationMethod<
   StartMetadataModelCreationMessage,
   StartMetadataModelCreationResponse,
-  | AccessDeniedFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  StartMetadataModelCreationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataModelCreationMessage,
@@ -10766,13 +10994,7 @@ export const startMetadataModelCreation: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
-/**
- * Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
- * bucket.
- */
-export const startMetadataModelExportAsScript: API.OperationMethod<
-  StartMetadataModelExportAsScriptMessage,
-  StartMetadataModelExportAsScriptResponse,
+export type StartMetadataModelExportAsScriptError =
   | AccessDeniedFault
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10781,7 +11003,15 @@ export const startMetadataModelExportAsScript: API.OperationMethod<
   | ResourceQuotaExceededFault
   | S3AccessDeniedFault
   | S3ResourceNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
+ * bucket.
+ */
+export const startMetadataModelExportAsScript: API.OperationMethod<
+  StartMetadataModelExportAsScriptMessage,
+  StartMetadataModelExportAsScriptResponse,
+  StartMetadataModelExportAsScriptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataModelExportAsScriptMessage,
@@ -10797,12 +11027,7 @@ export const startMetadataModelExportAsScript: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
-/**
- * Applies converted database objects to your target database.
- */
-export const startMetadataModelExportToTarget: API.OperationMethod<
-  StartMetadataModelExportToTargetMessage,
-  StartMetadataModelExportToTargetResponse,
+export type StartMetadataModelExportToTargetError =
   | AccessDeniedFault
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10811,7 +11036,14 @@ export const startMetadataModelExportToTarget: API.OperationMethod<
   | ResourceQuotaExceededFault
   | S3AccessDeniedFault
   | S3ResourceNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Applies converted database objects to your target database.
+ */
+export const startMetadataModelExportToTarget: API.OperationMethod<
+  StartMetadataModelExportToTargetMessage,
+  StartMetadataModelExportToTargetResponse,
+  StartMetadataModelExportToTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataModelExportToTargetMessage,
@@ -10827,6 +11059,16 @@ export const startMetadataModelExportToTarget: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type StartMetadataModelImportError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Loads the metadata for all the dependent database objects of the parent object.
  *
@@ -10836,15 +11078,7 @@ export const startMetadataModelExportToTarget: API.OperationMethod<
 export const startMetadataModelImport: API.OperationMethod<
   StartMetadataModelImportMessage,
   StartMetadataModelImportResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  StartMetadataModelImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataModelImportMessage,
@@ -10860,6 +11094,11 @@ export const startMetadataModelImport: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type StartRecommendationsError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
  *
@@ -10871,16 +11110,18 @@ export const startMetadataModelImport: API.OperationMethod<
 export const startRecommendations: API.OperationMethod<
   StartRecommendationsRequest,
   StartRecommendationsResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  StartRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRecommendationsRequest,
   output: StartRecommendationsResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type StartReplicationError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * For a given DMS Serverless replication configuration, DMS connects to the source
  * endpoint and collects the metadata to analyze the replication workload. Using this
@@ -10891,16 +11132,18 @@ export const startRecommendations: API.OperationMethod<
 export const startReplication: API.OperationMethod<
   StartReplicationMessage,
   StartReplicationResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  StartReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationMessage,
   output: StartReplicationResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type StartReplicationTaskError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Starts the replication task.
  *
@@ -10910,16 +11153,17 @@ export const startReplication: API.OperationMethod<
 export const startReplicationTask: API.OperationMethod<
   StartReplicationTaskMessage,
   StartReplicationTaskResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  StartReplicationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationTaskMessage,
   output: StartReplicationTaskResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type StartReplicationTaskAssessmentError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Starts the replication task assessment for unsupported data types in the source
  * database.
@@ -10939,13 +11183,27 @@ export const startReplicationTask: API.OperationMethod<
 export const startReplicationTaskAssessment: API.OperationMethod<
   StartReplicationTaskAssessmentMessage,
   StartReplicationTaskAssessmentResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  StartReplicationTaskAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationTaskAssessmentMessage,
   output: StartReplicationTaskAssessmentResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type StartReplicationTaskAssessmentRunError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSAccessDeniedFault
+  | KMSDisabledFault
+  | KMSFault
+  | KMSInvalidStateFault
+  | KMSKeyNotAccessibleFault
+  | KMSNotFoundFault
+  | ResourceAlreadyExistsFault
+  | ResourceNotFoundFault
+  | S3AccessDeniedFault
+  | S3ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Starts a new premigration assessment run for one or more individual assessments of a
  * migration task.
@@ -10959,19 +11217,7 @@ export const startReplicationTaskAssessment: API.OperationMethod<
 export const startReplicationTaskAssessmentRun: API.OperationMethod<
   StartReplicationTaskAssessmentRunMessage,
   StartReplicationTaskAssessmentRunResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSAccessDeniedFault
-  | KMSDisabledFault
-  | KMSFault
-  | KMSInvalidStateFault
-  | KMSKeyNotAccessibleFault
-  | KMSNotFoundFault
-  | ResourceAlreadyExistsFault
-  | ResourceNotFoundFault
-  | S3AccessDeniedFault
-  | S3ResourceNotFoundFault
-  | CommonErrors,
+  StartReplicationTaskAssessmentRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationTaskAssessmentRunMessage,
@@ -10991,16 +11237,18 @@ export const startReplicationTaskAssessmentRun: API.OperationMethod<
     S3ResourceNotFoundFault,
   ],
 }));
+export type StopDataMigrationError =
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Stops the specified data migration.
  */
 export const stopDataMigration: API.OperationMethod<
   StopDataMigrationMessage,
   StopDataMigrationResponse,
-  | FailedDependencyFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  StopDataMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDataMigrationMessage,
@@ -11011,6 +11259,11 @@ export const stopDataMigration: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type StopReplicationError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * For a given DMS Serverless replication configuration, DMS stops any and all ongoing
  * DMS Serverless replications. This command doesn't deprovision the stopped
@@ -11019,41 +11272,44 @@ export const stopDataMigration: API.OperationMethod<
 export const stopReplication: API.OperationMethod<
   StopReplicationMessage,
   StopReplicationResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  StopReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopReplicationMessage,
   output: StopReplicationResponse,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type StopReplicationTaskError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Stops the replication task.
  */
 export const stopReplicationTask: API.OperationMethod<
   StopReplicationTaskMessage,
   StopReplicationTaskResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  StopReplicationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopReplicationTaskMessage,
   output: StopReplicationTaskResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type TestConnectionError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | KMSKeyNotAccessibleFault
+  | ResourceNotFoundFault
+  | ResourceQuotaExceededFault
+  | CommonErrors;
 /**
  * Tests the connection between the replication instance and the endpoint.
  */
 export const testConnection: API.OperationMethod<
   TestConnectionMessage,
   TestConnectionResponse,
-  | AccessDeniedFault
-  | InvalidResourceStateFault
-  | KMSKeyNotAccessibleFault
-  | ResourceNotFoundFault
-  | ResourceQuotaExceededFault
-  | CommonErrors,
+  TestConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestConnectionMessage,
@@ -11066,6 +11322,10 @@ export const testConnection: API.OperationMethod<
     ResourceQuotaExceededFault,
   ],
 }));
+export type UpdateSubscriptionsToEventBridgeError =
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | CommonErrors;
 /**
  * Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to
  * corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions
@@ -11083,7 +11343,7 @@ export const testConnection: API.OperationMethod<
 export const updateSubscriptionsToEventBridge: API.OperationMethod<
   UpdateSubscriptionsToEventBridgeMessage,
   UpdateSubscriptionsToEventBridgeResponse,
-  AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+  UpdateSubscriptionsToEventBridgeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionsToEventBridgeMessage,

@@ -1290,6 +1290,11 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError, C.withRetryableError) {}
 
 //# Operations
+export type GetFindingsReportAccountSummaryError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  *
@@ -1300,30 +1305,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const getFindingsReportAccountSummary: API.OperationMethod<
   GetFindingsReportAccountSummaryRequest,
   GetFindingsReportAccountSummaryResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFindingsReportAccountSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFindingsReportAccountSummaryRequest,
   ) => stream.Stream<
     GetFindingsReportAccountSummaryResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFindingsReportAccountSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFindingsReportAccountSummaryRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFindingsReportAccountSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1336,16 +1332,18 @@ export const getFindingsReportAccountSummary: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the tags that are assigned to a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1356,16 +1354,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use to assign one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1376,16 +1376,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use to remove one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1396,18 +1398,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateProfilingGroupError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a profiling group.
  */
 export const createProfilingGroup: API.OperationMethod<
   CreateProfilingGroupRequest,
   CreateProfilingGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateProfilingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfilingGroupRequest,
@@ -1420,6 +1424,12 @@ export const createProfilingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeProfilingGroupError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a
  * `ProfilingGroupDescription`
@@ -1429,11 +1439,7 @@ export const createProfilingGroup: API.OperationMethod<
 export const describeProfilingGroup: API.OperationMethod<
   DescribeProfilingGroupRequest,
   DescribeProfilingGroupResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeProfilingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProfilingGroupRequest,
@@ -1445,18 +1451,20 @@ export const describeProfilingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProfilingGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a profiling group.
  */
 export const updateProfilingGroup: API.OperationMethod<
   UpdateProfilingGroupRequest,
   UpdateProfilingGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateProfilingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfilingGroupRequest,
@@ -1469,18 +1477,20 @@ export const updateProfilingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProfilingGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a profiling group.
  */
 export const deleteProfilingGroup: API.OperationMethod<
   DeleteProfilingGroupRequest,
   DeleteProfilingGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteProfilingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfilingGroupRequest,
@@ -1493,6 +1503,10 @@ export const deleteProfilingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListProfilingGroupsError =
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of profiling groups. The profiling groups are returned as
  *
@@ -1503,21 +1517,21 @@ export const deleteProfilingGroup: API.OperationMethod<
 export const listProfilingGroups: API.OperationMethod<
   ListProfilingGroupsRequest,
   ListProfilingGroupsResponse,
-  InternalServerException | ThrottlingException | CommonErrors,
+  ListProfilingGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProfilingGroupsRequest,
   ) => stream.Stream<
     ListProfilingGroupsResponse,
-    InternalServerException | ThrottlingException | CommonErrors,
+    ListProfilingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProfilingGroupsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ThrottlingException | CommonErrors,
+    ListProfilingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1530,19 +1544,21 @@ export const listProfilingGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Add up to 2 anomaly notifications channels for a profiling group.
- */
-export const addNotificationChannels: API.OperationMethod<
-  AddNotificationChannelsRequest,
-  AddNotificationChannelsResponse,
+export type AddNotificationChannelsError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Add up to 2 anomaly notifications channels for a profiling group.
+ */
+export const addNotificationChannels: API.OperationMethod<
+  AddNotificationChannelsRequest,
+  AddNotificationChannelsResponse,
+  AddNotificationChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddNotificationChannelsRequest,
@@ -1556,6 +1572,12 @@ export const addNotificationChannels: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetFrameMetricDataError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the time series of values for a requested list
  * of frame metrics from a time period.
@@ -1563,11 +1585,7 @@ export const addNotificationChannels: API.OperationMethod<
 export const batchGetFrameMetricData: API.OperationMethod<
   BatchGetFrameMetricDataRequest,
   BatchGetFrameMetricDataResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetFrameMetricDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFrameMetricDataRequest,
@@ -1579,6 +1597,12 @@ export const batchGetFrameMetricData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ConfigureAgentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Used by profiler agents to report their current state and to receive remote
  * configuration updates. For example, `ConfigureAgent` can be used
@@ -1587,11 +1611,7 @@ export const batchGetFrameMetricData: API.OperationMethod<
 export const configureAgent: API.OperationMethod<
   ConfigureAgentRequest,
   ConfigureAgentResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ConfigureAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureAgentRequest,
@@ -1603,17 +1623,19 @@ export const configureAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNotificationConfigurationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the current configuration for anomaly notifications for a profiling group.
  */
 export const getNotificationConfiguration: API.OperationMethod<
   GetNotificationConfigurationRequest,
   GetNotificationConfigurationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationConfigurationRequest,
@@ -1625,16 +1647,18 @@ export const getNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPolicyError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the JSON-formatted resource-based policy on a profiling group.
  */
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
@@ -1645,6 +1669,12 @@ export const getPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetProfileError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the aggregated profile of a profiling group for a specified time range.
  * Amazon CodeGuru Profiler collects posted agent profiles for a profiling group
@@ -1690,11 +1720,7 @@ export const getPolicy: API.OperationMethod<
 export const getProfile: API.OperationMethod<
   GetProfileRequest,
   GetProfileResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileRequest,
@@ -1706,6 +1732,12 @@ export const getProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRecommendationsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  *
@@ -1721,11 +1753,7 @@ export const getProfile: API.OperationMethod<
 export const getRecommendations: API.OperationMethod<
   GetRecommendationsRequest,
   GetRecommendationsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
@@ -1737,39 +1765,33 @@ export const getRecommendations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFindingsReportsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the available reports for a given profiling group and time range.
  */
 export const listFindingsReports: API.OperationMethod<
   ListFindingsReportsRequest,
   ListFindingsReportsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFindingsReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingsReportsRequest,
   ) => stream.Stream<
     ListFindingsReportsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingsReportsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1787,6 +1809,12 @@ export const listFindingsReports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProfileTimesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the start times of the available aggregated profiles of a profiling group
  * for an aggregation period within the specified time range.
@@ -1794,33 +1822,21 @@ export const listFindingsReports: API.OperationMethod<
 export const listProfileTimes: API.OperationMethod<
   ListProfileTimesRequest,
   ListProfileTimesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProfileTimesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProfileTimesRequest,
   ) => stream.Stream<
     ListProfileTimesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfileTimesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProfileTimesRequest,
   ) => stream.Stream<
     ProfileTime,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfileTimesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1839,6 +1855,12 @@ export const listProfileTimes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PostAgentProfileError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Submits profiling data to an aggregated profile of a profiling group. To get an
  * aggregated profile that is created with this profiling data, use
@@ -1849,11 +1871,7 @@ export const listProfileTimes: API.OperationMethod<
 export const postAgentProfile: API.OperationMethod<
   PostAgentProfileRequest,
   PostAgentProfileResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PostAgentProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostAgentProfileRequest,
@@ -1865,6 +1883,13 @@ export const postAgentProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutPermissionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds permissions to a profiling group's resource-based policy
  * that are provided using an action group. If a profiling group doesn't have
@@ -1890,12 +1915,7 @@ export const postAgentProfile: API.OperationMethod<
 export const putPermission: API.OperationMethod<
   PutPermissionRequest,
   PutPermissionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionRequest,
@@ -1908,17 +1928,19 @@ export const putPermission: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveNotificationChannelError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove one anomaly notifications channel for a profiling group.
  */
 export const removeNotificationChannel: API.OperationMethod<
   RemoveNotificationChannelRequest,
   RemoveNotificationChannelResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveNotificationChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveNotificationChannelRequest,
@@ -1930,6 +1952,13 @@ export const removeNotificationChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemovePermissionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes permissions from a profiling group's resource-based policy that are provided
  * using an action group. The one supported action group that can be removed is
@@ -1944,12 +1973,7 @@ export const removeNotificationChannel: API.OperationMethod<
 export const removePermission: API.OperationMethod<
   RemovePermissionRequest,
   RemovePermissionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemovePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionRequest,
@@ -1962,6 +1986,12 @@ export const removePermission: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SubmitFeedbackError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is
  * useful or not.
@@ -1969,11 +1999,7 @@ export const removePermission: API.OperationMethod<
 export const submitFeedback: API.OperationMethod<
   SubmitFeedbackRequest,
   SubmitFeedbackResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SubmitFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitFeedbackRequest,

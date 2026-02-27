@@ -944,6 +944,11 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags attached to the resource.
  *
@@ -952,10 +957,7 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -966,6 +968,11 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutNotificationSettingsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a list of *notification settings* to a trust anchor.
  *
@@ -976,10 +983,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putNotificationSettings: API.OperationMethod<
   PutNotificationSettingsRequest,
   PutNotificationSettingsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutNotificationSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutNotificationSettingsRequest,
@@ -990,6 +994,11 @@ export const putNotificationSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResetNotificationSettingsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Resets the *custom notification setting* to IAM Roles Anywhere default setting.
  *
@@ -998,10 +1007,7 @@ export const putNotificationSettings: API.OperationMethod<
 export const resetNotificationSettings: API.OperationMethod<
   ResetNotificationSettingsRequest,
   ResetNotificationSettingsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ResetNotificationSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetNotificationSettingsRequest,
@@ -1012,6 +1018,12 @@ export const resetNotificationSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches tags to a resource.
  *
@@ -1020,11 +1032,7 @@ export const resetNotificationSettings: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1036,6 +1044,11 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from the resource.
  *
@@ -1044,10 +1057,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1058,6 +1068,10 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportCrlError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.
  *
@@ -1066,13 +1080,14 @@ export const untagResource: API.OperationMethod<
 export const importCrl: API.OperationMethod<
   ImportCrlRequest,
   CrlDetailResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ImportCrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ValidationException],
 }));
+export type GetCrlError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets a certificate revocation list (CRL).
  *
@@ -1081,13 +1096,18 @@ export const importCrl: API.OperationMethod<
 export const getCrl: API.OperationMethod<
   ScalarCrlRequest,
   CrlDetailResponse,
-  ResourceNotFoundException | CommonErrors,
+  GetCrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials.
  *
@@ -1096,10 +1116,7 @@ export const getCrl: API.OperationMethod<
 export const updateCrl: API.OperationMethod<
   UpdateCrlRequest,
   CrlDetailResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateCrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCrlRequest,
@@ -1110,6 +1127,10 @@ export const updateCrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a certificate revocation list (CRL).
  *
@@ -1118,13 +1139,17 @@ export const updateCrl: API.OperationMethod<
 export const deleteCrl: API.OperationMethod<
   ScalarCrlRequest,
   CrlDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DeleteCrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type ListCrlsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region.
  *
@@ -1133,21 +1158,21 @@ export const deleteCrl: API.OperationMethod<
 export const listCrls: API.OperationMethod<
   ListRequest,
   ListCrlsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListCrlsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
     ListCrlsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListCrlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
   ) => stream.Stream<
     CrlDetail,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListCrlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1160,6 +1185,10 @@ export const listCrls: API.OperationMethod<
     items: "crls",
   } as const,
 }));
+export type DisableCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables a certificate revocation list (CRL).
  *
@@ -1168,13 +1197,17 @@ export const listCrls: API.OperationMethod<
 export const disableCrl: API.OperationMethod<
   ScalarCrlRequest,
   CrlDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DisableCrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type EnableCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials.
  *
@@ -1183,13 +1216,17 @@ export const disableCrl: API.OperationMethod<
 export const enableCrl: API.OperationMethod<
   ScalarCrlRequest,
   CrlDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  EnableCrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type CreateProfileError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.
  *
@@ -1198,13 +1235,17 @@ export const enableCrl: API.OperationMethod<
 export const createProfile: API.OperationMethod<
   CreateProfileRequest,
   ProfileDetailResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  CreateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ValidationException],
 }));
+export type GetProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a profile.
  *
@@ -1213,13 +1254,18 @@ export const createProfile: API.OperationMethod<
 export const getProfile: API.OperationMethod<
   ScalarProfileRequest,
   ProfileDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  GetProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type UpdateProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a *profile*, a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.
  *
@@ -1228,10 +1274,7 @@ export const getProfile: API.OperationMethod<
 export const updateProfile: API.OperationMethod<
   UpdateProfileRequest,
   ProfileDetailResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileRequest,
@@ -1242,6 +1285,10 @@ export const updateProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a profile.
  *
@@ -1250,13 +1297,17 @@ export const updateProfile: API.OperationMethod<
 export const deleteProfile: API.OperationMethod<
   ScalarProfileRequest,
   ProfileDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DeleteProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type ListProfilesError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all profiles in the authenticated account and Amazon Web Services Region.
  *
@@ -1265,21 +1316,21 @@ export const deleteProfile: API.OperationMethod<
 export const listProfiles: API.OperationMethod<
   ListRequest,
   ListProfilesResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
     ListProfilesResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
   ) => stream.Stream<
     ProfileDetail,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1292,16 +1343,18 @@ export const listProfiles: API.OperationMethod<
     items: "profiles",
   } as const,
 }));
+export type DeleteAttributeMappingError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an entry from the attribute mapping rules enforced by a given profile.
  */
 export const deleteAttributeMapping: API.OperationMethod<
   DeleteAttributeMappingRequest,
   DeleteAttributeMappingResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAttributeMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttributeMappingRequest,
@@ -1312,6 +1365,10 @@ export const deleteAttributeMapping: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisableProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables a profile. When disabled, temporary credential requests with this profile fail.
  *
@@ -1320,13 +1377,17 @@ export const deleteAttributeMapping: API.OperationMethod<
 export const disableProfile: API.OperationMethod<
   ScalarProfileRequest,
   ProfileDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DisableProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type EnableProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables temporary credential requests for a profile.
  *
@@ -1335,23 +1396,25 @@ export const disableProfile: API.OperationMethod<
 export const enableProfile: API.OperationMethod<
   ScalarProfileRequest,
   ProfileDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  EnableProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type PutAttributeMappingError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
  */
 export const putAttributeMapping: API.OperationMethod<
   PutAttributeMappingRequest,
   PutAttributeMappingResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutAttributeMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAttributeMappingRequest,
@@ -1362,6 +1425,10 @@ export const putAttributeMapping: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSubjectError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a *subject*, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication.
  *
@@ -1370,13 +1437,17 @@ export const putAttributeMapping: API.OperationMethod<
 export const getSubject: API.OperationMethod<
   ScalarSubjectRequest,
   SubjectDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  GetSubjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarSubjectRequest,
   output: SubjectDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type ListSubjectsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the subjects in the authenticated account and Amazon Web Services Region.
  *
@@ -1385,21 +1456,21 @@ export const getSubject: API.OperationMethod<
 export const listSubjects: API.OperationMethod<
   ListRequest,
   ListSubjectsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListSubjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
     ListSubjectsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListSubjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
   ) => stream.Stream<
     SubjectSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListSubjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1412,6 +1483,10 @@ export const listSubjects: API.OperationMethod<
     items: "subjects",
   } as const,
 }));
+export type CreateTrustAnchorError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.
  *
@@ -1420,13 +1495,18 @@ export const listSubjects: API.OperationMethod<
 export const createTrustAnchor: API.OperationMethod<
   CreateTrustAnchorRequest,
   TrustAnchorDetailResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  CreateTrustAnchorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ValidationException],
 }));
+export type GetTrustAnchorError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a trust anchor.
  *
@@ -1435,10 +1515,7 @@ export const createTrustAnchor: API.OperationMethod<
 export const getTrustAnchor: API.OperationMethod<
   ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetTrustAnchorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
@@ -1449,6 +1526,11 @@ export const getTrustAnchor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTrustAnchorError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.
  *
@@ -1457,10 +1539,7 @@ export const getTrustAnchor: API.OperationMethod<
 export const updateTrustAnchor: API.OperationMethod<
   UpdateTrustAnchorRequest,
   TrustAnchorDetailResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateTrustAnchorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustAnchorRequest,
@@ -1471,6 +1550,10 @@ export const updateTrustAnchor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTrustAnchorError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a trust anchor.
  *
@@ -1479,13 +1562,17 @@ export const updateTrustAnchor: API.OperationMethod<
 export const deleteTrustAnchor: API.OperationMethod<
   ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DeleteTrustAnchorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type ListTrustAnchorsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the trust anchors in the authenticated account and Amazon Web Services Region.
  *
@@ -1494,21 +1581,21 @@ export const deleteTrustAnchor: API.OperationMethod<
 export const listTrustAnchors: API.OperationMethod<
   ListRequest,
   ListTrustAnchorsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListTrustAnchorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
     ListTrustAnchorsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListTrustAnchorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
   ) => stream.Stream<
     TrustAnchorDetail,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListTrustAnchorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1521,6 +1608,10 @@ export const listTrustAnchors: API.OperationMethod<
     items: "trustAnchors",
   } as const,
 }));
+export type DisableTrustAnchorError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized.
  *
@@ -1529,13 +1620,17 @@ export const listTrustAnchors: API.OperationMethod<
 export const disableTrustAnchor: API.OperationMethod<
   ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DisableTrustAnchorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type EnableTrustAnchorError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation.
  *
@@ -1544,7 +1639,7 @@ export const disableTrustAnchor: API.OperationMethod<
 export const enableTrustAnchor: API.OperationMethod<
   ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  EnableTrustAnchorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,

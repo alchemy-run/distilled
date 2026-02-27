@@ -208,23 +208,24 @@ export const Finding = S.suspend(() =>
 ).annotate({ identifier: "Finding" }) as any as S.Schema<Finding>;
 export type FindingList = Finding[];
 export const FindingList = S.Array(Finding);
-export interface BatchGetIncidentFindingsError {
+export interface BatchGetIncidentFindingsError_ {
   findingId: string;
   code: string;
   message: string;
 }
-export const BatchGetIncidentFindingsError = S.suspend(() =>
+export const BatchGetIncidentFindingsError_ = S.suspend(() =>
   S.Struct({ findingId: S.String, code: S.String, message: S.String }),
 ).annotate({
   identifier: "BatchGetIncidentFindingsError",
-}) as any as S.Schema<BatchGetIncidentFindingsError>;
-export type BatchGetIncidentFindingsErrorList = BatchGetIncidentFindingsError[];
+}) as any as S.Schema<BatchGetIncidentFindingsError_>;
+export type BatchGetIncidentFindingsErrorList =
+  BatchGetIncidentFindingsError_[];
 export const BatchGetIncidentFindingsErrorList = S.Array(
-  BatchGetIncidentFindingsError,
+  BatchGetIncidentFindingsError_,
 );
 export interface BatchGetIncidentFindingsOutput {
   findings: Finding[];
-  errors: BatchGetIncidentFindingsError[];
+  errors: BatchGetIncidentFindingsError_[];
 }
 export const BatchGetIncidentFindingsOutput = S.suspend(() =>
   S.Struct({
@@ -1692,6 +1693,13 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type BatchGetIncidentFindingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding
  * represents a recent application environment change made by an CodeDeploy
@@ -1701,12 +1709,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const batchGetIncidentFindings: API.OperationMethod<
   BatchGetIncidentFindingsInput,
   BatchGetIncidentFindingsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetIncidentFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetIncidentFindingsInput,
@@ -1719,6 +1722,14 @@ export const batchGetIncidentFindings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateReplicationSetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A replication set replicates and encrypts your data to the provided Regions with the
  * provided KMS key.
@@ -1726,13 +1737,7 @@ export const batchGetIncidentFindings: API.OperationMethod<
 export const createReplicationSet: API.OperationMethod<
   CreateReplicationSetInput,
   CreateReplicationSetOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateReplicationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationSetInput,
@@ -1746,6 +1751,14 @@ export const createReplicationSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResponsePlanError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a response plan that automates the initial response to incidents. A response plan
  * engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning
@@ -1754,13 +1767,7 @@ export const createReplicationSet: API.OperationMethod<
 export const createResponsePlan: API.OperationMethod<
   CreateResponsePlanInput,
   CreateResponsePlanOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateResponsePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResponsePlanInput,
@@ -1774,6 +1781,14 @@ export const createResponsePlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTimelineEventError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a custom timeline event on the incident details page of an incident record.
  * Incident Manager automatically creates timeline events that mark key moments during an incident.
@@ -1783,13 +1798,7 @@ export const createResponsePlan: API.OperationMethod<
 export const createTimelineEvent: API.OperationMethod<
   CreateTimelineEventInput,
   CreateTimelineEventOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTimelineEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTimelineEventInput,
@@ -1803,17 +1812,19 @@ export const createTimelineEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIncidentRecordError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an incident record from Incident Manager.
  */
 export const deleteIncidentRecord: API.OperationMethod<
   DeleteIncidentRecordInput,
   DeleteIncidentRecordOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIncidentRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIncidentRecordInput,
@@ -1825,6 +1836,13 @@ export const deleteIncidentRecord: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteReplicationSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes all Regions in your replication set. Deleting the replication set deletes all
  * Incident Manager data.
@@ -1832,12 +1850,7 @@ export const deleteIncidentRecord: API.OperationMethod<
 export const deleteReplicationSet: API.OperationMethod<
   DeleteReplicationSetInput,
   DeleteReplicationSetOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteReplicationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationSetInput,
@@ -1850,6 +1863,13 @@ export const deleteReplicationSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the resource policy that Resource Access Manager uses to share your Incident Manager
  * resource.
@@ -1857,12 +1877,7 @@ export const deleteReplicationSet: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyInput,
   DeleteResourcePolicyOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyInput,
@@ -1875,6 +1890,12 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResponsePlanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response
  * plan.
@@ -1882,11 +1903,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteResponsePlan: API.OperationMethod<
   DeleteResponsePlanInput,
   DeleteResponsePlanOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResponsePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResponsePlanInput,
@@ -1898,17 +1915,19 @@ export const deleteResponsePlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTimelineEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a timeline event from an incident.
  */
 export const deleteTimelineEvent: API.OperationMethod<
   DeleteTimelineEventInput,
   DeleteTimelineEventOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTimelineEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTimelineEventInput,
@@ -1920,18 +1939,20 @@ export const deleteTimelineEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIncidentRecordError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the details for the specified incident record.
  */
 export const getIncidentRecord: API.OperationMethod<
   GetIncidentRecordInput,
   GetIncidentRecordOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIncidentRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIncidentRecordInput,
@@ -1944,18 +1965,20 @@ export const getIncidentRecord: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReplicationSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve your Incident Manager replication set.
  */
 export const getReplicationSet: API.OperationMethod<
   GetReplicationSetInput,
   GetReplicationSetOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReplicationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReplicationSetInput,
@@ -1968,42 +1991,34 @@ export const getReplicationSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the resource policies attached to the specified response plan.
  */
 export const getResourcePolicies: API.OperationMethod<
   GetResourcePoliciesInput,
   GetResourcePoliciesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourcePoliciesInput,
   ) => stream.Stream<
     GetResourcePoliciesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetResourcePoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourcePoliciesInput,
   ) => stream.Stream<
     ResourcePolicy,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetResourcePoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2023,18 +2038,20 @@ export const getResourcePolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetResponsePlanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of the specified response plan.
  */
 export const getResponsePlan: API.OperationMethod<
   GetResponsePlanInput,
   GetResponsePlanOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResponsePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResponsePlanInput,
@@ -2047,18 +2064,20 @@ export const getResponsePlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTimelineEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a timeline event based on its ID and incident record.
  */
 export const getTimelineEvent: API.OperationMethod<
   GetTimelineEventInput,
   GetTimelineEventOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTimelineEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTimelineEventInput,
@@ -2071,6 +2090,13 @@ export const getTimelineEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIncidentFindingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of the IDs of findings, plus their last modified times, that have been
  * identified for a specified incident. A finding represents a recent application environment
@@ -2080,36 +2106,21 @@ export const getTimelineEvent: API.OperationMethod<
 export const listIncidentFindings: API.OperationMethod<
   ListIncidentFindingsInput,
   ListIncidentFindingsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIncidentFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIncidentFindingsInput,
   ) => stream.Stream<
     ListIncidentFindingsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIncidentFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIncidentFindingsInput,
   ) => stream.Stream<
     FindingSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIncidentFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2129,6 +2140,12 @@ export const listIncidentFindings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIncidentRecordsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all incident records in your account. Use this command to retrieve the Amazon
  * Resource Name (ARN) of the incident record you want to update.
@@ -2136,33 +2153,21 @@ export const listIncidentFindings: API.OperationMethod<
 export const listIncidentRecords: API.OperationMethod<
   ListIncidentRecordsInput,
   ListIncidentRecordsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIncidentRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIncidentRecordsInput,
   ) => stream.Stream<
     ListIncidentRecordsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIncidentRecordsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIncidentRecordsInput,
   ) => stream.Stream<
     IncidentRecordSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIncidentRecordsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2181,39 +2186,33 @@ export const listIncidentRecords: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRelatedItemsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all related items for an incident record.
  */
 export const listRelatedItems: API.OperationMethod<
   ListRelatedItemsInput,
   ListRelatedItemsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRelatedItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRelatedItemsInput,
   ) => stream.Stream<
     ListRelatedItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRelatedItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRelatedItemsInput,
   ) => stream.Stream<
     RelatedItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRelatedItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2232,39 +2231,33 @@ export const listRelatedItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListReplicationSetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists details about the replication set configured in your account.
  */
 export const listReplicationSets: API.OperationMethod<
   ListReplicationSetsInput,
   ListReplicationSetsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReplicationSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReplicationSetsInput,
   ) => stream.Stream<
     ListReplicationSetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReplicationSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReplicationSetsInput,
   ) => stream.Stream<
     Arn,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReplicationSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2283,39 +2276,33 @@ export const listReplicationSets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResponsePlansError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all response plans in your account.
  */
 export const listResponsePlans: API.OperationMethod<
   ListResponsePlansInput,
   ListResponsePlansOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListResponsePlansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResponsePlansInput,
   ) => stream.Stream<
     ListResponsePlansOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResponsePlansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResponsePlansInput,
   ) => stream.Stream<
     ResponsePlanSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResponsePlansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2334,18 +2321,20 @@ export const listResponsePlans: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags that are attached to the specified response plan or incident.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2358,39 +2347,33 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTimelineEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists timeline events for the specified incident record.
  */
 export const listTimelineEvents: API.OperationMethod<
   ListTimelineEventsInput,
   ListTimelineEventsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTimelineEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTimelineEventsInput,
   ) => stream.Stream<
     ListTimelineEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTimelineEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTimelineEventsInput,
   ) => stream.Stream<
     EventSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTimelineEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2409,6 +2392,13 @@ export const listTimelineEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a resource policy to the specified response plan. The resource policy is used to
  * share the response plan using Resource Access Manager (RAM). For more
@@ -2417,12 +2407,7 @@ export const listTimelineEvents: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyInput,
   PutResourcePolicyOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyInput,
@@ -2435,6 +2420,14 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartIncidentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Used to start an incident from CloudWatch alarms, EventBridge events, or
  * manually.
@@ -2442,13 +2435,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const startIncident: API.OperationMethod<
   StartIncidentInput,
   StartIncidentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartIncidentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIncidentInput,
@@ -2462,12 +2449,7 @@ export const startIncident: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds a tag to a response plan.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2475,7 +2457,14 @@ export const tagResource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a tag to a response plan.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2490,19 +2479,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes a tag from a resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a tag from a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2516,6 +2507,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDeletionProtectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update deletion protection to either allow or deny deletion of the final Region in a
  * replication set.
@@ -2523,12 +2521,7 @@ export const untagResource: API.OperationMethod<
 export const updateDeletionProtection: API.OperationMethod<
   UpdateDeletionProtectionInput,
   UpdateDeletionProtectionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDeletionProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeletionProtectionInput,
@@ -2541,6 +2534,14 @@ export const updateDeletionProtection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateIncidentRecordError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the details of an incident record. You can use this operation to update an incident
  * record from the defined chat channel. For more information about using actions in chat
@@ -2549,13 +2550,7 @@ export const updateDeletionProtection: API.OperationMethod<
 export const updateIncidentRecord: API.OperationMethod<
   UpdateIncidentRecordInput,
   UpdateIncidentRecordOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateIncidentRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIncidentRecordInput,
@@ -2569,19 +2564,21 @@ export const updateIncidentRecord: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Add or remove related items from the related items tab of an incident record.
- */
-export const updateRelatedItems: API.OperationMethod<
-  UpdateRelatedItemsInput,
-  UpdateRelatedItemsOutput,
+export type UpdateRelatedItemsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Add or remove related items from the related items tab of an incident record.
+ */
+export const updateRelatedItems: API.OperationMethod<
+  UpdateRelatedItemsInput,
+  UpdateRelatedItemsOutput,
+  UpdateRelatedItemsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelatedItemsInput,
@@ -2595,19 +2592,21 @@ export const updateRelatedItems: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Add or delete Regions from your replication set.
- */
-export const updateReplicationSet: API.OperationMethod<
-  UpdateReplicationSetInput,
-  UpdateReplicationSetOutput,
+export type UpdateReplicationSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Add or delete Regions from your replication set.
+ */
+export const updateReplicationSet: API.OperationMethod<
+  UpdateReplicationSetInput,
+  UpdateReplicationSetOutput,
+  UpdateReplicationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReplicationSetInput,
@@ -2621,19 +2620,21 @@ export const updateReplicationSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified response plan.
- */
-export const updateResponsePlan: API.OperationMethod<
-  UpdateResponsePlanInput,
-  UpdateResponsePlanOutput,
+export type UpdateResponsePlanError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified response plan.
+ */
+export const updateResponsePlan: API.OperationMethod<
+  UpdateResponsePlanInput,
+  UpdateResponsePlanOutput,
+  UpdateResponsePlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResponsePlanInput,
@@ -2647,19 +2648,21 @@ export const updateResponsePlan: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a timeline event. You can update events of type `Custom Event`.
- */
-export const updateTimelineEvent: API.OperationMethod<
-  UpdateTimelineEventInput,
-  UpdateTimelineEventOutput,
+export type UpdateTimelineEventError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a timeline event. You can update events of type `Custom Event`.
+ */
+export const updateTimelineEvent: API.OperationMethod<
+  UpdateTimelineEventInput,
+  UpdateTimelineEventOutput,
+  UpdateTimelineEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTimelineEventInput,

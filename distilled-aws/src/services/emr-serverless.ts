@@ -1388,16 +1388,18 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags assigned to the resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1408,16 +1410,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1428,16 +1432,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1448,17 +1454,19 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateApplicationError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an application.
  */
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1470,16 +1478,18 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a specified application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
   GetApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -1490,16 +1500,18 @@ export const getApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a specified application. An application has to be in a stopped or created state in order to be updated.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   UpdateApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -1510,16 +1522,18 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an application. An application has to be in a stopped or created state in order to be deleted.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -1530,27 +1544,31 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists applications based on a set of parameters.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ApplicationSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1564,17 +1582,19 @@ export const listApplications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a specified application and initializes initial capacity if configured.
  */
 export const startApplication: API.OperationMethod<
   StartApplicationRequest,
   StartApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
@@ -1586,16 +1606,18 @@ export const startApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
  */
 export const stopApplication: API.OperationMethod<
   StopApplicationRequest,
   StopApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
@@ -1606,17 +1628,19 @@ export const stopApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartJobRunError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a job run.
  */
 export const startJobRun: API.OperationMethod<
   StartJobRunRequest,
   StartJobRunResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRunRequest,
@@ -1628,16 +1652,18 @@ export const startJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetJobRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a job run.
  */
 export const getJobRun: API.OperationMethod<
   GetJobRunRequest,
   GetJobRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRunRequest,
@@ -1648,16 +1674,18 @@ export const getJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelJobRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a job run.
  */
 export const cancelJobRun: API.OperationMethod<
   CancelJobRunRequest,
   CancelJobRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRunRequest,
@@ -1668,27 +1696,31 @@ export const cancelJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListJobRunsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists job runs based on a set of parameters.
  */
 export const listJobRuns: API.OperationMethod<
   ListJobRunsRequest,
   ListJobRunsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListJobRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
     ListJobRunsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListJobRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
     JobRunSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListJobRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1702,6 +1734,11 @@ export const listJobRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetDashboardForJobRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates and returns a URL that you can use to access the application UIs for a job run.
  *
@@ -1712,10 +1749,7 @@ export const listJobRuns: API.OperationMethod<
 export const getDashboardForJobRun: API.OperationMethod<
   GetDashboardForJobRunRequest,
   GetDashboardForJobRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetDashboardForJobRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDashboardForJobRunRequest,
@@ -1726,36 +1760,32 @@ export const getDashboardForJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListJobRunAttemptsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all attempt of a job run.
  */
 export const listJobRunAttempts: API.OperationMethod<
   ListJobRunAttemptsRequest,
   ListJobRunAttemptsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListJobRunAttemptsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobRunAttemptsRequest,
   ) => stream.Stream<
     ListJobRunAttemptsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListJobRunAttemptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunAttemptsRequest,
   ) => stream.Stream<
     JobRunAttemptSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListJobRunAttemptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

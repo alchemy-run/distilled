@@ -689,6 +689,14 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateNotificationRuleError =
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | ConfigurationException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a notification rule for a resource. The rule specifies the events you want
  * notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive
@@ -697,13 +705,7 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 export const createNotificationRule: API.OperationMethod<
   CreateNotificationRuleRequest,
   CreateNotificationRuleResult,
-  | AccessDeniedException
-  | ConcurrentModificationException
-  | ConfigurationException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ValidationException
-  | CommonErrors,
+  CreateNotificationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotificationRuleRequest,
@@ -717,16 +719,18 @@ export const createNotificationRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteNotificationRuleError =
+  | ConcurrentModificationException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a notification rule for a resource.
  */
 export const deleteNotificationRule: API.OperationMethod<
   DeleteNotificationRuleRequest,
   DeleteNotificationRuleResult,
-  | ConcurrentModificationException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  DeleteNotificationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotificationRuleRequest,
@@ -737,53 +741,62 @@ export const deleteNotificationRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTargetError = ValidationException | CommonErrors;
 /**
  * Deletes a specified target for notifications.
  */
 export const deleteTarget: API.OperationMethod<
   DeleteTargetRequest,
   DeleteTargetResult,
-  ValidationException | CommonErrors,
+  DeleteTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTargetRequest,
   output: DeleteTargetResult,
   errors: [ValidationException],
 }));
+export type DescribeNotificationRuleError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specified notification rule.
  */
 export const describeNotificationRule: API.OperationMethod<
   DescribeNotificationRuleRequest,
   DescribeNotificationRuleResult,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeNotificationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNotificationRuleRequest,
   output: DescribeNotificationRuleResult,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListEventTypesError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the event types available for configuring notifications.
  */
 export const listEventTypes: API.OperationMethod<
   ListEventTypesRequest,
   ListEventTypesResult,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListEventTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventTypesRequest,
   ) => stream.Stream<
     ListEventTypesResult,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListEventTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventTypesRequest,
   ) => stream.Stream<
     EventTypeSummary,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListEventTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -797,27 +810,31 @@ export const listEventTypes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNotificationRulesError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the notification rules for an Amazon Web Services account.
  */
 export const listNotificationRules: API.OperationMethod<
   ListNotificationRulesRequest,
   ListNotificationRulesResult,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListNotificationRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationRulesRequest,
   ) => stream.Stream<
     ListNotificationRulesResult,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListNotificationRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationRulesRequest,
   ) => stream.Stream<
     NotificationRuleSummary,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListNotificationRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -831,40 +848,48 @@ export const listNotificationRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the tags associated with a notification rule.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResult,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListTargetsError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the notification rule targets for an Amazon Web Services account.
  */
 export const listTargets: API.OperationMethod<
   ListTargetsRequest,
   ListTargetsResult,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTargetsRequest,
   ) => stream.Stream<
     ListTargetsResult,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetsRequest,
   ) => stream.Stream<
     TargetSummary,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -878,6 +903,11 @@ export const listTargets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SubscribeError =
+  | ConfigurationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the
  * associated target can receive notifications when the events described in the rule are
@@ -886,10 +916,7 @@ export const listTargets: API.OperationMethod<
 export const subscribe: API.OperationMethod<
   SubscribeRequest,
   SubscribeResult,
-  | ConfigurationException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SubscribeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeRequest,
@@ -900,17 +927,19 @@ export const subscribe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a set of provided tags with a notification rule.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResult,
-  | ConcurrentModificationException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -922,6 +951,7 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UnsubscribeError = ValidationException | CommonErrors;
 /**
  * Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that
  * subscribers to that topic stop receiving notifications when the events described in the
@@ -930,13 +960,19 @@ export const tagResource: API.OperationMethod<
 export const unsubscribe: API.OperationMethod<
   UnsubscribeRequest,
   UnsubscribeResult,
-  ValidationException | CommonErrors,
+  UnsubscribeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeRequest,
   output: UnsubscribeResult,
   errors: [ValidationException],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association between one or more provided tags and a notification
  * rule.
@@ -944,11 +980,7 @@ export const unsubscribe: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  | ConcurrentModificationException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -960,6 +992,11 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateNotificationRuleError =
+  | ConfigurationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a notification rule for a resource. You can change the events that trigger the
  * notification rule, the status of the rule, and the targets that receive the
@@ -970,10 +1007,7 @@ export const untagResource: API.OperationMethod<
 export const updateNotificationRule: API.OperationMethod<
   UpdateNotificationRuleRequest,
   UpdateNotificationRuleResult,
-  | ConfigurationException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateNotificationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationRuleRequest,

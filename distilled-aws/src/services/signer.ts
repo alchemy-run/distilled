@@ -1191,12 +1191,7 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * Adds cross-account permissions to a signing profile.
- */
-export const addProfilePermission: API.OperationMethod<
-  AddProfilePermissionRequest,
-  AddProfilePermissionResponse,
+export type AddProfilePermissionError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
@@ -1204,7 +1199,14 @@ export const addProfilePermission: API.OperationMethod<
   | ServiceLimitExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds cross-account permissions to a signing profile.
+ */
+export const addProfilePermission: API.OperationMethod<
+  AddProfilePermissionRequest,
+  AddProfilePermissionResponse,
+  AddProfilePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddProfilePermissionRequest,
@@ -1219,6 +1221,12 @@ export const addProfilePermission: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelSigningProfileError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Changes the state of an `ACTIVE` signing profile to `CANCELED`.
  * A canceled profile is still viewable with the `ListSigningProfiles`
@@ -1227,11 +1235,7 @@ export const addProfilePermission: API.OperationMethod<
 export const cancelSigningProfile: API.OperationMethod<
   CancelSigningProfileRequest,
   CancelSigningProfileResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CancelSigningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSigningProfileRequest,
@@ -1243,6 +1247,12 @@ export const cancelSigningProfile: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeSigningJobError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information about a specific code signing job. You specify the job by using the
  * `jobId` value that is returned by the StartSigningJob
@@ -1251,11 +1261,7 @@ export const cancelSigningProfile: API.OperationMethod<
 export const describeSigningJob: API.OperationMethod<
   DescribeSigningJobRequest,
   DescribeSigningJobResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeSigningJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSigningJobRequest,
@@ -1267,6 +1273,12 @@ export const describeSigningJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetRevocationStatusError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the revocation status of one or more of the signing profile, signing job,
  * and signing certificate.
@@ -1274,11 +1286,7 @@ export const describeSigningJob: API.OperationMethod<
 export const getRevocationStatus: API.OperationMethod<
   GetRevocationStatusRequest,
   GetRevocationStatusResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetRevocationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRevocationStatusRequest,
@@ -1290,17 +1298,19 @@ export const getRevocationStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSigningPlatformError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information on a specific signing platform.
  */
 export const getSigningPlatform: API.OperationMethod<
   GetSigningPlatformRequest,
   GetSigningPlatformResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetSigningPlatformError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSigningPlatformRequest,
@@ -1312,17 +1322,19 @@ export const getSigningPlatform: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetSigningProfileError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information on a specific signing profile.
  */
 export const getSigningProfile: API.OperationMethod<
   GetSigningProfileRequest,
   GetSigningProfileResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetSigningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSigningProfileRequest,
@@ -1334,18 +1346,20 @@ export const getSigningProfile: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListProfilePermissionsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the cross-account permissions associated with a signing profile.
  */
 export const listProfilePermissions: API.OperationMethod<
   ListProfilePermissionsRequest,
   ListProfilePermissionsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListProfilePermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProfilePermissionsRequest,
@@ -1358,6 +1372,12 @@ export const listProfilePermissions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSigningJobsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all your signing jobs. You can use the `maxResults` parameter to limit the
  * number of signing jobs that are returned in the response. If additional jobs remain to
@@ -1370,33 +1390,21 @@ export const listProfilePermissions: API.OperationMethod<
 export const listSigningJobs: API.OperationMethod<
   ListSigningJobsRequest,
   ListSigningJobsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListSigningJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSigningJobsRequest,
   ) => stream.Stream<
     ListSigningJobsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListSigningJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSigningJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListSigningJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1414,6 +1422,12 @@ export const listSigningJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSigningPlatformsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all signing platforms available in AWS Signer that match the request parameters. If
  * additional jobs remain to be listed, Signer returns a `nextToken` value.
@@ -1426,33 +1440,21 @@ export const listSigningJobs: API.OperationMethod<
 export const listSigningPlatforms: API.OperationMethod<
   ListSigningPlatformsRequest,
   ListSigningPlatformsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListSigningPlatformsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSigningPlatformsRequest,
   ) => stream.Stream<
     ListSigningPlatformsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListSigningPlatformsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSigningPlatformsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListSigningPlatformsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1470,6 +1472,11 @@ export const listSigningPlatforms: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSigningProfilesError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists all available signing profiles in your AWS account. Returns only profiles with an
  * `ACTIVE` status unless the `includeCanceled` request field is
@@ -1483,30 +1490,21 @@ export const listSigningPlatforms: API.OperationMethod<
 export const listSigningProfiles: API.OperationMethod<
   ListSigningProfilesRequest,
   ListSigningProfilesResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListSigningProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSigningProfilesRequest,
   ) => stream.Stream<
     ListSigningProfilesResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSigningProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSigningProfilesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSigningProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1523,17 +1521,19 @@ export const listSigningProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of the tags associated with a signing profile resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1545,6 +1545,13 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutSigningProfileError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a signing profile. A signing profile is a code-signing template that can be used to
  * carry out a pre-defined signing job.
@@ -1552,12 +1559,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putSigningProfile: API.OperationMethod<
   PutSigningProfileRequest,
   PutSigningProfileResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  PutSigningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSigningProfileRequest,
@@ -1570,19 +1572,21 @@ export const putSigningProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes cross-account permissions from a signing profile.
- */
-export const removeProfilePermission: API.OperationMethod<
-  RemoveProfilePermissionRequest,
-  RemoveProfilePermissionResponse,
+export type RemoveProfilePermissionError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes cross-account permissions from a signing profile.
+ */
+export const removeProfilePermission: API.OperationMethod<
+  RemoveProfilePermissionRequest,
+  RemoveProfilePermissionResponse,
+  RemoveProfilePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveProfilePermissionRequest,
@@ -1596,6 +1600,13 @@ export const removeProfilePermission: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RevokeSignatureError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Changes the state of a signing job to `REVOKED`. This indicates that the signature is no
  * longer valid.
@@ -1603,12 +1614,7 @@ export const removeProfilePermission: API.OperationMethod<
 export const revokeSignature: API.OperationMethod<
   RevokeSignatureRequest,
   RevokeSignatureResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  RevokeSignatureError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeSignatureRequest,
@@ -1621,6 +1627,13 @@ export const revokeSignature: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RevokeSigningProfileError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Changes the state of a signing profile to `REVOKED`. This indicates that signatures
  * generated using the signing profile after an effective start date are no longer
@@ -1631,12 +1644,7 @@ export const revokeSignature: API.OperationMethod<
 export const revokeSigningProfile: API.OperationMethod<
   RevokeSigningProfileRequest,
   RevokeSigningProfileResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  RevokeSigningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeSigningProfileRequest,
@@ -1649,18 +1657,20 @@ export const revokeSigningProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SignPayloadError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Signs a binary payload and returns a signature envelope.
  */
 export const signPayload: API.OperationMethod<
   SignPayloadRequest,
   SignPayloadResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  SignPayloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignPayloadRequest,
@@ -1673,6 +1683,14 @@ export const signPayload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartSigningJobError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Initiates a signing job to be performed on the code provided. Signing jobs are
  * viewable by the `ListSigningJobs` operation. Note the following requirements:
@@ -1700,13 +1718,7 @@ export const signPayload: API.OperationMethod<
 export const startSigningJob: API.OperationMethod<
   StartSigningJobRequest,
   StartSigningJobResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  StartSigningJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSigningJobRequest,
@@ -1720,6 +1732,12 @@ export const startSigningJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds one or more tags to a signing profile. Tags are labels that you can use to
  * identify and organize your AWS resources. Each tag consists of a key and an optional
@@ -1729,11 +1747,7 @@ export const startSigningJob: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1745,6 +1759,12 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes one or more tags from a signing profile. To remove the tags, specify a list of
  * tag keys.
@@ -1752,11 +1772,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

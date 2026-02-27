@@ -1079,18 +1079,20 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchUpdateRecommendationResourceExclusionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
  */
 export const batchUpdateRecommendationResourceExclusion: API.OperationMethod<
   BatchUpdateRecommendationResourceExclusionRequest,
   BatchUpdateRecommendationResourceExclusionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateRecommendationResourceExclusionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateRecommendationResourceExclusionRequest,
@@ -1103,18 +1105,20 @@ export const batchUpdateRecommendationResourceExclusion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOrganizationRecommendationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getOrganizationRecommendation: API.OperationMethod<
   GetOrganizationRecommendationRequest,
   GetOrganizationRecommendationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOrganizationRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationRecommendationRequest,
@@ -1127,18 +1131,20 @@ export const getOrganizationRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRecommendationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getRecommendation: API.OperationMethod<
   GetRecommendationRequest,
   GetRecommendationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationRequest,
@@ -1151,39 +1157,33 @@ export const getRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChecksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listChecks: API.OperationMethod<
   ListChecksRequest,
   ListChecksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListChecksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChecksRequest,
   ) => stream.Stream<
     ListChecksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChecksRequest,
   ) => stream.Stream<
     CheckSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1202,42 +1202,34 @@ export const listChecks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListOrganizationRecommendationAccountsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationAccounts: API.OperationMethod<
   ListOrganizationRecommendationAccountsRequest,
   ListOrganizationRecommendationAccountsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOrganizationRecommendationAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationRecommendationAccountsRequest,
   ) => stream.Stream<
     ListOrganizationRecommendationAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationRecommendationAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationRecommendationAccountsRequest,
   ) => stream.Stream<
     AccountRecommendationLifecycleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationRecommendationAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1257,42 +1249,34 @@ export const listOrganizationRecommendationAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListOrganizationRecommendationResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationResources: API.OperationMethod<
   ListOrganizationRecommendationResourcesRequest,
   ListOrganizationRecommendationResourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOrganizationRecommendationResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationRecommendationResourcesRequest,
   ) => stream.Stream<
     ListOrganizationRecommendationResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationRecommendationResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationRecommendationResourcesRequest,
   ) => stream.Stream<
     OrganizationRecommendationResourceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationRecommendationResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1312,39 +1296,33 @@ export const listOrganizationRecommendationResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListOrganizationRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendations: API.OperationMethod<
   ListOrganizationRecommendationsRequest,
   ListOrganizationRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOrganizationRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationRecommendationsRequest,
   ) => stream.Stream<
     ListOrganizationRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationRecommendationsRequest,
   ) => stream.Stream<
     OrganizationRecommendationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1363,42 +1341,34 @@ export const listOrganizationRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendationResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendationResources: API.OperationMethod<
   ListRecommendationResourcesRequest,
   ListRecommendationResourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationResourcesRequest,
   ) => stream.Stream<
     ListRecommendationResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationResourcesRequest,
   ) => stream.Stream<
     RecommendationResourceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1418,39 +1388,33 @@ export const listRecommendationResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendations: API.OperationMethod<
   ListRecommendationsRequest,
   ListRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     RecommendationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1469,19 +1433,21 @@ export const listRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
- */
-export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
-  UpdateOrganizationRecommendationLifecycleRequest,
-  UpdateOrganizationRecommendationLifecycleResponse,
+export type UpdateOrganizationRecommendationLifecycleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
+ */
+export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
+  UpdateOrganizationRecommendationLifecycleRequest,
+  UpdateOrganizationRecommendationLifecycleResponse,
+  UpdateOrganizationRecommendationLifecycleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOrganizationRecommendationLifecycleRequest,
@@ -1495,19 +1461,21 @@ export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
- */
-export const updateRecommendationLifecycle: API.OperationMethod<
-  UpdateRecommendationLifecycleRequest,
-  UpdateRecommendationLifecycleResponse,
+export type UpdateRecommendationLifecycleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
+ */
+export const updateRecommendationLifecycle: API.OperationMethod<
+  UpdateRecommendationLifecycleRequest,
+  UpdateRecommendationLifecycleResponse,
+  UpdateRecommendationLifecycleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecommendationLifecycleRequest,

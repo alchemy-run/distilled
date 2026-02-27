@@ -1292,6 +1292,13 @@ export class InvalidLayerPartException extends S.TaggedErrorClass<InvalidLayerPa
 ) {}
 
 //# Operations
+export type BatchCheckLayerAvailabilityError =
+  | InvalidParameterException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Checks the availability of one or more image layers that are within a repository in a
  * public registry. When an image is pushed to a repository, each image layer is checked to
@@ -1303,12 +1310,7 @@ export class InvalidLayerPartException extends S.TaggedErrorClass<InvalidLayerPa
 export const batchCheckLayerAvailability: API.OperationMethod<
   BatchCheckLayerAvailabilityRequest,
   BatchCheckLayerAvailabilityResponse,
-  | InvalidParameterException
-  | RegistryNotFoundException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  BatchCheckLayerAvailabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCheckLayerAvailabilityRequest,
@@ -1321,6 +1323,12 @@ export const batchCheckLayerAvailability: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type BatchDeleteImageError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Deletes a list of specified images that are within a repository in a public registry.
  * Images are specified with either an `imageTag` or
@@ -1335,11 +1343,7 @@ export const batchCheckLayerAvailability: API.OperationMethod<
 export const batchDeleteImage: API.OperationMethod<
   BatchDeleteImageRequest,
   BatchDeleteImageResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  BatchDeleteImageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteImageRequest,
@@ -1351,6 +1355,18 @@ export const batchDeleteImage: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type CompleteLayerUploadError =
+  | EmptyUploadException
+  | InvalidLayerException
+  | InvalidParameterException
+  | LayerAlreadyExistsException
+  | LayerPartTooSmallException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | UploadNotFoundException
+  | CommonErrors;
 /**
  * Informs Amazon ECR that the image layer upload is complete for a specified public registry,
  * repository name, and upload ID. You can optionally provide a `sha256` digest of
@@ -1364,17 +1380,7 @@ export const batchDeleteImage: API.OperationMethod<
 export const completeLayerUpload: API.OperationMethod<
   CompleteLayerUploadRequest,
   CompleteLayerUploadResponse,
-  | EmptyUploadException
-  | InvalidLayerException
-  | InvalidParameterException
-  | LayerAlreadyExistsException
-  | LayerPartTooSmallException
-  | RegistryNotFoundException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | UploadNotFoundException
-  | CommonErrors,
+  CompleteLayerUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteLayerUploadRequest,
@@ -1392,13 +1398,7 @@ export const completeLayerUpload: API.OperationMethod<
     UploadNotFoundException,
   ],
 }));
-/**
- * Creates a repository in a public registry. For more information, see Amazon ECR
- * repositories in the *Amazon Elastic Container Registry User Guide*.
- */
-export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
-  CreateRepositoryResponse,
+export type CreateRepositoryError =
   | InvalidParameterException
   | InvalidTagParameterException
   | LimitExceededException
@@ -1406,7 +1406,15 @@ export const createRepository: API.OperationMethod<
   | ServerException
   | TooManyTagsException
   | UnsupportedCommandException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a repository in a public registry. For more information, see Amazon ECR
+ * repositories in the *Amazon Elastic Container Registry User Guide*.
+ */
+export const createRepository: API.OperationMethod<
+  CreateRepositoryRequest,
+  CreateRepositoryResponse,
+  CreateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryRequest,
@@ -1421,6 +1429,13 @@ export const createRepository: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type DeleteRepositoryError =
+  | InvalidParameterException
+  | RepositoryNotEmptyException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Deletes a repository in a public registry. If the repository contains images, you must
  * either manually delete all images in the repository or use the `force` option.
@@ -1429,12 +1444,7 @@ export const createRepository: API.OperationMethod<
 export const deleteRepository: API.OperationMethod<
   DeleteRepositoryRequest,
   DeleteRepositoryResponse,
-  | InvalidParameterException
-  | RepositoryNotEmptyException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  DeleteRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryRequest,
@@ -1447,18 +1457,20 @@ export const deleteRepository: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type DeleteRepositoryPolicyError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | RepositoryPolicyNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Deletes the repository policy that's associated with the specified repository.
  */
 export const deleteRepositoryPolicy: API.OperationMethod<
   DeleteRepositoryPolicyRequest,
   DeleteRepositoryPolicyResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | RepositoryPolicyNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  DeleteRepositoryPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryPolicyRequest,
@@ -1471,6 +1483,13 @@ export const deleteRepositoryPolicy: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type DescribeImagesError =
+  | ImageNotFoundException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Returns metadata that's related to the images in a repository in a public
  * registry.
@@ -1483,36 +1502,21 @@ export const deleteRepositoryPolicy: API.OperationMethod<
 export const describeImages: API.OperationMethod<
   DescribeImagesRequest,
   DescribeImagesResponse,
-  | ImageNotFoundException
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  DescribeImagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeImagesRequest,
   ) => stream.Stream<
     DescribeImagesResponse,
-    | ImageNotFoundException
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeImagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeImagesRequest,
   ) => stream.Stream<
     ImageDetail,
-    | ImageNotFoundException
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeImagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1532,39 +1536,33 @@ export const describeImages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeImageTagsError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Returns the image tag details for a repository in a public registry.
  */
 export const describeImageTags: API.OperationMethod<
   DescribeImageTagsRequest,
   DescribeImageTagsResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  DescribeImageTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeImageTagsRequest,
   ) => stream.Stream<
     DescribeImageTagsResponse,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeImageTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeImageTagsRequest,
   ) => stream.Stream<
     ImageTagDetail,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeImageTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1583,36 +1581,32 @@ export const describeImageTags: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeRegistriesError =
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Returns details for a public registry.
  */
 export const describeRegistries: API.OperationMethod<
   DescribeRegistriesRequest,
   DescribeRegistriesResponse,
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  DescribeRegistriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistriesRequest,
   ) => stream.Stream<
     DescribeRegistriesResponse,
-    | InvalidParameterException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeRegistriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistriesRequest,
   ) => stream.Stream<
     Registry,
-    | InvalidParameterException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeRegistriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1630,39 +1624,33 @@ export const describeRegistries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeRepositoriesError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Describes repositories that are in a public registry.
  */
 export const describeRepositories: API.OperationMethod<
   DescribeRepositoriesRequest,
   DescribeRepositoriesResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  DescribeRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRepositoriesRequest,
   ) => stream.Stream<
     DescribeRepositoriesResponse,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRepositoriesRequest,
   ) => stream.Stream<
     Repository,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
+    DescribeRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1681,6 +1669,11 @@ export const describeRepositories: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetAuthorizationTokenError =
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Retrieves an authorization token. An authorization token represents your IAM
  * authentication credentials. You can use it to access any Amazon ECR registry that your IAM
@@ -1691,10 +1684,7 @@ export const describeRepositories: API.OperationMethod<
 export const getAuthorizationToken: API.OperationMethod<
   GetAuthorizationTokenRequest,
   GetAuthorizationTokenResponse,
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  GetAuthorizationTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizationTokenRequest,
@@ -1705,19 +1695,30 @@ export const getAuthorizationToken: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type GetRegistryCatalogDataError =
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Retrieves catalog metadata for a public registry.
  */
 export const getRegistryCatalogData: API.OperationMethod<
   GetRegistryCatalogDataRequest,
   GetRegistryCatalogDataResponse,
-  ServerException | UnsupportedCommandException | CommonErrors,
+  GetRegistryCatalogDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegistryCatalogDataRequest,
   output: GetRegistryCatalogDataResponse,
   errors: [ServerException, UnsupportedCommandException],
 }));
+export type GetRepositoryCatalogDataError =
+  | InvalidParameterException
+  | RepositoryCatalogDataNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Retrieve catalog metadata for a repository in a public registry. This metadata is
  * displayed publicly in the Amazon ECR Public Gallery.
@@ -1725,12 +1726,7 @@ export const getRegistryCatalogData: API.OperationMethod<
 export const getRepositoryCatalogData: API.OperationMethod<
   GetRepositoryCatalogDataRequest,
   GetRepositoryCatalogDataResponse,
-  | InvalidParameterException
-  | RepositoryCatalogDataNotFoundException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  GetRepositoryCatalogDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryCatalogDataRequest,
@@ -1743,18 +1739,20 @@ export const getRepositoryCatalogData: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type GetRepositoryPolicyError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | RepositoryPolicyNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Retrieves the repository policy for the specified repository.
  */
 export const getRepositoryPolicy: API.OperationMethod<
   GetRepositoryPolicyRequest,
   GetRepositoryPolicyResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | RepositoryPolicyNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  GetRepositoryPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryPolicyRequest,
@@ -1767,6 +1765,13 @@ export const getRepositoryPolicy: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type InitiateLayerUploadError =
+  | InvalidParameterException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Notifies Amazon ECR that you intend to upload an image layer.
  *
@@ -1779,12 +1784,7 @@ export const getRepositoryPolicy: API.OperationMethod<
 export const initiateLayerUpload: API.OperationMethod<
   InitiateLayerUploadRequest,
   InitiateLayerUploadResponse,
-  | InvalidParameterException
-  | RegistryNotFoundException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  InitiateLayerUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateLayerUploadRequest,
@@ -1797,17 +1797,19 @@ export const initiateLayerUpload: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type ListTagsForResourceError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * List the tags for an Amazon ECR Public resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1819,6 +1821,19 @@ export const listTagsForResource: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type PutImageError =
+  | ImageAlreadyExistsException
+  | ImageDigestDoesNotMatchException
+  | ImageTagAlreadyExistsException
+  | InvalidParameterException
+  | LayersNotFoundException
+  | LimitExceededException
+  | ReferencedImagesNotFoundException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Creates or updates the image manifest and tags that are associated with an image.
  *
@@ -1831,18 +1846,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putImage: API.OperationMethod<
   PutImageRequest,
   PutImageResponse,
-  | ImageAlreadyExistsException
-  | ImageDigestDoesNotMatchException
-  | ImageTagAlreadyExistsException
-  | InvalidParameterException
-  | LayersNotFoundException
-  | LimitExceededException
-  | ReferencedImagesNotFoundException
-  | RegistryNotFoundException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  PutImageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutImageRequest,
@@ -1861,16 +1865,18 @@ export const putImage: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type PutRegistryCatalogDataError =
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Create or update the catalog data for a public registry.
  */
 export const putRegistryCatalogData: API.OperationMethod<
   PutRegistryCatalogDataRequest,
   PutRegistryCatalogDataResponse,
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  PutRegistryCatalogDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRegistryCatalogDataRequest,
@@ -1881,17 +1887,19 @@ export const putRegistryCatalogData: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type PutRepositoryCatalogDataError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Creates or updates the catalog data for a repository in a public registry.
  */
 export const putRepositoryCatalogData: API.OperationMethod<
   PutRepositoryCatalogDataRequest,
   PutRepositoryCatalogDataResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  PutRepositoryCatalogDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRepositoryCatalogDataRequest,
@@ -1903,6 +1911,12 @@ export const putRepositoryCatalogData: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type SetRepositoryPolicyError =
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Applies a repository policy to the specified public repository to control access
  * permissions. For more information, see Amazon ECR Repository
@@ -1911,11 +1925,7 @@ export const putRepositoryCatalogData: API.OperationMethod<
 export const setRepositoryPolicy: API.OperationMethod<
   SetRepositoryPolicyRequest,
   SetRepositoryPolicyResponse,
-  | InvalidParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | CommonErrors,
+  SetRepositoryPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetRepositoryPolicyRequest,
@@ -1927,6 +1937,14 @@ export const setRepositoryPolicy: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type TagResourceError =
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | TooManyTagsException
+  | UnsupportedCommandException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`.
  * If existing tags on a resource aren't specified in the request parameters, they aren't
@@ -1936,13 +1954,7 @@ export const setRepositoryPolicy: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidParameterException
-  | InvalidTagParameterException
-  | RepositoryNotFoundException
-  | ServerException
-  | TooManyTagsException
-  | UnsupportedCommandException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1956,19 +1968,21 @@ export const tagResource: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
-/**
- * Deletes specified tags from a resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | InvalidParameterException
   | InvalidTagParameterException
   | RepositoryNotFoundException
   | ServerException
   | TooManyTagsException
   | UnsupportedCommandException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1982,6 +1996,16 @@ export const untagResource: API.OperationMethod<
     UnsupportedCommandException,
   ],
 }));
+export type UploadLayerPartError =
+  | InvalidLayerPartException
+  | InvalidParameterException
+  | LimitExceededException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | UploadNotFoundException
+  | CommonErrors;
 /**
  * Uploads an image layer part to Amazon ECR.
  *
@@ -1994,15 +2018,7 @@ export const untagResource: API.OperationMethod<
 export const uploadLayerPart: API.OperationMethod<
   UploadLayerPartRequest,
   UploadLayerPartResponse,
-  | InvalidLayerPartException
-  | InvalidParameterException
-  | LimitExceededException
-  | RegistryNotFoundException
-  | RepositoryNotFoundException
-  | ServerException
-  | UnsupportedCommandException
-  | UploadNotFoundException
-  | CommonErrors,
+  UploadLayerPartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadLayerPartRequest,

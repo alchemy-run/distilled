@@ -1562,18 +1562,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type AcceptPageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Used to acknowledge an engagement to a contact channel during an incident.
  */
 export const acceptPage: API.OperationMethod<
   AcceptPageRequest,
   AcceptPageResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AcceptPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptPageRequest,
@@ -1586,6 +1588,13 @@ export const acceptPage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ActivateContactChannelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Activates a contact's contact channel. Incident Manager can't engage a contact until the
  * contact channel has been activated.
@@ -1593,12 +1602,7 @@ export const acceptPage: API.OperationMethod<
 export const activateContactChannel: API.OperationMethod<
   ActivateContactChannelRequest,
   ActivateContactChannelResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ActivateContactChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateContactChannelRequest,
@@ -1611,6 +1615,15 @@ export const activateContactChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateContactError =
+  | AccessDeniedException
+  | ConflictException
+  | DataEncryptionException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Contacts are either the contacts that Incident Manager engages during an incident or the
  * escalation plans that Incident Manager uses to engage contacts in phases during an
@@ -1619,14 +1632,7 @@ export const activateContactChannel: API.OperationMethod<
 export const createContact: API.OperationMethod<
   CreateContactRequest,
   CreateContactResult,
-  | AccessDeniedException
-  | ConflictException
-  | DataEncryptionException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactRequest,
@@ -1641,19 +1647,21 @@ export const createContact: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * A contact channel is the method that Incident Manager uses to engage your contact.
- */
-export const createContactChannel: API.OperationMethod<
-  CreateContactChannelRequest,
-  CreateContactChannelResult,
+export type CreateContactChannelError =
   | AccessDeniedException
   | ConflictException
   | DataEncryptionException
   | InternalServerException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * A contact channel is the method that Incident Manager uses to engage your contact.
+ */
+export const createContactChannel: API.OperationMethod<
+  CreateContactChannelRequest,
+  CreateContactChannelResult,
+  CreateContactChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactChannelRequest,
@@ -1667,19 +1675,21 @@ export const createContactChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a rotation in an on-call schedule.
- */
-export const createRotation: API.OperationMethod<
-  CreateRotationRequest,
-  CreateRotationResult,
+export type CreateRotationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a rotation in an on-call schedule.
+ */
+export const createRotation: API.OperationMethod<
+  CreateRotationRequest,
+  CreateRotationResult,
+  CreateRotationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRotationRequest,
@@ -1693,19 +1703,21 @@ export const createRotation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an override for a rotation in an on-call schedule.
- */
-export const createRotationOverride: API.OperationMethod<
-  CreateRotationOverrideRequest,
-  CreateRotationOverrideResult,
+export type CreateRotationOverrideError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an override for a rotation in an on-call schedule.
+ */
+export const createRotationOverride: API.OperationMethod<
+  CreateRotationOverrideRequest,
+  CreateRotationOverrideResult,
+  CreateRotationOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRotationOverrideRequest,
@@ -1719,6 +1731,13 @@ export const createRotationOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeactivateContactChannelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * To no longer receive Incident Manager engagements to a contact channel, you can deactivate
  * the channel.
@@ -1726,12 +1745,7 @@ export const createRotationOverride: API.OperationMethod<
 export const deactivateContactChannel: API.OperationMethod<
   DeactivateContactChannelRequest,
   DeactivateContactChannelResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeactivateContactChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateContactChannelRequest,
@@ -1744,6 +1758,14 @@ export const deactivateContactChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteContactError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * To remove a contact from Incident Manager, you can delete the contact. However, deleting a
  * contact does not remove it from escalation plans and related response plans. Deleting an
@@ -1754,13 +1776,7 @@ export const deactivateContactChannel: API.OperationMethod<
 export const deleteContact: API.OperationMethod<
   DeleteContactRequest,
   DeleteContactResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactRequest,
@@ -1774,6 +1790,13 @@ export const deleteContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteContactChannelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * To stop receiving engagements on a contact channel, you can delete the channel from a
  * contact. Deleting the contact channel does not remove it from the contact's engagement
@@ -1784,12 +1807,7 @@ export const deleteContact: API.OperationMethod<
 export const deleteContactChannel: API.OperationMethod<
   DeleteContactChannelRequest,
   DeleteContactChannelResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteContactChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactChannelRequest,
@@ -1802,6 +1820,14 @@ export const deleteContactChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRotationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a rotation from the system. If a rotation belongs to more than one on-call
  * schedule, this operation deletes it from all of them.
@@ -1809,13 +1835,7 @@ export const deleteContactChannel: API.OperationMethod<
 export const deleteRotation: API.OperationMethod<
   DeleteRotationRequest,
   DeleteRotationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRotationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRotationRequest,
@@ -1829,18 +1849,20 @@ export const deleteRotation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRotationOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing override for an on-call rotation.
  */
 export const deleteRotationOverride: API.OperationMethod<
   DeleteRotationOverrideRequest,
   DeleteRotationOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRotationOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRotationOverrideRequest,
@@ -1853,6 +1875,14 @@ export const deleteRotationOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeEngagementError =
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Incident Manager uses engagements to engage contacts and escalation plans during an incident.
  * Use this command to describe the engagement that occurred during an incident.
@@ -1860,13 +1890,7 @@ export const deleteRotationOverride: API.OperationMethod<
 export const describeEngagement: API.OperationMethod<
   DescribeEngagementRequest,
   DescribeEngagementResult,
-  | AccessDeniedException
-  | DataEncryptionException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeEngagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEngagementRequest,
@@ -1880,19 +1904,21 @@ export const describeEngagement: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists details of the engagement to a contact channel.
- */
-export const describePage: API.OperationMethod<
-  DescribePageRequest,
-  DescribePageResult,
+export type DescribePageError =
   | AccessDeniedException
   | DataEncryptionException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists details of the engagement to a contact channel.
+ */
+export const describePage: API.OperationMethod<
+  DescribePageRequest,
+  DescribePageResult,
+  DescribePageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePageRequest,
@@ -1906,19 +1932,21 @@ export const describePage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about the specified contact or escalation plan.
- */
-export const getContact: API.OperationMethod<
-  GetContactRequest,
-  GetContactResult,
+export type GetContactError =
   | AccessDeniedException
   | DataEncryptionException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the specified contact or escalation plan.
+ */
+export const getContact: API.OperationMethod<
+  GetContactRequest,
+  GetContactResult,
+  GetContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactRequest,
@@ -1932,19 +1960,21 @@ export const getContact: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * List details about a specific contact channel.
- */
-export const getContactChannel: API.OperationMethod<
-  GetContactChannelRequest,
-  GetContactChannelResult,
+export type GetContactChannelError =
   | AccessDeniedException
   | DataEncryptionException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List details about a specific contact channel.
+ */
+export const getContactChannel: API.OperationMethod<
+  GetContactChannelRequest,
+  GetContactChannelResult,
+  GetContactChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactChannelRequest,
@@ -1958,6 +1988,13 @@ export const getContactChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetContactPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the resource policies attached to the specified contact or escalation
  * plan.
@@ -1965,12 +2002,7 @@ export const getContactChannel: API.OperationMethod<
 export const getContactPolicy: API.OperationMethod<
   GetContactPolicyRequest,
   GetContactPolicyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetContactPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactPolicyRequest,
@@ -1983,18 +2015,20 @@ export const getContactPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRotationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an on-call rotation.
  */
 export const getRotation: API.OperationMethod<
   GetRotationRequest,
   GetRotationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRotationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRotationRequest,
@@ -2007,18 +2041,20 @@ export const getRotation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRotationOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an override to an on-call rotation.
  */
 export const getRotationOverride: API.OperationMethod<
   GetRotationOverrideRequest,
   GetRotationOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRotationOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRotationOverrideRequest,
@@ -2031,45 +2067,35 @@ export const getRotationOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all contact channels for the specified contact.
- */
-export const listContactChannels: API.OperationMethod<
-  ListContactChannelsRequest,
-  ListContactChannelsResult,
+export type ListContactChannelsError =
   | AccessDeniedException
   | DataEncryptionException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all contact channels for the specified contact.
+ */
+export const listContactChannels: API.OperationMethod<
+  ListContactChannelsRequest,
+  ListContactChannelsResult,
+  ListContactChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactChannelsRequest,
   ) => stream.Stream<
     ListContactChannelsResult,
-    | AccessDeniedException
-    | DataEncryptionException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListContactChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactChannelsRequest,
   ) => stream.Stream<
     ContactChannel,
-    | AccessDeniedException
-    | DataEncryptionException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListContactChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2090,39 +2116,33 @@ export const listContactChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListContactsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all contacts and escalation plans in Incident Manager.
  */
 export const listContacts: API.OperationMethod<
   ListContactsRequest,
   ListContactsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListContactsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactsRequest,
   ) => stream.Stream<
     ListContactsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListContactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactsRequest,
   ) => stream.Stream<
     Contact,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListContactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2141,39 +2161,33 @@ export const listContacts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEngagementsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all engagements that have happened in an incident.
  */
 export const listEngagements: API.OperationMethod<
   ListEngagementsRequest,
   ListEngagementsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEngagementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEngagementsRequest,
   ) => stream.Stream<
     ListEngagementsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEngagementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEngagementsRequest,
   ) => stream.Stream<
     Engagement,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEngagementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2192,42 +2206,34 @@ export const listEngagements: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPageReceiptsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the engagements to contact channels that have been acknowledged.
  */
 export const listPageReceipts: API.OperationMethod<
   ListPageReceiptsRequest,
   ListPageReceiptsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPageReceiptsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPageReceiptsRequest,
   ) => stream.Stream<
     ListPageReceiptsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPageReceiptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPageReceiptsRequest,
   ) => stream.Stream<
     Receipt,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPageReceiptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2247,6 +2253,13 @@ export const listPageReceipts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPageResolutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resolution path of an engagement. For example, the escalation plan engaged
  * in an incident might target an on-call schedule that includes several contacts in a
@@ -2257,36 +2270,21 @@ export const listPageReceipts: API.OperationMethod<
 export const listPageResolutions: API.OperationMethod<
   ListPageResolutionsRequest,
   ListPageResolutionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPageResolutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPageResolutionsRequest,
   ) => stream.Stream<
     ListPageResolutionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPageResolutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPageResolutionsRequest,
   ) => stream.Stream<
     ResolutionContact,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPageResolutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2305,42 +2303,34 @@ export const listPageResolutions: API.OperationMethod<
     items: "PageResolutions",
   } as const,
 }));
+export type ListPagesByContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the engagements to a contact's contact channels.
  */
 export const listPagesByContact: API.OperationMethod<
   ListPagesByContactRequest,
   ListPagesByContactResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPagesByContactError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPagesByContactRequest,
   ) => stream.Stream<
     ListPagesByContactResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPagesByContactError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPagesByContactRequest,
   ) => stream.Stream<
     Page,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPagesByContactError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2360,42 +2350,34 @@ export const listPagesByContact: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPagesByEngagementError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the engagements to contact channels that occurred by engaging a contact.
  */
 export const listPagesByEngagement: API.OperationMethod<
   ListPagesByEngagementRequest,
   ListPagesByEngagementResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPagesByEngagementError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPagesByEngagementRequest,
   ) => stream.Stream<
     ListPagesByEngagementResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPagesByEngagementError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPagesByEngagementRequest,
   ) => stream.Stream<
     Page,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPagesByEngagementError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2415,6 +2397,12 @@ export const listPagesByEngagement: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPreviewRotationShiftsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of shifts based on rotation configuration parameters.
  *
@@ -2423,33 +2411,21 @@ export const listPagesByEngagement: API.OperationMethod<
 export const listPreviewRotationShifts: API.OperationMethod<
   ListPreviewRotationShiftsRequest,
   ListPreviewRotationShiftsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPreviewRotationShiftsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPreviewRotationShiftsRequest,
   ) => stream.Stream<
     ListPreviewRotationShiftsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPreviewRotationShiftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPreviewRotationShiftsRequest,
   ) => stream.Stream<
     RotationShift,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPreviewRotationShiftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2468,42 +2444,34 @@ export const listPreviewRotationShifts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRotationOverridesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of overrides currently specified for an on-call rotation.
  */
 export const listRotationOverrides: API.OperationMethod<
   ListRotationOverridesRequest,
   ListRotationOverridesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRotationOverridesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRotationOverridesRequest,
   ) => stream.Stream<
     ListRotationOverridesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRotationOverridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRotationOverridesRequest,
   ) => stream.Stream<
     RotationOverride,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRotationOverridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2523,42 +2491,34 @@ export const listRotationOverrides: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRotationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of on-call rotations.
  */
 export const listRotations: API.OperationMethod<
   ListRotationsRequest,
   ListRotationsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRotationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRotationsRequest,
   ) => stream.Stream<
     ListRotationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRotationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRotationsRequest,
   ) => stream.Stream<
     Rotation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRotationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2578,45 +2538,35 @@ export const listRotations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a list of shifts generated by an existing rotation in the system.
- */
-export const listRotationShifts: API.OperationMethod<
-  ListRotationShiftsRequest,
-  ListRotationShiftsResult,
+export type ListRotationShiftsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of shifts generated by an existing rotation in the system.
+ */
+export const listRotationShifts: API.OperationMethod<
+  ListRotationShiftsRequest,
+  ListRotationShiftsResult,
+  ListRotationShiftsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRotationShiftsRequest,
   ) => stream.Stream<
     ListRotationShiftsResult,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRotationShiftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRotationShiftsRequest,
   ) => stream.Stream<
     RotationShift,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRotationShiftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2637,18 +2587,20 @@ export const listRotationShifts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2661,6 +2613,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutContactPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a resource policy to the specified contact or escalation plan. The resource policy
  * is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up
@@ -2669,13 +2629,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putContactPolicy: API.OperationMethod<
   PutContactPolicyRequest,
   PutContactPolicyResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutContactPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutContactPolicyRequest,
@@ -2689,6 +2643,15 @@ export const putContactPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendActivationCodeError =
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends an activation code to a contact channel. The contact can use this code to activate
  * the contact channel in the console or with the `ActivateChannel` operation.
@@ -2697,14 +2660,7 @@ export const putContactPolicy: API.OperationMethod<
 export const sendActivationCode: API.OperationMethod<
   SendActivationCodeRequest,
   SendActivationCodeResult,
-  | AccessDeniedException
-  | DataEncryptionException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendActivationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendActivationCodeRequest,
@@ -2719,6 +2675,14 @@ export const sendActivationCode: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartEngagementError =
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts an engagement to a contact or escalation plan. The engagement engages each
  * contact specified in the incident.
@@ -2726,13 +2690,7 @@ export const sendActivationCode: API.OperationMethod<
 export const startEngagement: API.OperationMethod<
   StartEngagementRequest,
   StartEngagementResult,
-  | AccessDeniedException
-  | DataEncryptionException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartEngagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEngagementRequest,
@@ -2746,6 +2704,13 @@ export const startEngagement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopEngagementError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops an engagement before it finishes the final stage of the escalation plan or
  * engagement plan. Further contacts aren't engaged.
@@ -2753,12 +2718,7 @@ export const startEngagement: API.OperationMethod<
 export const stopEngagement: API.OperationMethod<
   StopEngagementRequest,
   StopEngagementResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopEngagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEngagementRequest,
@@ -2771,6 +2731,14 @@ export const stopEngagement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
  * first region of your replication set.
@@ -2778,13 +2746,7 @@ export const stopEngagement: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2798,18 +2760,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2822,12 +2786,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the contact or escalation plan specified.
- */
-export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
-  UpdateContactResult,
+export type UpdateContactError =
   | AccessDeniedException
   | DataEncryptionException
   | InternalServerException
@@ -2835,7 +2794,14 @@ export const updateContact: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the contact or escalation plan specified.
+ */
+export const updateContact: API.OperationMethod<
+  UpdateContactRequest,
+  UpdateContactResult,
+  UpdateContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactRequest,
@@ -2850,12 +2816,7 @@ export const updateContact: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a contact's contact channel.
- */
-export const updateContactChannel: API.OperationMethod<
-  UpdateContactChannelRequest,
-  UpdateContactChannelResult,
+export type UpdateContactChannelError =
   | AccessDeniedException
   | ConflictException
   | DataEncryptionException
@@ -2863,7 +2824,14 @@ export const updateContactChannel: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a contact's contact channel.
+ */
+export const updateContactChannel: API.OperationMethod<
+  UpdateContactChannelRequest,
+  UpdateContactChannelResult,
+  UpdateContactChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactChannelRequest,
@@ -2878,19 +2846,21 @@ export const updateContactChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the information specified for an on-call rotation.
- */
-export const updateRotation: API.OperationMethod<
-  UpdateRotationRequest,
-  UpdateRotationResult,
+export type UpdateRotationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the information specified for an on-call rotation.
+ */
+export const updateRotation: API.OperationMethod<
+  UpdateRotationRequest,
+  UpdateRotationResult,
+  UpdateRotationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRotationRequest,

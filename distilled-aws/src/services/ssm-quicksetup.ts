@@ -747,6 +747,13 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateConfigurationManagerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Quick Setup configuration manager resource. This object is a collection
  * of desired state configurations for multiple configuration definitions and
@@ -755,12 +762,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const createConfigurationManager: API.OperationMethod<
   CreateConfigurationManagerInput,
   CreateConfigurationManagerOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateConfigurationManagerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationManagerInput,
@@ -773,19 +775,21 @@ export const createConfigurationManager: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a configuration manager.
- */
-export const deleteConfigurationManager: API.OperationMethod<
-  DeleteConfigurationManagerInput,
-  DeleteConfigurationManagerResponse,
+export type DeleteConfigurationManagerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a configuration manager.
+ */
+export const deleteConfigurationManager: API.OperationMethod<
+  DeleteConfigurationManagerInput,
+  DeleteConfigurationManagerResponse,
+  DeleteConfigurationManagerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationManagerInput,
@@ -799,19 +803,21 @@ export const deleteConfigurationManager: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns details about the specified configuration.
- */
-export const getConfiguration: API.OperationMethod<
-  GetConfigurationInput,
-  GetConfigurationOutput,
+export type GetConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns details about the specified configuration.
+ */
+export const getConfiguration: API.OperationMethod<
+  GetConfigurationInput,
+  GetConfigurationOutput,
+  GetConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationInput,
@@ -825,19 +831,21 @@ export const getConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns a configuration manager.
- */
-export const getConfigurationManager: API.OperationMethod<
-  GetConfigurationManagerInput,
-  GetConfigurationManagerOutput,
+export type GetConfigurationManagerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a configuration manager.
+ */
+export const getConfigurationManager: API.OperationMethod<
+  GetConfigurationManagerInput,
+  GetConfigurationManagerOutput,
+  GetConfigurationManagerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationManagerInput,
@@ -851,17 +859,19 @@ export const getConfigurationManager: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceSettingsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const getServiceSettings: API.OperationMethod<
   GetServiceSettingsRequest,
   GetServiceSettingsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  GetServiceSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
@@ -873,42 +883,34 @@ export const getServiceSettings: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListConfigurationManagersError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns Quick Setup configuration managers.
  */
 export const listConfigurationManagers: API.OperationMethod<
   ListConfigurationManagersInput,
   ListConfigurationManagersOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConfigurationManagersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationManagersInput,
   ) => stream.Stream<
     ListConfigurationManagersOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConfigurationManagersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationManagersInput,
   ) => stream.Stream<
     ConfigurationManagerSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConfigurationManagersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -928,42 +930,34 @@ export const listConfigurationManagers: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const listConfigurations: API.OperationMethod<
   ListConfigurationsInput,
   ListConfigurationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationsInput,
   ) => stream.Stream<
     ListConfigurationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationsInput,
   ) => stream.Stream<
     ConfigurationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -983,17 +977,19 @@ export const listConfigurations: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListQuickSetupTypesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the available Quick Setup types.
  */
 export const listQuickSetupTypes: API.OperationMethod<
   ListQuickSetupTypesRequest,
   ListQuickSetupTypesOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  ListQuickSetupTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQuickSetupTypesRequest,
@@ -1005,19 +1001,21 @@ export const listQuickSetupTypes: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Returns tags assigned to the resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns tags assigned to the resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1031,19 +1029,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Assigns key-value pairs of metadata to Amazon Web Services resources.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceInput,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Assigns key-value pairs of metadata to Amazon Web Services resources.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1057,19 +1057,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes tags from the specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceInput,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags from the specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1083,19 +1085,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a Quick Setup configuration definition.
- */
-export const updateConfigurationDefinition: API.OperationMethod<
-  UpdateConfigurationDefinitionInput,
-  UpdateConfigurationDefinitionResponse,
+export type UpdateConfigurationDefinitionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Quick Setup configuration definition.
+ */
+export const updateConfigurationDefinition: API.OperationMethod<
+  UpdateConfigurationDefinitionInput,
+  UpdateConfigurationDefinitionResponse,
+  UpdateConfigurationDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationDefinitionInput,
@@ -1109,19 +1113,21 @@ export const updateConfigurationDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a Quick Setup configuration manager.
- */
-export const updateConfigurationManager: API.OperationMethod<
-  UpdateConfigurationManagerInput,
-  UpdateConfigurationManagerResponse,
+export type UpdateConfigurationManagerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Quick Setup configuration manager.
+ */
+export const updateConfigurationManager: API.OperationMethod<
+  UpdateConfigurationManagerInput,
+  UpdateConfigurationManagerResponse,
+  UpdateConfigurationManagerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationManagerInput,
@@ -1135,18 +1141,20 @@ export const updateConfigurationManager: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateServiceSettingsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates settings configured for Quick Setup.
  */
 export const updateServiceSettings: API.OperationMethod<
   UpdateServiceSettingsInput,
   UpdateServiceSettingsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServiceSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceSettingsInput,

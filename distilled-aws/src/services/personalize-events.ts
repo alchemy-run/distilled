@@ -340,6 +340,11 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type PutActionInteractionsError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Records action interaction event data. An *action interaction* event is an interaction between a user and an *action*.
  * For example, a user taking an action, such a enrolling in a membership program or downloading your app.
@@ -350,10 +355,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const putActionInteractions: API.OperationMethod<
   PutActionInteractionsRequest,
   PutActionInteractionsResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutActionInteractionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutActionInteractionsRequest,
@@ -364,6 +366,11 @@ export const putActionInteractions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutActionsError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more actions to an Actions dataset. For more information see
  * Importing actions individually.
@@ -371,10 +378,7 @@ export const putActionInteractions: API.OperationMethod<
 export const putActions: API.OperationMethod<
   PutActionsRequest,
   PutActionsResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutActionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutActionsRequest,
@@ -385,6 +389,7 @@ export const putActions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutEventsError = InvalidInputException | CommonErrors;
 /**
  * Records item interaction event data. For more information see
  * Recording item interaction events.
@@ -392,13 +397,18 @@ export const putActions: API.OperationMethod<
 export const putEvents: API.OperationMethod<
   PutEventsRequest,
   PutEventsResponse,
-  InvalidInputException | CommonErrors,
+  PutEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventsRequest,
   output: PutEventsResponse,
   errors: [InvalidInputException],
 }));
+export type PutItemsError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more items to an Items dataset. For more information see
  * Importing items individually.
@@ -406,10 +416,7 @@ export const putEvents: API.OperationMethod<
 export const putItems: API.OperationMethod<
   PutItemsRequest,
   PutItemsResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutItemsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutItemsRequest,
@@ -420,6 +427,11 @@ export const putItems: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutUsersError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more users to a Users dataset. For more information see
  * Importing users individually.
@@ -427,10 +439,7 @@ export const putItems: API.OperationMethod<
 export const putUsers: API.OperationMethod<
   PutUsersRequest,
   PutUsersResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutUsersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutUsersRequest,

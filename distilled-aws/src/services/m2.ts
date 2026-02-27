@@ -2322,55 +2322,51 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 ).pipe(C.withServerError, C.withRetryableError) {}
 
 //# Operations
+export type GetSignedBluinsightsUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
  */
 export const getSignedBluinsightsUrl: API.OperationMethod<
   GetSignedBluinsightsUrlRequest,
   GetSignedBluinsightsUrlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  GetSignedBluinsightsUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSignedBluinsightsUrlRequest,
   output: GetSignedBluinsightsUrlResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
 }));
+export type ListEngineVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the available engine versions.
  */
 export const listEngineVersions: API.OperationMethod<
   ListEngineVersionsRequest,
   ListEngineVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEngineVersionsRequest,
   ) => stream.Stream<
     ListEngineVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEngineVersionsRequest,
   ) => stream.Stream<
     EngineVersionsSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2389,18 +2385,20 @@ export const listEngineVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2413,19 +2411,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds one or more tags to the specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds one or more tags to the specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2439,18 +2439,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2463,6 +2465,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new application with given parameters. Requires an existing runtime
  * environment and application definition file.
@@ -2470,13 +2480,7 @@ export const untagResource: API.OperationMethod<
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -2490,18 +2494,20 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the details of a specific application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
   GetApplicationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -2514,19 +2520,21 @@ export const getApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an application and creates a new version.
- */
-export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
-  UpdateApplicationResponse,
+export type UpdateApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an application and creates a new version.
+ */
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
+  UpdateApplicationResponse,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -2540,18 +2548,20 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specific application. You cannot delete a running application.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -2564,6 +2574,12 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the applications associated with a specific Amazon Web Services account. You can provide the
  * unique identifier of a specific runtime environment in a query parameter to see all
@@ -2572,33 +2588,21 @@ export const deleteApplication: API.OperationMethod<
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ApplicationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2617,19 +2621,21 @@ export const listApplications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Cancels the running of a specific batch job execution.
- */
-export const cancelBatchJobExecution: API.OperationMethod<
-  CancelBatchJobExecutionRequest,
-  CancelBatchJobExecutionResponse,
+export type CancelBatchJobExecutionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels the running of a specific batch job execution.
+ */
+export const cancelBatchJobExecution: API.OperationMethod<
+  CancelBatchJobExecutionRequest,
+  CancelBatchJobExecutionResponse,
+  CancelBatchJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelBatchJobExecutionRequest,
@@ -2643,12 +2649,7 @@ export const cancelBatchJobExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a data set export task for a specific application.
- */
-export const createDataSetExportTask: API.OperationMethod<
-  CreateDataSetExportTaskRequest,
-  CreateDataSetExportTaskResponse,
+export type CreateDataSetExportTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2656,7 +2657,14 @@ export const createDataSetExportTask: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a data set export task for a specific application.
+ */
+export const createDataSetExportTask: API.OperationMethod<
+  CreateDataSetExportTaskRequest,
+  CreateDataSetExportTaskResponse,
+  CreateDataSetExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSetExportTaskRequest,
@@ -2671,12 +2679,7 @@ export const createDataSetExportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a data set import task for a specific application.
- */
-export const createDataSetImportTask: API.OperationMethod<
-  CreateDataSetImportTaskRequest,
-  CreateDataSetImportTaskResponse,
+export type CreateDataSetImportTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2684,7 +2687,14 @@ export const createDataSetImportTask: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a data set import task for a specific application.
+ */
+export const createDataSetImportTask: API.OperationMethod<
+  CreateDataSetImportTaskRequest,
+  CreateDataSetImportTaskResponse,
+  CreateDataSetImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSetImportTaskRequest,
@@ -2699,13 +2709,7 @@ export const createDataSetImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates and starts a deployment to deploy an application into a runtime
- * environment.
- */
-export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
-  CreateDeploymentResponse,
+export type CreateDeploymentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2713,7 +2717,15 @@ export const createDeployment: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates and starts a deployment to deploy an application into a runtime
+ * environment.
+ */
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
+  CreateDeploymentResponse,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
@@ -2728,6 +2740,14 @@ export const createDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationFromEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specific application from the specific runtime environment where it was
  * previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any
@@ -2737,13 +2757,7 @@ export const createDeployment: API.OperationMethod<
 export const deleteApplicationFromEnvironment: API.OperationMethod<
   DeleteApplicationFromEnvironmentRequest,
   DeleteApplicationFromEnvironmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationFromEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationFromEnvironmentRequest,
@@ -2757,18 +2771,20 @@ export const deleteApplicationFromEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about a specific version of a specific application.
  */
 export const getApplicationVersion: API.OperationMethod<
   GetApplicationVersionRequest,
   GetApplicationVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationVersionRequest,
@@ -2781,18 +2797,20 @@ export const getApplicationVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBatchJobExecutionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of a specific batch job execution for a specific application.
  */
 export const getBatchJobExecution: API.OperationMethod<
   GetBatchJobExecutionRequest,
   GetBatchJobExecutionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBatchJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBatchJobExecutionRequest,
@@ -2805,12 +2823,7 @@ export const getBatchJobExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets the details of a specific data set.
- */
-export const getDataSetDetails: API.OperationMethod<
-  GetDataSetDetailsRequest,
-  GetDataSetDetailsResponse,
+export type GetDataSetDetailsError =
   | AccessDeniedException
   | ConflictException
   | ExecutionTimeoutException
@@ -2819,7 +2832,14 @@ export const getDataSetDetails: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the details of a specific data set.
+ */
+export const getDataSetDetails: API.OperationMethod<
+  GetDataSetDetailsRequest,
+  GetDataSetDetailsResponse,
+  GetDataSetDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSetDetailsRequest,
@@ -2835,18 +2855,20 @@ export const getDataSetDetails: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataSetExportTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
  */
 export const getDataSetExportTask: API.OperationMethod<
   GetDataSetExportTaskRequest,
   GetDataSetExportTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataSetExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSetExportTaskRequest,
@@ -2859,18 +2881,20 @@ export const getDataSetExportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataSetImportTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
  */
 export const getDataSetImportTask: API.OperationMethod<
   GetDataSetImportTaskRequest,
   GetDataSetImportTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataSetImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSetImportTaskRequest,
@@ -2883,18 +2907,20 @@ export const getDataSetImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details of a specific deployment with a given deployment identifier.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
   GetDeploymentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
@@ -2907,42 +2933,34 @@ export const getDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the application versions for a specific application.
  */
 export const listApplicationVersions: API.OperationMethod<
   ListApplicationVersionsRequest,
   ListApplicationVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
     ListApplicationVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
     ApplicationVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2962,6 +2980,13 @@ export const listApplicationVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBatchJobDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the available batch job definitions based on the batch job resources uploaded
  * during the application creation. You can use the batch job definitions in the list to start
@@ -2970,36 +2995,21 @@ export const listApplicationVersions: API.OperationMethod<
 export const listBatchJobDefinitions: API.OperationMethod<
   ListBatchJobDefinitionsRequest,
   ListBatchJobDefinitionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBatchJobDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBatchJobDefinitionsRequest,
   ) => stream.Stream<
     ListBatchJobDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBatchJobDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchJobDefinitionsRequest,
   ) => stream.Stream<
     BatchJobDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBatchJobDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3019,6 +3029,13 @@ export const listBatchJobDefinitions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBatchJobExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists historical, current, and scheduled batch job executions for a specific
  * application.
@@ -3026,36 +3043,21 @@ export const listBatchJobDefinitions: API.OperationMethod<
 export const listBatchJobExecutions: API.OperationMethod<
   ListBatchJobExecutionsRequest,
   ListBatchJobExecutionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBatchJobExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBatchJobExecutionsRequest,
   ) => stream.Stream<
     ListBatchJobExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBatchJobExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchJobExecutionsRequest,
   ) => stream.Stream<
     BatchJobExecutionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBatchJobExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3075,19 +3077,21 @@ export const listBatchJobExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
- */
-export const listBatchJobRestartPoints: API.OperationMethod<
-  ListBatchJobRestartPointsRequest,
-  ListBatchJobRestartPointsResponse,
+export type ListBatchJobRestartPointsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
+ */
+export const listBatchJobRestartPoints: API.OperationMethod<
+  ListBatchJobRestartPointsRequest,
+  ListBatchJobRestartPointsResponse,
+  ListBatchJobRestartPointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBatchJobRestartPointsRequest,
@@ -3101,42 +3105,34 @@ export const listBatchJobRestartPoints: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataSetExportHistoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the data set exports for the specified application.
  */
 export const listDataSetExportHistory: API.OperationMethod<
   ListDataSetExportHistoryRequest,
   ListDataSetExportHistoryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataSetExportHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSetExportHistoryRequest,
   ) => stream.Stream<
     ListDataSetExportHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetExportHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSetExportHistoryRequest,
   ) => stream.Stream<
     DataSetExportTask,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetExportHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3156,42 +3152,34 @@ export const listDataSetExportHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDataSetImportHistoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the data set imports for the specified application.
  */
 export const listDataSetImportHistory: API.OperationMethod<
   ListDataSetImportHistoryRequest,
   ListDataSetImportHistoryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataSetImportHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSetImportHistoryRequest,
   ) => stream.Stream<
     ListDataSetImportHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetImportHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSetImportHistoryRequest,
   ) => stream.Stream<
     DataSetImportTask,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetImportHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3211,14 +3199,7 @@ export const listDataSetImportHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are
- * associated with applications deployed on runtime environments. This is known as importing
- * data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
- */
-export const listDataSets: API.OperationMethod<
-  ListDataSetsRequest,
-  ListDataSetsResponse,
+export type ListDataSetsError =
   | AccessDeniedException
   | ConflictException
   | ExecutionTimeoutException
@@ -3227,37 +3208,30 @@ export const listDataSets: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are
+ * associated with applications deployed on runtime environments. This is known as importing
+ * data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
+ */
+export const listDataSets: API.OperationMethod<
+  ListDataSetsRequest,
+  ListDataSetsResponse,
+  ListDataSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
     ListDataSetsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | ExecutionTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
     DataSetSummary,
-    | AccessDeniedException
-    | ConflictException
-    | ExecutionTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3280,6 +3254,13 @@ export const listDataSets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDeploymentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all deployments of a specific application. A deployment is a
  * combination of a specific application and a specific version of that application. Each
@@ -3288,36 +3269,21 @@ export const listDataSets: API.OperationMethod<
 export const listDeployments: API.OperationMethod<
   ListDeploymentsRequest,
   ListDeploymentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
     ListDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
     DeploymentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3337,19 +3303,21 @@ export const listDeployments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Starts an application that is currently stopped.
- */
-export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
-  StartApplicationResponse,
+export type StartApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an application that is currently stopped.
+ */
+export const startApplication: API.OperationMethod<
+  StartApplicationRequest,
+  StartApplicationResponse,
+  StartApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
@@ -3363,6 +3331,14 @@ export const startApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartBatchJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a batch job and returns the unique identifier of this execution of the batch job.
  * The associated application must be running in order to start the batch job.
@@ -3370,13 +3346,7 @@ export const startApplication: API.OperationMethod<
 export const startBatchJob: API.OperationMethod<
   StartBatchJobRequest,
   StartBatchJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartBatchJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBatchJobRequest,
@@ -3390,19 +3360,21 @@ export const startBatchJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops a running application.
- */
-export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
-  StopApplicationResponse,
+export type StopApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a running application.
+ */
+export const stopApplication: API.OperationMethod<
+  StopApplicationRequest,
+  StopApplicationResponse,
+  StopApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
@@ -3416,19 +3388,21 @@ export const stopApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a runtime environment for a given runtime engine.
- */
-export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
-  CreateEnvironmentResponse,
+export type CreateEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a runtime environment for a given runtime engine.
+ */
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
+  CreateEnvironmentResponse,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
@@ -3442,18 +3416,20 @@ export const createEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes a specific runtime environment.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentRequest,
   GetEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
@@ -3466,12 +3442,7 @@ export const getEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration details for a specific runtime environment.
- */
-export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
-  UpdateEnvironmentResponse,
+export type UpdateEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3479,7 +3450,14 @@ export const updateEnvironment: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration details for a specific runtime environment.
+ */
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentRequest,
+  UpdateEnvironmentResponse,
+  UpdateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
@@ -3494,6 +3472,13 @@ export const updateEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specific runtime environment. The environment cannot contain deployed
  * applications. If it does, you must delete those applications before you delete the
@@ -3502,12 +3487,7 @@ export const updateEnvironment: API.OperationMethod<
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
@@ -3520,39 +3500,33 @@ export const deleteEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the runtime environments.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   ListEnvironmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     ListEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     EnvironmentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

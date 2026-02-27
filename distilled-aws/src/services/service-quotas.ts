@@ -1123,6 +1123,16 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateServiceQuotaTemplateError =
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | NoAvailableOrganizationException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Associates your quota request template with your organization. When a new
  * Amazon Web Services account is created in your organization, the quota increase requests in the
@@ -1132,15 +1142,7 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 export const associateServiceQuotaTemplate: API.OperationMethod<
   AssociateServiceQuotaTemplateRequest,
   AssociateServiceQuotaTemplateResponse,
-  | AccessDeniedException
-  | AWSServiceAccessNotEnabledException
-  | DependencyAccessDeniedException
-  | NoAvailableOrganizationException
-  | OrganizationNotInAllFeaturesModeException
-  | ServiceException
-  | TemplatesNotAvailableInRegionException
-  | TooManyRequestsException
-  | CommonErrors,
+  AssociateServiceQuotaTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateServiceQuotaTemplateRequest,
@@ -1156,13 +1158,7 @@ export const associateServiceQuotaTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates a Support case for an existing quota increase request. This call only creates
- * a Support case if the request has a `Pending` status.
- */
-export const createSupportCase: API.OperationMethod<
-  CreateSupportCaseRequest,
-  CreateSupportCaseResponse,
+export type CreateSupportCaseError =
   | AccessDeniedException
   | DependencyAccessDeniedException
   | IllegalArgumentException
@@ -1171,7 +1167,15 @@ export const createSupportCase: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ServiceException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Support case for an existing quota increase request. This call only creates
+ * a Support case if the request has a `Pending` status.
+ */
+export const createSupportCase: API.OperationMethod<
+  CreateSupportCaseRequest,
+  CreateSupportCaseResponse,
+  CreateSupportCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSupportCaseRequest,
@@ -1187,13 +1191,7 @@ export const createSupportCase: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes the quota increase request for the specified quota from your quota request
- * template.
- */
-export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
-  DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
+export type DeleteServiceQuotaIncreaseRequestFromTemplateError =
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
   | DependencyAccessDeniedException
@@ -1203,7 +1201,15 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   | ServiceException
   | TemplatesNotAvailableInRegionException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the quota increase request for the specified quota from your quota request
+ * template.
+ */
+export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
+  DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+  DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
+  DeleteServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
@@ -1220,14 +1226,7 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Disables your quota request template. After a template is disabled, the quota increase
- * requests in the template are not applied to new Amazon Web Services accounts in your organization.
- * Disabling a quota request template does not apply its quota increase requests.
- */
-export const disassociateServiceQuotaTemplate: API.OperationMethod<
-  DisassociateServiceQuotaTemplateRequest,
-  DisassociateServiceQuotaTemplateResponse,
+export type DisassociateServiceQuotaTemplateError =
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
   | DependencyAccessDeniedException
@@ -1236,7 +1235,16 @@ export const disassociateServiceQuotaTemplate: API.OperationMethod<
   | ServiceQuotaTemplateNotInUseException
   | TemplatesNotAvailableInRegionException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables your quota request template. After a template is disabled, the quota increase
+ * requests in the template are not applied to new Amazon Web Services accounts in your organization.
+ * Disabling a quota request template does not apply its quota increase requests.
+ */
+export const disassociateServiceQuotaTemplate: API.OperationMethod<
+  DisassociateServiceQuotaTemplateRequest,
+  DisassociateServiceQuotaTemplateResponse,
+  DisassociateServiceQuotaTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateServiceQuotaTemplateRequest,
@@ -1252,12 +1260,7 @@ export const disassociateServiceQuotaTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieves the status of the association for the quota request template.
- */
-export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
-  GetAssociationForServiceQuotaTemplateRequest,
-  GetAssociationForServiceQuotaTemplateResponse,
+export type GetAssociationForServiceQuotaTemplateError =
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
   | DependencyAccessDeniedException
@@ -1266,7 +1269,14 @@ export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
   | ServiceQuotaTemplateNotInUseException
   | TemplatesNotAvailableInRegionException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the status of the association for the quota request template.
+ */
+export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
+  GetAssociationForServiceQuotaTemplateRequest,
+  GetAssociationForServiceQuotaTemplateResponse,
+  GetAssociationForServiceQuotaTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssociationForServiceQuotaTemplateRequest,
@@ -1282,6 +1292,13 @@ export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetAutoManagementConfigurationError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
@@ -1289,12 +1306,7 @@ export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
 export const getAutoManagementConfiguration: API.OperationMethod<
   GetAutoManagementConfigurationRequest,
   GetAutoManagementConfigurationResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetAutoManagementConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutoManagementConfigurationRequest,
@@ -1307,6 +1319,13 @@ export const getAutoManagementConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetAWSDefaultServiceQuotaError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the default value for the specified quota. The default value does not
  * reflect any quota increases.
@@ -1314,12 +1333,7 @@ export const getAutoManagementConfiguration: API.OperationMethod<
 export const getAWSDefaultServiceQuota: API.OperationMethod<
   GetAWSDefaultServiceQuotaRequest,
   GetAWSDefaultServiceQuotaResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetAWSDefaultServiceQuotaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAWSDefaultServiceQuotaRequest,
@@ -1332,6 +1346,13 @@ export const getAWSDefaultServiceQuota: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetQuotaUtilizationReportError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the quota utilization report for your Amazon Web Services account. This operation returns
  * paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization
@@ -1349,12 +1370,7 @@ export const getAWSDefaultServiceQuota: API.OperationMethod<
 export const getQuotaUtilizationReport: API.OperationMethod<
   GetQuotaUtilizationReportRequest,
   GetQuotaUtilizationReportResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetQuotaUtilizationReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuotaUtilizationReportRequest,
@@ -1367,18 +1383,20 @@ export const getQuotaUtilizationReport: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetRequestedServiceQuotaChangeError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about the specified quota increase request.
  */
 export const getRequestedServiceQuotaChange: API.OperationMethod<
   GetRequestedServiceQuotaChangeRequest,
   GetRequestedServiceQuotaChangeResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetRequestedServiceQuotaChangeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRequestedServiceQuotaChangeRequest,
@@ -1391,6 +1409,13 @@ export const getRequestedServiceQuotaChange: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetServiceQuotaError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the applied quota value for the specified account-level or resource-level
  * quota. For some quotas, only the default values are available. If the applied quota
@@ -1399,12 +1424,7 @@ export const getRequestedServiceQuotaChange: API.OperationMethod<
 export const getServiceQuota: API.OperationMethod<
   GetServiceQuotaRequest,
   GetServiceQuotaResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetServiceQuotaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceQuotaRequest,
@@ -1417,13 +1437,7 @@ export const getServiceQuota: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieves information about the specified quota increase request in your quota request
- * template.
- */
-export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  GetServiceQuotaIncreaseRequestFromTemplateRequest,
-  GetServiceQuotaIncreaseRequestFromTemplateResponse,
+export type GetServiceQuotaIncreaseRequestFromTemplateError =
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
   | DependencyAccessDeniedException
@@ -1433,7 +1447,15 @@ export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   | ServiceException
   | TemplatesNotAvailableInRegionException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the specified quota increase request in your quota request
+ * template.
+ */
+export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
+  GetServiceQuotaIncreaseRequestFromTemplateRequest,
+  GetServiceQuotaIncreaseRequestFromTemplateResponse,
+  GetServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceQuotaIncreaseRequestFromTemplateRequest,
@@ -1450,6 +1472,14 @@ export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListAWSDefaultServiceQuotasError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the default values for the quotas for the specified Amazon Web Services service. A default
  * value does not reflect any quota increases.
@@ -1457,39 +1487,21 @@ export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
 export const listAWSDefaultServiceQuotas: API.OperationMethod<
   ListAWSDefaultServiceQuotasRequest,
   ListAWSDefaultServiceQuotasResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InvalidPaginationTokenException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListAWSDefaultServiceQuotasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAWSDefaultServiceQuotasRequest,
   ) => stream.Stream<
     ListAWSDefaultServiceQuotasResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListAWSDefaultServiceQuotasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAWSDefaultServiceQuotasRequest,
   ) => stream.Stream<
     ServiceQuota,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListAWSDefaultServiceQuotasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1510,6 +1522,14 @@ export const listAWSDefaultServiceQuotas: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRequestedServiceQuotaChangeHistoryError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the quota increase requests for the specified Amazon Web Services service. Filter
  * responses to return quota requests at either the account level, resource level, or all
@@ -1518,39 +1538,21 @@ export const listAWSDefaultServiceQuotas: API.OperationMethod<
 export const listRequestedServiceQuotaChangeHistory: API.OperationMethod<
   ListRequestedServiceQuotaChangeHistoryRequest,
   ListRequestedServiceQuotaChangeHistoryResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InvalidPaginationTokenException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRequestedServiceQuotaChangeHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
   ) => stream.Stream<
     ListRequestedServiceQuotaChangeHistoryResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRequestedServiceQuotaChangeHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
   ) => stream.Stream<
     RequestedServiceQuotaChange,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRequestedServiceQuotaChangeHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1571,6 +1573,14 @@ export const listRequestedServiceQuotaChangeHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRequestedServiceQuotaChangeHistoryByQuotaError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the quota increase requests for the specified quota. Filter responses to
  * return quota requests at either the account level, resource level, or all levels.
@@ -1578,39 +1588,21 @@ export const listRequestedServiceQuotaChangeHistory: API.OperationMethod<
 export const listRequestedServiceQuotaChangeHistoryByQuota: API.OperationMethod<
   ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
   ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InvalidPaginationTokenException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRequestedServiceQuotaChangeHistoryByQuotaError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
   ) => stream.Stream<
     ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRequestedServiceQuotaChangeHistoryByQuotaError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
   ) => stream.Stream<
     RequestedServiceQuotaChange,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRequestedServiceQuotaChangeHistoryByQuotaError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1631,12 +1623,7 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the quota increase requests in the specified quota request template.
- */
-export const listServiceQuotaIncreaseRequestsInTemplate: API.OperationMethod<
-  ListServiceQuotaIncreaseRequestsInTemplateRequest,
-  ListServiceQuotaIncreaseRequestsInTemplateResponse,
+export type ListServiceQuotaIncreaseRequestsInTemplateError =
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
   | DependencyAccessDeniedException
@@ -1645,37 +1632,28 @@ export const listServiceQuotaIncreaseRequestsInTemplate: API.OperationMethod<
   | ServiceException
   | TemplatesNotAvailableInRegionException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the quota increase requests in the specified quota request template.
+ */
+export const listServiceQuotaIncreaseRequestsInTemplate: API.OperationMethod<
+  ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ListServiceQuotaIncreaseRequestsInTemplateResponse,
+  ListServiceQuotaIncreaseRequestsInTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
   ) => stream.Stream<
     ListServiceQuotaIncreaseRequestsInTemplateResponse,
-    | AccessDeniedException
-    | AWSServiceAccessNotEnabledException
-    | DependencyAccessDeniedException
-    | IllegalArgumentException
-    | NoAvailableOrganizationException
-    | ServiceException
-    | TemplatesNotAvailableInRegionException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListServiceQuotaIncreaseRequestsInTemplateError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
   ) => stream.Stream<
     ServiceQuotaIncreaseRequestInTemplate,
-    | AccessDeniedException
-    | AWSServiceAccessNotEnabledException
-    | DependencyAccessDeniedException
-    | IllegalArgumentException
-    | NoAvailableOrganizationException
-    | ServiceException
-    | TemplatesNotAvailableInRegionException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListServiceQuotaIncreaseRequestsInTemplateError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1698,6 +1676,14 @@ export const listServiceQuotaIncreaseRequestsInTemplate: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServiceQuotasError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only
  * the default values are available. If the applied quota value is not available for a
@@ -1707,39 +1693,21 @@ export const listServiceQuotaIncreaseRequestsInTemplate: API.OperationMethod<
 export const listServiceQuotas: API.OperationMethod<
   ListServiceQuotasRequest,
   ListServiceQuotasResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InvalidPaginationTokenException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListServiceQuotasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceQuotasRequest,
   ) => stream.Stream<
     ListServiceQuotasResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListServiceQuotasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceQuotasRequest,
   ) => stream.Stream<
     ServiceQuota,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListServiceQuotasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1760,42 +1728,34 @@ export const listServiceQuotas: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServicesError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
 export const listServices: API.OperationMethod<
   ListServicesRequest,
   ListServicesResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InvalidPaginationTokenException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
     ListServicesResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesRequest,
   ) => stream.Stream<
     ServiceInfo,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1815,18 +1775,20 @@ export const listServices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of the tags assigned to the specified applied quota.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1839,12 +1801,7 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds a quota increase request to your quota request template.
- */
-export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
-  PutServiceQuotaIncreaseRequestIntoTemplateRequest,
-  PutServiceQuotaIncreaseRequestIntoTemplateResponse,
+export type PutServiceQuotaIncreaseRequestIntoTemplateError =
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
   | DependencyAccessDeniedException
@@ -1855,7 +1812,14 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
   | ServiceException
   | TemplatesNotAvailableInRegionException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a quota increase request to your quota request template.
+ */
+export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
+  PutServiceQuotaIncreaseRequestIntoTemplateRequest,
+  PutServiceQuotaIncreaseRequestIntoTemplateResponse,
+  PutServiceQuotaIncreaseRequestIntoTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutServiceQuotaIncreaseRequestIntoTemplateRequest,
@@ -1873,13 +1837,7 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Submits a quota increase request for the specified quota at the account or resource
- * level.
- */
-export const requestServiceQuotaIncrease: API.OperationMethod<
-  RequestServiceQuotaIncreaseRequest,
-  RequestServiceQuotaIncreaseResponse,
+export type RequestServiceQuotaIncreaseError =
   | AccessDeniedException
   | DependencyAccessDeniedException
   | IllegalArgumentException
@@ -1889,7 +1847,15 @@ export const requestServiceQuotaIncrease: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ServiceException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Submits a quota increase request for the specified quota at the account or resource
+ * level.
+ */
+export const requestServiceQuotaIncrease: API.OperationMethod<
+  RequestServiceQuotaIncreaseRequest,
+  RequestServiceQuotaIncreaseResponse,
+  RequestServiceQuotaIncreaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestServiceQuotaIncreaseRequest,
@@ -1906,6 +1872,13 @@ export const requestServiceQuotaIncrease: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartAutoManagementError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences
  * and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
@@ -1914,12 +1887,7 @@ export const requestServiceQuotaIncrease: API.OperationMethod<
 export const startAutoManagement: API.OperationMethod<
   StartAutoManagementRequest,
   StartAutoManagementResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartAutoManagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAutoManagementRequest,
@@ -1932,6 +1900,14 @@ export const startAutoManagement: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartQuotaUtilizationReportError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Initiates the generation of a quota utilization report for your Amazon Web Services account. This
  * asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns
@@ -1944,13 +1920,7 @@ export const startAutoManagement: API.OperationMethod<
 export const startQuotaUtilizationReport: API.OperationMethod<
   StartQuotaUtilizationReportRequest,
   StartQuotaUtilizationReportResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InvalidPaginationTokenException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartQuotaUtilizationReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQuotaUtilizationReportRequest,
@@ -1964,6 +1934,13 @@ export const startQuotaUtilizationReport: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StopAutoManagementError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated
  * configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
@@ -1972,12 +1949,7 @@ export const startQuotaUtilizationReport: API.OperationMethod<
 export const stopAutoManagement: API.OperationMethod<
   StopAutoManagementRequest,
   StopAutoManagementResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopAutoManagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAutoManagementRequest,
@@ -1990,13 +1962,7 @@ export const stopAutoManagement: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds tags to the specified applied quota. You can include one or more tags to add to
- * the quota.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | IllegalArgumentException
   | NoSuchResourceException
@@ -2004,7 +1970,15 @@ export const tagResource: API.OperationMethod<
   | TagPolicyViolationException
   | TooManyRequestsException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds tags to the specified applied quota. You can include one or more tags to add to
+ * the quota.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2019,6 +1993,13 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes tags from the specified applied quota. You can specify one or more tags to
  * remove.
@@ -2026,12 +2007,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2044,6 +2020,13 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateAutoManagementError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates your Service Quotas Automatic Management configuration, including notification preferences and
  * excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you
@@ -2052,12 +2035,7 @@ export const untagResource: API.OperationMethod<
 export const updateAutoManagement: API.OperationMethod<
   UpdateAutoManagementRequest,
   UpdateAutoManagementResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | NoSuchResourceException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateAutoManagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutoManagementRequest,

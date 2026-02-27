@@ -6188,6 +6188,13 @@ export class ModelNotReadyException extends S.TaggedErrorClass<ModelNotReadyExce
 ) {}
 
 //# Operations
+export type GetExecutionFlowSnapshotError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged.
  *
@@ -6196,12 +6203,7 @@ export class ModelNotReadyException extends S.TaggedErrorClass<ModelNotReadyExce
 export const getExecutionFlowSnapshot: API.OperationMethod<
   GetExecutionFlowSnapshotRequest,
   GetExecutionFlowSnapshotResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetExecutionFlowSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExecutionFlowSnapshotRequest,
@@ -6214,18 +6216,20 @@ export const getExecutionFlowSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFlowExecutionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution.
  */
 export const getFlowExecution: API.OperationMethod<
   GetFlowExecutionRequest,
   GetFlowExecutionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFlowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowExecutionRequest,
@@ -6238,6 +6242,13 @@ export const getFlowExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFlowExecutionEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists events that occurred during a flow execution. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events.
  *
@@ -6246,36 +6257,21 @@ export const getFlowExecution: API.OperationMethod<
 export const listFlowExecutionEvents: API.OperationMethod<
   ListFlowExecutionEventsRequest,
   ListFlowExecutionEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFlowExecutionEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowExecutionEventsRequest,
   ) => stream.Stream<
     ListFlowExecutionEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowExecutionEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowExecutionEventsRequest,
   ) => stream.Stream<
     FlowExecutionEvent,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowExecutionEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6295,6 +6291,13 @@ export const listFlowExecutionEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFlowExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all executions of a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN).
  *
@@ -6303,36 +6306,21 @@ export const listFlowExecutionEvents: API.OperationMethod<
 export const listFlowExecutions: API.OperationMethod<
   ListFlowExecutionsRequest,
   ListFlowExecutionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFlowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowExecutionsRequest,
   ) => stream.Stream<
     ListFlowExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowExecutionsRequest,
   ) => stream.Stream<
     FlowExecutionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6352,6 +6340,17 @@ export const listFlowExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartFlowExecutionError =
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks.
  *
@@ -6362,16 +6361,7 @@ export const listFlowExecutions: API.OperationMethod<
 export const startFlowExecution: API.OperationMethod<
   StartFlowExecutionRequest,
   StartFlowExecutionResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartFlowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowExecutionRequest,
@@ -6388,12 +6378,7 @@ export const startFlowExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to `Aborted`.
- */
-export const stopFlowExecution: API.OperationMethod<
-  StopFlowExecutionRequest,
-  StopFlowExecutionResponse,
+export type StopFlowExecutionError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6402,7 +6387,14 @@ export const stopFlowExecution: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to `Aborted`.
+ */
+export const stopFlowExecution: API.OperationMethod<
+  StopFlowExecutionRequest,
+  StopFlowExecutionResponse,
+  StopFlowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFlowExecutionRequest,
@@ -6418,14 +6410,7 @@ export const stopFlowExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- *
- * The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
- */
-export const invokeFlow: API.OperationMethod<
-  InvokeFlowRequest,
-  InvokeFlowResponse,
+export type InvokeFlowError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6435,7 +6420,16 @@ export const invokeFlow: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ *
+ * The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
+ */
+export const invokeFlow: API.OperationMethod<
+  InvokeFlowRequest,
+  InvokeFlowResponse,
+  InvokeFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeFlowRequest,
@@ -6452,12 +6446,7 @@ export const invokeFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
- */
-export const generateQuery: API.OperationMethod<
-  GenerateQueryRequest,
-  GenerateQueryResponse,
+export type GenerateQueryError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6467,7 +6456,14 @@ export const generateQuery: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
+ */
+export const generateQuery: API.OperationMethod<
+  GenerateQueryRequest,
+  GenerateQueryResponse,
+  GenerateQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateQueryRequest,
@@ -6484,6 +6480,18 @@ export const generateQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type InvokeAgentError =
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ModelNotReadyException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends a prompt for the agent to process and respond to. Note the following fields for the request:
  *
@@ -6510,17 +6518,7 @@ export const generateQuery: API.OperationMethod<
 export const invokeAgent: API.OperationMethod<
   InvokeAgentRequest,
   InvokeAgentResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ModelNotReadyException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  InvokeAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeAgentRequest,
@@ -6538,6 +6536,17 @@ export const invokeAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type InvokeInlineAgentError =
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.
  *
@@ -6554,16 +6563,7 @@ export const invokeAgent: API.OperationMethod<
 export const invokeInlineAgent: API.OperationMethod<
   InvokeInlineAgentRequest,
   InvokeInlineAgentResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  InvokeInlineAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeInlineAgentRequest,
@@ -6580,12 +6580,7 @@ export const invokeInlineAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes memory from the specified memory identifier.
- */
-export const deleteAgentMemory: API.OperationMethod<
-  DeleteAgentMemoryRequest,
-  DeleteAgentMemoryResponse,
+export type DeleteAgentMemoryError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6595,7 +6590,14 @@ export const deleteAgentMemory: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes memory from the specified memory identifier.
+ */
+export const deleteAgentMemory: API.OperationMethod<
+  DeleteAgentMemoryRequest,
+  DeleteAgentMemoryResponse,
+  DeleteAgentMemoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentMemoryRequest,
@@ -6612,12 +6614,7 @@ export const deleteAgentMemory: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets the sessions stored in the memory of the agent.
- */
-export const getAgentMemory: API.OperationMethod<
-  GetAgentMemoryRequest,
-  GetAgentMemoryResponse,
+export type GetAgentMemoryError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6627,39 +6624,28 @@ export const getAgentMemory: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the sessions stored in the memory of the agent.
+ */
+export const getAgentMemory: API.OperationMethod<
+  GetAgentMemoryRequest,
+  GetAgentMemoryResponse,
+  GetAgentMemoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAgentMemoryRequest,
   ) => stream.Stream<
     GetAgentMemoryResponse,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetAgentMemoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAgentMemoryRequest,
   ) => stream.Stream<
     Memory,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetAgentMemoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6683,19 +6669,21 @@ export const getAgentMemory: API.OperationMethod<
     pageSize: "maxItems",
   } as const,
 }));
-/**
- * Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
- */
-export const optimizePrompt: API.OperationMethod<
-  OptimizePromptRequest,
-  OptimizePromptResponse,
+export type OptimizePromptError =
   | AccessDeniedException
   | BadGatewayException
   | DependencyFailedException
   | InternalServerException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
+ */
+export const optimizePrompt: API.OperationMethod<
+  OptimizePromptRequest,
+  OptimizePromptResponse,
+  OptimizePromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OptimizePromptRequest,
@@ -6709,12 +6697,7 @@ export const optimizePrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
- */
-export const rerank: API.OperationMethod<
-  RerankRequest,
-  RerankResponse,
+export type RerankError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6724,39 +6707,28 @@ export const rerank: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
+ */
+export const rerank: API.OperationMethod<
+  RerankRequest,
+  RerankResponse,
+  RerankError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: RerankRequest,
   ) => stream.Stream<
     RerankResponse,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    RerankError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: RerankRequest,
   ) => stream.Stream<
     RerankResult,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    RerankError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6779,12 +6751,7 @@ export const rerank: API.OperationMethod<
     items: "results",
   } as const,
 }));
-/**
- * Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
- */
-export const retrieveAndGenerate: API.OperationMethod<
-  RetrieveAndGenerateRequest,
-  RetrieveAndGenerateResponse,
+export type RetrieveAndGenerateError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6794,7 +6761,14 @@ export const retrieveAndGenerate: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
+ */
+export const retrieveAndGenerate: API.OperationMethod<
+  RetrieveAndGenerateRequest,
+  RetrieveAndGenerateResponse,
+  RetrieveAndGenerateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveAndGenerateRequest,
@@ -6811,6 +6785,17 @@ export const retrieveAndGenerate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RetrieveAndGenerateStreamError =
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.
  *
@@ -6821,16 +6806,7 @@ export const retrieveAndGenerate: API.OperationMethod<
 export const retrieveAndGenerateStream: API.OperationMethod<
   RetrieveAndGenerateStreamRequest,
   RetrieveAndGenerateStreamResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RetrieveAndGenerateStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveAndGenerateStreamRequest,
@@ -6847,12 +6823,7 @@ export const retrieveAndGenerateStream: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Queries a knowledge base and retrieves information from it.
- */
-export const retrieve: API.OperationMethod<
-  RetrieveRequest,
-  RetrieveResponse,
+export type RetrieveError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -6862,39 +6833,28 @@ export const retrieve: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Queries a knowledge base and retrieves information from it.
+ */
+export const retrieve: API.OperationMethod<
+  RetrieveRequest,
+  RetrieveResponse,
+  RetrieveError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: RetrieveRequest,
   ) => stream.Stream<
     RetrieveResponse,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    RetrieveError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: RetrieveRequest,
   ) => stream.Stream<
     KnowledgeBaseRetrievalResult,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    RetrieveError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6917,6 +6877,14 @@ export const retrieve: API.OperationMethod<
     items: "retrievalResults",
   } as const,
 }));
+export type CreateSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  *
@@ -6937,13 +6905,7 @@ export const retrieve: API.OperationMethod<
 export const createSession: API.OperationMethod<
   CreateSessionRequest,
   CreateSessionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
@@ -6957,18 +6919,20 @@ export const createSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -6981,19 +6945,21 @@ export const getSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
- */
-export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
-  UpdateSessionResponse,
+export type UpdateSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+ */
+export const updateSession: API.OperationMethod<
+  UpdateSessionRequest,
+  UpdateSessionResponse,
+  UpdateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionRequest,
@@ -7007,19 +6973,21 @@ export const updateSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
- */
-export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
-  DeleteSessionResponse,
+export type DeleteSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+ */
+export const deleteSession: API.OperationMethod<
+  DeleteSessionRequest,
+  DeleteSessionResponse,
+  DeleteSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
@@ -7033,39 +7001,33 @@ export const deleteSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSessionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listSessions: API.OperationMethod<
   ListSessionsRequest,
   ListSessionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     SessionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7084,19 +7046,21 @@ export const listSessions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
- */
-export const endSession: API.OperationMethod<
-  EndSessionRequest,
-  EndSessionResponse,
+export type EndSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+ */
+export const endSession: API.OperationMethod<
+  EndSessionRequest,
+  EndSessionResponse,
+  EndSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EndSessionRequest,
@@ -7110,6 +7074,15 @@ export const endSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateInvocationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  *
@@ -7124,14 +7097,7 @@ export const endSession: API.OperationMethod<
 export const createInvocation: API.OperationMethod<
   CreateInvocationRequest,
   CreateInvocationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateInvocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvocationRequest,
@@ -7146,42 +7112,34 @@ export const createInvocation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListInvocationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listInvocations: API.OperationMethod<
   ListInvocationsRequest,
   ListInvocationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInvocationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInvocationsRequest,
   ) => stream.Stream<
     ListInvocationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInvocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvocationsRequest,
   ) => stream.Stream<
     InvocationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInvocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7201,6 +7159,15 @@ export const listInvocations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutInvocationStepError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  *
@@ -7217,14 +7184,7 @@ export const listInvocations: API.OperationMethod<
 export const putInvocationStep: API.OperationMethod<
   PutInvocationStepRequest,
   PutInvocationStepResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutInvocationStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInvocationStepRequest,
@@ -7239,18 +7199,20 @@ export const putInvocationStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInvocationStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const getInvocationStep: API.OperationMethod<
   GetInvocationStepRequest,
   GetInvocationStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInvocationStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvocationStepRequest,
@@ -7263,42 +7225,34 @@ export const getInvocationStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListInvocationStepsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
 export const listInvocationSteps: API.OperationMethod<
   ListInvocationStepsRequest,
   ListInvocationStepsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInvocationStepsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInvocationStepsRequest,
   ) => stream.Stream<
     ListInvocationStepsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInvocationStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvocationStepsRequest,
   ) => stream.Stream<
     InvocationStepSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInvocationStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7318,18 +7272,20 @@ export const listInvocationSteps: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all the tags for the resource you specify.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -7342,19 +7298,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7368,18 +7326,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

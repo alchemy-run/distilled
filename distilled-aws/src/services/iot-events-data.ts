@@ -1002,6 +1002,12 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchAcknowledgeAlarmError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Acknowledges one or more alarms. The alarms change to the `ACKNOWLEDGED` state
  * after you acknowledge them.
@@ -1009,11 +1015,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const batchAcknowledgeAlarm: API.OperationMethod<
   BatchAcknowledgeAlarmRequest,
   BatchAcknowledgeAlarmResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchAcknowledgeAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAcknowledgeAlarmRequest,
@@ -1025,17 +1027,19 @@ export const batchAcknowledgeAlarm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchDeleteDetectorError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
  */
 export const batchDeleteDetector: API.OperationMethod<
   BatchDeleteDetectorRequest,
   BatchDeleteDetectorResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchDeleteDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDetectorRequest,
@@ -1047,6 +1051,12 @@ export const batchDeleteDetector: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchDisableAlarmError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disables one or more alarms. The alarms change to the `DISABLED` state after
  * you disable them.
@@ -1054,11 +1064,7 @@ export const batchDeleteDetector: API.OperationMethod<
 export const batchDisableAlarm: API.OperationMethod<
   BatchDisableAlarmRequest,
   BatchDisableAlarmResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchDisableAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisableAlarmRequest,
@@ -1070,6 +1076,12 @@ export const batchDisableAlarm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchEnableAlarmError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Enables one or more alarms. The alarms change to the `NORMAL` state after you
  * enable them.
@@ -1077,11 +1089,7 @@ export const batchDisableAlarm: API.OperationMethod<
 export const batchEnableAlarm: API.OperationMethod<
   BatchEnableAlarmRequest,
   BatchEnableAlarmResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchEnableAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchEnableAlarmRequest,
@@ -1093,6 +1101,12 @@ export const batchEnableAlarm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchPutMessageError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Sends a set of messages to the IoT Events system. Each message payload is transformed into
  * the input you specify (`"inputName"`) and ingested into any detectors that monitor
@@ -1103,11 +1117,7 @@ export const batchEnableAlarm: API.OperationMethod<
 export const batchPutMessage: API.OperationMethod<
   BatchPutMessageRequest,
   BatchPutMessageResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchPutMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutMessageRequest,
@@ -1119,6 +1129,12 @@ export const batchPutMessage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchResetAlarmError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Resets one or more alarms. The alarms return to the `NORMAL` state after you
  * reset them.
@@ -1126,11 +1142,7 @@ export const batchPutMessage: API.OperationMethod<
 export const batchResetAlarm: API.OperationMethod<
   BatchResetAlarmRequest,
   BatchResetAlarmResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchResetAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchResetAlarmRequest,
@@ -1142,6 +1154,12 @@ export const batchResetAlarm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchSnoozeAlarmError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Changes one or more alarms to the snooze mode. The alarms change to the
  * `SNOOZE_DISABLED` state after you set them to the snooze mode.
@@ -1149,11 +1167,7 @@ export const batchResetAlarm: API.OperationMethod<
 export const batchSnoozeAlarm: API.OperationMethod<
   BatchSnoozeAlarmRequest,
   BatchSnoozeAlarmResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchSnoozeAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchSnoozeAlarmRequest,
@@ -1165,6 +1179,12 @@ export const batchSnoozeAlarm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchUpdateDetectorError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the state, variable values, and timer settings of one or more detectors
  * (instances) of a specified detector model.
@@ -1172,11 +1192,7 @@ export const batchSnoozeAlarm: API.OperationMethod<
 export const batchUpdateDetector: API.OperationMethod<
   BatchUpdateDetectorRequest,
   BatchUpdateDetectorResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchUpdateDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateDetectorRequest,
@@ -1188,18 +1204,20 @@ export const batchUpdateDetector: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAlarmError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an alarm.
  */
 export const describeAlarm: API.OperationMethod<
   DescribeAlarmRequest,
   DescribeAlarmResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlarmRequest,
@@ -1212,18 +1230,20 @@ export const describeAlarm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDetectorError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about the specified detector (instance).
  */
 export const describeDetector: API.OperationMethod<
   DescribeDetectorRequest,
   DescribeDetectorResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectorRequest,
@@ -1236,6 +1256,13 @@ export const describeDetector: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAlarmsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists one or more alarms. The operation returns only the metadata associated with each
  * alarm.
@@ -1243,12 +1270,7 @@ export const describeDetector: API.OperationMethod<
 export const listAlarms: API.OperationMethod<
   ListAlarmsRequest,
   ListAlarmsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListAlarmsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAlarmsRequest,
@@ -1261,18 +1283,20 @@ export const listAlarms: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListDetectorsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists detectors (the instances of a detector model).
  */
 export const listDetectors: API.OperationMethod<
   ListDetectorsRequest,
   ListDetectorsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectorsRequest,

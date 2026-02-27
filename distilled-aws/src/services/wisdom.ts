@@ -587,26 +587,26 @@ export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
 ).annotate({
   identifier: "NotifyRecommendationsReceivedRequest",
 }) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
-export interface NotifyRecommendationsReceivedError {
+export interface NotifyRecommendationsReceivedError_ {
   recommendationId?: string;
   message?: string;
 }
-export const NotifyRecommendationsReceivedError = S.suspend(() =>
+export const NotifyRecommendationsReceivedError_ = S.suspend(() =>
   S.Struct({
     recommendationId: S.optional(S.String),
     message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedError",
-}) as any as S.Schema<NotifyRecommendationsReceivedError>;
+}) as any as S.Schema<NotifyRecommendationsReceivedError_>;
 export type NotifyRecommendationsReceivedErrorList =
-  NotifyRecommendationsReceivedError[];
+  NotifyRecommendationsReceivedError_[];
 export const NotifyRecommendationsReceivedErrorList = S.Array(
-  NotifyRecommendationsReceivedError,
+  NotifyRecommendationsReceivedError_,
 );
 export interface NotifyRecommendationsReceivedResponse {
   recommendationIds?: string[];
-  errors?: NotifyRecommendationsReceivedError[];
+  errors?: NotifyRecommendationsReceivedError_[];
 }
 export const NotifyRecommendationsReceivedResponse = S.suspend(() =>
   S.Struct({
@@ -2438,56 +2438,64 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 ) {}
 
 //# Operations
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | TooManyTagsException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, TooManyTagsException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type CreateAssistantError =
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Connect Wisdom assistant.
  */
 export const createAssistant: API.OperationMethod<
   CreateAssistantRequest,
   CreateAssistantResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssistantRequest,
@@ -2499,16 +2507,18 @@ export const createAssistant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssistantError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an assistant.
  */
 export const getAssistant: API.OperationMethod<
   GetAssistantRequest,
   GetAssistantResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssistantRequest,
@@ -2519,16 +2529,18 @@ export const getAssistant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssistantError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an assistant.
  */
 export const deleteAssistant: API.OperationMethod<
   DeleteAssistantRequest,
   DeleteAssistantResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssistantRequest,
@@ -2539,27 +2551,31 @@ export const deleteAssistant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssistantsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about assistants.
  */
 export const listAssistants: API.OperationMethod<
   ListAssistantsRequest,
   ListAssistantsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListAssistantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssistantsRequest,
   ) => stream.Stream<
     ListAssistantsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAssistantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssistantsRequest,
   ) => stream.Stream<
     AssistantSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAssistantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2573,6 +2589,11 @@ export const listAssistants: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetRecommendationsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves recommendations for the specified session. To avoid retrieving the same
  * recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the
@@ -2582,10 +2603,7 @@ export const listAssistants: API.OperationMethod<
 export const getRecommendations: API.OperationMethod<
   GetRecommendationsRequest,
   GetRecommendationsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
@@ -2596,6 +2614,11 @@ export const getRecommendations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type NotifyRecommendationsReceivedError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified recommendations from the specified assistant's queue of newly
  * available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling
@@ -2604,10 +2627,7 @@ export const getRecommendations: API.OperationMethod<
 export const notifyRecommendationsReceived: API.OperationMethod<
   NotifyRecommendationsReceivedRequest,
   NotifyRecommendationsReceivedResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  NotifyRecommendationsReceivedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyRecommendationsReceivedRequest,
@@ -2618,6 +2638,12 @@ export const notifyRecommendationsReceived: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type QueryAssistantError =
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Performs a manual search against the specified assistant. To retrieve recommendations for
  * an assistant, use GetRecommendations.
@@ -2625,33 +2651,21 @@ export const notifyRecommendationsReceived: API.OperationMethod<
 export const queryAssistant: API.OperationMethod<
   QueryAssistantRequest,
   QueryAssistantResponse,
-  | AccessDeniedException
-  | RequestTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  QueryAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: QueryAssistantRequest,
   ) => stream.Stream<
     QueryAssistantResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    QueryAssistantError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: QueryAssistantRequest,
   ) => stream.Stream<
     ResultData,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    QueryAssistantError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2670,36 +2684,32 @@ export const queryAssistant: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchSessionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for sessions.
  */
 export const searchSessions: API.OperationMethod<
   SearchSessionsRequest,
   SearchSessionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SearchSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSessionsRequest,
   ) => stream.Stream<
     SearchSessionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSessionsRequest,
   ) => stream.Stream<
     SessionSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2717,6 +2727,13 @@ export const searchSessions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateAssistantAssociationError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the
  * only supported association is with a knowledge base. An assistant can have only a single
@@ -2725,12 +2742,7 @@ export const searchSessions: API.OperationMethod<
 export const createAssistantAssociation: API.OperationMethod<
   CreateAssistantAssociationRequest,
   CreateAssistantAssociationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateAssistantAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssistantAssociationRequest,
@@ -2743,16 +2755,18 @@ export const createAssistantAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssistantAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an assistant association.
  */
 export const getAssistantAssociation: API.OperationMethod<
   GetAssistantAssociationRequest,
   GetAssistantAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssistantAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssistantAssociationRequest,
@@ -2763,16 +2777,18 @@ export const getAssistantAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssistantAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an assistant association.
  */
 export const deleteAssistantAssociation: API.OperationMethod<
   DeleteAssistantAssociationRequest,
   DeleteAssistantAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssistantAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssistantAssociationRequest,
@@ -2783,36 +2799,32 @@ export const deleteAssistantAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssistantAssociationsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about assistant associations.
  */
 export const listAssistantAssociations: API.OperationMethod<
   ListAssistantAssociationsRequest,
   ListAssistantAssociationsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssistantAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssistantAssociationsRequest,
   ) => stream.Stream<
     ListAssistantAssociationsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssistantAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssistantAssociationsRequest,
   ) => stream.Stream<
     AssistantAssociationSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssistantAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2830,6 +2842,11 @@ export const listAssistantAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateSessionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a session. A session is a contextual container used for generating
  * recommendations. Amazon Connect creates a new Wisdom session for each contact on which
@@ -2838,26 +2855,25 @@ export const listAssistantAssociations: API.OperationMethod<
 export const createSession: API.OperationMethod<
   CreateSessionRequest,
   CreateSessionResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
   output: CreateSessionResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type GetSessionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information for a specified session.
  */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -2868,6 +2884,12 @@ export const getSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateKnowledgeBaseError =
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a knowledge base.
  *
@@ -2891,11 +2913,7 @@ export const getSession: API.OperationMethod<
 export const createKnowledgeBase: API.OperationMethod<
   CreateKnowledgeBaseRequest,
   CreateKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKnowledgeBaseRequest,
@@ -2907,16 +2925,18 @@ export const createKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKnowledgeBaseError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
   GetKnowledgeBaseRequest,
   GetKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseRequest,
@@ -2927,6 +2947,12 @@ export const getKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteKnowledgeBaseError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the knowledge base.
  *
@@ -2940,11 +2966,7 @@ export const getKnowledgeBase: API.OperationMethod<
 export const deleteKnowledgeBase: API.OperationMethod<
   DeleteKnowledgeBaseRequest,
   DeleteKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnowledgeBaseRequest,
@@ -2956,27 +2978,31 @@ export const deleteKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListKnowledgeBasesError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the knowledge bases.
  */
 export const listKnowledgeBases: API.OperationMethod<
   ListKnowledgeBasesRequest,
   ListKnowledgeBasesResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListKnowledgeBasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
     ListKnowledgeBasesResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
     KnowledgeBaseSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2990,17 +3016,19 @@ export const listKnowledgeBases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the quick response import job.
  */
 export const deleteImportJob: API.OperationMethod<
   DeleteImportJobRequest,
   DeleteImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImportJobRequest,
@@ -3012,16 +3040,18 @@ export const deleteImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetImportJobError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the started import job.
  */
 export const getImportJob: API.OperationMethod<
   GetImportJobRequest,
   GetImportJobResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
@@ -3032,27 +3062,31 @@ export const getImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListImportJobsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about import jobs.
  */
 export const listImportJobs: API.OperationMethod<
   ListImportJobsRequest,
   ListImportJobsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
     ListImportJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
     ImportJobSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3066,16 +3100,18 @@ export const listImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RemoveKnowledgeBaseTemplateUriError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a URI template from a knowledge base.
  */
 export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   RemoveKnowledgeBaseTemplateUriRequest,
   RemoveKnowledgeBaseTemplateUriResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RemoveKnowledgeBaseTemplateUriError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveKnowledgeBaseTemplateUriRequest,
@@ -3086,6 +3122,11 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchContentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for content in a specified knowledge base. Can be used to get a specific content
  * resource by its name.
@@ -3093,30 +3134,21 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
 export const searchContent: API.OperationMethod<
   SearchContentRequest,
   SearchContentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SearchContentError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchContentRequest,
   ) => stream.Stream<
     SearchContentResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchContentError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchContentRequest,
   ) => stream.Stream<
     ContentSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchContentError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3134,39 +3166,33 @@ export const searchContent: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchQuickResponsesError =
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches existing Wisdom quick responses in a Wisdom knowledge base.
  */
 export const searchQuickResponses: API.OperationMethod<
   SearchQuickResponsesRequest,
   SearchQuickResponsesResponse,
-  | AccessDeniedException
-  | RequestTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SearchQuickResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchQuickResponsesRequest,
   ) => stream.Stream<
     SearchQuickResponsesResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchQuickResponsesRequest,
   ) => stream.Stream<
     QuickResponseSearchResultData,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3185,6 +3211,11 @@ export const searchQuickResponses: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartContentUploadError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a URL to upload content to a knowledge base. To upload content, first make a PUT
  * request to the returned URL with your file, making sure to include the required headers. Then
@@ -3194,10 +3225,7 @@ export const searchQuickResponses: API.OperationMethod<
 export const startContentUpload: API.OperationMethod<
   StartContentUploadRequest,
   StartContentUploadResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartContentUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContentUploadRequest,
@@ -3208,6 +3236,13 @@ export const startContentUpload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start an asynchronous job to import Wisdom resources from an uploaded source file. Before calling this API, use StartContentUpload to
  * upload an asset that contains the resource data.
@@ -3217,12 +3252,7 @@ export const startContentUpload: API.OperationMethod<
 export const startImportJob: API.OperationMethod<
   StartImportJobRequest,
   StartImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportJobRequest,
@@ -3235,6 +3265,11 @@ export const startImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKnowledgeBaseTemplateUriError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the template URI of a knowledge base. This is only supported for knowledge bases
  * of type EXTERNAL. Include a single variable in `${variable}` format; this
@@ -3245,10 +3280,7 @@ export const startImportJob: API.OperationMethod<
 export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   UpdateKnowledgeBaseTemplateUriRequest,
   UpdateKnowledgeBaseTemplateUriResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateKnowledgeBaseTemplateUriError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKnowledgeBaseTemplateUriRequest,
@@ -3259,6 +3291,13 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateContentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates Wisdom content. Before to calling this API, use StartContentUpload to
  * upload an asset.
@@ -3266,12 +3305,7 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
 export const createContent: API.OperationMethod<
   CreateContentRequest,
   CreateContentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContentRequest,
@@ -3284,16 +3318,18 @@ export const createContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetContentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves content, including a pre-signed URL to download the content.
  */
 export const getContent: API.OperationMethod<
   GetContentRequest,
   GetContentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentRequest,
@@ -3304,17 +3340,19 @@ export const getContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateContentError =
+  | AccessDeniedException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates information about the content.
  */
 export const updateContent: API.OperationMethod<
   UpdateContentRequest,
   UpdateContentResponse,
-  | AccessDeniedException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContentRequest,
@@ -3326,16 +3364,18 @@ export const updateContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteContentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the content.
  */
 export const deleteContent: API.OperationMethod<
   DeleteContentRequest,
   DeleteContentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContentRequest,
@@ -3346,36 +3386,32 @@ export const deleteContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListContentsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the content.
  */
 export const listContents: API.OperationMethod<
   ListContentsRequest,
   ListContentsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListContentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContentsRequest,
   ) => stream.Stream<
     ListContentsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListContentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContentsRequest,
   ) => stream.Stream<
     ContentSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListContentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3393,16 +3429,18 @@ export const listContents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetContentSummaryError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves summary information about the content.
  */
 export const getContentSummary: API.OperationMethod<
   GetContentSummaryRequest,
   GetContentSummaryResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetContentSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentSummaryRequest,
@@ -3413,18 +3451,20 @@ export const getContentSummary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateQuickResponseError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Wisdom quick response.
  */
 export const createQuickResponse: API.OperationMethod<
   CreateQuickResponseRequest,
   CreateQuickResponseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuickResponseRequest,
@@ -3437,16 +3477,18 @@ export const createQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQuickResponseError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the quick response.
  */
 export const getQuickResponse: API.OperationMethod<
   GetQuickResponseRequest,
   GetQuickResponseResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuickResponseRequest,
@@ -3457,18 +3499,20 @@ export const getQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateQuickResponseError =
+  | AccessDeniedException
+  | ConflictException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing Wisdom quick response.
  */
 export const updateQuickResponse: API.OperationMethod<
   UpdateQuickResponseRequest,
   UpdateQuickResponseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQuickResponseRequest,
@@ -3481,16 +3525,18 @@ export const updateQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteQuickResponseError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a quick response.
  */
 export const deleteQuickResponse: API.OperationMethod<
   DeleteQuickResponseRequest,
   DeleteQuickResponseResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQuickResponseRequest,
@@ -3501,36 +3547,32 @@ export const deleteQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListQuickResponsesError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about quick response.
  */
 export const listQuickResponses: API.OperationMethod<
   ListQuickResponsesRequest,
   ListQuickResponsesResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListQuickResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQuickResponsesRequest,
   ) => stream.Stream<
     ListQuickResponsesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQuickResponsesRequest,
   ) => stream.Stream<
     QuickResponseSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

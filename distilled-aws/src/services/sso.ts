@@ -287,6 +287,12 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type GetRoleCredentialsError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns the STS short-term credentials for a given role name that is assigned to the
  * user.
@@ -294,11 +300,7 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
 export const getRoleCredentials: API.OperationMethod<
   GetRoleCredentialsRequest,
   GetRoleCredentialsResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRoleCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoleCredentialsRequest,
@@ -310,39 +312,33 @@ export const getRoleCredentials: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListAccountRolesError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists all roles that are assigned to the user for a given AWS account.
  */
 export const listAccountRoles: API.OperationMethod<
   ListAccountRolesRequest,
   ListAccountRolesResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  ListAccountRolesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountRolesRequest,
   ) => stream.Stream<
     ListAccountRolesResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAccountRolesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountRolesRequest,
   ) => stream.Stream<
     RoleInfo,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAccountRolesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -361,6 +357,12 @@ export const listAccountRoles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAccountsError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
  * administrator of the account. For more information, see Assign User Access in the *IAM Identity Center User Guide*. This operation
@@ -369,33 +371,21 @@ export const listAccountRoles: API.OperationMethod<
 export const listAccounts: API.OperationMethod<
   ListAccountsRequest,
   ListAccountsResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  ListAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountsRequest,
   ) => stream.Stream<
     ListAccountsResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountsRequest,
   ) => stream.Stream<
     AccountInfo,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -414,6 +404,11 @@ export const listAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type LogoutError =
+  | InvalidRequestException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Removes the locally stored SSO tokens from the client-side cache and sends an API call to
  * the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in
@@ -433,10 +428,7 @@ export const listAccounts: API.OperationMethod<
 export const logout: API.OperationMethod<
   LogoutRequest,
   LogoutResponse,
-  | InvalidRequestException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  LogoutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LogoutRequest,

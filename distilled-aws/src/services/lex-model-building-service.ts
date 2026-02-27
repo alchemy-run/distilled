@@ -2612,6 +2612,14 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type CreateBotVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates a new version of the bot based on the `$LATEST`
  * version. If the `$LATEST` version of this resource hasn't
@@ -2631,13 +2639,7 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 export const createBotVersion: API.OperationMethod<
   CreateBotVersionRequest,
   CreateBotVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | PreconditionFailedException
-  | CommonErrors,
+  CreateBotVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotVersionRequest,
@@ -2651,6 +2653,14 @@ export const createBotVersion: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type CreateIntentVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates a new version of an intent based on the
  * `$LATEST` version of the intent. If the `$LATEST`
@@ -2671,13 +2681,7 @@ export const createBotVersion: API.OperationMethod<
 export const createIntentVersion: API.OperationMethod<
   CreateIntentVersionRequest,
   CreateIntentVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | PreconditionFailedException
-  | CommonErrors,
+  CreateIntentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntentVersionRequest,
@@ -2691,6 +2695,14 @@ export const createIntentVersion: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type CreateSlotTypeVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates a new version of a slot type based on the
  * `$LATEST` version of the specified slot type. If the
@@ -2711,13 +2723,7 @@ export const createIntentVersion: API.OperationMethod<
 export const createSlotTypeVersion: API.OperationMethod<
   CreateSlotTypeVersionRequest,
   CreateSlotTypeVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | PreconditionFailedException
-  | CommonErrors,
+  CreateSlotTypeVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSlotTypeVersionRequest,
@@ -2731,6 +2737,14 @@ export const createSlotTypeVersion: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type DeleteBotError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes all versions of the bot, including the `$LATEST`
  * version. To delete a specific version of the bot, use the DeleteBotVersion operation. The `DeleteBot`
@@ -2755,13 +2769,7 @@ export const createSlotTypeVersion: API.OperationMethod<
 export const deleteBot: API.OperationMethod<
   DeleteBotRequest,
   DeleteBotResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotRequest,
@@ -2775,6 +2783,14 @@ export const deleteBot: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteBotAliasError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes an alias for the specified bot.
  *
@@ -2790,13 +2806,7 @@ export const deleteBot: API.OperationMethod<
 export const deleteBotAlias: API.OperationMethod<
   DeleteBotAliasRequest,
   DeleteBotAliasResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotAliasRequest,
@@ -2810,6 +2820,13 @@ export const deleteBotAlias: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteBotChannelAssociationError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes the association between an Amazon Lex bot and a messaging
  * platform.
@@ -2820,12 +2837,7 @@ export const deleteBotAlias: API.OperationMethod<
 export const deleteBotChannelAssociation: API.OperationMethod<
   DeleteBotChannelAssociationRequest,
   DeleteBotChannelAssociationResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  DeleteBotChannelAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotChannelAssociationRequest,
@@ -2838,6 +2850,14 @@ export const deleteBotChannelAssociation: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteBotVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes a specific version of a bot. To delete all versions of a
  * bot, use the DeleteBot operation.
@@ -2848,13 +2868,7 @@ export const deleteBotChannelAssociation: API.OperationMethod<
 export const deleteBotVersion: API.OperationMethod<
   DeleteBotVersionRequest,
   DeleteBotVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteBotVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotVersionRequest,
@@ -2868,6 +2882,14 @@ export const deleteBotVersion: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteIntentError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes all versions of the intent, including the
  * `$LATEST` version. To delete a specific version of the
@@ -2891,13 +2913,7 @@ export const deleteBotVersion: API.OperationMethod<
 export const deleteIntent: API.OperationMethod<
   DeleteIntentRequest,
   DeleteIntentResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntentRequest,
@@ -2911,6 +2927,14 @@ export const deleteIntent: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteIntentVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes a specific version of an intent. To delete all versions of
  * a intent, use the DeleteIntent operation.
@@ -2921,13 +2945,7 @@ export const deleteIntent: API.OperationMethod<
 export const deleteIntentVersion: API.OperationMethod<
   DeleteIntentVersionRequest,
   DeleteIntentVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteIntentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntentVersionRequest,
@@ -2941,6 +2959,14 @@ export const deleteIntentVersion: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteSlotTypeError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes all versions of the slot type, including the
  * `$LATEST` version. To delete a specific version of the slot
@@ -2964,13 +2990,7 @@ export const deleteIntentVersion: API.OperationMethod<
 export const deleteSlotType: API.OperationMethod<
   DeleteSlotTypeRequest,
   DeleteSlotTypeResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSlotTypeRequest,
@@ -2984,6 +3004,14 @@ export const deleteSlotType: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteSlotTypeVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes a specific version of a slot type. To delete all versions
  * of a slot type, use the DeleteSlotType operation.
@@ -2994,13 +3022,7 @@ export const deleteSlotType: API.OperationMethod<
 export const deleteSlotTypeVersion: API.OperationMethod<
   DeleteSlotTypeVersionRequest,
   DeleteSlotTypeVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteSlotTypeVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSlotTypeVersionRequest,
@@ -3014,6 +3036,12 @@ export const deleteSlotTypeVersion: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteUtterancesError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes stored utterances.
  *
@@ -3034,11 +3062,7 @@ export const deleteSlotTypeVersion: API.OperationMethod<
 export const deleteUtterances: API.OperationMethod<
   DeleteUtterancesRequest,
   DeleteUtterancesResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  DeleteUtterancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUtterancesRequest,
@@ -3050,6 +3074,12 @@ export const deleteUtterances: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetBotError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns metadata information for a specific bot. You must provide
  * the bot name and the bot version or alias.
@@ -3060,11 +3090,7 @@ export const deleteUtterances: API.OperationMethod<
 export const getBot: API.OperationMethod<
   GetBotRequest,
   GetBotResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotRequest,
@@ -3076,6 +3102,12 @@ export const getBot: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetBotAliasError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about an Amazon Lex bot alias. For more information
  * about aliases, see versioning-aliases.
@@ -3086,11 +3118,7 @@ export const getBot: API.OperationMethod<
 export const getBotAlias: API.OperationMethod<
   GetBotAliasRequest,
   GetBotAliasResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotAliasRequest,
@@ -3102,6 +3130,11 @@ export const getBotAlias: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetBotAliasesError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Returns a list of aliases for a specified Amazon Lex bot.
  *
@@ -3111,30 +3144,21 @@ export const getBotAlias: API.OperationMethod<
 export const getBotAliases: API.OperationMethod<
   GetBotAliasesRequest,
   GetBotAliasesResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  GetBotAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBotAliasesRequest,
   ) => stream.Stream<
     GetBotAliasesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBotAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBotAliasesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBotAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3151,6 +3175,12 @@ export const getBotAliases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBotChannelAssociationError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about the association between an Amazon Lex bot and
  * a messaging platform.
@@ -3161,11 +3191,7 @@ export const getBotAliases: API.OperationMethod<
 export const getBotChannelAssociation: API.OperationMethod<
   GetBotChannelAssociationRequest,
   GetBotChannelAssociationResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetBotChannelAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotChannelAssociationRequest,
@@ -3177,6 +3203,11 @@ export const getBotChannelAssociation: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetBotChannelAssociationsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Returns a list of all of the channels associated with the
  * specified bot.
@@ -3188,30 +3219,21 @@ export const getBotChannelAssociation: API.OperationMethod<
 export const getBotChannelAssociations: API.OperationMethod<
   GetBotChannelAssociationsRequest,
   GetBotChannelAssociationsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  GetBotChannelAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBotChannelAssociationsRequest,
   ) => stream.Stream<
     GetBotChannelAssociationsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBotChannelAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBotChannelAssociationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBotChannelAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3228,6 +3250,12 @@ export const getBotChannelAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBotsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns bot information as follows:
  *
@@ -3245,33 +3273,21 @@ export const getBotChannelAssociations: API.OperationMethod<
 export const getBots: API.OperationMethod<
   GetBotsRequest,
   GetBotsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetBotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBotsRequest,
   ) => stream.Stream<
     GetBotsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBotsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3289,6 +3305,12 @@ export const getBots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBotVersionsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets information about all of the versions of a bot.
  *
@@ -3308,33 +3330,21 @@ export const getBots: API.OperationMethod<
 export const getBotVersions: API.OperationMethod<
   GetBotVersionsRequest,
   GetBotVersionsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetBotVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBotVersionsRequest,
   ) => stream.Stream<
     GetBotVersionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetBotVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBotVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetBotVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3352,6 +3362,12 @@ export const getBotVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBuiltinIntentError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about a built-in intent.
  *
@@ -3361,11 +3377,7 @@ export const getBotVersions: API.OperationMethod<
 export const getBuiltinIntent: API.OperationMethod<
   GetBuiltinIntentRequest,
   GetBuiltinIntentResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetBuiltinIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuiltinIntentRequest,
@@ -3377,6 +3389,11 @@ export const getBuiltinIntent: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetBuiltinIntentsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Gets a list of built-in intents that meet the specified
  * criteria.
@@ -3387,30 +3404,21 @@ export const getBuiltinIntent: API.OperationMethod<
 export const getBuiltinIntents: API.OperationMethod<
   GetBuiltinIntentsRequest,
   GetBuiltinIntentsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  GetBuiltinIntentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBuiltinIntentsRequest,
   ) => stream.Stream<
     GetBuiltinIntentsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBuiltinIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBuiltinIntentsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBuiltinIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3427,6 +3435,11 @@ export const getBuiltinIntents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBuiltinSlotTypesError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Gets a list of built-in slot types that meet the specified
  * criteria.
@@ -3440,30 +3453,21 @@ export const getBuiltinIntents: API.OperationMethod<
 export const getBuiltinSlotTypes: API.OperationMethod<
   GetBuiltinSlotTypesRequest,
   GetBuiltinSlotTypesResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  GetBuiltinSlotTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBuiltinSlotTypesRequest,
   ) => stream.Stream<
     GetBuiltinSlotTypesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBuiltinSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBuiltinSlotTypesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetBuiltinSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3480,17 +3484,19 @@ export const getBuiltinSlotTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetExportError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Exports the contents of a Amazon Lex resource in a specified format.
  */
 export const getExport: API.OperationMethod<
   GetExportRequest,
   GetExportResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportRequest,
@@ -3502,6 +3508,12 @@ export const getExport: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetImportError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets information about an import job started with the
  * `StartImport` operation.
@@ -3509,11 +3521,7 @@ export const getExport: API.OperationMethod<
 export const getImport: API.OperationMethod<
   GetImportRequest,
   GetImportResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportRequest,
@@ -3525,6 +3533,12 @@ export const getImport: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetIntentError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about an intent. In addition to the intent
  * name, you must specify the intent version.
@@ -3535,11 +3549,7 @@ export const getImport: API.OperationMethod<
 export const getIntent: API.OperationMethod<
   GetIntentRequest,
   GetIntentResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntentRequest,
@@ -3551,6 +3561,12 @@ export const getIntent: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetIntentsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns intent information as follows:
  *
@@ -3568,33 +3584,21 @@ export const getIntent: API.OperationMethod<
 export const getIntents: API.OperationMethod<
   GetIntentsRequest,
   GetIntentsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetIntentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetIntentsRequest,
   ) => stream.Stream<
     GetIntentsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetIntentsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3612,6 +3616,12 @@ export const getIntents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetIntentVersionsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets information about all of the versions of an intent.
  *
@@ -3631,33 +3641,21 @@ export const getIntents: API.OperationMethod<
 export const getIntentVersions: API.OperationMethod<
   GetIntentVersionsRequest,
   GetIntentVersionsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetIntentVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetIntentVersionsRequest,
   ) => stream.Stream<
     GetIntentVersionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetIntentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetIntentVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetIntentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3675,6 +3673,12 @@ export const getIntentVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetMigrationError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Provides details about an ongoing or complete migration from an
  * Amazon Lex V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration
@@ -3683,11 +3687,7 @@ export const getIntentVersions: API.OperationMethod<
 export const getMigration: API.OperationMethod<
   GetMigrationRequest,
   GetMigrationResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMigrationRequest,
@@ -3699,36 +3699,32 @@ export const getMigration: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetMigrationsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
  */
 export const getMigrations: API.OperationMethod<
   GetMigrationsRequest,
   GetMigrationsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  GetMigrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetMigrationsRequest,
   ) => stream.Stream<
     GetMigrationsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetMigrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetMigrationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
+    GetMigrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3745,6 +3741,12 @@ export const getMigrations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSlotTypeError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about a specific version of a slot type. In
  * addition to specifying the slot type name, you must specify the slot type
@@ -3756,11 +3758,7 @@ export const getMigrations: API.OperationMethod<
 export const getSlotType: API.OperationMethod<
   GetSlotTypeRequest,
   GetSlotTypeResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSlotTypeRequest,
@@ -3772,6 +3770,12 @@ export const getSlotType: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetSlotTypesError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns slot type information as follows:
  *
@@ -3789,33 +3793,21 @@ export const getSlotType: API.OperationMethod<
 export const getSlotTypes: API.OperationMethod<
   GetSlotTypesRequest,
   GetSlotTypesResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetSlotTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetSlotTypesRequest,
   ) => stream.Stream<
     GetSlotTypesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSlotTypesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3833,6 +3825,12 @@ export const getSlotTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSlotTypeVersionsError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets information about all versions of a slot type.
  *
@@ -3852,33 +3850,21 @@ export const getSlotTypes: API.OperationMethod<
 export const getSlotTypeVersions: API.OperationMethod<
   GetSlotTypeVersionsRequest,
   GetSlotTypeVersionsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetSlotTypeVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetSlotTypeVersionsRequest,
   ) => stream.Stream<
     GetSlotTypeVersionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetSlotTypeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSlotTypeVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
+    GetSlotTypeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3896,6 +3882,11 @@ export const getSlotTypeVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetUtterancesViewError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Use the `GetUtterancesView` operation to get information
  * about the utterances that your users have made to your bot. You can use
@@ -3930,10 +3921,7 @@ export const getSlotTypeVersions: API.OperationMethod<
 export const getUtterancesView: API.OperationMethod<
   GetUtterancesViewRequest,
   GetUtterancesViewResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  GetUtterancesViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUtterancesViewRequest,
@@ -3944,6 +3932,12 @@ export const getUtterancesView: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets a list of tags associated with the specified resource. Only bots,
  * bot aliases, and bot channels can have tags associated with them.
@@ -3951,11 +3945,7 @@ export const getUtterancesView: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3967,6 +3957,13 @@ export const listTagsForResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type PutBotError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates an Amazon Lex conversational bot or replaces an existing bot.
  * When you create or update a bot you are only required to specify a name, a
@@ -3991,12 +3988,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putBot: API.OperationMethod<
   PutBotRequest,
   PutBotResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | PreconditionFailedException
-  | CommonErrors,
+  PutBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBotRequest,
@@ -4009,6 +4001,13 @@ export const putBot: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type PutBotAliasError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates an alias for the specified version of the bot or replaces
  * an alias for the specified bot. To change the version of the bot that the
@@ -4021,12 +4020,7 @@ export const putBot: API.OperationMethod<
 export const putBotAlias: API.OperationMethod<
   PutBotAliasRequest,
   PutBotAliasResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | PreconditionFailedException
-  | CommonErrors,
+  PutBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBotAliasRequest,
@@ -4039,6 +4033,13 @@ export const putBotAlias: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type PutIntentError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates an intent or replaces an existing intent.
  *
@@ -4096,12 +4097,7 @@ export const putBotAlias: API.OperationMethod<
 export const putIntent: API.OperationMethod<
   PutIntentRequest,
   PutIntentResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | PreconditionFailedException
-  | CommonErrors,
+  PutIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntentRequest,
@@ -4114,6 +4110,13 @@ export const putIntent: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type PutSlotTypeError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | CommonErrors;
 /**
  * Creates a custom slot type or replaces an existing custom slot
  * type.
@@ -4137,12 +4140,7 @@ export const putIntent: API.OperationMethod<
 export const putSlotType: API.OperationMethod<
   PutSlotTypeRequest,
   PutSlotTypeResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | PreconditionFailedException
-  | CommonErrors,
+  PutSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSlotTypeRequest,
@@ -4155,16 +4153,18 @@ export const putSlotType: API.OperationMethod<
     PreconditionFailedException,
   ],
 }));
+export type StartImportError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Starts a job to import a resource to Amazon Lex.
  */
 export const startImport: API.OperationMethod<
   StartImportRequest,
   StartImportResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | CommonErrors,
+  StartImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportRequest,
@@ -4175,6 +4175,13 @@ export const startImport: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type StartMigrationError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when
  * you want to take advantage of the new features of Amazon Lex V2.
@@ -4185,12 +4192,7 @@ export const startImport: API.OperationMethod<
 export const startMigration: API.OperationMethod<
   StartMigrationRequest,
   StartMigrationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  StartMigrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMigrationRequest,
@@ -4203,6 +4205,13 @@ export const startMigration: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource. If a tag key
  * already exists, the existing value is replaced with the new value.
@@ -4210,12 +4219,7 @@ export const startMigration: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4228,18 +4232,20 @@ export const tagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes tags from a bot, bot alias or bot channel.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

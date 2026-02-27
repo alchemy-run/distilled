@@ -1526,6 +1526,17 @@ export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTok
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateBudgetError =
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | CreationLimitExceededException
+  | DuplicateRecordException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a budget and, if included, notifications and subscribers.
  *
@@ -1544,16 +1555,7 @@ export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTok
 export const createBudget: API.OperationMethod<
   CreateBudgetRequest,
   CreateBudgetResponse,
-  | AccessDeniedException
-  | BillingViewHealthStatusException
-  | CreationLimitExceededException
-  | DuplicateRecordException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateBudgetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBudgetRequest,
@@ -1570,12 +1572,7 @@ export const createBudget: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a budget action.
- */
-export const createBudgetAction: API.OperationMethod<
-  CreateBudgetActionRequest,
-  CreateBudgetActionResponse,
+export type CreateBudgetActionError =
   | AccessDeniedException
   | CreationLimitExceededException
   | DuplicateRecordException
@@ -1584,7 +1581,14 @@ export const createBudgetAction: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a budget action.
+ */
+export const createBudgetAction: API.OperationMethod<
+  CreateBudgetActionRequest,
+  CreateBudgetActionResponse,
+  CreateBudgetActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBudgetActionRequest,
@@ -1600,12 +1604,7 @@ export const createBudgetAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a notification. You must create the budget before you create the associated notification.
- */
-export const createNotification: API.OperationMethod<
-  CreateNotificationRequest,
-  CreateNotificationResponse,
+export type CreateNotificationError =
   | AccessDeniedException
   | CreationLimitExceededException
   | DuplicateRecordException
@@ -1613,7 +1612,14 @@ export const createNotification: API.OperationMethod<
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a notification. You must create the budget before you create the associated notification.
+ */
+export const createNotification: API.OperationMethod<
+  CreateNotificationRequest,
+  CreateNotificationResponse,
+  CreateNotificationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotificationRequest,
@@ -1628,12 +1634,7 @@ export const createNotification: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
- */
-export const createSubscriber: API.OperationMethod<
-  CreateSubscriberRequest,
-  CreateSubscriberResponse,
+export type CreateSubscriberError =
   | AccessDeniedException
   | CreationLimitExceededException
   | DuplicateRecordException
@@ -1641,7 +1642,14 @@ export const createSubscriber: API.OperationMethod<
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
+ */
+export const createSubscriber: API.OperationMethod<
+  CreateSubscriberRequest,
+  CreateSubscriberResponse,
+  CreateSubscriberError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriberRequest,
@@ -1656,6 +1664,13 @@ export const createSubscriber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteBudgetError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a budget. You can delete your budget at any time.
  *
@@ -1664,12 +1679,7 @@ export const createSubscriber: API.OperationMethod<
 export const deleteBudget: API.OperationMethod<
   DeleteBudgetRequest,
   DeleteBudgetResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteBudgetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBudgetRequest,
@@ -1682,19 +1692,21 @@ export const deleteBudget: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a budget action.
- */
-export const deleteBudgetAction: API.OperationMethod<
-  DeleteBudgetActionRequest,
-  DeleteBudgetActionResponse,
+export type DeleteBudgetActionError =
   | AccessDeniedException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
   | ResourceLockedException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a budget action.
+ */
+export const deleteBudgetAction: API.OperationMethod<
+  DeleteBudgetActionRequest,
+  DeleteBudgetActionResponse,
+  DeleteBudgetActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBudgetActionRequest,
@@ -1708,6 +1720,13 @@ export const deleteBudgetAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteNotificationError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a notification.
  *
@@ -1716,12 +1735,7 @@ export const deleteBudgetAction: API.OperationMethod<
 export const deleteNotification: API.OperationMethod<
   DeleteNotificationRequest,
   DeleteNotificationResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteNotificationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotificationRequest,
@@ -1734,6 +1748,13 @@ export const deleteNotification: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteSubscriberError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a subscriber.
  *
@@ -1742,12 +1763,7 @@ export const deleteNotification: API.OperationMethod<
 export const deleteSubscriber: API.OperationMethod<
   DeleteSubscriberRequest,
   DeleteSubscriberResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteSubscriberError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriberRequest,
@@ -1760,6 +1776,13 @@ export const deleteSubscriber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeBudgetError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a budget.
  *
@@ -1769,12 +1792,7 @@ export const deleteSubscriber: API.OperationMethod<
 export const describeBudget: API.OperationMethod<
   DescribeBudgetRequest,
   DescribeBudgetResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBudgetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBudgetRequest,
@@ -1787,18 +1805,20 @@ export const describeBudget: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeBudgetActionError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a budget action detail.
  */
 export const describeBudgetAction: API.OperationMethod<
   DescribeBudgetActionRequest,
   DescribeBudgetActionResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBudgetActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBudgetActionRequest,
@@ -1811,45 +1831,35 @@ export const describeBudgetAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Describes a budget action history detail.
- */
-export const describeBudgetActionHistories: API.OperationMethod<
-  DescribeBudgetActionHistoriesRequest,
-  DescribeBudgetActionHistoriesResponse,
+export type DescribeBudgetActionHistoriesError =
   | AccessDeniedException
   | InternalErrorException
   | InvalidNextTokenException
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes a budget action history detail.
+ */
+export const describeBudgetActionHistories: API.OperationMethod<
+  DescribeBudgetActionHistoriesRequest,
+  DescribeBudgetActionHistoriesResponse,
+  DescribeBudgetActionHistoriesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBudgetActionHistoriesRequest,
   ) => stream.Stream<
     DescribeBudgetActionHistoriesResponse,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetActionHistoriesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBudgetActionHistoriesRequest,
   ) => stream.Stream<
     ActionHistory,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetActionHistoriesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1870,42 +1880,34 @@ export const describeBudgetActionHistories: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeBudgetActionsForAccountError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes all of the budget actions for an account.
  */
 export const describeBudgetActionsForAccount: API.OperationMethod<
   DescribeBudgetActionsForAccountRequest,
   DescribeBudgetActionsForAccountResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBudgetActionsForAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBudgetActionsForAccountRequest,
   ) => stream.Stream<
     DescribeBudgetActionsForAccountResponse,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetActionsForAccountError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBudgetActionsForAccountRequest,
   ) => stream.Stream<
     Action,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetActionsForAccountError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1925,45 +1927,35 @@ export const describeBudgetActionsForAccount: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Describes all of the budget actions for a budget.
- */
-export const describeBudgetActionsForBudget: API.OperationMethod<
-  DescribeBudgetActionsForBudgetRequest,
-  DescribeBudgetActionsForBudgetResponse,
+export type DescribeBudgetActionsForBudgetError =
   | AccessDeniedException
   | InternalErrorException
   | InvalidNextTokenException
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes all of the budget actions for a budget.
+ */
+export const describeBudgetActionsForBudget: API.OperationMethod<
+  DescribeBudgetActionsForBudgetRequest,
+  DescribeBudgetActionsForBudgetResponse,
+  DescribeBudgetActionsForBudgetError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBudgetActionsForBudgetRequest,
   ) => stream.Stream<
     DescribeBudgetActionsForBudgetResponse,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetActionsForBudgetError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBudgetActionsForBudgetRequest,
   ) => stream.Stream<
     Action,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetActionsForBudgetError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1984,12 +1976,7 @@ export const describeBudgetActionsForBudget: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the budget names and notifications that are associated with an account.
- */
-export const describeBudgetNotificationsForAccount: API.OperationMethod<
-  DescribeBudgetNotificationsForAccountRequest,
-  DescribeBudgetNotificationsForAccountResponse,
+export type DescribeBudgetNotificationsForAccountError =
   | AccessDeniedException
   | ExpiredNextTokenException
   | InternalErrorException
@@ -1997,35 +1984,28 @@ export const describeBudgetNotificationsForAccount: API.OperationMethod<
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the budget names and notifications that are associated with an account.
+ */
+export const describeBudgetNotificationsForAccount: API.OperationMethod<
+  DescribeBudgetNotificationsForAccountRequest,
+  DescribeBudgetNotificationsForAccountResponse,
+  DescribeBudgetNotificationsForAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBudgetNotificationsForAccountRequest,
   ) => stream.Stream<
     DescribeBudgetNotificationsForAccountResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetNotificationsForAccountError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBudgetNotificationsForAccountRequest,
   ) => stream.Stream<
     BudgetNotificationsForAccount,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetNotificationsForAccountError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2047,12 +2027,7 @@ export const describeBudgetNotificationsForAccount: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't available for `ANNUAL` budgets.
- */
-export const describeBudgetPerformanceHistory: API.OperationMethod<
-  DescribeBudgetPerformanceHistoryRequest,
-  DescribeBudgetPerformanceHistoryResponse,
+export type DescribeBudgetPerformanceHistoryError =
   | AccessDeniedException
   | BillingViewHealthStatusException
   | ExpiredNextTokenException
@@ -2061,37 +2036,28 @@ export const describeBudgetPerformanceHistory: API.OperationMethod<
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't available for `ANNUAL` budgets.
+ */
+export const describeBudgetPerformanceHistory: API.OperationMethod<
+  DescribeBudgetPerformanceHistoryRequest,
+  DescribeBudgetPerformanceHistoryResponse,
+  DescribeBudgetPerformanceHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBudgetPerformanceHistoryRequest,
   ) => stream.Stream<
     DescribeBudgetPerformanceHistoryResponse,
-    | AccessDeniedException
-    | BillingViewHealthStatusException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetPerformanceHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBudgetPerformanceHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BillingViewHealthStatusException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetPerformanceHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2113,6 +2079,15 @@ export const describeBudgetPerformanceHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeBudgetsError =
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the budgets that are associated with an account.
  *
@@ -2122,42 +2097,21 @@ export const describeBudgetPerformanceHistory: API.OperationMethod<
 export const describeBudgets: API.OperationMethod<
   DescribeBudgetsRequest,
   DescribeBudgetsResponse,
-  | AccessDeniedException
-  | ExpiredNextTokenException
-  | InternalErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBudgetsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBudgetsRequest,
   ) => stream.Stream<
     DescribeBudgetsResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBudgetsRequest,
   ) => stream.Stream<
     Budget,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeBudgetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2179,12 +2133,7 @@ export const describeBudgets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the notifications that are associated with a budget.
- */
-export const describeNotificationsForBudget: API.OperationMethod<
-  DescribeNotificationsForBudgetRequest,
-  DescribeNotificationsForBudgetResponse,
+export type DescribeNotificationsForBudgetError =
   | AccessDeniedException
   | ExpiredNextTokenException
   | InternalErrorException
@@ -2192,35 +2141,28 @@ export const describeNotificationsForBudget: API.OperationMethod<
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the notifications that are associated with a budget.
+ */
+export const describeNotificationsForBudget: API.OperationMethod<
+  DescribeNotificationsForBudgetRequest,
+  DescribeNotificationsForBudgetResponse,
+  DescribeNotificationsForBudgetError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeNotificationsForBudgetRequest,
   ) => stream.Stream<
     DescribeNotificationsForBudgetResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeNotificationsForBudgetError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeNotificationsForBudgetRequest,
   ) => stream.Stream<
     Notification,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeNotificationsForBudgetError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2242,12 +2184,7 @@ export const describeNotificationsForBudget: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the subscribers that are associated with a notification.
- */
-export const describeSubscribersForNotification: API.OperationMethod<
-  DescribeSubscribersForNotificationRequest,
-  DescribeSubscribersForNotificationResponse,
+export type DescribeSubscribersForNotificationError =
   | AccessDeniedException
   | ExpiredNextTokenException
   | InternalErrorException
@@ -2255,35 +2192,28 @@ export const describeSubscribersForNotification: API.OperationMethod<
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the subscribers that are associated with a notification.
+ */
+export const describeSubscribersForNotification: API.OperationMethod<
+  DescribeSubscribersForNotificationRequest,
+  DescribeSubscribersForNotificationResponse,
+  DescribeSubscribersForNotificationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSubscribersForNotificationRequest,
   ) => stream.Stream<
     DescribeSubscribersForNotificationResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeSubscribersForNotificationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSubscribersForNotificationRequest,
   ) => stream.Stream<
     Subscriber,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeSubscribersForNotificationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2305,19 +2235,21 @@ export const describeSubscribersForNotification: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Executes a budget action.
- */
-export const executeBudgetAction: API.OperationMethod<
-  ExecuteBudgetActionRequest,
-  ExecuteBudgetActionResponse,
+export type ExecuteBudgetActionError =
   | AccessDeniedException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
   | ResourceLockedException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Executes a budget action.
+ */
+export const executeBudgetAction: API.OperationMethod<
+  ExecuteBudgetActionRequest,
+  ExecuteBudgetActionResponse,
+  ExecuteBudgetActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteBudgetActionRequest,
@@ -2331,18 +2263,20 @@ export const executeBudgetAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists tags associated with a budget or budget action resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2355,19 +2289,21 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates tags for a budget or budget action resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates tags for a budget or budget action resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2381,18 +2317,20 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes tags associated with a budget or budget action resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2405,6 +2343,15 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateBudgetError =
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a budget. You can change every part of a budget except for the `budgetName` and the `calculatedSpend`. When you modify a budget, the `calculatedSpend` drops to zero until Amazon Web Services has new usage data to use for forecasting.
  *
@@ -2423,14 +2370,7 @@ export const untagResource: API.OperationMethod<
 export const updateBudget: API.OperationMethod<
   UpdateBudgetRequest,
   UpdateBudgetResponse,
-  | AccessDeniedException
-  | BillingViewHealthStatusException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateBudgetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBudgetRequest,
@@ -2445,19 +2385,21 @@ export const updateBudget: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a budget action.
- */
-export const updateBudgetAction: API.OperationMethod<
-  UpdateBudgetActionRequest,
-  UpdateBudgetActionResponse,
+export type UpdateBudgetActionError =
   | AccessDeniedException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
   | ResourceLockedException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a budget action.
+ */
+export const updateBudgetAction: API.OperationMethod<
+  UpdateBudgetActionRequest,
+  UpdateBudgetActionResponse,
+  UpdateBudgetActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBudgetActionRequest,
@@ -2471,19 +2413,21 @@ export const updateBudgetAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a notification.
- */
-export const updateNotification: API.OperationMethod<
-  UpdateNotificationRequest,
-  UpdateNotificationResponse,
+export type UpdateNotificationError =
   | AccessDeniedException
   | DuplicateRecordException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a notification.
+ */
+export const updateNotification: API.OperationMethod<
+  UpdateNotificationRequest,
+  UpdateNotificationResponse,
+  UpdateNotificationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationRequest,
@@ -2497,19 +2441,21 @@ export const updateNotification: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a subscriber.
- */
-export const updateSubscriber: API.OperationMethod<
-  UpdateSubscriberRequest,
-  UpdateSubscriberResponse,
+export type UpdateSubscriberError =
   | AccessDeniedException
   | DuplicateRecordException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a subscriber.
+ */
+export const updateSubscriber: API.OperationMethod<
+  UpdateSubscriberRequest,
+  UpdateSubscriberResponse,
+  UpdateSubscriberError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriberRequest,

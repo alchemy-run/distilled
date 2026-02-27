@@ -3904,7 +3904,7 @@ export const InstanceCollection = S.suspend(() =>
 }) as any as S.Schema<InstanceCollection>;
 export type InstanceCollections = InstanceCollection[];
 export const InstanceCollections = S.Array(InstanceCollection);
-export interface LaunchInstancesError {
+export interface LaunchInstancesError_ {
   InstanceType?: string;
   MarketType?: string;
   SubnetId?: string;
@@ -3913,7 +3913,7 @@ export interface LaunchInstancesError {
   ErrorCode?: string;
   ErrorMessage?: string;
 }
-export const LaunchInstancesError = S.suspend(() =>
+export const LaunchInstancesError_ = S.suspend(() =>
   S.Struct({
     InstanceType: S.optional(S.String),
     MarketType: S.optional(S.String),
@@ -3925,14 +3925,14 @@ export const LaunchInstancesError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "LaunchInstancesError",
-}) as any as S.Schema<LaunchInstancesError>;
-export type LaunchInstancesErrors = LaunchInstancesError[];
-export const LaunchInstancesErrors = S.Array(LaunchInstancesError);
+}) as any as S.Schema<LaunchInstancesError_>;
+export type LaunchInstancesErrors = LaunchInstancesError_[];
+export const LaunchInstancesErrors = S.Array(LaunchInstancesError_);
 export interface LaunchInstancesResult {
   AutoScalingGroupName?: string;
   ClientToken?: string;
   Instances?: InstanceCollection[];
-  Errors?: LaunchInstancesError[];
+  Errors?: LaunchInstancesError_[];
 }
 export const LaunchInstancesResult = S.suspend(() =>
   S.Struct({
@@ -4554,6 +4554,10 @@ export class IrreversibleInstanceRefreshFault extends S.TaggedErrorClass<Irrever
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AttachInstancesError =
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * Attaches one or more EC2 instances to the specified Auto Scaling group.
  *
@@ -4572,13 +4576,18 @@ export class IrreversibleInstanceRefreshFault extends S.TaggedErrorClass<Irrever
 export const attachInstances: API.OperationMethod<
   AttachInstancesQuery,
   AttachInstancesResponse,
-  ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors,
+  AttachInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachInstancesQuery,
   output: AttachInstancesResponse,
   errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
 }));
+export type AttachLoadBalancersError =
+  | InstanceRefreshInProgressFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * This API operation is superseded by AttachTrafficSources, which
  * can attach multiple traffic sources types. We recommend using
@@ -4604,10 +4613,7 @@ export const attachInstances: API.OperationMethod<
 export const attachLoadBalancers: API.OperationMethod<
   AttachLoadBalancersType,
   AttachLoadBalancersResultType,
-  | InstanceRefreshInProgressFault
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  AttachLoadBalancersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachLoadBalancersType,
@@ -4618,6 +4624,11 @@ export const attachLoadBalancers: API.OperationMethod<
     ServiceLinkedRoleFailure,
   ],
 }));
+export type AttachLoadBalancerTargetGroupsError =
+  | InstanceRefreshInProgressFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * This API operation is superseded by AttachTrafficSources, which
  * can attach multiple traffic sources types. We recommend using
@@ -4652,10 +4663,7 @@ export const attachLoadBalancers: API.OperationMethod<
 export const attachLoadBalancerTargetGroups: API.OperationMethod<
   AttachLoadBalancerTargetGroupsType,
   AttachLoadBalancerTargetGroupsResultType,
-  | InstanceRefreshInProgressFault
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  AttachLoadBalancerTargetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachLoadBalancerTargetGroupsType,
@@ -4666,6 +4674,11 @@ export const attachLoadBalancerTargetGroups: API.OperationMethod<
     ServiceLinkedRoleFailure,
   ],
 }));
+export type AttachTrafficSourcesError =
+  | InstanceRefreshInProgressFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * Attaches one or more traffic sources to the specified Auto Scaling group.
  *
@@ -4692,10 +4705,7 @@ export const attachLoadBalancerTargetGroups: API.OperationMethod<
 export const attachTrafficSources: API.OperationMethod<
   AttachTrafficSourcesType,
   AttachTrafficSourcesResultType,
-  | InstanceRefreshInProgressFault
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  AttachTrafficSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachTrafficSourcesType,
@@ -4706,35 +4716,45 @@ export const attachTrafficSources: API.OperationMethod<
     ServiceLinkedRoleFailure,
   ],
 }));
+export type BatchDeleteScheduledActionError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Deletes one or more scheduled actions for the specified Auto Scaling group.
  */
 export const batchDeleteScheduledAction: API.OperationMethod<
   BatchDeleteScheduledActionType,
   BatchDeleteScheduledActionAnswer,
-  ResourceContentionFault | CommonErrors,
+  BatchDeleteScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteScheduledActionType,
   output: BatchDeleteScheduledActionAnswer,
   errors: [ResourceContentionFault],
 }));
+export type BatchPutScheduledUpdateGroupActionError =
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
  */
 export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
   BatchPutScheduledUpdateGroupActionType,
   BatchPutScheduledUpdateGroupActionAnswer,
-  | AlreadyExistsFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  BatchPutScheduledUpdateGroupActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutScheduledUpdateGroupActionType,
   output: BatchPutScheduledUpdateGroupActionAnswer,
   errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
 }));
+export type CancelInstanceRefreshError =
+  | ActiveInstanceRefreshNotFoundFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Cancels an instance refresh or rollback that is in progress. If an instance refresh or
  * rollback is not in progress, an `ActiveInstanceRefreshNotFound` error
@@ -4750,10 +4770,7 @@ export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
 export const cancelInstanceRefresh: API.OperationMethod<
   CancelInstanceRefreshType,
   CancelInstanceRefreshAnswer,
-  | ActiveInstanceRefreshNotFoundFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  CancelInstanceRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelInstanceRefreshType,
@@ -4764,6 +4781,9 @@ export const cancelInstanceRefresh: API.OperationMethod<
     ResourceContentionFault,
   ],
 }));
+export type CompleteLifecycleActionError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Completes the lifecycle action for the specified token or instance with the specified
  * result.
@@ -4799,13 +4819,19 @@ export const cancelInstanceRefresh: API.OperationMethod<
 export const completeLifecycleAction: API.OperationMethod<
   CompleteLifecycleActionType,
   CompleteLifecycleActionAnswer,
-  ResourceContentionFault | CommonErrors,
+  CompleteLifecycleActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteLifecycleActionType,
   output: CompleteLifecycleActionAnswer,
   errors: [ResourceContentionFault],
 }));
+export type CreateAutoScalingGroupError =
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * **We strongly recommend using a launch template when calling this operation to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
  *
@@ -4828,11 +4854,7 @@ export const completeLifecycleAction: API.OperationMethod<
 export const createAutoScalingGroup: API.OperationMethod<
   CreateAutoScalingGroupType,
   CreateAutoScalingGroupResponse,
-  | AlreadyExistsFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  CreateAutoScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutoScalingGroupType,
@@ -4844,6 +4866,11 @@ export const createAutoScalingGroup: API.OperationMethod<
     ServiceLinkedRoleFailure,
   ],
 }));
+export type CreateLaunchConfigurationError =
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Creates a launch configuration.
  *
@@ -4863,16 +4890,19 @@ export const createAutoScalingGroup: API.OperationMethod<
 export const createLaunchConfiguration: API.OperationMethod<
   CreateLaunchConfigurationType,
   CreateLaunchConfigurationResponse,
-  | AlreadyExistsFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  CreateLaunchConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLaunchConfigurationType,
   output: CreateLaunchConfigurationResponse,
   errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
 }));
+export type CreateOrUpdateTagsError =
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | CommonErrors;
 /**
  * Creates or updates tags for the specified Auto Scaling group.
  *
@@ -4885,11 +4915,7 @@ export const createLaunchConfiguration: API.OperationMethod<
 export const createOrUpdateTags: API.OperationMethod<
   CreateOrUpdateTagsType,
   CreateOrUpdateTagsResponse,
-  | AlreadyExistsFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | ResourceInUseFault
-  | CommonErrors,
+  CreateOrUpdateTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrUpdateTagsType,
@@ -4901,6 +4927,11 @@ export const createOrUpdateTags: API.OperationMethod<
     ResourceInUseFault,
   ],
 }));
+export type DeleteAutoScalingGroupError =
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | ScalingActivityInProgressFault
+  | CommonErrors;
 /**
  * Deletes the specified Auto Scaling group.
  *
@@ -4928,10 +4959,7 @@ export const createOrUpdateTags: API.OperationMethod<
 export const deleteAutoScalingGroup: API.OperationMethod<
   DeleteAutoScalingGroupType,
   DeleteAutoScalingGroupResponse,
-  | ResourceContentionFault
-  | ResourceInUseFault
-  | ScalingActivityInProgressFault
-  | CommonErrors,
+  DeleteAutoScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutoScalingGroupType,
@@ -4942,6 +4970,10 @@ export const deleteAutoScalingGroup: API.OperationMethod<
     ScalingActivityInProgressFault,
   ],
 }));
+export type DeleteLaunchConfigurationError =
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | CommonErrors;
 /**
  * Deletes the specified launch configuration.
  *
@@ -4951,13 +4983,14 @@ export const deleteAutoScalingGroup: API.OperationMethod<
 export const deleteLaunchConfiguration: API.OperationMethod<
   LaunchConfigurationNameType,
   DeleteLaunchConfigurationResponse,
-  ResourceContentionFault | ResourceInUseFault | CommonErrors,
+  DeleteLaunchConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LaunchConfigurationNameType,
   output: DeleteLaunchConfigurationResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
 }));
+export type DeleteLifecycleHookError = ResourceContentionFault | CommonErrors;
 /**
  * Deletes the specified lifecycle hook.
  *
@@ -4968,26 +5001,33 @@ export const deleteLaunchConfiguration: API.OperationMethod<
 export const deleteLifecycleHook: API.OperationMethod<
   DeleteLifecycleHookType,
   DeleteLifecycleHookAnswer,
-  ResourceContentionFault | CommonErrors,
+  DeleteLifecycleHookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLifecycleHookType,
   output: DeleteLifecycleHookAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DeleteNotificationConfigurationError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Deletes the specified notification.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
   DeleteNotificationConfigurationType,
   DeleteNotificationConfigurationResponse,
-  ResourceContentionFault | CommonErrors,
+  DeleteNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotificationConfigurationType,
   output: DeleteNotificationConfigurationResponse,
   errors: [ResourceContentionFault],
 }));
+export type DeletePolicyError =
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * Deletes the specified scaling policy.
  *
@@ -5001,39 +5041,50 @@ export const deleteNotificationConfiguration: API.OperationMethod<
 export const deletePolicy: API.OperationMethod<
   DeletePolicyType,
   DeletePolicyResponse,
-  ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors,
+  DeletePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyType,
   output: DeletePolicyResponse,
   errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
 }));
+export type DeleteScheduledActionError = ResourceContentionFault | CommonErrors;
 /**
  * Deletes the specified scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
   DeleteScheduledActionType,
   DeleteScheduledActionResponse,
-  ResourceContentionFault | CommonErrors,
+  DeleteScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduledActionType,
   output: DeleteScheduledActionResponse,
   errors: [ResourceContentionFault],
 }));
+export type DeleteTagsError =
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | CommonErrors;
 /**
  * Deletes the specified tags.
  */
 export const deleteTags: API.OperationMethod<
   DeleteTagsType,
   DeleteTagsResponse,
-  ResourceContentionFault | ResourceInUseFault | CommonErrors,
+  DeleteTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsType,
   output: DeleteTagsResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
 }));
+export type DeleteWarmPoolError =
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | ScalingActivityInProgressFault
+  | CommonErrors;
 /**
  * Deletes the warm pool for the specified Auto Scaling group.
  *
@@ -5043,11 +5094,7 @@ export const deleteTags: API.OperationMethod<
 export const deleteWarmPool: API.OperationMethod<
   DeleteWarmPoolType,
   DeleteWarmPoolAnswer,
-  | LimitExceededFault
-  | ResourceContentionFault
-  | ResourceInUseFault
-  | ScalingActivityInProgressFault
-  | CommonErrors,
+  DeleteWarmPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWarmPoolType,
@@ -5059,6 +5106,7 @@ export const deleteWarmPool: API.OperationMethod<
     ScalingActivityInProgressFault,
   ],
 }));
+export type DescribeAccountLimitsError = ResourceContentionFault | CommonErrors;
 /**
  * Describes the current Amazon EC2 Auto Scaling resource quotas for your account.
  *
@@ -5070,13 +5118,16 @@ export const deleteWarmPool: API.OperationMethod<
 export const describeAccountLimits: API.OperationMethod<
   DescribeAccountLimitsRequest,
   DescribeAccountLimitsAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeAccountLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountLimitsRequest,
   output: DescribeAccountLimitsAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeAdjustmentTypesError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the available adjustment types for step scaling and simple scaling
  * policies.
@@ -5092,13 +5143,17 @@ export const describeAccountLimits: API.OperationMethod<
 export const describeAdjustmentTypes: API.OperationMethod<
   DescribeAdjustmentTypesRequest,
   DescribeAdjustmentTypesAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeAdjustmentTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAdjustmentTypesRequest,
   output: DescribeAdjustmentTypesAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeAutoScalingGroupsError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the Auto Scaling groups in the account and Region.
  *
@@ -5114,21 +5169,21 @@ export const describeAdjustmentTypes: API.OperationMethod<
 export const describeAutoScalingGroups: API.OperationMethod<
   AutoScalingGroupNamesType,
   AutoScalingGroupsType,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeAutoScalingGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: AutoScalingGroupNamesType,
   ) => stream.Stream<
     AutoScalingGroupsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeAutoScalingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: AutoScalingGroupNamesType,
   ) => stream.Stream<
     AutoScalingGroup,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeAutoScalingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5142,27 +5197,31 @@ export const describeAutoScalingGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeAutoScalingInstancesError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the Auto Scaling instances in the account and Region.
  */
 export const describeAutoScalingInstances: API.OperationMethod<
   DescribeAutoScalingInstancesType,
   AutoScalingInstancesType,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeAutoScalingInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAutoScalingInstancesType,
   ) => stream.Stream<
     AutoScalingInstancesType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeAutoScalingInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAutoScalingInstancesType,
   ) => stream.Stream<
     AutoScalingInstanceDetails,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeAutoScalingInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5176,19 +5235,26 @@ export const describeAutoScalingInstances: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeAutoScalingNotificationTypesError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the notification types that are supported by Amazon EC2 Auto Scaling.
  */
 export const describeAutoScalingNotificationTypes: API.OperationMethod<
   DescribeAutoScalingNotificationTypesRequest,
   DescribeAutoScalingNotificationTypesAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeAutoScalingNotificationTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAutoScalingNotificationTypesRequest,
   output: DescribeAutoScalingNotificationTypesAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeInstanceRefreshesError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the instance refreshes for the specified Auto Scaling group from the
  * previous six weeks.
@@ -5207,21 +5273,21 @@ export const describeAutoScalingNotificationTypes: API.OperationMethod<
 export const describeInstanceRefreshes: API.OperationMethod<
   DescribeInstanceRefreshesType,
   DescribeInstanceRefreshesAnswer,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeInstanceRefreshesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstanceRefreshesType,
   ) => stream.Stream<
     DescribeInstanceRefreshesAnswer,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeInstanceRefreshesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstanceRefreshesType,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeInstanceRefreshesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5234,27 +5300,31 @@ export const describeInstanceRefreshes: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeLaunchConfigurationsError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the launch configurations in the account and Region.
  */
 export const describeLaunchConfigurations: API.OperationMethod<
   LaunchConfigurationNamesType,
   LaunchConfigurationsType,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeLaunchConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: LaunchConfigurationNamesType,
   ) => stream.Stream<
     LaunchConfigurationsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeLaunchConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: LaunchConfigurationNamesType,
   ) => stream.Stream<
     LaunchConfiguration,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeLaunchConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5268,19 +5338,25 @@ export const describeLaunchConfigurations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeLifecycleHooksError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the lifecycle hooks for the specified Auto Scaling group.
  */
 export const describeLifecycleHooks: API.OperationMethod<
   DescribeLifecycleHooksType,
   DescribeLifecycleHooksAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeLifecycleHooksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLifecycleHooksType,
   output: DescribeLifecycleHooksAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeLifecycleHookTypesError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the available types of lifecycle hooks.
  *
@@ -5293,13 +5369,17 @@ export const describeLifecycleHooks: API.OperationMethod<
 export const describeLifecycleHookTypes: API.OperationMethod<
   DescribeLifecycleHookTypesRequest,
   DescribeLifecycleHookTypesAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeLifecycleHookTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLifecycleHookTypesRequest,
   output: DescribeLifecycleHookTypesAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeLoadBalancersError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * This API operation is superseded by DescribeTrafficSources,
  * which can describe multiple traffic sources types. We recommend using
@@ -5339,21 +5419,21 @@ export const describeLifecycleHookTypes: API.OperationMethod<
 export const describeLoadBalancers: API.OperationMethod<
   DescribeLoadBalancersRequest,
   DescribeLoadBalancersResponse,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeLoadBalancersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeLoadBalancersRequest,
   ) => stream.Stream<
     DescribeLoadBalancersResponse,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeLoadBalancersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLoadBalancersRequest,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeLoadBalancersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5366,6 +5446,10 @@ export const describeLoadBalancers: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeLoadBalancerTargetGroupsError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * This API operation is superseded by DescribeTrafficSources,
  * which can describe multiple traffic sources types. We recommend using
@@ -5405,21 +5489,21 @@ export const describeLoadBalancers: API.OperationMethod<
 export const describeLoadBalancerTargetGroups: API.OperationMethod<
   DescribeLoadBalancerTargetGroupsRequest,
   DescribeLoadBalancerTargetGroupsResponse,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeLoadBalancerTargetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeLoadBalancerTargetGroupsRequest,
   ) => stream.Stream<
     DescribeLoadBalancerTargetGroupsResponse,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeLoadBalancerTargetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLoadBalancerTargetGroupsRequest,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeLoadBalancerTargetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5432,19 +5516,26 @@ export const describeLoadBalancerTargetGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeMetricCollectionTypesError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
  */
 export const describeMetricCollectionTypes: API.OperationMethod<
   DescribeMetricCollectionTypesRequest,
   DescribeMetricCollectionTypesAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeMetricCollectionTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMetricCollectionTypesRequest,
   output: DescribeMetricCollectionTypesAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeNotificationConfigurationsError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the Amazon SNS notifications that are configured for one or more
  * Auto Scaling groups.
@@ -5452,21 +5543,21 @@ export const describeMetricCollectionTypes: API.OperationMethod<
 export const describeNotificationConfigurations: API.OperationMethod<
   DescribeNotificationConfigurationsType,
   DescribeNotificationConfigurationsAnswer,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeNotificationConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeNotificationConfigurationsType,
   ) => stream.Stream<
     DescribeNotificationConfigurationsAnswer,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeNotificationConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeNotificationConfigurationsType,
   ) => stream.Stream<
     NotificationConfiguration,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeNotificationConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5480,36 +5571,32 @@ export const describeNotificationConfigurations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribePoliciesError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * Gets information about the scaling policies in the account and Region.
  */
 export const describePolicies: API.OperationMethod<
   DescribePoliciesType,
   PoliciesType,
-  | InvalidNextToken
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  DescribePoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePoliciesType,
   ) => stream.Stream<
     PoliciesType,
-    | InvalidNextToken
-    | ResourceContentionFault
-    | ServiceLinkedRoleFailure
-    | CommonErrors,
+    DescribePoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePoliciesType,
   ) => stream.Stream<
     ScalingPolicy,
-    | InvalidNextToken
-    | ResourceContentionFault
-    | ServiceLinkedRoleFailure
-    | CommonErrors,
+    DescribePoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5523,6 +5610,10 @@ export const describePolicies: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeScalingActivitiesError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the scaling activities in the account and Region.
  *
@@ -5539,21 +5630,21 @@ export const describePolicies: API.OperationMethod<
 export const describeScalingActivities: API.OperationMethod<
   DescribeScalingActivitiesType,
   ActivitiesType,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeScalingActivitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScalingActivitiesType,
   ) => stream.Stream<
     ActivitiesType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeScalingActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScalingActivitiesType,
   ) => stream.Stream<
     Activity,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeScalingActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5567,6 +5658,9 @@ export const describeScalingActivities: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeScalingProcessTypesError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the scaling process types for use with the ResumeProcesses
  * and SuspendProcesses APIs.
@@ -5574,13 +5668,17 @@ export const describeScalingActivities: API.OperationMethod<
 export const describeScalingProcessTypes: API.OperationMethod<
   DescribeScalingProcessTypesRequest,
   ProcessesType,
-  ResourceContentionFault | CommonErrors,
+  DescribeScalingProcessTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScalingProcessTypesRequest,
   output: ProcessesType,
   errors: [ResourceContentionFault],
 }));
+export type DescribeScheduledActionsError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the scheduled actions that haven't run or that have not reached
  * their end time.
@@ -5591,21 +5689,21 @@ export const describeScalingProcessTypes: API.OperationMethod<
 export const describeScheduledActions: API.OperationMethod<
   DescribeScheduledActionsType,
   ScheduledActionsType,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeScheduledActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScheduledActionsType,
   ) => stream.Stream<
     ScheduledActionsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeScheduledActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScheduledActionsType,
   ) => stream.Stream<
     ScheduledUpdateGroupAction,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeScheduledActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5619,6 +5717,10 @@ export const describeScheduledActions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeTagsError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the specified tags.
  *
@@ -5636,21 +5738,21 @@ export const describeScheduledActions: API.OperationMethod<
 export const describeTags: API.OperationMethod<
   DescribeTagsType,
   TagsType,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTagsType,
   ) => stream.Stream<
     TagsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTagsType,
   ) => stream.Stream<
     TagDescription,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5664,6 +5766,9 @@ export const describeTags: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeTerminationPolicyTypesError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Describes the termination policies supported by Amazon EC2 Auto Scaling.
  *
@@ -5674,13 +5779,17 @@ export const describeTags: API.OperationMethod<
 export const describeTerminationPolicyTypes: API.OperationMethod<
   DescribeTerminationPolicyTypesRequest,
   DescribeTerminationPolicyTypesAnswer,
-  ResourceContentionFault | CommonErrors,
+  DescribeTerminationPolicyTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTerminationPolicyTypesRequest,
   output: DescribeTerminationPolicyTypesAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DescribeTrafficSourcesError =
+  | InvalidNextToken
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about the traffic sources for the specified Auto Scaling group.
  *
@@ -5693,21 +5802,21 @@ export const describeTerminationPolicyTypes: API.OperationMethod<
 export const describeTrafficSources: API.OperationMethod<
   DescribeTrafficSourcesRequest,
   DescribeTrafficSourcesResponse,
-  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  DescribeTrafficSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTrafficSourcesRequest,
   ) => stream.Stream<
     DescribeTrafficSourcesResponse,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeTrafficSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTrafficSourcesRequest,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
+    DescribeTrafficSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5720,6 +5829,11 @@ export const describeTrafficSources: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeWarmPoolError =
+  | InvalidNextToken
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Gets information about a warm pool and its instances.
  *
@@ -5729,30 +5843,21 @@ export const describeTrafficSources: API.OperationMethod<
 export const describeWarmPool: API.OperationMethod<
   DescribeWarmPoolType,
   DescribeWarmPoolAnswer,
-  | InvalidNextToken
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  DescribeWarmPoolError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeWarmPoolType,
   ) => stream.Stream<
     DescribeWarmPoolAnswer,
-    | InvalidNextToken
-    | LimitExceededFault
-    | ResourceContentionFault
-    | CommonErrors,
+    DescribeWarmPoolError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeWarmPoolType,
   ) => stream.Stream<
     Instance,
-    | InvalidNextToken
-    | LimitExceededFault
-    | ResourceContentionFault
-    | CommonErrors,
+    DescribeWarmPoolError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5766,6 +5871,7 @@ export const describeWarmPool: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DetachInstancesError = ResourceContentionFault | CommonErrors;
 /**
  * Removes one or more instances from the specified Auto Scaling group.
  *
@@ -5785,13 +5891,14 @@ export const describeWarmPool: API.OperationMethod<
 export const detachInstances: API.OperationMethod<
   DetachInstancesQuery,
   DetachInstancesAnswer,
-  ResourceContentionFault | CommonErrors,
+  DetachInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachInstancesQuery,
   output: DetachInstancesAnswer,
   errors: [ResourceContentionFault],
 }));
+export type DetachLoadBalancersError = ResourceContentionFault | CommonErrors;
 /**
  * This API operation is superseded by DetachTrafficSources, which
  * can detach multiple traffic sources types. We recommend using
@@ -5813,13 +5920,16 @@ export const detachInstances: API.OperationMethod<
 export const detachLoadBalancers: API.OperationMethod<
   DetachLoadBalancersType,
   DetachLoadBalancersResultType,
-  ResourceContentionFault | CommonErrors,
+  DetachLoadBalancersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachLoadBalancersType,
   output: DetachLoadBalancersResultType,
   errors: [ResourceContentionFault],
 }));
+export type DetachLoadBalancerTargetGroupsError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * This API operation is superseded by DetachTrafficSources, which
  * can detach multiple traffic sources types. We recommend using
@@ -5843,13 +5953,14 @@ export const detachLoadBalancers: API.OperationMethod<
 export const detachLoadBalancerTargetGroups: API.OperationMethod<
   DetachLoadBalancerTargetGroupsType,
   DetachLoadBalancerTargetGroupsResultType,
-  ResourceContentionFault | CommonErrors,
+  DetachLoadBalancerTargetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachLoadBalancerTargetGroupsType,
   output: DetachLoadBalancerTargetGroupsResultType,
   errors: [ResourceContentionFault],
 }));
+export type DetachTrafficSourcesError = ResourceContentionFault | CommonErrors;
 /**
  * Detaches one or more traffic sources from the specified Auto Scaling group.
  *
@@ -5862,26 +5973,32 @@ export const detachLoadBalancerTargetGroups: API.OperationMethod<
 export const detachTrafficSources: API.OperationMethod<
   DetachTrafficSourcesType,
   DetachTrafficSourcesResultType,
-  ResourceContentionFault | CommonErrors,
+  DetachTrafficSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachTrafficSourcesType,
   output: DetachTrafficSourcesResultType,
   errors: [ResourceContentionFault],
 }));
+export type DisableMetricsCollectionError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Disables group metrics collection for the specified Auto Scaling group.
  */
 export const disableMetricsCollection: API.OperationMethod<
   DisableMetricsCollectionQuery,
   DisableMetricsCollectionResponse,
-  ResourceContentionFault | CommonErrors,
+  DisableMetricsCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableMetricsCollectionQuery,
   output: DisableMetricsCollectionResponse,
   errors: [ResourceContentionFault],
 }));
+export type EnableMetricsCollectionError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Enables group metrics collection for the specified Auto Scaling group.
  *
@@ -5894,13 +6011,14 @@ export const disableMetricsCollection: API.OperationMethod<
 export const enableMetricsCollection: API.OperationMethod<
   EnableMetricsCollectionQuery,
   EnableMetricsCollectionResponse,
-  ResourceContentionFault | CommonErrors,
+  EnableMetricsCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableMetricsCollectionQuery,
   output: EnableMetricsCollectionResponse,
   errors: [ResourceContentionFault],
 }));
+export type EnterStandbyError = ResourceContentionFault | CommonErrors;
 /**
  * Moves the specified instances into the standby state.
  *
@@ -5919,13 +6037,17 @@ export const enableMetricsCollection: API.OperationMethod<
 export const enterStandby: API.OperationMethod<
   EnterStandbyQuery,
   EnterStandbyAnswer,
-  ResourceContentionFault | CommonErrors,
+  EnterStandbyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnterStandbyQuery,
   output: EnterStandbyAnswer,
   errors: [ResourceContentionFault],
 }));
+export type ExecutePolicyError =
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | CommonErrors;
 /**
  * Executes the specified policy. This can be useful for testing the design of your
  * scaling policy.
@@ -5933,13 +6055,14 @@ export const enterStandby: API.OperationMethod<
 export const executePolicy: API.OperationMethod<
   ExecutePolicyType,
   ExecutePolicyResponse,
-  ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
+  ExecutePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecutePolicyType,
   output: ExecutePolicyResponse,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
 }));
+export type ExitStandbyError = ResourceContentionFault | CommonErrors;
 /**
  * Moves the specified instances out of the standby state.
  *
@@ -5953,13 +6076,16 @@ export const executePolicy: API.OperationMethod<
 export const exitStandby: API.OperationMethod<
   ExitStandbyQuery,
   ExitStandbyAnswer,
-  ResourceContentionFault | CommonErrors,
+  ExitStandbyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExitStandbyQuery,
   output: ExitStandbyAnswer,
   errors: [ResourceContentionFault],
 }));
+export type GetPredictiveScalingForecastError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Retrieves the forecast data for a predictive scaling policy.
  *
@@ -5977,13 +6103,17 @@ export const exitStandby: API.OperationMethod<
 export const getPredictiveScalingForecast: API.OperationMethod<
   GetPredictiveScalingForecastType,
   GetPredictiveScalingForecastAnswer,
-  ResourceContentionFault | CommonErrors,
+  GetPredictiveScalingForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPredictiveScalingForecastType,
   output: GetPredictiveScalingForecastAnswer,
   errors: [ResourceContentionFault],
 }));
+export type LaunchInstancesError =
+  | IdempotentParameterMismatchError
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and
  * other details if launch is successful or error details if launch is unsuccessful.
@@ -5991,13 +6121,17 @@ export const getPredictiveScalingForecast: API.OperationMethod<
 export const launchInstances: API.OperationMethod<
   LaunchInstancesRequest,
   LaunchInstancesResult,
-  IdempotentParameterMismatchError | ResourceContentionFault | CommonErrors,
+  LaunchInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LaunchInstancesRequest,
   output: LaunchInstancesResult,
   errors: [IdempotentParameterMismatchError, ResourceContentionFault],
 }));
+export type PutLifecycleHookError =
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Creates or updates a lifecycle hook for the specified Auto Scaling group.
  *
@@ -6042,13 +6176,18 @@ export const launchInstances: API.OperationMethod<
 export const putLifecycleHook: API.OperationMethod<
   PutLifecycleHookType,
   PutLifecycleHookAnswer,
-  LimitExceededFault | ResourceContentionFault | CommonErrors,
+  PutLifecycleHookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecycleHookType,
   output: PutLifecycleHookAnswer,
   errors: [LimitExceededFault, ResourceContentionFault],
 }));
+export type PutNotificationConfigurationError =
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * Configures an Auto Scaling group to send notifications when specified events take place.
  * Subscribers to the specified topic can have messages delivered to an endpoint such as a
@@ -6066,10 +6205,7 @@ export const putLifecycleHook: API.OperationMethod<
 export const putNotificationConfiguration: API.OperationMethod<
   PutNotificationConfigurationType,
   PutNotificationConfigurationResponse,
-  | LimitExceededFault
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  PutNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutNotificationConfigurationType,
@@ -6080,6 +6216,11 @@ export const putNotificationConfiguration: API.OperationMethod<
     ServiceLinkedRoleFailure,
   ],
 }));
+export type PutScalingPolicyError =
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * Creates or updates a scaling policy for an Auto Scaling group. Scaling policies are used to
  * scale an Auto Scaling group based on configurable metrics. If no policies are defined, the
@@ -6099,10 +6240,7 @@ export const putNotificationConfiguration: API.OperationMethod<
 export const putScalingPolicy: API.OperationMethod<
   PutScalingPolicyType,
   PolicyARNType,
-  | LimitExceededFault
-  | ResourceContentionFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  PutScalingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScalingPolicyType,
@@ -6113,6 +6251,11 @@ export const putScalingPolicy: API.OperationMethod<
     ServiceLinkedRoleFailure,
   ],
 }));
+export type PutScheduledUpdateGroupActionError =
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Creates or updates a scheduled scaling action for an Auto Scaling group.
  *
@@ -6130,16 +6273,18 @@ export const putScalingPolicy: API.OperationMethod<
 export const putScheduledUpdateGroupAction: API.OperationMethod<
   PutScheduledUpdateGroupActionType,
   PutScheduledUpdateGroupActionResponse,
-  | AlreadyExistsFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  PutScheduledUpdateGroupActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScheduledUpdateGroupActionType,
   output: PutScheduledUpdateGroupActionResponse,
   errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
 }));
+export type PutWarmPoolError =
+  | InstanceRefreshInProgressFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of
  * pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your
@@ -6158,10 +6303,7 @@ export const putScheduledUpdateGroupAction: API.OperationMethod<
 export const putWarmPool: API.OperationMethod<
   PutWarmPoolType,
   PutWarmPoolAnswer,
-  | InstanceRefreshInProgressFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  PutWarmPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutWarmPoolType,
@@ -6172,6 +6314,9 @@ export const putWarmPool: API.OperationMethod<
     ResourceContentionFault,
   ],
 }));
+export type RecordLifecycleActionHeartbeatError =
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Records a heartbeat for the lifecycle action associated with the specified token or
  * instance. This extends the timeout by the length of time defined using the
@@ -6207,13 +6352,17 @@ export const putWarmPool: API.OperationMethod<
 export const recordLifecycleActionHeartbeat: API.OperationMethod<
   RecordLifecycleActionHeartbeatType,
   RecordLifecycleActionHeartbeatAnswer,
-  ResourceContentionFault | CommonErrors,
+  RecordLifecycleActionHeartbeatError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecordLifecycleActionHeartbeatType,
   output: RecordLifecycleActionHeartbeatAnswer,
   errors: [ResourceContentionFault],
 }));
+export type ResumeProcessesError =
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | CommonErrors;
 /**
  * Resumes the specified suspended auto scaling processes, or all suspended process, for
  * the specified Auto Scaling group.
@@ -6224,13 +6373,19 @@ export const recordLifecycleActionHeartbeat: API.OperationMethod<
 export const resumeProcesses: API.OperationMethod<
   ScalingProcessQuery,
   ResumeProcessesResponse,
-  ResourceContentionFault | ResourceInUseFault | CommonErrors,
+  ResumeProcessesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalingProcessQuery,
   output: ResumeProcessesResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
 }));
+export type RollbackInstanceRefreshError =
+  | ActiveInstanceRefreshNotFoundFault
+  | IrreversibleInstanceRefreshFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Cancels an instance refresh that is in progress and rolls back any changes that it
  * made. Amazon EC2 Auto Scaling replaces any instances that were replaced during the instance refresh.
@@ -6258,11 +6413,7 @@ export const resumeProcesses: API.OperationMethod<
 export const rollbackInstanceRefresh: API.OperationMethod<
   RollbackInstanceRefreshType,
   RollbackInstanceRefreshAnswer,
-  | ActiveInstanceRefreshNotFoundFault
-  | IrreversibleInstanceRefreshFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  RollbackInstanceRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackInstanceRefreshType,
@@ -6274,6 +6425,10 @@ export const rollbackInstanceRefresh: API.OperationMethod<
     ResourceContentionFault,
   ],
 }));
+export type SetDesiredCapacityError =
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | CommonErrors;
 /**
  * Sets the size of the specified Auto Scaling group.
  *
@@ -6287,13 +6442,14 @@ export const rollbackInstanceRefresh: API.OperationMethod<
 export const setDesiredCapacity: API.OperationMethod<
   SetDesiredCapacityType,
   SetDesiredCapacityResponse,
-  ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
+  SetDesiredCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDesiredCapacityType,
   output: SetDesiredCapacityResponse,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
 }));
+export type SetInstanceHealthError = ResourceContentionFault | CommonErrors;
 /**
  * Sets the health status of the specified instance.
  *
@@ -6304,13 +6460,17 @@ export const setDesiredCapacity: API.OperationMethod<
 export const setInstanceHealth: API.OperationMethod<
   SetInstanceHealthQuery,
   SetInstanceHealthResponse,
-  ResourceContentionFault | CommonErrors,
+  SetInstanceHealthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetInstanceHealthQuery,
   output: SetInstanceHealthResponse,
   errors: [ResourceContentionFault],
 }));
+export type SetInstanceProtectionError =
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Updates the instance protection settings of the specified instances. This operation
  * cannot be called on instances in a warm pool.
@@ -6325,13 +6485,18 @@ export const setInstanceHealth: API.OperationMethod<
 export const setInstanceProtection: API.OperationMethod<
   SetInstanceProtectionQuery,
   SetInstanceProtectionAnswer,
-  LimitExceededFault | ResourceContentionFault | CommonErrors,
+  SetInstanceProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetInstanceProtectionQuery,
   output: SetInstanceProtectionAnswer,
   errors: [LimitExceededFault, ResourceContentionFault],
 }));
+export type StartInstanceRefreshError =
+  | InstanceRefreshInProgressFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors;
 /**
  * Starts an instance refresh.
  *
@@ -6364,10 +6529,7 @@ export const setInstanceProtection: API.OperationMethod<
 export const startInstanceRefresh: API.OperationMethod<
   StartInstanceRefreshType,
   StartInstanceRefreshAnswer,
-  | InstanceRefreshInProgressFault
-  | LimitExceededFault
-  | ResourceContentionFault
-  | CommonErrors,
+  StartInstanceRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInstanceRefreshType,
@@ -6378,6 +6540,10 @@ export const startInstanceRefresh: API.OperationMethod<
     ResourceContentionFault,
   ],
 }));
+export type SuspendProcessesError =
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | CommonErrors;
 /**
  * Suspends the specified auto scaling processes, or all processes, for the specified
  * Auto Scaling group.
@@ -6392,13 +6558,17 @@ export const startInstanceRefresh: API.OperationMethod<
 export const suspendProcesses: API.OperationMethod<
   ScalingProcessQuery,
   SuspendProcessesResponse,
-  ResourceContentionFault | ResourceInUseFault | CommonErrors,
+  SuspendProcessesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalingProcessQuery,
   output: SuspendProcessesResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
 }));
+export type TerminateInstanceInAutoScalingGroupError =
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | CommonErrors;
 /**
  * Terminates the specified instance and optionally adjusts the desired group size. This
  * operation cannot be called on instances in a warm pool.
@@ -6420,13 +6590,18 @@ export const suspendProcesses: API.OperationMethod<
 export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
   TerminateInstanceInAutoScalingGroupType,
   ActivityType,
-  ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
+  TerminateInstanceInAutoScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateInstanceInAutoScalingGroupType,
   output: ActivityType,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
 }));
+export type UpdateAutoScalingGroupError =
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors;
 /**
  * **We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
  *
@@ -6473,10 +6648,7 @@ export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
 export const updateAutoScalingGroup: API.OperationMethod<
   UpdateAutoScalingGroupType,
   UpdateAutoScalingGroupResponse,
-  | ResourceContentionFault
-  | ScalingActivityInProgressFault
-  | ServiceLinkedRoleFailure
-  | CommonErrors,
+  UpdateAutoScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutoScalingGroupType,

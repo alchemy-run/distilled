@@ -3084,17 +3084,19 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchPutPropertyValuesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets values for multiple time series properties.
  */
 export const batchPutPropertyValues: API.OperationMethod<
   BatchPutPropertyValuesRequest,
   BatchPutPropertyValuesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchPutPropertyValuesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutPropertyValuesRequest,
@@ -3106,19 +3108,21 @@ export const batchPutPropertyValues: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels the metadata transfer job.
- */
-export const cancelMetadataTransferJob: API.OperationMethod<
-  CancelMetadataTransferJobRequest,
-  CancelMetadataTransferJobResponse,
+export type CancelMetadataTransferJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels the metadata transfer job.
+ */
+export const cancelMetadataTransferJob: API.OperationMethod<
+  CancelMetadataTransferJobRequest,
+  CancelMetadataTransferJobResponse,
+  CancelMetadataTransferJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMetadataTransferJobRequest,
@@ -3132,19 +3136,21 @@ export const cancelMetadataTransferJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a component type.
- */
-export const createComponentType: API.OperationMethod<
-  CreateComponentTypeRequest,
-  CreateComponentTypeResponse,
+export type CreateComponentTypeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a component type.
+ */
+export const createComponentType: API.OperationMethod<
+  CreateComponentTypeRequest,
+  CreateComponentTypeResponse,
+  CreateComponentTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentTypeRequest,
@@ -3158,19 +3164,21 @@ export const createComponentType: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an entity.
- */
-export const createEntity: API.OperationMethod<
-  CreateEntityRequest,
-  CreateEntityResponse,
+export type CreateEntityError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an entity.
+ */
+export const createEntity: API.OperationMethod<
+  CreateEntityRequest,
+  CreateEntityResponse,
+  CreateEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEntityRequest,
@@ -3184,12 +3192,7 @@ export const createEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new metadata transfer job.
- */
-export const createMetadataTransferJob: API.OperationMethod<
-  CreateMetadataTransferJobRequest,
-  CreateMetadataTransferJobResponse,
+export type CreateMetadataTransferJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3197,7 +3200,14 @@ export const createMetadataTransferJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new metadata transfer job.
+ */
+export const createMetadataTransferJob: API.OperationMethod<
+  CreateMetadataTransferJobRequest,
+  CreateMetadataTransferJobResponse,
+  CreateMetadataTransferJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMetadataTransferJobRequest,
@@ -3212,19 +3222,21 @@ export const createMetadataTransferJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a scene.
- */
-export const createScene: API.OperationMethod<
-  CreateSceneRequest,
-  CreateSceneResponse,
+export type CreateSceneError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a scene.
+ */
+export const createScene: API.OperationMethod<
+  CreateSceneRequest,
+  CreateSceneResponse,
+  CreateSceneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSceneRequest,
@@ -3238,19 +3250,21 @@ export const createScene: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This action creates a SyncJob.
- */
-export const createSyncJob: API.OperationMethod<
-  CreateSyncJobRequest,
-  CreateSyncJobResponse,
+export type CreateSyncJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This action creates a SyncJob.
+ */
+export const createSyncJob: API.OperationMethod<
+  CreateSyncJobRequest,
+  CreateSyncJobResponse,
+  CreateSyncJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSyncJobRequest,
@@ -3264,19 +3278,21 @@ export const createSyncJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a workplace.
- */
-export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
-  CreateWorkspaceResponse,
+export type CreateWorkspaceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a workplace.
+ */
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
+  CreateWorkspaceResponse,
+  CreateWorkspaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceRequest,
@@ -3290,18 +3306,20 @@ export const createWorkspace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteComponentTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a component type.
  */
 export const deleteComponentType: API.OperationMethod<
   DeleteComponentTypeRequest,
   DeleteComponentTypeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteComponentTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentTypeRequest,
@@ -3314,18 +3332,20 @@ export const deleteComponentType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEntityError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an entity.
  */
 export const deleteEntity: API.OperationMethod<
   DeleteEntityRequest,
   DeleteEntityResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEntityRequest,
@@ -3338,18 +3358,20 @@ export const deleteEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSceneError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a scene.
  */
 export const deleteScene: API.OperationMethod<
   DeleteSceneRequest,
   DeleteSceneResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSceneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSceneRequest,
@@ -3362,19 +3384,21 @@ export const deleteScene: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete the SyncJob.
- */
-export const deleteSyncJob: API.OperationMethod<
-  DeleteSyncJobRequest,
-  DeleteSyncJobResponse,
+export type DeleteSyncJobError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the SyncJob.
+ */
+export const deleteSyncJob: API.OperationMethod<
+  DeleteSyncJobRequest,
+  DeleteSyncJobResponse,
+  DeleteSyncJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSyncJobRequest,
@@ -3388,18 +3412,20 @@ export const deleteSyncJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWorkspaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a workspace.
  */
 export const deleteWorkspace: API.OperationMethod<
   DeleteWorkspaceRequest,
   DeleteWorkspaceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWorkspaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceRequest,
@@ -3412,6 +3438,14 @@ export const deleteWorkspace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExecuteQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | QueryTimeoutException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Run queries to access information from your knowledge graph of entities within
  * individual workspaces.
@@ -3422,39 +3456,21 @@ export const deleteWorkspace: API.OperationMethod<
 export const executeQuery: API.OperationMethod<
   ExecuteQueryRequest,
   ExecuteQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | QueryTimeoutException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ExecuteQueryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ExecuteQueryRequest,
   ) => stream.Stream<
     ExecuteQueryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | QueryTimeoutException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ExecuteQueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExecuteQueryRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | QueryTimeoutException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ExecuteQueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3474,18 +3490,20 @@ export const executeQuery: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetComponentTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a component type.
  */
 export const getComponentType: API.OperationMethod<
   GetComponentTypeRequest,
   GetComponentTypeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetComponentTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentTypeRequest,
@@ -3498,18 +3516,20 @@ export const getComponentType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEntityError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an entity.
  */
 export const getEntity: API.OperationMethod<
   GetEntityRequest,
   GetEntityResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEntityRequest,
@@ -3522,18 +3542,20 @@ export const getEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMetadataTransferJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a nmetadata transfer job.
  */
 export const getMetadataTransferJob: API.OperationMethod<
   GetMetadataTransferJobRequest,
   GetMetadataTransferJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMetadataTransferJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetadataTransferJobRequest,
@@ -3546,17 +3568,19 @@ export const getMetadataTransferJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPricingPlanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the pricing plan.
  */
 export const getPricingPlan: API.OperationMethod<
   GetPricingPlanRequest,
   GetPricingPlanResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPricingPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPricingPlanRequest,
@@ -3568,6 +3592,15 @@ export const getPricingPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPropertyValueError =
+  | AccessDeniedException
+  | ConnectorFailureException
+  | ConnectorTimeoutException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the property values for a component, component type, entity, or workspace.
  *
@@ -3577,42 +3610,21 @@ export const getPricingPlan: API.OperationMethod<
 export const getPropertyValue: API.OperationMethod<
   GetPropertyValueRequest,
   GetPropertyValueResponse,
-  | AccessDeniedException
-  | ConnectorFailureException
-  | ConnectorTimeoutException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPropertyValueError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPropertyValueRequest,
   ) => stream.Stream<
     GetPropertyValueResponse,
-    | AccessDeniedException
-    | ConnectorFailureException
-    | ConnectorTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetPropertyValueError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetPropertyValueRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConnectorFailureException
-    | ConnectorTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetPropertyValueError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3633,6 +3645,15 @@ export const getPropertyValue: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetPropertyValueHistoryError =
+  | AccessDeniedException
+  | ConnectorFailureException
+  | ConnectorTimeoutException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the history of a time series property value for a component,
  * component type, entity, or workspace.
@@ -3644,42 +3665,21 @@ export const getPropertyValue: API.OperationMethod<
 export const getPropertyValueHistory: API.OperationMethod<
   GetPropertyValueHistoryRequest,
   GetPropertyValueHistoryResponse,
-  | AccessDeniedException
-  | ConnectorFailureException
-  | ConnectorTimeoutException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPropertyValueHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPropertyValueHistoryRequest,
   ) => stream.Stream<
     GetPropertyValueHistoryResponse,
-    | AccessDeniedException
-    | ConnectorFailureException
-    | ConnectorTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetPropertyValueHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetPropertyValueHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConnectorFailureException
-    | ConnectorTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetPropertyValueHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3700,18 +3700,20 @@ export const getPropertyValueHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSceneError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a scene.
  */
 export const getScene: API.OperationMethod<
   GetSceneRequest,
   GetSceneResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSceneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSceneRequest,
@@ -3724,19 +3726,21 @@ export const getScene: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets the SyncJob.
- */
-export const getSyncJob: API.OperationMethod<
-  GetSyncJobRequest,
-  GetSyncJobResponse,
+export type GetSyncJobError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the SyncJob.
+ */
+export const getSyncJob: API.OperationMethod<
+  GetSyncJobRequest,
+  GetSyncJobResponse,
+  GetSyncJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSyncJobRequest,
@@ -3750,18 +3754,20 @@ export const getSyncJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkspaceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a workspace.
  */
 export const getWorkspace: API.OperationMethod<
   GetWorkspaceRequest,
   GetWorkspaceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWorkspaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkspaceRequest,
@@ -3774,42 +3780,34 @@ export const getWorkspace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListComponentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This API lists the components of an entity.
  */
 export const listComponents: API.OperationMethod<
   ListComponentsRequest,
   ListComponentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     ListComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3828,39 +3826,33 @@ export const listComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListComponentTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all component types in a workspace.
  */
 export const listComponentTypes: API.OperationMethod<
   ListComponentTypesRequest,
   ListComponentTypesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentTypesRequest,
   ) => stream.Stream<
     ListComponentTypesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentTypesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3878,39 +3870,33 @@ export const listComponentTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEntitiesError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all entities in a workspace.
  */
 export const listEntities: API.OperationMethod<
   ListEntitiesRequest,
   ListEntitiesResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
     ListEntitiesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEntitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEntitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3928,39 +3914,33 @@ export const listEntities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMetadataTransferJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the metadata transfer jobs.
  */
 export const listMetadataTransferJobs: API.OperationMethod<
   ListMetadataTransferJobsRequest,
   ListMetadataTransferJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMetadataTransferJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetadataTransferJobsRequest,
   ) => stream.Stream<
     ListMetadataTransferJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMetadataTransferJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetadataTransferJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMetadataTransferJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3978,42 +3958,34 @@ export const listMetadataTransferJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPropertiesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This API lists the properties of a component.
  */
 export const listProperties: API.OperationMethod<
   ListPropertiesRequest,
   ListPropertiesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPropertiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPropertiesRequest,
   ) => stream.Stream<
     ListPropertiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPropertiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPropertiesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPropertiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4032,39 +4004,33 @@ export const listProperties: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListScenesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all scenes in a workspace.
  */
 export const listScenes: API.OperationMethod<
   ListScenesRequest,
   ListScenesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListScenesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScenesRequest,
   ) => stream.Stream<
     ListScenesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScenesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScenesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScenesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4082,42 +4048,34 @@ export const listScenes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSyncJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all SyncJobs.
  */
 export const listSyncJobs: API.OperationMethod<
   ListSyncJobsRequest,
   ListSyncJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSyncJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSyncJobsRequest,
   ) => stream.Stream<
     ListSyncJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSyncJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSyncJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSyncJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4136,42 +4094,34 @@ export const listSyncJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSyncResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the sync resources.
  */
 export const listSyncResources: API.OperationMethod<
   ListSyncResourcesRequest,
   ListSyncResourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSyncResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSyncResourcesRequest,
   ) => stream.Stream<
     ListSyncResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSyncResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSyncResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSyncResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4190,52 +4140,50 @@ export const listSyncResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all tags associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type ListWorkspacesError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about workspaces in the current account.
  */
 export const listWorkspaces: API.OperationMethod<
   ListWorkspacesRequest,
   ListWorkspacesResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkspacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
     ListWorkspacesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkspacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkspacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4253,16 +4201,18 @@ export const listWorkspaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4273,32 +4223,38 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
-/**
- * Updates information in a component type.
- */
-export const updateComponentType: API.OperationMethod<
-  UpdateComponentTypeRequest,
-  UpdateComponentTypeResponse,
+export type UpdateComponentTypeError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates information in a component type.
+ */
+export const updateComponentType: API.OperationMethod<
+  UpdateComponentTypeRequest,
+  UpdateComponentTypeResponse,
+  UpdateComponentTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentTypeRequest,
@@ -4312,12 +4268,7 @@ export const updateComponentType: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an entity.
- */
-export const updateEntity: API.OperationMethod<
-  UpdateEntityRequest,
-  UpdateEntityResponse,
+export type UpdateEntityError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4325,7 +4276,14 @@ export const updateEntity: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an entity.
+ */
+export const updateEntity: API.OperationMethod<
+  UpdateEntityRequest,
+  UpdateEntityResponse,
+  UpdateEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEntityRequest,
@@ -4340,17 +4298,19 @@ export const updateEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePricingPlanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the pricing plan.
  */
 export const updatePricingPlan: API.OperationMethod<
   UpdatePricingPlanRequest,
   UpdatePricingPlanResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePricingPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePricingPlanRequest,
@@ -4362,18 +4322,20 @@ export const updatePricingPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSceneError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a scene.
  */
 export const updateScene: API.OperationMethod<
   UpdateSceneRequest,
   UpdateSceneResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSceneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSceneRequest,
@@ -4386,19 +4348,21 @@ export const updateScene: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a workspace.
- */
-export const updateWorkspace: API.OperationMethod<
-  UpdateWorkspaceRequest,
-  UpdateWorkspaceResponse,
+export type UpdateWorkspaceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a workspace.
+ */
+export const updateWorkspace: API.OperationMethod<
+  UpdateWorkspaceRequest,
+  UpdateWorkspaceResponse,
+  UpdateWorkspaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceRequest,

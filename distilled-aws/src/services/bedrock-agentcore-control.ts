@@ -6854,6 +6854,13 @@ export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 
 //# Operations
+export type DeleteResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the resource-based policy for a specified resource.
  *
@@ -6862,12 +6869,7 @@ export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -6880,6 +6882,13 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the resource-based policy for a specified resource.
  *
@@ -6888,12 +6897,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -6906,19 +6910,21 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about a token vault.
- */
-export const getTokenVault: API.OperationMethod<
-  GetTokenVaultRequest,
-  GetTokenVaultResponse,
+export type GetTokenVaultError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a token vault.
+ */
+export const getTokenVault: API.OperationMethod<
+  GetTokenVaultRequest,
+  GetTokenVaultResponse,
+  GetTokenVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenVaultRequest,
@@ -6932,6 +6938,13 @@ export const getTokenVault: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags associated with the specified resource.
  *
@@ -6940,12 +6953,7 @@ export const getTokenVault: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -6958,6 +6966,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a resource-based policy for a resource with the specified resourceArn.
  *
@@ -6966,12 +6981,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -6984,12 +6994,7 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Sets the customer master key (CMK) for a token vault.
- */
-export const setTokenVaultCMK: API.OperationMethod<
-  SetTokenVaultCMKRequest,
-  SetTokenVaultCMKResponse,
+export type SetTokenVaultCMKError =
   | AccessDeniedException
   | ConcurrentModificationException
   | InternalServerException
@@ -6997,7 +7002,14 @@ export const setTokenVaultCMK: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets the customer master key (CMK) for a token vault.
+ */
+export const setTokenVaultCMK: API.OperationMethod<
+  SetTokenVaultCMKRequest,
+  SetTokenVaultCMKResponse,
+  SetTokenVaultCMKError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTokenVaultCMKRequest,
@@ -7012,6 +7024,14 @@ export const setTokenVaultCMK: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
  *
@@ -7020,13 +7040,7 @@ export const setTokenVaultCMK: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7040,6 +7054,13 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  *
@@ -7048,12 +7069,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -7066,12 +7082,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an AgentCore Runtime endpoint.
- */
-export const createAgentRuntimeEndpoint: API.OperationMethod<
-  CreateAgentRuntimeEndpointRequest,
-  CreateAgentRuntimeEndpointResponse,
+export type CreateAgentRuntimeEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -7079,7 +7090,14 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an AgentCore Runtime endpoint.
+ */
+export const createAgentRuntimeEndpoint: API.OperationMethod<
+  CreateAgentRuntimeEndpointRequest,
+  CreateAgentRuntimeEndpointResponse,
+  CreateAgentRuntimeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentRuntimeEndpointRequest,
@@ -7094,18 +7112,20 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentRuntimeEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an Amazon Secure AgentEndpoint.
  */
 export const getAgentRuntimeEndpoint: API.OperationMethod<
   GetAgentRuntimeEndpointRequest,
   GetAgentRuntimeEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentRuntimeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentRuntimeEndpointRequest,
@@ -7118,12 +7138,7 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
- */
-export const updateAgentRuntimeEndpoint: API.OperationMethod<
-  UpdateAgentRuntimeEndpointRequest,
-  UpdateAgentRuntimeEndpointResponse,
+export type UpdateAgentRuntimeEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -7131,7 +7146,14 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
+ */
+export const updateAgentRuntimeEndpoint: API.OperationMethod<
+  UpdateAgentRuntimeEndpointRequest,
+  UpdateAgentRuntimeEndpointResponse,
+  UpdateAgentRuntimeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentRuntimeEndpointRequest,
@@ -7146,18 +7168,20 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAgentRuntimeEndpointError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an AAgentCore Runtime endpoint.
  */
 export const deleteAgentRuntimeEndpoint: API.OperationMethod<
   DeleteAgentRuntimeEndpointRequest,
   DeleteAgentRuntimeEndpointResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAgentRuntimeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentRuntimeEndpointRequest,
@@ -7170,39 +7194,33 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAgentRuntimeEndpointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all endpoints for a specific Amazon Secure Agent.
  */
 export const listAgentRuntimeEndpoints: API.OperationMethod<
   ListAgentRuntimeEndpointsRequest,
   ListAgentRuntimeEndpointsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentRuntimeEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentRuntimeEndpointsRequest,
   ) => stream.Stream<
     ListAgentRuntimeEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentRuntimeEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentRuntimeEndpointsRequest,
   ) => stream.Stream<
     AgentRuntimeEndpoint,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentRuntimeEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7221,19 +7239,21 @@ export const listAgentRuntimeEndpoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Bedrock AgentCore Runtime.
- */
-export const createAgentRuntime: API.OperationMethod<
-  CreateAgentRuntimeRequest,
-  CreateAgentRuntimeResponse,
+export type CreateAgentRuntimeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Bedrock AgentCore Runtime.
+ */
+export const createAgentRuntime: API.OperationMethod<
+  CreateAgentRuntimeRequest,
+  CreateAgentRuntimeResponse,
+  CreateAgentRuntimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentRuntimeRequest,
@@ -7247,18 +7267,20 @@ export const createAgentRuntime: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentRuntimeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Bedrock AgentCore Runtime.
  */
 export const getAgentRuntime: API.OperationMethod<
   GetAgentRuntimeRequest,
   GetAgentRuntimeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentRuntimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentRuntimeRequest,
@@ -7271,12 +7293,7 @@ export const getAgentRuntime: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Amazon Secure Agent.
- */
-export const updateAgentRuntime: API.OperationMethod<
-  UpdateAgentRuntimeRequest,
-  UpdateAgentRuntimeResponse,
+export type UpdateAgentRuntimeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -7284,7 +7301,14 @@ export const updateAgentRuntime: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Amazon Secure Agent.
+ */
+export const updateAgentRuntime: API.OperationMethod<
+  UpdateAgentRuntimeRequest,
+  UpdateAgentRuntimeResponse,
+  UpdateAgentRuntimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentRuntimeRequest,
@@ -7299,18 +7323,20 @@ export const updateAgentRuntime: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAgentRuntimeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an Amazon Bedrock AgentCore Runtime.
  */
 export const deleteAgentRuntime: API.OperationMethod<
   DeleteAgentRuntimeRequest,
   DeleteAgentRuntimeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAgentRuntimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentRuntimeRequest,
@@ -7323,39 +7349,33 @@ export const deleteAgentRuntime: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAgentRuntimesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Amazon Secure Agents in your account.
  */
 export const listAgentRuntimes: API.OperationMethod<
   ListAgentRuntimesRequest,
   ListAgentRuntimesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentRuntimesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentRuntimesRequest,
   ) => stream.Stream<
     ListAgentRuntimesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentRuntimesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentRuntimesRequest,
   ) => stream.Stream<
     AgentRuntime,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentRuntimesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7374,42 +7394,34 @@ export const listAgentRuntimes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAgentRuntimeVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all versions of a specific Amazon Secure Agent.
  */
 export const listAgentRuntimeVersions: API.OperationMethod<
   ListAgentRuntimeVersionsRequest,
   ListAgentRuntimeVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentRuntimeVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentRuntimeVersionsRequest,
   ) => stream.Stream<
     ListAgentRuntimeVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentRuntimeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentRuntimeVersionsRequest,
   ) => stream.Stream<
     AgentRuntime,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentRuntimeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7429,12 +7441,7 @@ export const listAgentRuntimeVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new API key credential provider.
- */
-export const createApiKeyCredentialProvider: API.OperationMethod<
-  CreateApiKeyCredentialProviderRequest,
-  CreateApiKeyCredentialProviderResponse,
+export type CreateApiKeyCredentialProviderError =
   | AccessDeniedException
   | ConflictException
   | DecryptionFailure
@@ -7446,7 +7453,14 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new API key credential provider.
+ */
+export const createApiKeyCredentialProvider: API.OperationMethod<
+  CreateApiKeyCredentialProviderRequest,
+  CreateApiKeyCredentialProviderResponse,
+  CreateApiKeyCredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiKeyCredentialProviderRequest,
@@ -7465,12 +7479,7 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about an API key credential provider.
- */
-export const getApiKeyCredentialProvider: API.OperationMethod<
-  GetApiKeyCredentialProviderRequest,
-  GetApiKeyCredentialProviderResponse,
+export type GetApiKeyCredentialProviderError =
   | AccessDeniedException
   | DecryptionFailure
   | InternalServerException
@@ -7478,7 +7487,14 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about an API key credential provider.
+ */
+export const getApiKeyCredentialProvider: API.OperationMethod<
+  GetApiKeyCredentialProviderRequest,
+  GetApiKeyCredentialProviderResponse,
+  GetApiKeyCredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiKeyCredentialProviderRequest,
@@ -7493,12 +7509,7 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing API key credential provider.
- */
-export const updateApiKeyCredentialProvider: API.OperationMethod<
-  UpdateApiKeyCredentialProviderRequest,
-  UpdateApiKeyCredentialProviderResponse,
+export type UpdateApiKeyCredentialProviderError =
   | AccessDeniedException
   | ConflictException
   | DecryptionFailure
@@ -7509,7 +7520,14 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing API key credential provider.
+ */
+export const updateApiKeyCredentialProvider: API.OperationMethod<
+  UpdateApiKeyCredentialProviderRequest,
+  UpdateApiKeyCredentialProviderResponse,
+  UpdateApiKeyCredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiKeyCredentialProviderRequest,
@@ -7527,19 +7545,21 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an API key credential provider.
- */
-export const deleteApiKeyCredentialProvider: API.OperationMethod<
-  DeleteApiKeyCredentialProviderRequest,
-  DeleteApiKeyCredentialProviderResponse,
+export type DeleteApiKeyCredentialProviderError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an API key credential provider.
+ */
+export const deleteApiKeyCredentialProvider: API.OperationMethod<
+  DeleteApiKeyCredentialProviderRequest,
+  DeleteApiKeyCredentialProviderResponse,
+  DeleteApiKeyCredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiKeyCredentialProviderRequest,
@@ -7553,45 +7573,35 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all API key credential providers in your account.
- */
-export const listApiKeyCredentialProviders: API.OperationMethod<
-  ListApiKeyCredentialProvidersRequest,
-  ListApiKeyCredentialProvidersResponse,
+export type ListApiKeyCredentialProvidersError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all API key credential providers in your account.
+ */
+export const listApiKeyCredentialProviders: API.OperationMethod<
+  ListApiKeyCredentialProvidersRequest,
+  ListApiKeyCredentialProvidersResponse,
+  ListApiKeyCredentialProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApiKeyCredentialProvidersRequest,
   ) => stream.Stream<
     ListApiKeyCredentialProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListApiKeyCredentialProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApiKeyCredentialProvidersRequest,
   ) => stream.Stream<
     ApiKeyCredentialProviderItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListApiKeyCredentialProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7612,19 +7622,21 @@ export const listApiKeyCredentialProviders: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
- */
-export const createBrowserProfile: API.OperationMethod<
-  CreateBrowserProfileRequest,
-  CreateBrowserProfileResponse,
+export type CreateBrowserProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
+ */
+export const createBrowserProfile: API.OperationMethod<
+  CreateBrowserProfileRequest,
+  CreateBrowserProfileResponse,
+  CreateBrowserProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBrowserProfileRequest,
@@ -7638,18 +7650,20 @@ export const createBrowserProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBrowserProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a browser profile.
  */
 export const getBrowserProfile: API.OperationMethod<
   GetBrowserProfileRequest,
   GetBrowserProfileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBrowserProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBrowserProfileRequest,
@@ -7662,19 +7676,21 @@ export const getBrowserProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a browser profile.
- */
-export const deleteBrowserProfile: API.OperationMethod<
-  DeleteBrowserProfileRequest,
-  DeleteBrowserProfileResponse,
+export type DeleteBrowserProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a browser profile.
+ */
+export const deleteBrowserProfile: API.OperationMethod<
+  DeleteBrowserProfileRequest,
+  DeleteBrowserProfileResponse,
+  DeleteBrowserProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBrowserProfileRequest,
@@ -7688,39 +7704,33 @@ export const deleteBrowserProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBrowserProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all browser profiles in your account.
  */
 export const listBrowserProfiles: API.OperationMethod<
   ListBrowserProfilesRequest,
   ListBrowserProfilesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBrowserProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBrowserProfilesRequest,
   ) => stream.Stream<
     ListBrowserProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBrowserProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBrowserProfilesRequest,
   ) => stream.Stream<
     BrowserProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBrowserProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7739,19 +7749,21 @@ export const listBrowserProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a custom browser.
- */
-export const createBrowser: API.OperationMethod<
-  CreateBrowserRequest,
-  CreateBrowserResponse,
+export type CreateBrowserError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a custom browser.
+ */
+export const createBrowser: API.OperationMethod<
+  CreateBrowserRequest,
+  CreateBrowserResponse,
+  CreateBrowserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBrowserRequest,
@@ -7765,18 +7777,20 @@ export const createBrowser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBrowserError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a custom browser.
  */
 export const getBrowser: API.OperationMethod<
   GetBrowserRequest,
   GetBrowserResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  GetBrowserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBrowserRequest,
@@ -7789,12 +7803,7 @@ export const getBrowser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a custom browser.
- */
-export const deleteBrowser: API.OperationMethod<
-  DeleteBrowserRequest,
-  DeleteBrowserResponse,
+export type DeleteBrowserError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -7802,7 +7811,14 @@ export const deleteBrowser: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom browser.
+ */
+export const deleteBrowser: API.OperationMethod<
+  DeleteBrowserRequest,
+  DeleteBrowserResponse,
+  DeleteBrowserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBrowserRequest,
@@ -7817,39 +7833,33 @@ export const deleteBrowser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBrowsersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all custom browsers in your account.
  */
 export const listBrowsers: API.OperationMethod<
   ListBrowsersRequest,
   ListBrowsersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBrowsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBrowsersRequest,
   ) => stream.Stream<
     ListBrowsersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBrowsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBrowsersRequest,
   ) => stream.Stream<
     BrowserSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBrowsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7868,19 +7878,21 @@ export const listBrowsers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a custom code interpreter.
- */
-export const createCodeInterpreter: API.OperationMethod<
-  CreateCodeInterpreterRequest,
-  CreateCodeInterpreterResponse,
+export type CreateCodeInterpreterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a custom code interpreter.
+ */
+export const createCodeInterpreter: API.OperationMethod<
+  CreateCodeInterpreterRequest,
+  CreateCodeInterpreterResponse,
+  CreateCodeInterpreterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCodeInterpreterRequest,
@@ -7894,18 +7906,20 @@ export const createCodeInterpreter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCodeInterpreterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a custom code interpreter.
  */
 export const getCodeInterpreter: API.OperationMethod<
   GetCodeInterpreterRequest,
   GetCodeInterpreterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  GetCodeInterpreterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeInterpreterRequest,
@@ -7918,12 +7932,7 @@ export const getCodeInterpreter: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a custom code interpreter.
- */
-export const deleteCodeInterpreter: API.OperationMethod<
-  DeleteCodeInterpreterRequest,
-  DeleteCodeInterpreterResponse,
+export type DeleteCodeInterpreterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -7931,7 +7940,14 @@ export const deleteCodeInterpreter: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom code interpreter.
+ */
+export const deleteCodeInterpreter: API.OperationMethod<
+  DeleteCodeInterpreterRequest,
+  DeleteCodeInterpreterResponse,
+  DeleteCodeInterpreterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCodeInterpreterRequest,
@@ -7946,39 +7962,33 @@ export const deleteCodeInterpreter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCodeInterpretersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all custom code interpreters in your account.
  */
 export const listCodeInterpreters: API.OperationMethod<
   ListCodeInterpretersRequest,
   ListCodeInterpretersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCodeInterpretersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCodeInterpretersRequest,
   ) => stream.Stream<
     ListCodeInterpretersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCodeInterpretersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCodeInterpretersRequest,
   ) => stream.Stream<
     CodeInterpreterSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCodeInterpretersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7997,19 +8007,21 @@ export const listCodeInterpreters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
- */
-export const createEvaluator: API.OperationMethod<
-  CreateEvaluatorRequest,
-  CreateEvaluatorResponse,
+export type CreateEvaluatorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+ */
+export const createEvaluator: API.OperationMethod<
+  CreateEvaluatorRequest,
+  CreateEvaluatorResponse,
+  CreateEvaluatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEvaluatorRequest,
@@ -8023,18 +8035,20 @@ export const createEvaluator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEvaluatorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
  */
 export const getEvaluator: API.OperationMethod<
   GetEvaluatorRequest,
   GetEvaluatorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEvaluatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvaluatorRequest,
@@ -8047,12 +8061,7 @@ export const getEvaluator: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
- */
-export const updateEvaluator: API.OperationMethod<
-  UpdateEvaluatorRequest,
-  UpdateEvaluatorResponse,
+export type UpdateEvaluatorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8060,7 +8069,14 @@ export const updateEvaluator: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
+ */
+export const updateEvaluator: API.OperationMethod<
+  UpdateEvaluatorRequest,
+  UpdateEvaluatorResponse,
+  UpdateEvaluatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEvaluatorRequest,
@@ -8075,19 +8091,21 @@ export const updateEvaluator: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
- */
-export const deleteEvaluator: API.OperationMethod<
-  DeleteEvaluatorRequest,
-  DeleteEvaluatorResponse,
+export type DeleteEvaluatorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
+ */
+export const deleteEvaluator: API.OperationMethod<
+  DeleteEvaluatorRequest,
+  DeleteEvaluatorResponse,
+  DeleteEvaluatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEvaluatorRequest,
@@ -8101,39 +8119,33 @@ export const deleteEvaluator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEvaluatorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
  */
 export const listEvaluators: API.OperationMethod<
   ListEvaluatorsRequest,
   ListEvaluatorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEvaluatorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEvaluatorsRequest,
   ) => stream.Stream<
     ListEvaluatorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEvaluatorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEvaluatorsRequest,
   ) => stream.Stream<
     EvaluatorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEvaluatorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8152,6 +8164,14 @@ export const listEvaluators: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateGatewayError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services.
  *
@@ -8160,13 +8180,7 @@ export const listEvaluators: API.OperationMethod<
 export const createGateway: API.OperationMethod<
   CreateGatewayRequest,
   CreateGatewayResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRequest,
@@ -8180,19 +8194,21 @@ export const createGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a gateway.
- */
-export const deleteGateway: API.OperationMethod<
-  DeleteGatewayRequest,
-  DeleteGatewayResponse,
+export type DeleteGatewayError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a gateway.
+ */
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayRequest,
+  DeleteGatewayResponse,
+  DeleteGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRequest,
@@ -8206,18 +8222,20 @@ export const deleteGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific Gateway.
  */
 export const getGateway: API.OperationMethod<
   GetGatewayRequest,
   GetGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayRequest,
@@ -8230,39 +8248,33 @@ export const getGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGatewaysError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all gateways in the account.
  */
 export const listGateways: API.OperationMethod<
   ListGatewaysRequest,
   ListGatewaysResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
     ListGatewaysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
     GatewaySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8281,12 +8293,7 @@ export const listGateways: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates an existing gateway.
- */
-export const updateGateway: API.OperationMethod<
-  UpdateGatewayRequest,
-  UpdateGatewayResponse,
+export type UpdateGatewayError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8294,7 +8301,14 @@ export const updateGateway: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing gateway.
+ */
+export const updateGateway: API.OperationMethod<
+  UpdateGatewayRequest,
+  UpdateGatewayResponse,
+  UpdateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayRequest,
@@ -8309,12 +8323,7 @@ export const updateGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
- */
-export const createGatewayTarget: API.OperationMethod<
-  CreateGatewayTargetRequest,
-  CreateGatewayTargetResponse,
+export type CreateGatewayTargetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8322,7 +8331,14 @@ export const createGatewayTarget: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
+ */
+export const createGatewayTarget: API.OperationMethod<
+  CreateGatewayTargetRequest,
+  CreateGatewayTargetResponse,
+  CreateGatewayTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayTargetRequest,
@@ -8337,19 +8353,21 @@ export const createGatewayTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a gateway target.
- */
-export const deleteGatewayTarget: API.OperationMethod<
-  DeleteGatewayTargetRequest,
-  DeleteGatewayTargetResponse,
+export type DeleteGatewayTargetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a gateway target.
+ */
+export const deleteGatewayTarget: API.OperationMethod<
+  DeleteGatewayTargetRequest,
+  DeleteGatewayTargetResponse,
+  DeleteGatewayTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayTargetRequest,
@@ -8363,18 +8381,20 @@ export const deleteGatewayTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGatewayTargetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific gateway target.
  */
 export const getGatewayTarget: API.OperationMethod<
   GetGatewayTargetRequest,
   GetGatewayTargetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGatewayTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayTargetRequest,
@@ -8387,39 +8407,33 @@ export const getGatewayTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGatewayTargetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all targets for a specific gateway.
  */
 export const listGatewayTargets: API.OperationMethod<
   ListGatewayTargetsRequest,
   ListGatewayTargetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGatewayTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewayTargetsRequest,
   ) => stream.Stream<
     ListGatewayTargetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGatewayTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewayTargetsRequest,
   ) => stream.Stream<
     TargetSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGatewayTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8438,12 +8452,7 @@ export const listGatewayTargets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * The gateway targets.
- */
-export const synchronizeGatewayTargets: API.OperationMethod<
-  SynchronizeGatewayTargetsRequest,
-  SynchronizeGatewayTargetsResponse,
+export type SynchronizeGatewayTargetsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8451,7 +8460,14 @@ export const synchronizeGatewayTargets: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The gateway targets.
+ */
+export const synchronizeGatewayTargets: API.OperationMethod<
+  SynchronizeGatewayTargetsRequest,
+  SynchronizeGatewayTargetsResponse,
+  SynchronizeGatewayTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SynchronizeGatewayTargetsRequest,
@@ -8466,12 +8482,7 @@ export const synchronizeGatewayTargets: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing gateway target.
- */
-export const updateGatewayTarget: API.OperationMethod<
-  UpdateGatewayTargetRequest,
-  UpdateGatewayTargetResponse,
+export type UpdateGatewayTargetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8479,7 +8490,14 @@ export const updateGatewayTarget: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing gateway target.
+ */
+export const updateGatewayTarget: API.OperationMethod<
+  UpdateGatewayTargetRequest,
+  UpdateGatewayTargetResponse,
+  UpdateGatewayTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayTargetRequest,
@@ -8494,12 +8512,7 @@ export const updateGatewayTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Amazon Bedrock AgentCore Memory resource.
- */
-export const createMemory: API.OperationMethod<
-  CreateMemoryInput,
-  CreateMemoryOutput,
+export type CreateMemoryError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8507,7 +8520,14 @@ export const createMemory: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottledException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon Bedrock AgentCore Memory resource.
+ */
+export const createMemory: API.OperationMethod<
+  CreateMemoryInput,
+  CreateMemoryOutput,
+  CreateMemoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMemoryInput,
@@ -8522,18 +8542,20 @@ export const createMemory: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMemoryError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve an existing Amazon Bedrock AgentCore Memory resource.
  */
 export const getMemory: API.OperationMethod<
   GetMemoryInput,
   GetMemoryOutput,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ServiceException
-  | ThrottledException
-  | ValidationException
-  | CommonErrors,
+  GetMemoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemoryInput,
@@ -8546,12 +8568,7 @@ export const getMemory: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update an Amazon Bedrock AgentCore Memory resource memory.
- */
-export const updateMemory: API.OperationMethod<
-  UpdateMemoryInput,
-  UpdateMemoryOutput,
+export type UpdateMemoryError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8559,7 +8576,14 @@ export const updateMemory: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottledException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update an Amazon Bedrock AgentCore Memory resource memory.
+ */
+export const updateMemory: API.OperationMethod<
+  UpdateMemoryInput,
+  UpdateMemoryOutput,
+  UpdateMemoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemoryInput,
@@ -8574,19 +8598,21 @@ export const updateMemory: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Amazon Bedrock AgentCore Memory resource.
- */
-export const deleteMemory: API.OperationMethod<
-  DeleteMemoryInput,
-  DeleteMemoryOutput,
+export type DeleteMemoryError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceException
   | ThrottledException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Bedrock AgentCore Memory resource.
+ */
+export const deleteMemory: API.OperationMethod<
+  DeleteMemoryInput,
+  DeleteMemoryOutput,
+  DeleteMemoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemoryInput,
@@ -8600,42 +8626,34 @@ export const deleteMemory: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMemoriesError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
  */
 export const listMemories: API.OperationMethod<
   ListMemoriesInput,
   ListMemoriesOutput,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ServiceException
-  | ThrottledException
-  | ValidationException
-  | CommonErrors,
+  ListMemoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMemoriesInput,
   ) => stream.Stream<
     ListMemoriesOutput,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ServiceException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
+    ListMemoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMemoriesInput,
   ) => stream.Stream<
     MemorySummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ServiceException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
+    ListMemoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8655,12 +8673,7 @@ export const listMemories: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new OAuth2 credential provider.
- */
-export const createOauth2CredentialProvider: API.OperationMethod<
-  CreateOauth2CredentialProviderRequest,
-  CreateOauth2CredentialProviderResponse,
+export type CreateOauth2CredentialProviderError =
   | AccessDeniedException
   | ConflictException
   | DecryptionFailure
@@ -8672,7 +8685,14 @@ export const createOauth2CredentialProvider: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new OAuth2 credential provider.
+ */
+export const createOauth2CredentialProvider: API.OperationMethod<
+  CreateOauth2CredentialProviderRequest,
+  CreateOauth2CredentialProviderResponse,
+  CreateOauth2CredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOauth2CredentialProviderRequest,
@@ -8691,12 +8711,7 @@ export const createOauth2CredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about an OAuth2 credential provider.
- */
-export const getOauth2CredentialProvider: API.OperationMethod<
-  GetOauth2CredentialProviderRequest,
-  GetOauth2CredentialProviderResponse,
+export type GetOauth2CredentialProviderError =
   | AccessDeniedException
   | DecryptionFailure
   | InternalServerException
@@ -8704,7 +8719,14 @@ export const getOauth2CredentialProvider: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about an OAuth2 credential provider.
+ */
+export const getOauth2CredentialProvider: API.OperationMethod<
+  GetOauth2CredentialProviderRequest,
+  GetOauth2CredentialProviderResponse,
+  GetOauth2CredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOauth2CredentialProviderRequest,
@@ -8719,12 +8741,7 @@ export const getOauth2CredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing OAuth2 credential provider.
- */
-export const updateOauth2CredentialProvider: API.OperationMethod<
-  UpdateOauth2CredentialProviderRequest,
-  UpdateOauth2CredentialProviderResponse,
+export type UpdateOauth2CredentialProviderError =
   | AccessDeniedException
   | ConflictException
   | DecryptionFailure
@@ -8735,7 +8752,14 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing OAuth2 credential provider.
+ */
+export const updateOauth2CredentialProvider: API.OperationMethod<
+  UpdateOauth2CredentialProviderRequest,
+  UpdateOauth2CredentialProviderResponse,
+  UpdateOauth2CredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOauth2CredentialProviderRequest,
@@ -8753,19 +8777,21 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an OAuth2 credential provider.
- */
-export const deleteOauth2CredentialProvider: API.OperationMethod<
-  DeleteOauth2CredentialProviderRequest,
-  DeleteOauth2CredentialProviderResponse,
+export type DeleteOauth2CredentialProviderError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an OAuth2 credential provider.
+ */
+export const deleteOauth2CredentialProvider: API.OperationMethod<
+  DeleteOauth2CredentialProviderRequest,
+  DeleteOauth2CredentialProviderResponse,
+  DeleteOauth2CredentialProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOauth2CredentialProviderRequest,
@@ -8779,45 +8805,35 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all OAuth2 credential providers in your account.
- */
-export const listOauth2CredentialProviders: API.OperationMethod<
-  ListOauth2CredentialProvidersRequest,
-  ListOauth2CredentialProvidersResponse,
+export type ListOauth2CredentialProvidersError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all OAuth2 credential providers in your account.
+ */
+export const listOauth2CredentialProviders: API.OperationMethod<
+  ListOauth2CredentialProvidersRequest,
+  ListOauth2CredentialProvidersResponse,
+  ListOauth2CredentialProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOauth2CredentialProvidersRequest,
   ) => stream.Stream<
     ListOauth2CredentialProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListOauth2CredentialProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOauth2CredentialProvidersRequest,
   ) => stream.Stream<
     Oauth2CredentialProviderItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListOauth2CredentialProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8838,19 +8854,21 @@ export const listOauth2CredentialProviders: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
- */
-export const createOnlineEvaluationConfig: API.OperationMethod<
-  CreateOnlineEvaluationConfigRequest,
-  CreateOnlineEvaluationConfigResponse,
+export type CreateOnlineEvaluationConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
+ */
+export const createOnlineEvaluationConfig: API.OperationMethod<
+  CreateOnlineEvaluationConfigRequest,
+  CreateOnlineEvaluationConfigResponse,
+  CreateOnlineEvaluationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOnlineEvaluationConfigRequest,
@@ -8864,18 +8882,20 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOnlineEvaluationConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status.
  */
 export const getOnlineEvaluationConfig: API.OperationMethod<
   GetOnlineEvaluationConfigRequest,
   GetOnlineEvaluationConfigResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOnlineEvaluationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOnlineEvaluationConfigRequest,
@@ -8888,12 +8908,7 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
- */
-export const updateOnlineEvaluationConfig: API.OperationMethod<
-  UpdateOnlineEvaluationConfigRequest,
-  UpdateOnlineEvaluationConfigResponse,
+export type UpdateOnlineEvaluationConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8901,7 +8916,14 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
+ */
+export const updateOnlineEvaluationConfig: API.OperationMethod<
+  UpdateOnlineEvaluationConfigRequest,
+  UpdateOnlineEvaluationConfigResponse,
+  UpdateOnlineEvaluationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOnlineEvaluationConfigRequest,
@@ -8916,19 +8938,21 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
- */
-export const deleteOnlineEvaluationConfig: API.OperationMethod<
-  DeleteOnlineEvaluationConfigRequest,
-  DeleteOnlineEvaluationConfigResponse,
+export type DeleteOnlineEvaluationConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
+ */
+export const deleteOnlineEvaluationConfig: API.OperationMethod<
+  DeleteOnlineEvaluationConfigRequest,
+  DeleteOnlineEvaluationConfigResponse,
+  DeleteOnlineEvaluationConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOnlineEvaluationConfigRequest,
@@ -8942,39 +8966,33 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListOnlineEvaluationConfigsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings.
  */
 export const listOnlineEvaluationConfigs: API.OperationMethod<
   ListOnlineEvaluationConfigsRequest,
   ListOnlineEvaluationConfigsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOnlineEvaluationConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOnlineEvaluationConfigsRequest,
   ) => stream.Stream<
     ListOnlineEvaluationConfigsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOnlineEvaluationConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOnlineEvaluationConfigsRequest,
   ) => stream.Stream<
     OnlineEvaluationConfigSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOnlineEvaluationConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8993,19 +9011,21 @@ export const listOnlineEvaluationConfigs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the `status` field to track completion.
- */
-export const createPolicyEngine: API.OperationMethod<
-  CreatePolicyEngineRequest,
-  CreatePolicyEngineResponse,
+export type CreatePolicyEngineError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the `status` field to track completion.
+ */
+export const createPolicyEngine: API.OperationMethod<
+  CreatePolicyEngineRequest,
+  CreatePolicyEngineResponse,
+  CreatePolicyEngineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyEngineRequest,
@@ -9019,18 +9039,20 @@ export const createPolicyEngine: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPolicyEngineError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings.
  */
 export const getPolicyEngine: API.OperationMethod<
   GetPolicyEngineRequest,
   GetPolicyEngineResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPolicyEngineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyEngineRequest,
@@ -9043,19 +9065,21 @@ export const getPolicyEngine: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
- */
-export const updatePolicyEngine: API.OperationMethod<
-  UpdatePolicyEngineRequest,
-  UpdatePolicyEngineResponse,
+export type UpdatePolicyEngineError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
+ */
+export const updatePolicyEngine: API.OperationMethod<
+  UpdatePolicyEngineRequest,
+  UpdatePolicyEngineResponse,
+  UpdatePolicyEngineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyEngineRequest,
@@ -9069,19 +9093,21 @@ export const updatePolicyEngine: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
- */
-export const deletePolicyEngine: API.OperationMethod<
-  DeletePolicyEngineRequest,
-  DeletePolicyEngineResponse,
+export type DeletePolicyEngineError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
+ */
+export const deletePolicyEngine: API.OperationMethod<
+  DeletePolicyEngineRequest,
+  DeletePolicyEngineResponse,
+  DeletePolicyEngineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyEngineRequest,
@@ -9095,39 +9121,33 @@ export const deletePolicyEngine: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPolicyEnginesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
  */
 export const listPolicyEngines: API.OperationMethod<
   ListPolicyEnginesRequest,
   ListPolicyEnginesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPolicyEnginesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyEnginesRequest,
   ) => stream.Stream<
     ListPolicyEnginesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyEnginesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyEnginesRequest,
   ) => stream.Stream<
     PolicyEngine,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyEnginesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9146,12 +9166,7 @@ export const listPolicyEngines: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
- */
-export const startPolicyGeneration: API.OperationMethod<
-  StartPolicyGenerationRequest,
-  StartPolicyGenerationResponse,
+export type StartPolicyGenerationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9159,7 +9174,14 @@ export const startPolicyGeneration: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
+ */
+export const startPolicyGeneration: API.OperationMethod<
+  StartPolicyGenerationRequest,
+  StartPolicyGenerationResponse,
+  StartPolicyGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPolicyGenerationRequest,
@@ -9174,18 +9196,20 @@ export const startPolicyGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPolicyGenerationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
  */
 export const getPolicyGeneration: API.OperationMethod<
   GetPolicyGenerationRequest,
   GetPolicyGenerationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPolicyGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyGenerationRequest,
@@ -9198,42 +9222,34 @@ export const getPolicyGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPolicyGenerationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
  */
 export const listPolicyGenerations: API.OperationMethod<
   ListPolicyGenerationsRequest,
   ListPolicyGenerationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPolicyGenerationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyGenerationsRequest,
   ) => stream.Stream<
     ListPolicyGenerationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGenerationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyGenerationsRequest,
   ) => stream.Stream<
     PolicyGeneration,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGenerationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9253,42 +9269,34 @@ export const listPolicyGenerations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPolicyGenerationAssetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
  */
 export const listPolicyGenerationAssets: API.OperationMethod<
   ListPolicyGenerationAssetsRequest,
   ListPolicyGenerationAssetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPolicyGenerationAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyGenerationAssetsRequest,
   ) => stream.Stream<
     ListPolicyGenerationAssetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGenerationAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyGenerationAssetsRequest,
   ) => stream.Stream<
     PolicyGenerationAsset,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGenerationAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9308,12 +9316,7 @@ export const listPolicyGenerationAssets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the `status` field to track completion.
- */
-export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
-  CreatePolicyResponse,
+export type CreatePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9321,7 +9324,14 @@ export const createPolicy: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the `status` field to track completion.
+ */
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
+  CreatePolicyResponse,
+  CreatePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
@@ -9336,18 +9346,20 @@ export const createPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
  */
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
@@ -9360,19 +9372,21 @@ export const getPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
- */
-export const updatePolicy: API.OperationMethod<
-  UpdatePolicyRequest,
-  UpdatePolicyResponse,
+export type UpdatePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
+ */
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
+  UpdatePolicyResponse,
+  UpdatePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyRequest,
@@ -9386,19 +9400,21 @@ export const updatePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
- */
-export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
-  DeletePolicyResponse,
+export type DeletePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
+ */
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
+  DeletePolicyResponse,
+  DeletePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
@@ -9412,42 +9428,34 @@ export const deletePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
  */
 export const listPolicies: API.OperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
     ListPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
     Policy,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9467,19 +9475,21 @@ export const listPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new workload identity.
- */
-export const createWorkloadIdentity: API.OperationMethod<
-  CreateWorkloadIdentityRequest,
-  CreateWorkloadIdentityResponse,
+export type CreateWorkloadIdentityError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new workload identity.
+ */
+export const createWorkloadIdentity: API.OperationMethod<
+  CreateWorkloadIdentityRequest,
+  CreateWorkloadIdentityResponse,
+  CreateWorkloadIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkloadIdentityRequest,
@@ -9493,19 +9503,21 @@ export const createWorkloadIdentity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about a workload identity.
- */
-export const getWorkloadIdentity: API.OperationMethod<
-  GetWorkloadIdentityRequest,
-  GetWorkloadIdentityResponse,
+export type GetWorkloadIdentityError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a workload identity.
+ */
+export const getWorkloadIdentity: API.OperationMethod<
+  GetWorkloadIdentityRequest,
+  GetWorkloadIdentityResponse,
+  GetWorkloadIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadIdentityRequest,
@@ -9519,19 +9531,21 @@ export const getWorkloadIdentity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing workload identity.
- */
-export const updateWorkloadIdentity: API.OperationMethod<
-  UpdateWorkloadIdentityRequest,
-  UpdateWorkloadIdentityResponse,
+export type UpdateWorkloadIdentityError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing workload identity.
+ */
+export const updateWorkloadIdentity: API.OperationMethod<
+  UpdateWorkloadIdentityRequest,
+  UpdateWorkloadIdentityResponse,
+  UpdateWorkloadIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadIdentityRequest,
@@ -9545,19 +9559,21 @@ export const updateWorkloadIdentity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a workload identity.
- */
-export const deleteWorkloadIdentity: API.OperationMethod<
-  DeleteWorkloadIdentityRequest,
-  DeleteWorkloadIdentityResponse,
+export type DeleteWorkloadIdentityError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a workload identity.
+ */
+export const deleteWorkloadIdentity: API.OperationMethod<
+  DeleteWorkloadIdentityRequest,
+  DeleteWorkloadIdentityResponse,
+  DeleteWorkloadIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkloadIdentityRequest,
@@ -9571,45 +9587,35 @@ export const deleteWorkloadIdentity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all workload identities in your account.
- */
-export const listWorkloadIdentities: API.OperationMethod<
-  ListWorkloadIdentitiesRequest,
-  ListWorkloadIdentitiesResponse,
+export type ListWorkloadIdentitiesError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all workload identities in your account.
+ */
+export const listWorkloadIdentities: API.OperationMethod<
+  ListWorkloadIdentitiesRequest,
+  ListWorkloadIdentitiesResponse,
+  ListWorkloadIdentitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadIdentitiesRequest,
   ) => stream.Stream<
     ListWorkloadIdentitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadIdentitiesRequest,
   ) => stream.Stream<
     WorkloadIdentityType,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

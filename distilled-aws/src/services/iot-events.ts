@@ -1884,6 +1884,15 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type CreateAlarmModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get
  * notified when the value is outside a specified range. For more information, see Create an
@@ -1892,14 +1901,7 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
 export const createAlarmModel: API.OperationMethod<
   CreateAlarmModelRequest,
   CreateAlarmModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  CreateAlarmModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAlarmModelRequest,
@@ -1914,12 +1916,7 @@ export const createAlarmModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a detector model.
- */
-export const createDetectorModel: API.OperationMethod<
-  CreateDetectorModelRequest,
-  CreateDetectorModelResponse,
+export type CreateDetectorModelError =
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
@@ -1927,7 +1924,14 @@ export const createDetectorModel: API.OperationMethod<
   | ResourceInUseException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a detector model.
+ */
+export const createDetectorModel: API.OperationMethod<
+  CreateDetectorModelRequest,
+  CreateDetectorModelResponse,
+  CreateDetectorModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDetectorModelRequest,
@@ -1942,18 +1946,20 @@ export const createDetectorModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateInputError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an input.
  */
 export const createInput: API.OperationMethod<
   CreateInputRequest,
   CreateInputResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  CreateInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInputRequest,
@@ -1966,6 +1972,14 @@ export const createInput: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAlarmModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an alarm model. Any alarm instances that were created based on this alarm model
  * are also deleted. This action can't be undone.
@@ -1973,13 +1987,7 @@ export const createInput: API.OperationMethod<
 export const deleteAlarmModel: API.OperationMethod<
   DeleteAlarmModelRequest,
   DeleteAlarmModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAlarmModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmModelRequest,
@@ -1993,6 +2001,14 @@ export const deleteAlarmModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDetectorModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a detector model. Any active instances of the detector model are also
  * deleted.
@@ -2000,13 +2016,7 @@ export const deleteAlarmModel: API.OperationMethod<
 export const deleteDetectorModel: API.OperationMethod<
   DeleteDetectorModelRequest,
   DeleteDetectorModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDetectorModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectorModelRequest,
@@ -2020,19 +2030,21 @@ export const deleteDetectorModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes an input.
- */
-export const deleteInput: API.OperationMethod<
-  DeleteInputRequest,
-  DeleteInputResponse,
+export type DeleteInputError =
   | InternalFailureException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an input.
+ */
+export const deleteInput: API.OperationMethod<
+  DeleteInputRequest,
+  DeleteInputResponse,
+  DeleteInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInputRequest,
@@ -2046,6 +2058,13 @@ export const deleteInput: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAlarmModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an alarm model. If you don't specify a value for the
  * `alarmModelVersion` parameter, the latest version is returned.
@@ -2053,12 +2072,7 @@ export const deleteInput: API.OperationMethod<
 export const describeAlarmModel: API.OperationMethod<
   DescribeAlarmModelRequest,
   DescribeAlarmModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAlarmModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlarmModelRequest,
@@ -2071,6 +2085,13 @@ export const describeAlarmModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDetectorModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a detector model. If the `version` parameter is not specified,
  * information about the latest version is returned.
@@ -2078,12 +2099,7 @@ export const describeAlarmModel: API.OperationMethod<
 export const describeDetectorModel: API.OperationMethod<
   DescribeDetectorModelRequest,
   DescribeDetectorModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDetectorModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectorModelRequest,
@@ -2096,6 +2112,13 @@ export const describeDetectorModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDetectorModelAnalysisError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves runtime information about a detector model analysis.
  *
@@ -2104,12 +2127,7 @@ export const describeDetectorModel: API.OperationMethod<
 export const describeDetectorModelAnalysis: API.OperationMethod<
   DescribeDetectorModelAnalysisRequest,
   DescribeDetectorModelAnalysisResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDetectorModelAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectorModelAnalysisRequest,
@@ -2122,18 +2140,20 @@ export const describeDetectorModelAnalysis: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeInputError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes an input.
  */
 export const describeInput: API.OperationMethod<
   DescribeInputRequest,
   DescribeInputResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInputRequest,
@@ -2146,19 +2166,21 @@ export const describeInput: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves the current settings of the AWS IoT Events logging options.
- */
-export const describeLoggingOptions: API.OperationMethod<
-  DescribeLoggingOptionsRequest,
-  DescribeLoggingOptionsResponse,
+export type DescribeLoggingOptionsError =
   | InternalFailureException
   | InvalidRequestException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the current settings of the AWS IoT Events logging options.
+ */
+export const describeLoggingOptions: API.OperationMethod<
+  DescribeLoggingOptionsRequest,
+  DescribeLoggingOptionsResponse,
+  DescribeLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLoggingOptionsRequest,
@@ -2172,6 +2194,13 @@ export const describeLoggingOptions: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetDetectorModelAnalysisResultsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves one or more analysis results of the detector model.
  *
@@ -2180,12 +2209,7 @@ export const describeLoggingOptions: API.OperationMethod<
 export const getDetectorModelAnalysisResults: API.OperationMethod<
   GetDetectorModelAnalysisResultsRequest,
   GetDetectorModelAnalysisResultsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetDetectorModelAnalysisResultsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDetectorModelAnalysisResultsRequest,
@@ -2198,6 +2222,12 @@ export const getDetectorModelAnalysisResults: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAlarmModelsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the alarm models that you created. The operation returns only the metadata
  * associated with each alarm model.
@@ -2205,11 +2235,7 @@ export const getDetectorModelAnalysisResults: API.OperationMethod<
 export const listAlarmModels: API.OperationMethod<
   ListAlarmModelsRequest,
   ListAlarmModelsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListAlarmModelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAlarmModelsRequest,
@@ -2221,6 +2247,13 @@ export const listAlarmModels: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAlarmModelVersionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all the versions of an alarm model. The operation returns only the metadata
  * associated with each alarm model version.
@@ -2228,12 +2261,7 @@ export const listAlarmModels: API.OperationMethod<
 export const listAlarmModelVersions: API.OperationMethod<
   ListAlarmModelVersionsRequest,
   ListAlarmModelVersionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListAlarmModelVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAlarmModelVersionsRequest,
@@ -2246,6 +2274,12 @@ export const listAlarmModelVersions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListDetectorModelsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the detector models you have created. Only the metadata associated with each
  * detector model is returned.
@@ -2253,11 +2287,7 @@ export const listAlarmModelVersions: API.OperationMethod<
 export const listDetectorModels: API.OperationMethod<
   ListDetectorModelsRequest,
   ListDetectorModelsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListDetectorModelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectorModelsRequest,
@@ -2269,6 +2299,13 @@ export const listDetectorModels: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListDetectorModelVersionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all the versions of a detector model. Only the metadata associated with each
  * detector model version is returned.
@@ -2276,12 +2313,7 @@ export const listDetectorModels: API.OperationMethod<
 export const listDetectorModelVersions: API.OperationMethod<
   ListDetectorModelVersionsRequest,
   ListDetectorModelVersionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListDetectorModelVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectorModelVersionsRequest,
@@ -2294,18 +2326,20 @@ export const listDetectorModelVersions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListInputRoutingsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists one or more input routings.
  */
 export const listInputRoutings: API.OperationMethod<
   ListInputRoutingsRequest,
   ListInputRoutingsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListInputRoutingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInputRoutingsRequest,
@@ -2318,17 +2352,19 @@ export const listInputRoutings: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListInputsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the inputs you have created.
  */
 export const listInputs: API.OperationMethod<
   ListInputsRequest,
   ListInputsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListInputsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInputsRequest,
@@ -2340,18 +2376,20 @@ export const listInputs: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListTagsForResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2364,6 +2402,14 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type PutLoggingOptionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Sets or updates the AWS IoT Events logging options.
  *
@@ -2375,13 +2421,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putLoggingOptions: API.OperationMethod<
   PutLoggingOptionsRequest,
   PutLoggingOptionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnsupportedOperationException
-  | CommonErrors,
+  PutLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingOptionsRequest,
@@ -2395,6 +2435,13 @@ export const putLoggingOptions: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StartDetectorModelAnalysisError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Performs an analysis of your detector model. For more information,
  * see Troubleshooting a detector model
@@ -2403,12 +2450,7 @@ export const putLoggingOptions: API.OperationMethod<
 export const startDetectorModelAnalysis: API.OperationMethod<
   StartDetectorModelAnalysisRequest,
   StartDetectorModelAnalysisResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  StartDetectorModelAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDetectorModelAnalysisRequest,
@@ -2421,6 +2463,14 @@ export const startDetectorModelAnalysis: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type TagResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
  * manage a resource.
@@ -2428,13 +2478,7 @@ export const startDetectorModelAnalysis: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2448,18 +2492,20 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the given tags (metadata) from the resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2472,6 +2518,14 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAlarmModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an alarm model. Any alarms that were created based on the previous version are
  * deleted and then created again as new data arrives.
@@ -2479,13 +2533,7 @@ export const untagResource: API.OperationMethod<
 export const updateAlarmModel: API.OperationMethod<
   UpdateAlarmModelRequest,
   UpdateAlarmModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAlarmModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAlarmModelRequest,
@@ -2499,6 +2547,14 @@ export const updateAlarmModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateDetectorModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a detector model. Detectors (instances) spawned by the previous version are
  * deleted and then re-created as new inputs arrive.
@@ -2506,13 +2562,7 @@ export const updateAlarmModel: API.OperationMethod<
 export const updateDetectorModel: API.OperationMethod<
   UpdateDetectorModelRequest,
   UpdateDetectorModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateDetectorModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectorModelRequest,
@@ -2526,19 +2576,21 @@ export const updateDetectorModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates an input.
- */
-export const updateInput: API.OperationMethod<
-  UpdateInputRequest,
-  UpdateInputResponse,
+export type UpdateInputError =
   | InternalFailureException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an input.
+ */
+export const updateInput: API.OperationMethod<
+  UpdateInputRequest,
+  UpdateInputResponse,
+  UpdateInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInputRequest,

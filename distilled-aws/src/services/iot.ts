@@ -14545,6 +14545,15 @@ export class TransferConflictException extends S.TaggedErrorClass<TransferConfli
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type AcceptCertificateTransferError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferAlreadyCompletedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Accepts a pending certificate transfer. The default state of the certificate is
  * INACTIVE.
@@ -14557,14 +14566,7 @@ export class TransferConflictException extends S.TaggedErrorClass<TransferConfli
 export const acceptCertificateTransfer: API.OperationMethod<
   AcceptCertificateTransferRequest,
   AcceptCertificateTransferResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | TransferAlreadyCompletedException
-  | UnauthorizedException
-  | CommonErrors,
+  AcceptCertificateTransferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptCertificateTransferRequest,
@@ -14579,6 +14581,12 @@ export const acceptCertificateTransfer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type AddThingToBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds a thing to a billing group.
  *
@@ -14587,11 +14595,7 @@ export const acceptCertificateTransfer: API.OperationMethod<
 export const addThingToBillingGroup: API.OperationMethod<
   AddThingToBillingGroupRequest,
   AddThingToBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AddThingToBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddThingToBillingGroupRequest,
@@ -14603,6 +14607,12 @@ export const addThingToBillingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AddThingToThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds a thing to a thing group.
  *
@@ -14611,11 +14621,7 @@ export const addThingToBillingGroup: API.OperationMethod<
 export const addThingToThingGroup: API.OperationMethod<
   AddThingToThingGroupRequest,
   AddThingToThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AddThingToThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddThingToThingGroupRequest,
@@ -14627,6 +14633,14 @@ export const addThingToThingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateSbomWithPackageVersionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates the selected software bill of materials (SBOM) with a specific software package version.
  *
@@ -14635,13 +14649,7 @@ export const addThingToThingGroup: API.OperationMethod<
 export const associateSbomWithPackageVersion: API.OperationMethod<
   AssociateSbomWithPackageVersionRequest,
   AssociateSbomWithPackageVersionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateSbomWithPackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSbomWithPackageVersionRequest,
@@ -14655,6 +14663,13 @@ export const associateSbomWithPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociateTargetsWithJobError =
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a group with a continuous job. The following criteria must be met:
  *
@@ -14671,12 +14686,7 @@ export const associateSbomWithPackageVersion: API.OperationMethod<
 export const associateTargetsWithJob: API.OperationMethod<
   AssociateTargetsWithJobRequest,
   AssociateTargetsWithJobResponse,
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateTargetsWithJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateTargetsWithJobRequest,
@@ -14689,6 +14699,15 @@ export const associateTargetsWithJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AttachPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Attaches the specified policy to the specified principal (certificate or other
  * credential).
@@ -14698,14 +14717,7 @@ export const associateTargetsWithJob: API.OperationMethod<
 export const attachPolicy: API.OperationMethod<
   AttachPolicyRequest,
   AttachPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  AttachPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachPolicyRequest,
@@ -14720,6 +14732,15 @@ export const attachPolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type AttachPrincipalPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Attaches the specified policy to the specified principal (certificate or other
  * credential).
@@ -14732,14 +14753,7 @@ export const attachPolicy: API.OperationMethod<
 export const attachPrincipalPolicy: API.OperationMethod<
   AttachPrincipalPolicyRequest,
   AttachPrincipalPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  AttachPrincipalPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachPrincipalPolicyRequest,
@@ -14754,6 +14768,14 @@ export const attachPrincipalPolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type AttachSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Associates a Device Defender security profile with a thing group or this account. Each
  * thing group or account can have up to five security profiles associated with it.
@@ -14763,13 +14785,7 @@ export const attachPrincipalPolicy: API.OperationMethod<
 export const attachSecurityProfile: API.OperationMethod<
   AttachSecurityProfileRequest,
   AttachSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  AttachSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachSecurityProfileRequest,
@@ -14783,6 +14799,14 @@ export const attachSecurityProfile: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type AttachThingPrincipalError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Attaches the specified principal to the specified thing. A principal can be X.509
  * certificates, Amazon Cognito identities or federated identities.
@@ -14792,13 +14816,7 @@ export const attachSecurityProfile: API.OperationMethod<
 export const attachThingPrincipal: API.OperationMethod<
   AttachThingPrincipalRequest,
   AttachThingPrincipalResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  AttachThingPrincipalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachThingPrincipalRequest,
@@ -14812,6 +14830,12 @@ export const attachThingPrincipal: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CancelAuditMitigationActionsTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Cancels a mitigation action task that is in progress. If the task
  * is not
@@ -14822,11 +14846,7 @@ export const attachThingPrincipal: API.OperationMethod<
 export const cancelAuditMitigationActionsTask: API.OperationMethod<
   CancelAuditMitigationActionsTaskRequest,
   CancelAuditMitigationActionsTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CancelAuditMitigationActionsTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAuditMitigationActionsTaskRequest,
@@ -14838,6 +14858,12 @@ export const cancelAuditMitigationActionsTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CancelAuditTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs.
  *
@@ -14846,11 +14872,7 @@ export const cancelAuditMitigationActionsTask: API.OperationMethod<
 export const cancelAuditTask: API.OperationMethod<
   CancelAuditTaskRequest,
   CancelAuditTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CancelAuditTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAuditTaskRequest,
@@ -14862,6 +14884,15 @@ export const cancelAuditTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CancelCertificateTransferError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferAlreadyCompletedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Cancels a pending transfer for the specified certificate.
  *
@@ -14878,14 +14909,7 @@ export const cancelAuditTask: API.OperationMethod<
 export const cancelCertificateTransfer: API.OperationMethod<
   CancelCertificateTransferRequest,
   CancelCertificateTransferResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | TransferAlreadyCompletedException
-  | UnauthorizedException
-  | CommonErrors,
+  CancelCertificateTransferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCertificateTransferRequest,
@@ -14900,6 +14924,12 @@ export const cancelCertificateTransfer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CancelDetectMitigationActionsTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Cancels a Device Defender ML Detect mitigation action.
  *
@@ -14908,11 +14938,7 @@ export const cancelCertificateTransfer: API.OperationMethod<
 export const cancelDetectMitigationActionsTask: API.OperationMethod<
   CancelDetectMitigationActionsTaskRequest,
   CancelDetectMitigationActionsTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CancelDetectMitigationActionsTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDetectMitigationActionsTaskRequest,
@@ -14924,6 +14950,13 @@ export const cancelDetectMitigationActionsTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CancelJobError =
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Cancels a job.
  *
@@ -14932,12 +14965,7 @@ export const cancelDetectMitigationActionsTask: API.OperationMethod<
 export const cancelJob: API.OperationMethod<
   CancelJobRequest,
   CancelJobResponse,
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  CancelJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
@@ -14950,6 +14978,14 @@ export const cancelJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CancelJobExecutionError =
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Cancels the execution of a job for a given thing.
  *
@@ -14958,13 +14994,7 @@ export const cancelJob: API.OperationMethod<
 export const cancelJobExecution: API.OperationMethod<
   CancelJobExecutionRequest,
   CancelJobExecutionResponse,
-  | InvalidRequestException
-  | InvalidStateTransitionException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  CancelJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobExecutionRequest,
@@ -14978,6 +15008,14 @@ export const cancelJobExecution: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type ClearDefaultAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Clears the default authorizer.
  *
@@ -14986,13 +15024,7 @@ export const cancelJobExecution: API.OperationMethod<
 export const clearDefaultAuthorizer: API.OperationMethod<
   ClearDefaultAuthorizerRequest,
   ClearDefaultAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ClearDefaultAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClearDefaultAuthorizerRequest,
@@ -15006,6 +15038,13 @@ export const clearDefaultAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ConfirmTopicRuleDestinationError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Confirms a topic rule destination. When you create a rule requiring a destination, IoT
  * sends a confirmation message to the endpoint or base address you specify. The message
@@ -15017,12 +15056,7 @@ export const clearDefaultAuthorizer: API.OperationMethod<
 export const confirmTopicRuleDestination: API.OperationMethod<
   ConfirmTopicRuleDestinationRequest,
   ConfirmTopicRuleDestinationResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  ConfirmTopicRuleDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmTopicRuleDestinationRequest,
@@ -15035,6 +15069,13 @@ export const confirmTopicRuleDestination: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateAuditSuppressionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a Device Defender audit suppression.
  *
@@ -15043,12 +15084,7 @@ export const confirmTopicRuleDestination: API.OperationMethod<
 export const createAuditSuppression: API.OperationMethod<
   CreateAuditSuppressionRequest,
   CreateAuditSuppressionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateAuditSuppressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuditSuppressionRequest,
@@ -15061,6 +15097,15 @@ export const createAuditSuppression: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an authorizer.
  *
@@ -15069,14 +15114,7 @@ export const createAuditSuppression: API.OperationMethod<
 export const createAuthorizer: API.OperationMethod<
   CreateAuthorizerRequest,
   CreateAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
@@ -15091,6 +15129,12 @@ export const createAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a billing group. If this call is made multiple times using
  * the same billing group name and configuration, the call will succeed. If this call is made with
@@ -15101,11 +15145,7 @@ export const createAuthorizer: API.OperationMethod<
 export const createBillingGroup: API.OperationMethod<
   CreateBillingGroupRequest,
   CreateBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingGroupRequest,
@@ -15117,6 +15157,13 @@ export const createBillingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateCertificateFromCsrError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an X.509 certificate using the specified certificate signing
  * request.
@@ -15166,12 +15213,7 @@ export const createBillingGroup: API.OperationMethod<
 export const createCertificateFromCsr: API.OperationMethod<
   CreateCertificateFromCsrRequest,
   CreateCertificateFromCsrResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateCertificateFromCsrError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCertificateFromCsrRequest,
@@ -15184,6 +15226,15 @@ export const createCertificateFromCsr: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateCertificateProviderError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to
  * customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For
@@ -15202,14 +15253,7 @@ export const createCertificateFromCsr: API.OperationMethod<
 export const createCertificateProvider: API.OperationMethod<
   CreateCertificateProviderRequest,
   CreateCertificateProviderResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateCertificateProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCertificateProviderRequest,
@@ -15224,6 +15268,13 @@ export const createCertificateProvider: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateCommandError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a command. A command contains reusable configurations that can be applied
  * before they are sent to the devices.
@@ -15231,12 +15282,7 @@ export const createCertificateProvider: API.OperationMethod<
 export const createCommand: API.OperationMethod<
   CreateCommandRequest,
   CreateCommandResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCommandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCommandRequest,
@@ -15249,6 +15295,13 @@ export const createCommand: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCustomMetricError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Use this API to define a
  * Custom
@@ -15260,12 +15313,7 @@ export const createCommand: API.OperationMethod<
 export const createCustomMetric: API.OperationMethod<
   CreateCustomMetricRequest,
   CreateCustomMetricResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateCustomMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomMetricRequest,
@@ -15278,6 +15326,13 @@ export const createCustomMetric: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateDimensionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.
  * For example, using a `TOPIC_FILTER` dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
@@ -15287,12 +15342,7 @@ export const createCustomMetric: API.OperationMethod<
 export const createDimension: API.OperationMethod<
   CreateDimensionRequest,
   CreateDimensionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateDimensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDimensionRequest,
@@ -15305,14 +15355,7 @@ export const createDimension: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a domain configuration.
- *
- * Requires permission to access the CreateDomainConfiguration action.
- */
-export const createDomainConfiguration: API.OperationMethod<
-  CreateDomainConfigurationRequest,
-  CreateDomainConfigurationResponse,
+export type CreateDomainConfigurationError =
   | CertificateValidationException
   | InternalFailureException
   | InvalidRequestException
@@ -15321,7 +15364,16 @@ export const createDomainConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a domain configuration.
+ *
+ * Requires permission to access the CreateDomainConfiguration action.
+ */
+export const createDomainConfiguration: API.OperationMethod<
+  CreateDomainConfigurationRequest,
+  CreateDomainConfigurationResponse,
+  CreateDomainConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainConfigurationRequest,
@@ -15337,6 +15389,15 @@ export const createDomainConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateDynamicThingGroupError =
+  | InternalFailureException
+  | InvalidQueryException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a dynamic thing group.
  *
@@ -15345,14 +15406,7 @@ export const createDomainConfiguration: API.OperationMethod<
 export const createDynamicThingGroup: API.OperationMethod<
   CreateDynamicThingGroupRequest,
   CreateDynamicThingGroupResponse,
-  | InternalFailureException
-  | InvalidQueryException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateDynamicThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDynamicThingGroupRequest,
@@ -15367,14 +15421,7 @@ export const createDynamicThingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a fleet metric.
- *
- * Requires permission to access the CreateFleetMetric action.
- */
-export const createFleetMetric: API.OperationMethod<
-  CreateFleetMetricRequest,
-  CreateFleetMetricResponse,
+export type CreateFleetMetricError =
   | IndexNotReadyException
   | InternalFailureException
   | InvalidAggregationException
@@ -15386,7 +15433,16 @@ export const createFleetMetric: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a fleet metric.
+ *
+ * Requires permission to access the CreateFleetMetric action.
+ */
+export const createFleetMetric: API.OperationMethod<
+  CreateFleetMetricRequest,
+  CreateFleetMetricResponse,
+  CreateFleetMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetMetricRequest,
@@ -15405,6 +15461,14 @@ export const createFleetMetric: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateJobError =
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a job.
  *
@@ -15413,13 +15477,7 @@ export const createFleetMetric: API.OperationMethod<
 export const createJob: API.OperationMethod<
   CreateJobRequest,
   CreateJobResponse,
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  CreateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -15433,6 +15491,14 @@ export const createJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateJobTemplateError =
+  | ConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a job template.
  *
@@ -15441,13 +15507,7 @@ export const createJob: API.OperationMethod<
 export const createJobTemplate: API.OperationMethod<
   CreateJobTemplateRequest,
   CreateJobTemplateResponse,
-  | ConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
@@ -15461,6 +15521,13 @@ export const createJobTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateKeysAndCertificateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued
  * public key. You can also call `CreateKeysAndCertificate` over MQTT from a
@@ -15474,12 +15541,7 @@ export const createJobTemplate: API.OperationMethod<
 export const createKeysAndCertificate: API.OperationMethod<
   CreateKeysAndCertificateRequest,
   CreateKeysAndCertificateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateKeysAndCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeysAndCertificateRequest,
@@ -15492,6 +15554,13 @@ export const createKeysAndCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateMitigationActionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names.
  * For more information, see Mitigation actions. Each mitigation action can apply only one type of change.
@@ -15501,12 +15570,7 @@ export const createKeysAndCertificate: API.OperationMethod<
 export const createMitigationAction: API.OperationMethod<
   CreateMitigationActionRequest,
   CreateMitigationActionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateMitigationActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMitigationActionRequest,
@@ -15519,14 +15583,7 @@ export const createMitigationAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates an IoT OTA update on a target group of things or groups.
- *
- * Requires permission to access the CreateOTAUpdate action.
- */
-export const createOTAUpdate: API.OperationMethod<
-  CreateOTAUpdateRequest,
-  CreateOTAUpdateResponse,
+export type CreateOTAUpdateError =
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
@@ -15535,7 +15592,16 @@ export const createOTAUpdate: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an IoT OTA update on a target group of things or groups.
+ *
+ * Requires permission to access the CreateOTAUpdate action.
+ */
+export const createOTAUpdate: API.OperationMethod<
+  CreateOTAUpdateRequest,
+  CreateOTAUpdateResponse,
+  CreateOTAUpdateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOTAUpdateRequest,
@@ -15551,6 +15617,13 @@ export const createOTAUpdate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreatePackageError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an IoT software package that can be deployed to your fleet.
  *
@@ -15559,12 +15632,7 @@ export const createOTAUpdate: API.OperationMethod<
 export const createPackage: API.OperationMethod<
   CreatePackageRequest,
   CreatePackageResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
@@ -15577,6 +15645,13 @@ export const createPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePackageVersionError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new version for an existing IoT software package.
  *
@@ -15585,12 +15660,7 @@ export const createPackage: API.OperationMethod<
 export const createPackageVersion: API.OperationMethod<
   CreatePackageVersionRequest,
   CreatePackageVersionResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageVersionRequest,
@@ -15603,6 +15673,15 @@ export const createPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MalformedPolicyException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an IoT policy.
  *
@@ -15615,14 +15694,7 @@ export const createPackageVersion: API.OperationMethod<
 export const createPolicy: API.OperationMethod<
   CreatePolicyRequest,
   CreatePolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MalformedPolicyException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreatePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
@@ -15637,6 +15709,16 @@ export const createPolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreatePolicyVersionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MalformedPolicyException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionsLimitExceededException
+  | CommonErrors;
 /**
  * Creates a new version of the specified IoT policy. To update a policy, create a
  * new policy version. A managed policy can have up to five versions. If the policy has five
@@ -15652,15 +15734,7 @@ export const createPolicy: API.OperationMethod<
 export const createPolicyVersion: API.OperationMethod<
   CreatePolicyVersionRequest,
   CreatePolicyVersionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MalformedPolicyException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | VersionsLimitExceededException
-  | CommonErrors,
+  CreatePolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyVersionRequest,
@@ -15676,6 +15750,14 @@ export const createPolicyVersion: API.OperationMethod<
     VersionsLimitExceededException,
   ],
 }));
+export type CreateProvisioningClaimError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a provisioning claim.
  *
@@ -15684,13 +15766,7 @@ export const createPolicyVersion: API.OperationMethod<
 export const createProvisioningClaim: API.OperationMethod<
   CreateProvisioningClaimRequest,
   CreateProvisioningClaimResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateProvisioningClaimError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisioningClaimRequest,
@@ -15704,6 +15780,14 @@ export const createProvisioningClaim: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateProvisioningTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a provisioning template.
  *
@@ -15712,13 +15796,7 @@ export const createProvisioningClaim: API.OperationMethod<
 export const createProvisioningTemplate: API.OperationMethod<
   CreateProvisioningTemplateRequest,
   CreateProvisioningTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateProvisioningTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisioningTemplateRequest,
@@ -15732,6 +15810,15 @@ export const createProvisioningTemplate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateProvisioningTemplateVersionError =
+  | ConflictingResourceUpdateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionsLimitExceededException
+  | CommonErrors;
 /**
  * Creates a new version of a provisioning template.
  *
@@ -15740,14 +15827,7 @@ export const createProvisioningTemplate: API.OperationMethod<
 export const createProvisioningTemplateVersion: API.OperationMethod<
   CreateProvisioningTemplateVersionRequest,
   CreateProvisioningTemplateVersionResponse,
-  | ConflictingResourceUpdateException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | VersionsLimitExceededException
-  | CommonErrors,
+  CreateProvisioningTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisioningTemplateVersionRequest,
@@ -15762,6 +15842,15 @@ export const createProvisioningTemplateVersion: API.OperationMethod<
     VersionsLimitExceededException,
   ],
 }));
+export type CreateRoleAliasError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a role alias.
  *
@@ -15777,14 +15866,7 @@ export const createProvisioningTemplateVersion: API.OperationMethod<
 export const createRoleAlias: API.OperationMethod<
   CreateRoleAliasRequest,
   CreateRoleAliasResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateRoleAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoleAliasRequest,
@@ -15799,6 +15881,13 @@ export const createRoleAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateScheduledAuditError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a scheduled audit that is run at a specified
  * time interval.
@@ -15808,12 +15897,7 @@ export const createRoleAlias: API.OperationMethod<
 export const createScheduledAudit: API.OperationMethod<
   CreateScheduledAuditRequest,
   CreateScheduledAuditResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateScheduledAuditError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduledAuditRequest,
@@ -15826,6 +15910,12 @@ export const createScheduledAudit: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a Device Defender security profile.
  *
@@ -15834,11 +15924,7 @@ export const createScheduledAudit: API.OperationMethod<
 export const createSecurityProfile: API.OperationMethod<
   CreateSecurityProfileRequest,
   CreateSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityProfileRequest,
@@ -15850,6 +15936,16 @@ export const createSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateStreamError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data
  * bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files
@@ -15860,15 +15956,7 @@ export const createSecurityProfile: API.OperationMethod<
 export const createStream: API.OperationMethod<
   CreateStreamRequest,
   CreateStreamResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamRequest,
@@ -15884,6 +15972,15 @@ export const createStream: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a thing record in the registry. If this call is made multiple times using
  * the same thing name and configuration, the call will succeed. If this call is made with
@@ -15898,14 +15995,7 @@ export const createStream: API.OperationMethod<
 export const createThing: API.OperationMethod<
   CreateThingRequest,
   CreateThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThingRequest,
@@ -15920,6 +16010,12 @@ export const createThing: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Create a thing group.
  *
@@ -15934,11 +16030,7 @@ export const createThing: API.OperationMethod<
 export const createThingGroup: API.OperationMethod<
   CreateThingGroupRequest,
   CreateThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThingGroupRequest,
@@ -15950,6 +16042,14 @@ export const createThingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateThingTypeError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a new thing type. If this call is made multiple times using
  * the same thing type name and configuration, the call will succeed. If this call is made with
@@ -15960,13 +16060,7 @@ export const createThingGroup: API.OperationMethod<
 export const createThingType: API.OperationMethod<
   CreateThingTypeRequest,
   CreateThingTypeResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateThingTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThingTypeRequest,
@@ -15980,6 +16074,15 @@ export const createThingType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateTopicRuleError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | SqlParseException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a rule. Creating rules is an administrator-level action. Any user who has
  * permission to create rules will be able to access data processed by the rule.
@@ -15989,14 +16092,7 @@ export const createThingType: API.OperationMethod<
 export const createTopicRule: API.OperationMethod<
   CreateTopicRuleRequest,
   CreateTopicRuleResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | SqlParseException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateTopicRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTopicRuleRequest,
@@ -16011,6 +16107,14 @@ export const createTopicRule: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateTopicRuleDestinationError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a topic rule destination. The destination must be confirmed prior to use.
  *
@@ -16019,13 +16123,7 @@ export const createTopicRule: API.OperationMethod<
 export const createTopicRuleDestination: API.OperationMethod<
   CreateTopicRuleDestinationRequest,
   CreateTopicRuleDestinationResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateTopicRuleDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTopicRuleDestinationRequest,
@@ -16039,6 +16137,12 @@ export const createTopicRuleDestination: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteAccountAuditConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Restores the default settings for Device Defender audits for this account. Any
  * configuration data you entered is deleted and all audit checks are reset to
@@ -16049,11 +16153,7 @@ export const createTopicRuleDestination: API.OperationMethod<
 export const deleteAccountAuditConfiguration: API.OperationMethod<
   DeleteAccountAuditConfigurationRequest,
   DeleteAccountAuditConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAccountAuditConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountAuditConfigurationRequest,
@@ -16065,6 +16165,11 @@ export const deleteAccountAuditConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAuditSuppressionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a Device Defender audit suppression.
  *
@@ -16073,10 +16178,7 @@ export const deleteAccountAuditConfiguration: API.OperationMethod<
 export const deleteAuditSuppression: API.OperationMethod<
   DeleteAuditSuppressionRequest,
   DeleteAuditSuppressionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAuditSuppressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuditSuppressionRequest,
@@ -16087,6 +16189,15 @@ export const deleteAuditSuppression: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAuthorizerError =
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an authorizer.
  *
@@ -16095,14 +16206,7 @@ export const deleteAuditSuppression: API.OperationMethod<
 export const deleteAuthorizer: API.OperationMethod<
   DeleteAuthorizerRequest,
   DeleteAuthorizerResponse,
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthorizerRequest,
@@ -16117,6 +16221,12 @@ export const deleteAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Deletes the billing group.
  *
@@ -16125,11 +16235,7 @@ export const deleteAuthorizer: API.OperationMethod<
 export const deleteBillingGroup: API.OperationMethod<
   DeleteBillingGroupRequest,
   DeleteBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillingGroupRequest,
@@ -16141,6 +16247,15 @@ export const deleteBillingGroup: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeleteCACertificateError =
+  | CertificateStateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a registered CA certificate.
  *
@@ -16149,14 +16264,7 @@ export const deleteBillingGroup: API.OperationMethod<
 export const deleteCACertificate: API.OperationMethod<
   DeleteCACertificateRequest,
   DeleteCACertificateResponse,
-  | CertificateStateException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteCACertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCACertificateRequest,
@@ -16171,6 +16279,16 @@ export const deleteCACertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteCertificateError =
+  | CertificateStateException
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the specified certificate.
  *
@@ -16183,15 +16301,7 @@ export const deleteCACertificate: API.OperationMethod<
 export const deleteCertificate: API.OperationMethod<
   DeleteCertificateRequest,
   DeleteCertificateResponse,
-  | CertificateStateException
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
@@ -16207,6 +16317,15 @@ export const deleteCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteCertificateProviderError =
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a certificate provider.
  *
@@ -16219,14 +16338,7 @@ export const deleteCertificate: API.OperationMethod<
 export const deleteCertificateProvider: API.OperationMethod<
   DeleteCertificateProviderRequest,
   DeleteCertificateProviderResponse,
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteCertificateProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateProviderRequest,
@@ -16241,17 +16353,19 @@ export const deleteCertificateProvider: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteCommandError =
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a command resource.
  */
 export const deleteCommand: API.OperationMethod<
   DeleteCommandRequest,
   DeleteCommandResponse,
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCommandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCommandRequest,
@@ -16263,6 +16377,12 @@ export const deleteCommand: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCommandExecutionError =
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a command execution.
  *
@@ -16272,11 +16392,7 @@ export const deleteCommand: API.OperationMethod<
 export const deleteCommandExecution: API.OperationMethod<
   DeleteCommandExecutionRequest,
   DeleteCommandExecutionResponse,
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCommandExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCommandExecutionRequest,
@@ -16288,6 +16404,11 @@ export const deleteCommandExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCustomMetricError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a Device Defender detect custom metric.
  *
@@ -16303,10 +16424,7 @@ export const deleteCommandExecution: API.OperationMethod<
 export const deleteCustomMetric: API.OperationMethod<
   DeleteCustomMetricRequest,
   DeleteCustomMetricResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteCustomMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomMetricRequest,
@@ -16317,6 +16435,11 @@ export const deleteCustomMetric: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDimensionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the specified dimension from your Amazon Web Services accounts.
  *
@@ -16325,10 +16448,7 @@ export const deleteCustomMetric: API.OperationMethod<
 export const deleteDimension: API.OperationMethod<
   DeleteDimensionRequest,
   DeleteDimensionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDimensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDimensionRequest,
@@ -16339,6 +16459,14 @@ export const deleteDimension: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDomainConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the specified domain configuration.
  *
@@ -16347,13 +16475,7 @@ export const deleteDimension: API.OperationMethod<
 export const deleteDomainConfiguration: API.OperationMethod<
   DeleteDomainConfigurationRequest,
   DeleteDomainConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteDomainConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainConfigurationRequest,
@@ -16367,6 +16489,12 @@ export const deleteDomainConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDynamicThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Deletes a dynamic thing group.
  *
@@ -16375,11 +16503,7 @@ export const deleteDomainConfiguration: API.OperationMethod<
 export const deleteDynamicThingGroup: API.OperationMethod<
   DeleteDynamicThingGroupRequest,
   DeleteDynamicThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteDynamicThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDynamicThingGroupRequest,
@@ -16391,6 +16515,14 @@ export const deleteDynamicThingGroup: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeleteFleetMetricError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Deletes the specified fleet metric.
  * Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist.
@@ -16400,13 +16532,7 @@ export const deleteDynamicThingGroup: API.OperationMethod<
 export const deleteFleetMetric: API.OperationMethod<
   DeleteFleetMetricRequest,
   DeleteFleetMetricResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteFleetMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetMetricRequest,
@@ -16420,6 +16546,14 @@ export const deleteFleetMetric: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeleteJobError =
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a job and its related job executions.
  *
@@ -16436,13 +16570,7 @@ export const deleteFleetMetric: API.OperationMethod<
 export const deleteJob: API.OperationMethod<
   DeleteJobRequest,
   DeleteJobResponse,
-  | InvalidRequestException
-  | InvalidStateTransitionException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
@@ -16456,6 +16584,13 @@ export const deleteJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteJobExecutionError =
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a job execution.
  *
@@ -16464,12 +16599,7 @@ export const deleteJob: API.OperationMethod<
 export const deleteJobExecution: API.OperationMethod<
   DeleteJobExecutionRequest,
   DeleteJobExecutionResponse,
-  | InvalidRequestException
-  | InvalidStateTransitionException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobExecutionRequest,
@@ -16482,17 +16612,19 @@ export const deleteJobExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteJobTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the specified job template.
  */
 export const deleteJobTemplate: API.OperationMethod<
   DeleteJobTemplateRequest,
   DeleteJobTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
@@ -16504,6 +16636,11 @@ export const deleteJobTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteMitigationActionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a defined mitigation action from your Amazon Web Services accounts.
  *
@@ -16512,10 +16649,7 @@ export const deleteJobTemplate: API.OperationMethod<
 export const deleteMitigationAction: API.OperationMethod<
   DeleteMitigationActionRequest,
   DeleteMitigationActionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteMitigationActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMitigationActionRequest,
@@ -16526,6 +16660,15 @@ export const deleteMitigationAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteOTAUpdateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Delete an OTA update.
  *
@@ -16534,14 +16677,7 @@ export const deleteMitigationAction: API.OperationMethod<
 export const deleteOTAUpdate: API.OperationMethod<
   DeleteOTAUpdateRequest,
   DeleteOTAUpdateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteOTAUpdateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOTAUpdateRequest,
@@ -16556,6 +16692,11 @@ export const deleteOTAUpdate: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeletePackageError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specific version from a software package.
  *
@@ -16566,16 +16707,18 @@ export const deleteOTAUpdate: API.OperationMethod<
 export const deletePackage: API.OperationMethod<
   DeletePackageRequest,
   DeletePackageResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
   output: DeletePackageResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+export type DeletePackageVersionError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specific version from a software package.
  *
@@ -16584,16 +16727,22 @@ export const deletePackage: API.OperationMethod<
 export const deletePackageVersion: API.OperationMethod<
   DeletePackageVersionRequest,
   DeletePackageVersionResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageVersionRequest,
   output: DeletePackageVersionResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+export type DeletePolicyError =
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the specified policy.
  *
@@ -16615,14 +16764,7 @@ export const deletePackageVersion: API.OperationMethod<
 export const deletePolicy: API.OperationMethod<
   DeletePolicyRequest,
   DeletePolicyResponse,
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeletePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
@@ -16637,6 +16779,15 @@ export const deletePolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeletePolicyVersionError =
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the specified version of the specified policy. You cannot delete the default
  * version of a policy using this action. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default
@@ -16647,14 +16798,7 @@ export const deletePolicy: API.OperationMethod<
 export const deletePolicyVersion: API.OperationMethod<
   DeletePolicyVersionRequest,
   DeletePolicyVersionResponse,
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeletePolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyVersionRequest,
@@ -16669,6 +16813,15 @@ export const deletePolicyVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteProvisioningTemplateError =
+  | ConflictingResourceUpdateException
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a provisioning template.
  *
@@ -16677,14 +16830,7 @@ export const deletePolicyVersion: API.OperationMethod<
 export const deleteProvisioningTemplate: API.OperationMethod<
   DeleteProvisioningTemplateRequest,
   DeleteProvisioningTemplateResponse,
-  | ConflictingResourceUpdateException
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteProvisioningTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisioningTemplateRequest,
@@ -16699,6 +16845,15 @@ export const deleteProvisioningTemplate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteProvisioningTemplateVersionError =
+  | ConflictingResourceUpdateException
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a provisioning template version.
  *
@@ -16707,14 +16862,7 @@ export const deleteProvisioningTemplate: API.OperationMethod<
 export const deleteProvisioningTemplateVersion: API.OperationMethod<
   DeleteProvisioningTemplateVersionRequest,
   DeleteProvisioningTemplateVersionResponse,
-  | ConflictingResourceUpdateException
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteProvisioningTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisioningTemplateVersionRequest,
@@ -16729,6 +16877,13 @@ export const deleteProvisioningTemplateVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteRegistrationCodeError =
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a CA certificate registration code.
  *
@@ -16737,12 +16892,7 @@ export const deleteProvisioningTemplateVersion: API.OperationMethod<
 export const deleteRegistrationCode: API.OperationMethod<
   DeleteRegistrationCodeRequest,
   DeleteRegistrationCodeResponse,
-  | InternalFailureException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteRegistrationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistrationCodeRequest,
@@ -16755,6 +16905,15 @@ export const deleteRegistrationCode: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteRoleAliasError =
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a role alias
  *
@@ -16763,14 +16922,7 @@ export const deleteRegistrationCode: API.OperationMethod<
 export const deleteRoleAlias: API.OperationMethod<
   DeleteRoleAliasRequest,
   DeleteRoleAliasResponse,
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteRoleAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoleAliasRequest,
@@ -16785,6 +16937,12 @@ export const deleteRoleAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteScheduledAuditError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a scheduled audit.
  *
@@ -16793,11 +16951,7 @@ export const deleteRoleAlias: API.OperationMethod<
 export const deleteScheduledAudit: API.OperationMethod<
   DeleteScheduledAuditRequest,
   DeleteScheduledAuditResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteScheduledAuditError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduledAuditRequest,
@@ -16809,6 +16963,12 @@ export const deleteScheduledAudit: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Deletes a Device Defender security profile.
  *
@@ -16817,11 +16977,7 @@ export const deleteScheduledAudit: API.OperationMethod<
 export const deleteSecurityProfile: API.OperationMethod<
   DeleteSecurityProfileRequest,
   DeleteSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecurityProfileRequest,
@@ -16833,6 +16989,15 @@ export const deleteSecurityProfile: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeleteStreamError =
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a stream.
  *
@@ -16841,14 +17006,7 @@ export const deleteSecurityProfile: API.OperationMethod<
 export const deleteStream: API.OperationMethod<
   DeleteStreamRequest,
   DeleteStreamResponse,
-  | DeleteConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamRequest,
@@ -16863,6 +17021,15 @@ export const deleteStream: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Deletes the specified thing. Returns successfully with no error if the deletion is
  * successful or you specify a thing that doesn't exist.
@@ -16872,14 +17039,7 @@ export const deleteStream: API.OperationMethod<
 export const deleteThing: API.OperationMethod<
   DeleteThingRequest,
   DeleteThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingRequest,
@@ -16894,6 +17054,12 @@ export const deleteThing: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeleteThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Deletes a thing group.
  *
@@ -16902,11 +17068,7 @@ export const deleteThing: API.OperationMethod<
 export const deleteThingGroup: API.OperationMethod<
   DeleteThingGroupRequest,
   DeleteThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  DeleteThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingGroupRequest,
@@ -16918,6 +17080,14 @@ export const deleteThingGroup: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type DeleteThingTypeError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the specified thing type. You cannot delete a thing type if it has things
  * associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and
@@ -16928,13 +17098,7 @@ export const deleteThingGroup: API.OperationMethod<
 export const deleteThingType: API.OperationMethod<
   DeleteThingTypeRequest,
   DeleteThingTypeResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteThingTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingTypeRequest,
@@ -16948,6 +17112,13 @@ export const deleteThingType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteTopicRuleError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes the rule.
  *
@@ -16956,12 +17127,7 @@ export const deleteThingType: API.OperationMethod<
 export const deleteTopicRule: API.OperationMethod<
   DeleteTopicRuleRequest,
   DeleteTopicRuleResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteTopicRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTopicRuleRequest,
@@ -16974,6 +17140,13 @@ export const deleteTopicRule: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteTopicRuleDestinationError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a topic rule destination.
  *
@@ -16982,12 +17155,7 @@ export const deleteTopicRule: API.OperationMethod<
 export const deleteTopicRuleDestination: API.OperationMethod<
   DeleteTopicRuleDestinationRequest,
   DeleteTopicRuleDestinationResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteTopicRuleDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTopicRuleDestinationRequest,
@@ -17000,6 +17168,11 @@ export const deleteTopicRuleDestination: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteV2LoggingLevelError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a logging level.
  *
@@ -17008,10 +17181,7 @@ export const deleteTopicRuleDestination: API.OperationMethod<
 export const deleteV2LoggingLevel: API.OperationMethod<
   DeleteV2LoggingLevelRequest,
   DeleteV2LoggingLevelResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteV2LoggingLevelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteV2LoggingLevelRequest,
@@ -17022,6 +17192,14 @@ export const deleteV2LoggingLevel: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeprecateThingTypeError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deprecates a thing type. You can not associate new things with deprecated thing
  * type.
@@ -17031,13 +17209,7 @@ export const deleteV2LoggingLevel: API.OperationMethod<
 export const deprecateThingType: API.OperationMethod<
   DeprecateThingTypeRequest,
   DeprecateThingTypeResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DeprecateThingTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateThingTypeRequest,
@@ -17051,6 +17223,10 @@ export const deprecateThingType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeAccountAuditConfigurationError =
+  | InternalFailureException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about the Device Defender audit settings for this account.
  * Settings include how audit notifications are sent and which audit checks are
@@ -17061,13 +17237,19 @@ export const deprecateThingType: API.OperationMethod<
 export const describeAccountAuditConfiguration: API.OperationMethod<
   DescribeAccountAuditConfigurationRequest,
   DescribeAccountAuditConfigurationResponse,
-  InternalFailureException | ThrottlingException | CommonErrors,
+  DescribeAccountAuditConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountAuditConfigurationRequest,
   output: DescribeAccountAuditConfigurationResponse,
   errors: [InternalFailureException, ThrottlingException],
 }));
+export type DescribeAuditFindingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a single audit finding. Properties include the reason for
  * noncompliance, the severity of the issue,
@@ -17080,11 +17262,7 @@ export const describeAccountAuditConfiguration: API.OperationMethod<
 export const describeAuditFinding: API.OperationMethod<
   DescribeAuditFindingRequest,
   DescribeAuditFindingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAuditFindingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuditFindingRequest,
@@ -17096,17 +17274,19 @@ export const describeAuditFinding: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAuditMitigationActionsTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
  */
 export const describeAuditMitigationActionsTask: API.OperationMethod<
   DescribeAuditMitigationActionsTaskRequest,
   DescribeAuditMitigationActionsTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAuditMitigationActionsTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuditMitigationActionsTaskRequest,
@@ -17118,17 +17298,19 @@ export const describeAuditMitigationActionsTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAuditSuppressionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a Device Defender audit suppression.
  */
 export const describeAuditSuppression: API.OperationMethod<
   DescribeAuditSuppressionRequest,
   DescribeAuditSuppressionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAuditSuppressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuditSuppressionRequest,
@@ -17140,6 +17322,12 @@ export const describeAuditSuppression: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAuditTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a Device Defender audit.
  *
@@ -17148,11 +17336,7 @@ export const describeAuditSuppression: API.OperationMethod<
 export const describeAuditTask: API.OperationMethod<
   DescribeAuditTaskRequest,
   DescribeAuditTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAuditTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuditTaskRequest,
@@ -17164,6 +17348,14 @@ export const describeAuditTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes an authorizer.
  *
@@ -17172,13 +17364,7 @@ export const describeAuditTask: API.OperationMethod<
 export const describeAuthorizer: API.OperationMethod<
   DescribeAuthorizerRequest,
   DescribeAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuthorizerRequest,
@@ -17192,6 +17378,12 @@ export const describeAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about a billing group.
  *
@@ -17200,11 +17392,7 @@ export const describeAuthorizer: API.OperationMethod<
 export const describeBillingGroup: API.OperationMethod<
   DescribeBillingGroupRequest,
   DescribeBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBillingGroupRequest,
@@ -17216,6 +17404,14 @@ export const describeBillingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeCACertificateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes a registered CA certificate.
  *
@@ -17224,13 +17420,7 @@ export const describeBillingGroup: API.OperationMethod<
 export const describeCACertificate: API.OperationMethod<
   DescribeCACertificateRequest,
   DescribeCACertificateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeCACertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCACertificateRequest,
@@ -17244,6 +17434,14 @@ export const describeCACertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeCertificateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the specified certificate.
  *
@@ -17252,13 +17450,7 @@ export const describeCACertificate: API.OperationMethod<
 export const describeCertificate: API.OperationMethod<
   DescribeCertificateRequest,
   DescribeCertificateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateRequest,
@@ -17272,6 +17464,14 @@ export const describeCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeCertificateProviderError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes a certificate provider.
  *
@@ -17280,13 +17480,7 @@ export const describeCertificate: API.OperationMethod<
 export const describeCertificateProvider: API.OperationMethod<
   DescribeCertificateProviderRequest,
   DescribeCertificateProviderResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeCertificateProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateProviderRequest,
@@ -17300,6 +17494,12 @@ export const describeCertificateProvider: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeCustomMetricError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a Device Defender detect custom metric.
  *
@@ -17308,11 +17508,7 @@ export const describeCertificateProvider: API.OperationMethod<
 export const describeCustomMetric: API.OperationMethod<
   DescribeCustomMetricRequest,
   DescribeCustomMetricResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeCustomMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomMetricRequest,
@@ -17324,6 +17520,14 @@ export const describeCustomMetric: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDefaultAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes the default authorizer.
  *
@@ -17332,13 +17536,7 @@ export const describeCustomMetric: API.OperationMethod<
 export const describeDefaultAuthorizer: API.OperationMethod<
   DescribeDefaultAuthorizerRequest,
   DescribeDefaultAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeDefaultAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDefaultAuthorizerRequest,
@@ -17352,6 +17550,12 @@ export const describeDefaultAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeDetectMitigationActionsTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a Device Defender ML Detect mitigation action.
  *
@@ -17360,11 +17564,7 @@ export const describeDefaultAuthorizer: API.OperationMethod<
 export const describeDetectMitigationActionsTask: API.OperationMethod<
   DescribeDetectMitigationActionsTaskRequest,
   DescribeDetectMitigationActionsTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDetectMitigationActionsTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectMitigationActionsTaskRequest,
@@ -17376,6 +17576,12 @@ export const describeDetectMitigationActionsTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDimensionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides details about a dimension that is defined in your Amazon Web Services accounts.
  *
@@ -17384,11 +17590,7 @@ export const describeDetectMitigationActionsTask: API.OperationMethod<
 export const describeDimension: API.OperationMethod<
   DescribeDimensionRequest,
   DescribeDimensionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDimensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDimensionRequest,
@@ -17400,6 +17602,14 @@ export const describeDimension: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDomainConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets summary information about a domain configuration.
  *
@@ -17408,13 +17618,7 @@ export const describeDimension: API.OperationMethod<
 export const describeDomainConfiguration: API.OperationMethod<
   DescribeDomainConfigurationRequest,
   DescribeDomainConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeDomainConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainConfigurationRequest,
@@ -17428,6 +17632,13 @@ export const describeDomainConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeEncryptionConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves the encryption configuration for resources and data of your Amazon Web Services account in
  * Amazon Web Services IoT Core. For more information, see Data encryption at rest in
@@ -17436,12 +17647,7 @@ export const describeDomainConfiguration: API.OperationMethod<
 export const describeEncryptionConfiguration: API.OperationMethod<
   DescribeEncryptionConfigurationRequest,
   DescribeEncryptionConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEncryptionConfigurationRequest,
@@ -17454,6 +17660,12 @@ export const describeEncryptionConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeEndpointError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns or creates a unique endpoint specific to the Amazon Web Services account making the
  * call.
@@ -17465,11 +17677,7 @@ export const describeEncryptionConfiguration: API.OperationMethod<
 export const describeEndpoint: API.OperationMethod<
   DescribeEndpointRequest,
   DescribeEndpointResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointRequest,
@@ -17481,6 +17689,10 @@ export const describeEndpoint: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeEventConfigurationsError =
+  | InternalFailureException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes event configurations.
  *
@@ -17489,13 +17701,21 @@ export const describeEndpoint: API.OperationMethod<
 export const describeEventConfigurations: API.OperationMethod<
   DescribeEventConfigurationsRequest,
   DescribeEventConfigurationsResponse,
-  InternalFailureException | ThrottlingException | CommonErrors,
+  DescribeEventConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventConfigurationsRequest,
   output: DescribeEventConfigurationsResponse,
   errors: [InternalFailureException, ThrottlingException],
 }));
+export type DescribeFleetMetricError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the specified fleet metric.
  *
@@ -17504,13 +17724,7 @@ export const describeEventConfigurations: API.OperationMethod<
 export const describeFleetMetric: API.OperationMethod<
   DescribeFleetMetricRequest,
   DescribeFleetMetricResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeFleetMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetMetricRequest,
@@ -17524,6 +17738,14 @@ export const describeFleetMetric: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeIndexError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes a search index.
  *
@@ -17532,13 +17754,7 @@ export const describeFleetMetric: API.OperationMethod<
 export const describeIndex: API.OperationMethod<
   DescribeIndexRequest,
   DescribeIndexResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIndexRequest,
@@ -17552,6 +17768,12 @@ export const describeIndex: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeJobError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a job.
  *
@@ -17560,11 +17782,7 @@ export const describeIndex: API.OperationMethod<
 export const describeJob: API.OperationMethod<
   DescribeJobRequest,
   DescribeJobResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
@@ -17576,6 +17794,12 @@ export const describeJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeJobExecutionError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a job execution.
  *
@@ -17584,11 +17808,7 @@ export const describeJob: API.OperationMethod<
 export const describeJobExecution: API.OperationMethod<
   DescribeJobExecutionRequest,
   DescribeJobExecutionResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobExecutionRequest,
@@ -17600,17 +17820,19 @@ export const describeJobExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeJobTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about a job template.
  */
 export const describeJobTemplate: API.OperationMethod<
   DescribeJobTemplateRequest,
   DescribeJobTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobTemplateRequest,
@@ -17622,17 +17844,19 @@ export const describeJobTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeManagedJobTemplateError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * View details of a managed job template.
  */
 export const describeManagedJobTemplate: API.OperationMethod<
   DescribeManagedJobTemplateRequest,
   DescribeManagedJobTemplateResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeManagedJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeManagedJobTemplateRequest,
@@ -17644,6 +17868,12 @@ export const describeManagedJobTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeMitigationActionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a mitigation action.
  *
@@ -17652,11 +17882,7 @@ export const describeManagedJobTemplate: API.OperationMethod<
 export const describeMitigationAction: API.OperationMethod<
   DescribeMitigationActionRequest,
   DescribeMitigationActionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeMitigationActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMitigationActionRequest,
@@ -17668,6 +17894,13 @@ export const describeMitigationAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeProvisioningTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns information about a provisioning template.
  *
@@ -17676,12 +17909,7 @@ export const describeMitigationAction: API.OperationMethod<
 export const describeProvisioningTemplate: API.OperationMethod<
   DescribeProvisioningTemplateRequest,
   DescribeProvisioningTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeProvisioningTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProvisioningTemplateRequest,
@@ -17694,6 +17922,13 @@ export const describeProvisioningTemplate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeProvisioningTemplateVersionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns information about a provisioning template version.
  *
@@ -17702,12 +17937,7 @@ export const describeProvisioningTemplate: API.OperationMethod<
 export const describeProvisioningTemplateVersion: API.OperationMethod<
   DescribeProvisioningTemplateVersionRequest,
   DescribeProvisioningTemplateVersionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeProvisioningTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProvisioningTemplateVersionRequest,
@@ -17720,6 +17950,14 @@ export const describeProvisioningTemplateVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeRoleAliasError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes a role alias.
  *
@@ -17728,13 +17966,7 @@ export const describeProvisioningTemplateVersion: API.OperationMethod<
 export const describeRoleAlias: API.OperationMethod<
   DescribeRoleAliasRequest,
   DescribeRoleAliasResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeRoleAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRoleAliasRequest,
@@ -17748,6 +17980,12 @@ export const describeRoleAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeScheduledAuditError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a scheduled audit.
  *
@@ -17756,11 +17994,7 @@ export const describeRoleAlias: API.OperationMethod<
 export const describeScheduledAudit: API.OperationMethod<
   DescribeScheduledAuditRequest,
   DescribeScheduledAuditResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeScheduledAuditError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScheduledAuditRequest,
@@ -17772,6 +18006,12 @@ export const describeScheduledAudit: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a Device Defender security profile.
  *
@@ -17780,11 +18020,7 @@ export const describeScheduledAudit: API.OperationMethod<
 export const describeSecurityProfile: API.OperationMethod<
   DescribeSecurityProfileRequest,
   DescribeSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSecurityProfileRequest,
@@ -17796,6 +18032,14 @@ export const describeSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeStreamError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about a stream.
  *
@@ -17804,13 +18048,7 @@ export const describeSecurityProfile: API.OperationMethod<
 export const describeStream: API.OperationMethod<
   DescribeStreamRequest,
   DescribeStreamResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamRequest,
@@ -17824,6 +18062,14 @@ export const describeStream: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the specified thing.
  *
@@ -17832,13 +18078,7 @@ export const describeStream: API.OperationMethod<
 export const describeThing: API.OperationMethod<
   DescribeThingRequest,
   DescribeThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingRequest,
@@ -17852,6 +18092,12 @@ export const describeThing: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describe a thing group.
  *
@@ -17860,11 +18106,7 @@ export const describeThing: API.OperationMethod<
 export const describeThingGroup: API.OperationMethod<
   DescribeThingGroupRequest,
   DescribeThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingGroupRequest,
@@ -17876,6 +18118,13 @@ export const describeThingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeThingRegistrationTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Describes a bulk thing provisioning task.
  *
@@ -17884,12 +18133,7 @@ export const describeThingGroup: API.OperationMethod<
 export const describeThingRegistrationTask: API.OperationMethod<
   DescribeThingRegistrationTaskRequest,
   DescribeThingRegistrationTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeThingRegistrationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingRegistrationTaskRequest,
@@ -17902,6 +18146,14 @@ export const describeThingRegistrationTask: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeThingTypeError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the specified thing type.
  *
@@ -17910,13 +18162,7 @@ export const describeThingRegistrationTask: API.OperationMethod<
 export const describeThingType: API.OperationMethod<
   DescribeThingTypeRequest,
   DescribeThingTypeResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeThingTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingTypeRequest,
@@ -17930,6 +18176,14 @@ export const describeThingType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DetachPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Detaches a policy from the specified target.
  *
@@ -17941,13 +18195,7 @@ export const describeThingType: API.OperationMethod<
 export const detachPolicy: API.OperationMethod<
   DetachPolicyRequest,
   DetachPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DetachPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachPolicyRequest,
@@ -17961,6 +18209,14 @@ export const detachPolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DetachPrincipalPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Removes the specified policy from the specified certificate.
  *
@@ -17972,13 +18228,7 @@ export const detachPolicy: API.OperationMethod<
 export const detachPrincipalPolicy: API.OperationMethod<
   DetachPrincipalPolicyRequest,
   DetachPrincipalPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DetachPrincipalPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachPrincipalPolicyRequest,
@@ -17992,6 +18242,12 @@ export const detachPrincipalPolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DetachSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a Device Defender security profile from a thing group or from this account.
  *
@@ -18000,11 +18256,7 @@ export const detachPrincipalPolicy: API.OperationMethod<
 export const detachSecurityProfile: API.OperationMethod<
   DetachSecurityProfileRequest,
   DetachSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DetachSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachSecurityProfileRequest,
@@ -18016,6 +18268,14 @@ export const detachSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetachThingPrincipalError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Detaches the specified principal from the specified thing. A principal can be X.509
  * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
@@ -18029,13 +18289,7 @@ export const detachSecurityProfile: API.OperationMethod<
 export const detachThingPrincipal: API.OperationMethod<
   DetachThingPrincipalRequest,
   DetachThingPrincipalResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  DetachThingPrincipalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachThingPrincipalRequest,
@@ -18049,6 +18303,13 @@ export const detachThingPrincipal: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DisableTopicRuleError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Disables the rule.
  *
@@ -18057,12 +18318,7 @@ export const detachThingPrincipal: API.OperationMethod<
 export const disableTopicRule: API.OperationMethod<
   DisableTopicRuleRequest,
   DisableTopicRuleResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  DisableTopicRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableTopicRuleRequest,
@@ -18075,6 +18331,13 @@ export const disableTopicRule: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DisassociateSbomFromPackageVersionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates the selected software bill of materials (SBOM) from a specific software package version.
  *
@@ -18083,12 +18346,7 @@ export const disableTopicRule: API.OperationMethod<
 export const disassociateSbomFromPackageVersion: API.OperationMethod<
   DisassociateSbomFromPackageVersionRequest,
   DisassociateSbomFromPackageVersionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateSbomFromPackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSbomFromPackageVersionRequest,
@@ -18101,6 +18359,13 @@ export const disassociateSbomFromPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EnableTopicRuleError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Enables the rule.
  *
@@ -18109,12 +18374,7 @@ export const disassociateSbomFromPackageVersion: API.OperationMethod<
 export const enableTopicRule: API.OperationMethod<
   EnableTopicRuleRequest,
   EnableTopicRuleResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  EnableTopicRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableTopicRuleRequest,
@@ -18127,6 +18387,12 @@ export const enableTopicRule: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetBehaviorModelTrainingSummariesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a Device Defender's ML Detect Security Profile training model's status.
  *
@@ -18135,33 +18401,21 @@ export const enableTopicRule: API.OperationMethod<
 export const getBehaviorModelTrainingSummaries: API.OperationMethod<
   GetBehaviorModelTrainingSummariesRequest,
   GetBehaviorModelTrainingSummariesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetBehaviorModelTrainingSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBehaviorModelTrainingSummariesRequest,
   ) => stream.Stream<
     GetBehaviorModelTrainingSummariesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetBehaviorModelTrainingSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBehaviorModelTrainingSummariesRequest,
   ) => stream.Stream<
     BehaviorModelTrainingSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetBehaviorModelTrainingSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18180,14 +18434,7 @@ export const getBehaviorModelTrainingSummaries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Aggregates on indexed data with search queries pertaining to particular fields.
- *
- * Requires permission to access the GetBucketsAggregation action.
- */
-export const getBucketsAggregation: API.OperationMethod<
-  GetBucketsAggregationRequest,
-  GetBucketsAggregationResponse,
+export type GetBucketsAggregationError =
   | IndexNotReadyException
   | InternalFailureException
   | InvalidAggregationException
@@ -18197,7 +18444,16 @@ export const getBucketsAggregation: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Aggregates on indexed data with search queries pertaining to particular fields.
+ *
+ * Requires permission to access the GetBucketsAggregation action.
+ */
+export const getBucketsAggregation: API.OperationMethod<
+  GetBucketsAggregationRequest,
+  GetBucketsAggregationResponse,
+  GetBucketsAggregationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketsAggregationRequest,
@@ -18214,14 +18470,7 @@ export const getBucketsAggregation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Returns the approximate count of unique values that match the query.
- *
- * Requires permission to access the GetCardinality action.
- */
-export const getCardinality: API.OperationMethod<
-  GetCardinalityRequest,
-  GetCardinalityResponse,
+export type GetCardinalityError =
   | IndexNotReadyException
   | InternalFailureException
   | InvalidAggregationException
@@ -18231,7 +18480,16 @@ export const getCardinality: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the approximate count of unique values that match the query.
+ *
+ * Requires permission to access the GetCardinality action.
+ */
+export const getCardinality: API.OperationMethod<
+  GetCardinalityRequest,
+  GetCardinalityResponse,
+  GetCardinalityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCardinalityRequest,
@@ -18248,17 +18506,19 @@ export const getCardinality: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetCommandError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified command.
  */
 export const getCommand: API.OperationMethod<
   GetCommandRequest,
   GetCommandResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCommandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommandRequest,
@@ -18270,17 +18530,19 @@ export const getCommand: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCommandExecutionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specific command execution on a single device.
  */
 export const getCommandExecution: API.OperationMethod<
   GetCommandExecutionRequest,
   GetCommandExecutionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCommandExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommandExecutionRequest,
@@ -18292,6 +18554,15 @@ export const getCommandExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEffectivePoliciesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a list of the policies that have an effect on the authorization behavior of the
  * specified device when it connects to the IoT device gateway.
@@ -18301,14 +18572,7 @@ export const getCommandExecution: API.OperationMethod<
 export const getEffectivePolicies: API.OperationMethod<
   GetEffectivePoliciesRequest,
   GetEffectivePoliciesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetEffectivePoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEffectivePoliciesRequest,
@@ -18323,6 +18587,13 @@ export const getEffectivePolicies: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetIndexingConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the indexing configuration.
  *
@@ -18331,12 +18602,7 @@ export const getEffectivePolicies: API.OperationMethod<
 export const getIndexingConfiguration: API.OperationMethod<
   GetIndexingConfigurationRequest,
   GetIndexingConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetIndexingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexingConfigurationRequest,
@@ -18349,6 +18615,12 @@ export const getIndexingConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetJobDocumentError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a job document.
  *
@@ -18357,11 +18629,7 @@ export const getIndexingConfiguration: API.OperationMethod<
 export const getJobDocument: API.OperationMethod<
   GetJobDocumentRequest,
   GetJobDocumentResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetJobDocumentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobDocumentRequest,
@@ -18373,6 +18641,11 @@ export const getJobDocument: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetLoggingOptionsError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Gets the logging options.
  *
@@ -18384,10 +18657,7 @@ export const getJobDocument: API.OperationMethod<
 export const getLoggingOptions: API.OperationMethod<
   GetLoggingOptionsRequest,
   GetLoggingOptionsResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingOptionsRequest,
@@ -18398,6 +18668,14 @@ export const getLoggingOptions: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetOTAUpdateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets an OTA update.
  *
@@ -18406,13 +18684,7 @@ export const getLoggingOptions: API.OperationMethod<
 export const getOTAUpdate: API.OperationMethod<
   GetOTAUpdateRequest,
   GetOTAUpdateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetOTAUpdateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOTAUpdateRequest,
@@ -18426,6 +18698,12 @@ export const getOTAUpdate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetPackageError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified software package.
  *
@@ -18434,11 +18712,7 @@ export const getOTAUpdate: API.OperationMethod<
 export const getPackage: API.OperationMethod<
   GetPackageRequest,
   GetPackageResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageRequest,
@@ -18450,6 +18724,10 @@ export const getPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPackageConfigurationError =
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about the specified software package's configuration.
  *
@@ -18458,13 +18736,19 @@ export const getPackage: API.OperationMethod<
 export const getPackageConfiguration: API.OperationMethod<
   GetPackageConfigurationRequest,
   GetPackageConfigurationResponse,
-  InternalServerException | ThrottlingException | CommonErrors,
+  GetPackageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageConfigurationRequest,
   output: GetPackageConfigurationResponse,
   errors: [InternalServerException, ThrottlingException],
 }));
+export type GetPackageVersionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified package version.
  *
@@ -18473,11 +18757,7 @@ export const getPackageConfiguration: API.OperationMethod<
 export const getPackageVersion: API.OperationMethod<
   GetPackageVersionRequest,
   GetPackageVersionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageVersionRequest,
@@ -18489,6 +18769,17 @@ export const getPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPercentilesError =
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Groups the aggregated values that match the query into percentile groupings. The default
  * percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own
@@ -18505,16 +18796,7 @@ export const getPackageVersion: API.OperationMethod<
 export const getPercentiles: API.OperationMethod<
   GetPercentilesRequest,
   GetPercentilesResponse,
-  | IndexNotReadyException
-  | InternalFailureException
-  | InvalidAggregationException
-  | InvalidQueryException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetPercentilesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPercentilesRequest,
@@ -18531,6 +18813,14 @@ export const getPercentiles: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the specified policy with the policy document of the default
  * version.
@@ -18540,13 +18830,7 @@ export const getPercentiles: API.OperationMethod<
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
@@ -18560,6 +18844,14 @@ export const getPolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetPolicyVersionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the specified policy version.
  *
@@ -18568,13 +18860,7 @@ export const getPolicy: API.OperationMethod<
 export const getPolicyVersion: API.OperationMethod<
   GetPolicyVersionRequest,
   GetPolicyVersionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetPolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyVersionRequest,
@@ -18588,6 +18874,13 @@ export const getPolicyVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetRegistrationCodeError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a registration code used to register a CA certificate with IoT.
  *
@@ -18600,12 +18893,7 @@ export const getPolicyVersion: API.OperationMethod<
 export const getRegistrationCode: API.OperationMethod<
   GetRegistrationCodeRequest,
   GetRegistrationCodeResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRegistrationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegistrationCodeRequest,
@@ -18618,6 +18906,17 @@ export const getRegistrationCode: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetStatisticsError =
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns the count, average, sum, minimum, maximum, sum of squares, variance,
  * and standard deviation for the specified aggregated field. If the aggregation field is of type
@@ -18628,16 +18927,7 @@ export const getRegistrationCode: API.OperationMethod<
 export const getStatistics: API.OperationMethod<
   GetStatisticsRequest,
   GetStatisticsResponse,
-  | IndexNotReadyException
-  | InternalFailureException
-  | InvalidAggregationException
-  | InvalidQueryException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStatisticsRequest,
@@ -18654,12 +18944,7 @@ export const getStatistics: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Retrieves the live connectivity status per device.
- */
-export const getThingConnectivityData: API.OperationMethod<
-  GetThingConnectivityDataRequest,
-  GetThingConnectivityDataResponse,
+export type GetThingConnectivityDataError =
   | IndexNotReadyException
   | InternalFailureException
   | InvalidRequestException
@@ -18667,7 +18952,14 @@ export const getThingConnectivityData: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the live connectivity status per device.
+ */
+export const getThingConnectivityData: API.OperationMethod<
+  GetThingConnectivityDataRequest,
+  GetThingConnectivityDataResponse,
+  GetThingConnectivityDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThingConnectivityDataRequest,
@@ -18682,6 +18974,12 @@ export const getThingConnectivityData: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetTopicRuleError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about the rule.
  *
@@ -18690,11 +18988,7 @@ export const getThingConnectivityData: API.OperationMethod<
 export const getTopicRule: API.OperationMethod<
   GetTopicRuleRequest,
   GetTopicRuleResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  GetTopicRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTopicRuleRequest,
@@ -18706,6 +19000,12 @@ export const getTopicRule: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetTopicRuleDestinationError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets information about a topic rule destination.
  *
@@ -18714,11 +19014,7 @@ export const getTopicRule: API.OperationMethod<
 export const getTopicRuleDestination: API.OperationMethod<
   GetTopicRuleDestinationRequest,
   GetTopicRuleDestinationResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  GetTopicRuleDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTopicRuleDestinationRequest,
@@ -18730,6 +19026,11 @@ export const getTopicRuleDestination: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetV2LoggingOptionsError =
+  | InternalException
+  | NotConfiguredException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Gets the fine grained logging options.
  *
@@ -18738,10 +19039,7 @@ export const getTopicRuleDestination: API.OperationMethod<
 export const getV2LoggingOptions: API.OperationMethod<
   GetV2LoggingOptionsRequest,
   GetV2LoggingOptionsResponse,
-  | InternalException
-  | NotConfiguredException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetV2LoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetV2LoggingOptionsRequest,
@@ -18752,6 +19050,12 @@ export const getV2LoggingOptions: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListActiveViolationsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the active violations for a given Device Defender security profile.
  *
@@ -18760,33 +19064,21 @@ export const getV2LoggingOptions: API.OperationMethod<
 export const listActiveViolations: API.OperationMethod<
   ListActiveViolationsRequest,
   ListActiveViolationsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListActiveViolationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListActiveViolationsRequest,
   ) => stream.Stream<
     ListActiveViolationsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListActiveViolationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActiveViolationsRequest,
   ) => stream.Stream<
     ActiveViolation,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListActiveViolationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18805,6 +19097,15 @@ export const listActiveViolations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAttachedPoliciesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the policies attached to the specified thing group.
  *
@@ -18813,42 +19114,21 @@ export const listActiveViolations: API.OperationMethod<
 export const listAttachedPolicies: API.OperationMethod<
   ListAttachedPoliciesRequest,
   ListAttachedPoliciesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListAttachedPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAttachedPoliciesRequest,
   ) => stream.Stream<
     ListAttachedPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAttachedPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttachedPoliciesRequest,
   ) => stream.Stream<
     Policy,
-    | InternalFailureException
-    | InvalidRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAttachedPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18870,6 +19150,11 @@ export const listAttachedPolicies: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListAuditFindingsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the findings (results) of a Device Defender audit or of the audits
  * performed during a specified time period. (Findings are retained for 90 days.)
@@ -18879,30 +19164,21 @@ export const listAttachedPolicies: API.OperationMethod<
 export const listAuditFindings: API.OperationMethod<
   ListAuditFindingsRequest,
   ListAuditFindingsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAuditFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuditFindingsRequest,
   ) => stream.Stream<
     ListAuditFindingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuditFindingsRequest,
   ) => stream.Stream<
     AuditFinding,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18920,6 +19196,11 @@ export const listAuditFindings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAuditMitigationActionsExecutionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the status of audit mitigation action tasks that were
  * executed.
@@ -18929,30 +19210,21 @@ export const listAuditFindings: API.OperationMethod<
 export const listAuditMitigationActionsExecutions: API.OperationMethod<
   ListAuditMitigationActionsExecutionsRequest,
   ListAuditMitigationActionsExecutionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAuditMitigationActionsExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuditMitigationActionsExecutionsRequest,
   ) => stream.Stream<
     ListAuditMitigationActionsExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditMitigationActionsExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuditMitigationActionsExecutionsRequest,
   ) => stream.Stream<
     AuditMitigationActionExecutionMetadata,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditMitigationActionsExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18970,6 +19242,11 @@ export const listAuditMitigationActionsExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAuditMitigationActionsTasksError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a list of audit mitigation action tasks that match the specified filters.
  *
@@ -18978,30 +19255,21 @@ export const listAuditMitigationActionsExecutions: API.OperationMethod<
 export const listAuditMitigationActionsTasks: API.OperationMethod<
   ListAuditMitigationActionsTasksRequest,
   ListAuditMitigationActionsTasksResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAuditMitigationActionsTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuditMitigationActionsTasksRequest,
   ) => stream.Stream<
     ListAuditMitigationActionsTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditMitigationActionsTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuditMitigationActionsTasksRequest,
   ) => stream.Stream<
     AuditMitigationActionsTaskMetadata,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditMitigationActionsTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19019,6 +19287,11 @@ export const listAuditMitigationActionsTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAuditSuppressionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists your Device Defender audit listings.
  *
@@ -19027,30 +19300,21 @@ export const listAuditMitigationActionsTasks: API.OperationMethod<
 export const listAuditSuppressions: API.OperationMethod<
   ListAuditSuppressionsRequest,
   ListAuditSuppressionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAuditSuppressionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuditSuppressionsRequest,
   ) => stream.Stream<
     ListAuditSuppressionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditSuppressionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuditSuppressionsRequest,
   ) => stream.Stream<
     AuditSuppression,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditSuppressionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19068,6 +19332,11 @@ export const listAuditSuppressions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAuditTasksError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the Device Defender audits that have been performed during a given
  * time period.
@@ -19077,30 +19346,21 @@ export const listAuditSuppressions: API.OperationMethod<
 export const listAuditTasks: API.OperationMethod<
   ListAuditTasksRequest,
   ListAuditTasksResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAuditTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuditTasksRequest,
   ) => stream.Stream<
     ListAuditTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuditTasksRequest,
   ) => stream.Stream<
     AuditTaskMetadata,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuditTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19118,6 +19378,13 @@ export const listAuditTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAuthorizersError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the authorizers registered in your account.
  *
@@ -19126,36 +19393,21 @@ export const listAuditTasks: API.OperationMethod<
 export const listAuthorizers: API.OperationMethod<
   ListAuthorizersRequest,
   ListAuthorizersResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListAuthorizersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuthorizersRequest,
   ) => stream.Stream<
     ListAuthorizersResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAuthorizersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuthorizersRequest,
   ) => stream.Stream<
     AuthorizerSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAuthorizersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19175,6 +19427,12 @@ export const listAuthorizers: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListBillingGroupsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the billing groups you have created.
  *
@@ -19183,33 +19441,21 @@ export const listAuthorizers: API.OperationMethod<
 export const listBillingGroups: API.OperationMethod<
   ListBillingGroupsRequest,
   ListBillingGroupsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListBillingGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillingGroupsRequest,
   ) => stream.Stream<
     ListBillingGroupsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListBillingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillingGroupsRequest,
   ) => stream.Stream<
     GroupNameAndArn,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListBillingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19228,6 +19474,13 @@ export const listBillingGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCACertificatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the CA certificates registered for your Amazon Web Services account.
  *
@@ -19239,36 +19492,21 @@ export const listBillingGroups: API.OperationMethod<
 export const listCACertificates: API.OperationMethod<
   ListCACertificatesRequest,
   ListCACertificatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListCACertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCACertificatesRequest,
   ) => stream.Stream<
     ListCACertificatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCACertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCACertificatesRequest,
   ) => stream.Stream<
     CACertificate,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCACertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19288,6 +19526,13 @@ export const listCACertificates: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListCertificateProvidersError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists all your certificate providers in your Amazon Web Services account.
  *
@@ -19296,12 +19541,7 @@ export const listCACertificates: API.OperationMethod<
 export const listCertificateProviders: API.OperationMethod<
   ListCertificateProvidersRequest,
   ListCertificateProvidersResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListCertificateProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCertificateProvidersRequest,
@@ -19314,6 +19554,13 @@ export const listCertificateProviders: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListCertificatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the certificates registered in your Amazon Web Services account.
  *
@@ -19325,36 +19572,21 @@ export const listCertificateProviders: API.OperationMethod<
 export const listCertificates: API.OperationMethod<
   ListCertificatesRequest,
   ListCertificatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
     ListCertificatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
     Certificate,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19374,6 +19606,13 @@ export const listCertificates: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListCertificatesByCAError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List the device certificates signed by the specified CA certificate.
  *
@@ -19382,36 +19621,21 @@ export const listCertificates: API.OperationMethod<
 export const listCertificatesByCA: API.OperationMethod<
   ListCertificatesByCARequest,
   ListCertificatesByCAResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListCertificatesByCAError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCertificatesByCARequest,
   ) => stream.Stream<
     ListCertificatesByCAResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCertificatesByCAError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCertificatesByCARequest,
   ) => stream.Stream<
     Certificate,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCertificatesByCAError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19431,6 +19655,12 @@ export const listCertificatesByCA: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListCommandExecutionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all command executions.
  *
@@ -19452,33 +19682,21 @@ export const listCertificatesByCA: API.OperationMethod<
 export const listCommandExecutions: API.OperationMethod<
   ListCommandExecutionsRequest,
   ListCommandExecutionsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCommandExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommandExecutionsRequest,
   ) => stream.Stream<
     ListCommandExecutionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCommandExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCommandExecutionsRequest,
   ) => stream.Stream<
     CommandExecutionSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCommandExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19497,36 +19715,32 @@ export const listCommandExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCommandsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all commands in your account.
  */
 export const listCommands: API.OperationMethod<
   ListCommandsRequest,
   ListCommandsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCommandsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommandsRequest,
   ) => stream.Stream<
     ListCommandsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCommandsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCommandsRequest,
   ) => stream.Stream<
     CommandSummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCommandsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19540,6 +19754,11 @@ export const listCommands: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCustomMetricsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists your Device Defender detect custom metrics.
  *
@@ -19548,30 +19767,21 @@ export const listCommands: API.OperationMethod<
 export const listCustomMetrics: API.OperationMethod<
   ListCustomMetricsRequest,
   ListCustomMetricsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListCustomMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomMetricsRequest,
   ) => stream.Stream<
     ListCustomMetricsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListCustomMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomMetricsRequest,
   ) => stream.Stream<
     MetricName,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListCustomMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19589,6 +19799,11 @@ export const listCustomMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDetectMitigationActionsExecutionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
  *
@@ -19597,30 +19812,21 @@ export const listCustomMetrics: API.OperationMethod<
 export const listDetectMitigationActionsExecutions: API.OperationMethod<
   ListDetectMitigationActionsExecutionsRequest,
   ListDetectMitigationActionsExecutionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListDetectMitigationActionsExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDetectMitigationActionsExecutionsRequest,
   ) => stream.Stream<
     ListDetectMitigationActionsExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDetectMitigationActionsExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDetectMitigationActionsExecutionsRequest,
   ) => stream.Stream<
     DetectMitigationActionExecution,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDetectMitigationActionsExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19638,6 +19844,11 @@ export const listDetectMitigationActionsExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDetectMitigationActionsTasksError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List of Device Defender ML Detect mitigation actions tasks.
  *
@@ -19646,30 +19857,21 @@ export const listDetectMitigationActionsExecutions: API.OperationMethod<
 export const listDetectMitigationActionsTasks: API.OperationMethod<
   ListDetectMitigationActionsTasksRequest,
   ListDetectMitigationActionsTasksResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListDetectMitigationActionsTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDetectMitigationActionsTasksRequest,
   ) => stream.Stream<
     ListDetectMitigationActionsTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDetectMitigationActionsTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDetectMitigationActionsTasksRequest,
   ) => stream.Stream<
     DetectMitigationActionsTaskSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDetectMitigationActionsTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19687,6 +19889,11 @@ export const listDetectMitigationActionsTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDimensionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List the set of dimensions that are defined for your Amazon Web Services accounts.
  *
@@ -19695,30 +19902,21 @@ export const listDetectMitigationActionsTasks: API.OperationMethod<
 export const listDimensions: API.OperationMethod<
   ListDimensionsRequest,
   ListDimensionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListDimensionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDimensionsRequest,
   ) => stream.Stream<
     ListDimensionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDimensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDimensionsRequest,
   ) => stream.Stream<
     DimensionName,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDimensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19736,6 +19934,13 @@ export const listDimensions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDomainConfigurationsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets a list of domain configurations for the user. This list is sorted
  * alphabetically by domain configuration name.
@@ -19745,36 +19950,21 @@ export const listDimensions: API.OperationMethod<
 export const listDomainConfigurations: API.OperationMethod<
   ListDomainConfigurationsRequest,
   ListDomainConfigurationsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListDomainConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainConfigurationsRequest,
   ) => stream.Stream<
     ListDomainConfigurationsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListDomainConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainConfigurationsRequest,
   ) => stream.Stream<
     DomainConfigurationSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListDomainConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19794,6 +19984,13 @@ export const listDomainConfigurations: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListFleetMetricsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists all your fleet metrics.
  *
@@ -19802,36 +19999,21 @@ export const listDomainConfigurations: API.OperationMethod<
 export const listFleetMetrics: API.OperationMethod<
   ListFleetMetricsRequest,
   ListFleetMetricsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListFleetMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetMetricsRequest,
   ) => stream.Stream<
     ListFleetMetricsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListFleetMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetMetricsRequest,
   ) => stream.Stream<
     FleetMetricNameAndArn,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListFleetMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19851,6 +20033,13 @@ export const listFleetMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIndicesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the search indices.
  *
@@ -19859,36 +20048,21 @@ export const listFleetMetrics: API.OperationMethod<
 export const listIndices: API.OperationMethod<
   ListIndicesRequest,
   ListIndicesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListIndicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIndicesRequest,
   ) => stream.Stream<
     ListIndicesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListIndicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIndicesRequest,
   ) => stream.Stream<
     IndexName,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListIndicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19908,6 +20082,12 @@ export const listIndices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobExecutionsForJobError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the job executions for a job.
  *
@@ -19916,33 +20096,21 @@ export const listIndices: API.OperationMethod<
 export const listJobExecutionsForJob: API.OperationMethod<
   ListJobExecutionsForJobRequest,
   ListJobExecutionsForJobResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListJobExecutionsForJobError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobExecutionsForJobRequest,
   ) => stream.Stream<
     ListJobExecutionsForJobResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobExecutionsForJobError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobExecutionsForJobRequest,
   ) => stream.Stream<
     JobExecutionSummaryForJob,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobExecutionsForJobError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19961,6 +20129,12 @@ export const listJobExecutionsForJob: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobExecutionsForThingError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the job executions for the specified thing.
  *
@@ -19969,33 +20143,21 @@ export const listJobExecutionsForJob: API.OperationMethod<
 export const listJobExecutionsForThing: API.OperationMethod<
   ListJobExecutionsForThingRequest,
   ListJobExecutionsForThingResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListJobExecutionsForThingError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobExecutionsForThingRequest,
   ) => stream.Stream<
     ListJobExecutionsForThingResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobExecutionsForThingError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobExecutionsForThingRequest,
   ) => stream.Stream<
     JobExecutionSummaryForThing,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobExecutionsForThingError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20014,6 +20176,12 @@ export const listJobExecutionsForThing: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobsError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists jobs.
  *
@@ -20022,33 +20190,21 @@ export const listJobExecutionsForThing: API.OperationMethod<
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     JobSummary,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20067,6 +20223,11 @@ export const listJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobTemplatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of job templates.
  *
@@ -20075,30 +20236,21 @@ export const listJobs: API.OperationMethod<
 export const listJobTemplates: API.OperationMethod<
   ListJobTemplatesRequest,
   ListJobTemplatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListJobTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
     ListJobTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
     JobTemplateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListJobTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20116,39 +20268,33 @@ export const listJobTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListManagedJobTemplatesError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of managed job templates.
  */
 export const listManagedJobTemplates: API.OperationMethod<
   ListManagedJobTemplatesRequest,
   ListManagedJobTemplatesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListManagedJobTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedJobTemplatesRequest,
   ) => stream.Stream<
     ListManagedJobTemplatesResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListManagedJobTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedJobTemplatesRequest,
   ) => stream.Stream<
     ManagedJobTemplateSummary,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListManagedJobTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20167,6 +20313,12 @@ export const listManagedJobTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMetricValuesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)
  * by the given thing during the specified time period.
@@ -20174,33 +20326,21 @@ export const listManagedJobTemplates: API.OperationMethod<
 export const listMetricValues: API.OperationMethod<
   ListMetricValuesRequest,
   ListMetricValuesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListMetricValuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetricValuesRequest,
   ) => stream.Stream<
     ListMetricValuesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListMetricValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricValuesRequest,
   ) => stream.Stream<
     MetricDatum,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListMetricValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20219,6 +20359,11 @@ export const listMetricValues: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMitigationActionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a list of all mitigation actions that match the specified filter criteria.
  *
@@ -20227,30 +20372,21 @@ export const listMetricValues: API.OperationMethod<
 export const listMitigationActions: API.OperationMethod<
   ListMitigationActionsRequest,
   ListMitigationActionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListMitigationActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMitigationActionsRequest,
   ) => stream.Stream<
     ListMitigationActionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListMitigationActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMitigationActionsRequest,
   ) => stream.Stream<
     MitigationActionIdentifier,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListMitigationActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20268,6 +20404,13 @@ export const listMitigationActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListOTAUpdatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists OTA updates.
  *
@@ -20276,36 +20419,21 @@ export const listMitigationActions: API.OperationMethod<
 export const listOTAUpdates: API.OperationMethod<
   ListOTAUpdatesRequest,
   ListOTAUpdatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListOTAUpdatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOTAUpdatesRequest,
   ) => stream.Stream<
     ListOTAUpdatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListOTAUpdatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOTAUpdatesRequest,
   ) => stream.Stream<
     OTAUpdateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListOTAUpdatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20325,6 +20453,13 @@ export const listOTAUpdates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListOutgoingCertificatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists certificates that are being transferred but not yet accepted.
  *
@@ -20333,36 +20468,21 @@ export const listOTAUpdates: API.OperationMethod<
 export const listOutgoingCertificates: API.OperationMethod<
   ListOutgoingCertificatesRequest,
   ListOutgoingCertificatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListOutgoingCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOutgoingCertificatesRequest,
   ) => stream.Stream<
     ListOutgoingCertificatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListOutgoingCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOutgoingCertificatesRequest,
   ) => stream.Stream<
     OutgoingCertificate,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListOutgoingCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20382,6 +20502,11 @@ export const listOutgoingCertificates: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListPackagesError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the software packages associated to the account.
  *
@@ -20390,30 +20515,21 @@ export const listOutgoingCertificates: API.OperationMethod<
 export const listPackages: API.OperationMethod<
   ListPackagesRequest,
   ListPackagesResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagesRequest,
   ) => stream.Stream<
     ListPackagesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagesRequest,
   ) => stream.Stream<
     PackageSummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20427,6 +20543,11 @@ export const listPackages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPackageVersionsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the software package versions associated to the account.
  *
@@ -20435,30 +20556,21 @@ export const listPackages: API.OperationMethod<
 export const listPackageVersions: API.OperationMethod<
   ListPackageVersionsRequest,
   ListPackageVersionsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackageVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackageVersionsRequest,
   ) => stream.Stream<
     ListPackageVersionsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackageVersionsRequest,
   ) => stream.Stream<
     PackageVersionSummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20472,6 +20584,13 @@ export const listPackageVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPoliciesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists your policies.
  *
@@ -20480,36 +20599,21 @@ export const listPackageVersions: API.OperationMethod<
 export const listPolicies: API.OperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
     ListPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
     Policy,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20529,6 +20633,14 @@ export const listPolicies: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListPolicyPrincipalsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the principals associated with the specified policy.
  *
@@ -20540,39 +20652,21 @@ export const listPolicies: API.OperationMethod<
 export const listPolicyPrincipals: API.OperationMethod<
   ListPolicyPrincipalsRequest,
   ListPolicyPrincipalsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListPolicyPrincipalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyPrincipalsRequest,
   ) => stream.Stream<
     ListPolicyPrincipalsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPolicyPrincipalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyPrincipalsRequest,
   ) => stream.Stream<
     PrincipalArn,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPolicyPrincipalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20593,6 +20687,14 @@ export const listPolicyPrincipals: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListPolicyVersionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the versions of the specified policy and identifies the default
  * version.
@@ -20602,13 +20704,7 @@ export const listPolicyPrincipals: API.OperationMethod<
 export const listPolicyVersions: API.OperationMethod<
   ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListPolicyVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPolicyVersionsRequest,
@@ -20622,6 +20718,14 @@ export const listPolicyVersions: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListPrincipalPoliciesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the policies attached to the specified principal. If you use an Cognito
  * identity, the ID must be in AmazonCognito Identity format.
@@ -20634,39 +20738,21 @@ export const listPolicyVersions: API.OperationMethod<
 export const listPrincipalPolicies: API.OperationMethod<
   ListPrincipalPoliciesRequest,
   ListPrincipalPoliciesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListPrincipalPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrincipalPoliciesRequest,
   ) => stream.Stream<
     ListPrincipalPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPrincipalPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPrincipalPoliciesRequest,
   ) => stream.Stream<
     Policy,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPrincipalPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20687,6 +20773,14 @@ export const listPrincipalPolicies: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListPrincipalThingsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the things associated with the specified principal. A principal can be X.509
  * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
@@ -20697,39 +20791,21 @@ export const listPrincipalPolicies: API.OperationMethod<
 export const listPrincipalThings: API.OperationMethod<
   ListPrincipalThingsRequest,
   ListPrincipalThingsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListPrincipalThingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrincipalThingsRequest,
   ) => stream.Stream<
     ListPrincipalThingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPrincipalThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPrincipalThingsRequest,
   ) => stream.Stream<
     ThingName,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPrincipalThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20750,6 +20826,14 @@ export const listPrincipalThings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPrincipalThingsV2Error =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the things associated with the specified principal. A principal can be an X.509
  * certificate or an Amazon Cognito ID.
@@ -20759,39 +20843,21 @@ export const listPrincipalThings: API.OperationMethod<
 export const listPrincipalThingsV2: API.OperationMethod<
   ListPrincipalThingsV2Request,
   ListPrincipalThingsV2Response,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListPrincipalThingsV2Error,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrincipalThingsV2Request,
   ) => stream.Stream<
     ListPrincipalThingsV2Response,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPrincipalThingsV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPrincipalThingsV2Request,
   ) => stream.Stream<
     PrincipalThingObject,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListPrincipalThingsV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20812,6 +20878,12 @@ export const listPrincipalThingsV2: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProvisioningTemplatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the provisioning templates in your Amazon Web Services account.
  *
@@ -20820,33 +20892,21 @@ export const listPrincipalThingsV2: API.OperationMethod<
 export const listProvisioningTemplates: API.OperationMethod<
   ListProvisioningTemplatesRequest,
   ListProvisioningTemplatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListProvisioningTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProvisioningTemplatesRequest,
   ) => stream.Stream<
     ListProvisioningTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListProvisioningTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisioningTemplatesRequest,
   ) => stream.Stream<
     ProvisioningTemplateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListProvisioningTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20865,6 +20925,13 @@ export const listProvisioningTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProvisioningTemplateVersionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * A list of provisioning template versions.
  *
@@ -20873,36 +20940,21 @@ export const listProvisioningTemplates: API.OperationMethod<
 export const listProvisioningTemplateVersions: API.OperationMethod<
   ListProvisioningTemplateVersionsRequest,
   ListProvisioningTemplateVersionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListProvisioningTemplateVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProvisioningTemplateVersionsRequest,
   ) => stream.Stream<
     ListProvisioningTemplateVersionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListProvisioningTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisioningTemplateVersionsRequest,
   ) => stream.Stream<
     ProvisioningTemplateVersionSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListProvisioningTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20922,6 +20974,12 @@ export const listProvisioningTemplateVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRelatedResourcesForAuditFindingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * The related resources of an Audit finding.
  * The following resources can be returned from calling this API:
@@ -20952,33 +21010,21 @@ export const listProvisioningTemplateVersions: API.OperationMethod<
 export const listRelatedResourcesForAuditFinding: API.OperationMethod<
   ListRelatedResourcesForAuditFindingRequest,
   ListRelatedResourcesForAuditFindingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRelatedResourcesForAuditFindingError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRelatedResourcesForAuditFindingRequest,
   ) => stream.Stream<
     ListRelatedResourcesForAuditFindingResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRelatedResourcesForAuditFindingError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRelatedResourcesForAuditFindingRequest,
   ) => stream.Stream<
     RelatedResource,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRelatedResourcesForAuditFindingError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20997,6 +21043,13 @@ export const listRelatedResourcesForAuditFinding: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRoleAliasesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the role aliases registered in your account.
  *
@@ -21005,36 +21058,21 @@ export const listRelatedResourcesForAuditFinding: API.OperationMethod<
 export const listRoleAliases: API.OperationMethod<
   ListRoleAliasesRequest,
   ListRoleAliasesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListRoleAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoleAliasesRequest,
   ) => stream.Stream<
     ListRoleAliasesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListRoleAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoleAliasesRequest,
   ) => stream.Stream<
     RoleAlias,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListRoleAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21054,6 +21092,12 @@ export const listRoleAliases: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListSbomValidationResultsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The validation results for all software bill of materials (SBOM) attached to a specific software package version.
  *
@@ -21062,33 +21106,21 @@ export const listRoleAliases: API.OperationMethod<
 export const listSbomValidationResults: API.OperationMethod<
   ListSbomValidationResultsRequest,
   ListSbomValidationResultsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSbomValidationResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSbomValidationResultsRequest,
   ) => stream.Stream<
     ListSbomValidationResultsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSbomValidationResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSbomValidationResultsRequest,
   ) => stream.Stream<
     SbomValidationResultSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSbomValidationResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21107,6 +21139,11 @@ export const listSbomValidationResults: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListScheduledAuditsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all of your scheduled audits.
  *
@@ -21115,30 +21152,21 @@ export const listSbomValidationResults: API.OperationMethod<
 export const listScheduledAudits: API.OperationMethod<
   ListScheduledAuditsRequest,
   ListScheduledAuditsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListScheduledAuditsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScheduledAuditsRequest,
   ) => stream.Stream<
     ListScheduledAuditsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListScheduledAuditsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScheduledAuditsRequest,
   ) => stream.Stream<
     ScheduledAuditMetadata,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListScheduledAuditsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21156,6 +21184,12 @@ export const listScheduledAudits: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSecurityProfilesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the Device Defender security profiles
  * you've
@@ -21168,33 +21202,21 @@ export const listScheduledAudits: API.OperationMethod<
 export const listSecurityProfiles: API.OperationMethod<
   ListSecurityProfilesRequest,
   ListSecurityProfilesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityProfilesRequest,
   ) => stream.Stream<
     ListSecurityProfilesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityProfilesRequest,
   ) => stream.Stream<
     SecurityProfileIdentifier,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21213,6 +21235,12 @@ export const listSecurityProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSecurityProfilesForTargetError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the Device Defender security profiles attached to a target (thing group).
  *
@@ -21221,33 +21249,21 @@ export const listSecurityProfiles: API.OperationMethod<
 export const listSecurityProfilesForTarget: API.OperationMethod<
   ListSecurityProfilesForTargetRequest,
   ListSecurityProfilesForTargetResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityProfilesForTargetError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityProfilesForTargetRequest,
   ) => stream.Stream<
     ListSecurityProfilesForTargetResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilesForTargetError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityProfilesForTargetRequest,
   ) => stream.Stream<
     SecurityProfileTargetMapping,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilesForTargetError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21266,6 +21282,13 @@ export const listSecurityProfilesForTarget: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStreamsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists all of the streams in your Amazon Web Services account.
  *
@@ -21274,36 +21297,21 @@ export const listSecurityProfilesForTarget: API.OperationMethod<
 export const listStreams: API.OperationMethod<
   ListStreamsRequest,
   ListStreamsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamsRequest,
   ) => stream.Stream<
     ListStreamsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamsRequest,
   ) => stream.Stream<
     StreamSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21323,6 +21331,12 @@ export const listStreams: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  *
@@ -21331,33 +21345,21 @@ export const listStreams: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21375,6 +21377,15 @@ export const listTagsForResource: API.OperationMethod<
     items: "tags",
   } as const,
 }));
+export type ListTargetsForPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List targets for the specified policy.
  *
@@ -21383,42 +21394,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listTargetsForPolicy: API.OperationMethod<
   ListTargetsForPolicyRequest,
   ListTargetsForPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTargetsForPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTargetsForPolicyRequest,
   ) => stream.Stream<
     ListTargetsForPolicyResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTargetsForPolicyError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetsForPolicyRequest,
   ) => stream.Stream<
     PolicyTarget,
-    | InternalFailureException
-    | InvalidRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTargetsForPolicyError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21440,6 +21430,12 @@ export const listTargetsForPolicy: API.OperationMethod<
     pageSize: "pageSize",
   } as const,
 }));
+export type ListTargetsForSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the targets (thing groups) associated with a given Device Defender security profile.
  *
@@ -21448,33 +21444,21 @@ export const listTargetsForPolicy: API.OperationMethod<
 export const listTargetsForSecurityProfile: API.OperationMethod<
   ListTargetsForSecurityProfileRequest,
   ListTargetsForSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTargetsForSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTargetsForSecurityProfileRequest,
   ) => stream.Stream<
     ListTargetsForSecurityProfileResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTargetsForSecurityProfileError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetsForSecurityProfileRequest,
   ) => stream.Stream<
     SecurityProfileTarget,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTargetsForSecurityProfileError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21493,6 +21477,12 @@ export const listTargetsForSecurityProfile: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingGroupsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List the thing groups in your account.
  *
@@ -21501,33 +21491,21 @@ export const listTargetsForSecurityProfile: API.OperationMethod<
 export const listThingGroups: API.OperationMethod<
   ListThingGroupsRequest,
   ListThingGroupsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListThingGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingGroupsRequest,
   ) => stream.Stream<
     ListThingGroupsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingGroupsRequest,
   ) => stream.Stream<
     GroupNameAndArn,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21546,6 +21524,12 @@ export const listThingGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingGroupsForThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List the thing groups to which the specified thing belongs.
  *
@@ -21554,33 +21538,21 @@ export const listThingGroups: API.OperationMethod<
 export const listThingGroupsForThing: API.OperationMethod<
   ListThingGroupsForThingRequest,
   ListThingGroupsForThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListThingGroupsForThingError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingGroupsForThingRequest,
   ) => stream.Stream<
     ListThingGroupsForThingResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingGroupsForThingError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingGroupsForThingRequest,
   ) => stream.Stream<
     GroupNameAndArn,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingGroupsForThingError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21599,6 +21571,14 @@ export const listThingGroupsForThing: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingPrincipalsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the principals associated with the specified thing. A principal can be X.509
  * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
@@ -21609,39 +21589,21 @@ export const listThingGroupsForThing: API.OperationMethod<
 export const listThingPrincipals: API.OperationMethod<
   ListThingPrincipalsRequest,
   ListThingPrincipalsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListThingPrincipalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingPrincipalsRequest,
   ) => stream.Stream<
     ListThingPrincipalsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingPrincipalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingPrincipalsRequest,
   ) => stream.Stream<
     PrincipalArn,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingPrincipalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21662,6 +21624,14 @@ export const listThingPrincipals: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingPrincipalsV2Error =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the principals associated with the specified thing. A principal can be an X.509
  * certificate or an Amazon Cognito ID.
@@ -21671,39 +21641,21 @@ export const listThingPrincipals: API.OperationMethod<
 export const listThingPrincipalsV2: API.OperationMethod<
   ListThingPrincipalsV2Request,
   ListThingPrincipalsV2Response,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListThingPrincipalsV2Error,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingPrincipalsV2Request,
   ) => stream.Stream<
     ListThingPrincipalsV2Response,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingPrincipalsV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingPrincipalsV2Request,
   ) => stream.Stream<
     ThingPrincipalObject,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingPrincipalsV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21724,39 +21676,33 @@ export const listThingPrincipalsV2: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingRegistrationTaskReportsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Information about the thing registration tasks.
  */
 export const listThingRegistrationTaskReports: API.OperationMethod<
   ListThingRegistrationTaskReportsRequest,
   ListThingRegistrationTaskReportsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListThingRegistrationTaskReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingRegistrationTaskReportsRequest,
   ) => stream.Stream<
     ListThingRegistrationTaskReportsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingRegistrationTaskReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingRegistrationTaskReportsRequest,
   ) => stream.Stream<
     S3FileUrl,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingRegistrationTaskReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21775,6 +21721,12 @@ export const listThingRegistrationTaskReports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingRegistrationTasksError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List bulk thing provisioning tasks.
  *
@@ -21783,33 +21735,21 @@ export const listThingRegistrationTaskReports: API.OperationMethod<
 export const listThingRegistrationTasks: API.OperationMethod<
   ListThingRegistrationTasksRequest,
   ListThingRegistrationTasksResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListThingRegistrationTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingRegistrationTasksRequest,
   ) => stream.Stream<
     ListThingRegistrationTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingRegistrationTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingRegistrationTasksRequest,
   ) => stream.Stream<
     TaskId,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingRegistrationTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21828,6 +21768,13 @@ export const listThingRegistrationTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists your things. Use the **attributeName** and **attributeValue** parameters to filter your things. For example,
  * calling `ListThings` with attributeName=Color and attributeValue=Red
@@ -21842,36 +21789,21 @@ export const listThingRegistrationTasks: API.OperationMethod<
 export const listThings: API.OperationMethod<
   ListThingsRequest,
   ListThingsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListThingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingsRequest,
   ) => stream.Stream<
     ListThingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingsRequest,
   ) => stream.Stream<
     ThingAttribute,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21891,6 +21823,12 @@ export const listThings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingsInBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the things you have added to the given billing group.
  *
@@ -21899,33 +21837,21 @@ export const listThings: API.OperationMethod<
 export const listThingsInBillingGroup: API.OperationMethod<
   ListThingsInBillingGroupRequest,
   ListThingsInBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListThingsInBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingsInBillingGroupRequest,
   ) => stream.Stream<
     ListThingsInBillingGroupResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingsInBillingGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingsInBillingGroupRequest,
   ) => stream.Stream<
     ThingName,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingsInBillingGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21944,6 +21870,12 @@ export const listThingsInBillingGroup: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingsInThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the things in the specified group.
  *
@@ -21952,33 +21884,21 @@ export const listThingsInBillingGroup: API.OperationMethod<
 export const listThingsInThingGroup: API.OperationMethod<
   ListThingsInThingGroupRequest,
   ListThingsInThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListThingsInThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingsInThingGroupRequest,
   ) => stream.Stream<
     ListThingsInThingGroupResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingsInThingGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingsInThingGroupRequest,
   ) => stream.Stream<
     ThingName,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListThingsInThingGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21997,6 +21917,13 @@ export const listThingsInThingGroup: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListThingTypesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the existing thing types.
  *
@@ -22005,36 +21932,21 @@ export const listThingsInThingGroup: API.OperationMethod<
 export const listThingTypes: API.OperationMethod<
   ListThingTypesRequest,
   ListThingTypesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListThingTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThingTypesRequest,
   ) => stream.Stream<
     ListThingTypesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThingTypesRequest,
   ) => stream.Stream<
     ThingTypeDefinition,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListThingTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22054,6 +21966,12 @@ export const listThingTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTopicRuleDestinationsError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists all the topic rule destinations in your Amazon Web Services account.
  *
@@ -22062,33 +21980,21 @@ export const listThingTypes: API.OperationMethod<
 export const listTopicRuleDestinations: API.OperationMethod<
   ListTopicRuleDestinationsRequest,
   ListTopicRuleDestinationsResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTopicRuleDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTopicRuleDestinationsRequest,
   ) => stream.Stream<
     ListTopicRuleDestinationsResponse,
-    | InternalException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTopicRuleDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTopicRuleDestinationsRequest,
   ) => stream.Stream<
     TopicRuleDestinationSummary,
-    | InternalException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTopicRuleDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22107,6 +22013,12 @@ export const listTopicRuleDestinations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTopicRulesError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the rules for the specific topic.
  *
@@ -22115,33 +22027,21 @@ export const listTopicRuleDestinations: API.OperationMethod<
 export const listTopicRules: API.OperationMethod<
   ListTopicRulesRequest,
   ListTopicRulesResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTopicRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTopicRulesRequest,
   ) => stream.Stream<
     ListTopicRulesResponse,
-    | InternalException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTopicRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTopicRulesRequest,
   ) => stream.Stream<
     TopicRuleListItem,
-    | InternalException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTopicRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22160,6 +22060,12 @@ export const listTopicRules: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListV2LoggingLevelsError =
+  | InternalException
+  | InvalidRequestException
+  | NotConfiguredException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists logging levels.
  *
@@ -22168,33 +22074,21 @@ export const listTopicRules: API.OperationMethod<
 export const listV2LoggingLevels: API.OperationMethod<
   ListV2LoggingLevelsRequest,
   ListV2LoggingLevelsResponse,
-  | InternalException
-  | InvalidRequestException
-  | NotConfiguredException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListV2LoggingLevelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListV2LoggingLevelsRequest,
   ) => stream.Stream<
     ListV2LoggingLevelsResponse,
-    | InternalException
-    | InvalidRequestException
-    | NotConfiguredException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListV2LoggingLevelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListV2LoggingLevelsRequest,
   ) => stream.Stream<
     LogTargetConfiguration,
-    | InternalException
-    | InvalidRequestException
-    | NotConfiguredException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListV2LoggingLevelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22213,6 +22107,11 @@ export const listV2LoggingLevels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListViolationEventsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the Device Defender security profile violations discovered during the given time period.
  * You can use filters to limit the results to those alerts issued for a particular security profile,
@@ -22223,30 +22122,21 @@ export const listV2LoggingLevels: API.OperationMethod<
 export const listViolationEvents: API.OperationMethod<
   ListViolationEventsRequest,
   ListViolationEventsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListViolationEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListViolationEventsRequest,
   ) => stream.Stream<
     ListViolationEventsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListViolationEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListViolationEventsRequest,
   ) => stream.Stream<
     ViolationEvent,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListViolationEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22264,16 +22154,18 @@ export const listViolationEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutVerificationStateOnViolationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Set a verification state and provide a description of that verification state on a violation (detect alarm).
  */
 export const putVerificationStateOnViolation: API.OperationMethod<
   PutVerificationStateOnViolationRequest,
   PutVerificationStateOnViolationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  PutVerificationStateOnViolationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVerificationStateOnViolationRequest,
@@ -22284,16 +22176,7 @@ export const putVerificationStateOnViolation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA
- * certificates you can register in your Amazon Web Services account. You can register up to 10 CA
- * certificates with the same `CA subject field` per Amazon Web Services account.
- *
- * Requires permission to access the RegisterCACertificate action.
- */
-export const registerCACertificate: API.OperationMethod<
-  RegisterCACertificateRequest,
-  RegisterCACertificateResponse,
+export type RegisterCACertificateError =
   | CertificateValidationException
   | InternalFailureException
   | InvalidRequestException
@@ -22304,7 +22187,18 @@ export const registerCACertificate: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA
+ * certificates you can register in your Amazon Web Services account. You can register up to 10 CA
+ * certificates with the same `CA subject field` per Amazon Web Services account.
+ *
+ * Requires permission to access the RegisterCACertificate action.
+ */
+export const registerCACertificate: API.OperationMethod<
+  RegisterCACertificateRequest,
+  RegisterCACertificateResponse,
+  RegisterCACertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCACertificateRequest,
@@ -22322,6 +22216,17 @@ export const registerCACertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RegisterCertificateError =
+  | CertificateConflictException
+  | CertificateStateException
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must
  * specify the CA certificate that was used to sign the device certificate being
@@ -22332,16 +22237,7 @@ export const registerCACertificate: API.OperationMethod<
 export const registerCertificate: API.OperationMethod<
   RegisterCertificateRequest,
   RegisterCertificateResponse,
-  | CertificateConflictException
-  | CertificateStateException
-  | CertificateValidationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  RegisterCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCertificateRequest,
@@ -22358,14 +22254,7 @@ export const registerCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Register a certificate that does not have a certificate authority (CA).
- * For supported certificates, consult
- * Certificate signing algorithms supported by IoT.
- */
-export const registerCertificateWithoutCA: API.OperationMethod<
-  RegisterCertificateWithoutCARequest,
-  RegisterCertificateWithoutCAResponse,
+export type RegisterCertificateWithoutCAError =
   | CertificateStateException
   | CertificateValidationException
   | InternalFailureException
@@ -22374,7 +22263,16 @@ export const registerCertificateWithoutCA: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Register a certificate that does not have a certificate authority (CA).
+ * For supported certificates, consult
+ * Certificate signing algorithms supported by IoT.
+ */
+export const registerCertificateWithoutCA: API.OperationMethod<
+  RegisterCertificateWithoutCARequest,
+  RegisterCertificateWithoutCAResponse,
+  RegisterCertificateWithoutCAError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCertificateWithoutCARequest,
@@ -22390,6 +22288,15 @@ export const registerCertificateWithoutCA: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RegisterThingError =
+  | ConflictingResourceUpdateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceRegistrationFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Provisions a thing in the device registry. RegisterThing calls other IoT control
  * plane APIs. These calls might exceed your account level
@@ -22401,14 +22308,7 @@ export const registerCertificateWithoutCA: API.OperationMethod<
 export const registerThing: API.OperationMethod<
   RegisterThingRequest,
   RegisterThingResponse,
-  | ConflictingResourceUpdateException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceRegistrationFailureException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  RegisterThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterThingRequest,
@@ -22423,6 +22323,15 @@ export const registerThing: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RejectCertificateTransferError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferAlreadyCompletedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Rejects a pending certificate transfer. After IoT rejects a certificate transfer,
  * the certificate status changes from **PENDING_TRANSFER** to
@@ -22439,14 +22348,7 @@ export const registerThing: API.OperationMethod<
 export const rejectCertificateTransfer: API.OperationMethod<
   RejectCertificateTransferRequest,
   RejectCertificateTransferResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | TransferAlreadyCompletedException
-  | UnauthorizedException
-  | CommonErrors,
+  RejectCertificateTransferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectCertificateTransferRequest,
@@ -22461,6 +22363,12 @@ export const rejectCertificateTransfer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RemoveThingFromBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the given thing from the billing group.
  *
@@ -22471,11 +22379,7 @@ export const rejectCertificateTransfer: API.OperationMethod<
 export const removeThingFromBillingGroup: API.OperationMethod<
   RemoveThingFromBillingGroupRequest,
   RemoveThingFromBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  RemoveThingFromBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveThingFromBillingGroupRequest,
@@ -22487,6 +22391,12 @@ export const removeThingFromBillingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type RemoveThingFromThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Remove the specified thing from the specified group.
  *
@@ -22500,11 +22410,7 @@ export const removeThingFromBillingGroup: API.OperationMethod<
 export const removeThingFromThingGroup: API.OperationMethod<
   RemoveThingFromThingGroupRequest,
   RemoveThingFromThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  RemoveThingFromThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveThingFromThingGroupRequest,
@@ -22516,6 +22422,14 @@ export const removeThingFromThingGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ReplaceTopicRuleError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | SqlParseException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Replaces the rule. You must specify all parameters for the new rule. Creating rules
  * is an administrator-level action. Any user who has permission to create rules will be able
@@ -22526,13 +22440,7 @@ export const removeThingFromThingGroup: API.OperationMethod<
 export const replaceTopicRule: API.OperationMethod<
   ReplaceTopicRuleRequest,
   ReplaceTopicRuleResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | SqlParseException
-  | UnauthorizedException
-  | CommonErrors,
+  ReplaceTopicRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceTopicRuleRequest,
@@ -22546,14 +22454,7 @@ export const replaceTopicRule: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * The query search index.
- *
- * Requires permission to access the SearchIndex action.
- */
-export const searchIndex: API.OperationMethod<
-  SearchIndexRequest,
-  SearchIndexResponse,
+export type SearchIndexError =
   | IndexNotReadyException
   | InternalFailureException
   | InvalidQueryException
@@ -22562,7 +22463,16 @@ export const searchIndex: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The query search index.
+ *
+ * Requires permission to access the SearchIndex action.
+ */
+export const searchIndex: API.OperationMethod<
+  SearchIndexRequest,
+  SearchIndexResponse,
+  SearchIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchIndexRequest,
@@ -22578,6 +22488,15 @@ export const searchIndex: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type SetDefaultAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Sets the default authorizer. This will be used if a websocket connection is made
  * without specifying an authorizer.
@@ -22587,14 +22506,7 @@ export const searchIndex: API.OperationMethod<
 export const setDefaultAuthorizer: API.OperationMethod<
   SetDefaultAuthorizerRequest,
   SetDefaultAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  SetDefaultAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultAuthorizerRequest,
@@ -22609,6 +22521,14 @@ export const setDefaultAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type SetDefaultPolicyVersionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Sets the specified version of the specified policy as the policy's default
  * (operative) version. This action affects all certificates to which the policy is attached.
@@ -22620,13 +22540,7 @@ export const setDefaultAuthorizer: API.OperationMethod<
 export const setDefaultPolicyVersion: API.OperationMethod<
   SetDefaultPolicyVersionRequest,
   SetDefaultPolicyVersionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  SetDefaultPolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultPolicyVersionRequest,
@@ -22640,6 +22554,11 @@ export const setDefaultPolicyVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type SetLoggingOptionsError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Sets the logging options.
  *
@@ -22651,10 +22570,7 @@ export const setDefaultPolicyVersion: API.OperationMethod<
 export const setLoggingOptions: API.OperationMethod<
   SetLoggingOptionsRequest,
   SetLoggingOptionsResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | CommonErrors,
+  SetLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLoggingOptionsRequest,
@@ -22665,6 +22581,13 @@ export const setLoggingOptions: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type SetV2LoggingLevelError =
+  | InternalException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotConfiguredException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Sets the logging level.
  *
@@ -22673,12 +22596,7 @@ export const setLoggingOptions: API.OperationMethod<
 export const setV2LoggingLevel: API.OperationMethod<
   SetV2LoggingLevelRequest,
   SetV2LoggingLevelResponse,
-  | InternalException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotConfiguredException
-  | ServiceUnavailableException
-  | CommonErrors,
+  SetV2LoggingLevelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetV2LoggingLevelRequest,
@@ -22691,6 +22609,11 @@ export const setV2LoggingLevel: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type SetV2LoggingOptionsError =
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Sets the logging options for the V2 logging service.
  *
@@ -22699,10 +22622,7 @@ export const setV2LoggingLevel: API.OperationMethod<
 export const setV2LoggingOptions: API.OperationMethod<
   SetV2LoggingOptionsRequest,
   SetV2LoggingOptionsResponse,
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | CommonErrors,
+  SetV2LoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetV2LoggingOptionsRequest,
@@ -22713,6 +22633,13 @@ export const setV2LoggingOptions: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartAuditMitigationActionsTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaskAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts a task that applies a set of mitigation actions to the specified target.
  *
@@ -22721,12 +22648,7 @@ export const setV2LoggingOptions: API.OperationMethod<
 export const startAuditMitigationActionsTask: API.OperationMethod<
   StartAuditMitigationActionsTaskRequest,
   StartAuditMitigationActionsTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaskAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  StartAuditMitigationActionsTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAuditMitigationActionsTaskRequest,
@@ -22739,6 +22661,13 @@ export const startAuditMitigationActionsTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartDetectMitigationActionsTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaskAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts a Device Defender ML Detect mitigation actions task.
  *
@@ -22747,12 +22676,7 @@ export const startAuditMitigationActionsTask: API.OperationMethod<
 export const startDetectMitigationActionsTask: API.OperationMethod<
   StartDetectMitigationActionsTaskRequest,
   StartDetectMitigationActionsTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaskAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  StartDetectMitigationActionsTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDetectMitigationActionsTaskRequest,
@@ -22765,6 +22689,12 @@ export const startDetectMitigationActionsTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartOnDemandAuditTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts an on-demand Device Defender audit.
  *
@@ -22773,11 +22703,7 @@ export const startDetectMitigationActionsTask: API.OperationMethod<
 export const startOnDemandAuditTask: API.OperationMethod<
   StartOnDemandAuditTaskRequest,
   StartOnDemandAuditTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ThrottlingException
-  | CommonErrors,
+  StartOnDemandAuditTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartOnDemandAuditTaskRequest,
@@ -22789,6 +22715,12 @@ export const startOnDemandAuditTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartThingRegistrationTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a bulk thing provisioning task.
  *
@@ -22797,11 +22729,7 @@ export const startOnDemandAuditTask: API.OperationMethod<
 export const startThingRegistrationTask: API.OperationMethod<
   StartThingRegistrationTaskRequest,
   StartThingRegistrationTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  StartThingRegistrationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartThingRegistrationTaskRequest,
@@ -22813,6 +22741,13 @@ export const startThingRegistrationTask: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type StopThingRegistrationTaskError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Cancels a bulk thing provisioning task.
  *
@@ -22821,12 +22756,7 @@ export const startThingRegistrationTask: API.OperationMethod<
 export const stopThingRegistrationTask: API.OperationMethod<
   StopThingRegistrationTaskRequest,
   StopThingRegistrationTaskResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  StopThingRegistrationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopThingRegistrationTaskRequest,
@@ -22839,6 +22769,13 @@ export const stopThingRegistrationTask: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TagResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata which can be
  * used to manage a resource.
@@ -22848,12 +22785,7 @@ export const stopThingRegistrationTask: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -22866,6 +22798,15 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type TestAuthorizationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Tests if a specified principal is authorized to perform an IoT action on a
  * specified resource. Use this to test and debug the authorization behavior of devices that
@@ -22876,14 +22817,7 @@ export const tagResource: API.OperationMethod<
 export const testAuthorization: API.OperationMethod<
   TestAuthorizationRequest,
   TestAuthorizationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  TestAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestAuthorizationRequest,
@@ -22898,6 +22832,15 @@ export const testAuthorization: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TestInvokeAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | InvalidResponseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Tests a custom authorization behavior by invoking a specified custom authorizer. Use
  * this to test and debug the custom authorization behavior of devices that connect to the IoT
@@ -22908,14 +22851,7 @@ export const testAuthorization: API.OperationMethod<
 export const testInvokeAuthorizer: API.OperationMethod<
   TestInvokeAuthorizerRequest,
   TestInvokeAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | InvalidResponseException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  TestInvokeAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestInvokeAuthorizerRequest,
@@ -22930,6 +22866,16 @@ export const testInvokeAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TransferCertificateError =
+  | CertificateStateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferConflictException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Transfers the specified certificate to the specified Amazon Web Services account.
  *
@@ -22962,15 +22908,7 @@ export const testInvokeAuthorizer: API.OperationMethod<
 export const transferCertificate: API.OperationMethod<
   TransferCertificateRequest,
   TransferCertificateResponse,
-  | CertificateStateException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | TransferConflictException
-  | UnauthorizedException
-  | CommonErrors,
+  TransferCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferCertificateRequest,
@@ -22986,6 +22924,12 @@ export const transferCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UntagResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the given tags (metadata) from the resource.
  *
@@ -22994,11 +22938,7 @@ export const transferCertificate: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -23010,6 +22950,11 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAccountAuditConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Configures or reconfigures the Device Defender audit settings for this account.
  * Settings include how audit notifications are sent and which audit checks are
@@ -23020,10 +22965,7 @@ export const untagResource: API.OperationMethod<
 export const updateAccountAuditConfiguration: API.OperationMethod<
   UpdateAccountAuditConfigurationRequest,
   UpdateAccountAuditConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAccountAuditConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountAuditConfigurationRequest,
@@ -23034,17 +22976,19 @@ export const updateAccountAuditConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAuditSuppressionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a Device Defender audit suppression.
  */
 export const updateAuditSuppression: API.OperationMethod<
   UpdateAuditSuppressionRequest,
   UpdateAuditSuppressionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAuditSuppressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuditSuppressionRequest,
@@ -23056,6 +23000,15 @@ export const updateAuditSuppression: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAuthorizerError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates an authorizer.
  *
@@ -23064,14 +23017,7 @@ export const updateAuditSuppression: API.OperationMethod<
 export const updateAuthorizer: API.OperationMethod<
   UpdateAuthorizerRequest,
   UpdateAuthorizerResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
@@ -23086,6 +23032,13 @@ export const updateAuthorizer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateBillingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Updates information about the billing group.
  *
@@ -23094,12 +23047,7 @@ export const updateAuthorizer: API.OperationMethod<
 export const updateBillingGroup: API.OperationMethod<
   UpdateBillingGroupRequest,
   UpdateBillingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  UpdateBillingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillingGroupRequest,
@@ -23112,6 +23060,14 @@ export const updateBillingGroup: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type UpdateCACertificateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a registered CA certificate.
  *
@@ -23120,13 +23076,7 @@ export const updateBillingGroup: API.OperationMethod<
 export const updateCACertificate: API.OperationMethod<
   UpdateCACertificateRequest,
   UpdateCACertificateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateCACertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCACertificateRequest,
@@ -23140,6 +23090,15 @@ export const updateCACertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateCertificateError =
+  | CertificateStateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates the status of the specified certificate. This operation is
  * idempotent.
@@ -23156,14 +23115,7 @@ export const updateCACertificate: API.OperationMethod<
 export const updateCertificate: API.OperationMethod<
   UpdateCertificateRequest,
   UpdateCertificateResponse,
-  | CertificateStateException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCertificateRequest,
@@ -23178,6 +23130,14 @@ export const updateCertificate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateCertificateProviderError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a certificate provider.
  *
@@ -23186,13 +23146,7 @@ export const updateCertificate: API.OperationMethod<
 export const updateCertificateProvider: API.OperationMethod<
   UpdateCertificateProviderRequest,
   UpdateCertificateProviderResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateCertificateProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCertificateProviderRequest,
@@ -23206,18 +23160,20 @@ export const updateCertificateProvider: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateCommandError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update information about a command or mark a command for deprecation.
  */
 export const updateCommand: API.OperationMethod<
   UpdateCommandRequest,
   UpdateCommandResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateCommandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCommandRequest,
@@ -23230,6 +23186,12 @@ export const updateCommand: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateCustomMetricError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a
  * Device Defender detect custom metric.
@@ -23239,11 +23201,7 @@ export const updateCommand: API.OperationMethod<
 export const updateCustomMetric: API.OperationMethod<
   UpdateCustomMetricRequest,
   UpdateCustomMetricResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateCustomMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomMetricRequest,
@@ -23255,6 +23213,12 @@ export const updateCustomMetric: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateDimensionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the definition for a dimension. You
  * cannot
@@ -23268,11 +23232,7 @@ export const updateCustomMetric: API.OperationMethod<
 export const updateDimension: API.OperationMethod<
   UpdateDimensionRequest,
   UpdateDimensionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateDimensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDimensionRequest,
@@ -23284,6 +23244,15 @@ export const updateDimension: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateDomainConfigurationError =
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates values stored in the domain configuration. Domain configurations for default
  * endpoints can't be updated.
@@ -23293,14 +23262,7 @@ export const updateDimension: API.OperationMethod<
 export const updateDomainConfiguration: API.OperationMethod<
   UpdateDomainConfigurationRequest,
   UpdateDomainConfigurationResponse,
-  | CertificateValidationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateDomainConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainConfigurationRequest,
@@ -23315,6 +23277,14 @@ export const updateDomainConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateDynamicThingGroupError =
+  | InternalFailureException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Updates a dynamic thing group.
  *
@@ -23323,13 +23293,7 @@ export const updateDomainConfiguration: API.OperationMethod<
 export const updateDynamicThingGroup: API.OperationMethod<
   UpdateDynamicThingGroupRequest,
   UpdateDynamicThingGroupResponse,
-  | InternalFailureException
-  | InvalidQueryException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  UpdateDynamicThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDynamicThingGroupRequest,
@@ -23343,6 +23307,13 @@ export const updateDynamicThingGroup: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type UpdateEncryptionConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys
  * from Key Management Service (KMS). With customer managed keys, you create, own, and
@@ -23353,12 +23324,7 @@ export const updateDynamicThingGroup: API.OperationMethod<
 export const updateEncryptionConfiguration: API.OperationMethod<
   UpdateEncryptionConfigurationRequest,
   UpdateEncryptionConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEncryptionConfigurationRequest,
@@ -23371,6 +23337,11 @@ export const updateEncryptionConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateEventConfigurationsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the event configurations.
  *
@@ -23379,10 +23350,7 @@ export const updateEncryptionConfiguration: API.OperationMethod<
 export const updateEventConfigurations: API.OperationMethod<
   UpdateEventConfigurationsRequest,
   UpdateEventConfigurationsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateEventConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventConfigurationsRequest,
@@ -23393,14 +23361,7 @@ export const updateEventConfigurations: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the data for a fleet metric.
- *
- * Requires permission to access the UpdateFleetMetric action.
- */
-export const updateFleetMetric: API.OperationMethod<
-  UpdateFleetMetricRequest,
-  UpdateFleetMetricResponse,
+export type UpdateFleetMetricError =
   | IndexNotReadyException
   | InternalFailureException
   | InvalidAggregationException
@@ -23411,7 +23372,16 @@ export const updateFleetMetric: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | VersionConflictException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the data for a fleet metric.
+ *
+ * Requires permission to access the UpdateFleetMetric action.
+ */
+export const updateFleetMetric: API.OperationMethod<
+  UpdateFleetMetricRequest,
+  UpdateFleetMetricResponse,
+  UpdateFleetMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetMetricRequest,
@@ -23429,6 +23399,13 @@ export const updateFleetMetric: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type UpdateIndexingConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates the search configuration.
  *
@@ -23437,12 +23414,7 @@ export const updateFleetMetric: API.OperationMethod<
 export const updateIndexingConfiguration: API.OperationMethod<
   UpdateIndexingConfigurationRequest,
   UpdateIndexingConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateIndexingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexingConfigurationRequest,
@@ -23455,6 +23427,12 @@ export const updateIndexingConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateJobError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates supported fields of the specified job.
  *
@@ -23463,11 +23441,7 @@ export const updateIndexingConfiguration: API.OperationMethod<
 export const updateJob: API.OperationMethod<
   UpdateJobRequest,
   UpdateJobResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
@@ -23479,6 +23453,12 @@ export const updateJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateMitigationActionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the definition for the specified mitigation action.
  *
@@ -23487,11 +23467,7 @@ export const updateJob: API.OperationMethod<
 export const updateMitigationAction: API.OperationMethod<
   UpdateMitigationActionRequest,
   UpdateMitigationActionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateMitigationActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMitigationActionRequest,
@@ -23503,6 +23479,13 @@ export const updateMitigationAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdatePackageError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the supported fields for a specific software package.
  *
@@ -23511,12 +23494,7 @@ export const updateMitigationAction: API.OperationMethod<
 export const updatePackage: API.OperationMethod<
   UpdatePackageRequest,
   UpdatePackageResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageRequest,
@@ -23529,6 +23507,12 @@ export const updatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageConfigurationError =
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the software package configuration.
  *
@@ -23537,11 +23521,7 @@ export const updatePackage: API.OperationMethod<
 export const updatePackageConfiguration: API.OperationMethod<
   UpdatePackageConfigurationRequest,
   UpdatePackageConfigurationResponse,
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageConfigurationRequest,
@@ -23553,6 +23533,13 @@ export const updatePackageConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageVersionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the supported fields for a specific package version.
  *
@@ -23561,12 +23548,7 @@ export const updatePackageConfiguration: API.OperationMethod<
 export const updatePackageVersion: API.OperationMethod<
   UpdatePackageVersionRequest,
   UpdatePackageVersionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageVersionRequest,
@@ -23579,6 +23561,13 @@ export const updatePackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProvisioningTemplateError =
+  | ConflictingResourceUpdateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a provisioning template.
  *
@@ -23587,12 +23576,7 @@ export const updatePackageVersion: API.OperationMethod<
 export const updateProvisioningTemplate: API.OperationMethod<
   UpdateProvisioningTemplateRequest,
   UpdateProvisioningTemplateResponse,
-  | ConflictingResourceUpdateException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateProvisioningTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProvisioningTemplateRequest,
@@ -23605,6 +23589,14 @@ export const updateProvisioningTemplate: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateRoleAliasError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a role alias.
  *
@@ -23620,13 +23612,7 @@ export const updateProvisioningTemplate: API.OperationMethod<
 export const updateRoleAlias: API.OperationMethod<
   UpdateRoleAliasRequest,
   UpdateRoleAliasResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateRoleAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoleAliasRequest,
@@ -23640,6 +23626,12 @@ export const updateRoleAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateScheduledAuditError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a scheduled audit, including which checks are performed and
  * how often the audit takes place.
@@ -23649,11 +23641,7 @@ export const updateRoleAlias: API.OperationMethod<
 export const updateScheduledAudit: API.OperationMethod<
   UpdateScheduledAuditRequest,
   UpdateScheduledAuditResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateScheduledAuditError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduledAuditRequest,
@@ -23665,6 +23653,13 @@ export const updateScheduledAudit: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateSecurityProfileError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Updates a Device Defender security profile.
  *
@@ -23673,12 +23668,7 @@ export const updateScheduledAudit: API.OperationMethod<
 export const updateSecurityProfile: API.OperationMethod<
   UpdateSecurityProfileRequest,
   UpdateSecurityProfileResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  UpdateSecurityProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityProfileRequest,
@@ -23691,6 +23681,15 @@ export const updateSecurityProfile: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type UpdateStreamError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates an existing stream. The stream version will be incremented by one.
  *
@@ -23699,14 +23698,7 @@ export const updateSecurityProfile: API.OperationMethod<
 export const updateStream: API.OperationMethod<
   UpdateStreamRequest,
   UpdateStreamResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamRequest,
@@ -23721,6 +23713,15 @@ export const updateStream: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Updates the data for a thing.
  *
@@ -23729,14 +23730,7 @@ export const updateStream: API.OperationMethod<
 export const updateThing: API.OperationMethod<
   UpdateThingRequest,
   UpdateThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | VersionConflictException
-  | CommonErrors,
+  UpdateThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingRequest,
@@ -23751,6 +23745,13 @@ export const updateThing: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type UpdateThingGroupError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | CommonErrors;
 /**
  * Update a thing group.
  *
@@ -23759,12 +23760,7 @@ export const updateThing: API.OperationMethod<
 export const updateThingGroup: API.OperationMethod<
   UpdateThingGroupRequest,
   UpdateThingGroupResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | VersionConflictException
-  | CommonErrors,
+  UpdateThingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingGroupRequest,
@@ -23777,6 +23773,12 @@ export const updateThingGroup: API.OperationMethod<
     VersionConflictException,
   ],
 }));
+export type UpdateThingGroupsForThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the groups to which the thing belongs.
  *
@@ -23785,11 +23787,7 @@ export const updateThingGroup: API.OperationMethod<
 export const updateThingGroupsForThing: API.OperationMethod<
   UpdateThingGroupsForThingRequest,
   UpdateThingGroupsForThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateThingGroupsForThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingGroupsForThingRequest,
@@ -23801,19 +23799,21 @@ export const updateThingGroupsForThing: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a thing type.
- */
-export const updateThingType: API.OperationMethod<
-  UpdateThingTypeRequest,
-  UpdateThingTypeResponse,
+export type UpdateThingTypeError =
   | InternalFailureException
   | InvalidRequestException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a thing type.
+ */
+export const updateThingType: API.OperationMethod<
+  UpdateThingTypeRequest,
+  UpdateThingTypeResponse,
+  UpdateThingTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingTypeRequest,
@@ -23827,6 +23827,13 @@ export const updateThingType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateTopicRuleDestinationError =
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a topic rule destination. You use this to change the status, endpoint URL, or
  * confirmation URL of the destination.
@@ -23836,12 +23843,7 @@ export const updateThingType: API.OperationMethod<
 export const updateTopicRuleDestination: API.OperationMethod<
   UpdateTopicRuleDestinationRequest,
   UpdateTopicRuleDestinationResponse,
-  | ConflictingResourceUpdateException
-  | InternalException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateTopicRuleDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTopicRuleDestinationRequest,
@@ -23854,6 +23856,11 @@ export const updateTopicRuleDestination: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ValidateSecurityProfileBehaviorsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Validates a Device Defender security profile behaviors specification.
  *
@@ -23862,10 +23869,7 @@ export const updateTopicRuleDestination: API.OperationMethod<
 export const validateSecurityProfileBehaviors: API.OperationMethod<
   ValidateSecurityProfileBehaviorsRequest,
   ValidateSecurityProfileBehaviorsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ValidateSecurityProfileBehaviorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateSecurityProfileBehaviorsRequest,

@@ -4573,6 +4573,12 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateAccessPolicyError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Associates an access policy and its scope to an access entry. For more information
  * about associating access policies, see Associating and disassociating
@@ -4581,11 +4587,7 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
 export const associateAccessPolicy: API.OperationMethod<
   AssociateAccessPolicyRequest,
   AssociateAccessPolicyResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  AssociateAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAccessPolicyRequest,
@@ -4597,6 +4599,15 @@ export const associateAccessPolicy: API.OperationMethod<
     ServerException,
   ],
 }));
+export type AssociateEncryptionConfigError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates an encryption configuration to an existing cluster.
  *
@@ -4607,14 +4618,7 @@ export const associateAccessPolicy: API.OperationMethod<
 export const associateEncryptionConfig: API.OperationMethod<
   AssociateEncryptionConfigRequest,
   AssociateEncryptionConfigResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateEncryptionConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateEncryptionConfigRequest,
@@ -4629,6 +4633,15 @@ export const associateEncryptionConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateIdentityProviderConfigError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates an identity provider configuration to a cluster.
  *
@@ -4643,14 +4656,7 @@ export const associateEncryptionConfig: API.OperationMethod<
 export const associateIdentityProviderConfig: API.OperationMethod<
   AssociateIdentityProviderConfigRequest,
   AssociateIdentityProviderConfigResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateIdentityProviderConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateIdentityProviderConfigRequest,
@@ -4665,6 +4671,14 @@ export const associateIdentityProviderConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateAccessEntryError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an access entry.
  *
@@ -4685,13 +4699,7 @@ export const associateIdentityProviderConfig: API.OperationMethod<
 export const createAccessEntry: API.OperationMethod<
   CreateAccessEntryRequest,
   CreateAccessEntryResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  CreateAccessEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessEntryRequest,
@@ -4705,6 +4713,14 @@ export const createAccessEntry: API.OperationMethod<
     ServerException,
   ],
 }));
+export type CreateAddonError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an Amazon EKS add-on.
  *
@@ -4715,13 +4731,7 @@ export const createAccessEntry: API.OperationMethod<
 export const createAddon: API.OperationMethod<
   CreateAddonRequest,
   CreateAddonResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  CreateAddonError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAddonRequest,
@@ -4735,6 +4745,15 @@ export const createAddon: API.OperationMethod<
     ServerException,
   ],
 }));
+export type CreateCapabilityError =
+  | AccessDeniedException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a managed capability resource for an Amazon EKS cluster.
  *
@@ -4747,14 +4766,7 @@ export const createAddon: API.OperationMethod<
 export const createCapability: API.OperationMethod<
   CreateCapabilityRequest,
   CreateCapabilityResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ServerException
-  | ThrottlingException
-  | CommonErrors,
+  CreateCapabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapabilityRequest,
@@ -4769,6 +4781,15 @@ export const createCapability: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateClusterError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ServerException
+  | ServiceUnavailableException
+  | UnsupportedAvailabilityZoneException
+  | CommonErrors;
 /**
  * Creates an Amazon EKS control plane.
  *
@@ -4818,14 +4839,7 @@ export const createCapability: API.OperationMethod<
 export const createCluster: API.OperationMethod<
   CreateClusterRequest,
   CreateClusterResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ServerException
-  | ServiceUnavailableException
-  | UnsupportedAvailabilityZoneException
-  | CommonErrors,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -4840,6 +4854,13 @@ export const createCluster: API.OperationMethod<
     UnsupportedAvailabilityZoneException,
   ],
 }));
+export type CreateEksAnywhereSubscriptionError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceLimitExceededException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates an EKS Anywhere subscription. When a subscription is created, it is a contract
  * agreement for the length of the term specified in the request. Licenses that are used to
@@ -4849,12 +4870,7 @@ export const createCluster: API.OperationMethod<
 export const createEksAnywhereSubscription: API.OperationMethod<
   CreateEksAnywhereSubscriptionRequest,
   CreateEksAnywhereSubscriptionResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceLimitExceededException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateEksAnywhereSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEksAnywhereSubscriptionRequest,
@@ -4867,6 +4883,14 @@ export const createEksAnywhereSubscription: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreateFargateProfileError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceLimitExceededException
+  | ServerException
+  | UnsupportedAvailabilityZoneException
+  | CommonErrors;
 /**
  * Creates an Fargate profile for your Amazon EKS cluster. You must have at least one
  * Fargate profile in a cluster to be able to run pods on Fargate.
@@ -4902,13 +4926,7 @@ export const createEksAnywhereSubscription: API.OperationMethod<
 export const createFargateProfile: API.OperationMethod<
   CreateFargateProfileRequest,
   CreateFargateProfileResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceLimitExceededException
-  | ServerException
-  | UnsupportedAvailabilityZoneException
-  | CommonErrors,
+  CreateFargateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFargateProfileRequest,
@@ -4922,6 +4940,15 @@ export const createFargateProfile: API.OperationMethod<
     UnsupportedAvailabilityZoneException,
   ],
 }));
+export type CreateNodegroupError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a managed node group for an Amazon EKS cluster.
  *
@@ -4947,14 +4974,7 @@ export const createFargateProfile: API.OperationMethod<
 export const createNodegroup: API.OperationMethod<
   CreateNodegroupRequest,
   CreateNodegroupResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateNodegroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodegroupRequest,
@@ -4969,6 +4989,14 @@ export const createNodegroup: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreatePodIdentityAssociationError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role
  * with *EKS Pod Identity*. Use EKS Pod Identity to give temporary IAM credentials to
@@ -5002,13 +5030,7 @@ export const createNodegroup: API.OperationMethod<
 export const createPodIdentityAssociation: API.OperationMethod<
   CreatePodIdentityAssociationRequest,
   CreatePodIdentityAssociationResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  CreatePodIdentityAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePodIdentityAssociationRequest,
@@ -5022,6 +5044,11 @@ export const createPodIdentityAssociation: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeleteAccessEntryError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes an access entry.
  *
@@ -5032,16 +5059,20 @@ export const createPodIdentityAssociation: API.OperationMethod<
 export const deleteAccessEntry: API.OperationMethod<
   DeleteAccessEntryRequest,
   DeleteAccessEntryResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DeleteAccessEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessEntryRequest,
   output: DeleteAccessEntryResponse,
   errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
 }));
+export type DeleteAddonError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes an Amazon EKS add-on.
  *
@@ -5051,12 +5082,7 @@ export const deleteAccessEntry: API.OperationMethod<
 export const deleteAddon: API.OperationMethod<
   DeleteAddonRequest,
   DeleteAddonResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DeleteAddonError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAddonRequest,
@@ -5069,6 +5095,13 @@ export const deleteAddon: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeleteCapabilityError =
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes a managed capability from your Amazon EKS cluster. When you delete a capability, Amazon EKS removes the capability infrastructure but retains all resources that were managed by the capability.
  *
@@ -5077,12 +5110,7 @@ export const deleteAddon: API.OperationMethod<
 export const deleteCapability: API.OperationMethod<
   DeleteCapabilityRequest,
   DeleteCapabilityResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DeleteCapabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCapabilityRequest,
@@ -5095,6 +5123,14 @@ export const deleteCapability: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeleteClusterError =
+  | ClientException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes an Amazon EKS cluster control plane.
  *
@@ -5111,13 +5147,7 @@ export const deleteCapability: API.OperationMethod<
 export const deleteCluster: API.OperationMethod<
   DeleteClusterRequest,
   DeleteClusterResponse,
-  | ClientException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -5131,6 +5161,12 @@ export const deleteCluster: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteEksAnywhereSubscriptionError =
+  | ClientException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes an expired or inactive subscription. Deleting inactive subscriptions removes
  * them from the Amazon Web Services Management Console view and from list/describe API responses. Subscriptions can
@@ -5140,11 +5176,7 @@ export const deleteCluster: API.OperationMethod<
 export const deleteEksAnywhereSubscription: API.OperationMethod<
   DeleteEksAnywhereSubscriptionRequest,
   DeleteEksAnywhereSubscriptionResponse,
-  | ClientException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DeleteEksAnywhereSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEksAnywhereSubscriptionRequest,
@@ -5156,6 +5188,12 @@ export const deleteEksAnywhereSubscription: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeleteFargateProfileError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes an Fargate profile.
  *
@@ -5172,11 +5210,7 @@ export const deleteEksAnywhereSubscription: API.OperationMethod<
 export const deleteFargateProfile: API.OperationMethod<
   DeleteFargateProfileRequest,
   DeleteFargateProfileResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DeleteFargateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFargateProfileRequest,
@@ -5188,19 +5222,21 @@ export const deleteFargateProfile: API.OperationMethod<
     ServerException,
   ],
 }));
-/**
- * Deletes a managed node group.
- */
-export const deleteNodegroup: API.OperationMethod<
-  DeleteNodegroupRequest,
-  DeleteNodegroupResponse,
+export type DeleteNodegroupError =
   | ClientException
   | InvalidParameterException
   | ResourceInUseException
   | ResourceNotFoundException
   | ServerException
   | ServiceUnavailableException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a managed node group.
+ */
+export const deleteNodegroup: API.OperationMethod<
+  DeleteNodegroupRequest,
+  DeleteNodegroupResponse,
+  DeleteNodegroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNodegroupRequest,
@@ -5214,6 +5250,12 @@ export const deleteNodegroup: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeletePodIdentityAssociationError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes a EKS Pod Identity association.
  *
@@ -5222,11 +5264,7 @@ export const deleteNodegroup: API.OperationMethod<
 export const deletePodIdentityAssociation: API.OperationMethod<
   DeletePodIdentityAssociationRequest,
   DeletePodIdentityAssociationResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DeletePodIdentityAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePodIdentityAssociationRequest,
@@ -5238,6 +5276,14 @@ export const deletePodIdentityAssociation: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeregisterClusterError =
+  | AccessDeniedException
+  | ClientException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deregisters a connected cluster to remove it from the Amazon EKS control plane.
  *
@@ -5247,13 +5293,7 @@ export const deletePodIdentityAssociation: API.OperationMethod<
 export const deregisterCluster: API.OperationMethod<
   DeregisterClusterRequest,
   DeregisterClusterResponse,
-  | AccessDeniedException
-  | ClientException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeregisterClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterClusterRequest,
@@ -5267,34 +5307,38 @@ export const deregisterCluster: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeAccessEntryError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes an access entry.
  */
 export const describeAccessEntry: API.OperationMethod<
   DescribeAccessEntryRequest,
   DescribeAccessEntryResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeAccessEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccessEntryRequest,
   output: DescribeAccessEntryResponse,
   errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
 }));
+export type DescribeAddonError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes an Amazon EKS add-on.
  */
 export const describeAddon: API.OperationMethod<
   DescribeAddonRequest,
   DescribeAddonResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeAddonError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAddonRequest,
@@ -5307,16 +5351,18 @@ export const describeAddon: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeAddonConfigurationError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns configuration options.
  */
 export const describeAddonConfiguration: API.OperationMethod<
   DescribeAddonConfigurationRequest,
   DescribeAddonConfigurationResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeAddonConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAddonConfigurationRequest,
@@ -5327,6 +5373,11 @@ export const describeAddonConfiguration: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeAddonVersionsError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes the versions for an add-on.
  *
@@ -5337,30 +5388,21 @@ export const describeAddonConfiguration: API.OperationMethod<
 export const describeAddonVersions: API.OperationMethod<
   DescribeAddonVersionsRequest,
   DescribeAddonVersionsResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeAddonVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAddonVersionsRequest,
   ) => stream.Stream<
     DescribeAddonVersionsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    DescribeAddonVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAddonVersionsRequest,
   ) => stream.Stream<
     AddonInfo,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    DescribeAddonVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5378,17 +5420,19 @@ export const describeAddonVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeCapabilityError =
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
  */
 export const describeCapability: API.OperationMethod<
   DescribeCapabilityRequest,
   DescribeCapabilityResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeCapabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCapabilityRequest,
@@ -5400,6 +5444,12 @@ export const describeCapability: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeClusterError =
+  | ClientException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Describes an Amazon EKS cluster.
  *
@@ -5414,11 +5464,7 @@ export const describeCapability: API.OperationMethod<
 export const describeCluster: API.OperationMethod<
   DescribeClusterRequest,
   DescribeClusterResponse,
-  | ClientException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
@@ -5430,36 +5476,32 @@ export const describeCluster: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeClusterVersionsError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists available Kubernetes versions for Amazon EKS clusters.
  */
 export const describeClusterVersions: API.OperationMethod<
   DescribeClusterVersionsRequest,
   DescribeClusterVersionsResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ServerException
-  | CommonErrors,
+  DescribeClusterVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeClusterVersionsRequest,
   ) => stream.Stream<
     DescribeClusterVersionsResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ServerException
-    | CommonErrors,
+    DescribeClusterVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterVersionsRequest,
   ) => stream.Stream<
     ClusterVersionInformation,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ServerException
-    | CommonErrors,
+    DescribeClusterVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5473,17 +5515,19 @@ export const describeClusterVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeEksAnywhereSubscriptionError =
+  | ClientException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns descriptive information about a subscription.
  */
 export const describeEksAnywhereSubscription: API.OperationMethod<
   DescribeEksAnywhereSubscriptionRequest,
   DescribeEksAnywhereSubscriptionResponse,
-  | ClientException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeEksAnywhereSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEksAnywhereSubscriptionRequest,
@@ -5495,17 +5539,19 @@ export const describeEksAnywhereSubscription: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeFargateProfileError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes an Fargate profile.
  */
 export const describeFargateProfile: API.OperationMethod<
   DescribeFargateProfileRequest,
   DescribeFargateProfileResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeFargateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFargateProfileRequest,
@@ -5517,18 +5563,20 @@ export const describeFargateProfile: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeIdentityProviderConfigError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Describes an identity provider configuration.
  */
 export const describeIdentityProviderConfig: API.OperationMethod<
   DescribeIdentityProviderConfigRequest,
   DescribeIdentityProviderConfigResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeIdentityProviderConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityProviderConfigRequest,
@@ -5541,17 +5589,19 @@ export const describeIdentityProviderConfig: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeInsightError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
   DescribeInsightRequest,
   DescribeInsightResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeInsightError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInsightRequest,
@@ -5563,17 +5613,19 @@ export const describeInsight: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeInsightsRefreshError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns the status of the latest on-demand cluster insights refresh operation.
  */
 export const describeInsightsRefresh: API.OperationMethod<
   DescribeInsightsRefreshRequest,
   DescribeInsightsRefreshResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeInsightsRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInsightsRefreshRequest,
@@ -5585,18 +5637,20 @@ export const describeInsightsRefresh: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeNodegroupError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Describes a managed node group.
  */
 export const describeNodegroup: API.OperationMethod<
   DescribeNodegroupRequest,
   DescribeNodegroupResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeNodegroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNodegroupRequest,
@@ -5609,6 +5663,12 @@ export const describeNodegroup: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribePodIdentityAssociationError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns descriptive information about an EKS Pod Identity association.
  *
@@ -5620,11 +5680,7 @@ export const describeNodegroup: API.OperationMethod<
 export const describePodIdentityAssociation: API.OperationMethod<
   DescribePodIdentityAssociationRequest,
   DescribePodIdentityAssociationResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribePodIdentityAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePodIdentityAssociationRequest,
@@ -5636,6 +5692,12 @@ export const describePodIdentityAssociation: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeUpdateError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes an update to an Amazon EKS resource.
  *
@@ -5646,11 +5708,7 @@ export const describePodIdentityAssociation: API.OperationMethod<
 export const describeUpdate: API.OperationMethod<
   DescribeUpdateRequest,
   DescribeUpdateResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DescribeUpdateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUpdateRequest,
@@ -5662,22 +5720,33 @@ export const describeUpdate: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DisassociateAccessPolicyError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Disassociates an access policy from an access entry.
  */
 export const disassociateAccessPolicy: API.OperationMethod<
   DisassociateAccessPolicyRequest,
   DisassociateAccessPolicyResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  DisassociateAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAccessPolicyRequest,
   output: DisassociateAccessPolicyResponse,
   errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
 }));
+export type DisassociateIdentityProviderConfigError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates an identity provider configuration from a cluster.
  *
@@ -5688,14 +5757,7 @@ export const disassociateAccessPolicy: API.OperationMethod<
 export const disassociateIdentityProviderConfig: API.OperationMethod<
   DisassociateIdentityProviderConfigRequest,
   DisassociateIdentityProviderConfigResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateIdentityProviderConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateIdentityProviderConfigRequest,
@@ -5710,39 +5772,33 @@ export const disassociateIdentityProviderConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAccessEntriesError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the access entries for your cluster.
  */
 export const listAccessEntries: API.OperationMethod<
   ListAccessEntriesRequest,
   ListAccessEntriesResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListAccessEntriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessEntriesRequest,
   ) => stream.Stream<
     ListAccessEntriesResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListAccessEntriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessEntriesRequest,
   ) => stream.Stream<
     string,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListAccessEntriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5761,27 +5817,28 @@ export const listAccessEntries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAccessPoliciesError = ServerException | CommonErrors;
 /**
  * Lists the available access policies.
  */
 export const listAccessPolicies: API.OperationMethod<
   ListAccessPoliciesRequest,
   ListAccessPoliciesResponse,
-  ServerException | CommonErrors,
+  ListAccessPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
     ListAccessPoliciesResponse,
-    ServerException | CommonErrors,
+    ListAccessPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
     AccessPolicy,
-    ServerException | CommonErrors,
+    ListAccessPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5795,42 +5852,34 @@ export const listAccessPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAddonsError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the installed add-ons.
  */
 export const listAddons: API.OperationMethod<
   ListAddonsRequest,
   ListAddonsResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListAddonsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAddonsRequest,
   ) => stream.Stream<
     ListAddonsResponse,
-    | ClientException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListAddonsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAddonsRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListAddonsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5850,36 +5899,32 @@ export const listAddons: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssociatedAccessPoliciesError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the access policies associated with an access entry.
  */
 export const listAssociatedAccessPolicies: API.OperationMethod<
   ListAssociatedAccessPoliciesRequest,
   ListAssociatedAccessPoliciesResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListAssociatedAccessPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedAccessPoliciesRequest,
   ) => stream.Stream<
     ListAssociatedAccessPoliciesResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListAssociatedAccessPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedAccessPoliciesRequest,
   ) => stream.Stream<
     AssociatedAccessPolicy,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListAssociatedAccessPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5893,27 +5938,31 @@ export const listAssociatedAccessPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCapabilitiesError =
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
  */
 export const listCapabilities: API.OperationMethod<
   ListCapabilitiesRequest,
   ListCapabilitiesResponse,
-  InvalidParameterException | ServerException | CommonErrors,
+  ListCapabilitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCapabilitiesRequest,
   ) => stream.Stream<
     ListCapabilitiesResponse,
-    InvalidParameterException | ServerException | CommonErrors,
+    ListCapabilitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCapabilitiesRequest,
   ) => stream.Stream<
     CapabilitySummary,
-    InvalidParameterException | ServerException | CommonErrors,
+    ListCapabilitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5927,39 +5976,33 @@ export const listCapabilities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListClustersError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
 export const listClusters: API.OperationMethod<
   ListClustersRequest,
   ListClustersResponse,
-  | ClientException
-  | InvalidParameterException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ListClustersResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5978,39 +6021,33 @@ export const listClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEksAnywhereSubscriptionsError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Displays the full description of the subscription.
  */
 export const listEksAnywhereSubscriptions: API.OperationMethod<
   ListEksAnywhereSubscriptionsRequest,
   ListEksAnywhereSubscriptionsResponse,
-  | ClientException
-  | InvalidParameterException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListEksAnywhereSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEksAnywhereSubscriptionsRequest,
   ) => stream.Stream<
     ListEksAnywhereSubscriptionsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListEksAnywhereSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEksAnywhereSubscriptionsRequest,
   ) => stream.Stream<
     EksAnywhereSubscription,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListEksAnywhereSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6029,6 +6066,12 @@ export const listEksAnywhereSubscriptions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFargateProfilesError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services
  * account in the specified Amazon Web Services Region.
@@ -6036,33 +6079,21 @@ export const listEksAnywhereSubscriptions: API.OperationMethod<
 export const listFargateProfiles: API.OperationMethod<
   ListFargateProfilesRequest,
   ListFargateProfilesResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListFargateProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFargateProfilesRequest,
   ) => stream.Stream<
     ListFargateProfilesResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListFargateProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFargateProfilesRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListFargateProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6081,42 +6112,34 @@ export const listFargateProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIdentityProviderConfigsError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the identity provider configurations for your cluster.
  */
 export const listIdentityProviderConfigs: API.OperationMethod<
   ListIdentityProviderConfigsRequest,
   ListIdentityProviderConfigsResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListIdentityProviderConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdentityProviderConfigsRequest,
   ) => stream.Stream<
     ListIdentityProviderConfigsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListIdentityProviderConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentityProviderConfigsRequest,
   ) => stream.Stream<
     IdentityProviderConfig,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListIdentityProviderConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6136,6 +6159,12 @@ export const listIdentityProviderConfigs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListInsightsError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of all insights checked for against the specified cluster. You can
  * filter which insights are returned by category, associated Kubernetes version, and
@@ -6153,33 +6182,21 @@ export const listIdentityProviderConfigs: API.OperationMethod<
 export const listInsights: API.OperationMethod<
   ListInsightsRequest,
   ListInsightsResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListInsightsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInsightsRequest,
   ) => stream.Stream<
     ListInsightsResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInsightsRequest,
   ) => stream.Stream<
     InsightSummary,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6198,6 +6215,13 @@ export const listInsights: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListNodegroupsError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the managed node groups associated with the specified cluster in your Amazon Web Services
  * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
@@ -6205,36 +6229,21 @@ export const listInsights: API.OperationMethod<
 export const listNodegroups: API.OperationMethod<
   ListNodegroupsRequest,
   ListNodegroupsResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListNodegroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodegroupsRequest,
   ) => stream.Stream<
     ListNodegroupsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListNodegroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNodegroupsRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListNodegroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6254,6 +6263,12 @@ export const listNodegroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPodIdentityAssociationsError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * List the EKS Pod Identity associations in a cluster. You can filter the list by the namespace that the
  * association is in or the service account that the association uses.
@@ -6261,33 +6276,21 @@ export const listNodegroups: API.OperationMethod<
 export const listPodIdentityAssociations: API.OperationMethod<
   ListPodIdentityAssociationsRequest,
   ListPodIdentityAssociationsResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListPodIdentityAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPodIdentityAssociationsRequest,
   ) => stream.Stream<
     ListPodIdentityAssociationsResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListPodIdentityAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPodIdentityAssociationsRequest,
   ) => stream.Stream<
     PodIdentityAssociationSummary,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListPodIdentityAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6306,19 +6309,29 @@ export const listPodIdentityAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | NotFoundException
+  | CommonErrors;
 /**
  * List the tags for an Amazon EKS resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  BadRequestException | NotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException, NotFoundException],
 }));
+export type ListUpdatesError =
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the
  * specified Amazon Web Services Region.
@@ -6326,33 +6339,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listUpdates: API.OperationMethod<
   ListUpdatesRequest,
   ListUpdatesResponse,
-  | ClientException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListUpdatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUpdatesRequest,
   ) => stream.Stream<
     ListUpdatesResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListUpdatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUpdatesRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListUpdatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6371,6 +6372,16 @@ export const listUpdates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RegisterClusterError =
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourcePropagationDelayException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Connects a Kubernetes cluster to the Amazon EKS control plane.
  *
@@ -6394,15 +6405,7 @@ export const listUpdates: API.OperationMethod<
 export const registerCluster: API.OperationMethod<
   RegisterClusterRequest,
   RegisterClusterResponse,
-  | AccessDeniedException
-  | ClientException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ResourcePropagationDelayException
-  | ServerException
-  | ServiceUnavailableException
-  | CommonErrors,
+  RegisterClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterClusterRequest,
@@ -6418,17 +6421,19 @@ export const registerCluster: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartInsightsRefreshError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
  */
 export const startInsightsRefresh: API.OperationMethod<
   StartInsightsRefreshRequest,
   StartInsightsRefreshResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  StartInsightsRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInsightsRefreshRequest,
@@ -6440,6 +6445,10 @@ export const startInsightsRefresh: API.OperationMethod<
     ServerException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Associates the specified tags to an Amazon EKS resource with the specified
  * `resourceArn`. If existing tags on a resource are not specified in the
@@ -6452,37 +6461,43 @@ export const startInsightsRefresh: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  BadRequestException | NotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [BadRequestException, NotFoundException],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes specified tags from an Amazon EKS resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  BadRequestException | NotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [BadRequestException, NotFoundException],
 }));
+export type UpdateAccessEntryError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates an access entry.
  */
 export const updateAccessEntry: API.OperationMethod<
   UpdateAccessEntryRequest,
   UpdateAccessEntryResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdateAccessEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessEntryRequest,
@@ -6494,19 +6509,21 @@ export const updateAccessEntry: API.OperationMethod<
     ServerException,
   ],
 }));
-/**
- * Updates an Amazon EKS add-on.
- */
-export const updateAddon: API.OperationMethod<
-  UpdateAddonRequest,
-  UpdateAddonResponse,
+export type UpdateAddonError =
   | ClientException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ServerException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an Amazon EKS add-on.
+ */
+export const updateAddon: API.OperationMethod<
+  UpdateAddonRequest,
+  UpdateAddonResponse,
+  UpdateAddonError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAddonRequest,
@@ -6520,6 +6537,13 @@ export const updateAddon: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UpdateCapabilityError =
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates the configuration of a managed capability in your Amazon EKS cluster. You can update the IAM role, configuration settings, and delete propagation policy for a capability.
  *
@@ -6528,12 +6552,7 @@ export const updateAddon: API.OperationMethod<
 export const updateCapability: API.OperationMethod<
   UpdateCapabilityRequest,
   UpdateCapabilityResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdateCapabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapabilityRequest,
@@ -6546,6 +6565,15 @@ export const updateCapability: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UpdateClusterConfigError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an Amazon EKS cluster configuration. Your cluster continues to function during the
  * update. The response output includes an update ID that you can use to track the status
@@ -6598,14 +6626,7 @@ export const updateCapability: API.OperationMethod<
 export const updateClusterConfig: API.OperationMethod<
   UpdateClusterConfigRequest,
   UpdateClusterConfigResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateClusterConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterConfigRequest,
@@ -6620,6 +6641,16 @@ export const updateClusterConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateClusterVersionError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to
  * function during the update. The response output includes an update ID that you can use
@@ -6639,15 +6670,7 @@ export const updateClusterConfig: API.OperationMethod<
 export const updateClusterVersion: API.OperationMethod<
   UpdateClusterVersionRequest,
   UpdateClusterVersionResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | InvalidStateException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateClusterVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterVersionRequest,
@@ -6663,6 +6686,13 @@ export const updateClusterVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateEksAnywhereSubscriptionError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after
  * subscription creation.
@@ -6670,12 +6700,7 @@ export const updateClusterVersion: API.OperationMethod<
 export const updateEksAnywhereSubscription: API.OperationMethod<
   UpdateEksAnywhereSubscriptionRequest,
   UpdateEksAnywhereSubscriptionResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdateEksAnywhereSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEksAnywhereSubscriptionRequest,
@@ -6688,6 +6713,14 @@ export const updateEksAnywhereSubscription: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UpdateNodegroupConfigError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates an Amazon EKS managed node group configuration. Your node group continues to
  * function during the update. The response output includes an update ID that you can use
@@ -6699,13 +6732,7 @@ export const updateEksAnywhereSubscription: API.OperationMethod<
 export const updateNodegroupConfig: API.OperationMethod<
   UpdateNodegroupConfigRequest,
   UpdateNodegroupConfigResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdateNodegroupConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNodegroupConfigRequest,
@@ -6719,6 +6746,14 @@ export const updateNodegroupConfig: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UpdateNodegroupVersionError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates the Kubernetes version or AMI version of an Amazon EKS managed node group.
  *
@@ -6751,13 +6786,7 @@ export const updateNodegroupConfig: API.OperationMethod<
 export const updateNodegroupVersion: API.OperationMethod<
   UpdateNodegroupVersionRequest,
   UpdateNodegroupVersionResponse,
-  | ClientException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdateNodegroupVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNodegroupVersionRequest,
@@ -6771,6 +6800,12 @@ export const updateNodegroupVersion: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UpdatePodIdentityAssociationError =
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or `disableSessionTags`.
  * You must change at least one of these in an update. An association can't be moved
@@ -6795,11 +6830,7 @@ export const updateNodegroupVersion: API.OperationMethod<
 export const updatePodIdentityAssociation: API.OperationMethod<
   UpdatePodIdentityAssociationRequest,
   UpdatePodIdentityAssociationResponse,
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdatePodIdentityAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePodIdentityAssociationRequest,

@@ -452,6 +452,14 @@ export class InvalidStateTransitionException extends S.TaggedErrorClass<InvalidS
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type DescribeJobExecutionError =
+  | CertificateValidationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | TerminalStateException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets details of a job execution.
  *
@@ -460,13 +468,7 @@ export class InvalidStateTransitionException extends S.TaggedErrorClass<InvalidS
 export const describeJobExecution: API.OperationMethod<
   DescribeJobExecutionRequest,
   DescribeJobExecutionResponse,
-  | CertificateValidationException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | TerminalStateException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobExecutionRequest,
@@ -480,6 +482,13 @@ export const describeJobExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetPendingJobExecutionsError =
+  | CertificateValidationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the list of all jobs for a thing that are not in a terminal status.
  *
@@ -488,12 +497,7 @@ export const describeJobExecution: API.OperationMethod<
 export const getPendingJobExecutions: API.OperationMethod<
   GetPendingJobExecutionsRequest,
   GetPendingJobExecutionsResponse,
-  | CertificateValidationException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetPendingJobExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPendingJobExecutionsRequest,
@@ -506,6 +510,14 @@ export const getPendingJobExecutions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartCommandExecutionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Using the command created with the `CreateCommand` API, start a command
  * execution on a specific device.
@@ -513,13 +525,7 @@ export const getPendingJobExecutions: API.OperationMethod<
 export const startCommandExecution: API.OperationMethod<
   StartCommandExecutionRequest,
   StartCommandExecutionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartCommandExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCommandExecutionRequest,
@@ -533,6 +539,13 @@ export const startCommandExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartNextPendingJobExecutionError =
+  | CertificateValidationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a
  * thing.
@@ -542,12 +555,7 @@ export const startCommandExecution: API.OperationMethod<
 export const startNextPendingJobExecution: API.OperationMethod<
   StartNextPendingJobExecutionRequest,
   StartNextPendingJobExecutionResponse,
-  | CertificateValidationException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  StartNextPendingJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartNextPendingJobExecutionRequest,
@@ -560,6 +568,14 @@ export const startNextPendingJobExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateJobExecutionError =
+  | CertificateValidationException
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the status of a job execution.
  *
@@ -568,13 +584,7 @@ export const startNextPendingJobExecution: API.OperationMethod<
 export const updateJobExecution: API.OperationMethod<
   UpdateJobExecutionRequest,
   UpdateJobExecutionResponse,
-  | CertificateValidationException
-  | InvalidRequestException
-  | InvalidStateTransitionException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateJobExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobExecutionRequest,

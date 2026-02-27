@@ -1416,6 +1416,12 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DescribeEntitiesDetectionV2JobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a medical entities detection job. Use this operation
  * to get the status of a detection job.
@@ -1423,11 +1429,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const describeEntitiesDetectionV2Job: API.OperationMethod<
   DescribeEntitiesDetectionV2JobRequest,
   DescribeEntitiesDetectionV2JobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEntitiesDetectionV2JobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntitiesDetectionV2JobRequest,
@@ -1439,6 +1441,12 @@ export const describeEntitiesDetectionV2Job: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeICD10CMInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with an InferICD10CM job. Use this operation to get the
  * status of an inference job.
@@ -1446,11 +1454,7 @@ export const describeEntitiesDetectionV2Job: API.OperationMethod<
 export const describeICD10CMInferenceJob: API.OperationMethod<
   DescribeICD10CMInferenceJobRequest,
   DescribeICD10CMInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeICD10CMInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeICD10CMInferenceJobRequest,
@@ -1462,6 +1466,12 @@ export const describeICD10CMInferenceJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribePHIDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a protected health information (PHI) detection job.
  * Use this operation to get the status of a detection job.
@@ -1469,11 +1479,7 @@ export const describeICD10CMInferenceJob: API.OperationMethod<
 export const describePHIDetectionJob: API.OperationMethod<
   DescribePHIDetectionJobRequest,
   DescribePHIDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribePHIDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePHIDetectionJobRequest,
@@ -1485,6 +1491,12 @@ export const describePHIDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeRxNormInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with an InferRxNorm job. Use this operation to get the
  * status of an inference job.
@@ -1492,11 +1504,7 @@ export const describePHIDetectionJob: API.OperationMethod<
 export const describeRxNormInferenceJob: API.OperationMethod<
   DescribeRxNormInferenceJobRequest,
   DescribeRxNormInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeRxNormInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRxNormInferenceJobRequest,
@@ -1508,17 +1516,19 @@ export const describeRxNormInferenceJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeSNOMEDCTInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
  */
 export const describeSNOMEDCTInferenceJob: API.OperationMethod<
   DescribeSNOMEDCTInferenceJobRequest,
   DescribeSNOMEDCTInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeSNOMEDCTInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSNOMEDCTInferenceJobRequest,
@@ -1530,6 +1540,14 @@ export const describeSNOMEDCTInferenceJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DetectEntitiesError =
+  | InternalServerException
+  | InvalidEncodingException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | TextSizeLimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * The `DetectEntities` operation is deprecated. You should use the DetectEntitiesV2 operation instead.
  *
@@ -1540,13 +1558,7 @@ export const describeSNOMEDCTInferenceJob: API.OperationMethod<
 export const detectEntities: API.OperationMethod<
   DetectEntitiesRequest,
   DetectEntitiesResponse,
-  | InternalServerException
-  | InvalidEncodingException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | TextSizeLimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  DetectEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectEntitiesRequest,
@@ -1560,6 +1572,14 @@ export const detectEntities: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DetectEntitiesV2Error =
+  | InternalServerException
+  | InvalidEncodingException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | TextSizeLimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Inspects the clinical text for a variety of medical entities and returns specific
  * information about them such as entity category, location, and confidence score on that
@@ -1577,13 +1597,7 @@ export const detectEntities: API.OperationMethod<
 export const detectEntitiesV2: API.OperationMethod<
   DetectEntitiesV2Request,
   DetectEntitiesV2Response,
-  | InternalServerException
-  | InvalidEncodingException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | TextSizeLimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  DetectEntitiesV2Error,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectEntitiesV2Request,
@@ -1597,6 +1611,14 @@ export const detectEntitiesV2: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DetectPHIError =
+  | InternalServerException
+  | InvalidEncodingException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | TextSizeLimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Inspects the clinical text for protected health information (PHI) entities and returns
  * the entity category, location, and confidence score for each entity. Amazon Comprehend Medical
@@ -1605,13 +1627,7 @@ export const detectEntitiesV2: API.OperationMethod<
 export const detectPHI: API.OperationMethod<
   DetectPHIRequest,
   DetectPHIResponse,
-  | InternalServerException
-  | InvalidEncodingException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | TextSizeLimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  DetectPHIError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectPHIRequest,
@@ -1625,6 +1641,14 @@ export const detectPHI: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type InferICD10CMError =
+  | InternalServerException
+  | InvalidEncodingException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | TextSizeLimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * InferICD10CM detects medical conditions as entities listed in a patient record and links
  * those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the
@@ -1634,13 +1658,7 @@ export const detectPHI: API.OperationMethod<
 export const inferICD10CM: API.OperationMethod<
   InferICD10CMRequest,
   InferICD10CMResponse,
-  | InternalServerException
-  | InvalidEncodingException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | TextSizeLimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  InferICD10CMError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InferICD10CMRequest,
@@ -1654,6 +1672,14 @@ export const inferICD10CM: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type InferRxNormError =
+  | InternalServerException
+  | InvalidEncodingException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | TextSizeLimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * InferRxNorm detects medications as entities listed in a patient record and links to the
  * normalized concept identifiers in the RxNorm database from the National Library of Medicine.
@@ -1662,13 +1688,7 @@ export const inferICD10CM: API.OperationMethod<
 export const inferRxNorm: API.OperationMethod<
   InferRxNormRequest,
   InferRxNormResponse,
-  | InternalServerException
-  | InvalidEncodingException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | TextSizeLimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  InferRxNormError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InferRxNormRequest,
@@ -1682,19 +1702,21 @@ export const inferRxNorm: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
- */
-export const inferSNOMEDCT: API.OperationMethod<
-  InferSNOMEDCTRequest,
-  InferSNOMEDCTResponse,
+export type InferSNOMEDCTError =
   | InternalServerException
   | InvalidEncodingException
   | InvalidRequestException
   | ServiceUnavailableException
   | TextSizeLimitExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
+ */
+export const inferSNOMEDCT: API.OperationMethod<
+  InferSNOMEDCTRequest,
+  InferSNOMEDCTResponse,
+  InferSNOMEDCTError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InferSNOMEDCTRequest,
@@ -1708,17 +1730,19 @@ export const inferSNOMEDCT: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListEntitiesDetectionV2JobsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of medical entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionV2Jobs: API.OperationMethod<
   ListEntitiesDetectionV2JobsRequest,
   ListEntitiesDetectionV2JobsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListEntitiesDetectionV2JobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEntitiesDetectionV2JobsRequest,
@@ -1730,17 +1754,19 @@ export const listEntitiesDetectionV2Jobs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListICD10CMInferenceJobsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of InferICD10CM jobs that you have submitted.
  */
 export const listICD10CMInferenceJobs: API.OperationMethod<
   ListICD10CMInferenceJobsRequest,
   ListICD10CMInferenceJobsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListICD10CMInferenceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListICD10CMInferenceJobsRequest,
@@ -1752,6 +1778,12 @@ export const listICD10CMInferenceJobs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPHIDetectionJobsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of protected health information (PHI) detection jobs you have
  * submitted.
@@ -1759,11 +1791,7 @@ export const listICD10CMInferenceJobs: API.OperationMethod<
 export const listPHIDetectionJobs: API.OperationMethod<
   ListPHIDetectionJobsRequest,
   ListPHIDetectionJobsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListPHIDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPHIDetectionJobsRequest,
@@ -1775,17 +1803,19 @@ export const listPHIDetectionJobs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRxNormInferenceJobsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of InferRxNorm jobs that you have submitted.
  */
 export const listRxNormInferenceJobs: API.OperationMethod<
   ListRxNormInferenceJobsRequest,
   ListRxNormInferenceJobsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListRxNormInferenceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRxNormInferenceJobsRequest,
@@ -1797,17 +1827,19 @@ export const listRxNormInferenceJobs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSNOMEDCTInferenceJobsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of InferSNOMEDCT jobs a user has submitted.
  */
 export const listSNOMEDCTInferenceJobs: API.OperationMethod<
   ListSNOMEDCTInferenceJobsRequest,
   ListSNOMEDCTInferenceJobsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListSNOMEDCTInferenceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSNOMEDCTInferenceJobsRequest,
@@ -1819,6 +1851,12 @@ export const listSNOMEDCTInferenceJobs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartEntitiesDetectionV2JobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts an asynchronous medical entity detection job for a collection of documents. Use the
  * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
@@ -1826,11 +1864,7 @@ export const listSNOMEDCTInferenceJobs: API.OperationMethod<
 export const startEntitiesDetectionV2Job: API.OperationMethod<
   StartEntitiesDetectionV2JobRequest,
   StartEntitiesDetectionV2JobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartEntitiesDetectionV2JobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEntitiesDetectionV2JobRequest,
@@ -1842,6 +1876,12 @@ export const startEntitiesDetectionV2Job: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartICD10CMInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM
  * ontology. Use the `DescribeICD10CMInferenceJob` operation to track the status of a
@@ -1850,11 +1890,7 @@ export const startEntitiesDetectionV2Job: API.OperationMethod<
 export const startICD10CMInferenceJob: API.OperationMethod<
   StartICD10CMInferenceJobRequest,
   StartICD10CMInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartICD10CMInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartICD10CMInferenceJobRequest,
@@ -1866,6 +1902,12 @@ export const startICD10CMInferenceJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartPHIDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts an asynchronous job to detect protected health information (PHI). Use the
  * `DescribePHIDetectionJob` operation to track the status of a job.
@@ -1873,11 +1915,7 @@ export const startICD10CMInferenceJob: API.OperationMethod<
 export const startPHIDetectionJob: API.OperationMethod<
   StartPHIDetectionJobRequest,
   StartPHIDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartPHIDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPHIDetectionJobRequest,
@@ -1889,6 +1927,12 @@ export const startPHIDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartRxNormInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts an asynchronous job to detect medication entities and link them to the RxNorm
  * ontology. Use the `DescribeRxNormInferenceJob` operation to track the status of a
@@ -1897,11 +1941,7 @@ export const startPHIDetectionJob: API.OperationMethod<
 export const startRxNormInferenceJob: API.OperationMethod<
   StartRxNormInferenceJobRequest,
   StartRxNormInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartRxNormInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRxNormInferenceJobRequest,
@@ -1913,17 +1953,19 @@ export const startRxNormInferenceJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartSNOMEDCTInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
  */
 export const startSNOMEDCTInferenceJob: API.OperationMethod<
   StartSNOMEDCTInferenceJobRequest,
   StartSNOMEDCTInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartSNOMEDCTInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSNOMEDCTInferenceJobRequest,
@@ -1935,16 +1977,18 @@ export const startSNOMEDCTInferenceJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StopEntitiesDetectionV2JobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a medical entities detection job in progress.
  */
 export const stopEntitiesDetectionV2Job: API.OperationMethod<
   StopEntitiesDetectionV2JobRequest,
   StopEntitiesDetectionV2JobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopEntitiesDetectionV2JobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEntitiesDetectionV2JobRequest,
@@ -1955,16 +1999,18 @@ export const stopEntitiesDetectionV2Job: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopICD10CMInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops an InferICD10CM inference job in progress.
  */
 export const stopICD10CMInferenceJob: API.OperationMethod<
   StopICD10CMInferenceJobRequest,
   StopICD10CMInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopICD10CMInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopICD10CMInferenceJobRequest,
@@ -1975,16 +2021,18 @@ export const stopICD10CMInferenceJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopPHIDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a protected health information (PHI) detection job in progress.
  */
 export const stopPHIDetectionJob: API.OperationMethod<
   StopPHIDetectionJobRequest,
   StopPHIDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopPHIDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPHIDetectionJobRequest,
@@ -1995,16 +2043,18 @@ export const stopPHIDetectionJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopRxNormInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops an InferRxNorm inference job in progress.
  */
 export const stopRxNormInferenceJob: API.OperationMethod<
   StopRxNormInferenceJobRequest,
   StopRxNormInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopRxNormInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRxNormInferenceJobRequest,
@@ -2015,17 +2065,19 @@ export const stopRxNormInferenceJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopSNOMEDCTInferenceJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Stops an InferSNOMEDCT inference job in progress.
  */
 export const stopSNOMEDCTInferenceJob: API.OperationMethod<
   StopSNOMEDCTInferenceJobRequest,
   StopSNOMEDCTInferenceJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopSNOMEDCTInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSNOMEDCTInferenceJobRequest,

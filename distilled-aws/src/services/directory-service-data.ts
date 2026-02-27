@@ -1018,12 +1018,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Adds an existing user, group, or computer as a group member.
- */
-export const addGroupMember: API.OperationMethod<
-  AddGroupMemberRequest,
-  AddGroupMemberResult,
+export type AddGroupMemberError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
@@ -1031,7 +1026,14 @@ export const addGroupMember: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds an existing user, group, or computer as a group member.
+ */
+export const addGroupMember: API.OperationMethod<
+  AddGroupMemberRequest,
+  AddGroupMemberResult,
+  AddGroupMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddGroupMemberRequest,
@@ -1046,19 +1048,21 @@ export const addGroupMember: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new group.
- */
-export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
-  CreateGroupResult,
+export type CreateGroupError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
   | InternalServerException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new group.
+ */
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
+  CreateGroupResult,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
@@ -1072,19 +1076,21 @@ export const createGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new user.
- */
-export const createUser: API.OperationMethod<
-  CreateUserRequest,
-  CreateUserResult,
+export type CreateUserError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
   | InternalServerException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new user.
+ */
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
+  CreateUserResult,
+  CreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -1098,12 +1104,7 @@ export const createUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a group.
- */
-export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
-  DeleteGroupResult,
+export type DeleteGroupError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
@@ -1111,7 +1112,14 @@ export const deleteGroup: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a group.
+ */
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
+  DeleteGroupResult,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
@@ -1126,12 +1134,7 @@ export const deleteGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a user.
- */
-export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
-  DeleteUserResult,
+export type DeleteUserError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
@@ -1139,7 +1142,14 @@ export const deleteUser: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a user.
+ */
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
+  DeleteUserResult,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -1154,19 +1164,21 @@ export const deleteUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns information about a specific group.
- */
-export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
-  DescribeGroupResult,
+export type DescribeGroupError =
   | AccessDeniedException
   | DirectoryUnavailableException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific group.
+ */
+export const describeGroup: API.OperationMethod<
+  DescribeGroupRequest,
+  DescribeGroupResult,
+  DescribeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupRequest,
@@ -1180,19 +1192,21 @@ export const describeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns information about a specific user.
- */
-export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
-  DescribeUserResult,
+export type DescribeUserError =
   | AccessDeniedException
   | DirectoryUnavailableException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific user.
+ */
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
+  DescribeUserResult,
+  DescribeUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
@@ -1206,6 +1220,15 @@ export const describeUser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisableUserError =
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deactivates an active user account. For information about how to enable an inactive user
  * account, see ResetUserPassword
@@ -1214,14 +1237,7 @@ export const describeUser: API.OperationMethod<
 export const disableUser: API.OperationMethod<
   DisableUserRequest,
   DisableUserResult,
-  | AccessDeniedException
-  | ConflictException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisableUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableUserRequest,
@@ -1236,6 +1252,14 @@ export const disableUser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGroupMembersError =
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns member information for the specified group.
  *
@@ -1250,39 +1274,21 @@ export const disableUser: API.OperationMethod<
 export const listGroupMembers: API.OperationMethod<
   ListGroupMembersRequest,
   ListGroupMembersResult,
-  | AccessDeniedException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGroupMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupMembersRequest,
   ) => stream.Stream<
     ListGroupMembersResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGroupMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupMembersRequest,
   ) => stream.Stream<
     Member,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGroupMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1303,6 +1309,13 @@ export const listGroupMembers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupsError =
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns group information for the specified directory.
  *
@@ -1317,36 +1330,21 @@ export const listGroupMembers: API.OperationMethod<
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResult,
-  | AccessDeniedException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     ListGroupsResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     GroupSummary,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1366,6 +1364,14 @@ export const listGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupsForMemberError =
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns group information for the specified member.
  *
@@ -1380,39 +1386,21 @@ export const listGroups: API.OperationMethod<
 export const listGroupsForMember: API.OperationMethod<
   ListGroupsForMemberRequest,
   ListGroupsForMemberResult,
-  | AccessDeniedException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGroupsForMemberError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsForMemberRequest,
   ) => stream.Stream<
     ListGroupsForMemberResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGroupsForMemberError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsForMemberRequest,
   ) => stream.Stream<
     GroupSummary,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGroupsForMemberError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1433,6 +1421,13 @@ export const listGroupsForMember: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUsersError =
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns user information for the specified directory.
  *
@@ -1447,36 +1442,21 @@ export const listGroupsForMember: API.OperationMethod<
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResult,
-  | AccessDeniedException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     UserSummary,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1496,12 +1476,7 @@ export const listUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Removes a member from a group.
- */
-export const removeGroupMember: API.OperationMethod<
-  RemoveGroupMemberRequest,
-  RemoveGroupMemberResult,
+export type RemoveGroupMemberError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
@@ -1509,7 +1484,14 @@ export const removeGroupMember: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a member from a group.
+ */
+export const removeGroupMember: API.OperationMethod<
+  RemoveGroupMemberRequest,
+  RemoveGroupMemberResult,
+  RemoveGroupMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveGroupMemberRequest,
@@ -1524,6 +1506,13 @@ export const removeGroupMember: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchGroupsError =
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches the specified directory for a group. You can find groups that match the
  * `SearchString` parameter with the value of their attributes included in the
@@ -1540,36 +1529,21 @@ export const removeGroupMember: API.OperationMethod<
 export const searchGroups: API.OperationMethod<
   SearchGroupsRequest,
   SearchGroupsResult,
-  | AccessDeniedException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchGroupsRequest,
   ) => stream.Stream<
     SearchGroupsResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchGroupsRequest,
   ) => stream.Stream<
     Group,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1589,6 +1563,13 @@ export const searchGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchUsersError =
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches the specified directory for a user. You can find users that match the
  * `SearchString` parameter with the value of their attributes included in the
@@ -1605,36 +1586,21 @@ export const searchGroups: API.OperationMethod<
 export const searchUsers: API.OperationMethod<
   SearchUsersRequest,
   SearchUsersResult,
-  | AccessDeniedException
-  | DirectoryUnavailableException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchUsersRequest,
   ) => stream.Stream<
     SearchUsersResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchUsersRequest,
   ) => stream.Stream<
     User,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1654,12 +1620,7 @@ export const searchUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Updates group information.
- */
-export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
-  UpdateGroupResult,
+export type UpdateGroupError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
@@ -1667,7 +1628,14 @@ export const updateGroup: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates group information.
+ */
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
+  UpdateGroupResult,
+  UpdateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
@@ -1682,12 +1650,7 @@ export const updateGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates user information.
- */
-export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
-  UpdateUserResult,
+export type UpdateUserError =
   | AccessDeniedException
   | ConflictException
   | DirectoryUnavailableException
@@ -1695,7 +1658,14 @@ export const updateUser: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates user information.
+ */
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
+  UpdateUserResult,
+  UpdateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,

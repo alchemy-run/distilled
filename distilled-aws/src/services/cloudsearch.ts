@@ -1447,17 +1447,19 @@ export class DisabledOperationException extends S.TaggedErrorClass<DisabledOpera
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type BuildSuggestersError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
  */
 export const buildSuggesters: API.OperationMethod<
   BuildSuggestersRequest,
   BuildSuggestersResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BuildSuggestersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BuildSuggestersRequest,
@@ -1469,6 +1471,13 @@ export const buildSuggesters: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDomainError =
+  | BaseException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new search domain. For more information,
  * see Creating a Search Domain in the *Amazon CloudSearch Developer Guide*.
@@ -1476,12 +1485,7 @@ export const buildSuggesters: API.OperationMethod<
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResponse,
-  | BaseException
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ValidationException
-  | CommonErrors,
+  CreateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
@@ -1494,19 +1498,21 @@ export const createDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Configures an analysis scheme that can be applied to a `text` or `text-array` field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
- */
-export const defineAnalysisScheme: API.OperationMethod<
-  DefineAnalysisSchemeRequest,
-  DefineAnalysisSchemeResponse,
+export type DefineAnalysisSchemeError =
   | BaseException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures an analysis scheme that can be applied to a `text` or `text-array` field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
+ */
+export const defineAnalysisScheme: API.OperationMethod<
+  DefineAnalysisSchemeRequest,
+  DefineAnalysisSchemeResponse,
+  DefineAnalysisSchemeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DefineAnalysisSchemeRequest,
@@ -1520,19 +1526,21 @@ export const defineAnalysisScheme: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
- */
-export const defineExpression: API.OperationMethod<
-  DefineExpressionRequest,
-  DefineExpressionResponse,
+export type DefineExpressionError =
   | BaseException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
+ */
+export const defineExpression: API.OperationMethod<
+  DefineExpressionRequest,
+  DefineExpressionResponse,
+  DefineExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DefineExpressionRequest,
@@ -1546,19 +1554,21 @@ export const defineExpression: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Configures an `IndexField` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `IndexFieldType`. If the field exists, the new configuration replaces the old one. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
- */
-export const defineIndexField: API.OperationMethod<
-  DefineIndexFieldRequest,
-  DefineIndexFieldResponse,
+export type DefineIndexFieldError =
   | BaseException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures an `IndexField` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `IndexFieldType`. If the field exists, the new configuration replaces the old one. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
+ */
+export const defineIndexField: API.OperationMethod<
+  DefineIndexFieldRequest,
+  DefineIndexFieldResponse,
+  DefineIndexFieldError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DefineIndexFieldRequest,
@@ -1572,19 +1582,21 @@ export const defineIndexField: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
- */
-export const defineSuggester: API.OperationMethod<
-  DefineSuggesterRequest,
-  DefineSuggesterResponse,
+export type DefineSuggesterError =
   | BaseException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
+ */
+export const defineSuggester: API.OperationMethod<
+  DefineSuggesterRequest,
+  DefineSuggesterResponse,
+  DefineSuggesterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DefineSuggesterRequest,
@@ -1598,18 +1610,20 @@ export const defineSuggester: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAnalysisSchemeError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteAnalysisScheme: API.OperationMethod<
   DeleteAnalysisSchemeRequest,
   DeleteAnalysisSchemeResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAnalysisSchemeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAnalysisSchemeRequest,
@@ -1622,6 +1636,10 @@ export const deleteAnalysisScheme: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDomainError =
+  | BaseException
+  | InternalException
+  | CommonErrors;
 /**
  * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
  * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
@@ -1629,25 +1647,27 @@ export const deleteAnalysisScheme: API.OperationMethod<
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResponse,
-  BaseException | InternalException | CommonErrors,
+  DeleteDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [BaseException, InternalException],
 }));
+export type DeleteExpressionError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteExpression: API.OperationMethod<
   DeleteExpressionRequest,
   DeleteExpressionResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExpressionRequest,
@@ -1660,18 +1680,20 @@ export const deleteExpression: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIndexFieldError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes an `IndexField` from the search domain. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteIndexField: API.OperationMethod<
   DeleteIndexFieldRequest,
   DeleteIndexFieldResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteIndexFieldError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexFieldRequest,
@@ -1684,18 +1706,20 @@ export const deleteIndexField: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSuggesterError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteSuggester: API.OperationMethod<
   DeleteSuggesterRequest,
   DeleteSuggesterResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSuggesterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSuggesterRequest,
@@ -1708,32 +1732,39 @@ export const deleteSuggester: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAnalysisSchemesError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeAnalysisSchemes: API.OperationMethod<
   DescribeAnalysisSchemesRequest,
   DescribeAnalysisSchemesResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeAnalysisSchemesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAnalysisSchemesRequest,
   output: DescribeAnalysisSchemesResponse,
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
-/**
- * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeAvailabilityOptions: API.OperationMethod<
-  DescribeAvailabilityOptionsRequest,
-  DescribeAvailabilityOptionsResponse,
+export type DescribeAvailabilityOptionsError =
   | BaseException
   | DisabledOperationException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeAvailabilityOptions: API.OperationMethod<
+  DescribeAvailabilityOptionsRequest,
+  DescribeAvailabilityOptionsResponse,
+  DescribeAvailabilityOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAvailabilityOptionsRequest,
@@ -1747,18 +1778,20 @@ export const describeAvailabilityOptions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeDomainEndpointOptionsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeDomainEndpointOptions: API.OperationMethod<
   DescribeDomainEndpointOptionsRequest,
   DescribeDomainEndpointOptionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeDomainEndpointOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainEndpointOptionsRequest,
@@ -1771,6 +1804,10 @@ export const describeDomainEndpointOptions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeDomainsError =
+  | BaseException
+  | InternalException
+  | CommonErrors;
 /**
  * Gets information about the search domains owned by this account. Can be limited to specific domains. Shows
  * all domains by default. To get the number of searchable documents in a domain, use the console or submit a `matchall` request to your domain's search endpoint: `q=matchall&q.parser=structured&size=0`. For more information,
@@ -1779,26 +1816,36 @@ export const describeDomainEndpointOptions: API.OperationMethod<
 export const describeDomains: API.OperationMethod<
   DescribeDomainsRequest,
   DescribeDomainsResponse,
-  BaseException | InternalException | CommonErrors,
+  DescribeDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainsRequest,
   output: DescribeDomainsResponse,
   errors: [BaseException, InternalException],
 }));
+export type DescribeExpressionsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeExpressions: API.OperationMethod<
   DescribeExpressionsRequest,
   DescribeExpressionsResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeExpressionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExpressionsRequest,
   output: DescribeExpressionsResponse,
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
+export type DescribeIndexFieldsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the index fields configured for the search domain.
  * Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
@@ -1807,26 +1854,36 @@ export const describeExpressions: API.OperationMethod<
 export const describeIndexFields: API.OperationMethod<
   DescribeIndexFieldsRequest,
   DescribeIndexFieldsResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeIndexFieldsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIndexFieldsRequest,
   output: DescribeIndexFieldsResponse,
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
+export type DescribeScalingParametersError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeScalingParameters: API.OperationMethod<
   DescribeScalingParametersRequest,
   DescribeScalingParametersResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeScalingParametersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScalingParametersRequest,
   output: DescribeScalingParametersResponse,
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
+export type DescribeServiceAccessPoliciesError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
  * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
@@ -1834,37 +1891,44 @@ export const describeScalingParameters: API.OperationMethod<
 export const describeServiceAccessPolicies: API.OperationMethod<
   DescribeServiceAccessPoliciesRequest,
   DescribeServiceAccessPoliciesResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeServiceAccessPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceAccessPoliciesRequest,
   output: DescribeServiceAccessPoliciesResponse,
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
+export type DescribeSuggestersError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeSuggesters: API.OperationMethod<
   DescribeSuggestersRequest,
   DescribeSuggestersResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeSuggestersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSuggestersRequest,
   output: DescribeSuggestersResponse,
   errors: [BaseException, InternalException, ResourceNotFoundException],
 }));
+export type IndexDocumentsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
  */
 export const indexDocuments: API.OperationMethod<
   IndexDocumentsRequest,
   IndexDocumentsResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  IndexDocumentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IndexDocumentsRequest,
@@ -1876,25 +1940,21 @@ export const indexDocuments: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDomainNamesError = BaseException | CommonErrors;
 /**
  * Lists all search domains owned by an account.
  */
 export const listDomainNames: API.OperationMethod<
   ListDomainNamesRequest,
   ListDomainNamesResponse,
-  BaseException | CommonErrors,
+  ListDomainNamesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDomainNamesRequest,
   output: ListDomainNamesResponse,
   errors: [BaseException],
 }));
-/**
- * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateAvailabilityOptions: API.OperationMethod<
-  UpdateAvailabilityOptionsRequest,
-  UpdateAvailabilityOptionsResponse,
+export type UpdateAvailabilityOptionsError =
   | BaseException
   | DisabledOperationException
   | InternalException
@@ -1902,7 +1962,14 @@ export const updateAvailabilityOptions: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateAvailabilityOptions: API.OperationMethod<
+  UpdateAvailabilityOptionsRequest,
+  UpdateAvailabilityOptionsResponse,
+  UpdateAvailabilityOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAvailabilityOptionsRequest,
@@ -1917,12 +1984,7 @@ export const updateAvailabilityOptions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateDomainEndpointOptions: API.OperationMethod<
-  UpdateDomainEndpointOptionsRequest,
-  UpdateDomainEndpointOptionsResponse,
+export type UpdateDomainEndpointOptionsError =
   | BaseException
   | DisabledOperationException
   | InternalException
@@ -1930,7 +1992,14 @@ export const updateDomainEndpointOptions: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateDomainEndpointOptions: API.OperationMethod<
+  UpdateDomainEndpointOptionsRequest,
+  UpdateDomainEndpointOptionsResponse,
+  UpdateDomainEndpointOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainEndpointOptionsRequest,
@@ -1945,19 +2014,21 @@ export const updateDomainEndpointOptions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateScalingParameters: API.OperationMethod<
-  UpdateScalingParametersRequest,
-  UpdateScalingParametersResponse,
+export type UpdateScalingParametersError =
   | BaseException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateScalingParameters: API.OperationMethod<
+  UpdateScalingParametersRequest,
+  UpdateScalingParametersResponse,
+  UpdateScalingParametersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScalingParametersRequest,
@@ -1971,6 +2042,14 @@ export const updateScalingParameters: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateServiceAccessPoliciesError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Configures the access rules that control access to the domain's document and search endpoints.
  * For more information, see
@@ -1979,13 +2058,7 @@ export const updateScalingParameters: API.OperationMethod<
 export const updateServiceAccessPolicies: API.OperationMethod<
   UpdateServiceAccessPoliciesRequest,
   UpdateServiceAccessPoliciesResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateServiceAccessPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceAccessPoliciesRequest,

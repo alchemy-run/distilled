@@ -6211,6 +6211,14 @@ export class EnableSoftwareTokenMFAException extends S.TaggedErrorClass<EnableSo
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddCustomAttributesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserImportInProgressException
+  | CommonErrors;
 /**
  * Adds additional user attributes to the user pool schema. Custom attributes can be
  * mutable or immutable and have a `custom:` or `dev:` prefix. For
@@ -6229,13 +6237,7 @@ export class EnableSoftwareTokenMFAException extends S.TaggedErrorClass<EnableSo
 export const addCustomAttributes: API.OperationMethod<
   AddCustomAttributesRequest,
   AddCustomAttributesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserImportInProgressException
-  | CommonErrors,
+  AddCustomAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddCustomAttributesRequest,
@@ -6249,6 +6251,14 @@ export const addCustomAttributes: API.OperationMethod<
     UserImportInProgressException,
   ],
 }));
+export type AdminAddUserToGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Adds a user to a group. A user who is in a group can present a preferred-role claim to
  * an identity pool, and populates a `cognito:groups` claim to their access and
@@ -6267,13 +6277,7 @@ export const addCustomAttributes: API.OperationMethod<
 export const adminAddUserToGroup: API.OperationMethod<
   AdminAddUserToGroupRequest,
   AdminAddUserToGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminAddUserToGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminAddUserToGroupRequest,
@@ -6287,6 +6291,19 @@ export const adminAddUserToGroup: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminConfirmSignUpError =
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyFailedAttemptsException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Confirms user sign-up as an administrator.
  *
@@ -6311,18 +6328,7 @@ export const adminAddUserToGroup: API.OperationMethod<
 export const adminConfirmSignUp: API.OperationMethod<
   AdminConfirmSignUpRequest,
   AdminConfirmSignUpResponse,
-  | InternalErrorException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyFailedAttemptsException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminConfirmSignUpError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminConfirmSignUpRequest,
@@ -6341,6 +6347,24 @@ export const adminConfirmSignUp: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminCreateUserError =
+  | CodeDeliveryFailureException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UnsupportedUserStateException
+  | UserLambdaValidationException
+  | UsernameExistsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Creates a new user in the specified user pool.
  *
@@ -6392,23 +6416,7 @@ export const adminConfirmSignUp: API.OperationMethod<
 export const adminCreateUser: API.OperationMethod<
   AdminCreateUserRequest,
   AdminCreateUserResponse,
-  | CodeDeliveryFailureException
-  | InternalErrorException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | NotAuthorizedException
-  | PreconditionNotMetException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UnsupportedUserStateException
-  | UserLambdaValidationException
-  | UsernameExistsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminCreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminCreateUserRequest,
@@ -6432,6 +6440,14 @@ export const adminCreateUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminDeleteUserError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Deletes a user profile in your user pool.
  *
@@ -6448,13 +6464,7 @@ export const adminCreateUser: API.OperationMethod<
 export const adminDeleteUser: API.OperationMethod<
   AdminDeleteUserRequest,
   AdminDeleteUserResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminDeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminDeleteUserRequest,
@@ -6468,6 +6478,14 @@ export const adminDeleteUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminDeleteUserAttributesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Deletes attribute values from a user. This operation doesn't affect tokens for
  * existing user sessions. The next ID token that the user receives will no longer have the
@@ -6486,13 +6504,7 @@ export const adminDeleteUser: API.OperationMethod<
 export const adminDeleteUserAttributes: API.OperationMethod<
   AdminDeleteUserAttributesRequest,
   AdminDeleteUserAttributesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminDeleteUserAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminDeleteUserAttributesRequest,
@@ -6506,6 +6518,15 @@ export const adminDeleteUserAttributes: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminDisableProviderForUserError =
+  | AliasExistsException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Prevents the user from signing in with the specified external (SAML or social)
  * identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools
@@ -6548,14 +6569,7 @@ export const adminDeleteUserAttributes: API.OperationMethod<
 export const adminDisableProviderForUser: API.OperationMethod<
   AdminDisableProviderForUserRequest,
   AdminDisableProviderForUserResponse,
-  | AliasExistsException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminDisableProviderForUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminDisableProviderForUserRequest,
@@ -6570,6 +6584,14 @@ export const adminDisableProviderForUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminDisableUserError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Deactivates a user profile and revokes all access tokens for the user. A deactivated
  * user can't sign in, but still appears in the responses to `ListUsers`
@@ -6588,13 +6610,7 @@ export const adminDisableProviderForUser: API.OperationMethod<
 export const adminDisableUser: API.OperationMethod<
   AdminDisableUserRequest,
   AdminDisableUserResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminDisableUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminDisableUserRequest,
@@ -6608,6 +6624,14 @@ export const adminDisableUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminEnableUserError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Activates sign-in for a user profile that previously had sign-in access
  * disabled.
@@ -6625,13 +6649,7 @@ export const adminDisableUser: API.OperationMethod<
 export const adminEnableUser: API.OperationMethod<
   AdminEnableUserRequest,
   AdminEnableUserResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminEnableUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminEnableUserRequest,
@@ -6645,6 +6663,15 @@ export const adminEnableUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminForgetDeviceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Forgets, or deletes, a remembered device from a user's profile. After you forget
  * the device, the user can no longer complete device authentication with that device and
@@ -6663,14 +6690,7 @@ export const adminEnableUser: API.OperationMethod<
 export const adminForgetDevice: API.OperationMethod<
   AdminForgetDeviceRequest,
   AdminForgetDeviceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminForgetDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminForgetDeviceRequest,
@@ -6685,6 +6705,14 @@ export const adminForgetDevice: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminGetDeviceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given the device key, returns details for a user's device. For more information,
  * see Working with devices.
@@ -6702,13 +6730,7 @@ export const adminForgetDevice: API.OperationMethod<
 export const adminGetDevice: API.OperationMethod<
   AdminGetDeviceRequest,
   AdminGetDeviceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  AdminGetDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminGetDeviceRequest,
@@ -6722,6 +6744,14 @@ export const adminGetDevice: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type AdminGetUserError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Given a username, returns details about a user profile in a user pool. You can specify
  * alias attributes in the `Username` request parameter.
@@ -6742,13 +6772,7 @@ export const adminGetDevice: API.OperationMethod<
 export const adminGetUser: API.OperationMethod<
   AdminGetUserRequest,
   AdminGetUserResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminGetUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminGetUserRequest,
@@ -6762,6 +6786,25 @@ export const adminGetUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminInitiateAuthError =
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | MFAMethodNotFoundException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UnsupportedOperationException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Starts sign-in for applications with a server-side component, for example a
  * traditional web application. This operation specifies the authentication flow that
@@ -6799,24 +6842,7 @@ export const adminGetUser: API.OperationMethod<
 export const adminInitiateAuth: API.OperationMethod<
   AdminInitiateAuthRequest,
   AdminInitiateAuthResponse,
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | InvalidUserPoolConfigurationException
-  | MFAMethodNotFoundException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UnsupportedOperationException
-  | UserLambdaValidationException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminInitiateAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminInitiateAuthRequest,
@@ -6841,6 +6867,16 @@ export const adminInitiateAuth: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminLinkProviderForUserError =
+  | AliasExistsException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Links an existing user account in a user pool, or `DestinationUser`, to an
  * identity from an external IdP, or `SourceUser`, based on a specified
@@ -6871,15 +6907,7 @@ export const adminInitiateAuth: API.OperationMethod<
 export const adminLinkProviderForUser: API.OperationMethod<
   AdminLinkProviderForUserRequest,
   AdminLinkProviderForUserResponse,
-  | AliasExistsException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminLinkProviderForUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminLinkProviderForUserRequest,
@@ -6895,6 +6923,14 @@ export const adminLinkProviderForUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminListDevicesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists a user's registered devices. Remembered devices are used in authentication
  * services where you offer a "Remember me" option for users who you want to permit to sign
@@ -6914,13 +6950,7 @@ export const adminLinkProviderForUser: API.OperationMethod<
 export const adminListDevices: API.OperationMethod<
   AdminListDevicesRequest,
   AdminListDevicesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  AdminListDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminListDevicesRequest,
@@ -6934,6 +6964,14 @@ export const adminListDevices: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type AdminListGroupsForUserError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Lists the groups that a user belongs to. User pool groups are identifiers that you can
  * reference from the contents of ID and access tokens, and set preferred IAM roles for
@@ -6952,39 +6990,21 @@ export const adminListDevices: API.OperationMethod<
 export const adminListGroupsForUser: API.OperationMethod<
   AdminListGroupsForUserRequest,
   AdminListGroupsForUserResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminListGroupsForUserError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: AdminListGroupsForUserRequest,
   ) => stream.Stream<
     AdminListGroupsForUserResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UserNotFoundException
-    | CommonErrors,
+    AdminListGroupsForUserError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: AdminListGroupsForUserRequest,
   ) => stream.Stream<
     GroupType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UserNotFoundException
-    | CommonErrors,
+    AdminListGroupsForUserError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7005,6 +7025,15 @@ export const adminListGroupsForUser: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type AdminListUserAuthEventsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | UserPoolAddOnNotEnabledException
+  | CommonErrors;
 /**
  * Requests a history of user activity and any risks detected as part of Amazon Cognito threat
  * protection. For more information, see Viewing user event history.
@@ -7022,42 +7051,21 @@ export const adminListGroupsForUser: API.OperationMethod<
 export const adminListUserAuthEvents: API.OperationMethod<
   AdminListUserAuthEventsRequest,
   AdminListUserAuthEventsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | UserPoolAddOnNotEnabledException
-  | CommonErrors,
+  AdminListUserAuthEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: AdminListUserAuthEventsRequest,
   ) => stream.Stream<
     AdminListUserAuthEventsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UserNotFoundException
-    | UserPoolAddOnNotEnabledException
-    | CommonErrors,
+    AdminListUserAuthEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: AdminListUserAuthEventsRequest,
   ) => stream.Stream<
     AuthEventType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UserNotFoundException
-    | UserPoolAddOnNotEnabledException
-    | CommonErrors,
+    AdminListUserAuthEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7079,6 +7087,14 @@ export const adminListUserAuthEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type AdminRemoveUserFromGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Given a username and a group name, removes them from the group. User pool groups are
  * identifiers that you can reference from the contents of ID and access tokens, and set
@@ -7097,13 +7113,7 @@ export const adminListUserAuthEvents: API.OperationMethod<
 export const adminRemoveUserFromGroup: API.OperationMethod<
   AdminRemoveUserFromGroupRequest,
   AdminRemoveUserFromGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminRemoveUserFromGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminRemoveUserFromGroupRequest,
@@ -7117,6 +7127,21 @@ export const adminRemoveUserFromGroup: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminResetUserPasswordError =
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Begins the password reset process. Sets the requested user’s account into a
  * `RESET_REQUIRED` status, and sends them a password-reset code. Your user
@@ -7158,20 +7183,7 @@ export const adminRemoveUserFromGroup: API.OperationMethod<
 export const adminResetUserPassword: API.OperationMethod<
   AdminResetUserPasswordRequest,
   AdminResetUserPasswordResponse,
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminResetUserPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminResetUserPasswordRequest,
@@ -7192,6 +7204,30 @@ export const adminResetUserPassword: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminRespondToAuthChallengeError =
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | MFAMethodNotFoundException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Some API operations in a user pool generate a challenge, like a prompt for an MFA
  * code, for device authentication that bypasses MFA, or for a custom authentication
@@ -7232,29 +7268,7 @@ export const adminResetUserPassword: API.OperationMethod<
 export const adminRespondToAuthChallenge: API.OperationMethod<
   AdminRespondToAuthChallengeRequest,
   AdminRespondToAuthChallengeResponse,
-  | AliasExistsException
-  | CodeMismatchException
-  | ExpiredCodeException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | InvalidUserPoolConfigurationException
-  | MFAMethodNotFoundException
-  | NotAuthorizedException
-  | PasswordHistoryPolicyViolationException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | SoftwareTokenMFANotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminRespondToAuthChallengeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminRespondToAuthChallengeRequest,
@@ -7284,6 +7298,15 @@ export const adminRespondToAuthChallenge: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminSetUserMFAPreferenceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Sets the user's multi-factor authentication (MFA) preference, including which MFA
  * options are activated, and if any are preferred. Only one factor can be set as
@@ -7304,14 +7327,7 @@ export const adminRespondToAuthChallenge: API.OperationMethod<
 export const adminSetUserMFAPreference: API.OperationMethod<
   AdminSetUserMFAPreferenceRequest,
   AdminSetUserMFAPreferenceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminSetUserMFAPreferenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminSetUserMFAPreferenceRequest,
@@ -7326,6 +7342,16 @@ export const adminSetUserMFAPreference: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminSetUserPasswordError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Sets the specified user's password in a user pool. This operation administratively
  * sets a temporary or permanent password for a user. With this operation, you can bypass
@@ -7370,15 +7396,7 @@ export const adminSetUserMFAPreference: API.OperationMethod<
 export const adminSetUserPassword: API.OperationMethod<
   AdminSetUserPasswordRequest,
   AdminSetUserPasswordResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | NotAuthorizedException
-  | PasswordHistoryPolicyViolationException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminSetUserPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminSetUserPasswordRequest,
@@ -7394,6 +7412,13 @@ export const adminSetUserPassword: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminSetUserSettingsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * *This action is no longer supported.* You can use it to configure
  * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
@@ -7412,12 +7437,7 @@ export const adminSetUserPassword: API.OperationMethod<
 export const adminSetUserSettings: API.OperationMethod<
   AdminSetUserSettingsRequest,
   AdminSetUserSettingsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminSetUserSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminSetUserSettingsRequest,
@@ -7430,6 +7450,15 @@ export const adminSetUserSettings: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminUpdateAuthEventFeedbackError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | UserPoolAddOnNotEnabledException
+  | CommonErrors;
 /**
  * Provides the feedback for an authentication event generated by threat protection
  * features. Your response indicates that you think that the event either was from a valid
@@ -7456,14 +7485,7 @@ export const adminSetUserSettings: API.OperationMethod<
 export const adminUpdateAuthEventFeedback: API.OperationMethod<
   AdminUpdateAuthEventFeedbackRequest,
   AdminUpdateAuthEventFeedbackResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | UserPoolAddOnNotEnabledException
-  | CommonErrors,
+  AdminUpdateAuthEventFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminUpdateAuthEventFeedbackRequest,
@@ -7478,6 +7500,15 @@ export const adminUpdateAuthEventFeedback: API.OperationMethod<
     UserPoolAddOnNotEnabledException,
   ],
 }));
+export type AdminUpdateDeviceStatusError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Updates the status of a user's device so that it is marked as remembered or not
  * remembered for the purpose of device authentication. Device authentication is a
@@ -7499,14 +7530,7 @@ export const adminUpdateAuthEventFeedback: API.OperationMethod<
 export const adminUpdateDeviceStatus: API.OperationMethod<
   AdminUpdateDeviceStatusRequest,
   AdminUpdateDeviceStatusResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminUpdateDeviceStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminUpdateDeviceStatusRequest,
@@ -7521,6 +7545,21 @@ export const adminUpdateDeviceStatus: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminUpdateUserAttributesError =
+  | AliasExistsException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified user's attributes. To delete an attribute from your user,
  * submit the attribute in your API request with a blank value.
@@ -7563,20 +7602,7 @@ export const adminUpdateDeviceStatus: API.OperationMethod<
 export const adminUpdateUserAttributes: API.OperationMethod<
   AdminUpdateUserAttributesRequest,
   AdminUpdateUserAttributesResponse,
-  | AliasExistsException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminUpdateUserAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminUpdateUserAttributesRequest,
@@ -7597,6 +7623,14 @@ export const adminUpdateUserAttributes: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AdminUserGlobalSignOutError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
  * this operation with your administrative credentials when your user signs out of your
@@ -7636,13 +7670,7 @@ export const adminUpdateUserAttributes: API.OperationMethod<
 export const adminUserGlobalSignOut: API.OperationMethod<
   AdminUserGlobalSignOutRequest,
   AdminUserGlobalSignOutResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | CommonErrors,
+  AdminUserGlobalSignOutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminUserGlobalSignOutRequest,
@@ -7656,6 +7684,15 @@ export const adminUserGlobalSignOut: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type AssociateSoftwareTokenError =
+  | ConcurrentModificationException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | CommonErrors;
 /**
  * Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA)
  * for a user, with a unique private key that Amazon Cognito generates and returns in the API
@@ -7673,14 +7710,7 @@ export const adminUserGlobalSignOut: API.OperationMethod<
 export const associateSoftwareToken: API.OperationMethod<
   AssociateSoftwareTokenRequest,
   AssociateSoftwareTokenResponse,
-  | ConcurrentModificationException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | SoftwareTokenMFANotFoundException
-  | CommonErrors,
+  AssociateSoftwareTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSoftwareTokenRequest,
@@ -7695,6 +7725,20 @@ export const associateSoftwareToken: API.OperationMethod<
     SoftwareTokenMFANotFoundException,
   ],
 }));
+export type ChangePasswordError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Changes the password for the currently signed-in user.
  *
@@ -7708,19 +7752,7 @@ export const associateSoftwareToken: API.OperationMethod<
 export const changePassword: API.OperationMethod<
   ChangePasswordRequest,
   ChangePasswordResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | LimitExceededException
-  | NotAuthorizedException
-  | PasswordHistoryPolicyViolationException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  ChangePasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangePasswordRequest,
@@ -7740,15 +7772,7 @@ export const changePassword: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
-/**
- * Completes registration of a passkey authenticator for the currently signed-in
- * user.
- *
- * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
- */
-export const completeWebAuthnRegistration: API.OperationMethod<
-  CompleteWebAuthnRegistrationRequest,
-  CompleteWebAuthnRegistrationResponse,
+export type CompleteWebAuthnRegistrationError =
   | ForbiddenException
   | InternalErrorException
   | InvalidParameterException
@@ -7761,7 +7785,17 @@ export const completeWebAuthnRegistration: API.OperationMethod<
   | WebAuthnNotEnabledException
   | WebAuthnOriginNotAllowedException
   | WebAuthnRelyingPartyMismatchException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Completes registration of a passkey authenticator for the currently signed-in
+ * user.
+ *
+ * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
+ */
+export const completeWebAuthnRegistration: API.OperationMethod<
+  CompleteWebAuthnRegistrationRequest,
+  CompleteWebAuthnRegistrationResponse,
+  CompleteWebAuthnRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteWebAuthnRegistrationRequest,
@@ -7781,6 +7815,22 @@ export const completeWebAuthnRegistration: API.OperationMethod<
     WebAuthnRelyingPartyMismatchException,
   ],
 }));
+export type ConfirmDeviceError =
+  | DeviceKeyExistsException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UsernameExistsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Confirms a device that a user wants to remember. A remembered device is a "Remember me
  * on this device" option for user pools that perform authentication with the device key of
@@ -7797,21 +7847,7 @@ export const completeWebAuthnRegistration: API.OperationMethod<
 export const confirmDevice: API.OperationMethod<
   ConfirmDeviceRequest,
   ConfirmDeviceResponse,
-  | DeviceKeyExistsException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UsernameExistsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  ConfirmDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmDeviceRequest,
@@ -7833,18 +7869,7 @@ export const confirmDevice: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
-/**
- * This public API operation accepts a confirmation code that Amazon Cognito sent to a user and
- * accepts a new password for that user.
- *
- * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
- * this operation, you can't use IAM credentials to authorize requests, and you can't
- * grant IAM permissions in policies. For more information about authorization models in
- * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
- */
-export const confirmForgotPassword: API.OperationMethod<
-  ConfirmForgotPasswordRequest,
-  ConfirmForgotPasswordResponse,
+export type ConfirmForgotPasswordError =
   | CodeMismatchException
   | ExpiredCodeException
   | ForbiddenException
@@ -7862,7 +7887,20 @@ export const confirmForgotPassword: API.OperationMethod<
   | UserLambdaValidationException
   | UserNotConfirmedException
   | UserNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This public API operation accepts a confirmation code that Amazon Cognito sent to a user and
+ * accepts a new password for that user.
+ *
+ * Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you can't use IAM credentials to authorize requests, and you can't
+ * grant IAM permissions in policies. For more information about authorization models in
+ * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+ */
+export const confirmForgotPassword: API.OperationMethod<
+  ConfirmForgotPasswordRequest,
+  ConfirmForgotPasswordResponse,
+  ConfirmForgotPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmForgotPasswordRequest,
@@ -7887,6 +7925,23 @@ export const confirmForgotPassword: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type ConfirmSignUpError =
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyFailedAttemptsException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Confirms the account of a new user. This public API operation submits a code that
  * Amazon Cognito sent to your user when they signed up in your user pool. After your user enters
@@ -7907,22 +7962,7 @@ export const confirmForgotPassword: API.OperationMethod<
 export const confirmSignUp: API.OperationMethod<
   ConfirmSignUpRequest,
   ConfirmSignUpResponse,
-  | AliasExistsException
-  | CodeMismatchException
-  | ExpiredCodeException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyFailedAttemptsException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotFoundException
-  | CommonErrors,
+  ConfirmSignUpError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmSignUpRequest,
@@ -7945,6 +7985,15 @@ export const confirmSignUp: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type CreateGroupError =
+  | GroupExistsException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new group in the specified user pool. For more information about user pool
  * groups, see Adding groups to a user pool.
@@ -7962,14 +8011,7 @@ export const confirmSignUp: API.OperationMethod<
 export const createGroup: API.OperationMethod<
   CreateGroupRequest,
   CreateGroupResponse,
-  | GroupExistsException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
@@ -7984,6 +8026,15 @@ export const createGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateIdentityProviderError =
+  | DuplicateProviderException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds a configuration and trust relationship between a third-party identity provider
  * (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through
@@ -8002,14 +8053,7 @@ export const createGroup: API.OperationMethod<
 export const createIdentityProvider: API.OperationMethod<
   CreateIdentityProviderRequest,
   CreateIdentityProviderResponse,
-  | DuplicateProviderException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateIdentityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdentityProviderRequest,
@@ -8024,6 +8068,16 @@ export const createIdentityProvider: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateManagedLoginBrandingError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ManagedLoginBrandingExistsException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new set of branding settings for a user pool style and associates it with an
  * app client. This operation is the programmatic option for the creation of a new style in
@@ -8055,15 +8109,7 @@ export const createIdentityProvider: API.OperationMethod<
 export const createManagedLoginBranding: API.OperationMethod<
   CreateManagedLoginBrandingRequest,
   CreateManagedLoginBrandingResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | ManagedLoginBrandingExistsException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateManagedLoginBrandingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateManagedLoginBrandingRequest,
@@ -8079,6 +8125,14 @@ export const createManagedLoginBranding: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateResourceServerError =
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new OAuth2.0 resource server and defines custom scopes within it. Resource
  * servers are associated with custom scopes and machine-to-machine (M2M) authorization.
@@ -8097,13 +8151,7 @@ export const createManagedLoginBranding: API.OperationMethod<
 export const createResourceServer: API.OperationMethod<
   CreateResourceServerRequest,
   CreateResourceServerResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateResourceServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceServerRequest,
@@ -8117,6 +8165,16 @@ export const createResourceServer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTermsError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TermsExistsException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates terms documents for the requested app client. When Terms and conditions and
  * Privacy policy documents are configured, the app client displays links to them in the
@@ -8146,15 +8204,7 @@ export const createResourceServer: API.OperationMethod<
 export const createTerms: API.OperationMethod<
   CreateTermsRequest,
   CreateTermsResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TermsExistsException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateTermsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTermsRequest,
@@ -8170,6 +8220,15 @@ export const createTerms: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateUserImportJobError =
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a user import job. You can import users into user pools from a comma-separated
  * values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill.
@@ -8187,14 +8246,7 @@ export const createTerms: API.OperationMethod<
 export const createUserImportJob: API.OperationMethod<
   CreateUserImportJobRequest,
   CreateUserImportJobResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | PreconditionNotMetException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateUserImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserImportJobRequest,
@@ -8209,6 +8261,19 @@ export const createUserImportJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateUserPoolError =
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TierChangeNotAllowedException
+  | TooManyRequestsException
+  | UserPoolTaggingException
+  | CommonErrors;
 /**
  * Creates a new Amazon Cognito user pool. This operation sets basic and advanced configuration
  * options.
@@ -8245,18 +8310,7 @@ export const createUserImportJob: API.OperationMethod<
 export const createUserPool: API.OperationMethod<
   CreateUserPoolRequest,
   CreateUserPoolResponse,
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | LimitExceededException
-  | NotAuthorizedException
-  | TierChangeNotAllowedException
-  | TooManyRequestsException
-  | UserPoolTaggingException
-  | CommonErrors,
+  CreateUserPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserPoolRequest,
@@ -8275,6 +8329,17 @@ export const createUserPool: API.OperationMethod<
     UserPoolTaggingException,
   ],
 }));
+export type CreateUserPoolClientError =
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidOAuthFlowException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | ScopeDoesNotExistException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an app client in a user pool. This operation sets basic and advanced
  * configuration options.
@@ -8298,16 +8363,7 @@ export const createUserPool: API.OperationMethod<
 export const createUserPoolClient: API.OperationMethod<
   CreateUserPoolClientRequest,
   CreateUserPoolClientResponse,
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidOAuthFlowException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | ScopeDoesNotExistException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateUserPoolClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserPoolClientRequest,
@@ -8324,6 +8380,15 @@ export const createUserPoolClient: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateUserPoolDomainError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * A user pool domain hosts managed login, an authorization server and web server for
  * authentication in your application. This operation creates a new user pool prefix domain
@@ -8351,14 +8416,7 @@ export const createUserPoolClient: API.OperationMethod<
 export const createUserPoolDomain: API.OperationMethod<
   CreateUserPoolDomainRequest,
   CreateUserPoolDomainResponse,
-  | ConcurrentModificationException
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateUserPoolDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserPoolDomainRequest,
@@ -8373,6 +8431,13 @@ export const createUserPoolDomain: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a group from the specified user pool. When you delete a group, that group no
  * longer contributes to users' `cognito:preferred_group` or
@@ -8393,12 +8458,7 @@ export const createUserPoolDomain: API.OperationMethod<
 export const deleteGroup: API.OperationMethod<
   DeleteGroupRequest,
   DeleteGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
@@ -8411,6 +8471,15 @@ export const deleteGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteIdentityProviderError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnsupportedIdentityProviderException
+  | CommonErrors;
 /**
  * Deletes a user pool identity provider (IdP). After you delete an IdP, users can no
  * longer sign in to your user pool through that IdP. For more information about user pool
@@ -8429,14 +8498,7 @@ export const deleteGroup: API.OperationMethod<
 export const deleteIdentityProvider: API.OperationMethod<
   DeleteIdentityProviderRequest,
   DeleteIdentityProviderResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnsupportedIdentityProviderException
-  | CommonErrors,
+  DeleteIdentityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityProviderRequest,
@@ -8451,6 +8513,14 @@ export const deleteIdentityProvider: API.OperationMethod<
     UnsupportedIdentityProviderException,
   ],
 }));
+export type DeleteManagedLoginBrandingError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a managed login branding style. When you delete a style, you delete the
  * branding association for an app client. When an app client doesn't have a style
@@ -8470,13 +8540,7 @@ export const deleteIdentityProvider: API.OperationMethod<
 export const deleteManagedLoginBranding: API.OperationMethod<
   DeleteManagedLoginBrandingRequest,
   DeleteManagedLoginBrandingResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteManagedLoginBrandingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteManagedLoginBrandingRequest,
@@ -8490,6 +8554,13 @@ export const deleteManagedLoginBranding: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteResourceServerError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a resource server. After you delete a resource server, users can no longer
  * generate access tokens with scopes that are associate with that resource server.
@@ -8510,12 +8581,7 @@ export const deleteManagedLoginBranding: API.OperationMethod<
 export const deleteResourceServer: API.OperationMethod<
   DeleteResourceServerRequest,
   DeleteResourceServerResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteResourceServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceServerRequest,
@@ -8528,6 +8594,14 @@ export const deleteResourceServer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTermsError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the terms documents with the requested ID from your app client.
  *
@@ -8544,13 +8618,7 @@ export const deleteResourceServer: API.OperationMethod<
 export const deleteTerms: API.OperationMethod<
   DeleteTermsRequest,
   DeleteTermsResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTermsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTermsRequest,
@@ -8564,6 +8632,17 @@ export const deleteTerms: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteUserError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Deletes the profile of the currently signed-in user. A deleted user profile can no
  * longer be used to sign in and can't be restored.
@@ -8578,16 +8657,7 @@ export const deleteTerms: API.OperationMethod<
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -8604,6 +8674,17 @@ export const deleteUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type DeleteUserAttributesError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Deletes attributes from the currently signed-in user. For example, your application
  * can submit a request to this operation when a user wants to remove their
@@ -8619,16 +8700,7 @@ export const deleteUser: API.OperationMethod<
 export const deleteUserAttributes: API.OperationMethod<
   DeleteUserAttributesRequest,
   DeleteUserAttributesResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  DeleteUserAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserAttributesRequest,
@@ -8645,6 +8717,14 @@ export const deleteUserAttributes: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type DeleteUserPoolError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserImportInProgressException
+  | CommonErrors;
 /**
  * Deletes a user pool. After you delete a user pool, users can no longer sign in to any
  * associated applications.
@@ -8661,13 +8741,7 @@ export const deleteUserAttributes: API.OperationMethod<
 export const deleteUserPool: API.OperationMethod<
   DeleteUserPoolRequest,
   DeleteUserPoolResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserImportInProgressException
-  | CommonErrors,
+  DeleteUserPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserPoolRequest,
@@ -8681,6 +8755,14 @@ export const deleteUserPool: API.OperationMethod<
     UserImportInProgressException,
   ],
 }));
+export type DeleteUserPoolClientError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a user pool app client. After you delete an app client, users can no longer
  * sign in to the associated application.
@@ -8688,13 +8770,7 @@ export const deleteUserPool: API.OperationMethod<
 export const deleteUserPoolClient: API.OperationMethod<
   DeleteUserPoolClientRequest,
   DeleteUserPoolClientResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteUserPoolClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserPoolClientRequest,
@@ -8708,6 +8784,13 @@ export const deleteUserPoolClient: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteUserPoolDomainError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Given a user pool ID and domain identifier, deletes a user pool domain. After you
  * delete a user pool domain, your managed login pages and authorization server are no
@@ -8716,12 +8799,7 @@ export const deleteUserPoolClient: API.OperationMethod<
 export const deleteUserPoolDomain: API.OperationMethod<
   DeleteUserPoolDomainRequest,
   DeleteUserPoolDomainResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteUserPoolDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserPoolDomainRequest,
@@ -8734,6 +8812,15 @@ export const deleteUserPoolDomain: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWebAuthnCredentialError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a registered passkey, or WebAuthn, authenticator for the currently signed-in
  * user.
@@ -8748,14 +8835,7 @@ export const deleteUserPoolDomain: API.OperationMethod<
 export const deleteWebAuthnCredential: API.OperationMethod<
   DeleteWebAuthnCredentialRequest,
   DeleteWebAuthnCredentialResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteWebAuthnCredentialError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebAuthnCredentialRequest,
@@ -8770,6 +8850,13 @@ export const deleteWebAuthnCredential: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeIdentityProviderError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID and identity provider (IdP) name, returns details about the
  * IdP.
@@ -8777,12 +8864,7 @@ export const deleteWebAuthnCredential: API.OperationMethod<
 export const describeIdentityProvider: API.OperationMethod<
   DescribeIdentityProviderRequest,
   DescribeIdentityProviderResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeIdentityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityProviderRequest,
@@ -8795,6 +8877,13 @@ export const describeIdentityProvider: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeManagedLoginBrandingError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given the ID of a managed login branding style, returns detailed information about the
  * style.
@@ -8802,12 +8891,7 @@ export const describeIdentityProvider: API.OperationMethod<
 export const describeManagedLoginBranding: API.OperationMethod<
   DescribeManagedLoginBrandingRequest,
   DescribeManagedLoginBrandingResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeManagedLoginBrandingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeManagedLoginBrandingRequest,
@@ -8820,6 +8904,13 @@ export const describeManagedLoginBranding: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeManagedLoginBrandingByClientError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given the ID of a user pool app client, returns detailed information about the style
  * assigned to the app client.
@@ -8827,12 +8918,7 @@ export const describeManagedLoginBranding: API.OperationMethod<
 export const describeManagedLoginBrandingByClient: API.OperationMethod<
   DescribeManagedLoginBrandingByClientRequest,
   DescribeManagedLoginBrandingByClientResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeManagedLoginBrandingByClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeManagedLoginBrandingByClientRequest,
@@ -8845,18 +8931,20 @@ export const describeManagedLoginBrandingByClient: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeResourceServerError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Describes a resource server. For more information about resource servers, see Access control with resource servers.
  */
 export const describeResourceServer: API.OperationMethod<
   DescribeResourceServerRequest,
   DescribeResourceServerResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeResourceServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourceServerRequest,
@@ -8869,6 +8957,14 @@ export const describeResourceServer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeRiskConfigurationError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserPoolAddOnNotEnabledException
+  | CommonErrors;
 /**
  * Given an app client or user pool ID where threat protection is configured, describes
  * the risk configuration. This operation returns details about adaptive authentication,
@@ -8878,13 +8974,7 @@ export const describeResourceServer: API.OperationMethod<
 export const describeRiskConfiguration: API.OperationMethod<
   DescribeRiskConfigurationRequest,
   DescribeRiskConfigurationResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserPoolAddOnNotEnabledException
-  | CommonErrors,
+  DescribeRiskConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRiskConfigurationRequest,
@@ -8898,6 +8988,13 @@ export const describeRiskConfiguration: API.OperationMethod<
     UserPoolAddOnNotEnabledException,
   ],
 }));
+export type DescribeTermsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns details for the requested terms documents ID. For more information, see Terms documents.
  *
@@ -8914,12 +9011,7 @@ export const describeRiskConfiguration: API.OperationMethod<
 export const describeTerms: API.OperationMethod<
   DescribeTermsRequest,
   DescribeTermsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeTermsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTermsRequest,
@@ -8932,18 +9024,20 @@ export const describeTerms: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeUserImportJobError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Describes a user import job. For more information about user CSV import, see Importing users from a CSV file.
  */
 export const describeUserImportJob: API.OperationMethod<
   DescribeUserImportJobRequest,
   DescribeUserImportJobResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeUserImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserImportJobRequest,
@@ -8956,6 +9050,14 @@ export const describeUserImportJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeUserPoolError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserPoolTaggingException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns configuration information. This operation is useful when
  * you want to inspect an existing user pool and programmatically replicate the
@@ -8974,13 +9076,7 @@ export const describeUserImportJob: API.OperationMethod<
 export const describeUserPool: API.OperationMethod<
   DescribeUserPoolRequest,
   DescribeUserPoolResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserPoolTaggingException
-  | CommonErrors,
+  DescribeUserPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserPoolRequest,
@@ -8994,6 +9090,13 @@ export const describeUserPool: API.OperationMethod<
     UserPoolTaggingException,
   ],
 }));
+export type DescribeUserPoolClientError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given an app client ID, returns configuration information. This operation is useful
  * when you want to inspect an existing app client and programmatically replicate the
@@ -9012,12 +9115,7 @@ export const describeUserPool: API.OperationMethod<
 export const describeUserPoolClient: API.OperationMethod<
   DescribeUserPoolClientRequest,
   DescribeUserPoolClientResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeUserPoolClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserPoolClientRequest,
@@ -9030,6 +9128,12 @@ export const describeUserPoolClient: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeUserPoolDomainError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Given a user pool domain name, returns information about the domain
  * configuration.
@@ -9047,11 +9151,7 @@ export const describeUserPoolClient: API.OperationMethod<
 export const describeUserPoolDomain: API.OperationMethod<
   DescribeUserPoolDomainRequest,
   DescribeUserPoolDomainResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeUserPoolDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserPoolDomainRequest,
@@ -9063,6 +9163,18 @@ export const describeUserPoolDomain: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ForgetDeviceError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Given a device key, deletes a remembered device as the currently signed-in user. For
  * more information about device authentication, see Working with user devices in your user pool.
@@ -9077,17 +9189,7 @@ export const describeUserPoolDomain: API.OperationMethod<
 export const forgetDevice: API.OperationMethod<
   ForgetDeviceRequest,
   ForgetDeviceResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  ForgetDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ForgetDeviceRequest,
@@ -9105,6 +9207,23 @@ export const forgetDevice: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type ForgotPasswordError =
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Sends a password-reset confirmation code to the email address or phone number of the
  * requested username. The message delivery method is determined by the user's
@@ -9144,22 +9263,7 @@ export const forgetDevice: API.OperationMethod<
 export const forgotPassword: API.OperationMethod<
   ForgotPasswordRequest,
   ForgotPasswordResponse,
-  | CodeDeliveryFailureException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotFoundException
-  | CommonErrors,
+  ForgotPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ForgotPasswordRequest,
@@ -9182,6 +9286,13 @@ export const forgotPassword: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type GetCSVHeaderError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, generates a comma-separated value (CSV) list populated with
  * available user attributes in the user pool. This list is the header for the CSV file
@@ -9203,12 +9314,7 @@ export const forgotPassword: API.OperationMethod<
 export const getCSVHeader: API.OperationMethod<
   GetCSVHeaderRequest,
   GetCSVHeaderResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCSVHeaderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCSVHeaderRequest,
@@ -9221,6 +9327,18 @@ export const getCSVHeader: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetDeviceError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Given a device key, returns information about a remembered device for the current
  * user. For more information about device authentication, see Working with user devices in your user pool.
@@ -9235,17 +9353,7 @@ export const getCSVHeader: API.OperationMethod<
 export const getDevice: API.OperationMethod<
   GetDeviceRequest,
   GetDeviceResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  GetDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRequest,
@@ -9263,6 +9371,13 @@ export const getDevice: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type GetGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID and a group name, returns information about the user
  * group.
@@ -9282,12 +9397,7 @@ export const getDevice: API.OperationMethod<
 export const getGroup: API.OperationMethod<
   GetGroupRequest,
   GetGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
@@ -9300,6 +9410,13 @@ export const getGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetIdentityProviderByIdentifierError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given the identifier of an identity provider (IdP), for example
  * `examplecorp`, returns information about the user pool configuration for
@@ -9308,12 +9425,7 @@ export const getGroup: API.OperationMethod<
 export const getIdentityProviderByIdentifier: API.OperationMethod<
   GetIdentityProviderByIdentifierRequest,
   GetIdentityProviderByIdentifierResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetIdentityProviderByIdentifierError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityProviderByIdentifierRequest,
@@ -9326,6 +9438,13 @@ export const getIdentityProviderByIdentifier: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetLogDeliveryConfigurationError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns the logging configuration. User pools can export
  * message-delivery error and threat-protection activity logs to external Amazon Web Services services. For more information, see Exporting user pool logs.
@@ -9343,12 +9462,7 @@ export const getIdentityProviderByIdentifier: API.OperationMethod<
 export const getLogDeliveryConfiguration: API.OperationMethod<
   GetLogDeliveryConfigurationRequest,
   GetLogDeliveryConfigurationResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetLogDeliveryConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogDeliveryConfigurationRequest,
@@ -9361,6 +9475,11 @@ export const getLogDeliveryConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetSigningCertificateError =
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns the signing certificate for SAML 2.0 federation.
  *
@@ -9384,10 +9503,7 @@ export const getLogDeliveryConfiguration: API.OperationMethod<
 export const getSigningCertificate: API.OperationMethod<
   GetSigningCertificateRequest,
   GetSigningCertificateResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSigningCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSigningCertificateRequest,
@@ -9398,16 +9514,7 @@ export const getSigningCertificate: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Given a refresh token, issues new ID, access, and optionally refresh tokens for the
- * user who owns the submitted token. This operation issues a new refresh token and
- * invalidates the original refresh token after an optional grace period when refresh token
- * rotation is enabled. If refresh token rotation is disabled, issues new ID and access
- * tokens only.
- */
-export const getTokensFromRefreshToken: API.OperationMethod<
-  GetTokensFromRefreshTokenRequest,
-  GetTokensFromRefreshTokenResponse,
+export type GetTokensFromRefreshTokenError =
   | ForbiddenException
   | InternalErrorException
   | InvalidLambdaResponseException
@@ -9419,7 +9526,18 @@ export const getTokensFromRefreshToken: API.OperationMethod<
   | UnexpectedLambdaException
   | UserLambdaValidationException
   | UserNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Given a refresh token, issues new ID, access, and optionally refresh tokens for the
+ * user who owns the submitted token. This operation issues a new refresh token and
+ * invalidates the original refresh token after an optional grace period when refresh token
+ * rotation is enabled. If refresh token rotation is disabled, issues new ID and access
+ * tokens only.
+ */
+export const getTokensFromRefreshToken: API.OperationMethod<
+  GetTokensFromRefreshTokenRequest,
+  GetTokensFromRefreshTokenResponse,
+  GetTokensFromRefreshTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokensFromRefreshTokenRequest,
@@ -9438,6 +9556,13 @@ export const getTokensFromRefreshToken: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type GetUICustomizationError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID or app client, returns information about classic hosted UI
  * branding that you applied, if any. Returns user-pool level branding information if no
@@ -9448,12 +9573,7 @@ export const getTokensFromRefreshToken: API.OperationMethod<
 export const getUICustomization: API.OperationMethod<
   GetUICustomizationRequest,
   GetUICustomizationResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetUICustomizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUICustomizationRequest,
@@ -9466,6 +9586,17 @@ export const getUICustomization: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetUserError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Gets user attributes and and MFA settings for the currently signed-in user.
  *
@@ -9479,16 +9610,7 @@ export const getUICustomization: API.OperationMethod<
 export const getUser: API.OperationMethod<
   GetUserRequest,
   GetUserResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  GetUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
@@ -9505,6 +9627,25 @@ export const getUser: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type GetUserAttributeVerificationCodeError =
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Given an attribute name, sends a user attribute verification code for the specified
  * attribute name to the currently signed-in user.
@@ -9536,24 +9677,7 @@ export const getUser: API.OperationMethod<
 export const getUserAttributeVerificationCode: API.OperationMethod<
   GetUserAttributeVerificationCodeRequest,
   GetUserAttributeVerificationCodeResponse,
-  | CodeDeliveryFailureException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | LimitExceededException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  GetUserAttributeVerificationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserAttributeVerificationCodeRequest,
@@ -9578,6 +9702,17 @@ export const getUserAttributeVerificationCode: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type GetUserAuthFactorsError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Lists the authentication options for the currently signed-in user. Returns the
  * following:
@@ -9597,16 +9732,7 @@ export const getUserAttributeVerificationCode: API.OperationMethod<
 export const getUserAuthFactors: API.OperationMethod<
   GetUserAuthFactorsRequest,
   GetUserAuthFactorsResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  GetUserAuthFactorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserAuthFactorsRequest,
@@ -9623,6 +9749,13 @@ export const getUserAuthFactors: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type GetUserPoolMfaConfigError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators
  * and for multi-factor authentication (MFA). This operation describes the
@@ -9651,12 +9784,7 @@ export const getUserAuthFactors: API.OperationMethod<
 export const getUserPoolMfaConfig: API.OperationMethod<
   GetUserPoolMfaConfigRequest,
   GetUserPoolMfaConfigResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetUserPoolMfaConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserPoolMfaConfigRequest,
@@ -9669,6 +9797,16 @@ export const getUserPoolMfaConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GlobalSignOutError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | CommonErrors;
 /**
  * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
  * this operation when your user signs out of your app. This results in the following
@@ -9705,15 +9843,7 @@ export const getUserPoolMfaConfig: API.OperationMethod<
 export const globalSignOut: API.OperationMethod<
   GlobalSignOutRequest,
   GlobalSignOutResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | CommonErrors,
+  GlobalSignOutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GlobalSignOutRequest,
@@ -9729,6 +9859,25 @@ export const globalSignOut: API.OperationMethod<
     UserNotConfirmedException,
   ],
 }));
+export type InitiateAuthError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UnsupportedOperationException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Declares an authentication flow and initiates sign-in for a user in the Amazon Cognito user
  * directory. Amazon Cognito might respond with an additional challenge or an
@@ -9761,24 +9910,7 @@ export const globalSignOut: API.OperationMethod<
 export const initiateAuth: API.OperationMethod<
   InitiateAuthRequest,
   InitiateAuthResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UnsupportedOperationException
-  | UserLambdaValidationException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  InitiateAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateAuthRequest,
@@ -9803,6 +9935,18 @@ export const initiateAuth: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type ListDevicesError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Lists the devices that Amazon Cognito has registered to the currently signed-in user. For more
  * information about device authentication, see Working with user devices in your user pool.
@@ -9817,17 +9961,7 @@ export const initiateAuth: API.OperationMethod<
 export const listDevices: API.OperationMethod<
   ListDevicesRequest,
   ListDevicesResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  ListDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDevicesRequest,
@@ -9845,6 +9979,13 @@ export const listDevices: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type ListGroupsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns user pool groups and their details.
  *
@@ -9861,36 +10002,21 @@ export const listDevices: API.OperationMethod<
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     ListGroupsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     GroupType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9910,6 +10036,13 @@ export const listGroups: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListIdentityProvidersError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns information about configured identity providers (IdPs).
  * For more information about IdPs, see Third-party IdP sign-in.
@@ -9927,36 +10060,21 @@ export const listGroups: API.OperationMethod<
 export const listIdentityProviders: API.OperationMethod<
   ListIdentityProvidersRequest,
   ListIdentityProvidersResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListIdentityProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdentityProvidersRequest,
   ) => stream.Stream<
     ListIdentityProvidersResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListIdentityProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentityProvidersRequest,
   ) => stream.Stream<
     ProviderDescription,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListIdentityProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9976,6 +10094,13 @@ export const listIdentityProviders: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceServersError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns all resource servers and their details. For more
  * information about resource servers, see Access control with resource servers.
@@ -9993,36 +10118,21 @@ export const listIdentityProviders: API.OperationMethod<
 export const listResourceServers: API.OperationMethod<
   ListResourceServersRequest,
   ListResourceServersResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListResourceServersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceServersRequest,
   ) => stream.Stream<
     ListResourceServersResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListResourceServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceServersRequest,
   ) => stream.Stream<
     ResourceServerType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListResourceServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10042,6 +10152,13 @@ export const listResourceServers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the tags that are assigned to an Amazon Cognito user pool. For more information, see
  * Tagging
@@ -10050,12 +10167,7 @@ export const listResourceServers: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -10068,6 +10180,13 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListTermsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns details about all terms documents for the requested user pool.
  *
@@ -10084,12 +10203,7 @@ export const listTagsForResource: API.OperationMethod<
 export const listTerms: API.OperationMethod<
   ListTermsRequest,
   ListTermsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTermsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTermsRequest,
@@ -10102,6 +10216,13 @@ export const listTerms: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListUserImportJobsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns user import jobs and their details. Import jobs are
  * retained in user pool configuration so that you can stage, stop, start, review, and
@@ -10120,12 +10241,7 @@ export const listTerms: API.OperationMethod<
 export const listUserImportJobs: API.OperationMethod<
   ListUserImportJobsRequest,
   ListUserImportJobsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListUserImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUserImportJobsRequest,
@@ -10138,6 +10254,13 @@ export const listUserImportJobs: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListUserPoolClientsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, lists app clients. App clients are sets of rules for the access
  * that you want a user pool to grant to one application. For more information, see App clients.
@@ -10155,36 +10278,21 @@ export const listUserImportJobs: API.OperationMethod<
 export const listUserPoolClients: API.OperationMethod<
   ListUserPoolClientsRequest,
   ListUserPoolClientsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListUserPoolClientsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUserPoolClientsRequest,
   ) => stream.Stream<
     ListUserPoolClientsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUserPoolClientsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUserPoolClientsRequest,
   ) => stream.Stream<
     UserPoolClientDescription,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUserPoolClientsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10204,6 +10312,12 @@ export const listUserPoolClients: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUserPoolsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists user pools and their details in the current Amazon Web Services account.
  *
@@ -10220,33 +10334,21 @@ export const listUserPoolClients: API.OperationMethod<
 export const listUserPools: API.OperationMethod<
   ListUserPoolsRequest,
   ListUserPoolsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListUserPoolsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUserPoolsRequest,
   ) => stream.Stream<
     ListUserPoolsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUserPoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUserPoolsRequest,
   ) => stream.Stream<
     UserPoolDescriptionType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUserPoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10265,6 +10367,13 @@ export const listUserPools: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUsersError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID, returns a list of users and their basic details in a user
  * pool.
@@ -10282,36 +10391,21 @@ export const listUserPools: API.OperationMethod<
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     UserType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10331,6 +10425,13 @@ export const listUsers: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListUsersInGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool ID and a group name, returns a list of users in the group. For more
  * information about user pool groups, see Adding groups to a user pool.
@@ -10348,36 +10449,21 @@ export const listUsers: API.OperationMethod<
 export const listUsersInGroup: API.OperationMethod<
   ListUsersInGroupRequest,
   ListUsersInGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListUsersInGroupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersInGroupRequest,
   ) => stream.Stream<
     ListUsersInGroupResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUsersInGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersInGroupRequest,
   ) => stream.Stream<
     UserType,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListUsersInGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10397,6 +10483,14 @@ export const listUsersInGroup: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListWebAuthnCredentialsError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Generates a list of the currently signed-in user's registered passkey, or
  * WebAuthn, credentials.
@@ -10411,13 +10505,7 @@ export const listUsersInGroup: API.OperationMethod<
 export const listWebAuthnCredentials: API.OperationMethod<
   ListWebAuthnCredentialsRequest,
   ListWebAuthnCredentialsResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListWebAuthnCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWebAuthnCredentialsRequest,
@@ -10431,6 +10519,23 @@ export const listWebAuthnCredentials: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ResendConfirmationCodeError =
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Resends the code that confirms a new account for a user who has signed up in your user
  * pool. Amazon Cognito sends confirmation codes to the user attribute in the
@@ -10463,22 +10568,7 @@ export const listWebAuthnCredentials: API.OperationMethod<
 export const resendConfirmationCode: API.OperationMethod<
   ResendConfirmationCodeRequest,
   ResendConfirmationCodeResponse,
-  | CodeDeliveryFailureException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotFoundException
-  | CommonErrors,
+  ResendConfirmationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResendConfirmationCodeRequest,
@@ -10501,6 +10591,31 @@ export const resendConfirmationCode: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type RespondToAuthChallengeError =
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | MFAMethodNotFoundException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Some API operations in a user pool generate a challenge, like a prompt for an MFA
  * code, for device authentication that bypasses MFA, or for a custom authentication
@@ -10536,30 +10651,7 @@ export const resendConfirmationCode: API.OperationMethod<
 export const respondToAuthChallenge: API.OperationMethod<
   RespondToAuthChallengeRequest,
   RespondToAuthChallengeResponse,
-  | AliasExistsException
-  | CodeMismatchException
-  | ExpiredCodeException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | InvalidUserPoolConfigurationException
-  | MFAMethodNotFoundException
-  | NotAuthorizedException
-  | PasswordHistoryPolicyViolationException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | SoftwareTokenMFANotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  RespondToAuthChallengeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RespondToAuthChallengeRequest,
@@ -10590,6 +10682,15 @@ export const respondToAuthChallenge: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type RevokeTokenError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | UnsupportedOperationException
+  | UnsupportedTokenTypeException
+  | CommonErrors;
 /**
  * Revokes all of the access tokens generated by, and at the same time as, the specified
  * refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito
@@ -10603,14 +10704,7 @@ export const respondToAuthChallenge: API.OperationMethod<
 export const revokeToken: API.OperationMethod<
   RevokeTokenRequest,
   RevokeTokenResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | UnsupportedOperationException
-  | UnsupportedTokenTypeException
-  | CommonErrors,
+  RevokeTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeTokenRequest,
@@ -10625,6 +10719,14 @@ export const revokeToken: API.OperationMethod<
     UnsupportedTokenTypeException,
   ],
 }));
+export type SetLogDeliveryConfigurationError =
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets up or modifies the logging configuration of a user pool. User pools can export
  * user notification logs and, when threat protection is active, user-activity logs. For
@@ -10634,13 +10736,7 @@ export const revokeToken: API.OperationMethod<
 export const setLogDeliveryConfiguration: API.OperationMethod<
   SetLogDeliveryConfigurationRequest,
   SetLogDeliveryConfigurationResponse,
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetLogDeliveryConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLogDeliveryConfigurationRequest,
@@ -10654,6 +10750,16 @@ export const setLogDeliveryConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetRiskConfigurationError =
+  | CodeDeliveryFailureException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserPoolAddOnNotEnabledException
+  | CommonErrors;
 /**
  * Configures threat protection for a user pool or app client. Sets configuration for the
  * following.
@@ -10678,15 +10784,7 @@ export const setLogDeliveryConfiguration: API.OperationMethod<
 export const setRiskConfiguration: API.OperationMethod<
   SetRiskConfigurationRequest,
   SetRiskConfigurationResponse,
-  | CodeDeliveryFailureException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserPoolAddOnNotEnabledException
-  | CommonErrors,
+  SetRiskConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetRiskConfigurationRequest,
@@ -10702,6 +10800,13 @@ export const setRiskConfiguration: API.OperationMethod<
     UserPoolAddOnNotEnabledException,
   ],
 }));
+export type SetUICustomizationError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Configures UI branding settings for domains with the hosted UI (classic) branding
  * version. Your user pool must have a domain. Configure a domain with .
@@ -10724,12 +10829,7 @@ export const setRiskConfiguration: API.OperationMethod<
 export const setUICustomization: API.OperationMethod<
   SetUICustomizationRequest,
   SetUICustomizationResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetUICustomizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUICustomizationRequest,
@@ -10742,6 +10842,16 @@ export const setUICustomization: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetUserMFAPreferenceError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Set the user's multi-factor authentication (MFA) method preference, including which
  * MFA factors are activated and if any are preferred. Only one factor can be set as
@@ -10763,15 +10873,7 @@ export const setUICustomization: API.OperationMethod<
 export const setUserMFAPreference: API.OperationMethod<
   SetUserMFAPreferenceRequest,
   SetUserMFAPreferenceResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  SetUserMFAPreferenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUserMFAPreferenceRequest,
@@ -10787,6 +10889,17 @@ export const setUserMFAPreference: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type SetUserPoolMfaConfigError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets user pool multi-factor authentication (MFA) and passkey configuration. For more
  * information about user pool MFA, see Adding MFA. For more information about WebAuthn passkeys see Authentication flows.
@@ -10811,16 +10924,7 @@ export const setUserMFAPreference: API.OperationMethod<
 export const setUserPoolMfaConfig: API.OperationMethod<
   SetUserPoolMfaConfigRequest,
   SetUserPoolMfaConfigResponse,
-  | ConcurrentModificationException
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetUserPoolMfaConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUserPoolMfaConfigRequest,
@@ -10837,6 +10941,16 @@ export const setUserPoolMfaConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetUserSettingsError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * *This action is no longer supported.* You can use it to configure
  * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
@@ -10852,15 +10966,7 @@ export const setUserPoolMfaConfig: API.OperationMethod<
 export const setUserSettings: API.OperationMethod<
   SetUserSettingsRequest,
   SetUserSettingsResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  SetUserSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUserSettingsRequest,
@@ -10876,6 +10982,24 @@ export const setUserSettings: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type SignUpError =
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UsernameExistsException
+  | CommonErrors;
 /**
  * Registers a user with an app client and requests a user name, password, and user
  * attributes in the user pool.
@@ -10911,23 +11035,7 @@ export const setUserSettings: API.OperationMethod<
 export const signUp: API.OperationMethod<
   SignUpRequest,
   SignUpResponse,
-  | CodeDeliveryFailureException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidPasswordException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UsernameExistsException
-  | CommonErrors,
+  SignUpError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignUpRequest,
@@ -10951,6 +11059,14 @@ export const signUp: API.OperationMethod<
     UsernameExistsException,
   ],
 }));
+export type StartUserImportJobError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Instructs your user pool to start importing users from a CSV file that contains their
  * usernames and attributes. For more information about importing users from a CSV file,
@@ -10959,13 +11075,7 @@ export const signUp: API.OperationMethod<
 export const startUserImportJob: API.OperationMethod<
   StartUserImportJobRequest,
   StartUserImportJobResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PreconditionNotMetException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartUserImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartUserImportJobRequest,
@@ -10979,6 +11089,16 @@ export const startUserImportJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartWebAuthnRegistrationError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | WebAuthnConfigurationMissingException
+  | WebAuthnNotEnabledException
+  | CommonErrors;
 /**
  * Requests credential creation options from your user pool for the currently signed-in
  * user. Returns information about the user pool, the user profile, and authentication
@@ -10990,15 +11110,7 @@ export const startUserImportJob: API.OperationMethod<
 export const startWebAuthnRegistration: API.OperationMethod<
   StartWebAuthnRegistrationRequest,
   StartWebAuthnRegistrationResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | TooManyRequestsException
-  | WebAuthnConfigurationMissingException
-  | WebAuthnNotEnabledException
-  | CommonErrors,
+  StartWebAuthnRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWebAuthnRegistrationRequest,
@@ -11014,6 +11126,14 @@ export const startWebAuthnRegistration: API.OperationMethod<
     WebAuthnNotEnabledException,
   ],
 }));
+export type StopUserImportJobError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Instructs your user pool to stop a running job that's importing users from a CSV
  * file that contains their usernames and attributes. For more information about importing
@@ -11022,13 +11142,7 @@ export const startWebAuthnRegistration: API.OperationMethod<
 export const stopUserImportJob: API.OperationMethod<
   StopUserImportJobRequest,
   StopUserImportJobResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | PreconditionNotMetException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopUserImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopUserImportJobRequest,
@@ -11042,6 +11156,13 @@ export const stopUserImportJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to
  * categorize and manage user pools in different ways, such as by purpose, owner,
@@ -11064,12 +11185,7 @@ export const stopUserImportJob: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -11082,18 +11198,20 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given tag IDs that you previously assigned to a user pool, removes them.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -11106,6 +11224,15 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateAuthEventFeedbackError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | UserPoolAddOnNotEnabledException
+  | CommonErrors;
 /**
  * Provides the feedback for an authentication event generated by threat protection
  * features. The user's response indicates that you think that the event either was from a
@@ -11130,14 +11257,7 @@ export const untagResource: API.OperationMethod<
 export const updateAuthEventFeedback: API.OperationMethod<
   UpdateAuthEventFeedbackRequest,
   UpdateAuthEventFeedbackResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotFoundException
-  | UserPoolAddOnNotEnabledException
-  | CommonErrors,
+  UpdateAuthEventFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthEventFeedbackRequest,
@@ -11152,6 +11272,18 @@ export const updateAuthEventFeedback: API.OperationMethod<
     UserPoolAddOnNotEnabledException,
   ],
 }));
+export type UpdateDeviceStatusError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Updates the status of a the currently signed-in user's device so that it is
  * marked as remembered or not remembered for the purpose of device authentication. Device
@@ -11170,17 +11302,7 @@ export const updateAuthEventFeedback: API.OperationMethod<
 export const updateDeviceStatus: API.OperationMethod<
   UpdateDeviceStatusRequest,
   UpdateDeviceStatusResponse,
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  UpdateDeviceStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceStatusRequest,
@@ -11198,6 +11320,13 @@ export const updateDeviceStatus: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type UpdateGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given the name of a user pool group, updates any of the properties for precedence,
  * IAM role, or description. For more information about user pool groups, see Adding groups to a user pool.
@@ -11215,12 +11344,7 @@ export const updateDeviceStatus: API.OperationMethod<
 export const updateGroup: API.OperationMethod<
   UpdateGroupRequest,
   UpdateGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
@@ -11233,6 +11357,15 @@ export const updateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateIdentityProviderError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnsupportedIdentityProviderException
+  | CommonErrors;
 /**
  * Modifies the configuration and trust relationship between a third-party identity
  * provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity
@@ -11252,14 +11385,7 @@ export const updateGroup: API.OperationMethod<
 export const updateIdentityProvider: API.OperationMethod<
   UpdateIdentityProviderRequest,
   UpdateIdentityProviderResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnsupportedIdentityProviderException
-  | CommonErrors,
+  UpdateIdentityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIdentityProviderRequest,
@@ -11274,6 +11400,14 @@ export const updateIdentityProvider: API.OperationMethod<
     UnsupportedIdentityProviderException,
   ],
 }));
+export type UpdateManagedLoginBrandingError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Configures the branding settings for a user pool style. This operation is the
  * programmatic option for the configuration of a style in the branding editor.
@@ -11300,13 +11434,7 @@ export const updateIdentityProvider: API.OperationMethod<
 export const updateManagedLoginBranding: API.OperationMethod<
   UpdateManagedLoginBrandingRequest,
   UpdateManagedLoginBrandingResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateManagedLoginBrandingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateManagedLoginBrandingRequest,
@@ -11320,6 +11448,13 @@ export const updateManagedLoginBranding: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateResourceServerError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the name and scopes of a resource server. All other fields are read-only. For
  * more information about resource servers, see Access control with resource servers.
@@ -11340,12 +11475,7 @@ export const updateManagedLoginBranding: API.OperationMethod<
 export const updateResourceServer: API.OperationMethod<
   UpdateResourceServerRequest,
   UpdateResourceServerResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateResourceServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceServerRequest,
@@ -11358,6 +11488,15 @@ export const updateResourceServer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateTermsError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TermsExistsException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Modifies existing terms documents for the requested app client. When Terms and
  * conditions and Privacy policy documents are configured, the app client displays links to
@@ -11387,14 +11526,7 @@ export const updateResourceServer: API.OperationMethod<
 export const updateTerms: API.OperationMethod<
   UpdateTermsRequest,
   UpdateTermsResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TermsExistsException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateTermsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTermsRequest,
@@ -11409,6 +11541,27 @@ export const updateTerms: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateUserAttributesError =
+  | AliasExistsException
+  | CodeDeliveryFailureException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Updates the currently signed-in user's attributes. To delete an attribute from
  * the user, submit the attribute in your API request with a blank value.
@@ -11443,26 +11596,7 @@ export const updateTerms: API.OperationMethod<
 export const updateUserAttributes: API.OperationMethod<
   UpdateUserAttributesRequest,
   UpdateUserAttributesResponse,
-  | AliasExistsException
-  | CodeDeliveryFailureException
-  | CodeMismatchException
-  | ExpiredCodeException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidLambdaResponseException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnexpectedLambdaException
-  | UserLambdaValidationException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  UpdateUserAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserAttributesRequest,
@@ -11489,6 +11623,21 @@ export const updateUserAttributes: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type UpdateUserPoolError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TierChangeNotAllowedException
+  | TooManyRequestsException
+  | UserImportInProgressException
+  | UserPoolTaggingException
+  | CommonErrors;
 /**
  * Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito
  * defaults, construct this API request to pass the existing configuration of your user
@@ -11526,20 +11675,7 @@ export const updateUserAttributes: API.OperationMethod<
 export const updateUserPool: API.OperationMethod<
   UpdateUserPoolRequest,
   UpdateUserPoolResponse,
-  | ConcurrentModificationException
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidEmailRoleAccessPolicyException
-  | InvalidParameterException
-  | InvalidSmsRoleAccessPolicyException
-  | InvalidSmsRoleTrustRelationshipException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TierChangeNotAllowedException
-  | TooManyRequestsException
-  | UserImportInProgressException
-  | UserPoolTaggingException
-  | CommonErrors,
+  UpdateUserPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserPoolRequest,
@@ -11560,6 +11696,17 @@ export const updateUserPool: API.OperationMethod<
     UserPoolTaggingException,
   ],
 }));
+export type UpdateUserPoolClientError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidOAuthFlowException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | ScopeDoesNotExistException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Given a user pool app client ID, updates the configuration. To avoid setting
  * parameters to Amazon Cognito defaults, construct this API request to pass the existing
@@ -11585,16 +11732,7 @@ export const updateUserPool: API.OperationMethod<
 export const updateUserPoolClient: API.OperationMethod<
   UpdateUserPoolClientRequest,
   UpdateUserPoolClientResponse,
-  | ConcurrentModificationException
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidOAuthFlowException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | ScopeDoesNotExistException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateUserPoolClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserPoolClientRequest,
@@ -11611,6 +11749,15 @@ export const updateUserPoolClient: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateUserPoolDomainError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * A user pool domain hosts managed login, an authorization server and web server for
  * authentication in your application. This operation updates the branding version for user
@@ -11648,14 +11795,7 @@ export const updateUserPoolClient: API.OperationMethod<
 export const updateUserPoolDomain: API.OperationMethod<
   UpdateUserPoolDomainRequest,
   UpdateUserPoolDomainResponse,
-  | ConcurrentModificationException
-  | FeatureUnavailableInTierException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateUserPoolDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserPoolDomainRequest,
@@ -11670,6 +11810,21 @@ export const updateUserPoolDomain: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type VerifySoftwareTokenError =
+  | CodeMismatchException
+  | EnableSoftwareTokenMFAException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Registers the current user's time-based one-time password (TOTP) authenticator
  * with a code generated in their authenticator app from a private key that's supplied
@@ -11684,20 +11839,7 @@ export const updateUserPoolDomain: API.OperationMethod<
 export const verifySoftwareToken: API.OperationMethod<
   VerifySoftwareTokenRequest,
   VerifySoftwareTokenResponse,
-  | CodeMismatchException
-  | EnableSoftwareTokenMFAException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidUserPoolConfigurationException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | SoftwareTokenMFANotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  VerifySoftwareTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifySoftwareTokenRequest,
@@ -11718,6 +11860,21 @@ export const verifySoftwareToken: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
+export type VerifyUserAttributeError =
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Submits a verification code for a signed-in user who has added or changed a value of
  * an auto-verified attribute. When successful, the user's attribute becomes verified
@@ -11737,20 +11894,7 @@ export const verifySoftwareToken: API.OperationMethod<
 export const verifyUserAttribute: API.OperationMethod<
   VerifyUserAttributeRequest,
   VerifyUserAttributeResponse,
-  | AliasExistsException
-  | CodeMismatchException
-  | ExpiredCodeException
-  | ForbiddenException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | PasswordResetRequiredException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UserNotConfirmedException
-  | UserNotFoundException
-  | CommonErrors,
+  VerifyUserAttributeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyUserAttributeRequest,

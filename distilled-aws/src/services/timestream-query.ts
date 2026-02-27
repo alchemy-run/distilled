@@ -1213,6 +1213,13 @@ export class QueryExecutionException extends S.TaggedErrorClass<QueryExecutionEx
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a query that has been issued. Cancellation is provided only if the query has
  * not completed running before the cancellation request was issued. Because cancellation
@@ -1224,12 +1231,7 @@ export class QueryExecutionException extends S.TaggedErrorClass<QueryExecutionEx
 export const cancelQuery: API.OperationMethod<
   CancelQueryRequest,
   CancelQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQueryRequest,
@@ -1242,6 +1244,15 @@ export const cancelQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateScheduledQueryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a scheduled query that will be run on your behalf at the configured schedule.
  * Timestream assumes the execution role provided as part of the
@@ -1252,14 +1263,7 @@ export const cancelQuery: API.OperationMethod<
 export const createScheduledQuery: API.OperationMethod<
   CreateScheduledQueryRequest,
   CreateScheduledQueryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidEndpointException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduledQueryRequest,
@@ -1274,19 +1278,21 @@ export const createScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a given scheduled query. This is an irreversible operation.
- */
-export const deleteScheduledQuery: API.OperationMethod<
-  DeleteScheduledQueryRequest,
-  DeleteScheduledQueryResponse,
+export type DeleteScheduledQueryError =
   | AccessDeniedException
   | InternalServerException
   | InvalidEndpointException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a given scheduled query. This is an irreversible operation.
+ */
+export const deleteScheduledQuery: API.OperationMethod<
+  DeleteScheduledQueryRequest,
+  DeleteScheduledQueryResponse,
+  DeleteScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduledQueryRequest,
@@ -1300,6 +1306,12 @@ export const deleteScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAccountSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload.
  *
@@ -1308,11 +1320,7 @@ export const deleteScheduledQuery: API.OperationMethod<
 export const describeAccountSettings: API.OperationMethod<
   DescribeAccountSettingsRequest,
   DescribeAccountSettingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountSettingsRequest,
@@ -1324,6 +1332,11 @@ export const describeAccountSettings: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeEndpointsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * DescribeEndpoints returns a list of available endpoints to make Timestream
  * API calls against. This API is available through both Write and Query.
@@ -1345,29 +1358,28 @@ export const describeAccountSettings: API.OperationMethod<
 export const describeEndpoints: API.OperationMethod<
   DescribeEndpointsRequest,
   DescribeEndpointsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointsRequest,
   output: DescribeEndpointsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
-/**
- * Provides detailed information about a scheduled query.
- */
-export const describeScheduledQuery: API.OperationMethod<
-  DescribeScheduledQueryRequest,
-  DescribeScheduledQueryResponse,
+export type DescribeScheduledQueryError =
   | AccessDeniedException
   | InternalServerException
   | InvalidEndpointException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides detailed information about a scheduled query.
+ */
+export const describeScheduledQuery: API.OperationMethod<
+  DescribeScheduledQueryRequest,
+  DescribeScheduledQueryResponse,
+  DescribeScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScheduledQueryRequest,
@@ -1381,6 +1393,14 @@ export const describeScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExecuteScheduledQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * You can use this API to run a scheduled query manually.
  *
@@ -1389,13 +1409,7 @@ export const describeScheduledQuery: API.OperationMethod<
 export const executeScheduledQuery: API.OperationMethod<
   ExecuteScheduledQueryRequest,
   ExecuteScheduledQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ExecuteScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteScheduledQueryRequest,
@@ -1409,6 +1423,13 @@ export const executeScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListScheduledQueriesError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of all scheduled queries in the caller's Amazon account and Region.
  * `ListScheduledQueries` is eventually consistent.
@@ -1416,36 +1437,21 @@ export const executeScheduledQuery: API.OperationMethod<
 export const listScheduledQueries: API.OperationMethod<
   ListScheduledQueriesRequest,
   ListScheduledQueriesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListScheduledQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScheduledQueriesRequest,
   ) => stream.Stream<
     ListScheduledQueriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScheduledQueriesRequest,
   ) => stream.Stream<
     ScheduledQuery,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1465,39 +1471,33 @@ export const listScheduledQueries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all tags on a Timestream query resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | InvalidEndpointException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | InvalidEndpointException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1516,6 +1516,13 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PrepareQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A synchronous operation that allows you to submit a query with parameters to be stored
  * by Timestream for later running. Timestream only supports using this operation with
@@ -1524,12 +1531,7 @@ export const listTagsForResource: API.OperationMethod<
 export const prepareQuery: API.OperationMethod<
   PrepareQueryRequest,
   PrepareQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PrepareQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PrepareQueryRequest,
@@ -1542,6 +1544,15 @@ export const prepareQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type QueryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | QueryExecutionException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * `Query` is a synchronous operation that enables you to run a query against
  * your Amazon Timestream data.
@@ -1577,42 +1588,21 @@ export const prepareQuery: API.OperationMethod<
 export const query: API.OperationMethod<
   QueryRequest,
   QueryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidEndpointException
-  | QueryExecutionException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  QueryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: QueryRequest,
   ) => stream.Stream<
     QueryResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | InvalidEndpointException
-    | QueryExecutionException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    QueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: QueryRequest,
   ) => stream.Stream<
     Row,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | InvalidEndpointException
-    | QueryExecutionException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    QueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1634,6 +1624,13 @@ export const query: API.OperationMethod<
     pageSize: "MaxRows",
   } as const,
 }));
+export type TagResourceError =
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associate a set of tags with a Timestream resource. You can then activate these
  * user-defined tags so that they appear on the Billing and Cost Management console for
@@ -1642,12 +1639,7 @@ export const query: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1660,17 +1652,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association of tags from a Timestream query resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1682,6 +1676,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAccountSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of `MaxQueryTCU` to a desired configuration, the new value can take up to 24 hours to be effective.
  *
@@ -1690,12 +1691,7 @@ export const untagResource: API.OperationMethod<
 export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsRequest,
   UpdateAccountSettingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsRequest,
@@ -1708,19 +1704,21 @@ export const updateAccountSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a scheduled query.
- */
-export const updateScheduledQuery: API.OperationMethod<
-  UpdateScheduledQueryRequest,
-  UpdateScheduledQueryResponse,
+export type UpdateScheduledQueryError =
   | AccessDeniedException
   | InternalServerException
   | InvalidEndpointException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a scheduled query.
+ */
+export const updateScheduledQuery: API.OperationMethod<
+  UpdateScheduledQueryRequest,
+  UpdateScheduledQueryResponse,
+  UpdateScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduledQueryRequest,

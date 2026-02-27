@@ -3410,19 +3410,21 @@ export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestEx
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Create a new FinSpace environment.
- */
-export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
-  CreateEnvironmentResponse,
+export type CreateEnvironmentError =
   | AccessDeniedException
   | InternalServerException
   | LimitExceededException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new FinSpace environment.
+ */
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
+  CreateEnvironmentResponse,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
@@ -3436,12 +3438,7 @@ export const createEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
- */
-export const createKxChangeset: API.OperationMethod<
-  CreateKxChangesetRequest,
-  CreateKxChangesetResponse,
+export type CreateKxChangesetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3449,7 +3446,14 @@ export const createKxChangeset: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
+ */
+export const createKxChangeset: API.OperationMethod<
+  CreateKxChangesetRequest,
+  CreateKxChangesetResponse,
+  CreateKxChangesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxChangesetRequest,
@@ -3464,12 +3468,7 @@ export const createKxChangeset: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new kdb cluster.
- */
-export const createKxCluster: API.OperationMethod<
-  CreateKxClusterRequest,
-  CreateKxClusterResponse,
+export type CreateKxClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3477,7 +3476,14 @@ export const createKxCluster: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new kdb cluster.
+ */
+export const createKxCluster: API.OperationMethod<
+  CreateKxClusterRequest,
+  CreateKxClusterResponse,
+  CreateKxClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxClusterRequest,
@@ -3492,12 +3498,7 @@ export const createKxCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new kdb database in the environment.
- */
-export const createKxDatabase: API.OperationMethod<
-  CreateKxDatabaseRequest,
-  CreateKxDatabaseResponse,
+export type CreateKxDatabaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3506,7 +3507,14 @@ export const createKxDatabase: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new kdb database in the environment.
+ */
+export const createKxDatabase: API.OperationMethod<
+  CreateKxDatabaseRequest,
+  CreateKxDatabaseResponse,
+  CreateKxDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxDatabaseRequest,
@@ -3522,12 +3530,7 @@ export const createKxDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
- */
-export const createKxDataview: API.OperationMethod<
-  CreateKxDataviewRequest,
-  CreateKxDataviewResponse,
+export type CreateKxDataviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3536,7 +3539,14 @@ export const createKxDataview: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
+ */
+export const createKxDataview: API.OperationMethod<
+  CreateKxDataviewRequest,
+  CreateKxDataviewResponse,
+  CreateKxDataviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxDataviewRequest,
@@ -3552,12 +3562,7 @@ export const createKxDataview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a managed kdb environment for the account.
- */
-export const createKxEnvironment: API.OperationMethod<
-  CreateKxEnvironmentRequest,
-  CreateKxEnvironmentResponse,
+export type CreateKxEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3565,7 +3570,14 @@ export const createKxEnvironment: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a managed kdb environment for the account.
+ */
+export const createKxEnvironment: API.OperationMethod<
+  CreateKxEnvironmentRequest,
+  CreateKxEnvironmentResponse,
+  CreateKxEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxEnvironmentRequest,
@@ -3580,12 +3592,7 @@ export const createKxEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new scaling group.
- */
-export const createKxScalingGroup: API.OperationMethod<
-  CreateKxScalingGroupRequest,
-  CreateKxScalingGroupResponse,
+export type CreateKxScalingGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3593,7 +3600,14 @@ export const createKxScalingGroup: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new scaling group.
+ */
+export const createKxScalingGroup: API.OperationMethod<
+  CreateKxScalingGroupRequest,
+  CreateKxScalingGroupResponse,
+  CreateKxScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxScalingGroupRequest,
@@ -3608,12 +3622,7 @@ export const createKxScalingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a user in FinSpace kdb environment with an associated IAM role.
- */
-export const createKxUser: API.OperationMethod<
-  CreateKxUserRequest,
-  CreateKxUserResponse,
+export type CreateKxUserError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3622,7 +3631,14 @@ export const createKxUser: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a user in FinSpace kdb environment with an associated IAM role.
+ */
+export const createKxUser: API.OperationMethod<
+  CreateKxUserRequest,
+  CreateKxUserResponse,
+  CreateKxUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxUserRequest,
@@ -3638,12 +3654,7 @@ export const createKxUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new volume with a specific amount of throughput and storage capacity.
- */
-export const createKxVolume: API.OperationMethod<
-  CreateKxVolumeRequest,
-  CreateKxVolumeResponse,
+export type CreateKxVolumeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3652,7 +3663,14 @@ export const createKxVolume: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new volume with a specific amount of throughput and storage capacity.
+ */
+export const createKxVolume: API.OperationMethod<
+  CreateKxVolumeRequest,
+  CreateKxVolumeResponse,
+  CreateKxVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxVolumeRequest,
@@ -3668,18 +3686,20 @@ export const createKxVolume: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an FinSpace environment.
  */
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
@@ -3692,12 +3712,7 @@ export const deleteEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a kdb cluster.
- */
-export const deleteKxCluster: API.OperationMethod<
-  DeleteKxClusterRequest,
-  DeleteKxClusterResponse,
+export type DeleteKxClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3705,7 +3720,14 @@ export const deleteKxCluster: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a kdb cluster.
+ */
+export const deleteKxCluster: API.OperationMethod<
+  DeleteKxClusterRequest,
+  DeleteKxClusterResponse,
+  DeleteKxClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxClusterRequest,
@@ -3720,18 +3742,20 @@ export const deleteKxCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteKxClusterNodeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified nodes from a cluster.
  */
 export const deleteKxClusterNode: API.OperationMethod<
   DeleteKxClusterNodeRequest,
   DeleteKxClusterNodeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteKxClusterNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxClusterNodeRequest,
@@ -3744,19 +3768,21 @@ export const deleteKxClusterNode: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
- */
-export const deleteKxDatabase: API.OperationMethod<
-  DeleteKxDatabaseRequest,
-  DeleteKxDatabaseResponse,
+export type DeleteKxDatabaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
+ */
+export const deleteKxDatabase: API.OperationMethod<
+  DeleteKxDatabaseRequest,
+  DeleteKxDatabaseResponse,
+  DeleteKxDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxDatabaseRequest,
@@ -3770,19 +3796,21 @@ export const deleteKxDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
- */
-export const deleteKxDataview: API.OperationMethod<
-  DeleteKxDataviewRequest,
-  DeleteKxDataviewResponse,
+export type DeleteKxDataviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
+ */
+export const deleteKxDataview: API.OperationMethod<
+  DeleteKxDataviewRequest,
+  DeleteKxDataviewResponse,
+  DeleteKxDataviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxDataviewRequest,
@@ -3796,19 +3824,21 @@ export const deleteKxDataview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
- */
-export const deleteKxEnvironment: API.OperationMethod<
-  DeleteKxEnvironmentRequest,
-  DeleteKxEnvironmentResponse,
+export type DeleteKxEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
+ */
+export const deleteKxEnvironment: API.OperationMethod<
+  DeleteKxEnvironmentRequest,
+  DeleteKxEnvironmentResponse,
+  DeleteKxEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxEnvironmentRequest,
@@ -3822,12 +3852,7 @@ export const deleteKxEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
- */
-export const deleteKxScalingGroup: API.OperationMethod<
-  DeleteKxScalingGroupRequest,
-  DeleteKxScalingGroupResponse,
+export type DeleteKxScalingGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3835,7 +3860,14 @@ export const deleteKxScalingGroup: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
+ */
+export const deleteKxScalingGroup: API.OperationMethod<
+  DeleteKxScalingGroupRequest,
+  DeleteKxScalingGroupResponse,
+  DeleteKxScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxScalingGroupRequest,
@@ -3850,19 +3882,21 @@ export const deleteKxScalingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a user in the specified kdb environment.
- */
-export const deleteKxUser: API.OperationMethod<
-  DeleteKxUserRequest,
-  DeleteKxUserResponse,
+export type DeleteKxUserError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a user in the specified kdb environment.
+ */
+export const deleteKxUser: API.OperationMethod<
+  DeleteKxUserRequest,
+  DeleteKxUserResponse,
+  DeleteKxUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxUserRequest,
@@ -3876,12 +3910,7 @@ export const deleteKxUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
- */
-export const deleteKxVolume: API.OperationMethod<
-  DeleteKxVolumeRequest,
-  DeleteKxVolumeResponse,
+export type DeleteKxVolumeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3889,7 +3918,14 @@ export const deleteKxVolume: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
+ */
+export const deleteKxVolume: API.OperationMethod<
+  DeleteKxVolumeRequest,
+  DeleteKxVolumeResponse,
+  DeleteKxVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxVolumeRequest,
@@ -3904,17 +3940,19 @@ export const deleteKxVolume: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the FinSpace environment object.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentRequest,
   GetEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
@@ -3926,18 +3964,20 @@ export const getEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKxChangesetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a kdb changeset.
  */
 export const getKxChangeset: API.OperationMethod<
   GetKxChangesetRequest,
   GetKxChangesetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKxChangesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxChangesetRequest,
@@ -3950,12 +3990,7 @@ export const getKxChangeset: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about a kdb cluster.
- */
-export const getKxCluster: API.OperationMethod<
-  GetKxClusterRequest,
-  GetKxClusterResponse,
+export type GetKxClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3963,7 +3998,14 @@ export const getKxCluster: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a kdb cluster.
+ */
+export const getKxCluster: API.OperationMethod<
+  GetKxClusterRequest,
+  GetKxClusterResponse,
+  GetKxClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxClusterRequest,
@@ -3978,18 +4020,20 @@ export const getKxCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKxConnectionStringError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
  */
 export const getKxConnectionString: API.OperationMethod<
   GetKxConnectionStringRequest,
   GetKxConnectionStringResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKxConnectionStringError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxConnectionStringRequest,
@@ -4002,18 +4046,20 @@ export const getKxConnectionString: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKxDatabaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns database information for the specified environment ID.
  */
 export const getKxDatabase: API.OperationMethod<
   GetKxDatabaseRequest,
   GetKxDatabaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKxDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxDatabaseRequest,
@@ -4026,18 +4072,20 @@ export const getKxDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKxDataviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details of the dataview.
  */
 export const getKxDataview: API.OperationMethod<
   GetKxDataviewRequest,
   GetKxDataviewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKxDataviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxDataviewRequest,
@@ -4050,18 +4098,20 @@ export const getKxDataview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKxEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all the information for the specified kdb environment.
  */
 export const getKxEnvironment: API.OperationMethod<
   GetKxEnvironmentRequest,
   GetKxEnvironmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetKxEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxEnvironmentRequest,
@@ -4074,12 +4124,7 @@ export const getKxEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves details of a scaling group.
- */
-export const getKxScalingGroup: API.OperationMethod<
-  GetKxScalingGroupRequest,
-  GetKxScalingGroupResponse,
+export type GetKxScalingGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4087,7 +4132,14 @@ export const getKxScalingGroup: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details of a scaling group.
+ */
+export const getKxScalingGroup: API.OperationMethod<
+  GetKxScalingGroupRequest,
+  GetKxScalingGroupResponse,
+  GetKxScalingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxScalingGroupRequest,
@@ -4102,18 +4154,20 @@ export const getKxScalingGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKxUserError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified kdb user.
  */
 export const getKxUser: API.OperationMethod<
   GetKxUserRequest,
   GetKxUserResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKxUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxUserRequest,
@@ -4126,12 +4180,7 @@ export const getKxUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the information about the volume.
- */
-export const getKxVolume: API.OperationMethod<
-  GetKxVolumeRequest,
-  GetKxVolumeResponse,
+export type GetKxVolumeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4139,7 +4188,14 @@ export const getKxVolume: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the information about the volume.
+ */
+export const getKxVolume: API.OperationMethod<
+  GetKxVolumeRequest,
+  GetKxVolumeResponse,
+  GetKxVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxVolumeRequest,
@@ -4154,58 +4210,52 @@ export const getKxVolume: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * A list of all of your FinSpace environments.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   ListEnvironmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEnvironmentsRequest,
   output: ListEnvironmentsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
+export type ListKxChangesetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the changesets for a database.
  */
 export const listKxChangesets: API.OperationMethod<
   ListKxChangesetsRequest,
   ListKxChangesetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKxChangesetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKxChangesetsRequest,
   ) => stream.Stream<
     ListKxChangesetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxChangesetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKxChangesetsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxChangesetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4224,45 +4274,35 @@ export const listKxChangesets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists all the nodes in a kdb cluster.
- */
-export const listKxClusterNodes: API.OperationMethod<
-  ListKxClusterNodesRequest,
-  ListKxClusterNodesResponse,
+export type ListKxClusterNodesError =
   | AccessDeniedException
   | InternalServerException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the nodes in a kdb cluster.
+ */
+export const listKxClusterNodes: API.OperationMethod<
+  ListKxClusterNodesRequest,
+  ListKxClusterNodesResponse,
+  ListKxClusterNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKxClusterNodesRequest,
   ) => stream.Stream<
     ListKxClusterNodesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxClusterNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKxClusterNodesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxClusterNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4282,12 +4322,7 @@ export const listKxClusterNodes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a list of clusters.
- */
-export const listKxClusters: API.OperationMethod<
-  ListKxClustersRequest,
-  ListKxClustersResponse,
+export type ListKxClustersError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4295,7 +4330,14 @@ export const listKxClusters: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of clusters.
+ */
+export const listKxClusters: API.OperationMethod<
+  ListKxClustersRequest,
+  ListKxClustersResponse,
+  ListKxClustersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKxClustersRequest,
@@ -4310,42 +4352,34 @@ export const listKxClusters: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListKxDatabasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the databases in the kdb environment.
  */
 export const listKxDatabases: API.OperationMethod<
   ListKxDatabasesRequest,
   ListKxDatabasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKxDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKxDatabasesRequest,
   ) => stream.Stream<
     ListKxDatabasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKxDatabasesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4364,42 +4398,34 @@ export const listKxDatabases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListKxDataviewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the dataviews in the database.
  */
 export const listKxDataviews: API.OperationMethod<
   ListKxDataviewsRequest,
   ListKxDataviewsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKxDataviewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKxDataviewsRequest,
   ) => stream.Stream<
     ListKxDataviewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxDataviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKxDataviewsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxDataviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4418,36 +4444,32 @@ export const listKxDataviews: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListKxEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of kdb environments created in an account.
  */
 export const listKxEnvironments: API.OperationMethod<
   ListKxEnvironmentsRequest,
   ListKxEnvironmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListKxEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKxEnvironmentsRequest,
   ) => stream.Stream<
     ListKxEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListKxEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKxEnvironmentsRequest,
   ) => stream.Stream<
     KxEnvironment,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListKxEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4461,12 +4483,7 @@ export const listKxEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a list of scaling groups in a kdb environment.
- */
-export const listKxScalingGroups: API.OperationMethod<
-  ListKxScalingGroupsRequest,
-  ListKxScalingGroupsResponse,
+export type ListKxScalingGroupsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4474,35 +4491,28 @@ export const listKxScalingGroups: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of scaling groups in a kdb environment.
+ */
+export const listKxScalingGroups: API.OperationMethod<
+  ListKxScalingGroupsRequest,
+  ListKxScalingGroupsResponse,
+  ListKxScalingGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKxScalingGroupsRequest,
   ) => stream.Stream<
     ListKxScalingGroupsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxScalingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKxScalingGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKxScalingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4523,18 +4533,20 @@ export const listKxScalingGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListKxUsersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the users in a kdb environment.
  */
 export const listKxUsers: API.OperationMethod<
   ListKxUsersRequest,
   ListKxUsersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKxUsersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKxUsersRequest,
@@ -4547,12 +4559,7 @@ export const listKxUsers: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all the volumes in a kdb environment.
- */
-export const listKxVolumes: API.OperationMethod<
-  ListKxVolumesRequest,
-  ListKxVolumesResponse,
+export type ListKxVolumesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4560,7 +4567,14 @@ export const listKxVolumes: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the volumes in a kdb environment.
+ */
+export const listKxVolumes: API.OperationMethod<
+  ListKxVolumesRequest,
+  ListKxVolumesResponse,
+  ListKxVolumesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKxVolumesRequest,
@@ -4575,16 +4589,18 @@ export const listKxVolumes: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * A list of all tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -4595,16 +4611,18 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds metadata tags to a FinSpace resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4615,16 +4633,18 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes metadata tags from a FinSpace resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4635,18 +4655,20 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update your FinSpace environment.
  */
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentRequest,
   UpdateEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
@@ -4659,13 +4681,7 @@ export const updateEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster.
- * The configuration that you want to update will override any existing configurations on the cluster.
- */
-export const updateKxClusterCodeConfiguration: API.OperationMethod<
-  UpdateKxClusterCodeConfigurationRequest,
-  UpdateKxClusterCodeConfigurationResponse,
+export type UpdateKxClusterCodeConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4673,7 +4689,15 @@ export const updateKxClusterCodeConfiguration: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster.
+ * The configuration that you want to update will override any existing configurations on the cluster.
+ */
+export const updateKxClusterCodeConfiguration: API.OperationMethod<
+  UpdateKxClusterCodeConfigurationRequest,
+  UpdateKxClusterCodeConfigurationResponse,
+  UpdateKxClusterCodeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxClusterCodeConfigurationRequest,
@@ -4688,6 +4712,15 @@ export const updateKxClusterCodeConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKxClusterDatabasesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the databases mounted on a kdb cluster, which includes the `changesetId` and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one.
  *
@@ -4696,14 +4729,7 @@ export const updateKxClusterCodeConfiguration: API.OperationMethod<
 export const updateKxClusterDatabases: API.OperationMethod<
   UpdateKxClusterDatabasesRequest,
   UpdateKxClusterDatabasesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateKxClusterDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxClusterDatabasesRequest,
@@ -4718,19 +4744,21 @@ export const updateKxClusterDatabases: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates information for the given kdb database.
- */
-export const updateKxDatabase: API.OperationMethod<
-  UpdateKxDatabaseRequest,
-  UpdateKxDatabaseResponse,
+export type UpdateKxDatabaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates information for the given kdb database.
+ */
+export const updateKxDatabase: API.OperationMethod<
+  UpdateKxDatabaseRequest,
+  UpdateKxDatabaseResponse,
+  UpdateKxDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxDatabaseRequest,
@@ -4744,12 +4772,7 @@ export const updateKxDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
- */
-export const updateKxDataview: API.OperationMethod<
-  UpdateKxDataviewRequest,
-  UpdateKxDataviewResponse,
+export type UpdateKxDataviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4757,7 +4780,14 @@ export const updateKxDataview: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
+ */
+export const updateKxDataview: API.OperationMethod<
+  UpdateKxDataviewRequest,
+  UpdateKxDataviewResponse,
+  UpdateKxDataviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxDataviewRequest,
@@ -4772,19 +4802,21 @@ export const updateKxDataview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates information for the given kdb environment.
- */
-export const updateKxEnvironment: API.OperationMethod<
-  UpdateKxEnvironmentRequest,
-  UpdateKxEnvironmentResponse,
+export type UpdateKxEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates information for the given kdb environment.
+ */
+export const updateKxEnvironment: API.OperationMethod<
+  UpdateKxEnvironmentRequest,
+  UpdateKxEnvironmentResponse,
+  UpdateKxEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxEnvironmentRequest,
@@ -4798,6 +4830,14 @@ export const updateKxEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKxEnvironmentNetworkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers.
  *
@@ -4806,13 +4846,7 @@ export const updateKxEnvironment: API.OperationMethod<
 export const updateKxEnvironmentNetwork: API.OperationMethod<
   UpdateKxEnvironmentNetworkRequest,
   UpdateKxEnvironmentNetworkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateKxEnvironmentNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxEnvironmentNetworkRequest,
@@ -4826,12 +4860,7 @@ export const updateKxEnvironmentNetwork: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the user details. You can only update the IAM role associated with a user.
- */
-export const updateKxUser: API.OperationMethod<
-  UpdateKxUserRequest,
-  UpdateKxUserResponse,
+export type UpdateKxUserError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4839,7 +4868,14 @@ export const updateKxUser: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the user details. You can only update the IAM role associated with a user.
+ */
+export const updateKxUser: API.OperationMethod<
+  UpdateKxUserRequest,
+  UpdateKxUserResponse,
+  UpdateKxUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxUserRequest,
@@ -4854,13 +4890,7 @@ export const updateKxUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the throughput or capacity of a volume. During the update process, the filesystem
- * might be unavailable for a few minutes. You can retry any operations after the update is complete.
- */
-export const updateKxVolume: API.OperationMethod<
-  UpdateKxVolumeRequest,
-  UpdateKxVolumeResponse,
+export type UpdateKxVolumeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4868,7 +4898,15 @@ export const updateKxVolume: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the throughput or capacity of a volume. During the update process, the filesystem
+ * might be unavailable for a few minutes. You can retry any operations after the update is complete.
+ */
+export const updateKxVolume: API.OperationMethod<
+  UpdateKxVolumeRequest,
+  UpdateKxVolumeResponse,
+  UpdateKxVolumeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxVolumeRequest,

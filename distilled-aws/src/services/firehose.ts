@@ -2810,6 +2810,12 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 ) {}
 
 //# Operations
+export type CreateDeliveryStreamError =
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | LimitExceededException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Creates a Firehose stream.
  *
@@ -2886,11 +2892,7 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 export const createDeliveryStream: API.OperationMethod<
   CreateDeliveryStreamInput,
   CreateDeliveryStreamOutput,
-  | InvalidArgumentException
-  | InvalidKMSResourceException
-  | LimitExceededException
-  | ResourceInUseException
-  | CommonErrors,
+  CreateDeliveryStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeliveryStreamInput,
@@ -2902,6 +2904,10 @@ export const createDeliveryStream: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteDeliveryStreamError =
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a Firehose stream and its data.
  *
@@ -2923,13 +2929,16 @@ export const createDeliveryStream: API.OperationMethod<
 export const deleteDeliveryStream: API.OperationMethod<
   DeleteDeliveryStreamInput,
   DeleteDeliveryStreamOutput,
-  ResourceInUseException | ResourceNotFoundException | CommonErrors,
+  DeleteDeliveryStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeliveryStreamInput,
   output: DeleteDeliveryStreamOutput,
   errors: [ResourceInUseException, ResourceNotFoundException],
 }));
+export type DescribeDeliveryStreamError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified Firehose stream and its status. For example, after your
  * Firehose stream is created, call `DescribeDeliveryStream` to see whether the
@@ -2943,13 +2952,14 @@ export const deleteDeliveryStream: API.OperationMethod<
 export const describeDeliveryStream: API.OperationMethod<
   DescribeDeliveryStreamInput,
   DescribeDeliveryStreamOutput,
-  ResourceNotFoundException | CommonErrors,
+  DescribeDeliveryStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeliveryStreamInput,
   output: DescribeDeliveryStreamOutput,
   errors: [ResourceNotFoundException],
 }));
+export type ListDeliveryStreamsError = CommonErrors;
 /**
  * Lists your Firehose streams in alphabetical order of their names.
  *
@@ -2964,13 +2974,18 @@ export const describeDeliveryStream: API.OperationMethod<
 export const listDeliveryStreams: API.OperationMethod<
   ListDeliveryStreamsInput,
   ListDeliveryStreamsOutput,
-  CommonErrors,
+  ListDeliveryStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeliveryStreamsInput,
   output: ListDeliveryStreamsOutput,
   errors: [],
 }));
+export type ListTagsForDeliveryStreamError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the tags for the specified Firehose stream. This operation has a limit of five
  * transactions per second per account.
@@ -2978,10 +2993,7 @@ export const listDeliveryStreams: API.OperationMethod<
 export const listTagsForDeliveryStream: API.OperationMethod<
   ListTagsForDeliveryStreamInput,
   ListTagsForDeliveryStreamOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForDeliveryStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForDeliveryStreamInput,
@@ -2992,6 +3004,13 @@ export const listTagsForDeliveryStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutRecordError =
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | InvalidSourceException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Writes a single data record into an Firehose stream. To
  * write multiple data records into a Firehose stream, use PutRecordBatch.
@@ -3046,12 +3065,7 @@ export const listTagsForDeliveryStream: API.OperationMethod<
 export const putRecord: API.OperationMethod<
   PutRecordInput,
   PutRecordOutput,
-  | InvalidArgumentException
-  | InvalidKMSResourceException
-  | InvalidSourceException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordInput,
@@ -3064,6 +3078,13 @@ export const putRecord: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutRecordBatchError =
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | InvalidSourceException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Writes multiple data records into a Firehose stream in a single call, which can
  * achieve higher throughput per producer than when writing single records. To write single
@@ -3139,12 +3160,7 @@ export const putRecord: API.OperationMethod<
 export const putRecordBatch: API.OperationMethod<
   PutRecordBatchInput,
   PutRecordBatchOutput,
-  | InvalidArgumentException
-  | InvalidKMSResourceException
-  | InvalidSourceException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutRecordBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordBatchInput,
@@ -3157,6 +3173,13 @@ export const putRecordBatch: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartDeliveryStreamEncryptionError =
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables server-side encryption (SSE) for the Firehose stream.
  *
@@ -3208,12 +3231,7 @@ export const putRecordBatch: API.OperationMethod<
 export const startDeliveryStreamEncryption: API.OperationMethod<
   StartDeliveryStreamEncryptionInput,
   StartDeliveryStreamEncryptionOutput,
-  | InvalidArgumentException
-  | InvalidKMSResourceException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartDeliveryStreamEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeliveryStreamEncryptionInput,
@@ -3226,6 +3244,12 @@ export const startDeliveryStreamEncryption: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopDeliveryStreamEncryptionError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables server-side encryption (SSE) for the Firehose stream.
  *
@@ -3254,11 +3278,7 @@ export const startDeliveryStreamEncryption: API.OperationMethod<
 export const stopDeliveryStreamEncryption: API.OperationMethod<
   StopDeliveryStreamEncryptionInput,
   StopDeliveryStreamEncryptionOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopDeliveryStreamEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDeliveryStreamEncryptionInput,
@@ -3270,6 +3290,12 @@ export const stopDeliveryStreamEncryption: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagDeliveryStreamError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds or updates tags for the specified Firehose stream. A tag is a key-value pair
  * that you can define and assign to Amazon Web Services resources. If you specify a tag that
@@ -3287,11 +3313,7 @@ export const stopDeliveryStreamEncryption: API.OperationMethod<
 export const tagDeliveryStream: API.OperationMethod<
   TagDeliveryStreamInput,
   TagDeliveryStreamOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagDeliveryStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagDeliveryStreamInput,
@@ -3303,6 +3325,12 @@ export const tagDeliveryStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagDeliveryStreamError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes tags from the specified Firehose stream. Removed tags are deleted, and you
  * can't recover them after this operation successfully completes.
@@ -3314,11 +3342,7 @@ export const tagDeliveryStream: API.OperationMethod<
 export const untagDeliveryStream: API.OperationMethod<
   UntagDeliveryStreamInput,
   UntagDeliveryStreamOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagDeliveryStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagDeliveryStreamInput,
@@ -3330,6 +3354,12 @@ export const untagDeliveryStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateDestinationError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified destination of the specified Firehose stream.
  *
@@ -3363,11 +3393,7 @@ export const untagDeliveryStream: API.OperationMethod<
 export const updateDestination: API.OperationMethod<
   UpdateDestinationInput,
   UpdateDestinationOutput,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDestinationInput,

@@ -2643,6 +2643,15 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateExternalConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds an existing external connection to a repository. One external connection is allowed
  * per repository.
@@ -2652,14 +2661,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const associateExternalConnection: API.OperationMethod<
   AssociateExternalConnectionRequest,
   AssociateExternalConnectionResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateExternalConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateExternalConnectionRequest,
@@ -2674,6 +2676,15 @@ export const associateExternalConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CopyPackageVersionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Copies package versions from one repository to another repository in the same domain.
  *
@@ -2682,14 +2693,7 @@ export const associateExternalConnection: API.OperationMethod<
 export const copyPackageVersions: API.OperationMethod<
   CopyPackageVersionsRequest,
   CopyPackageVersionsResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CopyPackageVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyPackageVersionsRequest,
@@ -2704,6 +2708,15 @@ export const copyPackageVersions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDomainError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a domain. CodeArtifact *domains* make it easier to manage multiple repositories across an
  * organization. You can use a domain to apply permissions across many
@@ -2717,14 +2730,7 @@ export const copyPackageVersions: API.OperationMethod<
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
@@ -2739,12 +2745,7 @@ export const createDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
- */
-export const createPackageGroup: API.OperationMethod<
-  CreatePackageGroupRequest,
-  CreatePackageGroupResult,
+export type CreatePackageGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2752,7 +2753,14 @@ export const createPackageGroup: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
+ */
+export const createPackageGroup: API.OperationMethod<
+  CreatePackageGroupRequest,
+  CreatePackageGroupResult,
+  CreatePackageGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageGroupRequest,
@@ -2767,12 +2775,7 @@ export const createPackageGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a repository.
- */
-export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
-  CreateRepositoryResult,
+export type CreateRepositoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2780,7 +2783,14 @@ export const createRepository: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a repository.
+ */
+export const createRepository: API.OperationMethod<
+  CreateRepositoryRequest,
+  CreateRepositoryResult,
+  CreateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryRequest,
@@ -2795,6 +2805,13 @@ export const createRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDomainError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain
  * with repositories, first delete its repositories.
@@ -2802,12 +2819,7 @@ export const createRepository: API.OperationMethod<
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
@@ -2820,19 +2832,21 @@ export const deleteDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the resource policy set on a domain.
- */
-export const deleteDomainPermissionsPolicy: API.OperationMethod<
-  DeleteDomainPermissionsPolicyRequest,
-  DeleteDomainPermissionsPolicyResult,
+export type DeleteDomainPermissionsPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the resource policy set on a domain.
+ */
+export const deleteDomainPermissionsPolicy: API.OperationMethod<
+  DeleteDomainPermissionsPolicyRequest,
+  DeleteDomainPermissionsPolicyResult,
+  DeleteDomainPermissionsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainPermissionsPolicyRequest,
@@ -2846,6 +2860,14 @@ export const deleteDomainPermissionsPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePackageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the
  * DeletePackageVersions API.
@@ -2853,13 +2875,7 @@ export const deleteDomainPermissionsPolicy: API.OperationMethod<
 export const deletePackage: API.OperationMethod<
   DeletePackageRequest,
   DeletePackageResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
@@ -2873,6 +2889,15 @@ export const deletePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePackageGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a package group.
  * Deleting a package group does not delete packages or package versions associated with the package group.
@@ -2883,14 +2908,7 @@ export const deletePackage: API.OperationMethod<
 export const deletePackageGroup: API.OperationMethod<
   DeletePackageGroupRequest,
   DeletePackageGroupResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageGroupRequest,
@@ -2905,6 +2923,14 @@ export const deletePackageGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePackageVersionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes one or more versions of a package. A deleted package version cannot be restored
  * in your repository. If you want to remove a package version from your repository and be able
@@ -2915,13 +2941,7 @@ export const deletePackageGroup: API.OperationMethod<
 export const deletePackageVersions: API.OperationMethod<
   DeletePackageVersionsRequest,
   DeletePackageVersionsResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageVersionsRequest,
@@ -2935,19 +2955,21 @@ export const deletePackageVersions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a repository.
- */
-export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
-  DeleteRepositoryResult,
+export type DeleteRepositoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a repository.
+ */
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryRequest,
+  DeleteRepositoryResult,
+  DeleteRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryRequest,
@@ -2961,6 +2983,14 @@ export const deleteRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRepositoryPermissionsPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the resource policy that is set on a repository. After a resource policy is deleted, the
  * permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate.
@@ -2971,13 +3001,7 @@ export const deleteRepository: API.OperationMethod<
 export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
   DeleteRepositoryPermissionsPolicyRequest,
   DeleteRepositoryPermissionsPolicyResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRepositoryPermissionsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryPermissionsPolicyRequest,
@@ -2991,6 +3015,13 @@ export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a
  * DomainDescription
@@ -2999,12 +3030,7 @@ export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
 export const describeDomain: API.OperationMethod<
   DescribeDomainRequest,
   DescribeDomainResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
@@ -3017,6 +3043,13 @@ export const describeDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a
  * PackageDescription
@@ -3025,12 +3058,7 @@ export const describeDomain: API.OperationMethod<
 export const describePackage: API.OperationMethod<
   DescribePackageRequest,
   DescribePackageResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageRequest,
@@ -3043,6 +3071,13 @@ export const describePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePackageGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a PackageGroupDescription object that
  * contains information about the requested package group.
@@ -3050,12 +3085,7 @@ export const describePackage: API.OperationMethod<
 export const describePackageGroup: API.OperationMethod<
   DescribePackageGroupRequest,
   DescribePackageGroupResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePackageGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageGroupRequest,
@@ -3068,6 +3098,14 @@ export const describePackageGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePackageVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a
  * PackageVersionDescription
@@ -3076,13 +3114,7 @@ export const describePackageGroup: API.OperationMethod<
 export const describePackageVersion: API.OperationMethod<
   DescribePackageVersionRequest,
   DescribePackageVersionResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageVersionRequest,
@@ -3096,6 +3128,13 @@ export const describePackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRepositoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a `RepositoryDescription` object that contains detailed information
  * about the requested repository.
@@ -3103,12 +3142,7 @@ export const describePackageVersion: API.OperationMethod<
 export const describeRepository: API.OperationMethod<
   DescribeRepositoryRequest,
   DescribeRepositoryResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRepositoryRequest,
@@ -3121,12 +3155,7 @@ export const describeRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes an existing external connection from a repository.
- */
-export const disassociateExternalConnection: API.OperationMethod<
-  DisassociateExternalConnectionRequest,
-  DisassociateExternalConnectionResult,
+export type DisassociateExternalConnectionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3134,7 +3163,14 @@ export const disassociateExternalConnection: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes an existing external connection from a repository.
+ */
+export const disassociateExternalConnection: API.OperationMethod<
+  DisassociateExternalConnectionRequest,
+  DisassociateExternalConnectionResult,
+  DisassociateExternalConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateExternalConnectionRequest,
@@ -3149,6 +3185,14 @@ export const disassociateExternalConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisposePackageVersionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the assets in package versions and sets the package versions' status to `Disposed`.
  * A disposed package version cannot be restored in your repository because its assets are deleted.
@@ -3162,13 +3206,7 @@ export const disassociateExternalConnection: API.OperationMethod<
 export const disposePackageVersions: API.OperationMethod<
   DisposePackageVersionsRequest,
   DisposePackageVersionsResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisposePackageVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisposePackageVersionsRequest,
@@ -3182,6 +3220,12 @@ export const disposePackageVersions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssociatedPackageGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the most closely associated package group to the specified package. This API does not require that the package exist
  * in any repository in the domain. As such, `GetAssociatedPackageGroup` can be used to see which package group's origin configuration
@@ -3194,11 +3238,7 @@ export const disposePackageVersions: API.OperationMethod<
 export const getAssociatedPackageGroup: API.OperationMethod<
   GetAssociatedPackageGroupRequest,
   GetAssociatedPackageGroupResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssociatedPackageGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssociatedPackageGroupRequest,
@@ -3210,6 +3250,13 @@ export const getAssociatedPackageGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAuthorizationTokenError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates a temporary authorization token for accessing repositories in the domain.
  * This API requires the `codeartifact:GetAuthorizationToken` and `sts:GetServiceBearerToken` permissions.
@@ -3235,12 +3282,7 @@ export const getAssociatedPackageGroup: API.OperationMethod<
 export const getAuthorizationToken: API.OperationMethod<
   GetAuthorizationTokenRequest,
   GetAuthorizationTokenResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAuthorizationTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizationTokenRequest,
@@ -3253,6 +3295,13 @@ export const getAuthorizationToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDomainPermissionsPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resource policy attached to the specified domain.
  *
@@ -3263,12 +3312,7 @@ export const getAuthorizationToken: API.OperationMethod<
 export const getDomainPermissionsPolicy: API.OperationMethod<
   GetDomainPermissionsPolicyRequest,
   GetDomainPermissionsPolicyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDomainPermissionsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainPermissionsPolicyRequest,
@@ -3281,6 +3325,14 @@ export const getDomainPermissionsPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPackageVersionAssetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an asset (or file) that is in a package. For example, for a Maven package version, use
  * `GetPackageVersionAsset` to download a `JAR` file, a `POM` file,
@@ -3289,13 +3341,7 @@ export const getDomainPermissionsPolicy: API.OperationMethod<
 export const getPackageVersionAsset: API.OperationMethod<
   GetPackageVersionAssetRequest,
   GetPackageVersionAssetResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPackageVersionAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageVersionAssetRequest,
@@ -3309,6 +3355,13 @@ export const getPackageVersionAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPackageVersionReadmeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the readme file or descriptive text for a package version.
  *
@@ -3317,12 +3370,7 @@ export const getPackageVersionAsset: API.OperationMethod<
 export const getPackageVersionReadme: API.OperationMethod<
   GetPackageVersionReadmeRequest,
   GetPackageVersionReadmeResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPackageVersionReadmeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageVersionReadmeRequest,
@@ -3335,6 +3383,13 @@ export const getPackageVersionReadme: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRepositoryEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each
  * package format:
@@ -3358,12 +3413,7 @@ export const getPackageVersionReadme: API.OperationMethod<
 export const getRepositoryEndpoint: API.OperationMethod<
   GetRepositoryEndpointRequest,
   GetRepositoryEndpointResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRepositoryEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryEndpointRequest,
@@ -3376,18 +3426,20 @@ export const getRepositoryEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRepositoryPermissionsPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resource policy that is set on a repository.
  */
 export const getRepositoryPermissionsPolicy: API.OperationMethod<
   GetRepositoryPermissionsPolicyRequest,
   GetRepositoryPermissionsPolicyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRepositoryPermissionsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryPermissionsPolicyRequest,
@@ -3400,6 +3452,14 @@ export const getRepositoryPermissionsPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAllowedRepositoriesForGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types
  * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
@@ -3407,39 +3467,21 @@ export const getRepositoryPermissionsPolicy: API.OperationMethod<
 export const listAllowedRepositoriesForGroup: API.OperationMethod<
   ListAllowedRepositoriesForGroupRequest,
   ListAllowedRepositoriesForGroupResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAllowedRepositoriesForGroupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAllowedRepositoriesForGroupRequest,
   ) => stream.Stream<
     ListAllowedRepositoriesForGroupResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAllowedRepositoriesForGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAllowedRepositoriesForGroupRequest,
   ) => stream.Stream<
     RepositoryName,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAllowedRepositoriesForGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3460,6 +3502,12 @@ export const listAllowedRepositoriesForGroup: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssociatedPackagesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of packages associated with the requested package group. For information package group association and matching, see
  * Package group
@@ -3468,33 +3516,21 @@ export const listAllowedRepositoriesForGroup: API.OperationMethod<
 export const listAssociatedPackages: API.OperationMethod<
   ListAssociatedPackagesRequest,
   ListAssociatedPackagesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssociatedPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedPackagesRequest,
   ) => stream.Stream<
     ListAssociatedPackagesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedPackagesRequest,
   ) => stream.Stream<
     AssociatedPackage,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3513,6 +3549,12 @@ export const listAssociatedPackages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDomainsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes
  * this call. Each returned `DomainSummary` object contains information about a
@@ -3521,33 +3563,21 @@ export const listAssociatedPackages: API.OperationMethod<
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     ListDomainsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     DomainSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3566,42 +3596,34 @@ export const listDomains: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPackageGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of package groups in the requested domain.
  */
 export const listPackageGroups: API.OperationMethod<
   ListPackageGroupsRequest,
   ListPackageGroupsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackageGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackageGroupsRequest,
   ) => stream.Stream<
     ListPackageGroupsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackageGroupsRequest,
   ) => stream.Stream<
     PackageGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3621,6 +3643,13 @@ export const listPackageGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPackagesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  * PackageSummary
@@ -3629,36 +3658,21 @@ export const listPackageGroups: API.OperationMethod<
 export const listPackages: API.OperationMethod<
   ListPackagesRequest,
   ListPackagesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagesRequest,
   ) => stream.Stream<
     ListPackagesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagesRequest,
   ) => stream.Stream<
     PackageSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3678,6 +3692,13 @@ export const listPackages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPackageVersionAssetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  * AssetSummary
@@ -3686,36 +3707,21 @@ export const listPackages: API.OperationMethod<
 export const listPackageVersionAssets: API.OperationMethod<
   ListPackageVersionAssetsRequest,
   ListPackageVersionAssetsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackageVersionAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackageVersionAssetsRequest,
   ) => stream.Stream<
     ListPackageVersionAssetsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageVersionAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackageVersionAssetsRequest,
   ) => stream.Stream<
     AssetSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageVersionAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3735,6 +3741,13 @@ export const listPackageVersionAssets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPackageVersionDependenciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the direct dependencies for a package version. The dependencies are returned as
  * PackageDependency
@@ -3745,12 +3758,7 @@ export const listPackageVersionAssets: API.OperationMethod<
 export const listPackageVersionDependencies: API.OperationMethod<
   ListPackageVersionDependenciesRequest,
   ListPackageVersionDependenciesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackageVersionDependenciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPackageVersionDependenciesRequest,
@@ -3763,6 +3771,13 @@ export const listPackageVersionDependencies: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPackageVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  * PackageVersionSummary
@@ -3771,36 +3786,21 @@ export const listPackageVersionDependencies: API.OperationMethod<
 export const listPackageVersions: API.OperationMethod<
   ListPackageVersionsRequest,
   ListPackageVersionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPackageVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackageVersionsRequest,
   ) => stream.Stream<
     ListPackageVersionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackageVersionsRequest,
   ) => stream.Stream<
     PackageVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPackageVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3820,6 +3820,12 @@ export const listPackageVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRepositoriesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  * RepositorySummary
@@ -3829,33 +3835,21 @@ export const listPackageVersions: API.OperationMethod<
 export const listRepositories: API.OperationMethod<
   ListRepositoriesRequest,
   ListRepositoriesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoriesRequest,
   ) => stream.Stream<
     ListRepositoriesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoriesRequest,
   ) => stream.Stream<
     RepositorySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3874,6 +3868,13 @@ export const listRepositories: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRepositoriesInDomainError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of
  * RepositorySummary
@@ -3883,36 +3884,21 @@ export const listRepositories: API.OperationMethod<
 export const listRepositoriesInDomain: API.OperationMethod<
   ListRepositoriesInDomainRequest,
   ListRepositoriesInDomainResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRepositoriesInDomainError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoriesInDomainRequest,
   ) => stream.Stream<
     ListRepositoriesInDomainResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoriesInDomainError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoriesInDomainRequest,
   ) => stream.Stream<
     RepositorySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoriesInDomainError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3932,6 +3918,13 @@ export const listRepositoriesInDomain: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSubPackageGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of direct children of the specified package group.
  *
@@ -3942,36 +3935,21 @@ export const listRepositoriesInDomain: API.OperationMethod<
 export const listSubPackageGroups: API.OperationMethod<
   ListSubPackageGroupsRequest,
   ListSubPackageGroupsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSubPackageGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSubPackageGroupsRequest,
   ) => stream.Stream<
     ListSubPackageGroupsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubPackageGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSubPackageGroupsRequest,
   ) => stream.Stream<
     PackageGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubPackageGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3991,17 +3969,19 @@ export const listSubPackageGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -4013,6 +3993,15 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PublishPackageVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new package version containing one or more assets (or files).
  *
@@ -4028,14 +4017,7 @@ export const listTagsForResource: API.OperationMethod<
 export const publishPackageVersion: API.OperationMethod<
   PublishPackageVersionRequest,
   PublishPackageVersionResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PublishPackageVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishPackageVersionRequest,
@@ -4050,6 +4032,15 @@ export const publishPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDomainPermissionsPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets a resource policy on a domain that specifies permissions to access it.
  *
@@ -4060,14 +4051,7 @@ export const publishPackageVersion: API.OperationMethod<
 export const putDomainPermissionsPolicy: API.OperationMethod<
   PutDomainPermissionsPolicyRequest,
   PutDomainPermissionsPolicyResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutDomainPermissionsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDomainPermissionsPolicyRequest,
@@ -4082,6 +4066,13 @@ export const putDomainPermissionsPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutPackageOriginConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the package origin configuration for a package.
  *
@@ -4097,12 +4088,7 @@ export const putDomainPermissionsPolicy: API.OperationMethod<
 export const putPackageOriginConfiguration: API.OperationMethod<
   PutPackageOriginConfigurationRequest,
   PutPackageOriginConfigurationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutPackageOriginConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPackageOriginConfigurationRequest,
@@ -4115,6 +4101,15 @@ export const putPackageOriginConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRepositoryPermissionsPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the resource policy on a repository that specifies permissions to access it.
  *
@@ -4125,14 +4120,7 @@ export const putPackageOriginConfiguration: API.OperationMethod<
 export const putRepositoryPermissionsPolicy: API.OperationMethod<
   PutRepositoryPermissionsPolicyRequest,
   PutRepositoryPermissionsPolicyResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutRepositoryPermissionsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRepositoryPermissionsPolicyRequest,
@@ -4147,18 +4135,20 @@ export const putRepositoryPermissionsPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tags for a resource in CodeArtifact.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResult,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4171,17 +4161,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a resource in CodeArtifact.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4193,6 +4185,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a
  * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
@@ -4200,13 +4200,7 @@ export const untagResource: API.OperationMethod<
 export const updatePackageGroup: API.OperationMethod<
   UpdatePackageGroupRequest,
   UpdatePackageGroupResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageGroupRequest,
@@ -4220,6 +4214,14 @@ export const updatePackageGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageGroupOriginConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the package origin configuration for a package group.
  *
@@ -4232,13 +4234,7 @@ export const updatePackageGroup: API.OperationMethod<
 export const updatePackageGroupOriginConfiguration: API.OperationMethod<
   UpdatePackageGroupOriginConfigurationRequest,
   UpdatePackageGroupOriginConfigurationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageGroupOriginConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageGroupOriginConfigurationRequest,
@@ -4252,6 +4248,14 @@ export const updatePackageGroupOriginConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePackageVersionsStatusError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the status of one or more versions of a package. Using `UpdatePackageVersionsStatus`,
  * you can update the status of package versions to `Archived`, `Published`, or `Unlisted`.
@@ -4261,13 +4265,7 @@ export const updatePackageGroupOriginConfiguration: API.OperationMethod<
 export const updatePackageVersionsStatus: API.OperationMethod<
   UpdatePackageVersionsStatusRequest,
   UpdatePackageVersionsStatusResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePackageVersionsStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageVersionsStatusRequest,
@@ -4281,12 +4279,7 @@ export const updatePackageVersionsStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the properties of a repository.
- */
-export const updateRepository: API.OperationMethod<
-  UpdateRepositoryRequest,
-  UpdateRepositoryResult,
+export type UpdateRepositoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4294,7 +4287,14 @@ export const updateRepository: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the properties of a repository.
+ */
+export const updateRepository: API.OperationMethod<
+  UpdateRepositoryRequest,
+  UpdateRepositoryResult,
+  UpdateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepositoryRequest,

@@ -621,45 +621,56 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 
 //# Operations
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists all of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Tags a resource with a map of key and value pairs.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceResponse,
-  ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type CreateClusterError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the *multiRegionProperties* parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.
  *
@@ -708,10 +719,7 @@ export const untagResource: API.OperationMethod<
 export const createCluster: API.OperationMethod<
   CreateClusterInput,
   CreateClusterOutput,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterInput,
@@ -722,19 +730,25 @@ export const createCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetClusterError = ResourceNotFoundException | CommonErrors;
 /**
  * Retrieves information about a cluster.
  */
 export const getCluster: API.OperationMethod<
   GetClusterInput,
   GetClusterOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterInput,
   output: GetClusterOutput,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateClusterError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * The *UpdateCluster* API allows you to modify both single-Region and multi-Region cluster configurations. With the *multiRegionProperties* parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.
  *
@@ -795,50 +809,52 @@ export const getCluster: API.OperationMethod<
 export const updateCluster: API.OperationMethod<
   UpdateClusterInput,
   UpdateClusterOutput,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterInput,
   output: UpdateClusterOutput,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type DeleteClusterError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a cluster in Amazon Aurora DSQL.
  */
 export const deleteCluster: API.OperationMethod<
   DeleteClusterInput,
   DeleteClusterOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  DeleteClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterInput,
   output: DeleteClusterOutput,
   errors: [ConflictException, ResourceNotFoundException],
 }));
+export type ListClustersError = ResourceNotFoundException | CommonErrors;
 /**
  * Retrieves information about a list of clusters.
  */
 export const listClusters: API.OperationMethod<
   ListClustersInput,
   ListClustersOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListClustersError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersInput,
   ) => stream.Stream<
     ListClustersOutput,
-    ResourceNotFoundException | CommonErrors,
+    ListClustersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersInput,
   ) => stream.Stream<
     ClusterSummary,
-    ResourceNotFoundException | CommonErrors,
+    ListClustersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -852,46 +868,54 @@ export const listClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteClusterPolicyError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
 export const deleteClusterPolicy: API.OperationMethod<
   DeleteClusterPolicyInput,
   DeleteClusterPolicyOutput,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteClusterPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterPolicyInput,
   output: DeleteClusterPolicyOutput,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type GetClusterPolicyError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
 export const getClusterPolicy: API.OperationMethod<
   GetClusterPolicyInput,
   GetClusterPolicyOutput,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetClusterPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterPolicyInput,
   output: GetClusterPolicyOutput,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetVpcEndpointServiceNameError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the VPC endpoint service name.
  */
 export const getVpcEndpointServiceName: API.OperationMethod<
   GetVpcEndpointServiceNameInput,
   GetVpcEndpointServiceNameOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetVpcEndpointServiceNameError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcEndpointServiceNameInput,
@@ -903,16 +927,18 @@ export const getVpcEndpointServiceName: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutClusterPolicyError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
 export const putClusterPolicy: API.OperationMethod<
   PutClusterPolicyInput,
   PutClusterPolicyOutput,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutClusterPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutClusterPolicyInput,

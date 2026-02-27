@@ -3037,6 +3037,13 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateAutoPredictorError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates an Amazon Forecast predictor.
  *
@@ -3078,12 +3085,7 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 export const createAutoPredictor: API.OperationMethod<
   CreateAutoPredictorRequest,
   CreateAutoPredictorResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateAutoPredictorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutoPredictorRequest,
@@ -3096,6 +3098,11 @@ export const createAutoPredictor: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateDatasetError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates an Amazon Forecast dataset. The information about the dataset that you provide helps
  * Forecast understand how to consume the data for model training. This includes the
@@ -3137,10 +3144,7 @@ export const createAutoPredictor: API.OperationMethod<
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -3151,6 +3155,13 @@ export const createDataset: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreateDatasetGroupError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a dataset group, which holds a collection of related datasets. You can add
  * datasets to the dataset group when you create the dataset group, or later by using the UpdateDatasetGroup operation.
@@ -3167,12 +3178,7 @@ export const createDataset: API.OperationMethod<
 export const createDatasetGroup: API.OperationMethod<
   CreateDatasetGroupRequest,
   CreateDatasetGroupResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetGroupRequest,
@@ -3185,6 +3191,13 @@ export const createDatasetGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateDatasetImportJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Imports your training data to an Amazon Forecast dataset. You provide the location of your
  * training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset
@@ -3212,12 +3225,7 @@ export const createDatasetGroup: API.OperationMethod<
 export const createDatasetImportJob: API.OperationMethod<
   CreateDatasetImportJobRequest,
   CreateDatasetImportJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateDatasetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetImportJobRequest,
@@ -3230,6 +3238,13 @@ export const createDatasetImportJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateExplainabilityError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Explainability is only available for Forecasts and Predictors generated from an
  * AutoPredictor (CreateAutoPredictor)
@@ -3315,12 +3330,7 @@ export const createDatasetImportJob: API.OperationMethod<
 export const createExplainability: API.OperationMethod<
   CreateExplainabilityRequest,
   CreateExplainabilityResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateExplainabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExplainabilityRequest,
@@ -3333,6 +3343,13 @@ export const createExplainability: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateExplainabilityExportError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Service (Amazon
  * S3) bucket.
@@ -3347,12 +3364,7 @@ export const createExplainability: API.OperationMethod<
 export const createExplainabilityExport: API.OperationMethod<
   CreateExplainabilityExportRequest,
   CreateExplainabilityExportResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateExplainabilityExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExplainabilityExportRequest,
@@ -3365,6 +3377,13 @@ export const createExplainabilityExport: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateForecastError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a forecast for each item in the `TARGET_TIME_SERIES` dataset that was
  * used to train the predictor. This is known as inference. To retrieve the forecast for a single
@@ -3393,12 +3412,7 @@ export const createExplainabilityExport: API.OperationMethod<
 export const createForecast: API.OperationMethod<
   CreateForecastRequest,
   CreateForecastResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateForecastRequest,
@@ -3411,6 +3425,13 @@ export const createForecast: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateForecastExportJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Exports a forecast created by the CreateForecast operation to your
  * Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions:
@@ -3434,12 +3455,7 @@ export const createForecast: API.OperationMethod<
 export const createForecastExportJob: API.OperationMethod<
   CreateForecastExportJobRequest,
   CreateForecastExportJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateForecastExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateForecastExportJobRequest,
@@ -3452,6 +3468,13 @@ export const createForecastExportJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateMonitorError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time.
  * For more information, see Predictor Monitoring.
@@ -3459,12 +3482,7 @@ export const createForecastExportJob: API.OperationMethod<
 export const createMonitor: API.OperationMethod<
   CreateMonitorRequest,
   CreateMonitorResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorRequest,
@@ -3477,6 +3495,13 @@ export const createMonitor: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreatePredictorError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation creates a legacy predictor that does not include all the predictor
  * functionalities provided by Amazon Forecast. To create a predictor that is compatible with all
@@ -3534,12 +3559,7 @@ export const createMonitor: API.OperationMethod<
 export const createPredictor: API.OperationMethod<
   CreatePredictorRequest,
   CreatePredictorResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreatePredictorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePredictorRequest,
@@ -3552,6 +3572,13 @@ export const createPredictor: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreatePredictorBacktestExportJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Exports backtest forecasts and accuracy metrics generated by the CreateAutoPredictor or CreatePredictor operations. Two
  * folders containing CSV or Parquet files are exported to your specified S3 bucket.
@@ -3573,12 +3600,7 @@ export const createPredictor: API.OperationMethod<
 export const createPredictorBacktestExportJob: API.OperationMethod<
   CreatePredictorBacktestExportJobRequest,
   CreatePredictorBacktestExportJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreatePredictorBacktestExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePredictorBacktestExportJobRequest,
@@ -3591,6 +3613,13 @@ export const createPredictorBacktestExportJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateWhatIfAnalysisError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and
  * compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to
@@ -3613,12 +3642,7 @@ export const createPredictorBacktestExportJob: API.OperationMethod<
 export const createWhatIfAnalysis: API.OperationMethod<
   CreateWhatIfAnalysisRequest,
   CreateWhatIfAnalysisResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateWhatIfAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWhatIfAnalysisRequest,
@@ -3631,6 +3655,13 @@ export const createWhatIfAnalysis: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateWhatIfForecastError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * A what-if forecast is a forecast that is created from a modified version of the baseline forecast. Each
  * what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset.
@@ -3638,12 +3669,7 @@ export const createWhatIfAnalysis: API.OperationMethod<
 export const createWhatIfForecast: API.OperationMethod<
   CreateWhatIfForecastRequest,
   CreateWhatIfForecastResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateWhatIfForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWhatIfForecastRequest,
@@ -3656,6 +3682,13 @@ export const createWhatIfForecast: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateWhatIfForecastExportError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Exports a forecast created by the CreateWhatIfForecast operation to your
  * Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions:
@@ -3680,12 +3713,7 @@ export const createWhatIfForecast: API.OperationMethod<
 export const createWhatIfForecastExport: API.OperationMethod<
   CreateWhatIfForecastExportRequest,
   CreateWhatIfForecastExportResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateWhatIfForecastExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWhatIfForecastExportRequest,
@@ -3698,6 +3726,11 @@ export const createWhatIfForecastExport: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDatasetError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can
  * only delete datasets that have a status of `ACTIVE` or `CREATE_FAILED`.
@@ -3710,10 +3743,7 @@ export const createWhatIfForecastExport: API.OperationMethod<
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
@@ -3724,6 +3754,11 @@ export const deleteDataset: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDatasetGroupError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a dataset group created using the CreateDatasetGroup operation.
  * You can only delete dataset groups that have a status of `ACTIVE`,
@@ -3734,10 +3769,7 @@ export const deleteDataset: API.OperationMethod<
 export const deleteDatasetGroup: API.OperationMethod<
   DeleteDatasetGroupRequest,
   DeleteDatasetGroupResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetGroupRequest,
@@ -3748,6 +3780,11 @@ export const deleteDatasetGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDatasetImportJobError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a dataset import job created using the CreateDatasetImportJob
  * operation. You can delete only dataset import jobs that have a status of `ACTIVE`
@@ -3757,10 +3794,7 @@ export const deleteDatasetGroup: API.OperationMethod<
 export const deleteDatasetImportJob: API.OperationMethod<
   DeleteDatasetImportJobRequest,
   DeleteDatasetImportJobResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDatasetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetImportJobRequest,
@@ -3771,6 +3805,11 @@ export const deleteDatasetImportJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteExplainabilityError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an Explainability resource.
  *
@@ -3780,10 +3819,7 @@ export const deleteDatasetImportJob: API.OperationMethod<
 export const deleteExplainability: API.OperationMethod<
   DeleteExplainabilityRequest,
   DeleteExplainabilityResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteExplainabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExplainabilityRequest,
@@ -3794,16 +3830,18 @@ export const deleteExplainability: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteExplainabilityExportError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an Explainability export.
  */
 export const deleteExplainabilityExport: API.OperationMethod<
   DeleteExplainabilityExportRequest,
   DeleteExplainabilityExportResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteExplainabilityExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExplainabilityExportRequest,
@@ -3814,6 +3852,11 @@ export const deleteExplainabilityExport: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteForecastError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a forecast created using the CreateForecast operation. You can
  * delete only forecasts that have a status of `ACTIVE` or `CREATE_FAILED`.
@@ -3825,10 +3868,7 @@ export const deleteExplainabilityExport: API.OperationMethod<
 export const deleteForecast: API.OperationMethod<
   DeleteForecastRequest,
   DeleteForecastResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteForecastRequest,
@@ -3839,6 +3879,11 @@ export const deleteForecast: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteForecastExportJobError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a forecast export job created using the CreateForecastExportJob
  * operation. You can delete only export jobs that have a status of `ACTIVE` or
@@ -3847,10 +3892,7 @@ export const deleteForecast: API.OperationMethod<
 export const deleteForecastExportJob: API.OperationMethod<
   DeleteForecastExportJobRequest,
   DeleteForecastExportJobResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteForecastExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteForecastExportJobRequest,
@@ -3861,16 +3903,18 @@ export const deleteForecastExportJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteMonitorError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a monitor resource. You can only delete a monitor resource with a status of `ACTIVE`, `ACTIVE_STOPPED`, `CREATE_FAILED`, or `CREATE_STOPPED`.
  */
 export const deleteMonitor: API.OperationMethod<
   DeleteMonitorRequest,
   DeleteMonitorResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorRequest,
@@ -3881,6 +3925,11 @@ export const deleteMonitor: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeletePredictorError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a predictor created using the DescribePredictor or CreatePredictor operations. You can delete only predictor that have a status of
  * `ACTIVE` or `CREATE_FAILED`. To get the status, use the DescribePredictor operation.
@@ -3888,10 +3937,7 @@ export const deleteMonitor: API.OperationMethod<
 export const deletePredictor: API.OperationMethod<
   DeletePredictorRequest,
   DeletePredictorResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeletePredictorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePredictorRequest,
@@ -3902,16 +3948,18 @@ export const deletePredictor: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeletePredictorBacktestExportJobError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a predictor backtest export job.
  */
 export const deletePredictorBacktestExportJob: API.OperationMethod<
   DeletePredictorBacktestExportJobRequest,
   DeletePredictorBacktestExportJobResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeletePredictorBacktestExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePredictorBacktestExportJobRequest,
@@ -3922,6 +3970,11 @@ export const deletePredictorBacktestExportJob: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteResourceTreeError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an entire resource tree. This operation will delete the parent resource and
  * its child resources.
@@ -3948,10 +4001,7 @@ export const deletePredictorBacktestExportJob: API.OperationMethod<
 export const deleteResourceTree: API.OperationMethod<
   DeleteResourceTreeRequest,
   DeleteResourceTreeResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteResourceTreeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceTreeRequest,
@@ -3962,6 +4012,11 @@ export const deleteResourceTree: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWhatIfAnalysisError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a what-if analysis created using the CreateWhatIfAnalysis
  * operation. You can delete only what-if analyses that have a status of `ACTIVE` or `CREATE_FAILED`. To get the status, use the DescribeWhatIfAnalysis operation.
@@ -3971,10 +4026,7 @@ export const deleteResourceTree: API.OperationMethod<
 export const deleteWhatIfAnalysis: API.OperationMethod<
   DeleteWhatIfAnalysisRequest,
   DeleteWhatIfAnalysisResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteWhatIfAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWhatIfAnalysisRequest,
@@ -3985,6 +4037,11 @@ export const deleteWhatIfAnalysis: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWhatIfForecastError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a what-if forecast created using the CreateWhatIfForecast
  * operation. You can delete only what-if forecasts that have a status of `ACTIVE` or `CREATE_FAILED`. To get the status, use the DescribeWhatIfForecast operation.
@@ -3994,10 +4051,7 @@ export const deleteWhatIfAnalysis: API.OperationMethod<
 export const deleteWhatIfForecast: API.OperationMethod<
   DeleteWhatIfForecastRequest,
   DeleteWhatIfForecastResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteWhatIfForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWhatIfForecastRequest,
@@ -4008,6 +4062,11 @@ export const deleteWhatIfForecast: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWhatIfForecastExportError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a what-if forecast export created using the CreateWhatIfForecastExport
  * operation. You can delete only what-if forecast exports that have a status of `ACTIVE` or `CREATE_FAILED`. To get the status, use the DescribeWhatIfForecastExport operation.
@@ -4015,10 +4074,7 @@ export const deleteWhatIfForecast: API.OperationMethod<
 export const deleteWhatIfForecastExport: API.OperationMethod<
   DeleteWhatIfForecastExportRequest,
   DeleteWhatIfForecastExportResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteWhatIfForecastExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWhatIfForecastExportRequest,
@@ -4029,19 +4085,27 @@ export const deleteWhatIfForecastExport: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeAutoPredictorError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a predictor created using the CreateAutoPredictor operation.
  */
 export const describeAutoPredictor: API.OperationMethod<
   DescribeAutoPredictorRequest,
   DescribeAutoPredictorResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeAutoPredictorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAutoPredictorRequest,
   output: DescribeAutoPredictorResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes an Amazon Forecast dataset created using the CreateDataset operation.
  *
@@ -4057,13 +4121,17 @@ export const describeAutoPredictor: API.OperationMethod<
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetGroupError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a dataset group created using the CreateDatasetGroup
  * operation.
@@ -4082,13 +4150,17 @@ export const describeDataset: API.OperationMethod<
 export const describeDatasetGroup: API.OperationMethod<
   DescribeDatasetGroupRequest,
   DescribeDatasetGroupResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetGroupRequest,
   output: DescribeDatasetGroupResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetImportJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a dataset import job created using the CreateDatasetImportJob
  * operation.
@@ -4111,39 +4183,51 @@ export const describeDatasetGroup: API.OperationMethod<
 export const describeDatasetImportJob: API.OperationMethod<
   DescribeDatasetImportJobRequest,
   DescribeDatasetImportJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetImportJobRequest,
   output: DescribeDatasetImportJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeExplainabilityError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes an Explainability resource created using the CreateExplainability operation.
  */
 export const describeExplainability: API.OperationMethod<
   DescribeExplainabilityRequest,
   DescribeExplainabilityResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeExplainabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExplainabilityRequest,
   output: DescribeExplainabilityResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeExplainabilityExportError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes an Explainability export created using the CreateExplainabilityExport operation.
  */
 export const describeExplainabilityExport: API.OperationMethod<
   DescribeExplainabilityExportRequest,
   DescribeExplainabilityExportResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeExplainabilityExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExplainabilityExportRequest,
   output: DescribeExplainabilityExportResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeForecastError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a forecast created using the CreateForecast operation.
  *
@@ -4164,13 +4248,17 @@ export const describeExplainabilityExport: API.OperationMethod<
 export const describeForecast: API.OperationMethod<
   DescribeForecastRequest,
   DescribeForecastResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeForecastRequest,
   output: DescribeForecastResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeForecastExportJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a forecast export job created using the CreateForecastExportJob operation.
  *
@@ -4189,13 +4277,17 @@ export const describeForecast: API.OperationMethod<
 export const describeForecastExportJob: API.OperationMethod<
   DescribeForecastExportJobRequest,
   DescribeForecastExportJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeForecastExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeForecastExportJobRequest,
   output: DescribeForecastExportJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeMonitorError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the following properties:
  *
@@ -4216,13 +4308,17 @@ export const describeForecastExportJob: API.OperationMethod<
 export const describeMonitor: API.OperationMethod<
   DescribeMonitorRequest,
   DescribeMonitorResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMonitorRequest,
   output: DescribeMonitorResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribePredictorError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation is only valid for legacy predictors created with CreatePredictor. If you
  * are not using a legacy predictor, use DescribeAutoPredictor.
@@ -4250,13 +4346,17 @@ export const describeMonitor: API.OperationMethod<
 export const describePredictor: API.OperationMethod<
   DescribePredictorRequest,
   DescribePredictorResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribePredictorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePredictorRequest,
   output: DescribePredictorResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribePredictorBacktestExportJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a predictor backtest export job created using the CreatePredictorBacktestExportJob operation.
  *
@@ -4275,13 +4375,17 @@ export const describePredictor: API.OperationMethod<
 export const describePredictorBacktestExportJob: API.OperationMethod<
   DescribePredictorBacktestExportJobRequest,
   DescribePredictorBacktestExportJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribePredictorBacktestExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePredictorBacktestExportJobRequest,
   output: DescribePredictorBacktestExportJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeWhatIfAnalysisError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the what-if analysis created using the CreateWhatIfAnalysis operation.
  *
@@ -4298,13 +4402,17 @@ export const describePredictorBacktestExportJob: API.OperationMethod<
 export const describeWhatIfAnalysis: API.OperationMethod<
   DescribeWhatIfAnalysisRequest,
   DescribeWhatIfAnalysisResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeWhatIfAnalysisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWhatIfAnalysisRequest,
   output: DescribeWhatIfAnalysisResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeWhatIfForecastError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the what-if forecast created using the CreateWhatIfForecast operation.
  *
@@ -4321,13 +4429,17 @@ export const describeWhatIfAnalysis: API.OperationMethod<
 export const describeWhatIfForecast: API.OperationMethod<
   DescribeWhatIfForecastRequest,
   DescribeWhatIfForecastResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeWhatIfForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWhatIfForecastRequest,
   output: DescribeWhatIfForecastResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeWhatIfForecastExportError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the what-if forecast export created using the CreateWhatIfForecastExport operation.
  *
@@ -4344,13 +4456,18 @@ export const describeWhatIfForecast: API.OperationMethod<
 export const describeWhatIfForecastExport: API.OperationMethod<
   DescribeWhatIfForecastExportRequest,
   DescribeWhatIfForecastExportResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeWhatIfForecastExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWhatIfForecastExportRequest,
   output: DescribeWhatIfForecastExportResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type GetAccuracyMetricsError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model performed and
  * to decide whether to use the predictor to generate a forecast. For more information, see
@@ -4374,10 +4491,7 @@ export const describeWhatIfForecastExport: API.OperationMethod<
 export const getAccuracyMetrics: API.OperationMethod<
   GetAccuracyMetricsRequest,
   GetAccuracyMetricsResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetAccuracyMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccuracyMetricsRequest,
@@ -4388,6 +4502,7 @@ export const getAccuracyMetrics: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
 /**
  * Returns a list of dataset groups created using the CreateDatasetGroup operation.
  * For each dataset group, this operation returns a summary of its properties, including its
@@ -4398,21 +4513,21 @@ export const getAccuracyMetrics: API.OperationMethod<
 export const listDatasetGroups: API.OperationMethod<
   ListDatasetGroupsRequest,
   ListDatasetGroupsResponse,
-  InvalidNextTokenException | CommonErrors,
+  ListDatasetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetGroupsRequest,
   ) => stream.Stream<
     ListDatasetGroupsResponse,
-    InvalidNextTokenException | CommonErrors,
+    ListDatasetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetGroupsRequest,
   ) => stream.Stream<
     DatasetGroupSummary,
-    InvalidNextTokenException | CommonErrors,
+    ListDatasetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4426,6 +4541,10 @@ export const listDatasetGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatasetImportJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of dataset import jobs created using the CreateDatasetImportJob
  * operation. For each import job, this operation returns a summary of its properties, including
@@ -4436,21 +4555,21 @@ export const listDatasetGroups: API.OperationMethod<
 export const listDatasetImportJobs: API.OperationMethod<
   ListDatasetImportJobsRequest,
   ListDatasetImportJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListDatasetImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetImportJobsRequest,
   ) => stream.Stream<
     ListDatasetImportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetImportJobsRequest,
   ) => stream.Stream<
     DatasetImportJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4464,6 +4583,7 @@ export const listDatasetImportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatasetsError = InvalidNextTokenException | CommonErrors;
 /**
  * Returns a list of datasets created using the CreateDataset operation. For each
  * dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned.
@@ -4472,21 +4592,21 @@ export const listDatasetImportJobs: API.OperationMethod<
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  InvalidNextTokenException | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     ListDatasetsResponse,
-    InvalidNextTokenException | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     DatasetSummary,
-    InvalidNextTokenException | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4500,6 +4620,10 @@ export const listDatasets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListExplainabilitiesError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of Explainability resources created using the CreateExplainability operation. This operation returns a summary for
  * each Explainability. You can filter the list using an array of Filter
@@ -4511,21 +4635,21 @@ export const listDatasets: API.OperationMethod<
 export const listExplainabilities: API.OperationMethod<
   ListExplainabilitiesRequest,
   ListExplainabilitiesResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListExplainabilitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExplainabilitiesRequest,
   ) => stream.Stream<
     ListExplainabilitiesResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListExplainabilitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExplainabilitiesRequest,
   ) => stream.Stream<
     ExplainabilitySummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListExplainabilitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4539,6 +4663,10 @@ export const listExplainabilities: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListExplainabilityExportsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of Explainability exports created using the CreateExplainabilityExport operation. This operation returns a summary
  * for each Explainability export. You can filter the list using an array of Filter objects.
@@ -4549,21 +4677,21 @@ export const listExplainabilities: API.OperationMethod<
 export const listExplainabilityExports: API.OperationMethod<
   ListExplainabilityExportsRequest,
   ListExplainabilityExportsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListExplainabilityExportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExplainabilityExportsRequest,
   ) => stream.Stream<
     ListExplainabilityExportsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListExplainabilityExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExplainabilityExportsRequest,
   ) => stream.Stream<
     ExplainabilityExportSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListExplainabilityExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4577,6 +4705,10 @@ export const listExplainabilityExports: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListForecastExportJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of forecast export jobs created using the CreateForecastExportJob operation. For each forecast export job, this operation
  * returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the
@@ -4586,21 +4718,21 @@ export const listExplainabilityExports: API.OperationMethod<
 export const listForecastExportJobs: API.OperationMethod<
   ListForecastExportJobsRequest,
   ListForecastExportJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListForecastExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListForecastExportJobsRequest,
   ) => stream.Stream<
     ListForecastExportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListForecastExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListForecastExportJobsRequest,
   ) => stream.Stream<
     ForecastExportJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListForecastExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4614,6 +4746,10 @@ export const listForecastExportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListForecastsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of forecasts created using the CreateForecast operation.
  * For each forecast, this operation returns a summary of its properties, including its Amazon
@@ -4624,21 +4760,21 @@ export const listForecastExportJobs: API.OperationMethod<
 export const listForecasts: API.OperationMethod<
   ListForecastsRequest,
   ListForecastsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListForecastsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListForecastsRequest,
   ) => stream.Stream<
     ListForecastsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListForecastsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListForecastsRequest,
   ) => stream.Stream<
     ForecastSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListForecastsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4652,6 +4788,11 @@ export const listForecasts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMonitorEvaluationsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of the monitoring evaluation results and predictor events collected by
  * the monitor resource during different windows of time.
@@ -4662,30 +4803,21 @@ export const listForecasts: API.OperationMethod<
 export const listMonitorEvaluations: API.OperationMethod<
   ListMonitorEvaluationsRequest,
   ListMonitorEvaluationsResponse,
-  | InvalidInputException
-  | InvalidNextTokenException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListMonitorEvaluationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMonitorEvaluationsRequest,
   ) => stream.Stream<
     ListMonitorEvaluationsResponse,
-    | InvalidInputException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListMonitorEvaluationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitorEvaluationsRequest,
   ) => stream.Stream<
     PredictorMonitorEvaluation,
-    | InvalidInputException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListMonitorEvaluationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4703,6 +4835,10 @@ export const listMonitorEvaluations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMonitorsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of monitors created with the CreateMonitor operation and CreateAutoPredictor operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You
  * can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the DescribeMonitor operation.
@@ -4710,21 +4846,21 @@ export const listMonitorEvaluations: API.OperationMethod<
 export const listMonitors: API.OperationMethod<
   ListMonitorsRequest,
   ListMonitorsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListMonitorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMonitorsRequest,
   ) => stream.Stream<
     ListMonitorsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitorsRequest,
   ) => stream.Stream<
     MonitorSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4738,6 +4874,10 @@ export const listMonitors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPredictorBacktestExportJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of predictor backtest export jobs created using the CreatePredictorBacktestExportJob operation. This operation returns a
  * summary for each backtest export job. You can filter the list using an array of Filter objects.
@@ -4748,21 +4888,21 @@ export const listMonitors: API.OperationMethod<
 export const listPredictorBacktestExportJobs: API.OperationMethod<
   ListPredictorBacktestExportJobsRequest,
   ListPredictorBacktestExportJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListPredictorBacktestExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPredictorBacktestExportJobsRequest,
   ) => stream.Stream<
     ListPredictorBacktestExportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListPredictorBacktestExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPredictorBacktestExportJobsRequest,
   ) => stream.Stream<
     PredictorBacktestExportJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListPredictorBacktestExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4776,6 +4916,10 @@ export const listPredictorBacktestExportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPredictorsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of predictors created using the CreateAutoPredictor or
  * CreatePredictor operations. For each predictor, this operation returns a
@@ -4787,21 +4931,21 @@ export const listPredictorBacktestExportJobs: API.OperationMethod<
 export const listPredictors: API.OperationMethod<
   ListPredictorsRequest,
   ListPredictorsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListPredictorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPredictorsRequest,
   ) => stream.Stream<
     ListPredictorsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListPredictorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPredictorsRequest,
   ) => stream.Stream<
     PredictorSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListPredictorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4815,40 +4959,48 @@ export const listPredictors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the tags for an Amazon Forecast resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type ListWhatIfAnalysesError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of what-if analyses created using the CreateWhatIfAnalysis operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the DescribeWhatIfAnalysis operation.
  */
 export const listWhatIfAnalyses: API.OperationMethod<
   ListWhatIfAnalysesRequest,
   ListWhatIfAnalysesResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListWhatIfAnalysesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWhatIfAnalysesRequest,
   ) => stream.Stream<
     ListWhatIfAnalysesResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListWhatIfAnalysesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatIfAnalysesRequest,
   ) => stream.Stream<
     WhatIfAnalysisSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListWhatIfAnalysesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4862,27 +5014,31 @@ export const listWhatIfAnalyses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWhatIfForecastExportsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of what-if forecast exports created using the CreateWhatIfForecastExport operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the DescribeWhatIfForecastExport operation.
  */
 export const listWhatIfForecastExports: API.OperationMethod<
   ListWhatIfForecastExportsRequest,
   ListWhatIfForecastExportsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListWhatIfForecastExportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWhatIfForecastExportsRequest,
   ) => stream.Stream<
     ListWhatIfForecastExportsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListWhatIfForecastExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatIfForecastExportsRequest,
   ) => stream.Stream<
     WhatIfForecastExportSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListWhatIfForecastExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4896,27 +5052,31 @@ export const listWhatIfForecastExports: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWhatIfForecastsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of what-if forecasts created using the CreateWhatIfForecast operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the DescribeWhatIfForecast operation.
  */
 export const listWhatIfForecasts: API.OperationMethod<
   ListWhatIfForecastsRequest,
   ListWhatIfForecastsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListWhatIfForecastsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWhatIfForecastsRequest,
   ) => stream.Stream<
     ListWhatIfForecastsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListWhatIfForecastsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatIfForecastsRequest,
   ) => stream.Stream<
     WhatIfForecastSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListWhatIfForecastsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4930,17 +5090,19 @@ export const listWhatIfForecasts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ResumeResourceError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Resumes a stopped monitor resource.
  */
 export const resumeResource: API.OperationMethod<
   ResumeResourceRequest,
   ResumeResourceResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ResumeResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeResourceRequest,
@@ -4952,6 +5114,11 @@ export const resumeResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopResourceError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a resource.
  *
@@ -4979,10 +5146,7 @@ export const resumeResource: API.OperationMethod<
 export const stopResource: API.OperationMethod<
   StopResourceRequest,
   StopResourceResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopResourceRequest,
@@ -4993,6 +5157,11 @@ export const stopResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`.
  * If existing tags on a resource are not specified in the request parameters, they are not
@@ -5002,10 +5171,7 @@ export const stopResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5016,19 +5182,28 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type UpdateDatasetGroupError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Replaces the datasets in a dataset group with the specified datasets.
  *
@@ -5039,10 +5214,7 @@ export const untagResource: API.OperationMethod<
 export const updateDatasetGroup: API.OperationMethod<
   UpdateDatasetGroupRequest,
   UpdateDatasetGroupResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetGroupRequest,

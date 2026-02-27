@@ -148,6 +148,12 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type GetBuyerDashboardError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user.
  *
@@ -164,11 +170,7 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
 export const getBuyerDashboard: API.OperationMethod<
   GetBuyerDashboardInput,
   GetBuyerDashboardOutput,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerException
-  | UnauthorizedException
-  | CommonErrors,
+  GetBuyerDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyerDashboardInput,

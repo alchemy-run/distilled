@@ -2186,12 +2186,7 @@ export class ContentTooLargeException extends S.TaggedErrorClass<ContentTooLarge
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
- */
-export const associateLibraryItemReview: API.OperationMethod<
-  AssociateLibraryItemReviewInput,
-  AssociateLibraryItemReviewResponse,
+export type AssociateLibraryItemReviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2200,7 +2195,14 @@ export const associateLibraryItemReview: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
+ */
+export const associateLibraryItemReview: API.OperationMethod<
+  AssociateLibraryItemReviewInput,
+  AssociateLibraryItemReviewResponse,
+  AssociateLibraryItemReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLibraryItemReviewInput,
@@ -2216,12 +2218,7 @@ export const associateLibraryItemReview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
- */
-export const associateQAppWithUser: API.OperationMethod<
-  AssociateQAppWithUserInput,
-  AssociateQAppWithUserResponse,
+export type AssociateQAppWithUserError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2229,7 +2226,14 @@ export const associateQAppWithUser: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
+ */
+export const associateQAppWithUser: API.OperationMethod<
+  AssociateQAppWithUserInput,
+  AssociateQAppWithUserResponse,
+  AssociateQAppWithUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateQAppWithUserInput,
@@ -2244,12 +2248,7 @@ export const associateQAppWithUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
- */
-export const batchCreateCategory: API.OperationMethod<
-  BatchCreateCategoryInput,
-  BatchCreateCategoryResponse,
+export type BatchCreateCategoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2257,7 +2256,14 @@ export const batchCreateCategory: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const batchCreateCategory: API.OperationMethod<
+  BatchCreateCategoryInput,
+  BatchCreateCategoryResponse,
+  BatchCreateCategoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateCategoryInput,
@@ -2272,12 +2278,7 @@ export const batchCreateCategory: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
- */
-export const batchDeleteCategory: API.OperationMethod<
-  BatchDeleteCategoryInput,
-  BatchDeleteCategoryResponse,
+export type BatchDeleteCategoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2285,7 +2286,14 @@ export const batchDeleteCategory: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const batchDeleteCategory: API.OperationMethod<
+  BatchDeleteCategoryInput,
+  BatchDeleteCategoryResponse,
+  BatchDeleteCategoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteCategoryInput,
@@ -2300,12 +2308,7 @@ export const batchDeleteCategory: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
- */
-export const batchUpdateCategory: API.OperationMethod<
-  BatchUpdateCategoryInput,
-  BatchUpdateCategoryResponse,
+export type BatchUpdateCategoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2313,7 +2316,14 @@ export const batchUpdateCategory: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const batchUpdateCategory: API.OperationMethod<
+  BatchUpdateCategoryInput,
+  BatchUpdateCategoryResponse,
+  BatchUpdateCategoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateCategoryInput,
@@ -2328,12 +2338,7 @@ export const batchUpdateCategory: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
- */
-export const createLibraryItem: API.OperationMethod<
-  CreateLibraryItemInput,
-  CreateLibraryItemOutput,
+export type CreateLibraryItemError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2341,7 +2346,14 @@ export const createLibraryItem: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
+ */
+export const createLibraryItem: API.OperationMethod<
+  CreateLibraryItemInput,
+  CreateLibraryItemOutput,
+  CreateLibraryItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLibraryItemInput,
@@ -2356,6 +2368,13 @@ export const createLibraryItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePresignedUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a `FileUploadCard` in a Q App definition or to provide a file for a single Q App run. The `scope` parameter determines how the file will be used, either at the app definition level or the app session level.
  *
@@ -2364,12 +2383,7 @@ export const createLibraryItem: API.OperationMethod<
 export const createPresignedUrl: API.OperationMethod<
   CreatePresignedUrlInput,
   CreatePresignedUrlOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  CreatePresignedUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePresignedUrlInput,
@@ -2382,12 +2396,7 @@ export const createPresignedUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
- */
-export const createQApp: API.OperationMethod<
-  CreateQAppInput,
-  CreateQAppOutput,
+export type CreateQAppError =
   | AccessDeniedException
   | ConflictException
   | ContentTooLargeException
@@ -2396,7 +2405,14 @@ export const createQApp: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
+ */
+export const createQApp: API.OperationMethod<
+  CreateQAppInput,
+  CreateQAppOutput,
+  CreateQAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQAppInput,
@@ -2412,12 +2428,7 @@ export const createQApp: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
- */
-export const deleteLibraryItem: API.OperationMethod<
-  DeleteLibraryItemInput,
-  DeleteLibraryItemResponse,
+export type DeleteLibraryItemError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2425,7 +2436,14 @@ export const deleteLibraryItem: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
+ */
+export const deleteLibraryItem: API.OperationMethod<
+  DeleteLibraryItemInput,
+  DeleteLibraryItemResponse,
+  DeleteLibraryItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLibraryItemInput,
@@ -2440,19 +2458,21 @@ export const deleteLibraryItem: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
- */
-export const deleteQApp: API.OperationMethod<
-  DeleteQAppInput,
-  DeleteQAppResponse,
+export type DeleteQAppError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
+ */
+export const deleteQApp: API.OperationMethod<
+  DeleteQAppInput,
+  DeleteQAppResponse,
+  DeleteQAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQAppInput,
@@ -2466,19 +2486,21 @@ export const deleteQApp: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
- */
-export const describeQAppPermissions: API.OperationMethod<
-  DescribeQAppPermissionsInput,
-  DescribeQAppPermissionsOutput,
+export type DescribeQAppPermissionsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+ */
+export const describeQAppPermissions: API.OperationMethod<
+  DescribeQAppPermissionsInput,
+  DescribeQAppPermissionsOutput,
+  DescribeQAppPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQAppPermissionsInput,
@@ -2492,12 +2514,7 @@ export const describeQAppPermissions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes a rating or review previously submitted by the user for a library item.
- */
-export const disassociateLibraryItemReview: API.OperationMethod<
-  DisassociateLibraryItemReviewInput,
-  DisassociateLibraryItemReviewResponse,
+export type DisassociateLibraryItemReviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2506,7 +2523,14 @@ export const disassociateLibraryItemReview: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a rating or review previously submitted by the user for a library item.
+ */
+export const disassociateLibraryItemReview: API.OperationMethod<
+  DisassociateLibraryItemReviewInput,
+  DisassociateLibraryItemReviewResponse,
+  DisassociateLibraryItemReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLibraryItemReviewInput,
@@ -2522,19 +2546,21 @@ export const disassociateLibraryItemReview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a Q App from a user removing the user's access to run the Q App.
- */
-export const disassociateQAppFromUser: API.OperationMethod<
-  DisassociateQAppFromUserInput,
-  DisassociateQAppFromUserResponse,
+export type DisassociateQAppFromUserError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a Q App from a user removing the user's access to run the Q App.
+ */
+export const disassociateQAppFromUser: API.OperationMethod<
+  DisassociateQAppFromUserInput,
+  DisassociateQAppFromUserResponse,
+  DisassociateQAppFromUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateQAppFromUserInput,
@@ -2548,12 +2574,7 @@ export const disassociateQAppFromUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Exports the collected data of a Q App data collection session.
- */
-export const exportQAppSessionData: API.OperationMethod<
-  ExportQAppSessionDataInput,
-  ExportQAppSessionDataOutput,
+export type ExportQAppSessionDataError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2562,7 +2583,14 @@ export const exportQAppSessionData: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Exports the collected data of a Q App data collection session.
+ */
+export const exportQAppSessionData: API.OperationMethod<
+  ExportQAppSessionDataInput,
+  ExportQAppSessionDataOutput,
+  ExportQAppSessionDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportQAppSessionDataInput,
@@ -2578,19 +2606,21 @@ export const exportQAppSessionData: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
- */
-export const getLibraryItem: API.OperationMethod<
-  GetLibraryItemInput,
-  GetLibraryItemOutput,
+export type GetLibraryItemError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
+ */
+export const getLibraryItem: API.OperationMethod<
+  GetLibraryItemInput,
+  GetLibraryItemOutput,
+  GetLibraryItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLibraryItemInput,
@@ -2604,19 +2634,21 @@ export const getLibraryItem: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the full details of an Q App, including its definition specifying the cards and flow.
- */
-export const getQApp: API.OperationMethod<
-  GetQAppInput,
-  GetQAppOutput,
+export type GetQAppError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the full details of an Q App, including its definition specifying the cards and flow.
+ */
+export const getQApp: API.OperationMethod<
+  GetQAppInput,
+  GetQAppOutput,
+  GetQAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQAppInput,
@@ -2630,12 +2662,7 @@ export const getQApp: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the current state and results for an active session of an Amazon Q App.
- */
-export const getQAppSession: API.OperationMethod<
-  GetQAppSessionInput,
-  GetQAppSessionOutput,
+export type GetQAppSessionError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2643,7 +2670,14 @@ export const getQAppSession: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the current state and results for an active session of an Amazon Q App.
+ */
+export const getQAppSession: API.OperationMethod<
+  GetQAppSessionInput,
+  GetQAppSessionOutput,
+  GetQAppSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQAppSessionInput,
@@ -2658,12 +2692,7 @@ export const getQAppSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the current configuration of a Q App session.
- */
-export const getQAppSessionMetadata: API.OperationMethod<
-  GetQAppSessionMetadataInput,
-  GetQAppSessionMetadataOutput,
+export type GetQAppSessionMetadataError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2671,7 +2700,14 @@ export const getQAppSessionMetadata: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the current configuration of a Q App session.
+ */
+export const getQAppSessionMetadata: API.OperationMethod<
+  GetQAppSessionMetadataInput,
+  GetQAppSessionMetadataOutput,
+  GetQAppSessionMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQAppSessionMetadataInput,
@@ -2686,12 +2722,7 @@ export const getQAppSessionMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
- */
-export const importDocument: API.OperationMethod<
-  ImportDocumentInput,
-  ImportDocumentOutput,
+export type ImportDocumentError =
   | AccessDeniedException
   | ContentTooLargeException
   | InternalServerException
@@ -2700,7 +2731,14 @@ export const importDocument: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
+ */
+export const importDocument: API.OperationMethod<
+  ImportDocumentInput,
+  ImportDocumentOutput,
+  ImportDocumentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDocumentInput,
@@ -2716,19 +2754,21 @@ export const importDocument: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
- */
-export const listCategories: API.OperationMethod<
-  ListCategoriesInput,
-  ListCategoriesOutput,
+export type ListCategoriesError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
+ */
+export const listCategories: API.OperationMethod<
+  ListCategoriesInput,
+  ListCategoriesOutput,
+  ListCategoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCategoriesInput,
@@ -2742,45 +2782,35 @@ export const listCategories: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
- */
-export const listLibraryItems: API.OperationMethod<
-  ListLibraryItemsInput,
-  ListLibraryItemsOutput,
+export type ListLibraryItemsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
+ */
+export const listLibraryItems: API.OperationMethod<
+  ListLibraryItemsInput,
+  ListLibraryItemsOutput,
+  ListLibraryItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLibraryItemsInput,
   ) => stream.Stream<
     ListLibraryItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListLibraryItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLibraryItemsInput,
   ) => stream.Stream<
     LibraryItemMember,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListLibraryItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2801,42 +2831,34 @@ export const listLibraryItems: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListQAppsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
  */
 export const listQApps: API.OperationMethod<
   ListQAppsInput,
   ListQAppsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListQAppsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQAppsInput,
   ) => stream.Stream<
     ListQAppsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListQAppsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQAppsInput,
   ) => stream.Stream<
     UserAppItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListQAppsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2856,12 +2878,7 @@ export const listQApps: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
-/**
- * Lists the collected data of a Q App data collection session.
- */
-export const listQAppSessionData: API.OperationMethod<
-  ListQAppSessionDataInput,
-  ListQAppSessionDataOutput,
+export type ListQAppSessionDataError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2869,7 +2886,14 @@ export const listQAppSessionData: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the collected data of a Q App data collection session.
+ */
+export const listQAppSessionData: API.OperationMethod<
+  ListQAppSessionDataInput,
+  ListQAppSessionDataOutput,
+  ListQAppSessionDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQAppSessionDataInput,
@@ -2884,18 +2908,20 @@ export const listQAppSessionData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags associated with an Amazon Q Apps resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2908,18 +2934,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PredictQAppError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call `CreateQApp`. This API doesn't create Amazon Q Apps directly.
  */
 export const predictQApp: API.OperationMethod<
   PredictQAppInput,
   PredictQAppOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  PredictQAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PredictQAppInput,
@@ -2932,6 +2960,15 @@ export const predictQApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartQAppSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be run.
  *
@@ -2940,14 +2977,7 @@ export const predictQApp: API.OperationMethod<
 export const startQAppSession: API.OperationMethod<
   StartQAppSessionInput,
   StartQAppSessionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  StartQAppSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQAppSessionInput,
@@ -2962,12 +2992,7 @@ export const startQAppSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
- */
-export const stopQAppSession: API.OperationMethod<
-  StopQAppSessionInput,
-  StopQAppSessionResponse,
+export type StopQAppSessionError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -2975,7 +3000,14 @@ export const stopQAppSession: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
+ */
+export const stopQAppSession: API.OperationMethod<
+  StopQAppSessionInput,
+  StopQAppSessionResponse,
+  StopQAppSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopQAppSessionInput,
@@ -2990,19 +3022,21 @@ export const stopQAppSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates tags with an Amazon Q Apps resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates tags with an Amazon Q Apps resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3016,18 +3050,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates tags from an Amazon Q Apps resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3040,12 +3076,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the library item for an Amazon Q App.
- */
-export const updateLibraryItem: API.OperationMethod<
-  UpdateLibraryItemInput,
-  UpdateLibraryItemOutput,
+export type UpdateLibraryItemError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3053,7 +3084,14 @@ export const updateLibraryItem: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the library item for an Amazon Q App.
+ */
+export const updateLibraryItem: API.OperationMethod<
+  UpdateLibraryItemInput,
+  UpdateLibraryItemOutput,
+  UpdateLibraryItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLibraryItemInput,
@@ -3068,12 +3106,7 @@ export const updateLibraryItem: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the verification status of a library item for an Amazon Q App.
- */
-export const updateLibraryItemMetadata: API.OperationMethod<
-  UpdateLibraryItemMetadataInput,
-  UpdateLibraryItemMetadataResponse,
+export type UpdateLibraryItemMetadataError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3081,7 +3114,14 @@ export const updateLibraryItemMetadata: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the verification status of a library item for an Amazon Q App.
+ */
+export const updateLibraryItemMetadata: API.OperationMethod<
+  UpdateLibraryItemMetadataInput,
+  UpdateLibraryItemMetadataResponse,
+  UpdateLibraryItemMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLibraryItemMetadataInput,
@@ -3096,12 +3136,7 @@ export const updateLibraryItemMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
- */
-export const updateQApp: API.OperationMethod<
-  UpdateQAppInput,
-  UpdateQAppOutput,
+export type UpdateQAppError =
   | AccessDeniedException
   | ContentTooLargeException
   | InternalServerException
@@ -3109,7 +3144,14 @@ export const updateQApp: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
+ */
+export const updateQApp: API.OperationMethod<
+  UpdateQAppInput,
+  UpdateQAppOutput,
+  UpdateQAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQAppInput,
@@ -3124,19 +3166,21 @@ export const updateQApp: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
- */
-export const updateQAppPermissions: API.OperationMethod<
-  UpdateQAppPermissionsInput,
-  UpdateQAppPermissionsOutput,
+export type UpdateQAppPermissionsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+ */
+export const updateQAppPermissions: API.OperationMethod<
+  UpdateQAppPermissionsInput,
+  UpdateQAppPermissionsOutput,
+  UpdateQAppPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQAppPermissionsInput,
@@ -3150,12 +3194,7 @@ export const updateQAppPermissions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the session for a given Q App `sessionId`. This is only valid when at least one card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the `WAITING` status will be ignored.
- */
-export const updateQAppSession: API.OperationMethod<
-  UpdateQAppSessionInput,
-  UpdateQAppSessionOutput,
+export type UpdateQAppSessionError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -3163,7 +3202,14 @@ export const updateQAppSession: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the session for a given Q App `sessionId`. This is only valid when at least one card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the `WAITING` status will be ignored.
+ */
+export const updateQAppSession: API.OperationMethod<
+  UpdateQAppSessionInput,
+  UpdateQAppSessionOutput,
+  UpdateQAppSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQAppSessionInput,
@@ -3178,12 +3224,7 @@ export const updateQAppSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration metadata of a session for a given Q App `sessionId`.
- */
-export const updateQAppSessionMetadata: API.OperationMethod<
-  UpdateQAppSessionMetadataInput,
-  UpdateQAppSessionMetadataOutput,
+export type UpdateQAppSessionMetadataError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -3191,7 +3232,14 @@ export const updateQAppSessionMetadata: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration metadata of a session for a given Q App `sessionId`.
+ */
+export const updateQAppSessionMetadata: API.OperationMethod<
+  UpdateQAppSessionMetadataInput,
+  UpdateQAppSessionMetadataOutput,
+  UpdateQAppSessionMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQAppSessionMetadataInput,

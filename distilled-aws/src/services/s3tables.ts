@@ -2235,6 +2235,14 @@ export class MethodNotAllowedException extends S.TaggedErrorClass<MethodNotAllow
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists all of the tags applied to a specified Amazon S3 Tables resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.
  *
@@ -2247,13 +2255,7 @@ export class MethodNotAllowedException extends S.TaggedErrorClass<MethodNotAllow
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2267,6 +2269,14 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 resource.
  *
@@ -2279,13 +2289,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2299,6 +2303,14 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys.
  *
@@ -2311,13 +2323,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2331,6 +2337,14 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateNamespaceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2341,13 +2355,7 @@ export const untagResource: API.OperationMethod<
 export const createNamespace: API.OperationMethod<
   CreateNamespaceRequest,
   CreateNamespaceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamespaceRequest,
@@ -2361,6 +2369,14 @@ export const createNamespace: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteNamespaceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a namespace. For more information, see Delete a namespace in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2371,13 +2387,7 @@ export const createNamespace: API.OperationMethod<
 export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceRequest,
   DeleteNamespaceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
@@ -2391,6 +2401,15 @@ export const deleteNamespace: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetNamespaceError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about a namespace. For more information, see Table namespaces in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2401,14 +2420,7 @@ export const deleteNamespace: API.OperationMethod<
 export const getNamespace: API.OperationMethod<
   GetNamespaceRequest,
   GetNamespaceResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
@@ -2423,6 +2435,15 @@ export const getNamespace: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListNamespacesError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the namespaces within a table bucket. For more information, see Table namespaces in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2433,42 +2454,21 @@ export const getNamespace: API.OperationMethod<
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
   ListNamespacesResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListNamespacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
     ListNamespacesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
     NamespaceSummary,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2490,6 +2490,14 @@ export const listNamespaces: API.OperationMethod<
     pageSize: "maxNamespaces",
   } as const,
 }));
+export type DeleteTableBucketEncryptionError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the encryption configuration for a table bucket.
  *
@@ -2500,13 +2508,7 @@ export const listNamespaces: API.OperationMethod<
 export const deleteTableBucketEncryption: API.OperationMethod<
   DeleteTableBucketEncryptionRequest,
   DeleteTableBucketEncryptionResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableBucketEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableBucketEncryptionRequest,
@@ -2520,6 +2522,14 @@ export const deleteTableBucketEncryption: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketEncryptionError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the encryption configuration for a table bucket.
  *
@@ -2530,13 +2540,7 @@ export const deleteTableBucketEncryption: API.OperationMethod<
 export const getTableBucketEncryption: API.OperationMethod<
   GetTableBucketEncryptionRequest,
   GetTableBucketEncryptionResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketEncryptionRequest,
@@ -2550,6 +2554,14 @@ export const getTableBucketEncryption: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableBucketEncryptionError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the encryption configuration for a table bucket.
  *
@@ -2562,13 +2574,7 @@ export const getTableBucketEncryption: API.OperationMethod<
 export const putTableBucketEncryption: API.OperationMethod<
   PutTableBucketEncryptionRequest,
   PutTableBucketEncryptionResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableBucketEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableBucketEncryptionRequest,
@@ -2582,6 +2588,14 @@ export const putTableBucketEncryption: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTableBucketPolicyError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2592,13 +2606,7 @@ export const putTableBucketEncryption: API.OperationMethod<
 export const deleteTableBucketPolicy: API.OperationMethod<
   DeleteTableBucketPolicyRequest,
   DeleteTableBucketPolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableBucketPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableBucketPolicyRequest,
@@ -2612,6 +2620,14 @@ export const deleteTableBucketPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketPolicyError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about a table bucket policy. For more information, see Viewing a table bucket policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2622,13 +2638,7 @@ export const deleteTableBucketPolicy: API.OperationMethod<
 export const getTableBucketPolicy: API.OperationMethod<
   GetTableBucketPolicyRequest,
   GetTableBucketPolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketPolicyRequest,
@@ -2642,6 +2652,14 @@ export const getTableBucketPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableBucketPolicyError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new table bucket policy or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2652,13 +2670,7 @@ export const getTableBucketPolicy: API.OperationMethod<
 export const putTableBucketPolicy: API.OperationMethod<
   PutTableBucketPolicyRequest,
   PutTableBucketPolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableBucketPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableBucketPolicyRequest,
@@ -2672,6 +2684,15 @@ export const putTableBucketPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTableBucketReplicationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets.
  *
@@ -2682,14 +2703,7 @@ export const putTableBucketPolicy: API.OperationMethod<
 export const deleteTableBucketReplication: API.OperationMethod<
   DeleteTableBucketReplicationRequest,
   DeleteTableBucketReplicationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableBucketReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableBucketReplicationRequest,
@@ -2704,6 +2718,15 @@ export const deleteTableBucketReplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketReplicationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the replication configuration for a table bucket.This operation returns the IAM role, `versionToken`, and replication rules that define how tables in this bucket are replicated to other buckets.
  *
@@ -2714,14 +2737,7 @@ export const deleteTableBucketReplication: API.OperationMethod<
 export const getTableBucketReplication: API.OperationMethod<
   GetTableBucketReplicationRequest,
   GetTableBucketReplicationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketReplicationRequest,
@@ -2736,6 +2752,15 @@ export const getTableBucketReplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableBucketReplicationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts.
  *
@@ -2762,14 +2787,7 @@ export const getTableBucketReplication: API.OperationMethod<
 export const putTableBucketReplication: API.OperationMethod<
   PutTableBucketReplicationRequest,
   PutTableBucketReplicationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableBucketReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableBucketReplicationRequest,
@@ -2784,6 +2802,14 @@ export const putTableBucketReplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTableBucketError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a table bucket. For more information, see Creating a table bucket in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2800,13 +2826,7 @@ export const putTableBucketReplication: API.OperationMethod<
 export const createTableBucket: API.OperationMethod<
   CreateTableBucketRequest,
   CreateTableBucketResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateTableBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableBucketRequest,
@@ -2820,6 +2840,14 @@ export const createTableBucket: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTableBucketError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a table bucket. For more information, see Deleting a table bucket in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2830,13 +2858,7 @@ export const createTableBucket: API.OperationMethod<
 export const deleteTableBucket: API.OperationMethod<
   DeleteTableBucketRequest,
   DeleteTableBucketResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableBucketRequest,
@@ -2850,6 +2872,14 @@ export const deleteTableBucket: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTableBucketMetricsConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the metrics configuration for a table bucket.
  *
@@ -2860,13 +2890,7 @@ export const deleteTableBucket: API.OperationMethod<
 export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
   DeleteTableBucketMetricsConfigurationRequest,
   DeleteTableBucketMetricsConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableBucketMetricsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableBucketMetricsConfigurationRequest,
@@ -2880,6 +2904,15 @@ export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details on a table bucket. For more information, see Viewing details about an Amazon S3 table bucket in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2890,14 +2923,7 @@ export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
 export const getTableBucket: API.OperationMethod<
   GetTableBucketRequest,
   GetTableBucketResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketRequest,
@@ -2912,6 +2938,14 @@ export const getTableBucket: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketMaintenanceConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about a maintenance configuration for a given table bucket. For more information, see Amazon S3 table bucket maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2922,13 +2956,7 @@ export const getTableBucket: API.OperationMethod<
 export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
   GetTableBucketMaintenanceConfigurationRequest,
   GetTableBucketMaintenanceConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketMaintenanceConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketMaintenanceConfigurationRequest,
@@ -2942,6 +2970,14 @@ export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketMetricsConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the metrics configuration for a table bucket.
  *
@@ -2952,13 +2988,7 @@ export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
 export const getTableBucketMetricsConfiguration: API.OperationMethod<
   GetTableBucketMetricsConfigurationRequest,
   GetTableBucketMetricsConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketMetricsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketMetricsConfigurationRequest,
@@ -2972,6 +3002,14 @@ export const getTableBucketMetricsConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableBucketStorageClassError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration.
  *
@@ -2982,13 +3020,7 @@ export const getTableBucketMetricsConfiguration: API.OperationMethod<
 export const getTableBucketStorageClass: API.OperationMethod<
   GetTableBucketStorageClassRequest,
   GetTableBucketStorageClassResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableBucketStorageClassError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketStorageClassRequest,
@@ -3002,6 +3034,15 @@ export const getTableBucketStorageClass: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListTableBucketsError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists table buckets for your account. For more information, see S3 Table buckets in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3012,42 +3053,21 @@ export const getTableBucketStorageClass: API.OperationMethod<
 export const listTableBuckets: API.OperationMethod<
   ListTableBucketsRequest,
   ListTableBucketsResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTableBucketsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTableBucketsRequest,
   ) => stream.Stream<
     ListTableBucketsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTableBucketsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTableBucketsRequest,
   ) => stream.Stream<
     TableBucketSummary,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTableBucketsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3069,6 +3089,14 @@ export const listTableBuckets: API.OperationMethod<
     pageSize: "maxBuckets",
   } as const,
 }));
+export type PutTableBucketMaintenanceConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3079,13 +3107,7 @@ export const listTableBuckets: API.OperationMethod<
 export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
   PutTableBucketMaintenanceConfigurationRequest,
   PutTableBucketMaintenanceConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableBucketMaintenanceConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableBucketMaintenanceConfigurationRequest,
@@ -3099,6 +3121,14 @@ export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableBucketMetricsConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the metrics configuration for a table bucket.
  *
@@ -3109,13 +3139,7 @@ export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
 export const putTableBucketMetricsConfiguration: API.OperationMethod<
   PutTableBucketMetricsConfigurationRequest,
   PutTableBucketMetricsConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableBucketMetricsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableBucketMetricsConfigurationRequest,
@@ -3129,6 +3153,14 @@ export const putTableBucketMetricsConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableBucketStorageClassError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level.
  *
@@ -3139,13 +3171,7 @@ export const putTableBucketMetricsConfiguration: API.OperationMethod<
 export const putTableBucketStorageClass: API.OperationMethod<
   PutTableBucketStorageClassRequest,
   PutTableBucketStorageClassResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableBucketStorageClassError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableBucketStorageClassRequest,
@@ -3159,6 +3185,14 @@ export const putTableBucketStorageClass: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableEncryptionError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the encryption configuration for a table.
  *
@@ -3169,13 +3203,7 @@ export const putTableBucketStorageClass: API.OperationMethod<
 export const getTableEncryption: API.OperationMethod<
   GetTableEncryptionRequest,
   GetTableEncryptionResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableEncryptionRequest,
@@ -3189,6 +3217,14 @@ export const getTableEncryption: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTablePolicyError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a table policy. For more information, see Deleting a table policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3199,13 +3235,7 @@ export const getTableEncryption: API.OperationMethod<
 export const deleteTablePolicy: API.OperationMethod<
   DeleteTablePolicyRequest,
   DeleteTablePolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTablePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTablePolicyRequest,
@@ -3219,6 +3249,14 @@ export const deleteTablePolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTablePolicyError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about a table policy. For more information, see Viewing a table policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3229,13 +3267,7 @@ export const deleteTablePolicy: API.OperationMethod<
 export const getTablePolicy: API.OperationMethod<
   GetTablePolicyRequest,
   GetTablePolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTablePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTablePolicyRequest,
@@ -3249,6 +3281,14 @@ export const getTablePolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTablePolicyError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3259,13 +3299,7 @@ export const getTablePolicy: API.OperationMethod<
 export const putTablePolicy: API.OperationMethod<
   PutTablePolicyRequest,
   PutTablePolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTablePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTablePolicyRequest,
@@ -3279,6 +3313,15 @@ export const putTablePolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTableReplicationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets.
  *
@@ -3289,14 +3332,7 @@ export const putTablePolicy: API.OperationMethod<
 export const deleteTableReplication: API.OperationMethod<
   DeleteTableReplicationRequest,
   DeleteTableReplicationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableReplicationRequest,
@@ -3311,6 +3347,15 @@ export const deleteTableReplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableReplicationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the replication configuration for a specific table.
  *
@@ -3321,14 +3366,7 @@ export const deleteTableReplication: API.OperationMethod<
 export const getTableReplication: API.OperationMethod<
   GetTableReplicationRequest,
   GetTableReplicationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableReplicationRequest,
@@ -3343,6 +3381,14 @@ export const getTableReplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableReplicationStatusError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the replication status for a table, including the status of replication to each destination. This operation provides visibility into replication health and progress.
  *
@@ -3353,13 +3399,7 @@ export const getTableReplication: API.OperationMethod<
 export const getTableReplicationStatus: API.OperationMethod<
   GetTableReplicationStatusRequest,
   GetTableReplicationStatusResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableReplicationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableReplicationStatusRequest,
@@ -3373,6 +3413,15 @@ export const getTableReplicationStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableReplicationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where.
  *
@@ -3397,14 +3446,7 @@ export const getTableReplicationStatus: API.OperationMethod<
 export const putTableReplication: API.OperationMethod<
   PutTableReplicationRequest,
   PutTableReplicationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableReplicationRequest,
@@ -3419,6 +3461,14 @@ export const putTableReplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTableError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3439,13 +3489,7 @@ export const putTableReplication: API.OperationMethod<
 export const createTable: API.OperationMethod<
   CreateTableRequest,
   CreateTableResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
@@ -3459,6 +3503,14 @@ export const createTable: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTableError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a table. For more information, see Deleting an Amazon S3 table in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3469,13 +3521,7 @@ export const createTable: API.OperationMethod<
 export const deleteTable: API.OperationMethod<
   DeleteTableRequest,
   DeleteTableResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
@@ -3489,6 +3535,15 @@ export const deleteTable: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about a table. For more information, see S3 Tables in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3499,14 +3554,7 @@ export const deleteTable: API.OperationMethod<
 export const getTable: API.OperationMethod<
   GetTableRequest,
   GetTableResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
@@ -3521,6 +3569,14 @@ export const getTable: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableMaintenanceConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3533,13 +3589,7 @@ export const getTable: API.OperationMethod<
 export const getTableMaintenanceConfiguration: API.OperationMethod<
   GetTableMaintenanceConfigurationRequest,
   GetTableMaintenanceConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableMaintenanceConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableMaintenanceConfigurationRequest,
@@ -3553,6 +3603,14 @@ export const getTableMaintenanceConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableMaintenanceJobStatusError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the status of a maintenance job for a table. For more information, see S3 Tables maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3563,13 +3621,7 @@ export const getTableMaintenanceConfiguration: API.OperationMethod<
 export const getTableMaintenanceJobStatus: API.OperationMethod<
   GetTableMaintenanceJobStatusRequest,
   GetTableMaintenanceJobStatusResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableMaintenanceJobStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableMaintenanceJobStatusRequest,
@@ -3583,6 +3635,14 @@ export const getTableMaintenanceJobStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableMetadataLocationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the location of the table metadata.
  *
@@ -3593,13 +3653,7 @@ export const getTableMaintenanceJobStatus: API.OperationMethod<
 export const getTableMetadataLocation: API.OperationMethod<
   GetTableMetadataLocationRequest,
   GetTableMetadataLocationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableMetadataLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableMetadataLocationRequest,
@@ -3613,6 +3667,14 @@ export const getTableMetadataLocation: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableRecordExpirationConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is `enabled`, records expire and are automatically removed from the table after the specified number of days.
  *
@@ -3623,13 +3685,7 @@ export const getTableMetadataLocation: API.OperationMethod<
 export const getTableRecordExpirationConfiguration: API.OperationMethod<
   GetTableRecordExpirationConfigurationRequest,
   GetTableRecordExpirationConfigurationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableRecordExpirationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRecordExpirationConfigurationRequest,
@@ -3643,6 +3699,14 @@ export const getTableRecordExpirationConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableRecordExpirationJobStatusError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the status, metrics, and details of the latest record expiration job for a table. This includes when the job ran, and whether it succeeded or failed. If the job ran successfully, this also includes statistics about the records that were removed.
  *
@@ -3653,13 +3717,7 @@ export const getTableRecordExpirationConfiguration: API.OperationMethod<
 export const getTableRecordExpirationJobStatus: API.OperationMethod<
   GetTableRecordExpirationJobStatusRequest,
   GetTableRecordExpirationJobStatusResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableRecordExpirationJobStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRecordExpirationJobStatusRequest,
@@ -3673,6 +3731,14 @@ export const getTableRecordExpirationJobStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTableStorageClassError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration.
  *
@@ -3683,13 +3749,7 @@ export const getTableRecordExpirationJobStatus: API.OperationMethod<
 export const getTableStorageClass: API.OperationMethod<
   GetTableStorageClassRequest,
   GetTableStorageClassResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTableStorageClassError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableStorageClassRequest,
@@ -3703,6 +3763,14 @@ export const getTableStorageClass: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListTablesError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List tables in the given table bucket. For more information, see S3 Tables in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3713,39 +3781,21 @@ export const getTableStorageClass: API.OperationMethod<
 export const listTables: API.OperationMethod<
   ListTablesRequest,
   ListTablesResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTablesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
     ListTablesResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTablesRequest,
   ) => stream.Stream<
     TableSummary,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3766,6 +3816,14 @@ export const listTables: API.OperationMethod<
     pageSize: "maxTables",
   } as const,
 }));
+export type PutTableMaintenanceConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3776,13 +3834,7 @@ export const listTables: API.OperationMethod<
 export const putTableMaintenanceConfiguration: API.OperationMethod<
   PutTableMaintenanceConfigurationRequest,
   PutTableMaintenanceConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableMaintenanceConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableMaintenanceConfigurationRequest,
@@ -3796,6 +3848,14 @@ export const putTableMaintenanceConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutTableRecordExpirationConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify.
  *
@@ -3806,13 +3866,7 @@ export const putTableMaintenanceConfiguration: API.OperationMethod<
 export const putTableRecordExpirationConfiguration: API.OperationMethod<
   PutTableRecordExpirationConfigurationRequest,
   PutTableRecordExpirationConfigurationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutTableRecordExpirationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableRecordExpirationConfigurationRequest,
@@ -3826,6 +3880,14 @@ export const putTableRecordExpirationConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type RenameTableError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Renames a table or a namespace. For more information, see S3 Tables in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3836,13 +3898,7 @@ export const putTableRecordExpirationConfiguration: API.OperationMethod<
 export const renameTable: API.OperationMethod<
   RenameTableRequest,
   RenameTableResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  RenameTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenameTableRequest,
@@ -3856,6 +3912,14 @@ export const renameTable: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateTableMetadataLocationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with `.metadata.json`, or if the metadata file is Gzip-compressed, `.metadata.json.gz`.
  *
@@ -3866,13 +3930,7 @@ export const renameTable: API.OperationMethod<
 export const updateTableMetadataLocation: API.OperationMethod<
   UpdateTableMetadataLocationRequest,
   UpdateTableMetadataLocationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateTableMetadataLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableMetadataLocationRequest,

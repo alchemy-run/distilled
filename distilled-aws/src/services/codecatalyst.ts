@@ -2089,32 +2089,35 @@ export const GetSubscriptionResponse = S.suspend(() =>
 //# Errors
 
 //# Operations
+export type GetUserDetailsError = CommonErrors;
 /**
  * Returns information about a user.
  */
 export const getUserDetails: API.OperationMethod<
   GetUserDetailsRequest,
   GetUserDetailsResponse,
-  CommonErrors,
+  GetUserDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserDetailsRequest,
   output: GetUserDetailsResponse,
   errors: [],
 }));
+export type VerifySessionError = CommonErrors;
 /**
  * Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
  */
 export const verifySession: API.OperationMethod<
   VerifySessionRequest,
   VerifySessionResponse,
-  CommonErrors,
+  VerifySessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifySessionRequest,
   output: VerifySessionResponse,
   errors: [],
 }));
+export type CreateAccessTokenError = CommonErrors;
 /**
  * Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password.
  * It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst
@@ -2125,47 +2128,49 @@ export const verifySession: API.OperationMethod<
 export const createAccessToken: API.OperationMethod<
   CreateAccessTokenRequest,
   CreateAccessTokenResponse,
-  CommonErrors,
+  CreateAccessTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessTokenRequest,
   output: CreateAccessTokenResponse,
   errors: [],
 }));
+export type DeleteAccessTokenError = CommonErrors;
 /**
  * Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
  */
 export const deleteAccessToken: API.OperationMethod<
   DeleteAccessTokenRequest,
   DeleteAccessTokenResponse,
-  CommonErrors,
+  DeleteAccessTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessTokenRequest,
   output: DeleteAccessTokenResponse,
   errors: [],
 }));
+export type ListAccessTokensError = CommonErrors;
 /**
  * Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
  */
 export const listAccessTokens: API.OperationMethod<
   ListAccessTokensRequest,
   ListAccessTokensResponse,
-  CommonErrors,
+  ListAccessTokensError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessTokensRequest,
   ) => stream.Stream<
     ListAccessTokensResponse,
-    CommonErrors,
+    ListAccessTokensError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessTokensRequest,
   ) => stream.Stream<
     AccessTokenSummary,
-    CommonErrors,
+    ListAccessTokensError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2179,32 +2184,35 @@ export const listAccessTokens: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSpaceError = CommonErrors;
 /**
  * Returns information about an space.
  */
 export const getSpace: API.OperationMethod<
   GetSpaceRequest,
   GetSpaceResponse,
-  CommonErrors,
+  GetSpaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpaceRequest,
   output: GetSpaceResponse,
   errors: [],
 }));
+export type UpdateSpaceError = CommonErrors;
 /**
  * Changes one or more values for a space.
  */
 export const updateSpace: API.OperationMethod<
   UpdateSpaceRequest,
   UpdateSpaceResponse,
-  CommonErrors,
+  UpdateSpaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpaceRequest,
   output: UpdateSpaceResponse,
   errors: [],
 }));
+export type DeleteSpaceError = CommonErrors;
 /**
  * Deletes a space.
  *
@@ -2213,34 +2221,35 @@ export const updateSpace: API.OperationMethod<
 export const deleteSpace: API.OperationMethod<
   DeleteSpaceRequest,
   DeleteSpaceResponse,
-  CommonErrors,
+  DeleteSpaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpaceRequest,
   output: DeleteSpaceResponse,
   errors: [],
 }));
+export type ListSpacesError = CommonErrors;
 /**
  * Retrieves a list of spaces.
  */
 export const listSpaces: API.OperationMethod<
   ListSpacesRequest,
   ListSpacesResponse,
-  CommonErrors,
+  ListSpacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSpacesRequest,
   ) => stream.Stream<
     ListSpacesResponse,
-    CommonErrors,
+    ListSpacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpacesRequest,
   ) => stream.Stream<
     SpaceSummary,
-    CommonErrors,
+    ListSpacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2253,27 +2262,28 @@ export const listSpaces: API.OperationMethod<
     items: "items",
   } as const,
 }));
+export type ListDevEnvironmentsError = CommonErrors;
 /**
  * Retrieves a list of Dev Environments in a project.
  */
 export const listDevEnvironments: API.OperationMethod<
   ListDevEnvironmentsRequest,
   ListDevEnvironmentsResponse,
-  CommonErrors,
+  ListDevEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevEnvironmentsRequest,
   ) => stream.Stream<
     ListDevEnvironmentsResponse,
-    CommonErrors,
+    ListDevEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevEnvironmentsRequest,
   ) => stream.Stream<
     DevEnvironmentSummary,
-    CommonErrors,
+    ListDevEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2287,6 +2297,7 @@ export const listDevEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEventLogsError = CommonErrors;
 /**
  * Retrieves a list of events that occurred during a specific time in a space. You can
  * use these events to audit user and system activity in a space. For more information, see
@@ -2301,21 +2312,21 @@ export const listDevEnvironments: API.OperationMethod<
 export const listEventLogs: API.OperationMethod<
   ListEventLogsRequest,
   ListEventLogsResponse,
-  CommonErrors,
+  ListEventLogsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventLogsRequest,
   ) => stream.Stream<
     ListEventLogsResponse,
-    CommonErrors,
+    ListEventLogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventLogsRequest,
   ) => stream.Stream<
     EventLogEntry,
-    CommonErrors,
+    ListEventLogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2329,79 +2340,84 @@ export const listEventLogs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateProjectError = CommonErrors;
 /**
  * Creates a project in a specified space.
  */
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResponse,
-  CommonErrors,
+  CreateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
   output: CreateProjectResponse,
   errors: [],
 }));
+export type GetProjectError = CommonErrors;
 /**
  * Returns information about a project.
  */
 export const getProject: API.OperationMethod<
   GetProjectRequest,
   GetProjectResponse,
-  CommonErrors,
+  GetProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectRequest,
   output: GetProjectResponse,
   errors: [],
 }));
+export type UpdateProjectError = CommonErrors;
 /**
  * Changes one or more values for a project.
  */
 export const updateProject: API.OperationMethod<
   UpdateProjectRequest,
   UpdateProjectResponse,
-  CommonErrors,
+  UpdateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectRequest,
   output: UpdateProjectResponse,
   errors: [],
 }));
+export type DeleteProjectError = CommonErrors;
 /**
  * Deletes a project in a space.
  */
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
-  CommonErrors,
+  DeleteProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
   output: DeleteProjectResponse,
   errors: [],
 }));
+export type ListProjectsError = CommonErrors;
 /**
  * Retrieves a list of projects.
  */
 export const listProjects: API.OperationMethod<
   ListProjectsRequest,
   ListProjectsResponse,
-  CommonErrors,
+  ListProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     ListProjectsResponse,
-    CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     ProjectSummary,
-    CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2415,6 +2431,7 @@ export const listProjects: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateDevEnvironmentError = CommonErrors;
 /**
  * Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored
  * in the source repositories of your project.
@@ -2425,73 +2442,77 @@ export const listProjects: API.OperationMethod<
 export const createDevEnvironment: API.OperationMethod<
   CreateDevEnvironmentRequest,
   CreateDevEnvironmentResponse,
-  CommonErrors,
+  CreateDevEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDevEnvironmentRequest,
   output: CreateDevEnvironmentResponse,
   errors: [],
 }));
+export type GetDevEnvironmentError = CommonErrors;
 /**
  * Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
  */
 export const getDevEnvironment: API.OperationMethod<
   GetDevEnvironmentRequest,
   GetDevEnvironmentResponse,
-  CommonErrors,
+  GetDevEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevEnvironmentRequest,
   output: GetDevEnvironmentResponse,
   errors: [],
 }));
+export type UpdateDevEnvironmentError = CommonErrors;
 /**
  * Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
  */
 export const updateDevEnvironment: API.OperationMethod<
   UpdateDevEnvironmentRequest,
   UpdateDevEnvironmentResponse,
-  CommonErrors,
+  UpdateDevEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDevEnvironmentRequest,
   output: UpdateDevEnvironmentResponse,
   errors: [],
 }));
+export type DeleteDevEnvironmentError = CommonErrors;
 /**
  * Deletes a Dev Environment.
  */
 export const deleteDevEnvironment: API.OperationMethod<
   DeleteDevEnvironmentRequest,
   DeleteDevEnvironmentResponse,
-  CommonErrors,
+  DeleteDevEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDevEnvironmentRequest,
   output: DeleteDevEnvironmentResponse,
   errors: [],
 }));
+export type ListDevEnvironmentSessionsError = CommonErrors;
 /**
  * Retrieves a list of active sessions for a Dev Environment in a project.
  */
 export const listDevEnvironmentSessions: API.OperationMethod<
   ListDevEnvironmentSessionsRequest,
   ListDevEnvironmentSessionsResponse,
-  CommonErrors,
+  ListDevEnvironmentSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevEnvironmentSessionsRequest,
   ) => stream.Stream<
     ListDevEnvironmentSessionsResponse,
-    CommonErrors,
+    ListDevEnvironmentSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevEnvironmentSessionsRequest,
   ) => stream.Stream<
     DevEnvironmentSessionSummary,
-    CommonErrors,
+    ListDevEnvironmentSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2505,58 +2526,63 @@ export const listDevEnvironmentSessions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartDevEnvironmentError = CommonErrors;
 /**
  * Starts a specified Dev Environment and puts it into an active state.
  */
 export const startDevEnvironment: API.OperationMethod<
   StartDevEnvironmentRequest,
   StartDevEnvironmentResponse,
-  CommonErrors,
+  StartDevEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDevEnvironmentRequest,
   output: StartDevEnvironmentResponse,
   errors: [],
 }));
+export type StartDevEnvironmentSessionError = CommonErrors;
 /**
  * Starts a session for a specified Dev Environment.
  */
 export const startDevEnvironmentSession: API.OperationMethod<
   StartDevEnvironmentSessionRequest,
   StartDevEnvironmentSessionResponse,
-  CommonErrors,
+  StartDevEnvironmentSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDevEnvironmentSessionRequest,
   output: StartDevEnvironmentSessionResponse,
   errors: [],
 }));
+export type StopDevEnvironmentError = CommonErrors;
 /**
  * Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
  */
 export const stopDevEnvironment: API.OperationMethod<
   StopDevEnvironmentRequest,
   StopDevEnvironmentResponse,
-  CommonErrors,
+  StopDevEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDevEnvironmentRequest,
   output: StopDevEnvironmentResponse,
   errors: [],
 }));
+export type StopDevEnvironmentSessionError = CommonErrors;
 /**
  * Stops a session for a specified Dev Environment.
  */
 export const stopDevEnvironmentSession: API.OperationMethod<
   StopDevEnvironmentSessionRequest,
   StopDevEnvironmentSessionResponse,
-  CommonErrors,
+  StopDevEnvironmentSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDevEnvironmentSessionRequest,
   output: StopDevEnvironmentSessionResponse,
   errors: [],
 }));
+export type CreateSourceRepositoryError = CommonErrors;
 /**
  * Creates an empty Git-based source repository in a specified project. The repository is
  * created with an initial empty commit with a default branch named `main`.
@@ -2564,60 +2590,63 @@ export const stopDevEnvironmentSession: API.OperationMethod<
 export const createSourceRepository: API.OperationMethod<
   CreateSourceRepositoryRequest,
   CreateSourceRepositoryResponse,
-  CommonErrors,
+  CreateSourceRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSourceRepositoryRequest,
   output: CreateSourceRepositoryResponse,
   errors: [],
 }));
+export type GetSourceRepositoryError = CommonErrors;
 /**
  * Returns information about a source repository.
  */
 export const getSourceRepository: API.OperationMethod<
   GetSourceRepositoryRequest,
   GetSourceRepositoryResponse,
-  CommonErrors,
+  GetSourceRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSourceRepositoryRequest,
   output: GetSourceRepositoryResponse,
   errors: [],
 }));
+export type DeleteSourceRepositoryError = CommonErrors;
 /**
  * Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
  */
 export const deleteSourceRepository: API.OperationMethod<
   DeleteSourceRepositoryRequest,
   DeleteSourceRepositoryResponse,
-  CommonErrors,
+  DeleteSourceRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceRepositoryRequest,
   output: DeleteSourceRepositoryResponse,
   errors: [],
 }));
+export type ListSourceRepositoriesError = CommonErrors;
 /**
  * Retrieves a list of source repositories in a project.
  */
 export const listSourceRepositories: API.OperationMethod<
   ListSourceRepositoriesRequest,
   ListSourceRepositoriesResponse,
-  CommonErrors,
+  ListSourceRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceRepositoriesRequest,
   ) => stream.Stream<
     ListSourceRepositoriesResponse,
-    CommonErrors,
+    ListSourceRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceRepositoriesRequest,
   ) => stream.Stream<
     ListSourceRepositoriesItem,
-    CommonErrors,
+    ListSourceRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2631,6 +2660,7 @@ export const listSourceRepositories: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSourceRepositoryCloneUrlsError = CommonErrors;
 /**
  * Returns information about the URLs that can be used with a Git client to clone a source
  * repository.
@@ -2638,13 +2668,14 @@ export const listSourceRepositories: API.OperationMethod<
 export const getSourceRepositoryCloneUrls: API.OperationMethod<
   GetSourceRepositoryCloneUrlsRequest,
   GetSourceRepositoryCloneUrlsResponse,
-  CommonErrors,
+  GetSourceRepositoryCloneUrlsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSourceRepositoryCloneUrlsRequest,
   output: GetSourceRepositoryCloneUrlsResponse,
   errors: [],
 }));
+export type CreateSourceRepositoryBranchError = CommonErrors;
 /**
  * Creates a branch in a specified source repository in Amazon CodeCatalyst.
  *
@@ -2653,34 +2684,35 @@ export const getSourceRepositoryCloneUrls: API.OperationMethod<
 export const createSourceRepositoryBranch: API.OperationMethod<
   CreateSourceRepositoryBranchRequest,
   CreateSourceRepositoryBranchResponse,
-  CommonErrors,
+  CreateSourceRepositoryBranchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSourceRepositoryBranchRequest,
   output: CreateSourceRepositoryBranchResponse,
   errors: [],
 }));
+export type ListSourceRepositoryBranchesError = CommonErrors;
 /**
  * Retrieves a list of branches in a specified source repository.
  */
 export const listSourceRepositoryBranches: API.OperationMethod<
   ListSourceRepositoryBranchesRequest,
   ListSourceRepositoryBranchesResponse,
-  CommonErrors,
+  ListSourceRepositoryBranchesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceRepositoryBranchesRequest,
   ) => stream.Stream<
     ListSourceRepositoryBranchesResponse,
-    CommonErrors,
+    ListSourceRepositoryBranchesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceRepositoryBranchesRequest,
   ) => stream.Stream<
     ListSourceRepositoryBranchesItem,
-    CommonErrors,
+    ListSourceRepositoryBranchesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2694,40 +2726,42 @@ export const listSourceRepositoryBranches: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetWorkflowError = CommonErrors;
 /**
  * Returns information about a workflow.
  */
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
   GetWorkflowResponse,
-  CommonErrors,
+  GetWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [],
 }));
+export type ListWorkflowsError = CommonErrors;
 /**
  * Retrieves a list of workflows in a specified project.
  */
 export const listWorkflows: API.OperationMethod<
   ListWorkflowsRequest,
   ListWorkflowsResponse,
-  CommonErrors,
+  ListWorkflowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<
     ListWorkflowsResponse,
-    CommonErrors,
+    ListWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<
     WorkflowSummary,
-    CommonErrors,
+    ListWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2741,53 +2775,56 @@ export const listWorkflows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartWorkflowRunError = CommonErrors;
 /**
  * Begins a run of a specified workflow.
  */
 export const startWorkflowRun: API.OperationMethod<
   StartWorkflowRunRequest,
   StartWorkflowRunResponse,
-  CommonErrors,
+  StartWorkflowRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWorkflowRunRequest,
   output: StartWorkflowRunResponse,
   errors: [],
 }));
+export type GetWorkflowRunError = CommonErrors;
 /**
  * Returns information about a specified run of a workflow.
  */
 export const getWorkflowRun: API.OperationMethod<
   GetWorkflowRunRequest,
   GetWorkflowRunResponse,
-  CommonErrors,
+  GetWorkflowRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRunRequest,
   output: GetWorkflowRunResponse,
   errors: [],
 }));
+export type ListWorkflowRunsError = CommonErrors;
 /**
  * Retrieves a list of workflow runs of a specified workflow.
  */
 export const listWorkflowRuns: API.OperationMethod<
   ListWorkflowRunsRequest,
   ListWorkflowRunsResponse,
-  CommonErrors,
+  ListWorkflowRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkflowRunsRequest,
   ) => stream.Stream<
     ListWorkflowRunsResponse,
-    CommonErrors,
+    ListWorkflowRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowRunsRequest,
   ) => stream.Stream<
     WorkflowRunSummary,
-    CommonErrors,
+    ListWorkflowRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2801,6 +2838,7 @@ export const listWorkflowRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSubscriptionError = CommonErrors;
 /**
  * Returns information about the Amazon Web Services account used for billing purposes
  * and the billing plan for the space.
@@ -2808,7 +2846,7 @@ export const listWorkflowRuns: API.OperationMethod<
 export const getSubscription: API.OperationMethod<
   GetSubscriptionRequest,
   GetSubscriptionResponse,
-  CommonErrors,
+  GetSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionRequest,

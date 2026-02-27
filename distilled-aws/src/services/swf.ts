@@ -3272,6 +3272,10 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedErrorClass<Wor
 ) {}
 
 //# Operations
+export type CountClosedWorkflowExecutionsError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns the number of closed workflow executions within the given domain that meet the
  * specified filtering criteria.
@@ -3311,13 +3315,17 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedErrorClass<Wor
 export const countClosedWorkflowExecutions: API.OperationMethod<
   CountClosedWorkflowExecutionsInput,
   WorkflowExecutionCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  CountClosedWorkflowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountClosedWorkflowExecutionsInput,
   output: WorkflowExecutionCount,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type CountOpenWorkflowExecutionsError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns the number of open workflow executions within the given domain that meet the
  * specified filtering criteria.
@@ -3357,13 +3365,17 @@ export const countClosedWorkflowExecutions: API.OperationMethod<
 export const countOpenWorkflowExecutions: API.OperationMethod<
   CountOpenWorkflowExecutionsInput,
   WorkflowExecutionCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  CountOpenWorkflowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountOpenWorkflowExecutionsInput,
   output: WorkflowExecutionCount,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type CountPendingActivityTasksError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns the estimated number of activity tasks in the specified task list. The count
  * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
@@ -3393,13 +3405,17 @@ export const countOpenWorkflowExecutions: API.OperationMethod<
 export const countPendingActivityTasks: API.OperationMethod<
   CountPendingActivityTasksInput,
   PendingTaskCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  CountPendingActivityTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountPendingActivityTasksInput,
   output: PendingTaskCount,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type CountPendingDecisionTasksError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns the estimated number of decision tasks in the specified task list. The count
  * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
@@ -3429,13 +3445,18 @@ export const countPendingActivityTasks: API.OperationMethod<
 export const countPendingDecisionTasks: API.OperationMethod<
   CountPendingDecisionTasksInput,
   PendingTaskCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  CountPendingDecisionTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountPendingDecisionTasksInput,
   output: PendingTaskCount,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type DeleteActivityTypeError =
+  | OperationNotPermittedFault
+  | TypeNotDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Deletes the specified *activity type*.
  *
@@ -3471,10 +3492,7 @@ export const countPendingDecisionTasks: API.OperationMethod<
 export const deleteActivityType: API.OperationMethod<
   DeleteActivityTypeInput,
   DeleteActivityTypeResponse,
-  | OperationNotPermittedFault
-  | TypeNotDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  DeleteActivityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActivityTypeInput,
@@ -3485,6 +3503,11 @@ export const deleteActivityType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type DeleteWorkflowTypeError =
+  | OperationNotPermittedFault
+  | TypeNotDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Deletes the specified *workflow type*.
  *
@@ -3521,10 +3544,7 @@ export const deleteActivityType: API.OperationMethod<
 export const deleteWorkflowType: API.OperationMethod<
   DeleteWorkflowTypeInput,
   DeleteWorkflowTypeResponse,
-  | OperationNotPermittedFault
-  | TypeNotDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  DeleteWorkflowTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowTypeInput,
@@ -3535,6 +3555,11 @@ export const deleteWorkflowType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type DeprecateActivityTypeError =
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Deprecates the specified *activity type*. After an activity type has
  * been deprecated, you cannot create new tasks of that activity type. Tasks of this type that
@@ -3569,10 +3594,7 @@ export const deleteWorkflowType: API.OperationMethod<
 export const deprecateActivityType: API.OperationMethod<
   DeprecateActivityTypeInput,
   DeprecateActivityTypeResponse,
-  | OperationNotPermittedFault
-  | TypeDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  DeprecateActivityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateActivityTypeInput,
@@ -3583,6 +3605,11 @@ export const deprecateActivityType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type DeprecateDomainError =
+  | DomainDeprecatedFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Deprecates the specified domain. After a domain has been deprecated it cannot be used
  * to create new workflow executions or register new types. However, you can still use visibility
@@ -3615,10 +3642,7 @@ export const deprecateActivityType: API.OperationMethod<
 export const deprecateDomain: API.OperationMethod<
   DeprecateDomainInput,
   DeprecateDomainResponse,
-  | DomainDeprecatedFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  DeprecateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateDomainInput,
@@ -3629,6 +3653,11 @@ export const deprecateDomain: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type DeprecateWorkflowTypeError =
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Deprecates the specified *workflow type*. After a workflow type has
  * been deprecated, you cannot create new executions of that type. Executions that were started
@@ -3667,10 +3696,7 @@ export const deprecateDomain: API.OperationMethod<
 export const deprecateWorkflowType: API.OperationMethod<
   DeprecateWorkflowTypeInput,
   DeprecateWorkflowTypeResponse,
-  | OperationNotPermittedFault
-  | TypeDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  DeprecateWorkflowTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateWorkflowTypeInput,
@@ -3681,6 +3707,10 @@ export const deprecateWorkflowType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type DescribeActivityTypeError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns information about the specified activity type. This includes configuration
  * settings provided when the type was registered and other general information about the
@@ -3715,13 +3745,17 @@ export const deprecateWorkflowType: API.OperationMethod<
 export const describeActivityType: API.OperationMethod<
   DescribeActivityTypeInput,
   ActivityTypeDetail,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  DescribeActivityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeActivityTypeInput,
   output: ActivityTypeDetail,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type DescribeDomainError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns information about the specified domain, including description and
  * status.
@@ -3748,13 +3782,17 @@ export const describeActivityType: API.OperationMethod<
 export const describeDomain: API.OperationMethod<
   DescribeDomainInput,
   DomainDetail,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  DescribeDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainInput,
   output: DomainDetail,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type DescribeWorkflowExecutionError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns information about the specified workflow execution including its type and some
  * statistics.
@@ -3784,13 +3822,17 @@ export const describeDomain: API.OperationMethod<
 export const describeWorkflowExecution: API.OperationMethod<
   DescribeWorkflowExecutionInput,
   WorkflowExecutionDetail,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  DescribeWorkflowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkflowExecutionInput,
   output: WorkflowExecutionDetail,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type DescribeWorkflowTypeError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns information about the specified *workflow type*. This
  * includes configuration settings specified when the type was registered and other information
@@ -3825,13 +3867,17 @@ export const describeWorkflowExecution: API.OperationMethod<
 export const describeWorkflowType: API.OperationMethod<
   DescribeWorkflowTypeInput,
   WorkflowTypeDetail,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  DescribeWorkflowTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkflowTypeInput,
   output: WorkflowTypeDetail,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type GetWorkflowExecutionHistoryError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns the history of the specified workflow execution. The results may be split into
  * multiple pages. To retrieve subsequent pages, make the call again using the
@@ -3862,21 +3908,21 @@ export const describeWorkflowType: API.OperationMethod<
 export const getWorkflowExecutionHistory: API.OperationMethod<
   GetWorkflowExecutionHistoryInput,
   History,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  GetWorkflowExecutionHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetWorkflowExecutionHistoryInput,
   ) => stream.Stream<
     History,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    GetWorkflowExecutionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetWorkflowExecutionHistoryInput,
   ) => stream.Stream<
     HistoryEvent,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    GetWorkflowExecutionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3890,6 +3936,10 @@ export const getWorkflowExecutionHistory: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type ListActivityTypesError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns information about all activities registered in the specified domain that match
  * the specified name and registration status. The result includes information like creation
@@ -3919,21 +3969,21 @@ export const getWorkflowExecutionHistory: API.OperationMethod<
 export const listActivityTypes: API.OperationMethod<
   ListActivityTypesInput,
   ActivityTypeInfos,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  ListActivityTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListActivityTypesInput,
   ) => stream.Stream<
     ActivityTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListActivityTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActivityTypesInput,
   ) => stream.Stream<
     ActivityTypeInfo,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListActivityTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3947,6 +3997,10 @@ export const listActivityTypes: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type ListClosedWorkflowExecutionsError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns a list of closed workflow executions in the specified domain that meet the
  * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
@@ -3987,21 +4041,21 @@ export const listActivityTypes: API.OperationMethod<
 export const listClosedWorkflowExecutions: API.OperationMethod<
   ListClosedWorkflowExecutionsInput,
   WorkflowExecutionInfos,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  ListClosedWorkflowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClosedWorkflowExecutionsInput,
   ) => stream.Stream<
     WorkflowExecutionInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListClosedWorkflowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClosedWorkflowExecutionsInput,
   ) => stream.Stream<
     WorkflowExecutionInfo,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListClosedWorkflowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4015,6 +4069,7 @@ export const listClosedWorkflowExecutions: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type ListDomainsError = OperationNotPermittedFault | CommonErrors;
 /**
  * Returns the list of domains registered in the account. The results may be split into
  * multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken
@@ -4047,21 +4102,21 @@ export const listClosedWorkflowExecutions: API.OperationMethod<
 export const listDomains: API.OperationMethod<
   ListDomainsInput,
   DomainInfos,
-  OperationNotPermittedFault | CommonErrors,
+  ListDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsInput,
   ) => stream.Stream<
     DomainInfos,
-    OperationNotPermittedFault | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsInput,
   ) => stream.Stream<
     DomainInfo,
-    OperationNotPermittedFault | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4075,6 +4130,10 @@ export const listDomains: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type ListOpenWorkflowExecutionsError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns a list of open workflow executions in the specified domain that meet the
  * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
@@ -4115,21 +4174,21 @@ export const listDomains: API.OperationMethod<
 export const listOpenWorkflowExecutions: API.OperationMethod<
   ListOpenWorkflowExecutionsInput,
   WorkflowExecutionInfos,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  ListOpenWorkflowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOpenWorkflowExecutionsInput,
   ) => stream.Stream<
     WorkflowExecutionInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListOpenWorkflowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOpenWorkflowExecutionsInput,
   ) => stream.Stream<
     WorkflowExecutionInfo,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListOpenWorkflowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4143,16 +4202,18 @@ export const listOpenWorkflowExecutions: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * List tags for a given domain.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -4163,6 +4224,10 @@ export const listTagsForResource: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type ListWorkflowTypesError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Returns information about workflow types in the specified domain. The results may be
  * split into multiple pages that can be retrieved by making the call repeatedly.
@@ -4189,21 +4254,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listWorkflowTypes: API.OperationMethod<
   ListWorkflowTypesInput,
   WorkflowTypeInfos,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  ListWorkflowTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkflowTypesInput,
   ) => stream.Stream<
     WorkflowTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListWorkflowTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowTypesInput,
   ) => stream.Stream<
     WorkflowTypeInfo,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    ListWorkflowTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4217,6 +4282,11 @@ export const listWorkflowTypes: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type PollForActivityTaskError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by workers to get an ActivityTask from the specified activity
  * `taskList`. This initiates a long poll, where the service holds the HTTP
@@ -4253,10 +4323,7 @@ export const listWorkflowTypes: API.OperationMethod<
 export const pollForActivityTask: API.OperationMethod<
   PollForActivityTaskInput,
   ActivityTask,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  PollForActivityTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForActivityTaskInput,
@@ -4267,6 +4334,11 @@ export const pollForActivityTask: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type PollForDecisionTaskError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by deciders to get a DecisionTask from the specified decision
  * `taskList`. A decision task may be returned for any open workflow execution that
@@ -4315,30 +4387,21 @@ export const pollForActivityTask: API.OperationMethod<
 export const pollForDecisionTask: API.OperationMethod<
   PollForDecisionTaskInput,
   DecisionTask,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  PollForDecisionTaskError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: PollForDecisionTaskInput,
   ) => stream.Stream<
     DecisionTask,
-    | LimitExceededFault
-    | OperationNotPermittedFault
-    | UnknownResourceFault
-    | CommonErrors,
+    PollForDecisionTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: PollForDecisionTaskInput,
   ) => stream.Stream<
     HistoryEvent,
-    | LimitExceededFault
-    | OperationNotPermittedFault
-    | UnknownResourceFault
-    | CommonErrors,
+    PollForDecisionTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4356,6 +4419,10 @@ export const pollForDecisionTask: API.OperationMethod<
     pageSize: "maximumPageSize",
   } as const,
 }));
+export type RecordActivityTaskHeartbeatError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by activity workers to report to the service that the ActivityTask represented by the specified `taskToken` is still making progress. The worker
  * can also specify details of the progress, for example percent complete, using the
@@ -4404,13 +4471,19 @@ export const pollForDecisionTask: API.OperationMethod<
 export const recordActivityTaskHeartbeat: API.OperationMethod<
   RecordActivityTaskHeartbeatInput,
   ActivityTaskStatus,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  RecordActivityTaskHeartbeatError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecordActivityTaskHeartbeatInput,
   output: ActivityTaskStatus,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type RegisterActivityTypeError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Registers a new *activity type* along with its configuration
  * settings in the specified domain.
@@ -4450,11 +4523,7 @@ export const recordActivityTaskHeartbeat: API.OperationMethod<
 export const registerActivityType: API.OperationMethod<
   RegisterActivityTypeInput,
   RegisterActivityTypeResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
+  RegisterActivityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterActivityTypeInput,
@@ -4466,6 +4535,12 @@ export const registerActivityType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type RegisterDomainError =
+  | DomainAlreadyExistsFault
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TooManyTagsFault
+  | CommonErrors;
 /**
  * Registers a new domain.
  *
@@ -4491,11 +4566,7 @@ export const registerActivityType: API.OperationMethod<
 export const registerDomain: API.OperationMethod<
   RegisterDomainInput,
   RegisterDomainResponse,
-  | DomainAlreadyExistsFault
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TooManyTagsFault
-  | CommonErrors,
+  RegisterDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDomainInput,
@@ -4507,6 +4578,12 @@ export const registerDomain: API.OperationMethod<
     TooManyTagsFault,
   ],
 }));
+export type RegisterWorkflowTypeError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Registers a new *workflow type* and its configuration settings in
  * the specified domain.
@@ -4548,11 +4625,7 @@ export const registerDomain: API.OperationMethod<
 export const registerWorkflowType: API.OperationMethod<
   RegisterWorkflowTypeInput,
   RegisterWorkflowTypeResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
+  RegisterWorkflowTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterWorkflowTypeInput,
@@ -4564,6 +4637,10 @@ export const registerWorkflowType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type RequestCancelWorkflowExecutionError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Records a `WorkflowExecutionCancelRequested` event in the currently running
  * workflow execution identified by the given domain, workflowId, and runId. This logically
@@ -4600,13 +4677,17 @@ export const registerWorkflowType: API.OperationMethod<
 export const requestCancelWorkflowExecution: API.OperationMethod<
   RequestCancelWorkflowExecutionInput,
   RequestCancelWorkflowExecutionResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  RequestCancelWorkflowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestCancelWorkflowExecutionInput,
   output: RequestCancelWorkflowExecutionResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type RespondActivityTaskCanceledError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by workers to tell the service that the ActivityTask identified
  * by the `taskToken` was successfully canceled. Additional `details` can
@@ -4647,13 +4728,17 @@ export const requestCancelWorkflowExecution: API.OperationMethod<
 export const respondActivityTaskCanceled: API.OperationMethod<
   RespondActivityTaskCanceledInput,
   RespondActivityTaskCanceledResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  RespondActivityTaskCanceledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RespondActivityTaskCanceledInput,
   output: RespondActivityTaskCanceledResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type RespondActivityTaskCompletedError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by workers to tell the service that the ActivityTask identified
  * by the `taskToken` completed successfully with a `result` (if provided).
@@ -4692,13 +4777,17 @@ export const respondActivityTaskCanceled: API.OperationMethod<
 export const respondActivityTaskCompleted: API.OperationMethod<
   RespondActivityTaskCompletedInput,
   RespondActivityTaskCompletedResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  RespondActivityTaskCompletedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RespondActivityTaskCompletedInput,
   output: RespondActivityTaskCompletedResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type RespondActivityTaskFailedError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by workers to tell the service that the ActivityTask identified
  * by the `taskToken` has failed with `reason` (if specified). The
@@ -4732,13 +4821,17 @@ export const respondActivityTaskCompleted: API.OperationMethod<
 export const respondActivityTaskFailed: API.OperationMethod<
   RespondActivityTaskFailedInput,
   RespondActivityTaskFailedResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  RespondActivityTaskFailedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RespondActivityTaskFailedInput,
   output: RespondActivityTaskFailedResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type RespondDecisionTaskCompletedError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Used by deciders to tell the service that the DecisionTask identified
  * by the `taskToken` has successfully completed. The `decisions` argument
@@ -4762,13 +4855,17 @@ export const respondActivityTaskFailed: API.OperationMethod<
 export const respondDecisionTaskCompleted: API.OperationMethod<
   RespondDecisionTaskCompletedInput,
   RespondDecisionTaskCompletedResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  RespondDecisionTaskCompletedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RespondDecisionTaskCompletedInput,
   output: RespondDecisionTaskCompletedResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type SignalWorkflowExecutionError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Records a `WorkflowExecutionSignaled` event in the workflow execution
  * history and creates a decision task for the workflow execution identified by the given domain,
@@ -4804,13 +4901,21 @@ export const respondDecisionTaskCompleted: API.OperationMethod<
 export const signalWorkflowExecution: API.OperationMethod<
   SignalWorkflowExecutionInput,
   SignalWorkflowExecutionResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  SignalWorkflowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignalWorkflowExecutionInput,
   output: SignalWorkflowExecutionResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type StartWorkflowExecutionError =
+  | DefaultUndefinedFault
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | WorkflowExecutionAlreadyStartedFault
+  | CommonErrors;
 /**
  * Starts an execution of the workflow type in the specified domain using the provided
  * `workflowId` and input data.
@@ -4859,13 +4964,7 @@ export const signalWorkflowExecution: API.OperationMethod<
 export const startWorkflowExecution: API.OperationMethod<
   StartWorkflowExecutionInput,
   Run,
-  | DefaultUndefinedFault
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TypeDeprecatedFault
-  | UnknownResourceFault
-  | WorkflowExecutionAlreadyStartedFault
-  | CommonErrors,
+  StartWorkflowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWorkflowExecutionInput,
@@ -4879,6 +4978,12 @@ export const startWorkflowExecution: API.OperationMethod<
     WorkflowExecutionAlreadyStartedFault,
   ],
 }));
+export type TagResourceError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TooManyTagsFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Add a tag to a Amazon SWF domain.
  *
@@ -4887,11 +4992,7 @@ export const startWorkflowExecution: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TooManyTagsFault
-  | UnknownResourceFault
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4903,6 +5004,10 @@ export const tagResource: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type TerminateWorkflowExecutionError =
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Records a `WorkflowExecutionTerminated` event and forces closure of the
  * workflow execution identified by the given domain, runId, and workflowId. The child policy,
@@ -4941,13 +5046,18 @@ export const tagResource: API.OperationMethod<
 export const terminateWorkflowExecution: API.OperationMethod<
   TerminateWorkflowExecutionInput,
   TerminateWorkflowExecutionResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  TerminateWorkflowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateWorkflowExecutionInput,
   output: TerminateWorkflowExecutionResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
+export type UndeprecateActivityTypeError =
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Undeprecates a previously deprecated *activity type*. After an activity type has
  * been undeprecated, you can create new tasks of that activity type.
@@ -4984,10 +5094,7 @@ export const terminateWorkflowExecution: API.OperationMethod<
 export const undeprecateActivityType: API.OperationMethod<
   UndeprecateActivityTypeInput,
   UndeprecateActivityTypeResponse,
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
+  UndeprecateActivityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeprecateActivityTypeInput,
@@ -4998,6 +5105,11 @@ export const undeprecateActivityType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type UndeprecateDomainError =
+  | DomainAlreadyExistsFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used
  * to create new workflow executions or register new types.
@@ -5027,10 +5139,7 @@ export const undeprecateActivityType: API.OperationMethod<
 export const undeprecateDomain: API.OperationMethod<
   UndeprecateDomainInput,
   UndeprecateDomainResponse,
-  | DomainAlreadyExistsFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  UndeprecateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeprecateDomainInput,
@@ -5041,6 +5150,11 @@ export const undeprecateDomain: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type UndeprecateWorkflowTypeError =
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Undeprecates a previously deprecated *workflow type*. After a workflow type has
  * been undeprecated, you can create new executions of that type.
@@ -5077,10 +5191,7 @@ export const undeprecateDomain: API.OperationMethod<
 export const undeprecateWorkflowType: API.OperationMethod<
   UndeprecateWorkflowTypeInput,
   UndeprecateWorkflowTypeResponse,
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
+  UndeprecateWorkflowTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeprecateWorkflowTypeInput,
@@ -5091,16 +5202,18 @@ export const undeprecateWorkflowType: API.OperationMethod<
     UnknownResourceFault,
   ],
 }));
+export type UntagResourceError =
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors;
 /**
  * Remove a tag from a Amazon SWF domain.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,

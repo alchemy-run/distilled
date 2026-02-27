@@ -2059,6 +2059,14 @@ export class SendingPausedException extends S.TaggedErrorClass<SendingPausedExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateConfigurationSetError =
+  | AlreadyExistsException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a configuration set. *Configuration sets* are groups of
  * rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration
@@ -2069,13 +2077,7 @@ export class SendingPausedException extends S.TaggedErrorClass<SendingPausedExce
 export const createConfigurationSet: API.OperationMethod<
   CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetRequest,
@@ -2089,6 +2091,13 @@ export const createConfigurationSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateConfigurationSetEventDestinationError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create an event destination. In Amazon Pinpoint, *events* include message
  * sends, deliveries, opens, clicks, bounces, and complaints. Event
@@ -2102,12 +2111,7 @@ export const createConfigurationSet: API.OperationMethod<
 export const createConfigurationSetEventDestination: API.OperationMethod<
   CreateConfigurationSetEventDestinationRequest,
   CreateConfigurationSetEventDestinationResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetEventDestinationRequest,
@@ -2120,6 +2124,13 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateDedicatedIpPoolError =
+  | AlreadyExistsException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a new pool of dedicated IP addresses. A pool can include one or more dedicated
  * IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with
@@ -2129,12 +2140,7 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
 export const createDedicatedIpPool: API.OperationMethod<
   CreateDedicatedIpPoolRequest,
   CreateDedicatedIpPoolResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateDedicatedIpPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDedicatedIpPoolRequest,
@@ -2147,6 +2153,17 @@ export const createDedicatedIpPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateDeliverabilityTestReportError =
+  | AccountSuspendedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | NotFoundException
+  | SendingPausedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled
  * by various email providers around the world. When you perform a predictive inbox placement test, you provide a
@@ -2159,16 +2176,7 @@ export const createDedicatedIpPool: API.OperationMethod<
 export const createDeliverabilityTestReport: API.OperationMethod<
   CreateDeliverabilityTestReportRequest,
   CreateDeliverabilityTestReportResponse,
-  | AccountSuspendedException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | NotFoundException
-  | SendingPausedException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateDeliverabilityTestReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeliverabilityTestReportRequest,
@@ -2185,6 +2193,12 @@ export const createDeliverabilityTestReport: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateEmailIdentityError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email
  * address or domain that you use when you send email. Before you can use an identity to
@@ -2204,11 +2218,7 @@ export const createDeliverabilityTestReport: API.OperationMethod<
 export const createEmailIdentity: API.OperationMethod<
   CreateEmailIdentityRequest,
   CreateEmailIdentityResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateEmailIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailIdentityRequest,
@@ -2220,6 +2230,12 @@ export const createEmailIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteConfigurationSetError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete an existing configuration set.
  *
@@ -2232,11 +2248,7 @@ export const createEmailIdentity: API.OperationMethod<
 export const deleteConfigurationSet: API.OperationMethod<
   DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetRequest,
@@ -2248,6 +2260,11 @@ export const deleteConfigurationSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteConfigurationSetEventDestinationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete an event destination.
  *
@@ -2260,27 +2277,26 @@ export const deleteConfigurationSet: API.OperationMethod<
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
   DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetEventDestinationRequest,
   output: DeleteConfigurationSetEventDestinationResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteDedicatedIpPoolError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete a dedicated IP pool.
  */
 export const deleteDedicatedIpPool: API.OperationMethod<
   DeleteDedicatedIpPoolRequest,
   DeleteDedicatedIpPoolResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteDedicatedIpPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDedicatedIpPoolRequest,
@@ -2292,6 +2308,12 @@ export const deleteDedicatedIpPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEmailIdentityError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity
  * can be either an email address or a domain name.
@@ -2299,11 +2321,7 @@ export const deleteDedicatedIpPool: API.OperationMethod<
 export const deleteEmailIdentity: API.OperationMethod<
   DeleteEmailIdentityRequest,
   DeleteEmailIdentityResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEmailIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailIdentityRequest,
@@ -2315,6 +2333,10 @@ export const deleteEmailIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetAccountError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Obtain information about the email-sending status and capabilities of your Amazon Pinpoint
  * account in the current AWS Region.
@@ -2322,29 +2344,36 @@ export const deleteEmailIdentity: API.OperationMethod<
 export const getAccount: API.OperationMethod<
   GetAccountRequest,
   GetAccountResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  GetAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
   output: GetAccountResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type GetBlacklistReportsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
 export const getBlacklistReports: API.OperationMethod<
   GetBlacklistReportsRequest,
   GetBlacklistReportsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBlacklistReportsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlacklistReportsRequest,
   output: GetBlacklistReportsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetConfigurationSetError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Get information about an existing configuration set, including the dedicated IP pool
  * that it's associated with, whether or not it's enabled for sending email, and
@@ -2359,16 +2388,18 @@ export const getBlacklistReports: API.OperationMethod<
 export const getConfigurationSet: API.OperationMethod<
   GetConfigurationSetRequest,
   GetConfigurationSetResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationSetRequest,
   output: GetConfigurationSetResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetConfigurationSetEventDestinationsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve a list of event destinations that are associated with a configuration
  * set.
@@ -2382,16 +2413,18 @@ export const getConfigurationSet: API.OperationMethod<
 export const getConfigurationSetEventDestinations: API.OperationMethod<
   GetConfigurationSetEventDestinationsRequest,
   GetConfigurationSetEventDestinationsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetConfigurationSetEventDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationSetEventDestinationsRequest,
   output: GetConfigurationSetEventDestinationsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDedicatedIpError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Get information about a dedicated IP address, including the name of the dedicated IP
  * pool that it's associated with, as well information about the automatic warm-up process
@@ -2400,16 +2433,18 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
 export const getDedicatedIp: API.OperationMethod<
   GetDedicatedIpRequest,
   GetDedicatedIpResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDedicatedIpError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDedicatedIpRequest,
   output: GetDedicatedIpResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDedicatedIpsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List the dedicated IP addresses that are associated with your Amazon Pinpoint
  * account.
@@ -2417,30 +2452,21 @@ export const getDedicatedIp: API.OperationMethod<
 export const getDedicatedIps: API.OperationMethod<
   GetDedicatedIpsRequest,
   GetDedicatedIpsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDedicatedIpsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDedicatedIpsRequest,
   ) => stream.Stream<
     GetDedicatedIpsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDedicatedIpsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDedicatedIpsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDedicatedIpsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2453,6 +2479,11 @@ export const getDedicatedIps: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type GetDeliverabilityDashboardOptionsError =
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account.
  * When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and
@@ -2466,10 +2497,7 @@ export const getDedicatedIps: API.OperationMethod<
 export const getDeliverabilityDashboardOptions: API.OperationMethod<
   GetDeliverabilityDashboardOptionsRequest,
   GetDeliverabilityDashboardOptionsResponse,
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDeliverabilityDashboardOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliverabilityDashboardOptionsRequest,
@@ -2480,22 +2508,29 @@ export const getDeliverabilityDashboardOptions: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetDeliverabilityTestReportError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve the results of a predictive inbox placement test.
  */
 export const getDeliverabilityTestReport: API.OperationMethod<
   GetDeliverabilityTestReportRequest,
   GetDeliverabilityTestReportResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDeliverabilityTestReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliverabilityTestReportRequest,
   output: GetDeliverabilityTestReportResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDomainDeliverabilityCampaignError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve all the deliverability data for a specific campaign. This data is available
  * for a campaign only if the campaign sent email by using a domain that the
@@ -2505,16 +2540,18 @@ export const getDeliverabilityTestReport: API.OperationMethod<
 export const getDomainDeliverabilityCampaign: API.OperationMethod<
   GetDomainDeliverabilityCampaignRequest,
   GetDomainDeliverabilityCampaignResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDomainDeliverabilityCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainDeliverabilityCampaignRequest,
   output: GetDomainDeliverabilityCampaignResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDomainStatisticsReportError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve inbox placement and engagement rates for the domains that you use to send
  * email.
@@ -2522,16 +2559,18 @@ export const getDomainDeliverabilityCampaign: API.OperationMethod<
 export const getDomainStatisticsReport: API.OperationMethod<
   GetDomainStatisticsReportRequest,
   GetDomainStatisticsReportResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDomainStatisticsReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainStatisticsReportRequest,
   output: GetDomainStatisticsReportResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetEmailIdentityError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides information about a specific identity associated with your Amazon Pinpoint account,
  * including the identity's verification status, its DKIM authentication status, and its
@@ -2540,16 +2579,17 @@ export const getDomainStatisticsReport: API.OperationMethod<
 export const getEmailIdentity: API.OperationMethod<
   GetEmailIdentityRequest,
   GetEmailIdentityResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEmailIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailIdentityRequest,
   output: GetEmailIdentityResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type ListConfigurationSetsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current
  * region.
@@ -2563,21 +2603,21 @@ export const getEmailIdentity: API.OperationMethod<
 export const listConfigurationSets: API.OperationMethod<
   ListConfigurationSetsRequest,
   ListConfigurationSetsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListConfigurationSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationSetsRequest,
   ) => stream.Stream<
     ListConfigurationSetsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListConfigurationSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationSetsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListConfigurationSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2590,6 +2630,10 @@ export const listConfigurationSets: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListDedicatedIpPoolsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current
  * AWS Region.
@@ -2597,21 +2641,21 @@ export const listConfigurationSets: API.OperationMethod<
 export const listDedicatedIpPools: API.OperationMethod<
   ListDedicatedIpPoolsRequest,
   ListDedicatedIpPoolsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListDedicatedIpPoolsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDedicatedIpPoolsRequest,
   ) => stream.Stream<
     ListDedicatedIpPoolsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListDedicatedIpPoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDedicatedIpPoolsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListDedicatedIpPoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2624,6 +2668,11 @@ export const listDedicatedIpPools: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListDeliverabilityTestReportsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For
  * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
@@ -2632,30 +2681,21 @@ export const listDedicatedIpPools: API.OperationMethod<
 export const listDeliverabilityTestReports: API.OperationMethod<
   ListDeliverabilityTestReportsRequest,
   ListDeliverabilityTestReportsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDeliverabilityTestReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeliverabilityTestReportsRequest,
   ) => stream.Stream<
     ListDeliverabilityTestReportsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDeliverabilityTestReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeliverabilityTestReportsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDeliverabilityTestReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2668,6 +2708,11 @@ export const listDeliverabilityTestReports: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListDomainDeliverabilityCampaignsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve deliverability data for all the campaigns that used a specific domain to send
  * email during a specified time range. This data is available for a domain only if you
@@ -2677,30 +2722,21 @@ export const listDeliverabilityTestReports: API.OperationMethod<
 export const listDomainDeliverabilityCampaigns: API.OperationMethod<
   ListDomainDeliverabilityCampaignsRequest,
   ListDomainDeliverabilityCampaignsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDomainDeliverabilityCampaignsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainDeliverabilityCampaignsRequest,
   ) => stream.Stream<
     ListDomainDeliverabilityCampaignsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDomainDeliverabilityCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainDeliverabilityCampaignsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDomainDeliverabilityCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2713,6 +2749,10 @@ export const listDomainDeliverabilityCampaigns: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListEmailIdentitiesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of all of the email identities that are associated with your Amazon Pinpoint
  * account. An identity can be either an email address or a domain. This operation returns
@@ -2721,21 +2761,21 @@ export const listDomainDeliverabilityCampaigns: API.OperationMethod<
 export const listEmailIdentities: API.OperationMethod<
   ListEmailIdentitiesRequest,
   ListEmailIdentitiesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListEmailIdentitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEmailIdentitiesRequest,
   ) => stream.Stream<
     ListEmailIdentitiesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListEmailIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEmailIdentitiesRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListEmailIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2748,6 +2788,11 @@ export const listEmailIdentities: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve a list of the tags (keys and values) that are associated with a specified
  * resource. A *tag* is a label that you optionally define and associate
@@ -2759,42 +2804,52 @@ export const listEmailIdentities: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutAccountDedicatedIpWarmupAttributesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
 export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
   PutAccountDedicatedIpWarmupAttributesRequest,
   PutAccountDedicatedIpWarmupAttributesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutAccountDedicatedIpWarmupAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountDedicatedIpWarmupAttributesRequest,
   output: PutAccountDedicatedIpWarmupAttributesResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type PutAccountSendingAttributesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable the ability of your account to send email.
  */
 export const putAccountSendingAttributes: API.OperationMethod<
   PutAccountSendingAttributesRequest,
   PutAccountSendingAttributesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutAccountSendingAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSendingAttributesRequest,
   output: PutAccountSendingAttributesResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type PutConfigurationSetDeliveryOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
  * to create groups of dedicated IP addresses for sending specific types of email.
@@ -2802,16 +2857,18 @@ export const putAccountSendingAttributes: API.OperationMethod<
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   PutConfigurationSetDeliveryOptionsRequest,
   PutConfigurationSetDeliveryOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetDeliveryOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetDeliveryOptionsRequest,
   output: PutConfigurationSetDeliveryOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetReputationOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable collection of reputation metrics for emails that you send using a
  * particular configuration set in a specific AWS Region.
@@ -2819,16 +2876,18 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
 export const putConfigurationSetReputationOptions: API.OperationMethod<
   PutConfigurationSetReputationOptionsRequest,
   PutConfigurationSetReputationOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetReputationOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetReputationOptionsRequest,
   output: PutConfigurationSetReputationOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetSendingOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable email sending for messages that use a particular configuration set
  * in a specific AWS Region.
@@ -2836,16 +2895,18 @@ export const putConfigurationSetReputationOptions: API.OperationMethod<
 export const putConfigurationSetSendingOptions: API.OperationMethod<
   PutConfigurationSetSendingOptionsRequest,
   PutConfigurationSetSendingOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetSendingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetSendingOptionsRequest,
   output: PutConfigurationSetSendingOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetTrackingOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Specify a custom domain to use for open and click tracking elements in email that you
  * send using Amazon Pinpoint.
@@ -2853,16 +2914,18 @@ export const putConfigurationSetSendingOptions: API.OperationMethod<
 export const putConfigurationSetTrackingOptions: API.OperationMethod<
   PutConfigurationSetTrackingOptionsRequest,
   PutConfigurationSetTrackingOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetTrackingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetTrackingOptionsRequest,
   output: PutConfigurationSetTrackingOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutDedicatedIpInPoolError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Move a dedicated IP address to an existing dedicated IP pool.
  *
@@ -2875,32 +2938,38 @@ export const putConfigurationSetTrackingOptions: API.OperationMethod<
 export const putDedicatedIpInPool: API.OperationMethod<
   PutDedicatedIpInPoolRequest,
   PutDedicatedIpInPoolResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDedicatedIpInPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDedicatedIpInPoolRequest,
   output: PutDedicatedIpInPoolResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutDedicatedIpWarmupAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  *
  */
 export const putDedicatedIpWarmupAttributes: API.OperationMethod<
   PutDedicatedIpWarmupAttributesRequest,
   PutDedicatedIpWarmupAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDedicatedIpWarmupAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDedicatedIpWarmupAttributesRequest,
   output: PutDedicatedIpWarmupAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutDeliverabilityDashboardOptionError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the
  * Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for
@@ -2914,12 +2983,7 @@ export const putDedicatedIpWarmupAttributes: API.OperationMethod<
 export const putDeliverabilityDashboardOption: API.OperationMethod<
   PutDeliverabilityDashboardOptionRequest,
   PutDeliverabilityDashboardOptionResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDeliverabilityDashboardOptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliverabilityDashboardOptionRequest,
@@ -2932,22 +2996,29 @@ export const putDeliverabilityDashboardOption: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutEmailIdentityDkimAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to enable or disable DKIM authentication for an email identity.
  */
 export const putEmailIdentityDkimAttributes: API.OperationMethod<
   PutEmailIdentityDkimAttributesRequest,
   PutEmailIdentityDkimAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityDkimAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityDkimAttributesRequest,
   output: PutEmailIdentityDkimAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutEmailIdentityFeedbackAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to enable or disable feedback forwarding for an identity. This setting determines
  * what happens when an identity is used to send an email that results in a bounce or
@@ -2966,16 +3037,18 @@ export const putEmailIdentityDkimAttributes: API.OperationMethod<
 export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
   PutEmailIdentityFeedbackAttributesRequest,
   PutEmailIdentityFeedbackAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityFeedbackAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityFeedbackAttributesRequest,
   output: PutEmailIdentityFeedbackAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutEmailIdentityMailFromAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to enable or disable the custom Mail-From domain configuration for an email
  * identity.
@@ -2983,16 +3056,23 @@ export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
 export const putEmailIdentityMailFromAttributes: API.OperationMethod<
   PutEmailIdentityMailFromAttributesRequest,
   PutEmailIdentityMailFromAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityMailFromAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityMailFromAttributesRequest,
   output: PutEmailIdentityMailFromAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type SendEmailError =
+  | AccountSuspendedException
+  | BadRequestException
+  | LimitExceededException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | NotFoundException
+  | SendingPausedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sends an email message. You can use the Amazon Pinpoint Email API to send two types of
  * messages:
@@ -3010,15 +3090,7 @@ export const putEmailIdentityMailFromAttributes: API.OperationMethod<
 export const sendEmail: API.OperationMethod<
   SendEmailRequest,
   SendEmailResponse,
-  | AccountSuspendedException
-  | BadRequestException
-  | LimitExceededException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | NotFoundException
-  | SendingPausedException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEmailRequest,
@@ -3034,6 +3106,12 @@ export const sendEmail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Add one or more tags (keys and values) to a specified resource. A
  * *tag* is a label that you optionally define and associate with a
@@ -3049,11 +3127,7 @@ export const sendEmail: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3065,17 +3139,19 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3087,6 +3163,11 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateConfigurationSetEventDestinationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update the configuration of an event destination for a configuration set.
  *
@@ -3099,10 +3180,7 @@ export const untagResource: API.OperationMethod<
 export const updateConfigurationSetEventDestination: API.OperationMethod<
   UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetEventDestinationRequest,

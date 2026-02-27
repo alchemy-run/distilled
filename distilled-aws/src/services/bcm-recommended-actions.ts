@@ -249,39 +249,33 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListRecommendedActionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of recommended actions that match the filter criteria.
  */
 export const listRecommendedActions: API.OperationMethod<
   ListRecommendedActionsRequest,
   ListRecommendedActionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendedActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendedActionsRequest,
   ) => stream.Stream<
     ListRecommendedActionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendedActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendedActionsRequest,
   ) => stream.Stream<
     RecommendedAction,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendedActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

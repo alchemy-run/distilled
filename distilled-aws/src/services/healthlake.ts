@@ -740,17 +740,19 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateFHIRDatastoreError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a FHIR-enabled data store.
  */
 export const createFHIRDatastore: API.OperationMethod<
   CreateFHIRDatastoreRequest,
   CreateFHIRDatastoreResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFHIRDatastoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFHIRDatastoreRequest,
@@ -762,19 +764,21 @@ export const createFHIRDatastore: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a FHIR-enabled data store.
- */
-export const deleteFHIRDatastore: API.OperationMethod<
-  DeleteFHIRDatastoreRequest,
-  DeleteFHIRDatastoreResponse,
+export type DeleteFHIRDatastoreError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a FHIR-enabled data store.
+ */
+export const deleteFHIRDatastore: API.OperationMethod<
+  DeleteFHIRDatastoreRequest,
+  DeleteFHIRDatastoreResponse,
+  DeleteFHIRDatastoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFHIRDatastoreRequest,
@@ -788,17 +792,19 @@ export const deleteFHIRDatastore: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFHIRDatastoreError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get properties for a FHIR-enabled data store.
  */
 export const describeFHIRDatastore: API.OperationMethod<
   DescribeFHIRDatastoreRequest,
   DescribeFHIRDatastoreResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeFHIRDatastoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFHIRDatastoreRequest,
@@ -810,17 +816,19 @@ export const describeFHIRDatastore: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFHIRExportJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get FHIR export job properties.
  */
 export const describeFHIRExportJob: API.OperationMethod<
   DescribeFHIRExportJobRequest,
   DescribeFHIRExportJobResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeFHIRExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFHIRExportJobRequest,
@@ -832,17 +840,19 @@ export const describeFHIRExportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFHIRImportJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the import job properties to learn more about the job or job progress.
  */
 export const describeFHIRImportJob: API.OperationMethod<
   DescribeFHIRImportJobRequest,
   DescribeFHIRImportJobResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeFHIRImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFHIRImportJobRequest,
@@ -854,6 +864,11 @@ export const describeFHIRImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFHIRDatastoresError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all FHIR-enabled data stores in a user’s account, regardless of data store
  * status.
@@ -861,30 +876,21 @@ export const describeFHIRImportJob: API.OperationMethod<
 export const listFHIRDatastores: API.OperationMethod<
   ListFHIRDatastoresRequest,
   ListFHIRDatastoresResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFHIRDatastoresError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFHIRDatastoresRequest,
   ) => stream.Stream<
     ListFHIRDatastoresResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFHIRDatastoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFHIRDatastoresRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFHIRDatastoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -897,42 +903,34 @@ export const listFHIRDatastores: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFHIRExportJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all FHIR export jobs associated with an account and their statuses.
  */
 export const listFHIRExportJobs: API.OperationMethod<
   ListFHIRExportJobsRequest,
   ListFHIRExportJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFHIRExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFHIRExportJobsRequest,
   ) => stream.Stream<
     ListFHIRExportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFHIRExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFHIRExportJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFHIRExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -951,42 +949,34 @@ export const listFHIRExportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFHIRImportJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all FHIR import jobs associated with an account and their statuses.
  */
 export const listFHIRImportJobs: API.OperationMethod<
   ListFHIRImportJobsRequest,
   ListFHIRImportJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFHIRImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFHIRImportJobsRequest,
   ) => stream.Stream<
     ListFHIRImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFHIRImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFHIRImportJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFHIRImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1005,31 +995,37 @@ export const listFHIRImportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all existing tags associated with a data store.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type StartFHIRExportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start a FHIR export job.
  */
 export const startFHIRExportJob: API.OperationMethod<
   StartFHIRExportJobRequest,
   StartFHIRExportJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartFHIRExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFHIRExportJobRequest,
@@ -1042,6 +1038,13 @@ export const startFHIRExportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartFHIRImportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR
  * data found in the `InputDataConfig` object and stores processing results in the
@@ -1050,12 +1053,7 @@ export const startFHIRExportJob: API.OperationMethod<
 export const startFHIRImportJob: API.OperationMethod<
   StartFHIRImportJobRequest,
   StartFHIRImportJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartFHIRImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFHIRImportJobRequest,
@@ -1068,26 +1066,34 @@ export const startFHIRImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Add a user-specifed key and value tag to a data store.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove a user-specifed key and value tag from a data store.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

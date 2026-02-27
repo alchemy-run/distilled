@@ -1845,19 +1845,29 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays the tags associated with a pipe.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  InternalException | NotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalException, NotFoundException, ValidationException],
 }));
+export type TagResourceError =
+  | InternalException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you
  * organize and categorize your resources. You can also use them to scope user permissions by
@@ -1877,26 +1887,39 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  InternalException | NotFoundException | ValidationException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalException, NotFoundException, ValidationException],
 }));
+export type UntagResourceError =
+  | InternalException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified pipes.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  InternalException | NotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalException, NotFoundException, ValidationException],
 }));
+export type CreatePipeError =
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces
  * the need for specialized knowledge and integration code.
@@ -1904,13 +1927,7 @@ export const untagResource: API.OperationMethod<
 export const createPipe: API.OperationMethod<
   CreatePipeRequest,
   CreatePipeResponse,
-  | ConflictException
-  | InternalException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipeRequest,
@@ -1924,17 +1941,19 @@ export const createPipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePipeError =
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const describePipe: API.OperationMethod<
   DescribePipeRequest,
   DescribePipeResponse,
-  | InternalException
-  | NotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePipeRequest,
@@ -1946,6 +1965,13 @@ export const describePipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePipeError =
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update an existing pipe. When you call `UpdatePipe`, EventBridge only the
  * updates fields you have specified in the request; the rest remain unchanged. The exception
@@ -1964,12 +1990,7 @@ export const describePipe: API.OperationMethod<
 export const updatePipe: API.OperationMethod<
   UpdatePipeRequest,
   UpdatePipeResponse,
-  | ConflictException
-  | InternalException
-  | NotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipeRequest,
@@ -1982,18 +2003,20 @@ export const updatePipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePipeError =
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const deletePipe: API.OperationMethod<
   DeletePipeRequest,
   DeletePipeResponse,
-  | ConflictException
-  | InternalException
-  | NotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipeRequest,
@@ -2006,33 +2029,32 @@ export const deletePipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPipesError =
+  | InternalException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const listPipes: API.OperationMethod<
   ListPipesRequest,
   ListPipesResponse,
-  InternalException | ThrottlingException | ValidationException | CommonErrors,
+  ListPipesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipesRequest,
   ) => stream.Stream<
     ListPipesResponse,
-    | InternalException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPipesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipesRequest,
   ) => stream.Stream<
     Pipe,
-    | InternalException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPipesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2046,18 +2068,20 @@ export const listPipes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type StartPipeError =
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start an existing pipe.
  */
 export const startPipe: API.OperationMethod<
   StartPipeRequest,
   StartPipeResponse,
-  | ConflictException
-  | InternalException
-  | NotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartPipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPipeRequest,
@@ -2070,18 +2094,20 @@ export const startPipe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopPipeError =
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stop an existing pipe.
  */
 export const stopPipe: API.OperationMethod<
   StopPipeRequest,
   StopPipeResponse,
-  | ConflictException
-  | InternalException
-  | NotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopPipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPipeRequest,

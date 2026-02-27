@@ -225,6 +225,11 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ) {}
 
 //# Operations
+export type GetEntitlementsError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * GetEntitlements retrieves entitlement values for a given product. The results can be
  * filtered based on customer identifier, AWS account ID, or product dimensions.
@@ -236,30 +241,21 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 export const getEntitlements: API.OperationMethod<
   GetEntitlementsRequest,
   GetEntitlementsResult,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ThrottlingException
-  | CommonErrors,
+  GetEntitlementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEntitlementsRequest,
   ) => stream.Stream<
     GetEntitlementsResult,
-    | InternalServiceErrorException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    GetEntitlementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetEntitlementsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceErrorException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    GetEntitlementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

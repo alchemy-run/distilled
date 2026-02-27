@@ -1349,6 +1349,13 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type BatchGetUserAccessTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets user access details in a batch request.
  *
@@ -1358,12 +1365,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const batchGetUserAccessTasks: API.OperationMethod<
   BatchGetUserAccessTasksRequest,
   BatchGetUserAccessTasksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetUserAccessTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetUserAccessTasksRequest,
@@ -1376,6 +1378,13 @@ export const batchGetUserAccessTasks: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ConnectAppAuthorizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to
  * call the APIs of the application.
@@ -1383,12 +1392,7 @@ export const batchGetUserAccessTasks: API.OperationMethod<
 export const connectAppAuthorization: API.OperationMethod<
   ConnectAppAuthorizationRequest,
   ConnectAppAuthorizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ConnectAppAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConnectAppAuthorizationRequest,
@@ -1401,13 +1405,7 @@ export const connectAppAuthorization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an app authorization within an app bundle, which allows AppFabric to connect to an
- * application.
- */
-export const createAppAuthorization: API.OperationMethod<
-  CreateAppAuthorizationRequest,
-  CreateAppAuthorizationResponse,
+export type CreateAppAuthorizationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1415,7 +1413,15 @@ export const createAppAuthorization: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an app authorization within an app bundle, which allows AppFabric to connect to an
+ * application.
+ */
+export const createAppAuthorization: API.OperationMethod<
+  CreateAppAuthorizationRequest,
+  CreateAppAuthorizationResponse,
+  CreateAppAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppAuthorizationRequest,
@@ -1430,19 +1436,21 @@ export const createAppAuthorization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an app bundle to collect data from an application using AppFabric.
- */
-export const createAppBundle: API.OperationMethod<
-  CreateAppBundleRequest,
-  CreateAppBundleResponse,
+export type CreateAppBundleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an app bundle to collect data from an application using AppFabric.
+ */
+export const createAppBundle: API.OperationMethod<
+  CreateAppBundleRequest,
+  CreateAppBundleResponse,
+  CreateAppBundleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppBundleRequest,
@@ -1456,19 +1464,21 @@ export const createAppBundle: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a data ingestion for an application.
- */
-export const createIngestion: API.OperationMethod<
-  CreateIngestionRequest,
-  CreateIngestionResponse,
+export type CreateIngestionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a data ingestion for an application.
+ */
+export const createIngestion: API.OperationMethod<
+  CreateIngestionRequest,
+  CreateIngestionResponse,
+  CreateIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIngestionRequest,
@@ -1482,6 +1492,14 @@ export const createIngestion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateIngestionDestinationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an ingestion destination, which specifies how an application's ingested data is
  * processed by Amazon Web Services AppFabric and where it's delivered.
@@ -1489,13 +1507,7 @@ export const createIngestion: API.OperationMethod<
 export const createIngestionDestination: API.OperationMethod<
   CreateIngestionDestinationRequest,
   CreateIngestionDestinationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateIngestionDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIngestionDestinationRequest,
@@ -1509,6 +1521,13 @@ export const createIngestionDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppAuthorizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an app authorization. You must delete the associated ingestion before you can
  * delete an app authorization.
@@ -1516,12 +1535,7 @@ export const createIngestionDestination: API.OperationMethod<
 export const deleteAppAuthorization: API.OperationMethod<
   DeleteAppAuthorizationRequest,
   DeleteAppAuthorizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppAuthorizationRequest,
@@ -1534,6 +1548,13 @@ export const deleteAppAuthorization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppBundleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an app bundle. You must delete all associated app authorizations before you can
  * delete an app bundle.
@@ -1541,12 +1562,7 @@ export const deleteAppAuthorization: API.OperationMethod<
 export const deleteAppBundle: API.OperationMethod<
   DeleteAppBundleRequest,
   DeleteAppBundleResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppBundleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppBundleRequest,
@@ -1559,6 +1575,13 @@ export const deleteAppBundle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIngestionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an ingestion. You must stop (disable) the ingestion and you must delete all
  * associated ingestion destinations before you can delete an app ingestion.
@@ -1566,12 +1589,7 @@ export const deleteAppBundle: API.OperationMethod<
 export const deleteIngestion: API.OperationMethod<
   DeleteIngestionRequest,
   DeleteIngestionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIngestionRequest,
@@ -1584,6 +1602,13 @@ export const deleteIngestion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIngestionDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an ingestion destination.
  *
@@ -1595,12 +1620,7 @@ export const deleteIngestion: API.OperationMethod<
 export const deleteIngestionDestination: API.OperationMethod<
   DeleteIngestionDestinationRequest,
   DeleteIngestionDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIngestionDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIngestionDestinationRequest,
@@ -1613,18 +1633,20 @@ export const deleteIngestionDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAppAuthorizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an app authorization.
  */
 export const getAppAuthorization: API.OperationMethod<
   GetAppAuthorizationRequest,
   GetAppAuthorizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAppAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppAuthorizationRequest,
@@ -1637,18 +1659,20 @@ export const getAppAuthorization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAppBundleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an app bundle.
  */
 export const getAppBundle: API.OperationMethod<
   GetAppBundleRequest,
   GetAppBundleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAppBundleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppBundleRequest,
@@ -1661,18 +1685,20 @@ export const getAppBundle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIngestionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an ingestion.
  */
 export const getIngestion: API.OperationMethod<
   GetIngestionRequest,
   GetIngestionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIngestionRequest,
@@ -1685,18 +1711,20 @@ export const getIngestion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIngestionDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an ingestion destination.
  */
 export const getIngestionDestination: API.OperationMethod<
   GetIngestionDestinationRequest,
   GetIngestionDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIngestionDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIngestionDestinationRequest,
@@ -1709,42 +1737,34 @@ export const getIngestionDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAppAuthorizationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all app authorizations configured for an app bundle.
  */
 export const listAppAuthorizations: API.OperationMethod<
   ListAppAuthorizationsRequest,
   ListAppAuthorizationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppAuthorizationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppAuthorizationsRequest,
   ) => stream.Stream<
     ListAppAuthorizationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAuthorizationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppAuthorizationsRequest,
   ) => stream.Stream<
     AppAuthorizationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAuthorizationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1764,39 +1784,33 @@ export const listAppAuthorizations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppBundlesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of app bundles.
  */
 export const listAppBundles: API.OperationMethod<
   ListAppBundlesRequest,
   ListAppBundlesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppBundlesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppBundlesRequest,
   ) => stream.Stream<
     ListAppBundlesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppBundlesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppBundlesRequest,
   ) => stream.Stream<
     AppBundleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppBundlesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1815,42 +1829,34 @@ export const listAppBundles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIngestionDestinationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all ingestion destinations configured for an ingestion.
  */
 export const listIngestionDestinations: API.OperationMethod<
   ListIngestionDestinationsRequest,
   ListIngestionDestinationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIngestionDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIngestionDestinationsRequest,
   ) => stream.Stream<
     ListIngestionDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIngestionDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIngestionDestinationsRequest,
   ) => stream.Stream<
     IngestionDestinationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIngestionDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1870,42 +1876,34 @@ export const listIngestionDestinations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIngestionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all ingestions configured for an app bundle.
  */
 export const listIngestions: API.OperationMethod<
   ListIngestionsRequest,
   ListIngestionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIngestionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIngestionsRequest,
   ) => stream.Stream<
     ListIngestionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIngestionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIngestionsRequest,
   ) => stream.Stream<
     IngestionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIngestionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1925,18 +1923,20 @@ export const listIngestions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1949,19 +1949,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts (enables) an ingestion, which collects data from an application.
- */
-export const startIngestion: API.OperationMethod<
-  StartIngestionRequest,
-  StartIngestionResponse,
+export type StartIngestionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts (enables) an ingestion, which collects data from an application.
+ */
+export const startIngestion: API.OperationMethod<
+  StartIngestionRequest,
+  StartIngestionResponse,
+  StartIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIngestionRequest,
@@ -1975,6 +1977,13 @@ export const startIngestion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartUserAccessTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the tasks to search user access status for a specific email address.
  *
@@ -1984,12 +1993,7 @@ export const startIngestion: API.OperationMethod<
 export const startUserAccessTasks: API.OperationMethod<
   StartUserAccessTasksRequest,
   StartUserAccessTasksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartUserAccessTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartUserAccessTasksRequest,
@@ -2002,19 +2006,21 @@ export const startUserAccessTasks: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops (disables) an ingestion.
- */
-export const stopIngestion: API.OperationMethod<
-  StopIngestionRequest,
-  StopIngestionResponse,
+export type StopIngestionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops (disables) an ingestion.
+ */
+export const stopIngestion: API.OperationMethod<
+  StopIngestionRequest,
+  StopIngestionResponse,
+  StopIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopIngestionRequest,
@@ -2028,18 +2034,20 @@ export const stopIngestion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2052,18 +2060,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2076,6 +2086,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAppAuthorizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an app authorization within an app bundle, which allows AppFabric to connect to an
  * application.
@@ -2086,12 +2103,7 @@ export const untagResource: API.OperationMethod<
 export const updateAppAuthorization: API.OperationMethod<
   UpdateAppAuthorizationRequest,
   UpdateAppAuthorizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAppAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppAuthorizationRequest,
@@ -2104,13 +2116,7 @@ export const updateAppAuthorization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an ingestion destination, which specifies how an application's ingested data is
- * processed by Amazon Web Services AppFabric and where it's delivered.
- */
-export const updateIngestionDestination: API.OperationMethod<
-  UpdateIngestionDestinationRequest,
-  UpdateIngestionDestinationResponse,
+export type UpdateIngestionDestinationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2118,7 +2124,15 @@ export const updateIngestionDestination: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an ingestion destination, which specifies how an application's ingested data is
+ * processed by Amazon Web Services AppFabric and where it's delivered.
+ */
+export const updateIngestionDestination: API.OperationMethod<
+  UpdateIngestionDestinationRequest,
+  UpdateIngestionDestinationResponse,
+  UpdateIngestionDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIngestionDestinationRequest,

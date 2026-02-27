@@ -1571,12 +1571,7 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
-/**
- * Creates a connector using the specified properties.
- */
-export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
-  CreateConnectorResponse,
+export type CreateConnectorError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1585,7 +1580,14 @@ export const createConnector: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a connector using the specified properties.
+ */
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
+  CreateConnectorResponse,
+  CreateConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
@@ -1601,12 +1603,7 @@ export const createConnector: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a custom plugin using the specified properties.
- */
-export const createCustomPlugin: API.OperationMethod<
-  CreateCustomPluginRequest,
-  CreateCustomPluginResponse,
+export type CreateCustomPluginError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1615,7 +1612,14 @@ export const createCustomPlugin: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a custom plugin using the specified properties.
+ */
+export const createCustomPlugin: API.OperationMethod<
+  CreateCustomPluginRequest,
+  CreateCustomPluginResponse,
+  CreateCustomPluginError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomPluginRequest,
@@ -1631,12 +1635,7 @@ export const createCustomPlugin: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a worker configuration using the specified properties.
- */
-export const createWorkerConfiguration: API.OperationMethod<
-  CreateWorkerConfigurationRequest,
-  CreateWorkerConfigurationResponse,
+export type CreateWorkerConfigurationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1645,7 +1644,14 @@ export const createWorkerConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a worker configuration using the specified properties.
+ */
+export const createWorkerConfiguration: API.OperationMethod<
+  CreateWorkerConfigurationRequest,
+  CreateWorkerConfigurationResponse,
+  CreateWorkerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkerConfigurationRequest,
@@ -1661,12 +1667,7 @@ export const createWorkerConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes the specified connector.
- */
-export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
-  DeleteConnectorResponse,
+export type DeleteConnectorError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1674,7 +1675,14 @@ export const deleteConnector: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified connector.
+ */
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
+  DeleteConnectorResponse,
+  DeleteConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
@@ -1689,12 +1697,7 @@ export const deleteConnector: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes a custom plugin.
- */
-export const deleteCustomPlugin: API.OperationMethod<
-  DeleteCustomPluginRequest,
-  DeleteCustomPluginResponse,
+export type DeleteCustomPluginError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1702,7 +1705,14 @@ export const deleteCustomPlugin: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom plugin.
+ */
+export const deleteCustomPlugin: API.OperationMethod<
+  DeleteCustomPluginRequest,
+  DeleteCustomPluginResponse,
+  DeleteCustomPluginError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomPluginRequest,
@@ -1717,12 +1727,7 @@ export const deleteCustomPlugin: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes the specified worker configuration.
- */
-export const deleteWorkerConfiguration: API.OperationMethod<
-  DeleteWorkerConfigurationRequest,
-  DeleteWorkerConfigurationResponse,
+export type DeleteWorkerConfigurationError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1730,7 +1735,14 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified worker configuration.
+ */
+export const deleteWorkerConfiguration: API.OperationMethod<
+  DeleteWorkerConfigurationRequest,
+  DeleteWorkerConfigurationResponse,
+  DeleteWorkerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkerConfigurationRequest,
@@ -1745,12 +1757,7 @@ export const deleteWorkerConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Returns summary information about the connector.
- */
-export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
-  DescribeConnectorResponse,
+export type DescribeConnectorError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1758,7 +1765,14 @@ export const describeConnector: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns summary information about the connector.
+ */
+export const describeConnector: API.OperationMethod<
+  DescribeConnectorRequest,
+  DescribeConnectorResponse,
+  DescribeConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorRequest,
@@ -1773,12 +1787,7 @@ export const describeConnector: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Returns information about the specified connector's operations.
- */
-export const describeConnectorOperation: API.OperationMethod<
-  DescribeConnectorOperationRequest,
-  DescribeConnectorOperationResponse,
+export type DescribeConnectorOperationError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1786,7 +1795,14 @@ export const describeConnectorOperation: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the specified connector's operations.
+ */
+export const describeConnectorOperation: API.OperationMethod<
+  DescribeConnectorOperationRequest,
+  DescribeConnectorOperationResponse,
+  DescribeConnectorOperationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorOperationRequest,
@@ -1801,12 +1817,7 @@ export const describeConnectorOperation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * A summary description of the custom plugin.
- */
-export const describeCustomPlugin: API.OperationMethod<
-  DescribeCustomPluginRequest,
-  DescribeCustomPluginResponse,
+export type DescribeCustomPluginError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1814,7 +1825,14 @@ export const describeCustomPlugin: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * A summary description of the custom plugin.
+ */
+export const describeCustomPlugin: API.OperationMethod<
+  DescribeCustomPluginRequest,
+  DescribeCustomPluginResponse,
+  DescribeCustomPluginError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomPluginRequest,
@@ -1829,12 +1847,7 @@ export const describeCustomPlugin: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Returns information about a worker configuration.
- */
-export const describeWorkerConfiguration: API.OperationMethod<
-  DescribeWorkerConfigurationRequest,
-  DescribeWorkerConfigurationResponse,
+export type DescribeWorkerConfigurationError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1842,7 +1855,14 @@ export const describeWorkerConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a worker configuration.
+ */
+export const describeWorkerConfiguration: API.OperationMethod<
+  DescribeWorkerConfigurationRequest,
+  DescribeWorkerConfigurationResponse,
+  DescribeWorkerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkerConfigurationRequest,
@@ -1857,12 +1877,7 @@ export const describeWorkerConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Lists information about a connector's operation(s).
- */
-export const listConnectorOperations: API.OperationMethod<
-  ListConnectorOperationsRequest,
-  ListConnectorOperationsResponse,
+export type ListConnectorOperationsError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1870,35 +1885,28 @@ export const listConnectorOperations: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists information about a connector's operation(s).
+ */
+export const listConnectorOperations: API.OperationMethod<
+  ListConnectorOperationsRequest,
+  ListConnectorOperationsResponse,
+  ListConnectorOperationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectorOperationsRequest,
   ) => stream.Stream<
     ListConnectorOperationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListConnectorOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorOperationsRequest,
   ) => stream.Stream<
     ConnectorOperationSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListConnectorOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1920,12 +1928,7 @@ export const listConnectorOperations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
- */
-export const listConnectors: API.OperationMethod<
-  ListConnectorsRequest,
-  ListConnectorsResponse,
+export type ListConnectorsError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1933,35 +1936,28 @@ export const listConnectors: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
+ */
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  ListConnectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     ListConnectorsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     ConnectorSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1983,12 +1979,7 @@ export const listConnectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a list of all of the custom plugins in this account and Region.
- */
-export const listCustomPlugins: API.OperationMethod<
-  ListCustomPluginsRequest,
-  ListCustomPluginsResponse,
+export type ListCustomPluginsError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1996,35 +1987,28 @@ export const listCustomPlugins: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all of the custom plugins in this account and Region.
+ */
+export const listCustomPlugins: API.OperationMethod<
+  ListCustomPluginsRequest,
+  ListCustomPluginsResponse,
+  ListCustomPluginsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomPluginsRequest,
   ) => stream.Stream<
     ListCustomPluginsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCustomPluginsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomPluginsRequest,
   ) => stream.Stream<
     CustomPluginSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListCustomPluginsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2046,12 +2030,7 @@ export const listCustomPlugins: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists all the tags attached to the specified resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -2059,7 +2038,14 @@ export const listTagsForResource: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the tags attached to the specified resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2074,12 +2060,7 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Returns a list of all of the worker configurations in this account and Region.
- */
-export const listWorkerConfigurations: API.OperationMethod<
-  ListWorkerConfigurationsRequest,
-  ListWorkerConfigurationsResponse,
+export type ListWorkerConfigurationsError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -2087,35 +2068,28 @@ export const listWorkerConfigurations: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all of the worker configurations in this account and Region.
+ */
+export const listWorkerConfigurations: API.OperationMethod<
+  ListWorkerConfigurationsRequest,
+  ListWorkerConfigurationsResponse,
+  ListWorkerConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkerConfigurationsRequest,
   ) => stream.Stream<
     ListWorkerConfigurationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListWorkerConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkerConfigurationsRequest,
   ) => stream.Stream<
     WorkerConfigurationSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListWorkerConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2137,12 +2111,7 @@ export const listWorkerConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Attaches tags to the specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2151,7 +2120,14 @@ export const tagResource: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches tags to the specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2167,12 +2143,7 @@ export const tagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Removes tags from the specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -2180,7 +2151,14 @@ export const untagResource: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags from the specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2195,12 +2173,7 @@ export const untagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
- */
-export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
-  UpdateConnectorResponse,
+export type UpdateConnectorError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -2208,7 +2181,14 @@ export const updateConnector: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
+ */
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
+  UpdateConnectorResponse,
+  UpdateConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorRequest,

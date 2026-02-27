@@ -210,6 +210,14 @@ export class SessionExpiredException extends S.TaggedErrorClass<SessionExpiredEx
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetIceServerConfigError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidClientException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | SessionExpiredException
+  | CommonErrors;
 /**
  * Gets the Interactive Connectivity Establishment (ICE) server configuration
  * information, including URIs, username, and password which can be used to configure the
@@ -231,13 +239,7 @@ export class SessionExpiredException extends S.TaggedErrorClass<SessionExpiredEx
 export const getIceServerConfig: API.OperationMethod<
   GetIceServerConfigRequest,
   GetIceServerConfigResponse,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidClientException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | SessionExpiredException
-  | CommonErrors,
+  GetIceServerConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIceServerConfigRequest,
@@ -251,6 +253,12 @@ export const getIceServerConfig: API.OperationMethod<
     SessionExpiredException,
   ],
 }));
+export type SendAlexaOfferToMasterError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This API allows you to connect WebRTC-enabled devices with Alexa display devices. When
  * invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer.
@@ -262,11 +270,7 @@ export const getIceServerConfig: API.OperationMethod<
 export const sendAlexaOfferToMaster: API.OperationMethod<
   SendAlexaOfferToMasterRequest,
   SendAlexaOfferToMasterResponse,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  SendAlexaOfferToMasterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendAlexaOfferToMasterRequest,

@@ -957,6 +957,11 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateLifecyclePolicyError =
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types:
  *
@@ -979,10 +984,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const createLifecyclePolicy: API.OperationMethod<
   CreateLifecyclePolicyRequest,
   CreateLifecyclePolicyResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | LimitExceededException
-  | CommonErrors,
+  CreateLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLifecyclePolicyRequest,
@@ -993,6 +995,11 @@ export const createLifecyclePolicy: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type DeleteLifecyclePolicyError =
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified lifecycle policy and halts the automated operations that the
  * policy specified.
@@ -1003,10 +1010,7 @@ export const createLifecyclePolicy: API.OperationMethod<
 export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyRequest,
   DeleteLifecyclePolicyResponse,
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLifecyclePolicyRequest,
@@ -1017,6 +1021,12 @@ export const deleteLifecyclePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetLifecyclePoliciesError =
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets summary information about all or the specified data lifecycle policies.
  *
@@ -1025,11 +1035,7 @@ export const deleteLifecyclePolicy: API.OperationMethod<
 export const getLifecyclePolicies: API.OperationMethod<
   GetLifecyclePoliciesRequest,
   GetLifecyclePoliciesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetLifecyclePoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePoliciesRequest,
@@ -1041,16 +1047,18 @@ export const getLifecyclePolicies: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetLifecyclePolicyError =
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets detailed information about the specified lifecycle policy.
  */
 export const getLifecyclePolicy: API.OperationMethod<
   GetLifecyclePolicyRequest,
   GetLifecyclePolicyResponse,
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyRequest,
@@ -1061,16 +1069,18 @@ export const getLifecyclePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1081,16 +1091,18 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1101,16 +1113,18 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1121,6 +1135,12 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateLifecyclePolicyError =
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified lifecycle policy.
  *
@@ -1130,11 +1150,7 @@ export const untagResource: API.OperationMethod<
 export const updateLifecyclePolicy: API.OperationMethod<
   UpdateLifecyclePolicyRequest,
   UpdateLifecyclePolicyResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLifecyclePolicyRequest,

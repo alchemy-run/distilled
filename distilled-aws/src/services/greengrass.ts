@@ -4327,1196 +4327,1382 @@ export class InternalServerErrorException extends S.TaggedErrorClass<InternalSer
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type AssociateRoleToGroupError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
  */
 export const associateRoleToGroup: API.OperationMethod<
   AssociateRoleToGroupRequest,
   AssociateRoleToGroupResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  AssociateRoleToGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateRoleToGroupRequest,
   output: AssociateRoleToGroupResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type AssociateServiceRoleToAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
  */
 export const associateServiceRoleToAccount: API.OperationMethod<
   AssociateServiceRoleToAccountRequest,
   AssociateServiceRoleToAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  AssociateServiceRoleToAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateServiceRoleToAccountRequest,
   output: AssociateServiceRoleToAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
  * Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
  */
 export const createConnectorDefinition: API.OperationMethod<
   CreateConnectorDefinitionRequest,
   CreateConnectorDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateConnectorDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorDefinitionRequest,
   output: CreateConnectorDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateConnectorDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a connector definition which has already been defined.
  */
 export const createConnectorDefinitionVersion: API.OperationMethod<
   CreateConnectorDefinitionVersionRequest,
   CreateConnectorDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateConnectorDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorDefinitionVersionRequest,
   output: CreateConnectorDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateCoreDefinitionError = BadRequestException | CommonErrors;
 /**
  * Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
  */
 export const createCoreDefinition: API.OperationMethod<
   CreateCoreDefinitionRequest,
   CreateCoreDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateCoreDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoreDefinitionRequest,
   output: CreateCoreDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateCoreDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
  */
 export const createCoreDefinitionVersion: API.OperationMethod<
   CreateCoreDefinitionVersionRequest,
   CreateCoreDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateCoreDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoreDefinitionVersionRequest,
   output: CreateCoreDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateDeploymentError = BadRequestException | CommonErrors;
 /**
  * Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
  */
 export const createDeployment: API.OperationMethod<
   CreateDeploymentRequest,
   CreateDeploymentResponse,
-  BadRequestException | CommonErrors,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: CreateDeploymentResponse,
   errors: [BadRequestException],
 }));
+export type CreateDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
  */
 export const createDeviceDefinition: API.OperationMethod<
   CreateDeviceDefinitionRequest,
   CreateDeviceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateDeviceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeviceDefinitionRequest,
   output: CreateDeviceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateDeviceDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a device definition that has already been defined.
  */
 export const createDeviceDefinitionVersion: API.OperationMethod<
   CreateDeviceDefinitionVersionRequest,
   CreateDeviceDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateDeviceDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeviceDefinitionVersionRequest,
   output: CreateDeviceDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
  * Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
  */
 export const createFunctionDefinition: API.OperationMethod<
   CreateFunctionDefinitionRequest,
   CreateFunctionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateFunctionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionDefinitionRequest,
   output: CreateFunctionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateFunctionDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a Lambda function definition that has already been defined.
  */
 export const createFunctionDefinitionVersion: API.OperationMethod<
   CreateFunctionDefinitionVersionRequest,
   CreateFunctionDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateFunctionDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionDefinitionVersionRequest,
   output: CreateFunctionDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateGroupError = BadRequestException | CommonErrors;
 /**
  * Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
  */
 export const createGroup: API.OperationMethod<
   CreateGroupRequest,
   CreateGroupResponse,
-  BadRequestException | CommonErrors,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResponse,
   errors: [BadRequestException],
 }));
+export type CreateGroupCertificateAuthorityError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
  */
 export const createGroupCertificateAuthority: API.OperationMethod<
   CreateGroupCertificateAuthorityRequest,
   CreateGroupCertificateAuthorityResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateGroupCertificateAuthorityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupCertificateAuthorityRequest,
   output: CreateGroupCertificateAuthorityResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateGroupVersionError = BadRequestException | CommonErrors;
 /**
  * Creates a version of a group which has already been defined.
  */
 export const createGroupVersion: API.OperationMethod<
   CreateGroupVersionRequest,
   CreateGroupVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateGroupVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupVersionRequest,
   output: CreateGroupVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
  * Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
  */
 export const createLoggerDefinition: API.OperationMethod<
   CreateLoggerDefinitionRequest,
   CreateLoggerDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateLoggerDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoggerDefinitionRequest,
   output: CreateLoggerDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateLoggerDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a logger definition that has already been defined.
  */
 export const createLoggerDefinitionVersion: API.OperationMethod<
   CreateLoggerDefinitionVersionRequest,
   CreateLoggerDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateLoggerDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoggerDefinitionVersionRequest,
   output: CreateLoggerDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateResourceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
  */
 export const createResourceDefinition: API.OperationMethod<
   CreateResourceDefinitionRequest,
   CreateResourceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateResourceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceDefinitionRequest,
   output: CreateResourceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateResourceDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a resource definition that has already been defined.
  */
 export const createResourceDefinitionVersion: API.OperationMethod<
   CreateResourceDefinitionVersionRequest,
   CreateResourceDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateResourceDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceDefinitionVersionRequest,
   output: CreateResourceDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type CreateSoftwareUpdateJobError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
  */
 export const createSoftwareUpdateJob: API.OperationMethod<
   CreateSoftwareUpdateJobRequest,
   CreateSoftwareUpdateJobResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateSoftwareUpdateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSoftwareUpdateJobRequest,
   output: CreateSoftwareUpdateJobResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateSubscriptionDefinitionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
  */
 export const createSubscriptionDefinition: API.OperationMethod<
   CreateSubscriptionDefinitionRequest,
   CreateSubscriptionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  CreateSubscriptionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionDefinitionRequest,
   output: CreateSubscriptionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type CreateSubscriptionDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Creates a version of a subscription definition which has already been defined.
  */
 export const createSubscriptionDefinitionVersion: API.OperationMethod<
   CreateSubscriptionDefinitionVersionRequest,
   CreateSubscriptionDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  CreateSubscriptionDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionDefinitionVersionRequest,
   output: CreateSubscriptionDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
  * Deletes a connector definition.
  */
 export const deleteConnectorDefinition: API.OperationMethod<
   DeleteConnectorDefinitionRequest,
   DeleteConnectorDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteConnectorDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorDefinitionRequest,
   output: DeleteConnectorDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteCoreDefinitionError = BadRequestException | CommonErrors;
 /**
  * Deletes a core definition.
  */
 export const deleteCoreDefinition: API.OperationMethod<
   DeleteCoreDefinitionRequest,
   DeleteCoreDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteCoreDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoreDefinitionRequest,
   output: DeleteCoreDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Deletes a device definition.
  */
 export const deleteDeviceDefinition: API.OperationMethod<
   DeleteDeviceDefinitionRequest,
   DeleteDeviceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteDeviceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceDefinitionRequest,
   output: DeleteDeviceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
  * Deletes a Lambda function definition.
  */
 export const deleteFunctionDefinition: API.OperationMethod<
   DeleteFunctionDefinitionRequest,
   DeleteFunctionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteFunctionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionDefinitionRequest,
   output: DeleteFunctionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteGroupError = BadRequestException | CommonErrors;
 /**
  * Deletes a group.
  */
 export const deleteGroup: API.OperationMethod<
   DeleteGroupRequest,
   DeleteGroupResponse,
-  BadRequestException | CommonErrors,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [BadRequestException],
 }));
+export type DeleteLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
  * Deletes a logger definition.
  */
 export const deleteLoggerDefinition: API.OperationMethod<
   DeleteLoggerDefinitionRequest,
   DeleteLoggerDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteLoggerDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoggerDefinitionRequest,
   output: DeleteLoggerDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteResourceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Deletes a resource definition.
  */
 export const deleteResourceDefinition: API.OperationMethod<
   DeleteResourceDefinitionRequest,
   DeleteResourceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteResourceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceDefinitionRequest,
   output: DeleteResourceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DeleteSubscriptionDefinitionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Deletes a subscription definition.
  */
 export const deleteSubscriptionDefinition: API.OperationMethod<
   DeleteSubscriptionDefinitionRequest,
   DeleteSubscriptionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  DeleteSubscriptionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionDefinitionRequest,
   output: DeleteSubscriptionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type DisassociateRoleFromGroupError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Disassociates the role from a group.
  */
 export const disassociateRoleFromGroup: API.OperationMethod<
   DisassociateRoleFromGroupRequest,
   DisassociateRoleFromGroupResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DisassociateRoleFromGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateRoleFromGroupRequest,
   output: DisassociateRoleFromGroupResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DisassociateServiceRoleFromAccountError =
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Disassociates the service role from your account. Without a service role, deployments will not work.
  */
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
   DisassociateServiceRoleFromAccountRequest,
   DisassociateServiceRoleFromAccountResponse,
-  InternalServerErrorException | CommonErrors,
+  DisassociateServiceRoleFromAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateServiceRoleFromAccountRequest,
   output: DisassociateServiceRoleFromAccountResponse,
   errors: [InternalServerErrorException],
 }));
+export type GetAssociatedRoleError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the role associated with a particular group.
  */
 export const getAssociatedRole: API.OperationMethod<
   GetAssociatedRoleRequest,
   GetAssociatedRoleResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetAssociatedRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssociatedRoleRequest,
   output: GetAssociatedRoleResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetBulkDeploymentStatusError = BadRequestException | CommonErrors;
 /**
  * Returns the status of a bulk deployment.
  */
 export const getBulkDeploymentStatus: API.OperationMethod<
   GetBulkDeploymentStatusRequest,
   GetBulkDeploymentStatusResponse,
-  BadRequestException | CommonErrors,
+  GetBulkDeploymentStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBulkDeploymentStatusRequest,
   output: GetBulkDeploymentStatusResponse,
   errors: [BadRequestException],
 }));
+export type GetConnectivityInfoError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the connectivity information for a core.
  */
 export const getConnectivityInfo: API.OperationMethod<
   GetConnectivityInfoRequest,
   GetConnectivityInfoResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetConnectivityInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectivityInfoRequest,
   output: GetConnectivityInfoResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a connector definition.
  */
 export const getConnectorDefinition: API.OperationMethod<
   GetConnectorDefinitionRequest,
   GetConnectorDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetConnectorDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorDefinitionRequest,
   output: GetConnectorDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetConnectorDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
  */
 export const getConnectorDefinitionVersion: API.OperationMethod<
   GetConnectorDefinitionVersionRequest,
   GetConnectorDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetConnectorDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorDefinitionVersionRequest,
   output: GetConnectorDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetCoreDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a core definition version.
  */
 export const getCoreDefinition: API.OperationMethod<
   GetCoreDefinitionRequest,
   GetCoreDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetCoreDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoreDefinitionRequest,
   output: GetCoreDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetCoreDefinitionVersionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a core definition version.
  */
 export const getCoreDefinitionVersion: API.OperationMethod<
   GetCoreDefinitionVersionRequest,
   GetCoreDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetCoreDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoreDefinitionVersionRequest,
   output: GetCoreDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetDeploymentStatusError = BadRequestException | CommonErrors;
 /**
  * Returns the status of a deployment.
  */
 export const getDeploymentStatus: API.OperationMethod<
   GetDeploymentStatusRequest,
   GetDeploymentStatusResponse,
-  BadRequestException | CommonErrors,
+  GetDeploymentStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentStatusRequest,
   output: GetDeploymentStatusResponse,
   errors: [BadRequestException],
 }));
+export type GetDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a device definition.
  */
 export const getDeviceDefinition: API.OperationMethod<
   GetDeviceDefinitionRequest,
   GetDeviceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetDeviceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceDefinitionRequest,
   output: GetDeviceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetDeviceDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Retrieves information about a device definition version.
  */
 export const getDeviceDefinitionVersion: API.OperationMethod<
   GetDeviceDefinitionVersionRequest,
   GetDeviceDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetDeviceDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceDefinitionVersionRequest,
   output: GetDeviceDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a Lambda function definition, including its creation time and latest version.
  */
 export const getFunctionDefinition: API.OperationMethod<
   GetFunctionDefinitionRequest,
   GetFunctionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetFunctionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionDefinitionRequest,
   output: GetFunctionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetFunctionDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
  */
 export const getFunctionDefinitionVersion: API.OperationMethod<
   GetFunctionDefinitionVersionRequest,
   GetFunctionDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetFunctionDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionDefinitionVersionRequest,
   output: GetFunctionDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetGroupError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a group.
  */
 export const getGroup: API.OperationMethod<
   GetGroupRequest,
   GetGroupResponse,
-  BadRequestException | CommonErrors,
+  GetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
   output: GetGroupResponse,
   errors: [BadRequestException],
 }));
+export type GetGroupCertificateAuthorityError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retreives the CA associated with a group. Returns the public key of the CA.
  */
 export const getGroupCertificateAuthority: API.OperationMethod<
   GetGroupCertificateAuthorityRequest,
   GetGroupCertificateAuthorityResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetGroupCertificateAuthorityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupCertificateAuthorityRequest,
   output: GetGroupCertificateAuthorityResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetGroupCertificateConfigurationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the current configuration for the CA used by the group.
  */
 export const getGroupCertificateConfiguration: API.OperationMethod<
   GetGroupCertificateConfigurationRequest,
   GetGroupCertificateConfigurationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetGroupCertificateConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupCertificateConfigurationRequest,
   output: GetGroupCertificateConfigurationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetGroupVersionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a group version.
  */
 export const getGroupVersion: API.OperationMethod<
   GetGroupVersionRequest,
   GetGroupVersionResponse,
-  BadRequestException | CommonErrors,
+  GetGroupVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupVersionRequest,
   output: GetGroupVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a logger definition.
  */
 export const getLoggerDefinition: API.OperationMethod<
   GetLoggerDefinitionRequest,
   GetLoggerDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetLoggerDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggerDefinitionRequest,
   output: GetLoggerDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetLoggerDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Retrieves information about a logger definition version.
  */
 export const getLoggerDefinitionVersion: API.OperationMethod<
   GetLoggerDefinitionVersionRequest,
   GetLoggerDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetLoggerDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggerDefinitionVersionRequest,
   output: GetLoggerDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetResourceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a resource definition, including its creation time and latest version.
  */
 export const getResourceDefinition: API.OperationMethod<
   GetResourceDefinitionRequest,
   GetResourceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetResourceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceDefinitionRequest,
   output: GetResourceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetResourceDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Retrieves information about a resource definition version, including which resources are included in the version.
  */
 export const getResourceDefinitionVersion: API.OperationMethod<
   GetResourceDefinitionVersionRequest,
   GetResourceDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetResourceDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceDefinitionVersionRequest,
   output: GetResourceDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetServiceRoleForAccountError =
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the service role that is attached to your account.
  */
 export const getServiceRoleForAccount: API.OperationMethod<
   GetServiceRoleForAccountRequest,
   GetServiceRoleForAccountResponse,
-  InternalServerErrorException | CommonErrors,
+  GetServiceRoleForAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRoleForAccountRequest,
   output: GetServiceRoleForAccountResponse,
   errors: [InternalServerErrorException],
 }));
+export type GetSubscriptionDefinitionError = BadRequestException | CommonErrors;
 /**
  * Retrieves information about a subscription definition.
  */
 export const getSubscriptionDefinition: API.OperationMethod<
   GetSubscriptionDefinitionRequest,
   GetSubscriptionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  GetSubscriptionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionDefinitionRequest,
   output: GetSubscriptionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type GetSubscriptionDefinitionVersionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Retrieves information about a subscription definition version.
  */
 export const getSubscriptionDefinitionVersion: API.OperationMethod<
   GetSubscriptionDefinitionVersionRequest,
   GetSubscriptionDefinitionVersionResponse,
-  BadRequestException | CommonErrors,
+  GetSubscriptionDefinitionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionDefinitionVersionRequest,
   output: GetSubscriptionDefinitionVersionResponse,
   errors: [BadRequestException],
 }));
+export type GetThingRuntimeConfigurationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Get the runtime configuration of a thing.
  */
 export const getThingRuntimeConfiguration: API.OperationMethod<
   GetThingRuntimeConfigurationRequest,
   GetThingRuntimeConfigurationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetThingRuntimeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThingRuntimeConfigurationRequest,
   output: GetThingRuntimeConfigurationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type ListBulkDeploymentDetailedReportsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
  */
 export const listBulkDeploymentDetailedReports: API.OperationMethod<
   ListBulkDeploymentDetailedReportsRequest,
   ListBulkDeploymentDetailedReportsResponse,
-  BadRequestException | CommonErrors,
+  ListBulkDeploymentDetailedReportsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBulkDeploymentDetailedReportsRequest,
   output: ListBulkDeploymentDetailedReportsResponse,
   errors: [BadRequestException],
 }));
+export type ListBulkDeploymentsError = BadRequestException | CommonErrors;
 /**
  * Returns a list of bulk deployments.
  */
 export const listBulkDeployments: API.OperationMethod<
   ListBulkDeploymentsRequest,
   ListBulkDeploymentsResponse,
-  BadRequestException | CommonErrors,
+  ListBulkDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBulkDeploymentsRequest,
   output: ListBulkDeploymentsResponse,
   errors: [BadRequestException],
 }));
+export type ListConnectorDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of connector definitions.
  */
 export const listConnectorDefinitions: API.OperationMethod<
   ListConnectorDefinitionsRequest,
   ListConnectorDefinitionsResponse,
-  CommonErrors,
+  ListConnectorDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectorDefinitionsRequest,
   output: ListConnectorDefinitionsResponse,
   errors: [],
 }));
+export type ListConnectorDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
  */
 export const listConnectorDefinitionVersions: API.OperationMethod<
   ListConnectorDefinitionVersionsRequest,
   ListConnectorDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListConnectorDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectorDefinitionVersionsRequest,
   output: ListConnectorDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListCoreDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of core definitions.
  */
 export const listCoreDefinitions: API.OperationMethod<
   ListCoreDefinitionsRequest,
   ListCoreDefinitionsResponse,
-  CommonErrors,
+  ListCoreDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCoreDefinitionsRequest,
   output: ListCoreDefinitionsResponse,
   errors: [],
 }));
+export type ListCoreDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a core definition.
  */
 export const listCoreDefinitionVersions: API.OperationMethod<
   ListCoreDefinitionVersionsRequest,
   ListCoreDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListCoreDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCoreDefinitionVersionsRequest,
   output: ListCoreDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListDeploymentsError = BadRequestException | CommonErrors;
 /**
  * Returns a history of deployments for the group.
  */
 export const listDeployments: API.OperationMethod<
   ListDeploymentsRequest,
   ListDeploymentsResponse,
-  BadRequestException | CommonErrors,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeploymentsRequest,
   output: ListDeploymentsResponse,
   errors: [BadRequestException],
 }));
+export type ListDeviceDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of device definitions.
  */
 export const listDeviceDefinitions: API.OperationMethod<
   ListDeviceDefinitionsRequest,
   ListDeviceDefinitionsResponse,
-  CommonErrors,
+  ListDeviceDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeviceDefinitionsRequest,
   output: ListDeviceDefinitionsResponse,
   errors: [],
 }));
+export type ListDeviceDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a device definition.
  */
 export const listDeviceDefinitionVersions: API.OperationMethod<
   ListDeviceDefinitionVersionsRequest,
   ListDeviceDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListDeviceDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeviceDefinitionVersionsRequest,
   output: ListDeviceDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListFunctionDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of Lambda function definitions.
  */
 export const listFunctionDefinitions: API.OperationMethod<
   ListFunctionDefinitionsRequest,
   ListFunctionDefinitionsResponse,
-  CommonErrors,
+  ListFunctionDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFunctionDefinitionsRequest,
   output: ListFunctionDefinitionsResponse,
   errors: [],
 }));
+export type ListFunctionDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a Lambda function definition.
  */
 export const listFunctionDefinitionVersions: API.OperationMethod<
   ListFunctionDefinitionVersionsRequest,
   ListFunctionDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListFunctionDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFunctionDefinitionVersionsRequest,
   output: ListFunctionDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListGroupCertificateAuthoritiesError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the current CAs for a group.
  */
 export const listGroupCertificateAuthorities: API.OperationMethod<
   ListGroupCertificateAuthoritiesRequest,
   ListGroupCertificateAuthoritiesResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListGroupCertificateAuthoritiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGroupCertificateAuthoritiesRequest,
   output: ListGroupCertificateAuthoritiesResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type ListGroupsError = CommonErrors;
 /**
  * Retrieves a list of groups.
  */
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResponse,
-  CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [],
 }));
+export type ListGroupVersionsError = BadRequestException | CommonErrors;
 /**
  * Lists the versions of a group.
  */
 export const listGroupVersions: API.OperationMethod<
   ListGroupVersionsRequest,
   ListGroupVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListGroupVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGroupVersionsRequest,
   output: ListGroupVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListLoggerDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of logger definitions.
  */
 export const listLoggerDefinitions: API.OperationMethod<
   ListLoggerDefinitionsRequest,
   ListLoggerDefinitionsResponse,
-  CommonErrors,
+  ListLoggerDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoggerDefinitionsRequest,
   output: ListLoggerDefinitionsResponse,
   errors: [],
 }));
+export type ListLoggerDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a logger definition.
  */
 export const listLoggerDefinitionVersions: API.OperationMethod<
   ListLoggerDefinitionVersionsRequest,
   ListLoggerDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListLoggerDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoggerDefinitionVersionsRequest,
   output: ListLoggerDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListResourceDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of resource definitions.
  */
 export const listResourceDefinitions: API.OperationMethod<
   ListResourceDefinitionsRequest,
   ListResourceDefinitionsResponse,
-  CommonErrors,
+  ListResourceDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListResourceDefinitionsRequest,
   output: ListResourceDefinitionsResponse,
   errors: [],
 }));
+export type ListResourceDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a resource definition.
  */
 export const listResourceDefinitionVersions: API.OperationMethod<
   ListResourceDefinitionVersionsRequest,
   ListResourceDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListResourceDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListResourceDefinitionVersionsRequest,
   output: ListResourceDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListSubscriptionDefinitionsError = CommonErrors;
 /**
  * Retrieves a list of subscription definitions.
  */
 export const listSubscriptionDefinitions: API.OperationMethod<
   ListSubscriptionDefinitionsRequest,
   ListSubscriptionDefinitionsResponse,
-  CommonErrors,
+  ListSubscriptionDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSubscriptionDefinitionsRequest,
   output: ListSubscriptionDefinitionsResponse,
   errors: [],
 }));
+export type ListSubscriptionDefinitionVersionsError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Lists the versions of a subscription definition.
  */
 export const listSubscriptionDefinitionVersions: API.OperationMethod<
   ListSubscriptionDefinitionVersionsRequest,
   ListSubscriptionDefinitionVersionsResponse,
-  BadRequestException | CommonErrors,
+  ListSubscriptionDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSubscriptionDefinitionVersionsRequest,
   output: ListSubscriptionDefinitionVersionsResponse,
   errors: [BadRequestException],
 }));
+export type ListTagsForResourceError = BadRequestException | CommonErrors;
 /**
  * Retrieves a list of resource tags for a resource arn.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  BadRequestException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException],
 }));
+export type ResetDeploymentsError = BadRequestException | CommonErrors;
 /**
  * Resets a group's deployments.
  */
 export const resetDeployments: API.OperationMethod<
   ResetDeploymentsRequest,
   ResetDeploymentsResponse,
-  BadRequestException | CommonErrors,
+  ResetDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetDeploymentsRequest,
   output: ResetDeploymentsResponse,
   errors: [BadRequestException],
 }));
+export type StartBulkDeploymentError = BadRequestException | CommonErrors;
 /**
  * Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
  */
 export const startBulkDeployment: API.OperationMethod<
   StartBulkDeploymentRequest,
   StartBulkDeploymentResponse,
-  BadRequestException | CommonErrors,
+  StartBulkDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBulkDeploymentRequest,
   output: StartBulkDeploymentResponse,
   errors: [BadRequestException],
 }));
+export type StopBulkDeploymentError = BadRequestException | CommonErrors;
 /**
  * Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
  */
 export const stopBulkDeployment: API.OperationMethod<
   StopBulkDeploymentRequest,
   StopBulkDeploymentResponse,
-  BadRequestException | CommonErrors,
+  StopBulkDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBulkDeploymentRequest,
   output: StopBulkDeploymentResponse,
   errors: [BadRequestException],
 }));
+export type TagResourceError = BadRequestException | CommonErrors;
 /**
  * Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  BadRequestException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [BadRequestException],
 }));
+export type UntagResourceError = BadRequestException | CommonErrors;
 /**
  * Remove resource tags from a Greengrass Resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  BadRequestException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [BadRequestException],
 }));
+export type UpdateConnectivityInfoError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
  */
 export const updateConnectivityInfo: API.OperationMethod<
   UpdateConnectivityInfoRequest,
   UpdateConnectivityInfoResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateConnectivityInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectivityInfoRequest,
   output: UpdateConnectivityInfoResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
  * Updates a connector definition.
  */
 export const updateConnectorDefinition: API.OperationMethod<
   UpdateConnectorDefinitionRequest,
   UpdateConnectorDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateConnectorDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorDefinitionRequest,
   output: UpdateConnectorDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateCoreDefinitionError = BadRequestException | CommonErrors;
 /**
  * Updates a core definition.
  */
 export const updateCoreDefinition: API.OperationMethod<
   UpdateCoreDefinitionRequest,
   UpdateCoreDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateCoreDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCoreDefinitionRequest,
   output: UpdateCoreDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Updates a device definition.
  */
 export const updateDeviceDefinition: API.OperationMethod<
   UpdateDeviceDefinitionRequest,
   UpdateDeviceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateDeviceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceDefinitionRequest,
   output: UpdateDeviceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
  * Updates a Lambda function definition.
  */
 export const updateFunctionDefinition: API.OperationMethod<
   UpdateFunctionDefinitionRequest,
   UpdateFunctionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateFunctionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionDefinitionRequest,
   output: UpdateFunctionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateGroupError = BadRequestException | CommonErrors;
 /**
  * Updates a group.
  */
 export const updateGroup: API.OperationMethod<
   UpdateGroupRequest,
   UpdateGroupResponse,
-  BadRequestException | CommonErrors,
+  UpdateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResponse,
   errors: [BadRequestException],
 }));
+export type UpdateGroupCertificateConfigurationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the Certificate expiry time for a group.
  */
 export const updateGroupCertificateConfiguration: API.OperationMethod<
   UpdateGroupCertificateConfigurationRequest,
   UpdateGroupCertificateConfigurationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateGroupCertificateConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupCertificateConfigurationRequest,
   output: UpdateGroupCertificateConfigurationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
  * Updates a logger definition.
  */
 export const updateLoggerDefinition: API.OperationMethod<
   UpdateLoggerDefinitionRequest,
   UpdateLoggerDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateLoggerDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoggerDefinitionRequest,
   output: UpdateLoggerDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateResourceDefinitionError = BadRequestException | CommonErrors;
 /**
  * Updates a resource definition.
  */
 export const updateResourceDefinition: API.OperationMethod<
   UpdateResourceDefinitionRequest,
   UpdateResourceDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateResourceDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceDefinitionRequest,
   output: UpdateResourceDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateSubscriptionDefinitionError =
+  | BadRequestException
+  | CommonErrors;
 /**
  * Updates a subscription definition.
  */
 export const updateSubscriptionDefinition: API.OperationMethod<
   UpdateSubscriptionDefinitionRequest,
   UpdateSubscriptionDefinitionResponse,
-  BadRequestException | CommonErrors,
+  UpdateSubscriptionDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionDefinitionRequest,
   output: UpdateSubscriptionDefinitionResponse,
   errors: [BadRequestException],
 }));
+export type UpdateThingRuntimeConfigurationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the runtime configuration of a thing.
  */
 export const updateThingRuntimeConfiguration: API.OperationMethod<
   UpdateThingRuntimeConfigurationRequest,
   UpdateThingRuntimeConfigurationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateThingRuntimeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingRuntimeConfigurationRequest,

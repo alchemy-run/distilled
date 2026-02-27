@@ -2038,14 +2038,7 @@ export class UnmatchedPolicyPermissionException extends S.TaggedErrorClass<Unmat
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the
- * invitation, the resources included in the resource share are available to interact with in the
- * relevant Amazon Web Services Management Consoles and tools.
- */
-export const acceptResourceShareInvitation: API.OperationMethod<
-  AcceptResourceShareInvitationRequest,
-  AcceptResourceShareInvitationResponse,
+export type AcceptResourceShareInvitationError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | MalformedArnException
@@ -2056,7 +2049,16 @@ export const acceptResourceShareInvitation: API.OperationMethod<
   | ResourceShareInvitationExpiredException
   | ServerInternalException
   | ServiceUnavailableException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the
+ * invitation, the resources included in the resource share are available to interact with in the
+ * relevant Amazon Web Services Management Consoles and tools.
+ */
+export const acceptResourceShareInvitation: API.OperationMethod<
+  AcceptResourceShareInvitationRequest,
+  AcceptResourceShareInvitationResponse,
+  AcceptResourceShareInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptResourceShareInvitationRequest,
@@ -2074,14 +2076,7 @@ export const acceptResourceShareInvitation: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
-/**
- * Adds the specified list of principals, resources, and source constraints to a resource share. Principals that
- * already have access to this resource share immediately receive access to the added resources.
- * Newly added principals immediately receive access to the resources shared in this resource share.
- */
-export const associateResourceShare: API.OperationMethod<
-  AssociateResourceShareRequest,
-  AssociateResourceShareResponse,
+export type AssociateResourceShareError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2093,7 +2088,16 @@ export const associateResourceShare: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds the specified list of principals, resources, and source constraints to a resource share. Principals that
+ * already have access to this resource share immediately receive access to the added resources.
+ * Newly added principals immediately receive access to the resources shared in this resource share.
+ */
+export const associateResourceShare: API.OperationMethod<
+  AssociateResourceShareRequest,
+  AssociateResourceShareResponse,
+  AssociateResourceShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceShareRequest,
@@ -2112,6 +2116,15 @@ export const associateResourceShare: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type AssociateResourceSharePermissionError =
+  | InvalidClientTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Adds or replaces the RAM permission for a resource type included in a resource share. You can
  * have exactly one permission associated with each resource type in the resource share. You can add
@@ -2121,14 +2134,7 @@ export const associateResourceShare: API.OperationMethod<
 export const associateResourceSharePermission: API.OperationMethod<
   AssociateResourceSharePermissionRequest,
   AssociateResourceSharePermissionResponse,
-  | InvalidClientTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  AssociateResourceSharePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceSharePermissionRequest,
@@ -2143,13 +2149,7 @@ export const associateResourceSharePermission: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Creates a customer managed permission for a specified resource type that you can attach to resource shares.
- * It is created in the Amazon Web Services Region in which you call the operation.
- */
-export const createPermission: API.OperationMethod<
-  CreatePermissionRequest,
-  CreatePermissionResponse,
+export type CreatePermissionError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2160,7 +2160,15 @@ export const createPermission: API.OperationMethod<
   | PermissionLimitExceededException
   | ServerInternalException
   | ServiceUnavailableException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a customer managed permission for a specified resource type that you can attach to resource shares.
+ * It is created in the Amazon Web Services Region in which you call the operation.
+ */
+export const createPermission: API.OperationMethod<
+  CreatePermissionRequest,
+  CreatePermissionResponse,
+  CreatePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePermissionRequest,
@@ -2178,6 +2186,18 @@ export const createPermission: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreatePermissionVersionError =
+  | IdempotentParameterMismatchException
+  | InvalidClientTokenException
+  | InvalidParameterException
+  | InvalidPolicyException
+  | MalformedArnException
+  | MalformedPolicyTemplateException
+  | PermissionVersionsLimitExceededException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Creates a new version of the specified customer managed permission. The new version is automatically set as
  * the default version of the customer managed permission. New resource shares automatically use the default
@@ -2190,17 +2210,7 @@ export const createPermission: API.OperationMethod<
 export const createPermissionVersion: API.OperationMethod<
   CreatePermissionVersionRequest,
   CreatePermissionVersionResponse,
-  | IdempotentParameterMismatchException
-  | InvalidClientTokenException
-  | InvalidParameterException
-  | InvalidPolicyException
-  | MalformedArnException
-  | MalformedPolicyTemplateException
-  | PermissionVersionsLimitExceededException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  CreatePermissionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePermissionVersionRequest,
@@ -2218,18 +2228,7 @@ export const createPermissionVersion: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you
- * want to share, a list of principals you want to share the resources with, the
- * permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing.
- *
- * Sharing a resource makes it available for use by principals outside of the
- * Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
- * quotas that apply to the resource in the account that created it.
- */
-export const createResourceShare: API.OperationMethod<
-  CreateResourceShareRequest,
-  CreateResourceShareResponse,
+export type CreateResourceShareError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2243,7 +2242,20 @@ export const createResourceShare: API.OperationMethod<
   | TagPolicyViolationException
   | ThrottlingException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you
+ * want to share, a list of principals you want to share the resources with, the
+ * permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing.
+ *
+ * Sharing a resource makes it available for use by principals outside of the
+ * Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
+ * quotas that apply to the resource in the account that created it.
+ */
+export const createResourceShare: API.OperationMethod<
+  CreateResourceShareRequest,
+  CreateResourceShareResponse,
+  CreateResourceShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceShareRequest,
@@ -2264,6 +2276,15 @@ export const createResourceShare: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type DeletePermissionError =
+  | IdempotentParameterMismatchException
+  | InvalidClientTokenException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You
  * can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all
@@ -2272,14 +2293,7 @@ export const createResourceShare: API.OperationMethod<
 export const deletePermission: API.OperationMethod<
   DeletePermissionRequest,
   DeletePermissionResponse,
-  | IdempotentParameterMismatchException
-  | InvalidClientTokenException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  DeletePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionRequest,
@@ -2294,6 +2308,16 @@ export const deletePermission: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type DeletePermissionVersionError =
+  | IdempotentParameterMismatchException
+  | InvalidClientTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Deletes one version of a customer managed permission. The version you specify must not be attached to any
  * resource share and must not be the default version for the permission.
@@ -2304,15 +2328,7 @@ export const deletePermission: API.OperationMethod<
 export const deletePermissionVersion: API.OperationMethod<
   DeletePermissionVersionRequest,
   DeletePermissionVersionResponse,
-  | IdempotentParameterMismatchException
-  | InvalidClientTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  DeletePermissionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionVersionRequest,
@@ -2328,15 +2344,7 @@ export const deletePermissionVersion: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Deletes the specified resource share.
- *
- * This doesn't delete any of the resources that were associated with the resource share; it
- * only stops the sharing of those resources through this resource share.
- */
-export const deleteResourceShare: API.OperationMethod<
-  DeleteResourceShareRequest,
-  DeleteResourceShareResponse,
+export type DeleteResourceShareError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2347,7 +2355,17 @@ export const deleteResourceShare: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified resource share.
+ *
+ * This doesn't delete any of the resources that were associated with the resource share; it
+ * only stops the sharing of those resources through this resource share.
+ */
+export const deleteResourceShare: API.OperationMethod<
+  DeleteResourceShareRequest,
+  DeleteResourceShareResponse,
+  DeleteResourceShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceShareRequest,
@@ -2365,13 +2383,7 @@ export const deleteResourceShare: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Removes the specified principals, resources, or source constraints from participating in the specified
- * resource share.
- */
-export const disassociateResourceShare: API.OperationMethod<
-  DisassociateResourceShareRequest,
-  DisassociateResourceShareResponse,
+export type DisassociateResourceShareError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2383,7 +2395,15 @@ export const disassociateResourceShare: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the specified principals, resources, or source constraints from participating in the specified
+ * resource share.
+ */
+export const disassociateResourceShare: API.OperationMethod<
+  DisassociateResourceShareRequest,
+  DisassociateResourceShareResponse,
+  DisassociateResourceShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResourceShareRequest,
@@ -2402,14 +2422,7 @@ export const disassociateResourceShare: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Removes a managed permission from a resource share. Permission changes take effect immediately. You can
- * remove a managed permission from a resource share only if there are currently no resources of the relevant
- * resource type currently attached to the resource share.
- */
-export const disassociateResourceSharePermission: API.OperationMethod<
-  DisassociateResourceSharePermissionRequest,
-  DisassociateResourceSharePermissionResponse,
+export type DisassociateResourceSharePermissionError =
   | InvalidClientTokenException
   | InvalidParameterException
   | InvalidStateTransitionException
@@ -2418,7 +2431,16 @@ export const disassociateResourceSharePermission: API.OperationMethod<
   | ServerInternalException
   | ServiceUnavailableException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a managed permission from a resource share. Permission changes take effect immediately. You can
+ * remove a managed permission from a resource share only if there are currently no resources of the relevant
+ * resource type currently attached to the resource share.
+ */
+export const disassociateResourceSharePermission: API.OperationMethod<
+  DisassociateResourceSharePermissionRequest,
+  DisassociateResourceSharePermissionResponse,
+  DisassociateResourceSharePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResourceSharePermissionRequest,
@@ -2434,6 +2456,11 @@ export const disassociateResourceSharePermission: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type EnableSharingWithAwsOrganizationError =
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Enables resource sharing within your organization in Organizations. This operation creates
  * a service-linked role called `AWSServiceRoleForResourceAccessManager` that has the IAM managed policy
@@ -2450,10 +2477,7 @@ export const disassociateResourceSharePermission: API.OperationMethod<
 export const enableSharingWithAwsOrganization: API.OperationMethod<
   EnableSharingWithAwsOrganizationRequest,
   EnableSharingWithAwsOrganizationResponse,
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  EnableSharingWithAwsOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSharingWithAwsOrganizationRequest,
@@ -2464,19 +2488,21 @@ export const enableSharingWithAwsOrganization: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
-/**
- * Retrieves the contents of a managed permission in JSON format.
- */
-export const getPermission: API.OperationMethod<
-  GetPermissionRequest,
-  GetPermissionResponse,
+export type GetPermissionError =
   | InvalidParameterException
   | MalformedArnException
   | OperationNotPermittedException
   | ServerInternalException
   | ServiceUnavailableException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the contents of a managed permission in JSON format.
+ */
+export const getPermission: API.OperationMethod<
+  GetPermissionRequest,
+  GetPermissionResponse,
+  GetPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionRequest,
@@ -2490,6 +2516,14 @@ export const getPermission: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type GetResourcePoliciesError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ResourceArnNotFoundException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Retrieves the resource policies for the specified resources that you own and have
  * shared.
@@ -2503,39 +2537,21 @@ export const getPermission: API.OperationMethod<
 export const getResourcePolicies: API.OperationMethod<
   GetResourcePoliciesRequest,
   GetResourcePoliciesResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ResourceArnNotFoundException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetResourcePoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
     GetResourcePoliciesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ResourceArnNotFoundException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    GetResourcePoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ResourceArnNotFoundException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    GetResourcePoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2555,6 +2571,15 @@ export const getResourcePolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetResourceShareAssociationsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Retrieves the lists of resources and principals that associated for resource shares that you
  * own.
@@ -2568,42 +2593,21 @@ export const getResourcePolicies: API.OperationMethod<
 export const getResourceShareAssociations: API.OperationMethod<
   GetResourceShareAssociationsRequest,
   GetResourceShareAssociationsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  GetResourceShareAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceShareAssociationsRequest,
   ) => stream.Stream<
     GetResourceShareAssociationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    GetResourceShareAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceShareAssociationsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    GetResourceShareAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2624,6 +2628,16 @@ export const getResourceShareAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetResourceShareInvitationsError =
+  | InvalidMaxResultsException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ResourceShareInvitationArnNotFoundException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Retrieves details about invitations that you have received for resource shares.
  *
@@ -2636,45 +2650,21 @@ export const getResourceShareAssociations: API.OperationMethod<
 export const getResourceShareInvitations: API.OperationMethod<
   GetResourceShareInvitationsRequest,
   GetResourceShareInvitationsResponse,
-  | InvalidMaxResultsException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ResourceShareInvitationArnNotFoundException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  GetResourceShareInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceShareInvitationsRequest,
   ) => stream.Stream<
     GetResourceShareInvitationsResponse,
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ResourceShareInvitationArnNotFoundException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    GetResourceShareInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceShareInvitationsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ResourceShareInvitationArnNotFoundException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    GetResourceShareInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2696,6 +2686,14 @@ export const getResourceShareInvitations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetResourceSharesError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Retrieves details about the resource shares that you own or that are shared with you.
  *
@@ -2708,39 +2706,21 @@ export const getResourceShareInvitations: API.OperationMethod<
 export const getResourceShares: API.OperationMethod<
   GetResourceSharesRequest,
   GetResourceSharesResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  GetResourceSharesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceSharesRequest,
   ) => stream.Stream<
     GetResourceSharesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    GetResourceSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceSharesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    GetResourceSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2760,6 +2740,17 @@ export const getResourceShares: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPendingInvitationResourcesError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | MissingRequiredParameterException
+  | ResourceShareInvitationAlreadyRejectedException
+  | ResourceShareInvitationArnNotFoundException
+  | ResourceShareInvitationExpiredException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the resources in a resource share that is shared with you but for which the invitation is
  * still `PENDING`. That means that you haven't accepted or rejected the
@@ -2774,48 +2765,21 @@ export const getResourceShares: API.OperationMethod<
 export const listPendingInvitationResources: API.OperationMethod<
   ListPendingInvitationResourcesRequest,
   ListPendingInvitationResourcesResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | MissingRequiredParameterException
-  | ResourceShareInvitationAlreadyRejectedException
-  | ResourceShareInvitationArnNotFoundException
-  | ResourceShareInvitationExpiredException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListPendingInvitationResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPendingInvitationResourcesRequest,
   ) => stream.Stream<
     ListPendingInvitationResourcesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | MissingRequiredParameterException
-    | ResourceShareInvitationAlreadyRejectedException
-    | ResourceShareInvitationArnNotFoundException
-    | ResourceShareInvitationExpiredException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPendingInvitationResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPendingInvitationResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | MissingRequiredParameterException
-    | ResourceShareInvitationAlreadyRejectedException
-    | ResourceShareInvitationArnNotFoundException
-    | ResourceShareInvitationExpiredException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPendingInvitationResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2838,6 +2802,13 @@ export const listPendingInvitationResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPermissionAssociationsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists information about the managed permission and its associations to any resource shares that use
  * this managed permission. This lets you see which resource shares use which versions of the specified
@@ -2852,36 +2823,21 @@ export const listPendingInvitationResources: API.OperationMethod<
 export const listPermissionAssociations: API.OperationMethod<
   ListPermissionAssociationsRequest,
   ListPermissionAssociationsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListPermissionAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionAssociationsRequest,
   ) => stream.Stream<
     ListPermissionAssociationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPermissionAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionAssociationsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPermissionAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2900,6 +2856,13 @@ export const listPermissionAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPermissionsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Retrieves a list of available RAM permissions that you can use for the supported
  * resource types.
@@ -2913,36 +2876,21 @@ export const listPermissionAssociations: API.OperationMethod<
 export const listPermissions: API.OperationMethod<
   ListPermissionsRequest,
   ListPermissionsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionsRequest,
   ) => stream.Stream<
     ListPermissionsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2961,6 +2909,15 @@ export const listPermissions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPermissionVersionsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Lists the available versions of the specified RAM permission.
  *
@@ -2973,42 +2930,21 @@ export const listPermissions: API.OperationMethod<
 export const listPermissionVersions: API.OperationMethod<
   ListPermissionVersionsRequest,
   ListPermissionVersionsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  ListPermissionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionVersionsRequest,
   ) => stream.Stream<
     ListPermissionVersionsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListPermissionVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListPermissionVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3029,6 +2965,14 @@ export const listPermissionVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPrincipalsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Lists the principals that you are sharing resources with or that are sharing resources
  * with you.
@@ -3042,39 +2986,21 @@ export const listPermissionVersions: API.OperationMethod<
 export const listPrincipals: API.OperationMethod<
   ListPrincipalsRequest,
   ListPrincipalsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  ListPrincipalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrincipalsRequest,
   ) => stream.Stream<
     ListPrincipalsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListPrincipalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPrincipalsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListPrincipalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3094,6 +3020,12 @@ export const listPrincipals: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListReplacePermissionAssociationsWorkError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Retrieves the current status of the asynchronous tasks performed by RAM when you
  * perform the ReplacePermissionAssociationsWork operation.
@@ -3107,33 +3039,21 @@ export const listPrincipals: API.OperationMethod<
 export const listReplacePermissionAssociationsWork: API.OperationMethod<
   ListReplacePermissionAssociationsWorkRequest,
   ListReplacePermissionAssociationsWorkResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListReplacePermissionAssociationsWorkError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReplacePermissionAssociationsWorkRequest,
   ) => stream.Stream<
     ListReplacePermissionAssociationsWorkResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListReplacePermissionAssociationsWorkError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReplacePermissionAssociationsWorkRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListReplacePermissionAssociationsWorkError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3151,6 +3071,15 @@ export const listReplacePermissionAssociationsWork: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResourcesError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidResourceTypeException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Lists the resources that you added to a resource share or the resources that are shared with
  * you.
@@ -3164,42 +3093,21 @@ export const listReplacePermissionAssociationsWork: API.OperationMethod<
 export const listResources: API.OperationMethod<
   ListResourcesRequest,
   ListResourcesResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidResourceTypeException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  ListResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesRequest,
   ) => stream.Stream<
     ListResourcesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidResourceTypeException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidResourceTypeException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3220,6 +3128,15 @@ export const listResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResourceSharePermissionsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Lists the RAM permissions that are associated with a resource share.
  *
@@ -3232,42 +3149,21 @@ export const listResources: API.OperationMethod<
 export const listResourceSharePermissions: API.OperationMethod<
   ListResourceSharePermissionsRequest,
   ListResourceSharePermissionsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  ListResourceSharePermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceSharePermissionsRequest,
   ) => stream.Stream<
     ListResourceSharePermissionsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListResourceSharePermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceSharePermissionsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListResourceSharePermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3288,39 +3184,33 @@ export const listResourceSharePermissions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResourceTypesError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the resource types that can be shared by RAM.
  */
 export const listResourceTypes: API.OperationMethod<
   ListResourceTypesRequest,
   ListResourceTypesResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceTypesRequest,
   ) => stream.Stream<
     ListResourceTypesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListResourceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceTypesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListResourceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3338,6 +3228,14 @@ export const listResourceTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSourceAssociationsError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Lists source associations for resource shares. Source associations control which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners.
  *
@@ -3346,39 +3244,21 @@ export const listResourceTypes: API.OperationMethod<
 export const listSourceAssociations: API.OperationMethod<
   ListSourceAssociationsRequest,
   ListSourceAssociationsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  ListSourceAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceAssociationsRequest,
   ) => stream.Stream<
     ListSourceAssociationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListSourceAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceAssociationsRequest,
   ) => stream.Stream<
     AssociatedSource,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
+    ListSourceAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3399,6 +3279,16 @@ export const listSourceAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PromotePermissionCreatedFromPolicyError =
+  | InvalidParameterException
+  | InvalidPolicyException
+  | MalformedArnException
+  | MissingRequiredParameterException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * When you attach a resource-based policy to a resource, RAM automatically creates
  * a resource share of `featureSet`=`CREATED_FROM_POLICY` with a managed permission that
@@ -3431,15 +3321,7 @@ export const listSourceAssociations: API.OperationMethod<
 export const promotePermissionCreatedFromPolicy: API.OperationMethod<
   PromotePermissionCreatedFromPolicyRequest,
   PromotePermissionCreatedFromPolicyResponse,
-  | InvalidParameterException
-  | InvalidPolicyException
-  | MalformedArnException
-  | MissingRequiredParameterException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  PromotePermissionCreatedFromPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromotePermissionCreatedFromPolicyRequest,
@@ -3455,6 +3337,18 @@ export const promotePermissionCreatedFromPolicy: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type PromoteResourceShareCreatedFromPolicyError =
+  | InvalidParameterException
+  | InvalidStateTransitionException
+  | MalformedArnException
+  | MissingRequiredParameterException
+  | OperationNotPermittedException
+  | ResourceShareLimitExceededException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | UnmatchedPolicyPermissionException
+  | CommonErrors;
 /**
  * When you attach a resource-based policy to a resource, RAM automatically creates
  * a resource share of `featureSet`=`CREATED_FROM_POLICY` with a managed permission that
@@ -3474,17 +3368,7 @@ export const promotePermissionCreatedFromPolicy: API.OperationMethod<
 export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
   PromoteResourceShareCreatedFromPolicyRequest,
   PromoteResourceShareCreatedFromPolicyResponse,
-  | InvalidParameterException
-  | InvalidStateTransitionException
-  | MalformedArnException
-  | MissingRequiredParameterException
-  | OperationNotPermittedException
-  | ResourceShareLimitExceededException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | UnmatchedPolicyPermissionException
-  | CommonErrors,
+  PromoteResourceShareCreatedFromPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromoteResourceShareCreatedFromPolicyRequest,
@@ -3502,12 +3386,7 @@ export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
     UnmatchedPolicyPermissionException,
   ],
 }));
-/**
- * Rejects an invitation to a resource share from another Amazon Web Services account.
- */
-export const rejectResourceShareInvitation: API.OperationMethod<
-  RejectResourceShareInvitationRequest,
-  RejectResourceShareInvitationResponse,
+export type RejectResourceShareInvitationError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | MalformedArnException
@@ -3518,7 +3397,14 @@ export const rejectResourceShareInvitation: API.OperationMethod<
   | ResourceShareInvitationExpiredException
   | ServerInternalException
   | ServiceUnavailableException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rejects an invitation to a resource share from another Amazon Web Services account.
+ */
+export const rejectResourceShareInvitation: API.OperationMethod<
+  RejectResourceShareInvitationRequest,
+  RejectResourceShareInvitationResponse,
+  RejectResourceShareInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectResourceShareInvitationRequest,
@@ -3536,6 +3422,16 @@ export const rejectResourceShareInvitation: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ReplacePermissionAssociationsError =
+  | IdempotentParameterMismatchException
+  | InvalidClientTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Updates all resource shares that use a managed permission to a different managed
  * permission. This operation always applies the default version of the target managed
@@ -3557,15 +3453,7 @@ export const rejectResourceShareInvitation: API.OperationMethod<
 export const replacePermissionAssociations: API.OperationMethod<
   ReplacePermissionAssociationsRequest,
   ReplacePermissionAssociationsResponse,
-  | IdempotentParameterMismatchException
-  | InvalidClientTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | OperationNotPermittedException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  ReplacePermissionAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplacePermissionAssociationsRequest,
@@ -3581,6 +3469,15 @@ export const replacePermissionAssociations: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type SetDefaultPermissionVersionError =
+  | IdempotentParameterMismatchException
+  | InvalidClientTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Designates the specified version number as the default version for the specified
  * customer managed permission. New resource shares automatically use this new default permission. Existing
@@ -3589,14 +3486,7 @@ export const replacePermissionAssociations: API.OperationMethod<
 export const setDefaultPermissionVersion: API.OperationMethod<
   SetDefaultPermissionVersionRequest,
   SetDefaultPermissionVersionResponse,
-  | IdempotentParameterMismatchException
-  | InvalidClientTokenException
-  | InvalidParameterException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  SetDefaultPermissionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultPermissionVersionRequest,
@@ -3611,6 +3501,16 @@ export const setDefaultPermissionVersion: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type TagResourceError =
+  | InvalidParameterException
+  | MalformedArnException
+  | ResourceArnNotFoundException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | TagLimitExceededException
+  | TagPolicyViolationException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the
  * tags are attached to only the resource share, not to the resources that are in the resource share.
@@ -3620,15 +3520,7 @@ export const setDefaultPermissionVersion: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidParameterException
-  | MalformedArnException
-  | ResourceArnNotFoundException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | TagLimitExceededException
-  | TagPolicyViolationException
-  | UnknownResourceException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3644,18 +3536,20 @@ export const tagResource: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type UntagResourceError =
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Removes the specified tag key and value pairs from the specified resource share or managed permission.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InvalidParameterException
-  | MalformedArnException
-  | ServerInternalException
-  | ServiceUnavailableException
-  | UnknownResourceException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3668,12 +3562,7 @@ export const untagResource: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Modifies some of the properties of the specified resource share.
- */
-export const updateResourceShare: API.OperationMethod<
-  UpdateResourceShareRequest,
-  UpdateResourceShareResponse,
+export type UpdateResourceShareError =
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
   | InvalidParameterException
@@ -3683,7 +3572,14 @@ export const updateResourceShare: API.OperationMethod<
   | ServerInternalException
   | ServiceUnavailableException
   | UnknownResourceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies some of the properties of the specified resource share.
+ */
+export const updateResourceShare: API.OperationMethod<
+  UpdateResourceShareRequest,
+  UpdateResourceShareResponse,
+  UpdateResourceShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceShareRequest,

@@ -1075,18 +1075,20 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -1099,6 +1101,13 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor.
  *
@@ -1107,12 +1116,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1125,18 +1129,20 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1149,6 +1155,12 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetInternetEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about
  * recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services
@@ -1161,11 +1173,7 @@ export const untagResource: API.OperationMethod<
 export const getInternetEvent: API.OperationMethod<
   GetInternetEventInput,
   GetInternetEventOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInternetEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInternetEventInput,
@@ -1177,6 +1185,12 @@ export const getInternetEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListInternetEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists internet events that cause performance or availability issues for client locations. Amazon CloudWatch Internet Monitor displays information about
  * recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services
@@ -1192,33 +1206,21 @@ export const getInternetEvent: API.OperationMethod<
 export const listInternetEvents: API.OperationMethod<
   ListInternetEventsInput,
   ListInternetEventsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInternetEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInternetEventsInput,
   ) => stream.Stream<
     ListInternetEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInternetEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInternetEventsInput,
   ) => stream.Stream<
     InternetEventSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInternetEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1237,6 +1239,14 @@ export const listInternetEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs,
  * Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services
@@ -1252,13 +1262,7 @@ export const listInternetEvents: API.OperationMethod<
 export const createMonitor: API.OperationMethod<
   CreateMonitorInput,
   CreateMonitorOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorInput,
@@ -1272,6 +1276,12 @@ export const createMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time,
  * modified time, resources included in the monitor, and status information.
@@ -1279,11 +1289,7 @@ export const createMonitor: API.OperationMethod<
 export const getMonitor: API.OperationMethod<
   GetMonitorInput,
   GetMonitorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorInput,
@@ -1295,6 +1301,14 @@ export const getMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks
  * (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor.
@@ -1305,13 +1319,7 @@ export const getMonitor: API.OperationMethod<
 export const updateMonitor: API.OperationMethod<
   UpdateMonitorInput,
   UpdateMonitorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorInput,
@@ -1325,17 +1333,19 @@ export const updateMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a monitor in Amazon CloudWatch Internet Monitor.
  */
 export const deleteMonitor: API.OperationMethod<
   DeleteMonitorInput,
   DeleteMonitorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorInput,
@@ -1347,39 +1357,33 @@ export const deleteMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMonitorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
  */
 export const listMonitors: API.OperationMethod<
   ListMonitorsInput,
   ListMonitorsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMonitorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMonitorsInput,
   ) => stream.Stream<
     ListMonitorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitorsInput,
   ) => stream.Stream<
     Monitor,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1398,6 +1402,13 @@ export const listMonitors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetQueryResultsError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing
  * a `QueryId` and a monitor name.
@@ -1409,36 +1420,21 @@ export const listMonitors: API.OperationMethod<
 export const getQueryResults: API.OperationMethod<
   GetQueryResultsInput,
   GetQueryResultsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueryResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetQueryResultsInput,
   ) => stream.Stream<
     GetQueryResultsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetQueryResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetQueryResultsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetQueryResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1457,6 +1453,13 @@ export const getQueryResults: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetQueryStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the current status of a query for the Amazon CloudWatch Internet Monitor query interface, for a specified query ID and monitor.
  * When you run a query, check the status to make sure that the query has `SUCCEEDED` before you review the results.
@@ -1474,12 +1477,7 @@ export const getQueryResults: API.OperationMethod<
 export const getQueryStatus: API.OperationMethod<
   GetQueryStatusInput,
   GetQueryStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueryStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryStatusInput,
@@ -1492,6 +1490,13 @@ export const getQueryStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start a query to return data for a specific query type for the Amazon CloudWatch Internet Monitor query interface. Specify a time period
  * for the data that you want returned by using `StartTime` and `EndTime`. You filter the query
@@ -1504,12 +1509,7 @@ export const getQueryStatus: API.OperationMethod<
 export const startQuery: API.OperationMethod<
   StartQueryInput,
   StartQueryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQueryInput,
@@ -1522,18 +1522,20 @@ export const startQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stop a query that is progress for a specific monitor.
  */
 export const stopQuery: API.OperationMethod<
   StopQueryInput,
   StopQueryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopQueryInput,
@@ -1546,6 +1548,12 @@ export const stopQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetHealthEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations,
  * and all the information related to the event, by location.
@@ -1558,11 +1566,7 @@ export const stopQuery: API.OperationMethod<
 export const getHealthEvent: API.OperationMethod<
   GetHealthEventInput,
   GetHealthEventOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetHealthEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthEventInput,
@@ -1574,6 +1578,12 @@ export const getHealthEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListHealthEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and
  * the status.
@@ -1583,33 +1593,21 @@ export const getHealthEvent: API.OperationMethod<
 export const listHealthEvents: API.OperationMethod<
   ListHealthEventsInput,
   ListHealthEventsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListHealthEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHealthEventsInput,
   ) => stream.Stream<
     ListHealthEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHealthEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHealthEventsInput,
   ) => stream.Stream<
     HealthEvent,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHealthEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

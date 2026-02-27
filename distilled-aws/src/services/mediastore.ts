@@ -756,6 +756,11 @@ export class CorsPolicyNotFoundException extends S.TaggedErrorClass<CorsPolicyNo
 ) {}
 
 //# Operations
+export type CreateContainerError =
+  | ContainerInUseException
+  | InternalServerError
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a storage container to hold objects. A container is similar to a bucket in
  * the Amazon S3 service.
@@ -763,10 +768,7 @@ export class CorsPolicyNotFoundException extends S.TaggedErrorClass<CorsPolicyNo
 export const createContainer: API.OperationMethod<
   CreateContainerInput,
   CreateContainerOutput,
-  | ContainerInUseException
-  | InternalServerError
-  | LimitExceededException
-  | CommonErrors,
+  CreateContainerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerInput,
@@ -777,6 +779,11 @@ export const createContainer: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type DeleteContainerError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Deletes the specified container. Before you make a `DeleteContainer`
  * request, delete any objects in the container or in any folders in the container. You can
@@ -785,10 +792,7 @@ export const createContainer: API.OperationMethod<
 export const deleteContainer: API.OperationMethod<
   DeleteContainerInput,
   DeleteContainerOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  DeleteContainerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerInput,
@@ -799,17 +803,19 @@ export const deleteContainer: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type DeleteContainerPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Deletes the access policy that is associated with the specified container.
  */
 export const deleteContainerPolicy: API.OperationMethod<
   DeleteContainerPolicyInput,
   DeleteContainerPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | PolicyNotFoundException
-  | CommonErrors,
+  DeleteContainerPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerPolicyInput,
@@ -821,6 +827,12 @@ export const deleteContainerPolicy: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type DeleteCorsPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | CorsPolicyNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Deletes the cross-origin resource sharing (CORS) configuration information that is
  * set for the container.
@@ -832,11 +844,7 @@ export const deleteContainerPolicy: API.OperationMethod<
 export const deleteCorsPolicy: API.OperationMethod<
   DeleteCorsPolicyInput,
   DeleteCorsPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | CorsPolicyNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  DeleteCorsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCorsPolicyInput,
@@ -848,17 +856,19 @@ export const deleteCorsPolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type DeleteLifecyclePolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyInput,
   DeleteLifecyclePolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | PolicyNotFoundException
-  | CommonErrors,
+  DeleteLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLifecyclePolicyInput,
@@ -870,17 +880,19 @@ export const deleteLifecyclePolicy: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type DeleteMetricPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
  */
 export const deleteMetricPolicy: API.OperationMethod<
   DeleteMetricPolicyInput,
   DeleteMetricPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | PolicyNotFoundException
-  | CommonErrors,
+  DeleteMetricPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMetricPolicyInput,
@@ -892,6 +904,10 @@ export const deleteMetricPolicy: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type DescribeContainerError =
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves the properties of the requested container. This request is commonly used to
  * retrieve the endpoint of a container. An endpoint is a value assigned by the service when a
@@ -904,13 +920,19 @@ export const deleteMetricPolicy: API.OperationMethod<
 export const describeContainer: API.OperationMethod<
   DescribeContainerInput,
   DescribeContainerOutput,
-  ContainerNotFoundException | InternalServerError | CommonErrors,
+  DescribeContainerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContainerInput,
   output: DescribeContainerOutput,
   errors: [ContainerNotFoundException, InternalServerError],
 }));
+export type GetContainerPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the access policy for the specified container. For information about the
  * data that is included in an access policy, see the AWS Identity and Access Management User
@@ -919,11 +941,7 @@ export const describeContainer: API.OperationMethod<
 export const getContainerPolicy: API.OperationMethod<
   GetContainerPolicyInput,
   GetContainerPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | PolicyNotFoundException
-  | CommonErrors,
+  GetContainerPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerPolicyInput,
@@ -935,6 +953,12 @@ export const getContainerPolicy: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type GetCorsPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | CorsPolicyNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the cross-origin resource sharing (CORS) configuration information that is
  * set for the container.
@@ -946,11 +970,7 @@ export const getContainerPolicy: API.OperationMethod<
 export const getCorsPolicy: API.OperationMethod<
   GetCorsPolicyInput,
   GetCorsPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | CorsPolicyNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  GetCorsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCorsPolicyInput,
@@ -962,17 +982,19 @@ export const getCorsPolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type GetLifecyclePolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the object lifecycle policy that is assigned to a container.
  */
 export const getLifecyclePolicy: API.OperationMethod<
   GetLifecyclePolicyInput,
   GetLifecyclePolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | PolicyNotFoundException
-  | CommonErrors,
+  GetLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyInput,
@@ -984,17 +1006,19 @@ export const getLifecyclePolicy: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type GetMetricPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Returns the metric policy for the specified container.
  */
 export const getMetricPolicy: API.OperationMethod<
   GetMetricPolicyInput,
   GetMetricPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | PolicyNotFoundException
-  | CommonErrors,
+  GetMetricPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricPolicyInput,
@@ -1006,6 +1030,7 @@ export const getMetricPolicy: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type ListContainersError = InternalServerError | CommonErrors;
 /**
  * Lists the properties of all containers in AWS Elemental MediaStore.
  *
@@ -1022,21 +1047,21 @@ export const getMetricPolicy: API.OperationMethod<
 export const listContainers: API.OperationMethod<
   ListContainersInput,
   ListContainersOutput,
-  InternalServerError | CommonErrors,
+  ListContainersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContainersInput,
   ) => stream.Stream<
     ListContainersOutput,
-    InternalServerError | CommonErrors,
+    ListContainersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContainersInput,
   ) => stream.Stream<
     unknown,
-    InternalServerError | CommonErrors,
+    ListContainersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1049,16 +1074,18 @@ export const listContainers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns a list of the tags assigned to the specified container.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -1069,6 +1096,11 @@ export const listTagsForResource: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type PutContainerPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Creates an access policy for the specified container to restrict the users and
  * clients that can access it. For information about the data that is included in an access
@@ -1082,10 +1114,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putContainerPolicy: API.OperationMethod<
   PutContainerPolicyInput,
   PutContainerPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  PutContainerPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutContainerPolicyInput,
@@ -1096,6 +1125,11 @@ export const putContainerPolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type PutCorsPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Sets the cross-origin resource sharing (CORS) configuration on a container so that
  * the container can service cross-origin requests. For example, you might want to enable a
@@ -1114,10 +1148,7 @@ export const putContainerPolicy: API.OperationMethod<
 export const putCorsPolicy: API.OperationMethod<
   PutCorsPolicyInput,
   PutCorsPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  PutCorsPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCorsPolicyInput,
@@ -1128,6 +1159,11 @@ export const putCorsPolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type PutLifecyclePolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Writes an object lifecycle policy to a container. If the container already has an object lifecycle policy, the service replaces the existing policy with the new policy. It takes up to 20 minutes for the change to take effect.
  *
@@ -1136,10 +1172,7 @@ export const putCorsPolicy: API.OperationMethod<
 export const putLifecyclePolicy: API.OperationMethod<
   PutLifecyclePolicyInput,
   PutLifecyclePolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  PutLifecyclePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecyclePolicyInput,
@@ -1150,16 +1183,18 @@ export const putLifecyclePolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type PutMetricPolicyError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
  */
 export const putMetricPolicy: API.OperationMethod<
   PutMetricPolicyInput,
   PutMetricPolicyOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  PutMetricPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricPolicyInput,
@@ -1170,16 +1205,18 @@ export const putMetricPolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type StartAccessLoggingError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
  */
 export const startAccessLogging: API.OperationMethod<
   StartAccessLoggingInput,
   StartAccessLoggingOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  StartAccessLoggingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAccessLoggingInput,
@@ -1190,16 +1227,18 @@ export const startAccessLogging: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type StopAccessLoggingError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
  */
 export const stopAccessLogging: API.OperationMethod<
   StopAccessLoggingInput,
   StopAccessLoggingOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  StopAccessLoggingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAccessLoggingInput,
@@ -1210,6 +1249,11 @@ export const stopAccessLogging: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type TagResourceError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value pairs that you can associate with AWS resources. For example, the
  * tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50
@@ -1218,10 +1262,7 @@ export const stopAccessLogging: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1232,16 +1273,18 @@ export const tagResource: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type UntagResourceError =
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Removes tags from the specified container. You can specify one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | ContainerInUseException
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,

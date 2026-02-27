@@ -683,6 +683,11 @@ export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestEx
 ) {}
 
 //# Operations
+export type AddTagsToResourceError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -703,10 +708,7 @@ export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestEx
 export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceRequest,
   AddTagsToResourceResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  AddTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
@@ -717,6 +719,11 @@ export const addTagsToResource: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type CreateHapgError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -735,10 +742,7 @@ export const addTagsToResource: API.OperationMethod<
 export const createHapg: API.OperationMethod<
   CreateHapgRequest,
   CreateHapgResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  CreateHapgError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHapgRequest,
@@ -749,6 +753,11 @@ export const createHapg: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type CreateHsmError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -775,10 +784,7 @@ export const createHapg: API.OperationMethod<
 export const createHsm: API.OperationMethod<
   CreateHsmRequest,
   CreateHsmResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  CreateHsmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHsmRequest,
@@ -789,6 +795,11 @@ export const createHsm: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type CreateLunaClientError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -806,10 +817,7 @@ export const createHsm: API.OperationMethod<
 export const createLunaClient: API.OperationMethod<
   CreateLunaClientRequest,
   CreateLunaClientResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  CreateLunaClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLunaClientRequest,
@@ -820,6 +828,11 @@ export const createLunaClient: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type DeleteHapgError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -837,10 +850,7 @@ export const createLunaClient: API.OperationMethod<
 export const deleteHapg: API.OperationMethod<
   DeleteHapgRequest,
   DeleteHapgResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  DeleteHapgError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHapgRequest,
@@ -851,6 +861,11 @@ export const deleteHapg: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type DeleteHsmError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -869,10 +884,7 @@ export const deleteHapg: API.OperationMethod<
 export const deleteHsm: API.OperationMethod<
   DeleteHsmRequest,
   DeleteHsmResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  DeleteHsmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHsmRequest,
@@ -883,6 +895,11 @@ export const deleteHsm: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type DeleteLunaClientError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -900,10 +917,7 @@ export const deleteHsm: API.OperationMethod<
 export const deleteLunaClient: API.OperationMethod<
   DeleteLunaClientRequest,
   DeleteLunaClientResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  DeleteLunaClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLunaClientRequest,
@@ -914,6 +928,11 @@ export const deleteLunaClient: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type DescribeHapgError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -931,10 +950,7 @@ export const deleteLunaClient: API.OperationMethod<
 export const describeHapg: API.OperationMethod<
   DescribeHapgRequest,
   DescribeHapgResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  DescribeHapgError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHapgRequest,
@@ -945,6 +961,11 @@ export const describeHapg: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type DescribeHsmError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -963,10 +984,7 @@ export const describeHapg: API.OperationMethod<
 export const describeHsm: API.OperationMethod<
   DescribeHsmRequest,
   DescribeHsmResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  DescribeHsmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHsmRequest,
@@ -977,6 +995,11 @@ export const describeHsm: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type DescribeLunaClientError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -994,10 +1017,7 @@ export const describeHsm: API.OperationMethod<
 export const describeLunaClient: API.OperationMethod<
   DescribeLunaClientRequest,
   DescribeLunaClientResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  DescribeLunaClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLunaClientRequest,
@@ -1008,6 +1028,11 @@ export const describeLunaClient: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type GetConfigError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1026,10 +1051,7 @@ export const describeLunaClient: API.OperationMethod<
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
   GetConfigResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  GetConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
@@ -1040,6 +1062,11 @@ export const getConfig: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ListAvailableZonesError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1057,10 +1084,7 @@ export const getConfig: API.OperationMethod<
 export const listAvailableZones: API.OperationMethod<
   ListAvailableZonesRequest,
   ListAvailableZonesResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ListAvailableZonesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAvailableZonesRequest,
@@ -1071,6 +1095,11 @@ export const listAvailableZones: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ListHapgsError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1093,10 +1122,7 @@ export const listAvailableZones: API.OperationMethod<
 export const listHapgs: API.OperationMethod<
   ListHapgsRequest,
   ListHapgsResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ListHapgsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHapgsRequest,
@@ -1107,6 +1133,11 @@ export const listHapgs: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ListHsmsError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1130,10 +1161,7 @@ export const listHapgs: API.OperationMethod<
 export const listHsms: API.OperationMethod<
   ListHsmsRequest,
   ListHsmsResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ListHsmsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHsmsRequest,
@@ -1144,6 +1172,11 @@ export const listHsms: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ListLunaClientsError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1166,10 +1199,7 @@ export const listHsms: API.OperationMethod<
 export const listLunaClients: API.OperationMethod<
   ListLunaClientsRequest,
   ListLunaClientsResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ListLunaClientsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLunaClientsRequest,
@@ -1180,6 +1210,11 @@ export const listLunaClients: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ListTagsForResourceError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1197,10 +1232,7 @@ export const listLunaClients: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1211,6 +1243,11 @@ export const listTagsForResource: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ModifyHapgError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1228,10 +1265,7 @@ export const listTagsForResource: API.OperationMethod<
 export const modifyHapg: API.OperationMethod<
   ModifyHapgRequest,
   ModifyHapgResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ModifyHapgError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyHapgRequest,
@@ -1242,6 +1276,11 @@ export const modifyHapg: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ModifyHsmError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1264,10 +1303,7 @@ export const modifyHapg: API.OperationMethod<
 export const modifyHsm: API.OperationMethod<
   ModifyHsmRequest,
   ModifyHsmResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  ModifyHsmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyHsmRequest,
@@ -1278,6 +1314,7 @@ export const modifyHsm: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type ModifyLunaClientError = CloudHsmServiceException | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1298,13 +1335,18 @@ export const modifyHsm: API.OperationMethod<
 export const modifyLunaClient: API.OperationMethod<
   ModifyLunaClientRequest,
   ModifyLunaClientResponse,
-  CloudHsmServiceException | CommonErrors,
+  ModifyLunaClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyLunaClientRequest,
   output: ModifyLunaClientResponse,
   errors: [CloudHsmServiceException],
 }));
+export type RemoveTagsFromResourceError =
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1325,10 +1367,7 @@ export const modifyLunaClient: API.OperationMethod<
 export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceRequest,
   RemoveTagsFromResourceResponse,
-  | CloudHsmInternalException
-  | CloudHsmServiceException
-  | InvalidRequestException
-  | CommonErrors,
+  RemoveTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceRequest,

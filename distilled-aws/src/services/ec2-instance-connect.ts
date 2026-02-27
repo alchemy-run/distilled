@@ -224,15 +224,7 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * Pushes an SSH public key to the specified EC2 instance. The key remains for 60
- * seconds, which gives you 60 seconds to establish a serial console connection to the
- * instance using SSH. For more information, see EC2 Serial Console in
- * the *Amazon EC2 User Guide*.
- */
-export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
-  SendSerialConsoleSSHPublicKeyRequest,
-  SendSerialConsoleSSHPublicKeyResponse,
+export type SendSerialConsoleSSHPublicKeyError =
   | AuthException
   | EC2InstanceNotFoundException
   | EC2InstanceStateInvalidException
@@ -245,7 +237,17 @@ export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
   | SerialConsoleSessionUnsupportedException
   | ServiceException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Pushes an SSH public key to the specified EC2 instance. The key remains for 60
+ * seconds, which gives you 60 seconds to establish a serial console connection to the
+ * instance using SSH. For more information, see EC2 Serial Console in
+ * the *Amazon EC2 User Guide*.
+ */
+export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
+  SendSerialConsoleSSHPublicKeyRequest,
+  SendSerialConsoleSSHPublicKeyResponse,
+  SendSerialConsoleSSHPublicKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendSerialConsoleSSHPublicKeyRequest,
@@ -265,6 +267,15 @@ export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SendSSHPublicKeyError =
+  | AuthException
+  | EC2InstanceNotFoundException
+  | EC2InstanceStateInvalidException
+  | EC2InstanceUnavailableException
+  | InvalidArgsException
+  | ServiceException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Pushes an SSH public key to the specified EC2 instance for use by the specified user.
  * The key remains for 60 seconds. For more information, see Connect to
@@ -274,14 +285,7 @@ export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
 export const sendSSHPublicKey: API.OperationMethod<
   SendSSHPublicKeyRequest,
   SendSSHPublicKeyResponse,
-  | AuthException
-  | EC2InstanceNotFoundException
-  | EC2InstanceStateInvalidException
-  | EC2InstanceUnavailableException
-  | InvalidArgsException
-  | ServiceException
-  | ThrottlingException
-  | CommonErrors,
+  SendSSHPublicKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendSSHPublicKeyRequest,

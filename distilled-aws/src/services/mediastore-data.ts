@@ -346,16 +346,18 @@ export class RequestedRangeNotSatisfiableException extends S.TaggedErrorClass<Re
 ) {}
 
 //# Operations
+export type DeleteObjectError =
+  | ContainerNotFoundException
+  | InternalServerError
+  | ObjectNotFoundException
+  | CommonErrors;
 /**
  * Deletes an object at the specified path.
  */
 export const deleteObject: API.OperationMethod<
   DeleteObjectRequest,
   DeleteObjectResponse,
-  | ContainerNotFoundException
-  | InternalServerError
-  | ObjectNotFoundException
-  | CommonErrors,
+  DeleteObjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectRequest,
@@ -366,16 +368,18 @@ export const deleteObject: API.OperationMethod<
     ObjectNotFoundException,
   ],
 }));
+export type DescribeObjectError =
+  | ContainerNotFoundException
+  | InternalServerError
+  | ObjectNotFoundException
+  | CommonErrors;
 /**
  * Gets the headers for an object at the specified path.
  */
 export const describeObject: API.OperationMethod<
   DescribeObjectRequest,
   DescribeObjectResponse,
-  | ContainerNotFoundException
-  | InternalServerError
-  | ObjectNotFoundException
-  | CommonErrors,
+  DescribeObjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeObjectRequest,
@@ -386,17 +390,19 @@ export const describeObject: API.OperationMethod<
     ObjectNotFoundException,
   ],
 }));
+export type GetObjectError =
+  | ContainerNotFoundException
+  | InternalServerError
+  | ObjectNotFoundException
+  | RequestedRangeNotSatisfiableException
+  | CommonErrors;
 /**
  * Downloads the object at the specified path. If the object’s upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
  */
 export const getObject: API.OperationMethod<
   GetObjectRequest,
   GetObjectResponse,
-  | ContainerNotFoundException
-  | InternalServerError
-  | ObjectNotFoundException
-  | RequestedRangeNotSatisfiableException
-  | CommonErrors,
+  GetObjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectRequest,
@@ -408,6 +414,10 @@ export const getObject: API.OperationMethod<
     RequestedRangeNotSatisfiableException,
   ],
 }));
+export type ListItemsError =
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Provides a list of metadata entries about folders and objects in the specified
  * folder.
@@ -415,21 +425,21 @@ export const getObject: API.OperationMethod<
 export const listItems: API.OperationMethod<
   ListItemsRequest,
   ListItemsResponse,
-  ContainerNotFoundException | InternalServerError | CommonErrors,
+  ListItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListItemsRequest,
   ) => stream.Stream<
     ListItemsResponse,
-    ContainerNotFoundException | InternalServerError | CommonErrors,
+    ListItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListItemsRequest,
   ) => stream.Stream<
     unknown,
-    ContainerNotFoundException | InternalServerError | CommonErrors,
+    ListItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -442,13 +452,17 @@ export const listItems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutObjectError =
+  | ContainerNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */
 export const putObject: API.OperationMethod<
   PutObjectRequest,
   PutObjectResponse,
-  ContainerNotFoundException | InternalServerError | CommonErrors,
+  PutObjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectRequest,

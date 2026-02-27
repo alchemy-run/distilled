@@ -326,42 +326,34 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type ListRealtimeContactAnalysisSegmentsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides a list of analysis segments for a real-time analysis session.
  */
 export const listRealtimeContactAnalysisSegments: API.OperationMethod<
   ListRealtimeContactAnalysisSegmentsRequest,
   ListRealtimeContactAnalysisSegmentsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRealtimeContactAnalysisSegmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRealtimeContactAnalysisSegmentsRequest,
   ) => stream.Stream<
     ListRealtimeContactAnalysisSegmentsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRealtimeContactAnalysisSegmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRealtimeContactAnalysisSegmentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRealtimeContactAnalysisSegmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

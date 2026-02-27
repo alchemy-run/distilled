@@ -2562,6 +2562,9 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ExchangeCodeForTokenError =
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * This is for internal use.
  *
@@ -2570,38 +2573,44 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const exchangeCodeForToken: API.OperationMethod<
   ExchangeCodeForTokenRequest,
   ExchangeCodeForTokenResponse,
-  InvalidParameterException | CommonErrors,
+  ExchangeCodeForTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeCodeForTokenRequest,
   output: ExchangeCodeForTokenResponse,
   errors: [InvalidParameterException],
 }));
+export type GetMetadataError =
+  | InvalidParameterException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns existing metadata for an Amplify app.
  */
 export const getMetadata: API.OperationMethod<
   GetMetadataRequest,
   GetMetadataResponse,
-  InvalidParameterException | UnauthorizedException | CommonErrors,
+  GetMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetadataRequest,
   output: GetMetadataResponse,
   errors: [InvalidParameterException, UnauthorizedException],
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2614,19 +2623,24 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type PutMetadataFlagError =
+  | InvalidParameterException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Stores the metadata information about a feature on a form.
  */
 export const putMetadataFlag: API.OperationMethod<
   PutMetadataFlagRequest,
   PutMetadataFlagResponse,
-  InvalidParameterException | UnauthorizedException | CommonErrors,
+  PutMetadataFlagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetadataFlagRequest,
   output: PutMetadataFlagResponse,
   errors: [InvalidParameterException, UnauthorizedException],
 }));
+export type RefreshTokenError = InvalidParameterException | CommonErrors;
 /**
  * This is for internal use.
  *
@@ -2635,25 +2649,27 @@ export const putMetadataFlag: API.OperationMethod<
 export const refreshToken: API.OperationMethod<
   RefreshTokenRequest,
   RefreshTokenResponse,
-  InvalidParameterException | CommonErrors,
+  RefreshTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RefreshTokenRequest,
   output: RefreshTokenResponse,
   errors: [InvalidParameterException],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Tags the resource with a tag key and value.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2666,18 +2682,20 @@ export const tagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2690,16 +2708,18 @@ export const untagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type StartCodegenJobError =
+  | InternalServerException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts a code generation job for a specified Amplify app and backend environment.
  */
 export const startCodegenJob: API.OperationMethod<
   StartCodegenJobRequest,
   StartCodegenJobResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ThrottlingException
-  | CommonErrors,
+  StartCodegenJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCodegenJobRequest,
@@ -2710,17 +2730,19 @@ export const startCodegenJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetCodegenJobError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns an existing code generation job.
  */
 export const getCodegenJob: API.OperationMethod<
   GetCodegenJobRequest,
   GetCodegenJobResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetCodegenJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodegenJobRequest,
@@ -2732,36 +2754,32 @@ export const getCodegenJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListCodegenJobsError =
+  | InternalServerException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
  */
 export const listCodegenJobs: API.OperationMethod<
   ListCodegenJobsRequest,
   ListCodegenJobsResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ThrottlingException
-  | CommonErrors,
+  ListCodegenJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCodegenJobsRequest,
   ) => stream.Stream<
     ListCodegenJobsResponse,
-    | InternalServerException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    ListCodegenJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCodegenJobsRequest,
   ) => stream.Stream<
     CodegenJobSummary,
-    | InternalServerException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    ListCodegenJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2779,17 +2797,19 @@ export const listCodegenJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateComponentError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a new component for an Amplify app.
  */
 export const createComponent: API.OperationMethod<
   CreateComponentRequest,
   CreateComponentResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentRequest,
@@ -2801,16 +2821,18 @@ export const createComponent: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetComponentError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns an existing component for an Amplify app.
  */
 export const getComponent: API.OperationMethod<
   GetComponentRequest,
   GetComponentResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
@@ -2821,16 +2843,18 @@ export const getComponent: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateComponentError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | CommonErrors;
 /**
  * Updates an existing component.
  */
 export const updateComponent: API.OperationMethod<
   UpdateComponentRequest,
   UpdateComponentResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceConflictException
-  | CommonErrors,
+  UpdateComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentRequest,
@@ -2841,16 +2865,18 @@ export const updateComponent: API.OperationMethod<
     ResourceConflictException,
   ],
 }));
+export type DeleteComponentError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a component from an Amplify app.
  */
 export const deleteComponent: API.OperationMethod<
   DeleteComponentRequest,
   DeleteComponentResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
@@ -2861,6 +2887,10 @@ export const deleteComponent: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListComponentsError =
+  | InternalServerException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Retrieves a list of components for a specified Amplify app and backend
  * environment.
@@ -2868,21 +2898,21 @@ export const deleteComponent: API.OperationMethod<
 export const listComponents: API.OperationMethod<
   ListComponentsRequest,
   ListComponentsResponse,
-  InternalServerException | InvalidParameterException | CommonErrors,
+  ListComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     ListComponentsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     ComponentSummary,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2896,27 +2926,31 @@ export const listComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ExportComponentsError =
+  | InternalServerException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Exports component configurations to code that is ready to integrate into an Amplify app.
  */
 export const exportComponents: API.OperationMethod<
   ExportComponentsRequest,
   ExportComponentsResponse,
-  InternalServerException | InvalidParameterException | CommonErrors,
+  ExportComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ExportComponentsRequest,
   ) => stream.Stream<
     ExportComponentsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ExportComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExportComponentsRequest,
   ) => stream.Stream<
     Component,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ExportComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2929,17 +2963,19 @@ export const exportComponents: API.OperationMethod<
     items: "entities",
   } as const,
 }));
+export type CreateFormError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a new form for an Amplify app.
  */
 export const createForm: API.OperationMethod<
   CreateFormRequest,
   CreateFormResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateFormError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFormRequest,
@@ -2951,16 +2987,18 @@ export const createForm: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetFormError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns an existing form for an Amplify app.
  */
 export const getForm: API.OperationMethod<
   GetFormRequest,
   GetFormResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetFormError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFormRequest,
@@ -2971,16 +3009,18 @@ export const getForm: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateFormError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | CommonErrors;
 /**
  * Updates an existing form.
  */
 export const updateForm: API.OperationMethod<
   UpdateFormRequest,
   UpdateFormResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceConflictException
-  | CommonErrors,
+  UpdateFormError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFormRequest,
@@ -2991,16 +3031,18 @@ export const updateForm: API.OperationMethod<
     ResourceConflictException,
   ],
 }));
+export type DeleteFormError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a form from an Amplify app.
  */
 export const deleteForm: API.OperationMethod<
   DeleteFormRequest,
   DeleteFormResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteFormError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFormRequest,
@@ -3011,27 +3053,31 @@ export const deleteForm: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListFormsError =
+  | InternalServerException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Retrieves a list of forms for a specified Amplify app and backend environment.
  */
 export const listForms: API.OperationMethod<
   ListFormsRequest,
   ListFormsResponse,
-  InternalServerException | InvalidParameterException | CommonErrors,
+  ListFormsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFormsRequest,
   ) => stream.Stream<
     ListFormsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ListFormsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFormsRequest,
   ) => stream.Stream<
     FormSummary,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ListFormsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3045,27 +3091,31 @@ export const listForms: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ExportFormsError =
+  | InternalServerException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Exports form configurations to code that is ready to integrate into an Amplify app.
  */
 export const exportForms: API.OperationMethod<
   ExportFormsRequest,
   ExportFormsResponse,
-  InternalServerException | InvalidParameterException | CommonErrors,
+  ExportFormsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ExportFormsRequest,
   ) => stream.Stream<
     ExportFormsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ExportFormsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExportFormsRequest,
   ) => stream.Stream<
     Form,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ExportFormsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3078,17 +3128,19 @@ export const exportForms: API.OperationMethod<
     items: "entities",
   } as const,
 }));
+export type CreateThemeError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a theme to apply to the components in an Amplify app.
  */
 export const createTheme: API.OperationMethod<
   CreateThemeRequest,
   CreateThemeResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateThemeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThemeRequest,
@@ -3100,16 +3152,18 @@ export const createTheme: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetThemeError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns an existing theme for an Amplify app.
  */
 export const getTheme: API.OperationMethod<
   GetThemeRequest,
   GetThemeResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetThemeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThemeRequest,
@@ -3120,16 +3174,18 @@ export const getTheme: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateThemeError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | CommonErrors;
 /**
  * Updates an existing theme.
  */
 export const updateTheme: API.OperationMethod<
   UpdateThemeRequest,
   UpdateThemeResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceConflictException
-  | CommonErrors,
+  UpdateThemeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThemeRequest,
@@ -3140,16 +3196,18 @@ export const updateTheme: API.OperationMethod<
     ResourceConflictException,
   ],
 }));
+export type DeleteThemeError =
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a theme from an Amplify app.
  */
 export const deleteTheme: API.OperationMethod<
   DeleteThemeRequest,
   DeleteThemeResponse,
-  | InternalServerException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteThemeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThemeRequest,
@@ -3160,6 +3218,10 @@ export const deleteTheme: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListThemesError =
+  | InternalServerException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Retrieves a list of themes for a specified Amplify app and backend
  * environment.
@@ -3167,21 +3229,21 @@ export const deleteTheme: API.OperationMethod<
 export const listThemes: API.OperationMethod<
   ListThemesRequest,
   ListThemesResponse,
-  InternalServerException | InvalidParameterException | CommonErrors,
+  ListThemesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThemesRequest,
   ) => stream.Stream<
     ListThemesResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ListThemesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThemesRequest,
   ) => stream.Stream<
     ThemeSummary,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ListThemesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3195,27 +3257,31 @@ export const listThemes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ExportThemesError =
+  | InternalServerException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Exports theme configurations to code that is ready to integrate into an Amplify app.
  */
 export const exportThemes: API.OperationMethod<
   ExportThemesRequest,
   ExportThemesResponse,
-  InternalServerException | InvalidParameterException | CommonErrors,
+  ExportThemesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ExportThemesRequest,
   ) => stream.Stream<
     ExportThemesResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ExportThemesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExportThemesRequest,
   ) => stream.Stream<
     Theme,
-    InternalServerException | InvalidParameterException | CommonErrors,
+    ExportThemesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

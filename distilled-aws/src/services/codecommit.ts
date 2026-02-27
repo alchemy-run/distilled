@@ -217,12 +217,12 @@ export const BatchAssociateApprovalRuleTemplateWithRepositoriesInput =
   ).annotate({
     identifier: "BatchAssociateApprovalRuleTemplateWithRepositoriesInput",
   }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesInput>;
-export interface BatchAssociateApprovalRuleTemplateWithRepositoriesError {
+export interface BatchAssociateApprovalRuleTemplateWithRepositoriesError_ {
   repositoryName?: string;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchAssociateApprovalRuleTemplateWithRepositoriesError =
+export const BatchAssociateApprovalRuleTemplateWithRepositoriesError_ =
   S.suspend(() =>
     S.Struct({
       repositoryName: S.optional(S.String),
@@ -231,14 +231,14 @@ export const BatchAssociateApprovalRuleTemplateWithRepositoriesError =
     }),
   ).annotate({
     identifier: "BatchAssociateApprovalRuleTemplateWithRepositoriesError",
-  }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesError>;
+  }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesError_>;
 export type BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList =
-  BatchAssociateApprovalRuleTemplateWithRepositoriesError[];
+  BatchAssociateApprovalRuleTemplateWithRepositoriesError_[];
 export const BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList =
-  S.Array(BatchAssociateApprovalRuleTemplateWithRepositoriesError);
+  S.Array(BatchAssociateApprovalRuleTemplateWithRepositoriesError_);
 export interface BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
   associatedRepositoryNames: string[];
-  errors: BatchAssociateApprovalRuleTemplateWithRepositoriesError[];
+  errors: BatchAssociateApprovalRuleTemplateWithRepositoriesError_[];
 }
 export const BatchAssociateApprovalRuleTemplateWithRepositoriesOutput =
   S.suspend(() =>
@@ -452,25 +452,25 @@ export const Conflict = S.suspend(() =>
 ).annotate({ identifier: "Conflict" }) as any as S.Schema<Conflict>;
 export type Conflicts = Conflict[];
 export const Conflicts = S.Array(Conflict);
-export interface BatchDescribeMergeConflictsError {
+export interface BatchDescribeMergeConflictsError_ {
   filePath: string;
   exceptionName: string;
   message: string;
 }
-export const BatchDescribeMergeConflictsError = S.suspend(() =>
+export const BatchDescribeMergeConflictsError_ = S.suspend(() =>
   S.Struct({ filePath: S.String, exceptionName: S.String, message: S.String }),
 ).annotate({
   identifier: "BatchDescribeMergeConflictsError",
-}) as any as S.Schema<BatchDescribeMergeConflictsError>;
+}) as any as S.Schema<BatchDescribeMergeConflictsError_>;
 export type BatchDescribeMergeConflictsErrors =
-  BatchDescribeMergeConflictsError[];
+  BatchDescribeMergeConflictsError_[];
 export const BatchDescribeMergeConflictsErrors = S.Array(
-  BatchDescribeMergeConflictsError,
+  BatchDescribeMergeConflictsError_,
 );
 export interface BatchDescribeMergeConflictsOutput {
   conflicts: Conflict[];
   nextToken?: string;
-  errors?: BatchDescribeMergeConflictsError[];
+  errors?: BatchDescribeMergeConflictsError_[];
   destinationCommitId: string;
   sourceCommitId: string;
   baseCommitId?: string;
@@ -510,12 +510,12 @@ export const BatchDisassociateApprovalRuleTemplateFromRepositoriesInput =
   ).annotate({
     identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesInput",
   }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput>;
-export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
+export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesError_ {
   repositoryName?: string;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
+export const BatchDisassociateApprovalRuleTemplateFromRepositoriesError_ =
   S.suspend(() =>
     S.Struct({
       repositoryName: S.optional(S.String),
@@ -524,14 +524,14 @@ export const BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
     }),
   ).annotate({
     identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesError",
-  }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesError>;
+  }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesError_>;
 export type BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList =
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesError[];
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesError_[];
 export const BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList =
-  S.Array(BatchDisassociateApprovalRuleTemplateFromRepositoriesError);
+  S.Array(BatchDisassociateApprovalRuleTemplateFromRepositoriesError_);
 export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
   disassociatedRepositoryNames: string[];
-  errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesError[];
+  errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesError_[];
 }
 export const BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput =
   S.suspend(() =>
@@ -599,12 +599,12 @@ export const Commit = S.suspend(() =>
 ).annotate({ identifier: "Commit" }) as any as S.Schema<Commit>;
 export type CommitObjectsList = Commit[];
 export const CommitObjectsList = S.Array(Commit);
-export interface BatchGetCommitsError {
+export interface BatchGetCommitsError_ {
   commitId?: string;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchGetCommitsError = S.suspend(() =>
+export const BatchGetCommitsError_ = S.suspend(() =>
   S.Struct({
     commitId: S.optional(S.String),
     errorCode: S.optional(S.String),
@@ -612,12 +612,12 @@ export const BatchGetCommitsError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchGetCommitsError",
-}) as any as S.Schema<BatchGetCommitsError>;
-export type BatchGetCommitsErrorsList = BatchGetCommitsError[];
-export const BatchGetCommitsErrorsList = S.Array(BatchGetCommitsError);
+}) as any as S.Schema<BatchGetCommitsError_>;
+export type BatchGetCommitsErrorsList = BatchGetCommitsError_[];
+export const BatchGetCommitsErrorsList = S.Array(BatchGetCommitsError_);
 export interface BatchGetCommitsOutput {
   commits?: Commit[];
-  errors?: BatchGetCommitsError[];
+  errors?: BatchGetCommitsError_[];
 }
 export const BatchGetCommitsOutput = S.suspend(() =>
   S.Struct({
@@ -690,13 +690,13 @@ export type BatchGetRepositoriesErrorCodeEnum =
   | "RepositoryDoesNotExistException"
   | (string & {});
 export const BatchGetRepositoriesErrorCodeEnum = S.String;
-export interface BatchGetRepositoriesError {
+export interface BatchGetRepositoriesError_ {
   repositoryId?: string;
   repositoryName?: string;
   errorCode?: BatchGetRepositoriesErrorCodeEnum;
   errorMessage?: string;
 }
-export const BatchGetRepositoriesError = S.suspend(() =>
+export const BatchGetRepositoriesError_ = S.suspend(() =>
   S.Struct({
     repositoryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
@@ -705,15 +705,15 @@ export const BatchGetRepositoriesError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchGetRepositoriesError",
-}) as any as S.Schema<BatchGetRepositoriesError>;
-export type BatchGetRepositoriesErrorsList = BatchGetRepositoriesError[];
+}) as any as S.Schema<BatchGetRepositoriesError_>;
+export type BatchGetRepositoriesErrorsList = BatchGetRepositoriesError_[];
 export const BatchGetRepositoriesErrorsList = S.Array(
-  BatchGetRepositoriesError,
+  BatchGetRepositoriesError_,
 );
 export interface BatchGetRepositoriesOutput {
   repositories?: RepositoryMetadata[];
   repositoriesNotFound?: string[];
-  errors?: BatchGetRepositoriesError[];
+  errors?: BatchGetRepositoriesError_[];
 }
 export const BatchGetRepositoriesOutput = S.suspend(() =>
   S.Struct({
@@ -4772,18 +4772,7 @@ export class EncryptionKeyRequiredException extends S.TaggedErrorClass<Encryptio
 ) {}
 
 //# Operations
-/**
- * Creates an association between an approval rule template and a specified repository.
- * Then, the next time a pull request is created in the repository where the destination
- * reference (if specified) matches the destination reference (branch) for the pull
- * request, an approval rule that matches the template conditions is automatically created
- * for that pull request. If no destination references are specified in the template, an
- * approval rule that matches the template contents is created for all pull requests in
- * that repository.
- */
-export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
-  AssociateApprovalRuleTemplateWithRepositoryInput,
-  AssociateApprovalRuleTemplateWithRepositoryResponse,
+export type AssociateApprovalRuleTemplateWithRepositoryError =
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -4796,7 +4785,20 @@ export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
   | MaximumRuleTemplatesAssociatedWithRepositoryException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an association between an approval rule template and a specified repository.
+ * Then, the next time a pull request is created in the repository where the destination
+ * reference (if specified) matches the destination reference (branch) for the pull
+ * request, an approval rule that matches the template conditions is automatically created
+ * for that pull request. If no destination references are specified in the template, an
+ * approval rule that matches the template contents is created for all pull requests in
+ * that repository.
+ */
+export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
+  AssociateApprovalRuleTemplateWithRepositoryInput,
+  AssociateApprovalRuleTemplateWithRepositoryResponse,
+  AssociateApprovalRuleTemplateWithRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateApprovalRuleTemplateWithRepositoryInput,
@@ -4816,12 +4818,7 @@ export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Creates an association between an approval rule template and one or more specified repositories.
- */
-export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMethod<
-  BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
-  BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
+export type BatchAssociateApprovalRuleTemplateWithRepositoriesError =
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -4832,7 +4829,14 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMe
   | InvalidApprovalRuleTemplateNameException
   | MaximumRepositoryNamesExceededException
   | RepositoryNamesRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an association between an approval rule template and one or more specified repositories.
+ */
+export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMethod<
+  BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
+  BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
+  BatchAssociateApprovalRuleTemplateWithRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
@@ -4850,12 +4854,7 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMe
     RepositoryNamesRequiredException,
   ],
 }));
-/**
- * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
- */
-export const batchDescribeMergeConflicts: API.OperationMethod<
-  BatchDescribeMergeConflictsInput,
-  BatchDescribeMergeConflictsOutput,
+export type BatchDescribeMergeConflictsError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -4877,7 +4876,14 @@ export const batchDescribeMergeConflicts: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
+ */
+export const batchDescribeMergeConflicts: API.OperationMethod<
+  BatchDescribeMergeConflictsInput,
+  BatchDescribeMergeConflictsOutput,
+  BatchDescribeMergeConflictsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDescribeMergeConflictsInput,
@@ -4906,12 +4912,7 @@ export const batchDescribeMergeConflicts: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Removes the association between an approval rule template and one or more specified repositories.
- */
-export const batchDisassociateApprovalRuleTemplateFromRepositories: API.OperationMethod<
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
+export type BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -4922,7 +4923,14 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: API.Operatio
   | InvalidApprovalRuleTemplateNameException
   | MaximumRepositoryNamesExceededException
   | RepositoryNamesRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between an approval rule template and one or more specified repositories.
+ */
+export const batchDisassociateApprovalRuleTemplateFromRepositories: API.OperationMethod<
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
@@ -4940,12 +4948,7 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: API.Operatio
     RepositoryNamesRequiredException,
   ],
 }));
-/**
- * Returns information about the contents of one or more commits in a repository.
- */
-export const batchGetCommits: API.OperationMethod<
-  BatchGetCommitsInput,
-  BatchGetCommitsOutput,
+export type BatchGetCommitsError =
   | CommitIdsLimitExceededException
   | CommitIdsListRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -4956,7 +4959,14 @@ export const batchGetCommits: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the contents of one or more commits in a repository.
+ */
+export const batchGetCommits: API.OperationMethod<
+  BatchGetCommitsInput,
+  BatchGetCommitsOutput,
+  BatchGetCommitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCommitsInput,
@@ -4974,6 +4984,16 @@ export const batchGetCommits: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
+export type BatchGetRepositoriesError =
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidRepositoryNameException
+  | MaximumRepositoryNamesExceededException
+  | RepositoryNamesRequiredException
+  | CommonErrors;
 /**
  * Returns information about one or more repositories.
  *
@@ -4986,15 +5006,7 @@ export const batchGetCommits: API.OperationMethod<
 export const batchGetRepositories: API.OperationMethod<
   BatchGetRepositoriesInput,
   BatchGetRepositoriesOutput,
-  | EncryptionIntegrityChecksFailedException
-  | EncryptionKeyAccessDeniedException
-  | EncryptionKeyDisabledException
-  | EncryptionKeyNotFoundException
-  | EncryptionKeyUnavailableException
-  | InvalidRepositoryNameException
-  | MaximumRepositoryNamesExceededException
-  | RepositoryNamesRequiredException
-  | CommonErrors,
+  BatchGetRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRepositoriesInput,
@@ -5010,6 +5022,15 @@ export const batchGetRepositories: API.OperationMethod<
     RepositoryNamesRequiredException,
   ],
 }));
+export type CreateApprovalRuleTemplateError =
+  | ApprovalRuleTemplateContentRequiredException
+  | ApprovalRuleTemplateNameAlreadyExistsException
+  | ApprovalRuleTemplateNameRequiredException
+  | InvalidApprovalRuleTemplateContentException
+  | InvalidApprovalRuleTemplateDescriptionException
+  | InvalidApprovalRuleTemplateNameException
+  | NumberOfRuleTemplatesExceededException
+  | CommonErrors;
 /**
  * Creates a template for approval rules that can then be associated with one or more
  * repositories in your Amazon Web Services account. When you associate a template with a repository,
@@ -5020,14 +5041,7 @@ export const batchGetRepositories: API.OperationMethod<
 export const createApprovalRuleTemplate: API.OperationMethod<
   CreateApprovalRuleTemplateInput,
   CreateApprovalRuleTemplateOutput,
-  | ApprovalRuleTemplateContentRequiredException
-  | ApprovalRuleTemplateNameAlreadyExistsException
-  | ApprovalRuleTemplateNameRequiredException
-  | InvalidApprovalRuleTemplateContentException
-  | InvalidApprovalRuleTemplateDescriptionException
-  | InvalidApprovalRuleTemplateNameException
-  | NumberOfRuleTemplatesExceededException
-  | CommonErrors,
+  CreateApprovalRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApprovalRuleTemplateInput,
@@ -5042,14 +5056,7 @@ export const createApprovalRuleTemplate: API.OperationMethod<
     NumberOfRuleTemplatesExceededException,
   ],
 }));
-/**
- * Creates a branch in a repository and points the branch to a commit.
- *
- * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
- */
-export const createBranch: API.OperationMethod<
-  CreateBranchInput,
-  CreateBranchResponse,
+export type CreateBranchError =
   | BranchNameExistsException
   | BranchNameRequiredException
   | CommitDoesNotExistException
@@ -5064,7 +5071,16 @@ export const createBranch: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a branch in a repository and points the branch to a commit.
+ *
+ * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
+ */
+export const createBranch: API.OperationMethod<
+  CreateBranchInput,
+  CreateBranchResponse,
+  CreateBranchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBranchInput,
@@ -5086,12 +5102,7 @@ export const createBranch: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Creates a commit for a repository on the tip of a specified branch.
- */
-export const createCommit: API.OperationMethod<
-  CreateCommitInput,
-  CreateCommitOutput,
+export type CreateCommitError =
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
   | BranchNameRequiredException
@@ -5130,7 +5141,14 @@ export const createCommit: API.OperationMethod<
   | RestrictedSourceFileException
   | SamePathRequestException
   | SourceFileOrContentRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a commit for a repository on the tip of a specified branch.
+ */
+export const createCommit: API.OperationMethod<
+  CreateCommitInput,
+  CreateCommitOutput,
+  CreateCommitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCommitInput,
@@ -5176,12 +5194,7 @@ export const createCommit: API.OperationMethod<
     SourceFileOrContentRequiredException,
   ],
 }));
-/**
- * Creates a pull request in the specified repository.
- */
-export const createPullRequest: API.OperationMethod<
-  CreatePullRequestInput,
-  CreatePullRequestOutput,
+export type CreatePullRequestError =
   | ClientRequestTokenRequiredException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5207,7 +5220,14 @@ export const createPullRequest: API.OperationMethod<
   | TargetRequiredException
   | TargetsRequiredException
   | TitleRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a pull request in the specified repository.
+ */
+export const createPullRequest: API.OperationMethod<
+  CreatePullRequestInput,
+  CreatePullRequestOutput,
+  CreatePullRequestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePullRequestInput,
@@ -5240,12 +5260,7 @@ export const createPullRequest: API.OperationMethod<
     TitleRequiredException,
   ],
 }));
-/**
- * Creates an approval rule for a pull request.
- */
-export const createPullRequestApprovalRule: API.OperationMethod<
-  CreatePullRequestApprovalRuleInput,
-  CreatePullRequestApprovalRuleOutput,
+export type CreatePullRequestApprovalRuleError =
   | ApprovalRuleContentRequiredException
   | ApprovalRuleNameAlreadyExistsException
   | ApprovalRuleNameRequiredException
@@ -5261,7 +5276,14 @@ export const createPullRequestApprovalRule: API.OperationMethod<
   | PullRequestAlreadyClosedException
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an approval rule for a pull request.
+ */
+export const createPullRequestApprovalRule: API.OperationMethod<
+  CreatePullRequestApprovalRuleInput,
+  CreatePullRequestApprovalRuleOutput,
+  CreatePullRequestApprovalRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePullRequestApprovalRuleInput,
@@ -5284,12 +5306,7 @@ export const createPullRequestApprovalRule: API.OperationMethod<
     PullRequestIdRequiredException,
   ],
 }));
-/**
- * Creates a new, empty repository.
- */
-export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
-  CreateRepositoryOutput,
+export type CreateRepositoryError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -5307,7 +5324,14 @@ export const createRepository: API.OperationMethod<
   | RepositoryNameRequiredException
   | TagPolicyException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new, empty repository.
+ */
+export const createRepository: API.OperationMethod<
+  CreateRepositoryInput,
+  CreateRepositoryOutput,
+  CreateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryInput,
@@ -5332,18 +5356,7 @@ export const createRepository: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Creates an unreferenced commit that represents the result of merging two branches
- * using a specified merge strategy. This can help you determine the outcome of a potential
- * merge. This API cannot be used with the fast-forward merge strategy because that
- * strategy does not create a merge commit.
- *
- * This unreferenced merge commit
- * can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
- */
-export const createUnreferencedMergeCommit: API.OperationMethod<
-  CreateUnreferencedMergeCommitInput,
-  CreateUnreferencedMergeCommitOutput,
+export type CreateUnreferencedMergeCommitError =
   | CommitDoesNotExistException
   | CommitMessageLengthExceededException
   | CommitRequiredException
@@ -5380,7 +5393,20 @@ export const createUnreferencedMergeCommit: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an unreferenced commit that represents the result of merging two branches
+ * using a specified merge strategy. This can help you determine the outcome of a potential
+ * merge. This API cannot be used with the fast-forward merge strategy because that
+ * strategy does not create a merge commit.
+ *
+ * This unreferenced merge commit
+ * can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
+ */
+export const createUnreferencedMergeCommit: API.OperationMethod<
+  CreateUnreferencedMergeCommitInput,
+  CreateUnreferencedMergeCommitOutput,
+  CreateUnreferencedMergeCommitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUnreferencedMergeCommitInput,
@@ -5424,16 +5450,18 @@ export const createUnreferencedMergeCommit: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
+export type DeleteApprovalRuleTemplateError =
+  | ApprovalRuleTemplateInUseException
+  | ApprovalRuleTemplateNameRequiredException
+  | InvalidApprovalRuleTemplateNameException
+  | CommonErrors;
 /**
  * Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
  */
 export const deleteApprovalRuleTemplate: API.OperationMethod<
   DeleteApprovalRuleTemplateInput,
   DeleteApprovalRuleTemplateOutput,
-  | ApprovalRuleTemplateInUseException
-  | ApprovalRuleTemplateNameRequiredException
-  | InvalidApprovalRuleTemplateNameException
-  | CommonErrors,
+  DeleteApprovalRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApprovalRuleTemplateInput,
@@ -5444,12 +5472,7 @@ export const deleteApprovalRuleTemplate: API.OperationMethod<
     InvalidApprovalRuleTemplateNameException,
   ],
 }));
-/**
- * Deletes a branch from a repository, unless that branch is the default branch for the repository.
- */
-export const deleteBranch: API.OperationMethod<
-  DeleteBranchInput,
-  DeleteBranchOutput,
+export type DeleteBranchError =
   | BranchNameRequiredException
   | DefaultBranchCannotBeDeletedException
   | EncryptionIntegrityChecksFailedException
@@ -5461,7 +5484,14 @@ export const deleteBranch: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a branch from a repository, unless that branch is the default branch for the repository.
+ */
+export const deleteBranch: API.OperationMethod<
+  DeleteBranchInput,
+  DeleteBranchOutput,
+  DeleteBranchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBranchInput,
@@ -5480,17 +5510,19 @@ export const deleteBranch: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
+export type DeleteCommentContentError =
+  | CommentDeletedException
+  | CommentDoesNotExistException
+  | CommentIdRequiredException
+  | InvalidCommentIdException
+  | CommonErrors;
 /**
  * Deletes the content of a comment made on a change, file, or commit in a repository.
  */
 export const deleteCommentContent: API.OperationMethod<
   DeleteCommentContentInput,
   DeleteCommentContentOutput,
-  | CommentDeletedException
-  | CommentDoesNotExistException
-  | CommentIdRequiredException
-  | InvalidCommentIdException
-  | CommonErrors,
+  DeleteCommentContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCommentContentInput,
@@ -5502,14 +5534,7 @@ export const deleteCommentContent: API.OperationMethod<
     InvalidCommentIdException,
   ],
 }));
-/**
- * Deletes a specified file from a specified branch. A commit is created on the branch
- * that contains the revision. The file still exists in the commits earlier to the commit
- * that contains the deletion.
- */
-export const deleteFile: API.OperationMethod<
-  DeleteFileInput,
-  DeleteFileOutput,
+export type DeleteFileError =
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
   | BranchNameRequiredException
@@ -5532,7 +5557,16 @@ export const deleteFile: API.OperationMethod<
   | PathRequiredException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a specified file from a specified branch. A commit is created on the branch
+ * that contains the revision. The file still exists in the commits earlier to the commit
+ * that contains the deletion.
+ */
+export const deleteFile: API.OperationMethod<
+  DeleteFileInput,
+  DeleteFileOutput,
+  DeleteFileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileInput,
@@ -5562,14 +5596,7 @@ export const deleteFile: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the
- * approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the
- * pull request was created. You cannot delete an approval rule from a merged or closed pull request.
- */
-export const deletePullRequestApprovalRule: API.OperationMethod<
-  DeletePullRequestApprovalRuleInput,
-  DeletePullRequestApprovalRuleOutput,
+export type DeletePullRequestApprovalRuleError =
   | ApprovalRuleNameRequiredException
   | CannotDeleteApprovalRuleFromTemplateException
   | EncryptionIntegrityChecksFailedException
@@ -5582,7 +5609,16 @@ export const deletePullRequestApprovalRule: API.OperationMethod<
   | PullRequestAlreadyClosedException
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the
+ * approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the
+ * pull request was created. You cannot delete an approval rule from a merged or closed pull request.
+ */
+export const deletePullRequestApprovalRule: API.OperationMethod<
+  DeletePullRequestApprovalRuleInput,
+  DeletePullRequestApprovalRuleOutput,
+  DeletePullRequestApprovalRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePullRequestApprovalRuleInput,
@@ -5602,6 +5638,15 @@ export const deletePullRequestApprovalRule: API.OperationMethod<
     PullRequestIdRequiredException,
   ],
 }));
+export type DeleteRepositoryError =
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidRepositoryNameException
+  | RepositoryNameRequiredException
+  | CommonErrors;
 /**
  * Deletes a repository. If a specified repository was already deleted, a null repository
  * ID is returned.
@@ -5612,14 +5657,7 @@ export const deletePullRequestApprovalRule: API.OperationMethod<
 export const deleteRepository: API.OperationMethod<
   DeleteRepositoryInput,
   DeleteRepositoryOutput,
-  | EncryptionIntegrityChecksFailedException
-  | EncryptionKeyAccessDeniedException
-  | EncryptionKeyDisabledException
-  | EncryptionKeyNotFoundException
-  | EncryptionKeyUnavailableException
-  | InvalidRepositoryNameException
-  | RepositoryNameRequiredException
-  | CommonErrors,
+  DeleteRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryInput,
@@ -5634,14 +5672,7 @@ export const deleteRepository: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns information about one or more merge conflicts in the attempted merge of two
- * commit specifiers using the squash or three-way merge strategy. If the merge option for
- * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
- */
-export const describeMergeConflicts: API.OperationMethod<
-  DescribeMergeConflictsInput,
-  DescribeMergeConflictsOutput,
+export type DescribeMergeConflictsError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -5665,67 +5696,30 @@ export const describeMergeConflicts: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about one or more merge conflicts in the attempted merge of two
+ * commit specifiers using the squash or three-way merge strategy. If the merge option for
+ * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
+ */
+export const describeMergeConflicts: API.OperationMethod<
+  DescribeMergeConflictsInput,
+  DescribeMergeConflictsOutput,
+  DescribeMergeConflictsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMergeConflictsInput,
   ) => stream.Stream<
     DescribeMergeConflictsOutput,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | FileDoesNotExistException
-    | InvalidCommitException
-    | InvalidConflictDetailLevelException
-    | InvalidConflictResolutionStrategyException
-    | InvalidContinuationTokenException
-    | InvalidMaxMergeHunksException
-    | InvalidMergeOptionException
-    | InvalidPathException
-    | InvalidRepositoryNameException
-    | MaximumFileContentToLoadExceededException
-    | MaximumItemsToCompareExceededException
-    | MergeOptionRequiredException
-    | PathRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
+    DescribeMergeConflictsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMergeConflictsInput,
   ) => stream.Stream<
     unknown,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | FileDoesNotExistException
-    | InvalidCommitException
-    | InvalidConflictDetailLevelException
-    | InvalidConflictResolutionStrategyException
-    | InvalidContinuationTokenException
-    | InvalidMaxMergeHunksException
-    | InvalidMergeOptionException
-    | InvalidPathException
-    | InvalidRepositoryNameException
-    | MaximumFileContentToLoadExceededException
-    | MaximumItemsToCompareExceededException
-    | MergeOptionRequiredException
-    | PathRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
+    DescribeMergeConflictsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5762,12 +5756,7 @@ export const describeMergeConflicts: API.OperationMethod<
     pageSize: "maxMergeHunks",
   } as const,
 }));
-/**
- * Returns information about one or more pull request events.
- */
-export const describePullRequestEvents: API.OperationMethod<
-  DescribePullRequestEventsInput,
-  DescribePullRequestEventsOutput,
+export type DescribePullRequestEventsError =
   | ActorDoesNotExistException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5781,47 +5770,28 @@ export const describePullRequestEvents: API.OperationMethod<
   | InvalidPullRequestIdException
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about one or more pull request events.
+ */
+export const describePullRequestEvents: API.OperationMethod<
+  DescribePullRequestEventsInput,
+  DescribePullRequestEventsOutput,
+  DescribePullRequestEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePullRequestEventsInput,
   ) => stream.Stream<
     DescribePullRequestEventsOutput,
-    | ActorDoesNotExistException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidActorArnException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestEventTypeException
-    | InvalidPullRequestIdException
-    | PullRequestDoesNotExistException
-    | PullRequestIdRequiredException
-    | CommonErrors,
+    DescribePullRequestEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePullRequestEventsInput,
   ) => stream.Stream<
     unknown,
-    | ActorDoesNotExistException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidActorArnException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestEventTypeException
-    | InvalidPullRequestIdException
-    | PullRequestDoesNotExistException
-    | PullRequestIdRequiredException
-    | CommonErrors,
+    DescribePullRequestEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5848,15 +5818,7 @@ export const describePullRequestEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Removes the association between a template and a repository so that approval rules
- * based on the template are not automatically created when pull requests are created in
- * the specified repository. This does not delete any approval rules previously created for
- * pull requests through the template association.
- */
-export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod<
-  DisassociateApprovalRuleTemplateFromRepositoryInput,
-  DisassociateApprovalRuleTemplateFromRepositoryResponse,
+export type DisassociateApprovalRuleTemplateFromRepositoryError =
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -5868,7 +5830,17 @@ export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between a template and a repository so that approval rules
+ * based on the template are not automatically created when pull requests are created in
+ * the specified repository. This does not delete any approval rules previously created for
+ * pull requests through the template association.
+ */
+export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod<
+  DisassociateApprovalRuleTemplateFromRepositoryInput,
+  DisassociateApprovalRuleTemplateFromRepositoryResponse,
+  DisassociateApprovalRuleTemplateFromRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateApprovalRuleTemplateFromRepositoryInput,
@@ -5887,12 +5859,7 @@ export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
- */
-export const evaluatePullRequestApprovalRules: API.OperationMethod<
-  EvaluatePullRequestApprovalRulesInput,
-  EvaluatePullRequestApprovalRulesOutput,
+export type EvaluatePullRequestApprovalRulesError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -5904,7 +5871,14 @@ export const evaluatePullRequestApprovalRules: API.OperationMethod<
   | PullRequestIdRequiredException
   | RevisionIdRequiredException
   | RevisionNotCurrentException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
+ */
+export const evaluatePullRequestApprovalRules: API.OperationMethod<
+  EvaluatePullRequestApprovalRulesInput,
+  EvaluatePullRequestApprovalRulesOutput,
+  EvaluatePullRequestApprovalRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluatePullRequestApprovalRulesInput,
@@ -5923,16 +5897,18 @@ export const evaluatePullRequestApprovalRules: API.OperationMethod<
     RevisionNotCurrentException,
   ],
 }));
+export type GetApprovalRuleTemplateError =
+  | ApprovalRuleTemplateDoesNotExistException
+  | ApprovalRuleTemplateNameRequiredException
+  | InvalidApprovalRuleTemplateNameException
+  | CommonErrors;
 /**
  * Returns information about a specified approval rule template.
  */
 export const getApprovalRuleTemplate: API.OperationMethod<
   GetApprovalRuleTemplateInput,
   GetApprovalRuleTemplateOutput,
-  | ApprovalRuleTemplateDoesNotExistException
-  | ApprovalRuleTemplateNameRequiredException
-  | InvalidApprovalRuleTemplateNameException
-  | CommonErrors,
+  GetApprovalRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApprovalRuleTemplateInput,
@@ -5943,12 +5919,7 @@ export const getApprovalRuleTemplate: API.OperationMethod<
     InvalidApprovalRuleTemplateNameException,
   ],
 }));
-/**
- * Returns the base-64 encoded content of an individual blob in a repository.
- */
-export const getBlob: API.OperationMethod<
-  GetBlobInput,
-  GetBlobOutput,
+export type GetBlobError =
   | BlobIdDoesNotExistException
   | BlobIdRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -5961,7 +5932,14 @@ export const getBlob: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the base-64 encoded content of an individual blob in a repository.
+ */
+export const getBlob: API.OperationMethod<
+  GetBlobInput,
+  GetBlobOutput,
+  GetBlobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlobInput,
@@ -5981,12 +5959,7 @@ export const getBlob: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns information about a repository branch, including its name and the last commit ID.
- */
-export const getBranch: API.OperationMethod<
-  GetBranchInput,
-  GetBranchOutput,
+export type GetBranchError =
   | BranchDoesNotExistException
   | BranchNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -5998,7 +5971,14 @@ export const getBranch: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a repository branch, including its name and the last commit ID.
+ */
+export const getBranch: API.OperationMethod<
+  GetBranchInput,
+  GetBranchOutput,
+  GetBranchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBranchInput,
@@ -6017,15 +5997,7 @@ export const getBranch: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns the content of a comment made on a change, file, or commit in a repository.
- *
- * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
- * reactions from active identities, use GetCommentReactions.
- */
-export const getComment: API.OperationMethod<
-  GetCommentInput,
-  GetCommentOutput,
+export type GetCommentError =
   | CommentDeletedException
   | CommentDoesNotExistException
   | CommentIdRequiredException
@@ -6035,7 +6007,17 @@ export const getComment: API.OperationMethod<
   | EncryptionKeyNotFoundException
   | EncryptionKeyUnavailableException
   | InvalidCommentIdException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the content of a comment made on a change, file, or commit in a repository.
+ *
+ * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
+ * reactions from active identities, use GetCommentReactions.
+ */
+export const getComment: API.OperationMethod<
+  GetCommentInput,
+  GetCommentOutput,
+  GetCommentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommentInput,
@@ -6052,12 +6034,7 @@ export const getComment: API.OperationMethod<
     InvalidCommentIdException,
   ],
 }));
-/**
- * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
- */
-export const getCommentReactions: API.OperationMethod<
-  GetCommentReactionsInput,
-  GetCommentReactionsOutput,
+export type GetCommentReactionsError =
   | CommentDeletedException
   | CommentDoesNotExistException
   | CommentIdRequiredException
@@ -6065,35 +6042,28 @@ export const getCommentReactions: API.OperationMethod<
   | InvalidContinuationTokenException
   | InvalidMaxResultsException
   | InvalidReactionUserArnException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
+ */
+export const getCommentReactions: API.OperationMethod<
+  GetCommentReactionsInput,
+  GetCommentReactionsOutput,
+  GetCommentReactionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCommentReactionsInput,
   ) => stream.Stream<
     GetCommentReactionsOutput,
-    | CommentDeletedException
-    | CommentDoesNotExistException
-    | CommentIdRequiredException
-    | InvalidCommentIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidReactionUserArnException
-    | CommonErrors,
+    GetCommentReactionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCommentReactionsInput,
   ) => stream.Stream<
     unknown,
-    | CommentDeletedException
-    | CommentDoesNotExistException
-    | CommentIdRequiredException
-    | InvalidCommentIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidReactionUserArnException
-    | CommonErrors,
+    GetCommentReactionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6114,15 +6084,7 @@ export const getCommentReactions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns information about comments made on the comparison between two commits.
- *
- * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
- * reactions from active identities, use GetCommentReactions.
- */
-export const getCommentsForComparedCommit: API.OperationMethod<
-  GetCommentsForComparedCommitInput,
-  GetCommentsForComparedCommitOutput,
+export type GetCommentsForComparedCommitError =
   | CommitDoesNotExistException
   | CommitIdRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6136,47 +6098,31 @@ export const getCommentsForComparedCommit: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about comments made on the comparison between two commits.
+ *
+ * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
+ * reactions from active identities, use GetCommentReactions.
+ */
+export const getCommentsForComparedCommit: API.OperationMethod<
+  GetCommentsForComparedCommitInput,
+  GetCommentsForComparedCommitOutput,
+  GetCommentsForComparedCommitError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCommentsForComparedCommitInput,
   ) => stream.Stream<
     GetCommentsForComparedCommitOutput,
-    | CommitDoesNotExistException
-    | CommitIdRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    GetCommentsForComparedCommitError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCommentsForComparedCommitInput,
   ) => stream.Stream<
     unknown,
-    | CommitDoesNotExistException
-    | CommitIdRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    GetCommentsForComparedCommitError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6203,15 +6149,7 @@ export const getCommentsForComparedCommit: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns comments made on a pull request.
- *
- * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
- * reactions from active identities, use GetCommentReactions.
- */
-export const getCommentsForPullRequest: API.OperationMethod<
-  GetCommentsForPullRequestInput,
-  GetCommentsForPullRequestOutput,
+export type GetCommentsForPullRequestError =
   | CommitDoesNotExistException
   | CommitIdRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6229,55 +6167,31 @@ export const getCommentsForPullRequest: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | RepositoryNotAssociatedWithPullRequestException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns comments made on a pull request.
+ *
+ * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
+ * reactions from active identities, use GetCommentReactions.
+ */
+export const getCommentsForPullRequest: API.OperationMethod<
+  GetCommentsForPullRequestInput,
+  GetCommentsForPullRequestOutput,
+  GetCommentsForPullRequestError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCommentsForPullRequestInput,
   ) => stream.Stream<
     GetCommentsForPullRequestOutput,
-    | CommitDoesNotExistException
-    | CommitIdRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestIdException
-    | InvalidRepositoryNameException
-    | PullRequestDoesNotExistException
-    | PullRequestIdRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | RepositoryNotAssociatedWithPullRequestException
-    | CommonErrors,
+    GetCommentsForPullRequestError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCommentsForPullRequestInput,
   ) => stream.Stream<
     unknown,
-    | CommitDoesNotExistException
-    | CommitIdRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestIdException
-    | InvalidRepositoryNameException
-    | PullRequestDoesNotExistException
-    | PullRequestIdRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | RepositoryNotAssociatedWithPullRequestException
-    | CommonErrors,
+    GetCommentsForPullRequestError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6308,12 +6222,7 @@ export const getCommentsForPullRequest: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns information about a commit, including commit message and committer information.
- */
-export const getCommit: API.OperationMethod<
-  GetCommitInput,
-  GetCommitOutput,
+export type GetCommitError =
   | CommitIdDoesNotExistException
   | CommitIdRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6325,7 +6234,14 @@ export const getCommit: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a commit, including commit message and committer information.
+ */
+export const getCommit: API.OperationMethod<
+  GetCommitInput,
+  GetCommitOutput,
+  GetCommitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommitInput,
@@ -6344,14 +6260,7 @@ export const getCommit: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns information about the differences in a valid commit specifier (such as a
- * branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be
- * limited to a specified path.
- */
-export const getDifferences: API.OperationMethod<
-  GetDifferencesInput,
-  GetDifferencesOutput,
+export type GetDifferencesError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6368,53 +6277,30 @@ export const getDifferences: API.OperationMethod<
   | PathDoesNotExistException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the differences in a valid commit specifier (such as a
+ * branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be
+ * limited to a specified path.
+ */
+export const getDifferences: API.OperationMethod<
+  GetDifferencesInput,
+  GetDifferencesOutput,
+  GetDifferencesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDifferencesInput,
   ) => stream.Stream<
     GetDifferencesOutput,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPathException
-    | InvalidRepositoryNameException
-    | PathDoesNotExistException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    GetDifferencesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDifferencesInput,
   ) => stream.Stream<
     unknown,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPathException
-    | InvalidRepositoryNameException
-    | PathDoesNotExistException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    GetDifferencesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6444,12 +6330,7 @@ export const getDifferences: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns the base-64 encoded contents of a specified file and its metadata.
- */
-export const getFile: API.OperationMethod<
-  GetFileInput,
-  GetFileOutput,
+export type GetFileError =
   | CommitDoesNotExistException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6464,7 +6345,14 @@ export const getFile: API.OperationMethod<
   | PathRequiredException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the base-64 encoded contents of a specified file and its metadata.
+ */
+export const getFile: API.OperationMethod<
+  GetFileInput,
+  GetFileOutput,
+  GetFileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFileInput,
@@ -6486,12 +6374,7 @@ export const getFile: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns the contents of a specified folder in a repository.
- */
-export const getFolder: API.OperationMethod<
-  GetFolderInput,
-  GetFolderOutput,
+export type GetFolderError =
   | CommitDoesNotExistException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6505,7 +6388,14 @@ export const getFolder: API.OperationMethod<
   | PathRequiredException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the contents of a specified folder in a repository.
+ */
+export const getFolder: API.OperationMethod<
+  GetFolderInput,
+  GetFolderOutput,
+  GetFolderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFolderInput,
@@ -6526,12 +6416,7 @@ export const getFolder: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns information about a specified merge commit.
- */
-export const getMergeCommit: API.OperationMethod<
-  GetMergeCommitInput,
-  GetMergeCommitOutput,
+export type GetMergeCommitError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6545,7 +6430,14 @@ export const getMergeCommit: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specified merge commit.
+ */
+export const getMergeCommit: API.OperationMethod<
+  GetMergeCommitInput,
+  GetMergeCommitOutput,
+  GetMergeCommitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMergeCommitInput,
@@ -6566,12 +6458,7 @@ export const getMergeCommit: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
- */
-export const getMergeConflicts: API.OperationMethod<
-  GetMergeConflictsInput,
-  GetMergeConflictsOutput,
+export type GetMergeConflictsError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6594,65 +6481,28 @@ export const getMergeConflicts: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
+ */
+export const getMergeConflicts: API.OperationMethod<
+  GetMergeConflictsInput,
+  GetMergeConflictsOutput,
+  GetMergeConflictsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetMergeConflictsInput,
   ) => stream.Stream<
     GetMergeConflictsOutput,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidConflictDetailLevelException
-    | InvalidConflictResolutionStrategyException
-    | InvalidContinuationTokenException
-    | InvalidDestinationCommitSpecifierException
-    | InvalidMaxConflictFilesException
-    | InvalidMergeOptionException
-    | InvalidRepositoryNameException
-    | InvalidSourceCommitSpecifierException
-    | MaximumFileContentToLoadExceededException
-    | MaximumItemsToCompareExceededException
-    | MergeOptionRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
+    GetMergeConflictsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetMergeConflictsInput,
   ) => stream.Stream<
     unknown,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidConflictDetailLevelException
-    | InvalidConflictResolutionStrategyException
-    | InvalidContinuationTokenException
-    | InvalidDestinationCommitSpecifierException
-    | InvalidMaxConflictFilesException
-    | InvalidMergeOptionException
-    | InvalidRepositoryNameException
-    | InvalidSourceCommitSpecifierException
-    | MaximumFileContentToLoadExceededException
-    | MaximumItemsToCompareExceededException
-    | MergeOptionRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
+    GetMergeConflictsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6688,14 +6538,7 @@ export const getMergeConflicts: API.OperationMethod<
     pageSize: "maxConflictFiles",
   } as const,
 }));
-/**
- * Returns information about the merge options available for merging two specified
- * branches. For details about why a merge option is not available, use GetMergeConflicts
- * or DescribeMergeConflicts.
- */
-export const getMergeOptions: API.OperationMethod<
-  GetMergeOptionsInput,
-  GetMergeOptionsOutput,
+export type GetMergeOptionsError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -6712,7 +6555,16 @@ export const getMergeOptions: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the merge options available for merging two specified
+ * branches. For details about why a merge option is not available, use GetMergeConflicts
+ * or DescribeMergeConflicts.
+ */
+export const getMergeOptions: API.OperationMethod<
+  GetMergeOptionsInput,
+  GetMergeOptionsOutput,
+  GetMergeOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMergeOptionsInput,
@@ -6736,12 +6588,7 @@ export const getMergeOptions: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Gets information about a pull request in a specified repository.
- */
-export const getPullRequest: API.OperationMethod<
-  GetPullRequestInput,
-  GetPullRequestOutput,
+export type GetPullRequestError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -6750,7 +6597,14 @@ export const getPullRequest: API.OperationMethod<
   | InvalidPullRequestIdException
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about a pull request in a specified repository.
+ */
+export const getPullRequest: API.OperationMethod<
+  GetPullRequestInput,
+  GetPullRequestOutput,
+  GetPullRequestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPullRequestInput,
@@ -6766,13 +6620,7 @@ export const getPullRequest: API.OperationMethod<
     PullRequestIdRequiredException,
   ],
 }));
-/**
- * Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more
- * approval rules applied to them.
- */
-export const getPullRequestApprovalStates: API.OperationMethod<
-  GetPullRequestApprovalStatesInput,
-  GetPullRequestApprovalStatesOutput,
+export type GetPullRequestApprovalStatesError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -6783,7 +6631,15 @@ export const getPullRequestApprovalStates: API.OperationMethod<
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
   | RevisionIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more
+ * approval rules applied to them.
+ */
+export const getPullRequestApprovalStates: API.OperationMethod<
+  GetPullRequestApprovalStatesInput,
+  GetPullRequestApprovalStatesOutput,
+  GetPullRequestApprovalStatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPullRequestApprovalStatesInput,
@@ -6801,13 +6657,7 @@ export const getPullRequestApprovalStates: API.OperationMethod<
     RevisionIdRequiredException,
   ],
 }));
-/**
- * Returns information about whether approval rules have been set aside (overridden) for a
- * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
- */
-export const getPullRequestOverrideState: API.OperationMethod<
-  GetPullRequestOverrideStateInput,
-  GetPullRequestOverrideStateOutput,
+export type GetPullRequestOverrideStateError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -6818,7 +6668,15 @@ export const getPullRequestOverrideState: API.OperationMethod<
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
   | RevisionIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about whether approval rules have been set aside (overridden) for a
+ * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
+ */
+export const getPullRequestOverrideState: API.OperationMethod<
+  GetPullRequestOverrideStateInput,
+  GetPullRequestOverrideStateOutput,
+  GetPullRequestOverrideStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPullRequestOverrideStateInput,
@@ -6836,6 +6694,16 @@ export const getPullRequestOverrideState: API.OperationMethod<
     RevisionIdRequiredException,
   ],
 }));
+export type GetRepositoryError =
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors;
 /**
  * Returns information about a repository.
  *
@@ -6848,15 +6716,7 @@ export const getPullRequestOverrideState: API.OperationMethod<
 export const getRepository: API.OperationMethod<
   GetRepositoryInput,
   GetRepositoryOutput,
-  | EncryptionIntegrityChecksFailedException
-  | EncryptionKeyAccessDeniedException
-  | EncryptionKeyDisabledException
-  | EncryptionKeyNotFoundException
-  | EncryptionKeyUnavailableException
-  | InvalidRepositoryNameException
-  | RepositoryDoesNotExistException
-  | RepositoryNameRequiredException
-  | CommonErrors,
+  GetRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryInput,
@@ -6872,12 +6732,7 @@ export const getRepository: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Gets information about triggers configured for a repository.
- */
-export const getRepositoryTriggers: API.OperationMethod<
-  GetRepositoryTriggersInput,
-  GetRepositoryTriggersOutput,
+export type GetRepositoryTriggersError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -6886,7 +6741,14 @@ export const getRepositoryTriggers: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about triggers configured for a repository.
+ */
+export const getRepositoryTriggers: API.OperationMethod<
+  GetRepositoryTriggersInput,
+  GetRepositoryTriggersOutput,
+  GetRepositoryTriggersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryTriggersInput,
@@ -6902,6 +6764,10 @@ export const getRepositoryTriggers: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
+export type ListApprovalRuleTemplatesError =
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | CommonErrors;
 /**
  * Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If
  * an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
@@ -6909,25 +6775,21 @@ export const getRepositoryTriggers: API.OperationMethod<
 export const listApprovalRuleTemplates: API.OperationMethod<
   ListApprovalRuleTemplatesInput,
   ListApprovalRuleTemplatesOutput,
-  InvalidContinuationTokenException | InvalidMaxResultsException | CommonErrors,
+  ListApprovalRuleTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApprovalRuleTemplatesInput,
   ) => stream.Stream<
     ListApprovalRuleTemplatesOutput,
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | CommonErrors,
+    ListApprovalRuleTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApprovalRuleTemplatesInput,
   ) => stream.Stream<
     unknown,
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | CommonErrors,
+    ListApprovalRuleTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6940,12 +6802,7 @@ export const listApprovalRuleTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists all approval rule templates that are associated with a specified repository.
- */
-export const listAssociatedApprovalRuleTemplatesForRepository: API.OperationMethod<
-  ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-  ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
+export type ListAssociatedApprovalRuleTemplatesForRepositoryError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -6956,41 +6813,28 @@ export const listAssociatedApprovalRuleTemplatesForRepository: API.OperationMeth
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all approval rule templates that are associated with a specified repository.
+ */
+export const listAssociatedApprovalRuleTemplatesForRepository: API.OperationMethod<
+  ListAssociatedApprovalRuleTemplatesForRepositoryInput,
+  ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
+  ListAssociatedApprovalRuleTemplatesForRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
   ) => stream.Stream<
     ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    ListAssociatedApprovalRuleTemplatesForRepositoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
   ) => stream.Stream<
     unknown,
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    ListAssociatedApprovalRuleTemplatesForRepositoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7014,12 +6858,7 @@ export const listAssociatedApprovalRuleTemplatesForRepository: API.OperationMeth
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Gets information about one or more branches in a repository.
- */
-export const listBranches: API.OperationMethod<
-  ListBranchesInput,
-  ListBranchesOutput,
+export type ListBranchesError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -7029,39 +6868,28 @@ export const listBranches: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about one or more branches in a repository.
+ */
+export const listBranches: API.OperationMethod<
+  ListBranchesInput,
+  ListBranchesOutput,
+  ListBranchesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBranchesInput,
   ) => stream.Stream<
     ListBranchesOutput,
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidContinuationTokenException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    ListBranchesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBranchesInput,
   ) => stream.Stream<
     BranchName,
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidContinuationTokenException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    ListBranchesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7084,12 +6912,7 @@ export const listBranches: API.OperationMethod<
     items: "branches",
   } as const,
 }));
-/**
- * Retrieves a list of commits and changes to a specified file.
- */
-export const listFileCommitHistory: API.OperationMethod<
-  ListFileCommitHistoryRequest,
-  ListFileCommitHistoryResponse,
+export type ListFileCommitHistoryError =
   | CommitDoesNotExistException
   | CommitRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -7104,49 +6927,28 @@ export const listFileCommitHistory: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a list of commits and changes to a specified file.
+ */
+export const listFileCommitHistory: API.OperationMethod<
+  ListFileCommitHistoryRequest,
+  ListFileCommitHistoryResponse,
+  ListFileCommitHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFileCommitHistoryRequest,
   ) => stream.Stream<
     ListFileCommitHistoryResponse,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
+    ListFileCommitHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFileCommitHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
+    ListFileCommitHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7174,13 +6976,7 @@ export const listFileCommitHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a list of pull requests for a specified repository. The return list can be refined by pull request
- * status or pull request author ARN.
- */
-export const listPullRequests: API.OperationMethod<
-  ListPullRequestsInput,
-  ListPullRequestsOutput,
+export type ListPullRequestsError =
   | AuthorDoesNotExistException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7194,47 +6990,29 @@ export const listPullRequests: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of pull requests for a specified repository. The return list can be refined by pull request
+ * status or pull request author ARN.
+ */
+export const listPullRequests: API.OperationMethod<
+  ListPullRequestsInput,
+  ListPullRequestsOutput,
+  ListPullRequestsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPullRequestsInput,
   ) => stream.Stream<
     ListPullRequestsOutput,
-    | AuthorDoesNotExistException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidAuthorArnException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestStatusException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    ListPullRequestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPullRequestsInput,
   ) => stream.Stream<
     unknown,
-    | AuthorDoesNotExistException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidAuthorArnException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestStatusException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
+    ListPullRequestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7261,36 +7039,32 @@ export const listPullRequests: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRepositoriesError =
+  | InvalidContinuationTokenException
+  | InvalidOrderException
+  | InvalidSortByException
+  | CommonErrors;
 /**
  * Gets information about one or more repositories.
  */
 export const listRepositories: API.OperationMethod<
   ListRepositoriesInput,
   ListRepositoriesOutput,
-  | InvalidContinuationTokenException
-  | InvalidOrderException
-  | InvalidSortByException
-  | CommonErrors,
+  ListRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoriesInput,
   ) => stream.Stream<
     ListRepositoriesOutput,
-    | InvalidContinuationTokenException
-    | InvalidOrderException
-    | InvalidSortByException
-    | CommonErrors,
+    ListRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoriesInput,
   ) => stream.Stream<
     RepositoryNameIdPair,
-    | InvalidContinuationTokenException
-    | InvalidOrderException
-    | InvalidSortByException
-    | CommonErrors,
+    ListRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7307,12 +7081,7 @@ export const listRepositories: API.OperationMethod<
     items: "repositories",
   } as const,
 }));
-/**
- * Lists all repositories associated with the specified approval rule template.
- */
-export const listRepositoriesForApprovalRuleTemplate: API.OperationMethod<
-  ListRepositoriesForApprovalRuleTemplateInput,
-  ListRepositoriesForApprovalRuleTemplateOutput,
+export type ListRepositoriesForApprovalRuleTemplateError =
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -7323,41 +7092,28 @@ export const listRepositoriesForApprovalRuleTemplate: API.OperationMethod<
   | InvalidApprovalRuleTemplateNameException
   | InvalidContinuationTokenException
   | InvalidMaxResultsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all repositories associated with the specified approval rule template.
+ */
+export const listRepositoriesForApprovalRuleTemplate: API.OperationMethod<
+  ListRepositoriesForApprovalRuleTemplateInput,
+  ListRepositoriesForApprovalRuleTemplateOutput,
+  ListRepositoriesForApprovalRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoriesForApprovalRuleTemplateInput,
   ) => stream.Stream<
     ListRepositoriesForApprovalRuleTemplateOutput,
-    | ApprovalRuleTemplateDoesNotExistException
-    | ApprovalRuleTemplateNameRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidApprovalRuleTemplateNameException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | CommonErrors,
+    ListRepositoriesForApprovalRuleTemplateError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoriesForApprovalRuleTemplateInput,
   ) => stream.Stream<
     unknown,
-    | ApprovalRuleTemplateDoesNotExistException
-    | ApprovalRuleTemplateNameRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidApprovalRuleTemplateNameException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | CommonErrors,
+    ListRepositoriesForApprovalRuleTemplateError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7381,6 +7137,12 @@ export const listRepositoriesForApprovalRuleTemplate: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidRepositoryNameException
+  | InvalidResourceArnException
+  | RepositoryDoesNotExistException
+  | ResourceArnRequiredException
+  | CommonErrors;
 /**
  * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
  * Guide.
@@ -7388,11 +7150,7 @@ export const listRepositoriesForApprovalRuleTemplate: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InvalidRepositoryNameException
-  | InvalidResourceArnException
-  | RepositoryDoesNotExistException
-  | ResourceArnRequiredException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -7404,12 +7162,7 @@ export const listTagsForResource: API.OperationMethod<
     ResourceArnRequiredException,
   ],
 }));
-/**
- * Merges two branches using the fast-forward merge strategy.
- */
-export const mergeBranchesByFastForward: API.OperationMethod<
-  MergeBranchesByFastForwardInput,
-  MergeBranchesByFastForwardOutput,
+export type MergeBranchesByFastForwardError =
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
   | BranchNameRequiredException
@@ -7429,7 +7182,14 @@ export const mergeBranchesByFastForward: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Merges two branches using the fast-forward merge strategy.
+ */
+export const mergeBranchesByFastForward: API.OperationMethod<
+  MergeBranchesByFastForwardInput,
+  MergeBranchesByFastForwardOutput,
+  MergeBranchesByFastForwardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergeBranchesByFastForwardInput,
@@ -7456,12 +7216,7 @@ export const mergeBranchesByFastForward: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Merges two branches using the squash merge strategy.
- */
-export const mergeBranchesBySquash: API.OperationMethod<
-  MergeBranchesBySquashInput,
-  MergeBranchesBySquashOutput,
+export type MergeBranchesBySquashError =
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
   | BranchNameRequiredException
@@ -7501,7 +7256,14 @@ export const mergeBranchesBySquash: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Merges two branches using the squash merge strategy.
+ */
+export const mergeBranchesBySquash: API.OperationMethod<
+  MergeBranchesBySquashInput,
+  MergeBranchesBySquashOutput,
+  MergeBranchesBySquashError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergeBranchesBySquashInput,
@@ -7548,12 +7310,7 @@ export const mergeBranchesBySquash: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Merges two specified branches using the three-way merge strategy.
- */
-export const mergeBranchesByThreeWay: API.OperationMethod<
-  MergeBranchesByThreeWayInput,
-  MergeBranchesByThreeWayOutput,
+export type MergeBranchesByThreeWayError =
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
   | BranchNameRequiredException
@@ -7593,7 +7350,14 @@ export const mergeBranchesByThreeWay: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Merges two specified branches using the three-way merge strategy.
+ */
+export const mergeBranchesByThreeWay: API.OperationMethod<
+  MergeBranchesByThreeWayInput,
+  MergeBranchesByThreeWayOutput,
+  MergeBranchesByThreeWayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergeBranchesByThreeWayInput,
@@ -7640,13 +7404,7 @@ export const mergeBranchesByThreeWay: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Attempts to merge the source commit of a pull request into the specified destination
- * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
- */
-export const mergePullRequestByFastForward: API.OperationMethod<
-  MergePullRequestByFastForwardInput,
-  MergePullRequestByFastForwardOutput,
+export type MergePullRequestByFastForwardError =
   | ConcurrentReferenceUpdateException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7666,7 +7424,15 @@ export const mergePullRequestByFastForward: API.OperationMethod<
   | RepositoryNameRequiredException
   | RepositoryNotAssociatedWithPullRequestException
   | TipOfSourceReferenceIsDifferentException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attempts to merge the source commit of a pull request into the specified destination
+ * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
+ */
+export const mergePullRequestByFastForward: API.OperationMethod<
+  MergePullRequestByFastForwardInput,
+  MergePullRequestByFastForwardOutput,
+  MergePullRequestByFastForwardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergePullRequestByFastForwardInput,
@@ -7693,13 +7459,7 @@ export const mergePullRequestByFastForward: API.OperationMethod<
     TipOfSourceReferenceIsDifferentException,
   ],
 }));
-/**
- * Attempts to merge the source commit of a pull request into the specified destination
- * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
- */
-export const mergePullRequestBySquash: API.OperationMethod<
-  MergePullRequestBySquashInput,
-  MergePullRequestBySquashOutput,
+export type MergePullRequestBySquashError =
   | CommitMessageLengthExceededException
   | ConcurrentReferenceUpdateException
   | EncryptionIntegrityChecksFailedException
@@ -7738,7 +7498,15 @@ export const mergePullRequestBySquash: API.OperationMethod<
   | RepositoryNotAssociatedWithPullRequestException
   | TipOfSourceReferenceIsDifferentException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attempts to merge the source commit of a pull request into the specified destination
+ * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
+ */
+export const mergePullRequestBySquash: API.OperationMethod<
+  MergePullRequestBySquashInput,
+  MergePullRequestBySquashOutput,
+  MergePullRequestBySquashError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergePullRequestBySquashInput,
@@ -7784,13 +7552,7 @@ export const mergePullRequestBySquash: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Attempts to merge the source commit of a pull request into the specified destination
- * branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
- */
-export const mergePullRequestByThreeWay: API.OperationMethod<
-  MergePullRequestByThreeWayInput,
-  MergePullRequestByThreeWayOutput,
+export type MergePullRequestByThreeWayError =
   | CommitMessageLengthExceededException
   | ConcurrentReferenceUpdateException
   | EncryptionIntegrityChecksFailedException
@@ -7829,7 +7591,15 @@ export const mergePullRequestByThreeWay: API.OperationMethod<
   | RepositoryNotAssociatedWithPullRequestException
   | TipOfSourceReferenceIsDifferentException
   | TipsDivergenceExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attempts to merge the source commit of a pull request into the specified destination
+ * branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
+ */
+export const mergePullRequestByThreeWay: API.OperationMethod<
+  MergePullRequestByThreeWayInput,
+  MergePullRequestByThreeWayOutput,
+  MergePullRequestByThreeWayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergePullRequestByThreeWayInput,
@@ -7875,12 +7645,7 @@ export const mergePullRequestByThreeWay: API.OperationMethod<
     TipsDivergenceExceededException,
   ],
 }));
-/**
- * Sets aside (overrides) all approval rule requirements for a specified pull request.
- */
-export const overridePullRequestApprovalRules: API.OperationMethod<
-  OverridePullRequestApprovalRulesInput,
-  OverridePullRequestApprovalRulesResponse,
+export type OverridePullRequestApprovalRulesError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -7896,7 +7661,14 @@ export const overridePullRequestApprovalRules: API.OperationMethod<
   | PullRequestIdRequiredException
   | RevisionIdRequiredException
   | RevisionNotCurrentException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets aside (overrides) all approval rule requirements for a specified pull request.
+ */
+export const overridePullRequestApprovalRules: API.OperationMethod<
+  OverridePullRequestApprovalRulesInput,
+  OverridePullRequestApprovalRulesResponse,
+  OverridePullRequestApprovalRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OverridePullRequestApprovalRulesInput,
@@ -7919,12 +7691,7 @@ export const overridePullRequestApprovalRules: API.OperationMethod<
     RevisionNotCurrentException,
   ],
 }));
-/**
- * Posts a comment on the comparison between two commits.
- */
-export const postCommentForComparedCommit: API.OperationMethod<
-  PostCommentForComparedCommitInput,
-  PostCommentForComparedCommitOutput,
+export type PostCommentForComparedCommitError =
   | BeforeCommitIdAndAfterCommitIdAreSameException
   | ClientRequestTokenRequiredException
   | CommentContentRequiredException
@@ -7948,7 +7715,14 @@ export const postCommentForComparedCommit: API.OperationMethod<
   | PathRequiredException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Posts a comment on the comparison between two commits.
+ */
+export const postCommentForComparedCommit: API.OperationMethod<
+  PostCommentForComparedCommitInput,
+  PostCommentForComparedCommitOutput,
+  PostCommentForComparedCommitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostCommentForComparedCommitInput,
@@ -7979,12 +7753,7 @@ export const postCommentForComparedCommit: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Posts a comment on a pull request.
- */
-export const postCommentForPullRequest: API.OperationMethod<
-  PostCommentForPullRequestInput,
-  PostCommentForPullRequestOutput,
+export type PostCommentForPullRequestError =
   | BeforeCommitIdAndAfterCommitIdAreSameException
   | ClientRequestTokenRequiredException
   | CommentContentRequiredException
@@ -8012,7 +7781,14 @@ export const postCommentForPullRequest: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | RepositoryNotAssociatedWithPullRequestException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Posts a comment on a pull request.
+ */
+export const postCommentForPullRequest: API.OperationMethod<
+  PostCommentForPullRequestInput,
+  PostCommentForPullRequestOutput,
+  PostCommentForPullRequestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostCommentForPullRequestInput,
@@ -8047,12 +7823,7 @@ export const postCommentForPullRequest: API.OperationMethod<
     RepositoryNotAssociatedWithPullRequestException,
   ],
 }));
-/**
- * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
- */
-export const postCommentReply: API.OperationMethod<
-  PostCommentReplyInput,
-  PostCommentReplyOutput,
+export type PostCommentReplyError =
   | ClientRequestTokenRequiredException
   | CommentContentRequiredException
   | CommentContentSizeLimitExceededException
@@ -8061,7 +7832,14 @@ export const postCommentReply: API.OperationMethod<
   | IdempotencyParameterMismatchException
   | InvalidClientRequestTokenException
   | InvalidCommentIdException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
+ */
+export const postCommentReply: API.OperationMethod<
+  PostCommentReplyInput,
+  PostCommentReplyOutput,
+  PostCommentReplyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostCommentReplyInput,
@@ -8077,13 +7855,7 @@ export const postCommentReply: API.OperationMethod<
     InvalidCommentIdException,
   ],
 }));
-/**
- * Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or
- * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
- */
-export const putCommentReaction: API.OperationMethod<
-  PutCommentReactionInput,
-  PutCommentReactionResponse,
+export type PutCommentReactionError =
   | CommentDeletedException
   | CommentDoesNotExistException
   | CommentIdRequiredException
@@ -8091,7 +7863,15 @@ export const putCommentReaction: API.OperationMethod<
   | InvalidReactionValueException
   | ReactionLimitExceededException
   | ReactionValueRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or
+ * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
+ */
+export const putCommentReaction: API.OperationMethod<
+  PutCommentReactionInput,
+  PutCommentReactionResponse,
+  PutCommentReactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCommentReactionInput,
@@ -8106,12 +7886,7 @@ export const putCommentReaction: API.OperationMethod<
     ReactionValueRequiredException,
   ],
 }));
-/**
- * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
- */
-export const putFile: API.OperationMethod<
-  PutFileInput,
-  PutFileOutput,
+export type PutFileError =
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
   | BranchNameRequiredException
@@ -8142,7 +7917,14 @@ export const putFile: API.OperationMethod<
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
   | SameFileContentException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
+ */
+export const putFile: API.OperationMethod<
+  PutFileInput,
+  PutFileOutput,
+  PutFileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFileInput,
@@ -8180,12 +7962,7 @@ export const putFile: API.OperationMethod<
     SameFileContentException,
   ],
 }));
-/**
- * Replaces all triggers for a repository. Used to create or delete triggers.
- */
-export const putRepositoryTriggers: API.OperationMethod<
-  PutRepositoryTriggersInput,
-  PutRepositoryTriggersOutput,
+export type PutRepositoryTriggersError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -8207,7 +7984,14 @@ export const putRepositoryTriggers: API.OperationMethod<
   | RepositoryTriggerEventsListRequiredException
   | RepositoryTriggerNameRequiredException
   | RepositoryTriggersListRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Replaces all triggers for a repository. Used to create or delete triggers.
+ */
+export const putRepositoryTriggers: API.OperationMethod<
+  PutRepositoryTriggersInput,
+  PutRepositoryTriggersOutput,
+  PutRepositoryTriggersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRepositoryTriggersInput,
@@ -8236,14 +8020,7 @@ export const putRepositoryTriggers: API.OperationMethod<
     RepositoryTriggersListRequiredException,
   ],
 }));
-/**
- * Adds or updates tags for a resource in CodeCommit. For a list of valid resources
- * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
- * Guide.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceInput,
-  TagResourceResponse,
+export type TagResourceError =
   | InvalidRepositoryNameException
   | InvalidResourceArnException
   | InvalidSystemTagUsageException
@@ -8253,7 +8030,16 @@ export const tagResource: API.OperationMethod<
   | TagPolicyException
   | TagsMapRequiredException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates tags for a resource in CodeCommit. For a list of valid resources
+ * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Guide.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -8270,14 +8056,7 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Tests the functionality of repository triggers by sending information to the trigger
- * target. If real data is available in the repository, the test sends data from the last
- * commit. If no data is available, sample data is generated.
- */
-export const testRepositoryTriggers: API.OperationMethod<
-  TestRepositoryTriggersInput,
-  TestRepositoryTriggersOutput,
+export type TestRepositoryTriggersError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -8299,7 +8078,16 @@ export const testRepositoryTriggers: API.OperationMethod<
   | RepositoryTriggerEventsListRequiredException
   | RepositoryTriggerNameRequiredException
   | RepositoryTriggersListRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tests the functionality of repository triggers by sending information to the trigger
+ * target. If real data is available in the repository, the test sends data from the last
+ * commit. If no data is available, sample data is generated.
+ */
+export const testRepositoryTriggers: API.OperationMethod<
+  TestRepositoryTriggersInput,
+  TestRepositoryTriggersOutput,
+  TestRepositoryTriggersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestRepositoryTriggersInput,
@@ -8328,13 +8116,7 @@ export const testRepositoryTriggers: API.OperationMethod<
     RepositoryTriggersListRequiredException,
   ],
 }));
-/**
- * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
- * Guide.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceInput,
-  UntagResourceResponse,
+export type UntagResourceError =
   | InvalidRepositoryNameException
   | InvalidResourceArnException
   | InvalidSystemTagUsageException
@@ -8344,7 +8126,15 @@ export const untagResource: API.OperationMethod<
   | TagKeysListRequiredException
   | TagPolicyException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Guide.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -8361,6 +8151,14 @@ export const untagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UpdateApprovalRuleTemplateContentError =
+  | ApprovalRuleTemplateContentRequiredException
+  | ApprovalRuleTemplateDoesNotExistException
+  | ApprovalRuleTemplateNameRequiredException
+  | InvalidApprovalRuleTemplateContentException
+  | InvalidApprovalRuleTemplateNameException
+  | InvalidRuleContentSha256Exception
+  | CommonErrors;
 /**
  * Updates the content of an approval rule template. You can change the number of
  * required approvals, the membership of the approval rule, and whether an approval pool is
@@ -8369,13 +8167,7 @@ export const untagResource: API.OperationMethod<
 export const updateApprovalRuleTemplateContent: API.OperationMethod<
   UpdateApprovalRuleTemplateContentInput,
   UpdateApprovalRuleTemplateContentOutput,
-  | ApprovalRuleTemplateContentRequiredException
-  | ApprovalRuleTemplateDoesNotExistException
-  | ApprovalRuleTemplateNameRequiredException
-  | InvalidApprovalRuleTemplateContentException
-  | InvalidApprovalRuleTemplateNameException
-  | InvalidRuleContentSha256Exception
-  | CommonErrors,
+  UpdateApprovalRuleTemplateContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApprovalRuleTemplateContentInput,
@@ -8389,17 +8181,19 @@ export const updateApprovalRuleTemplateContent: API.OperationMethod<
     InvalidRuleContentSha256Exception,
   ],
 }));
+export type UpdateApprovalRuleTemplateDescriptionError =
+  | ApprovalRuleTemplateDoesNotExistException
+  | ApprovalRuleTemplateNameRequiredException
+  | InvalidApprovalRuleTemplateDescriptionException
+  | InvalidApprovalRuleTemplateNameException
+  | CommonErrors;
 /**
  * Updates the description for a specified approval rule template.
  */
 export const updateApprovalRuleTemplateDescription: API.OperationMethod<
   UpdateApprovalRuleTemplateDescriptionInput,
   UpdateApprovalRuleTemplateDescriptionOutput,
-  | ApprovalRuleTemplateDoesNotExistException
-  | ApprovalRuleTemplateNameRequiredException
-  | InvalidApprovalRuleTemplateDescriptionException
-  | InvalidApprovalRuleTemplateNameException
-  | CommonErrors,
+  UpdateApprovalRuleTemplateDescriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApprovalRuleTemplateDescriptionInput,
@@ -8411,17 +8205,19 @@ export const updateApprovalRuleTemplateDescription: API.OperationMethod<
     InvalidApprovalRuleTemplateNameException,
   ],
 }));
+export type UpdateApprovalRuleTemplateNameError =
+  | ApprovalRuleTemplateDoesNotExistException
+  | ApprovalRuleTemplateNameAlreadyExistsException
+  | ApprovalRuleTemplateNameRequiredException
+  | InvalidApprovalRuleTemplateNameException
+  | CommonErrors;
 /**
  * Updates the name of a specified approval rule template.
  */
 export const updateApprovalRuleTemplateName: API.OperationMethod<
   UpdateApprovalRuleTemplateNameInput,
   UpdateApprovalRuleTemplateNameOutput,
-  | ApprovalRuleTemplateDoesNotExistException
-  | ApprovalRuleTemplateNameAlreadyExistsException
-  | ApprovalRuleTemplateNameRequiredException
-  | InvalidApprovalRuleTemplateNameException
-  | CommonErrors,
+  UpdateApprovalRuleTemplateNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApprovalRuleTemplateNameInput,
@@ -8433,12 +8229,7 @@ export const updateApprovalRuleTemplateName: API.OperationMethod<
     InvalidApprovalRuleTemplateNameException,
   ],
 }));
-/**
- * Replaces the contents of a comment.
- */
-export const updateComment: API.OperationMethod<
-  UpdateCommentInput,
-  UpdateCommentOutput,
+export type UpdateCommentError =
   | CommentContentRequiredException
   | CommentContentSizeLimitExceededException
   | CommentDeletedException
@@ -8446,7 +8237,14 @@ export const updateComment: API.OperationMethod<
   | CommentIdRequiredException
   | CommentNotCreatedByCallerException
   | InvalidCommentIdException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Replaces the contents of a comment.
+ */
+export const updateComment: API.OperationMethod<
+  UpdateCommentInput,
+  UpdateCommentOutput,
+  UpdateCommentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCommentInput,
@@ -8461,14 +8259,7 @@ export const updateComment: API.OperationMethod<
     InvalidCommentIdException,
   ],
 }));
-/**
- * Sets or changes the default branch name for the specified repository.
- *
- * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
- */
-export const updateDefaultBranch: API.OperationMethod<
-  UpdateDefaultBranchInput,
-  UpdateDefaultBranchResponse,
+export type UpdateDefaultBranchError =
   | BranchDoesNotExistException
   | BranchNameRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -8480,7 +8271,16 @@ export const updateDefaultBranch: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets or changes the default branch name for the specified repository.
+ *
+ * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
+ */
+export const updateDefaultBranch: API.OperationMethod<
+  UpdateDefaultBranchInput,
+  UpdateDefaultBranchResponse,
+  UpdateDefaultBranchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDefaultBranchInput,
@@ -8499,13 +8299,7 @@ export const updateDefaultBranch: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and
- * the approval pool for approvers.
- */
-export const updatePullRequestApprovalRuleContent: API.OperationMethod<
-  UpdatePullRequestApprovalRuleContentInput,
-  UpdatePullRequestApprovalRuleContentOutput,
+export type UpdatePullRequestApprovalRuleContentError =
   | ApprovalRuleContentRequiredException
   | ApprovalRuleDoesNotExistException
   | ApprovalRuleNameRequiredException
@@ -8522,7 +8316,15 @@ export const updatePullRequestApprovalRuleContent: API.OperationMethod<
   | PullRequestAlreadyClosedException
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and
+ * the approval pool for approvers.
+ */
+export const updatePullRequestApprovalRuleContent: API.OperationMethod<
+  UpdatePullRequestApprovalRuleContentInput,
+  UpdatePullRequestApprovalRuleContentOutput,
+  UpdatePullRequestApprovalRuleContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePullRequestApprovalRuleContentInput,
@@ -8546,12 +8348,7 @@ export const updatePullRequestApprovalRuleContent: API.OperationMethod<
     PullRequestIdRequiredException,
   ],
 }));
-/**
- * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
- */
-export const updatePullRequestApprovalState: API.OperationMethod<
-  UpdatePullRequestApprovalStateInput,
-  UpdatePullRequestApprovalStateResponse,
+export type UpdatePullRequestApprovalStateError =
   | ApprovalStateRequiredException
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8568,7 +8365,14 @@ export const updatePullRequestApprovalState: API.OperationMethod<
   | PullRequestIdRequiredException
   | RevisionIdRequiredException
   | RevisionNotCurrentException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
+ */
+export const updatePullRequestApprovalState: API.OperationMethod<
+  UpdatePullRequestApprovalStateInput,
+  UpdatePullRequestApprovalStateResponse,
+  UpdatePullRequestApprovalStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePullRequestApprovalStateInput,
@@ -8592,18 +8396,20 @@ export const updatePullRequestApprovalState: API.OperationMethod<
     RevisionNotCurrentException,
   ],
 }));
+export type UpdatePullRequestDescriptionError =
+  | InvalidDescriptionException
+  | InvalidPullRequestIdException
+  | PullRequestAlreadyClosedException
+  | PullRequestDoesNotExistException
+  | PullRequestIdRequiredException
+  | CommonErrors;
 /**
  * Replaces the contents of the description of a pull request.
  */
 export const updatePullRequestDescription: API.OperationMethod<
   UpdatePullRequestDescriptionInput,
   UpdatePullRequestDescriptionOutput,
-  | InvalidDescriptionException
-  | InvalidPullRequestIdException
-  | PullRequestAlreadyClosedException
-  | PullRequestDoesNotExistException
-  | PullRequestIdRequiredException
-  | CommonErrors,
+  UpdatePullRequestDescriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePullRequestDescriptionInput,
@@ -8616,12 +8422,7 @@ export const updatePullRequestDescription: API.OperationMethod<
     PullRequestIdRequiredException,
   ],
 }));
-/**
- * Updates the status of a pull request.
- */
-export const updatePullRequestStatus: API.OperationMethod<
-  UpdatePullRequestStatusInput,
-  UpdatePullRequestStatusOutput,
+export type UpdatePullRequestStatusError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -8633,7 +8434,14 @@ export const updatePullRequestStatus: API.OperationMethod<
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
   | PullRequestStatusRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the status of a pull request.
+ */
+export const updatePullRequestStatus: API.OperationMethod<
+  UpdatePullRequestStatusInput,
+  UpdatePullRequestStatusOutput,
+  UpdatePullRequestStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePullRequestStatusInput,
@@ -8652,19 +8460,21 @@ export const updatePullRequestStatus: API.OperationMethod<
     PullRequestStatusRequiredException,
   ],
 }));
-/**
- * Replaces the title of a pull request.
- */
-export const updatePullRequestTitle: API.OperationMethod<
-  UpdatePullRequestTitleInput,
-  UpdatePullRequestTitleOutput,
+export type UpdatePullRequestTitleError =
   | InvalidPullRequestIdException
   | InvalidTitleException
   | PullRequestAlreadyClosedException
   | PullRequestDoesNotExistException
   | PullRequestIdRequiredException
   | TitleRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Replaces the title of a pull request.
+ */
+export const updatePullRequestTitle: API.OperationMethod<
+  UpdatePullRequestTitleInput,
+  UpdatePullRequestTitleOutput,
+  UpdatePullRequestTitleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePullRequestTitleInput,
@@ -8678,6 +8488,17 @@ export const updatePullRequestTitle: API.OperationMethod<
     TitleRequiredException,
   ],
 }));
+export type UpdateRepositoryDescriptionError =
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidRepositoryDescriptionException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors;
 /**
  * Sets or changes the comment or description for a repository.
  *
@@ -8690,16 +8511,7 @@ export const updatePullRequestTitle: API.OperationMethod<
 export const updateRepositoryDescription: API.OperationMethod<
   UpdateRepositoryDescriptionInput,
   UpdateRepositoryDescriptionResponse,
-  | EncryptionIntegrityChecksFailedException
-  | EncryptionKeyAccessDeniedException
-  | EncryptionKeyDisabledException
-  | EncryptionKeyNotFoundException
-  | EncryptionKeyUnavailableException
-  | InvalidRepositoryDescriptionException
-  | InvalidRepositoryNameException
-  | RepositoryDoesNotExistException
-  | RepositoryNameRequiredException
-  | CommonErrors,
+  UpdateRepositoryDescriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepositoryDescriptionInput,
@@ -8716,12 +8528,7 @@ export const updateRepositoryDescription: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
-/**
- * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
- */
-export const updateRepositoryEncryptionKey: API.OperationMethod<
-  UpdateRepositoryEncryptionKeyInput,
-  UpdateRepositoryEncryptionKeyOutput,
+export type UpdateRepositoryEncryptionKeyError =
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
   | EncryptionKeyDisabledException
@@ -8733,7 +8540,14 @@ export const updateRepositoryEncryptionKey: API.OperationMethod<
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
   | RepositoryNameRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
+ */
+export const updateRepositoryEncryptionKey: API.OperationMethod<
+  UpdateRepositoryEncryptionKeyInput,
+  UpdateRepositoryEncryptionKeyOutput,
+  UpdateRepositoryEncryptionKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepositoryEncryptionKeyInput,
@@ -8752,6 +8566,12 @@ export const updateRepositoryEncryptionKey: API.OperationMethod<
     RepositoryNameRequiredException,
   ],
 }));
+export type UpdateRepositoryNameError =
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameExistsException
+  | RepositoryNameRequiredException
+  | CommonErrors;
 /**
  * Renames a repository. The repository name must be unique across the calling Amazon Web Services account.
  * Repository names are limited to 100 alphanumeric, dash, and underscore
@@ -8762,11 +8582,7 @@ export const updateRepositoryEncryptionKey: API.OperationMethod<
 export const updateRepositoryName: API.OperationMethod<
   UpdateRepositoryNameInput,
   UpdateRepositoryNameResponse,
-  | InvalidRepositoryNameException
-  | RepositoryDoesNotExistException
-  | RepositoryNameExistsException
-  | RepositoryNameRequiredException
-  | CommonErrors,
+  UpdateRepositoryNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepositoryNameInput,

@@ -1631,14 +1631,7 @@ export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidP
 ) {}
 
 //# Operations
-/**
- * Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription.
- *
- * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
- */
-export const associateDRTLogBucket: API.OperationMethod<
-  AssociateDRTLogBucketRequest,
-  AssociateDRTLogBucketResponse,
+export type AssociateDRTLogBucketError =
   | AccessDeniedForDependencyException
   | InternalErrorException
   | InvalidOperationException
@@ -1647,7 +1640,16 @@ export const associateDRTLogBucket: API.OperationMethod<
   | NoAssociatedRoleException
   | OptimisticLockException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription.
+ *
+ * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
+ */
+export const associateDRTLogBucket: API.OperationMethod<
+  AssociateDRTLogBucketRequest,
+  AssociateDRTLogBucketResponse,
+  AssociateDRTLogBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDRTLogBucketRequest,
@@ -1663,6 +1665,14 @@ export const associateDRTLogBucket: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateDRTRoleError =
+  | AccessDeniedForDependencyException
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs.
  *
@@ -1680,13 +1690,7 @@ export const associateDRTLogBucket: API.OperationMethod<
 export const associateDRTRole: API.OperationMethod<
   AssociateDRTRoleRequest,
   AssociateDRTRoleResponse,
-  | AccessDeniedForDependencyException
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateDRTRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDRTRoleRequest,
@@ -1700,6 +1704,14 @@ export const associateDRTRole: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateHealthCheckError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
  *
@@ -1708,13 +1720,7 @@ export const associateDRTRole: API.OperationMethod<
 export const associateHealthCheck: API.OperationMethod<
   AssociateHealthCheckRequest,
   AssociateHealthCheckResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidResourceException
-  | LimitsExceededException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateHealthCheckRequest,
@@ -1728,6 +1734,13 @@ export const associateHealthCheck: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateProactiveEngagementDetailsError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list.
  *
@@ -1740,12 +1753,7 @@ export const associateHealthCheck: API.OperationMethod<
 export const associateProactiveEngagementDetails: API.OperationMethod<
   AssociateProactiveEngagementDetailsRequest,
   AssociateProactiveEngagementDetailsResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateProactiveEngagementDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateProactiveEngagementDetailsRequest,
@@ -1758,6 +1766,16 @@ export const associateProactiveEngagementDetails: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateProtectionError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | InvalidResourceException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses.
  *
@@ -1770,15 +1788,7 @@ export const associateProactiveEngagementDetails: API.OperationMethod<
 export const createProtection: API.OperationMethod<
   CreateProtectionRequest,
   CreateProtectionResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | InvalidResourceException
-  | LimitsExceededException
-  | OptimisticLockException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProtectionRequest,
@@ -1794,19 +1804,21 @@ export const createProtection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
- */
-export const createProtectionGroup: API.OperationMethod<
-  CreateProtectionGroupRequest,
-  CreateProtectionGroupResponse,
+export type CreateProtectionGroupError =
   | InternalErrorException
   | InvalidParameterException
   | LimitsExceededException
   | OptimisticLockException
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
+ */
+export const createProtectionGroup: API.OperationMethod<
+  CreateProtectionGroupRequest,
+  CreateProtectionGroupResponse,
+  CreateProtectionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProtectionGroupRequest,
@@ -1820,6 +1832,10 @@ export const createProtectionGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateSubscriptionError =
+  | InternalErrorException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Activates Shield Advanced for an account.
  *
@@ -1831,23 +1847,25 @@ export const createProtectionGroup: API.OperationMethod<
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
   CreateSubscriptionResponse,
-  InternalErrorException | ResourceAlreadyExistsException | CommonErrors,
+  CreateSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
   errors: [InternalErrorException, ResourceAlreadyExistsException],
 }));
+export type DeleteProtectionError =
+  | InternalErrorException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an Shield Advanced Protection.
  */
 export const deleteProtection: API.OperationMethod<
   DeleteProtectionRequest,
   DeleteProtectionResponse,
-  | InternalErrorException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProtectionRequest,
@@ -1858,16 +1876,18 @@ export const deleteProtection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteProtectionGroupError =
+  | InternalErrorException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes the specified protection group.
  */
 export const deleteProtectionGroup: API.OperationMethod<
   DeleteProtectionGroupRequest,
   DeleteProtectionGroupResponse,
-  | InternalErrorException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteProtectionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProtectionGroupRequest,
@@ -1878,16 +1898,18 @@ export const deleteProtectionGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteSubscriptionError =
+  | InternalErrorException
+  | LockedSubscriptionException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
  */
 export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
-  | InternalErrorException
-  | LockedSubscriptionException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionRequest,
@@ -1898,19 +1920,26 @@ export const deleteSubscription: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeAttackError =
+  | AccessDeniedException
+  | InternalErrorException
+  | CommonErrors;
 /**
  * Describes the details of a DDoS attack.
  */
 export const describeAttack: API.OperationMethod<
   DescribeAttackRequest,
   DescribeAttackResponse,
-  AccessDeniedException | InternalErrorException | CommonErrors,
+  DescribeAttackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAttackRequest,
   output: DescribeAttackResponse,
   errors: [AccessDeniedException, InternalErrorException],
 }));
+export type DescribeAttackStatisticsError =
+  | InternalErrorException
+  | CommonErrors;
 /**
  * Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers.
  *
@@ -1921,49 +1950,59 @@ export const describeAttack: API.OperationMethod<
 export const describeAttackStatistics: API.OperationMethod<
   DescribeAttackStatisticsRequest,
   DescribeAttackStatisticsResponse,
-  InternalErrorException | CommonErrors,
+  DescribeAttackStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAttackStatisticsRequest,
   output: DescribeAttackStatisticsResponse,
   errors: [InternalErrorException],
 }));
+export type DescribeDRTAccessError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
  */
 export const describeDRTAccess: API.OperationMethod<
   DescribeDRTAccessRequest,
   DescribeDRTAccessResponse,
-  InternalErrorException | ResourceNotFoundException | CommonErrors,
+  DescribeDRTAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDRTAccessRequest,
   output: DescribeDRTAccessResponse,
   errors: [InternalErrorException, ResourceNotFoundException],
 }));
+export type DescribeEmergencyContactSettingsError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const describeEmergencyContactSettings: API.OperationMethod<
   DescribeEmergencyContactSettingsRequest,
   DescribeEmergencyContactSettingsResponse,
-  InternalErrorException | ResourceNotFoundException | CommonErrors,
+  DescribeEmergencyContactSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEmergencyContactSettingsRequest,
   output: DescribeEmergencyContactSettingsResponse,
   errors: [InternalErrorException, ResourceNotFoundException],
 }));
+export type DescribeProtectionError =
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the details of a Protection object.
  */
 export const describeProtection: API.OperationMethod<
   DescribeProtectionRequest,
   DescribeProtectionResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProtectionRequest,
@@ -1974,32 +2013,47 @@ export const describeProtection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeProtectionGroupError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the specification for the specified protection group.
  */
 export const describeProtectionGroup: API.OperationMethod<
   DescribeProtectionGroupRequest,
   DescribeProtectionGroupResponse,
-  InternalErrorException | ResourceNotFoundException | CommonErrors,
+  DescribeProtectionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProtectionGroupRequest,
   output: DescribeProtectionGroupResponse,
   errors: [InternalErrorException, ResourceNotFoundException],
 }));
+export type DescribeSubscriptionError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provides details about the Shield Advanced subscription for an account.
  */
 export const describeSubscription: API.OperationMethod<
   DescribeSubscriptionRequest,
   DescribeSubscriptionResponse,
-  InternalErrorException | ResourceNotFoundException | CommonErrors,
+  DescribeSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSubscriptionRequest,
   output: DescribeSubscriptionResponse,
   errors: [InternalErrorException, ResourceNotFoundException],
 }));
+export type DisableApplicationLayerAutomaticResponseError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This
  * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
@@ -2007,12 +2061,7 @@ export const describeSubscription: API.OperationMethod<
 export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
   DisableApplicationLayerAutomaticResponseRequest,
   DisableApplicationLayerAutomaticResponseResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisableApplicationLayerAutomaticResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableApplicationLayerAutomaticResponseRequest,
@@ -2025,18 +2074,20 @@ export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisableProactiveEngagementError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
 export const disableProactiveEngagement: API.OperationMethod<
   DisableProactiveEngagementRequest,
   DisableProactiveEngagementResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisableProactiveEngagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableProactiveEngagementRequest,
@@ -2049,19 +2100,21 @@ export const disableProactiveEngagement: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
- */
-export const disassociateDRTLogBucket: API.OperationMethod<
-  DisassociateDRTLogBucketRequest,
-  DisassociateDRTLogBucketResponse,
+export type DisassociateDRTLogBucketError =
   | AccessDeniedForDependencyException
   | InternalErrorException
   | InvalidOperationException
   | NoAssociatedRoleException
   | OptimisticLockException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
+ */
+export const disassociateDRTLogBucket: API.OperationMethod<
+  DisassociateDRTLogBucketRequest,
+  DisassociateDRTLogBucketResponse,
+  DisassociateDRTLogBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateDRTLogBucketRequest,
@@ -2075,17 +2128,19 @@ export const disassociateDRTLogBucket: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateDRTRoleError =
+  | InternalErrorException
+  | InvalidOperationException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
  */
 export const disassociateDRTRole: API.OperationMethod<
   DisassociateDRTRoleRequest,
   DisassociateDRTRoleResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisassociateDRTRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateDRTRoleRequest,
@@ -2097,6 +2152,13 @@ export const disassociateDRTRole: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateHealthCheckError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
  *
@@ -2105,12 +2167,7 @@ export const disassociateDRTRole: API.OperationMethod<
 export const disassociateHealthCheck: API.OperationMethod<
   DisassociateHealthCheckRequest,
   DisassociateHealthCheckResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidResourceException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisassociateHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateHealthCheckRequest,
@@ -2123,6 +2180,14 @@ export const disassociateHealthCheck: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type EnableApplicationLayerAutomaticResponseError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource.
  *
@@ -2143,13 +2208,7 @@ export const disassociateHealthCheck: API.OperationMethod<
 export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
   EnableApplicationLayerAutomaticResponseRequest,
   EnableApplicationLayerAutomaticResponseResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | LimitsExceededException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  EnableApplicationLayerAutomaticResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableApplicationLayerAutomaticResponseRequest,
@@ -2163,18 +2222,20 @@ export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type EnableProactiveEngagementError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
 export const enableProactiveEngagement: API.OperationMethod<
   EnableProactiveEngagementRequest,
   EnableProactiveEngagementResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  EnableProactiveEngagementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableProactiveEngagementRequest,
@@ -2187,19 +2248,25 @@ export const enableProactiveEngagement: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSubscriptionStateError = InternalErrorException | CommonErrors;
 /**
  * Returns the `SubscriptionState`, either `Active` or `Inactive`.
  */
 export const getSubscriptionState: API.OperationMethod<
   GetSubscriptionStateRequest,
   GetSubscriptionStateResponse,
-  InternalErrorException | CommonErrors,
+  GetSubscriptionStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionStateRequest,
   output: GetSubscriptionStateResponse,
   errors: [InternalErrorException],
 }));
+export type ListAttacksError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Returns all ongoing DDoS attacks or all DDoS attacks during a specified time
  * period.
@@ -2207,30 +2274,21 @@ export const getSubscriptionState: API.OperationMethod<
 export const listAttacks: API.OperationMethod<
   ListAttacksRequest,
   ListAttacksResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | CommonErrors,
+  ListAttacksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAttacksRequest,
   ) => stream.Stream<
     ListAttacksResponse,
-    | InternalErrorException
-    | InvalidOperationException
-    | InvalidParameterException
-    | CommonErrors,
+    ListAttacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttacksRequest,
   ) => stream.Stream<
     AttackSummary,
-    | InternalErrorException
-    | InvalidOperationException
-    | InvalidParameterException
-    | CommonErrors,
+    ListAttacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2248,6 +2306,11 @@ export const listAttacks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProtectionGroupsError =
+  | InternalErrorException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide
  * filtering criteria and retrieve just the subset of protection groups that match the criteria.
@@ -2255,30 +2318,21 @@ export const listAttacks: API.OperationMethod<
 export const listProtectionGroups: API.OperationMethod<
   ListProtectionGroupsRequest,
   ListProtectionGroupsResponse,
-  | InternalErrorException
-  | InvalidPaginationTokenException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListProtectionGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProtectionGroupsRequest,
   ) => stream.Stream<
     ListProtectionGroupsResponse,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListProtectionGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProtectionGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListProtectionGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2295,6 +2349,11 @@ export const listProtectionGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProtectionsError =
+  | InternalErrorException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves Protection objects for the account. You can retrieve all protections or you can provide
  * filtering criteria and retrieve just the subset of protections that match the criteria.
@@ -2302,30 +2361,21 @@ export const listProtectionGroups: API.OperationMethod<
 export const listProtections: API.OperationMethod<
   ListProtectionsRequest,
   ListProtectionsResponse,
-  | InternalErrorException
-  | InvalidPaginationTokenException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListProtectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProtectionsRequest,
   ) => stream.Stream<
     ListProtectionsResponse,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListProtectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProtectionsRequest,
   ) => stream.Stream<
     Protection,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListProtectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2343,36 +2393,32 @@ export const listProtections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourcesInProtectionGroupError =
+  | InternalErrorException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the resources that are included in the protection group.
  */
 export const listResourcesInProtectionGroup: API.OperationMethod<
   ListResourcesInProtectionGroupRequest,
   ListResourcesInProtectionGroupResponse,
-  | InternalErrorException
-  | InvalidPaginationTokenException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListResourcesInProtectionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesInProtectionGroupRequest,
   ) => stream.Stream<
     ListResourcesInProtectionGroupResponse,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListResourcesInProtectionGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesInProtectionGroupRequest,
   ) => stream.Stream<
     unknown,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListResourcesInProtectionGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2389,16 +2435,18 @@ export const listResourcesInProtectionGroup: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalErrorException
+  | InvalidResourceException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalErrorException
-  | InvalidResourceException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2409,17 +2457,19 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds or updates tags for a resource in Shield.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidResourceException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2431,17 +2481,19 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes tags from a resource in Shield.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidResourceException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2453,18 +2505,20 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateApplicationLayerAutomaticResponseError =
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
  */
 export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
   UpdateApplicationLayerAutomaticResponseRequest,
   UpdateApplicationLayerAutomaticResponseResponse,
-  | InternalErrorException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateApplicationLayerAutomaticResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationLayerAutomaticResponseRequest,
@@ -2477,17 +2531,19 @@ export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateEmergencyContactSettingsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const updateEmergencyContactSettings: API.OperationMethod<
   UpdateEmergencyContactSettingsRequest,
   UpdateEmergencyContactSettingsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateEmergencyContactSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEmergencyContactSettingsRequest,
@@ -2499,17 +2555,19 @@ export const updateEmergencyContactSettings: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateProtectionGroupError =
+  | InternalErrorException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
 export const updateProtectionGroup: API.OperationMethod<
   UpdateProtectionGroupRequest,
   UpdateProtectionGroupResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateProtectionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProtectionGroupRequest,
@@ -2521,6 +2579,13 @@ export const updateProtectionGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateSubscriptionError =
+  | InternalErrorException
+  | InvalidParameterException
+  | LockedSubscriptionException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated.
  *
@@ -2530,12 +2595,7 @@ export const updateProtectionGroup: API.OperationMethod<
 export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | LockedSubscriptionException
-  | OptimisticLockException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionRequest,

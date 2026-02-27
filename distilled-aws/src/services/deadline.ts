@@ -7583,18 +7583,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type CreateQueueFleetAssociationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an association between a queue and a fleet.
  */
 export const createQueueFleetAssociation: API.OperationMethod<
   CreateQueueFleetAssociationRequest,
   CreateQueueFleetAssociationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateQueueFleetAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueFleetAssociationRequest,
@@ -7607,18 +7609,20 @@ export const createQueueFleetAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateQueueLimitAssociationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same `amountRequirementName` to the same queue.
  */
 export const createQueueLimitAssociation: API.OperationMethod<
   CreateQueueLimitAssociationRequest,
   CreateQueueLimitAssociationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateQueueLimitAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueLimitAssociationRequest,
@@ -7631,19 +7635,21 @@ export const createQueueLimitAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a queue-fleet association.
- */
-export const deleteQueueFleetAssociation: API.OperationMethod<
-  DeleteQueueFleetAssociationRequest,
-  DeleteQueueFleetAssociationResponse,
+export type DeleteQueueFleetAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a queue-fleet association.
+ */
+export const deleteQueueFleetAssociation: API.OperationMethod<
+  DeleteQueueFleetAssociationRequest,
+  DeleteQueueFleetAssociationResponse,
+  DeleteQueueFleetAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueFleetAssociationRequest,
@@ -7657,19 +7663,21 @@ export const deleteQueueFleetAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
- */
-export const deleteQueueLimitAssociation: API.OperationMethod<
-  DeleteQueueLimitAssociationRequest,
-  DeleteQueueLimitAssociationResponse,
+export type DeleteQueueLimitAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
+ */
+export const deleteQueueLimitAssociation: API.OperationMethod<
+  DeleteQueueLimitAssociationRequest,
+  DeleteQueueLimitAssociationResponse,
+  DeleteQueueLimitAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueLimitAssociationRequest,
@@ -7683,18 +7691,20 @@ export const deleteQueueLimitAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQueueFleetAssociationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a queue-fleet association.
  */
 export const getQueueFleetAssociation: API.OperationMethod<
   GetQueueFleetAssociationRequest,
   GetQueueFleetAssociationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueueFleetAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueFleetAssociationRequest,
@@ -7707,18 +7717,20 @@ export const getQueueFleetAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQueueLimitAssociationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specific association between a queue and a limit.
  */
 export const getQueueLimitAssociation: API.OperationMethod<
   GetQueueLimitAssociationRequest,
   GetQueueLimitAssociationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueueLimitAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueLimitAssociationRequest,
@@ -7731,42 +7743,34 @@ export const getQueueLimitAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSessionsStatisticsAggregationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a set of statistics for queues or farms. Before you can call the `GetSessionStatisticsAggregation` operation, you must first call the `StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const getSessionsStatisticsAggregation: API.OperationMethod<
   GetSessionsStatisticsAggregationRequest,
   GetSessionsStatisticsAggregationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSessionsStatisticsAggregationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetSessionsStatisticsAggregationRequest,
   ) => stream.Stream<
     GetSessionsStatisticsAggregationResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetSessionsStatisticsAggregationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSessionsStatisticsAggregationRequest,
   ) => stream.Stream<
     Statistics,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetSessionsStatisticsAggregationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7786,27 +7790,31 @@ export const getSessionsStatisticsAggregation: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAvailableMeteredProductsError =
+  | InternalServerErrorException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * A list of the available metered products.
  */
 export const listAvailableMeteredProducts: API.OperationMethod<
   ListAvailableMeteredProductsRequest,
   ListAvailableMeteredProductsResponse,
-  InternalServerErrorException | ThrottlingException | CommonErrors,
+  ListAvailableMeteredProductsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAvailableMeteredProductsRequest,
   ) => stream.Stream<
     ListAvailableMeteredProductsResponse,
-    InternalServerErrorException | ThrottlingException | CommonErrors,
+    ListAvailableMeteredProductsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAvailableMeteredProductsRequest,
   ) => stream.Stream<
     MeteredProductSummary,
-    InternalServerErrorException | ThrottlingException | CommonErrors,
+    ListAvailableMeteredProductsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7820,39 +7828,33 @@ export const listAvailableMeteredProducts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListQueueFleetAssociationsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists queue-fleet associations.
  */
 export const listQueueFleetAssociations: API.OperationMethod<
   ListQueueFleetAssociationsRequest,
   ListQueueFleetAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListQueueFleetAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueueFleetAssociationsRequest,
   ) => stream.Stream<
     ListQueueFleetAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueueFleetAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueueFleetAssociationsRequest,
   ) => stream.Stream<
     QueueFleetAssociationSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueueFleetAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7871,39 +7873,33 @@ export const listQueueFleetAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListQueueLimitAssociationsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a list of the associations between queues and limits defined in a farm.
  */
 export const listQueueLimitAssociations: API.OperationMethod<
   ListQueueLimitAssociationsRequest,
   ListQueueLimitAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListQueueLimitAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueueLimitAssociationsRequest,
   ) => stream.Stream<
     ListQueueLimitAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueueLimitAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueueLimitAssociationsRequest,
   ) => stream.Stream<
     QueueLimitAssociationSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueueLimitAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7922,18 +7918,20 @@ export const listQueueLimitAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -7946,18 +7944,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchJobsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for jobs.
  */
 export const searchJobs: API.OperationMethod<
   SearchJobsRequest,
   SearchJobsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchJobsRequest,
@@ -7970,18 +7970,20 @@ export const searchJobs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchStepsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for steps.
  */
 export const searchSteps: API.OperationMethod<
   SearchStepsRequest,
   SearchStepsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchStepsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchStepsRequest,
@@ -7994,18 +7996,20 @@ export const searchSteps: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchTasksError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for tasks.
  */
 export const searchTasks: API.OperationMethod<
   SearchTasksRequest,
   SearchTasksResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchTasksRequest,
@@ -8018,18 +8022,20 @@ export const searchTasks: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchWorkersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for workers.
  */
 export const searchWorkers: API.OperationMethod<
   SearchWorkersRequest,
   SearchWorkersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchWorkersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchWorkersRequest,
@@ -8042,18 +8048,20 @@ export const searchWorkers: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartSessionsStatisticsAggregationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only have one running aggregation for your Deadline Cloud farm. Call the `GetSessionsStatisticsAggregation` operation and check the `status` field to see if an aggregation is running. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const startSessionsStatisticsAggregation: API.OperationMethod<
   StartSessionsStatisticsAggregationRequest,
   StartSessionsStatisticsAggregationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartSessionsStatisticsAggregationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSessionsStatisticsAggregationRequest,
@@ -8066,19 +8074,21 @@ export const startSessionsStatisticsAggregation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Tags a resource using the resource's ARN and desired tags.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tags a resource using the resource's ARN and desired tags.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8092,19 +8102,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes a tag from a resource using the resource's ARN and tag to remove.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a tag from a resource using the resource's ARN and tag to remove.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8118,18 +8130,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateQueueFleetAssociationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a queue-fleet association.
  */
 export const updateQueueFleetAssociation: API.OperationMethod<
   UpdateQueueFleetAssociationRequest,
   UpdateQueueFleetAssociationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateQueueFleetAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueFleetAssociationRequest,
@@ -8142,18 +8156,20 @@ export const updateQueueFleetAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateQueueLimitAssociationError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*` values, there will be a delay before the status transitions to the `STOPPED` state.
  */
 export const updateQueueLimitAssociation: API.OperationMethod<
   UpdateQueueLimitAssociationRequest,
   UpdateQueueLimitAssociationResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateQueueLimitAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueLimitAssociationRequest,
@@ -8166,19 +8182,21 @@ export const updateQueueLimitAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
- */
-export const createFarm: API.OperationMethod<
-  CreateFarmRequest,
-  CreateFarmResponse,
+export type CreateFarmError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
+ */
+export const createFarm: API.OperationMethod<
+  CreateFarmRequest,
+  CreateFarmResponse,
+  CreateFarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFarmRequest,
@@ -8192,18 +8210,20 @@ export const createFarm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFarmError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a farm.
  */
 export const getFarm: API.OperationMethod<
   GetFarmRequest,
   GetFarmResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFarmRequest,
@@ -8216,18 +8236,20 @@ export const getFarm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateFarmError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a farm.
  */
 export const updateFarm: API.OperationMethod<
   UpdateFarmRequest,
   UpdateFarmResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateFarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFarmRequest,
@@ -8240,18 +8262,20 @@ export const updateFarm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteFarmError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a farm.
  */
 export const deleteFarm: API.OperationMethod<
   DeleteFarmRequest,
   DeleteFarmResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFarmRequest,
@@ -8264,39 +8288,33 @@ export const deleteFarm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFarmsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists farms.
  */
 export const listFarms: API.OperationMethod<
   ListFarmsRequest,
   ListFarmsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFarmsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFarmsRequest,
   ) => stream.Stream<
     ListFarmsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFarmsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFarmsRequest,
   ) => stream.Stream<
     FarmSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFarmsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8315,19 +8333,21 @@ export const listFarms: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Assigns a farm membership level to a member.
- */
-export const associateMemberToFarm: API.OperationMethod<
-  AssociateMemberToFarmRequest,
-  AssociateMemberToFarmResponse,
+export type AssociateMemberToFarmError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Assigns a farm membership level to a member.
+ */
+export const associateMemberToFarm: API.OperationMethod<
+  AssociateMemberToFarmRequest,
+  AssociateMemberToFarmResponse,
+  AssociateMemberToFarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberToFarmRequest,
@@ -8341,6 +8361,14 @@ export const associateMemberToFarm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLimitError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues.
  *
@@ -8349,13 +8377,7 @@ export const associateMemberToFarm: API.OperationMethod<
 export const createLimit: API.OperationMethod<
   CreateLimitRequest,
   CreateLimitResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLimitRequest,
@@ -8369,19 +8391,21 @@ export const createLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
- */
-export const createStorageProfile: API.OperationMethod<
-  CreateStorageProfileRequest,
-  CreateStorageProfileResponse,
+export type CreateStorageProfileError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
+ */
+export const createStorageProfile: API.OperationMethod<
+  CreateStorageProfileRequest,
+  CreateStorageProfileResponse,
+  CreateStorageProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStorageProfileRequest,
@@ -8395,17 +8419,19 @@ export const createStorageProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLimitError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a limit from the specified farm. Before you delete a limit you must use the `DeleteQueueLimitAssociation` operation to remove the association with any queues.
  */
 export const deleteLimit: API.OperationMethod<
   DeleteLimitRequest,
   DeleteLimitResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLimitRequest,
@@ -8417,17 +8443,19 @@ export const deleteLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteStorageProfileError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a storage profile.
  */
 export const deleteStorageProfile: API.OperationMethod<
   DeleteStorageProfileRequest,
   DeleteStorageProfileResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteStorageProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStorageProfileRequest,
@@ -8439,18 +8467,20 @@ export const deleteStorageProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateMemberFromFarmError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a member from a farm.
  */
 export const disassociateMemberFromFarm: API.OperationMethod<
   DisassociateMemberFromFarmRequest,
   DisassociateMemberFromFarmResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateMemberFromFarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberFromFarmRequest,
@@ -8463,18 +8493,20 @@ export const disassociateMemberFromFarm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLimitError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specific limit.
  */
 export const getLimit: API.OperationMethod<
   GetLimitRequest,
   GetLimitResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLimitRequest,
@@ -8487,18 +8519,20 @@ export const getLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStorageProfileError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a storage profile.
  */
 export const getStorageProfile: API.OperationMethod<
   GetStorageProfileRequest,
   GetStorageProfileResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStorageProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStorageProfileRequest,
@@ -8511,42 +8545,34 @@ export const getStorageProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFarmMembersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the members of a farm.
  */
 export const listFarmMembers: API.OperationMethod<
   ListFarmMembersRequest,
   ListFarmMembersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFarmMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFarmMembersRequest,
   ) => stream.Stream<
     ListFarmMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFarmMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFarmMembersRequest,
   ) => stream.Stream<
     FarmMember,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFarmMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8566,42 +8592,34 @@ export const listFarmMembers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListLimitsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of limits defined in the specified farm.
  */
 export const listLimits: API.OperationMethod<
   ListLimitsRequest,
   ListLimitsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLimitsRequest,
   ) => stream.Stream<
     ListLimitsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLimitsRequest,
   ) => stream.Stream<
     LimitSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8621,42 +8639,34 @@ export const listLimits: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStorageProfilesError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists storage profiles.
  */
 export const listStorageProfiles: API.OperationMethod<
   ListStorageProfilesRequest,
   ListStorageProfilesResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStorageProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStorageProfilesRequest,
   ) => stream.Stream<
     ListStorageProfilesResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStorageProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStorageProfilesRequest,
   ) => stream.Stream<
     StorageProfileSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStorageProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8676,18 +8686,20 @@ export const listStorageProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateLimitError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the properties of the specified limit.
  */
 export const updateLimit: API.OperationMethod<
   UpdateLimitRequest,
   UpdateLimitResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLimitRequest,
@@ -8700,18 +8712,20 @@ export const updateLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateStorageProfileError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a storage profile.
  */
 export const updateStorageProfile: API.OperationMethod<
   UpdateStorageProfileRequest,
   UpdateStorageProfileResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateStorageProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStorageProfileRequest,
@@ -8724,19 +8738,21 @@ export const updateStorageProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a budget to set spending thresholds for your rendering activity.
- */
-export const createBudget: API.OperationMethod<
-  CreateBudgetRequest,
-  CreateBudgetResponse,
+export type CreateBudgetError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a budget to set spending thresholds for your rendering activity.
+ */
+export const createBudget: API.OperationMethod<
+  CreateBudgetRequest,
+  CreateBudgetResponse,
+  CreateBudgetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBudgetRequest,
@@ -8750,18 +8766,20 @@ export const createBudget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBudgetError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a budget.
  */
 export const getBudget: API.OperationMethod<
   GetBudgetRequest,
   GetBudgetResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBudgetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBudgetRequest,
@@ -8774,18 +8792,20 @@ export const getBudget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateBudgetError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a budget that sets spending thresholds for rendering activity.
  */
 export const updateBudget: API.OperationMethod<
   UpdateBudgetRequest,
   UpdateBudgetResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateBudgetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBudgetRequest,
@@ -8798,18 +8818,20 @@ export const updateBudget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBudgetError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a budget.
  */
 export const deleteBudget: API.OperationMethod<
   DeleteBudgetRequest,
   DeleteBudgetResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBudgetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBudgetRequest,
@@ -8822,42 +8844,34 @@ export const deleteBudget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBudgetsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A list of budgets in a farm.
  */
 export const listBudgets: API.OperationMethod<
   ListBudgetsRequest,
   ListBudgetsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBudgetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBudgetsRequest,
   ) => stream.Stream<
     ListBudgetsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBudgetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBudgetsRequest,
   ) => stream.Stream<
     BudgetSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBudgetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8877,19 +8891,21 @@ export const listBudgets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
- */
-export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
-  CreateFleetResponse,
+export type CreateFleetError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
+ */
+export const createFleet: API.OperationMethod<
+  CreateFleetRequest,
+  CreateFleetResponse,
+  CreateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
@@ -8903,18 +8919,20 @@ export const createFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFleetError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a fleet.
  */
 export const getFleet: API.OperationMethod<
   GetFleetRequest,
   GetFleetResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFleetRequest,
@@ -8927,19 +8945,21 @@ export const getFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a fleet.
- */
-export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
-  UpdateFleetResponse,
+export type UpdateFleetError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a fleet.
+ */
+export const updateFleet: API.OperationMethod<
+  UpdateFleetRequest,
+  UpdateFleetResponse,
+  UpdateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetRequest,
@@ -8953,19 +8973,21 @@ export const updateFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a fleet.
- */
-export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
-  DeleteFleetResponse,
+export type DeleteFleetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a fleet.
+ */
+export const deleteFleet: API.OperationMethod<
+  DeleteFleetRequest,
+  DeleteFleetResponse,
+  DeleteFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetRequest,
@@ -8979,42 +9001,34 @@ export const deleteFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFleetsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists fleets.
  */
 export const listFleets: API.OperationMethod<
   ListFleetsRequest,
   ListFleetsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFleetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetsRequest,
   ) => stream.Stream<
     ListFleetsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetsRequest,
   ) => stream.Stream<
     FleetSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9034,19 +9048,21 @@ export const listFleets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Assigns a fleet membership level to a member.
- */
-export const associateMemberToFleet: API.OperationMethod<
-  AssociateMemberToFleetRequest,
-  AssociateMemberToFleetResponse,
+export type AssociateMemberToFleetError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Assigns a fleet membership level to a member.
+ */
+export const associateMemberToFleet: API.OperationMethod<
+  AssociateMemberToFleetRequest,
+  AssociateMemberToFleetResponse,
+  AssociateMemberToFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberToFleetRequest,
@@ -9060,18 +9076,20 @@ export const associateMemberToFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssumeFleetRoleForReadError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeFleetRoleForRead: API.OperationMethod<
   AssumeFleetRoleForReadRequest,
   AssumeFleetRoleForReadResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssumeFleetRoleForReadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeFleetRoleForReadRequest,
@@ -9084,19 +9102,21 @@ export const assumeFleetRoleForRead: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a member from a fleet.
- */
-export const disassociateMemberFromFleet: API.OperationMethod<
-  DisassociateMemberFromFleetRequest,
-  DisassociateMemberFromFleetResponse,
+export type DisassociateMemberFromFleetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a member from a fleet.
+ */
+export const disassociateMemberFromFleet: API.OperationMethod<
+  DisassociateMemberFromFleetRequest,
+  DisassociateMemberFromFleetResponse,
+  DisassociateMemberFromFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberFromFleetRequest,
@@ -9110,42 +9130,34 @@ export const disassociateMemberFromFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFleetMembersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists fleet members.
  */
 export const listFleetMembers: API.OperationMethod<
   ListFleetMembersRequest,
   ListFleetMembersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFleetMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetMembersRequest,
   ) => stream.Stream<
     ListFleetMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetMembersRequest,
   ) => stream.Stream<
     FleetMember,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9165,6 +9177,14 @@ export const listFleetMembers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateWorkerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude.
  *
@@ -9173,13 +9193,7 @@ export const listFleetMembers: API.OperationMethod<
 export const createWorker: API.OperationMethod<
   CreateWorkerRequest,
   CreateWorkerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkerRequest,
@@ -9193,18 +9207,20 @@ export const createWorker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkerError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a worker.
  */
 export const getWorker: API.OperationMethod<
   GetWorkerRequest,
   GetWorkerResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkerRequest,
@@ -9217,19 +9233,21 @@ export const getWorker: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a worker.
- */
-export const updateWorker: API.OperationMethod<
-  UpdateWorkerRequest,
-  UpdateWorkerResponse,
+export type UpdateWorkerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a worker.
+ */
+export const updateWorker: API.OperationMethod<
+  UpdateWorkerRequest,
+  UpdateWorkerResponse,
+  UpdateWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkerRequest,
@@ -9243,19 +9261,21 @@ export const updateWorker: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a worker.
- */
-export const deleteWorker: API.OperationMethod<
-  DeleteWorkerRequest,
-  DeleteWorkerResponse,
+export type DeleteWorkerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a worker.
+ */
+export const deleteWorker: API.OperationMethod<
+  DeleteWorkerRequest,
+  DeleteWorkerResponse,
+  DeleteWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkerRequest,
@@ -9269,42 +9289,34 @@ export const deleteWorker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists workers.
  */
 export const listWorkers: API.OperationMethod<
   ListWorkersRequest,
   ListWorkersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkersRequest,
   ) => stream.Stream<
     ListWorkersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkersRequest,
   ) => stream.Stream<
     WorkerSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9324,19 +9336,21 @@ export const listWorkers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Get credentials from the fleet role for a worker.
- */
-export const assumeFleetRoleForWorker: API.OperationMethod<
-  AssumeFleetRoleForWorkerRequest,
-  AssumeFleetRoleForWorkerResponse,
+export type AssumeFleetRoleForWorkerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get credentials from the fleet role for a worker.
+ */
+export const assumeFleetRoleForWorker: API.OperationMethod<
+  AssumeFleetRoleForWorkerRequest,
+  AssumeFleetRoleForWorkerResponse,
+  AssumeFleetRoleForWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeFleetRoleForWorkerRequest,
@@ -9350,19 +9364,21 @@ export const assumeFleetRoleForWorker: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Allows a worker to assume a queue role.
- */
-export const assumeQueueRoleForWorker: API.OperationMethod<
-  AssumeQueueRoleForWorkerRequest,
-  AssumeQueueRoleForWorkerResponse,
+export type AssumeQueueRoleForWorkerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows a worker to assume a queue role.
+ */
+export const assumeQueueRoleForWorker: API.OperationMethod<
+  AssumeQueueRoleForWorkerRequest,
+  AssumeQueueRoleForWorkerResponse,
+  AssumeQueueRoleForWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeQueueRoleForWorkerRequest,
@@ -9376,18 +9392,20 @@ export const assumeQueueRoleForWorker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetJobEntityError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get batched job details for a worker.
  */
 export const batchGetJobEntity: API.OperationMethod<
   BatchGetJobEntityRequest,
   BatchGetJobEntityResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetJobEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetJobEntityRequest,
@@ -9400,42 +9418,34 @@ export const batchGetJobEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSessionsForWorkerError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists sessions for a worker.
  */
 export const listSessionsForWorker: API.OperationMethod<
   ListSessionsForWorkerRequest,
   ListSessionsForWorkerResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionsForWorkerError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionsForWorkerRequest,
   ) => stream.Stream<
     ListSessionsForWorkerResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsForWorkerError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionsForWorkerRequest,
   ) => stream.Stream<
     WorkerSessionSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsForWorkerError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9455,19 +9465,21 @@ export const listSessionsForWorker: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates the schedule for a worker.
- */
-export const updateWorkerSchedule: API.OperationMethod<
-  UpdateWorkerScheduleRequest,
-  UpdateWorkerScheduleResponse,
+export type UpdateWorkerScheduleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the schedule for a worker.
+ */
+export const updateWorkerSchedule: API.OperationMethod<
+  UpdateWorkerScheduleRequest,
+  UpdateWorkerScheduleResponse,
+  UpdateWorkerScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkerScheduleRequest,
@@ -9481,19 +9493,21 @@ export const updateWorkerSchedule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
- */
-export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
-  CreateQueueResponse,
+export type CreateQueueError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
+ */
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
+  CreateQueueResponse,
+  CreateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
@@ -9507,18 +9521,20 @@ export const createQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQueueError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a queue.
  */
 export const getQueue: API.OperationMethod<
   GetQueueRequest,
   GetQueueResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueRequest,
@@ -9531,18 +9547,20 @@ export const getQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateQueueError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a queue.
  */
 export const updateQueue: API.OperationMethod<
   UpdateQueueRequest,
   UpdateQueueResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueRequest,
@@ -9555,6 +9573,14 @@ export const updateQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteQueueError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a queue.
  *
@@ -9563,13 +9589,7 @@ export const updateQueue: API.OperationMethod<
 export const deleteQueue: API.OperationMethod<
   DeleteQueueRequest,
   DeleteQueueResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
@@ -9583,42 +9603,34 @@ export const deleteQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListQueuesError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists queues.
  */
 export const listQueues: API.OperationMethod<
   ListQueuesRequest,
   ListQueuesResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     ListQueuesResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     QueueSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9638,19 +9650,21 @@ export const listQueues: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Assigns a queue membership level to a member
- */
-export const associateMemberToQueue: API.OperationMethod<
-  AssociateMemberToQueueRequest,
-  AssociateMemberToQueueResponse,
+export type AssociateMemberToQueueError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Assigns a queue membership level to a member
+ */
+export const associateMemberToQueue: API.OperationMethod<
+  AssociateMemberToQueueRequest,
+  AssociateMemberToQueueResponse,
+  AssociateMemberToQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberToQueueRequest,
@@ -9664,18 +9678,20 @@ export const associateMemberToQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssumeQueueRoleForReadError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeQueueRoleForRead: API.OperationMethod<
   AssumeQueueRoleForReadRequest,
   AssumeQueueRoleForReadResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssumeQueueRoleForReadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeQueueRoleForReadRequest,
@@ -9688,18 +9704,20 @@ export const assumeQueueRoleForRead: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssumeQueueRoleForUserError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows a user to assume a role for a queue.
  */
 export const assumeQueueRoleForUser: API.OperationMethod<
   AssumeQueueRoleForUserRequest,
   AssumeQueueRoleForUserResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssumeQueueRoleForUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeQueueRoleForUserRequest,
@@ -9712,19 +9730,21 @@ export const assumeQueueRoleForUser: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an environment for a queue that defines how jobs in the queue run.
- */
-export const createQueueEnvironment: API.OperationMethod<
-  CreateQueueEnvironmentRequest,
-  CreateQueueEnvironmentResponse,
+export type CreateQueueEnvironmentError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an environment for a queue that defines how jobs in the queue run.
+ */
+export const createQueueEnvironment: API.OperationMethod<
+  CreateQueueEnvironmentRequest,
+  CreateQueueEnvironmentResponse,
+  CreateQueueEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueEnvironmentRequest,
@@ -9738,17 +9758,19 @@ export const createQueueEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteQueueEnvironmentError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a queue environment.
  */
 export const deleteQueueEnvironment: API.OperationMethod<
   DeleteQueueEnvironmentRequest,
   DeleteQueueEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteQueueEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueEnvironmentRequest,
@@ -9760,19 +9782,21 @@ export const deleteQueueEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a member from a queue.
- */
-export const disassociateMemberFromQueue: API.OperationMethod<
-  DisassociateMemberFromQueueRequest,
-  DisassociateMemberFromQueueResponse,
+export type DisassociateMemberFromQueueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a member from a queue.
+ */
+export const disassociateMemberFromQueue: API.OperationMethod<
+  DisassociateMemberFromQueueRequest,
+  DisassociateMemberFromQueueResponse,
+  DisassociateMemberFromQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberFromQueueRequest,
@@ -9786,18 +9810,20 @@ export const disassociateMemberFromQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQueueEnvironmentError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a queue environment.
  */
 export const getQueueEnvironment: API.OperationMethod<
   GetQueueEnvironmentRequest,
   GetQueueEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueueEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueEnvironmentRequest,
@@ -9810,18 +9836,20 @@ export const getQueueEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStorageProfileForQueueError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a storage profile for a queue.
  */
 export const getStorageProfileForQueue: API.OperationMethod<
   GetStorageProfileForQueueRequest,
   GetStorageProfileForQueueResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStorageProfileForQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStorageProfileForQueueRequest,
@@ -9834,42 +9862,34 @@ export const getStorageProfileForQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListQueueEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists queue environments.
  */
 export const listQueueEnvironments: API.OperationMethod<
   ListQueueEnvironmentsRequest,
   ListQueueEnvironmentsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListQueueEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueueEnvironmentsRequest,
   ) => stream.Stream<
     ListQueueEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueueEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueueEnvironmentsRequest,
   ) => stream.Stream<
     QueueEnvironmentSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueueEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9889,42 +9909,34 @@ export const listQueueEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListQueueMembersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the members in a queue.
  */
 export const listQueueMembers: API.OperationMethod<
   ListQueueMembersRequest,
   ListQueueMembersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListQueueMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueueMembersRequest,
   ) => stream.Stream<
     ListQueueMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueueMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueueMembersRequest,
   ) => stream.Stream<
     QueueMember,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueueMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9944,42 +9956,34 @@ export const listQueueMembers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStorageProfilesForQueueError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists storage profiles for a queue.
  */
 export const listStorageProfilesForQueue: API.OperationMethod<
   ListStorageProfilesForQueueRequest,
   ListStorageProfilesForQueueResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStorageProfilesForQueueError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStorageProfilesForQueueRequest,
   ) => stream.Stream<
     ListStorageProfilesForQueueResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStorageProfilesForQueueError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStorageProfilesForQueueRequest,
   ) => stream.Stream<
     StorageProfileSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStorageProfilesForQueueError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9999,18 +10003,20 @@ export const listStorageProfilesForQueue: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateQueueEnvironmentError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the queue environment.
  */
 export const updateQueueEnvironment: API.OperationMethod<
   UpdateQueueEnvironmentRequest,
   UpdateQueueEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateQueueEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueEnvironmentRequest,
@@ -10023,19 +10029,21 @@ export const updateQueueEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
- */
-export const createJob: API.OperationMethod<
-  CreateJobRequest,
-  CreateJobResponse,
+export type CreateJobError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
+ */
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
+  CreateJobResponse,
+  CreateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -10049,18 +10057,20 @@ export const createJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetJobError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a Deadline Cloud job.
  */
 export const getJob: API.OperationMethod<
   GetJobRequest,
   GetJobResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
@@ -10073,6 +10083,14 @@ export const getJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a job.
  *
@@ -10083,13 +10101,7 @@ export const getJob: API.OperationMethod<
 export const updateJob: API.OperationMethod<
   UpdateJobRequest,
   UpdateJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
@@ -10103,42 +10115,34 @@ export const updateJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListJobsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists jobs.
  */
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     JobSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10158,19 +10162,21 @@ export const listJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Assigns a job membership level to a member
- */
-export const associateMemberToJob: API.OperationMethod<
-  AssociateMemberToJobRequest,
-  AssociateMemberToJobResponse,
+export type AssociateMemberToJobError =
   | AccessDeniedException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Assigns a job membership level to a member
+ */
+export const associateMemberToJob: API.OperationMethod<
+  AssociateMemberToJobRequest,
+  AssociateMemberToJobResponse,
+  AssociateMemberToJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberToJobRequest,
@@ -10184,18 +10190,20 @@ export const associateMemberToJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CopyJobTemplateError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Copies a job template to an Amazon S3 bucket.
  */
 export const copyJobTemplate: API.OperationMethod<
   CopyJobTemplateRequest,
   CopyJobTemplateResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CopyJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyJobTemplateRequest,
@@ -10208,18 +10216,20 @@ export const copyJobTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateMemberFromJobError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a member from a job.
  */
 export const disassociateMemberFromJob: API.OperationMethod<
   DisassociateMemberFromJobRequest,
   DisassociateMemberFromJobResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateMemberFromJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberFromJobRequest,
@@ -10232,18 +10242,20 @@ export const disassociateMemberFromJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSessionError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a session.
  */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -10256,18 +10268,20 @@ export const getSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSessionActionError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a session action for the job.
  */
 export const getSessionAction: API.OperationMethod<
   GetSessionActionRequest,
   GetSessionActionResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSessionActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionActionRequest,
@@ -10280,18 +10294,20 @@ export const getSessionAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStepError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a step.
  */
 export const getStep: API.OperationMethod<
   GetStepRequest,
   GetStepResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStepRequest,
@@ -10304,18 +10320,20 @@ export const getStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTaskError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a task.
  */
 export const getTask: API.OperationMethod<
   GetTaskRequest,
   GetTaskResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskRequest,
@@ -10328,42 +10346,34 @@ export const getTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListJobMembersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists members on a job.
  */
 export const listJobMembers: API.OperationMethod<
   ListJobMembersRequest,
   ListJobMembersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListJobMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobMembersRequest,
   ) => stream.Stream<
     ListJobMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobMembersRequest,
   ) => stream.Stream<
     JobMember,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10383,42 +10393,34 @@ export const listJobMembers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobParameterDefinitionsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists parameter definitions of a job.
  */
 export const listJobParameterDefinitions: API.OperationMethod<
   ListJobParameterDefinitionsRequest,
   ListJobParameterDefinitionsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListJobParameterDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobParameterDefinitionsRequest,
   ) => stream.Stream<
     ListJobParameterDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobParameterDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobParameterDefinitionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobParameterDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10438,42 +10440,34 @@ export const listJobParameterDefinitions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSessionActionsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists session actions.
  */
 export const listSessionActions: API.OperationMethod<
   ListSessionActionsRequest,
   ListSessionActionsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionActionsRequest,
   ) => stream.Stream<
     ListSessionActionsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionActionsRequest,
   ) => stream.Stream<
     SessionActionSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10493,42 +10487,34 @@ export const listSessionActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSessionsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists sessions.
  */
 export const listSessions: API.OperationMethod<
   ListSessionsRequest,
   ListSessionsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     SessionSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10548,42 +10534,34 @@ export const listSessions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStepConsumersError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists step consumers.
  */
 export const listStepConsumers: API.OperationMethod<
   ListStepConsumersRequest,
   ListStepConsumersResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStepConsumersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStepConsumersRequest,
   ) => stream.Stream<
     ListStepConsumersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStepConsumersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStepConsumersRequest,
   ) => stream.Stream<
     StepConsumer,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStepConsumersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10603,42 +10581,34 @@ export const listStepConsumers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStepDependenciesError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the dependencies for a step.
  */
 export const listStepDependencies: API.OperationMethod<
   ListStepDependenciesRequest,
   ListStepDependenciesResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStepDependenciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStepDependenciesRequest,
   ) => stream.Stream<
     ListStepDependenciesResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStepDependenciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStepDependenciesRequest,
   ) => stream.Stream<
     StepDependency,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStepDependenciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10658,42 +10628,34 @@ export const listStepDependencies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStepsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists steps for a job.
  */
 export const listSteps: API.OperationMethod<
   ListStepsRequest,
   ListStepsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStepsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStepsRequest,
   ) => stream.Stream<
     ListStepsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStepsRequest,
   ) => stream.Stream<
     StepSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10713,42 +10675,34 @@ export const listSteps: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTasksError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tasks for a job.
  */
 export const listTasks: API.OperationMethod<
   ListTasksRequest,
   ListTasksResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTasksRequest,
   ) => stream.Stream<
     ListTasksResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTasksRequest,
   ) => stream.Stream<
     TaskSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10768,19 +10722,21 @@ export const listTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates a session.
- */
-export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
-  UpdateSessionResponse,
+export type UpdateSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a session.
+ */
+export const updateSession: API.OperationMethod<
+  UpdateSessionRequest,
+  UpdateSessionResponse,
+  UpdateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionRequest,
@@ -10794,19 +10750,21 @@ export const updateSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a step.
- */
-export const updateStep: API.OperationMethod<
-  UpdateStepRequest,
-  UpdateStepResponse,
+export type UpdateStepError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a step.
+ */
+export const updateStep: API.OperationMethod<
+  UpdateStepRequest,
+  UpdateStepResponse,
+  UpdateStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStepRequest,
@@ -10820,19 +10778,21 @@ export const updateStep: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a task.
- */
-export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
-  UpdateTaskResponse,
+export type UpdateTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a task.
+ */
+export const updateTask: API.OperationMethod<
+  UpdateTaskRequest,
+  UpdateTaskResponse,
+  UpdateTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskRequest,
@@ -10846,19 +10806,21 @@ export const updateTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
- */
-export const createLicenseEndpoint: API.OperationMethod<
-  CreateLicenseEndpointRequest,
-  CreateLicenseEndpointResponse,
+export type CreateLicenseEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
+ */
+export const createLicenseEndpoint: API.OperationMethod<
+  CreateLicenseEndpointRequest,
+  CreateLicenseEndpointResponse,
+  CreateLicenseEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseEndpointRequest,
@@ -10872,18 +10834,20 @@ export const createLicenseEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLicenseEndpointError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a licence endpoint.
  */
 export const getLicenseEndpoint: API.OperationMethod<
   GetLicenseEndpointRequest,
   GetLicenseEndpointResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLicenseEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseEndpointRequest,
@@ -10896,19 +10860,21 @@ export const getLicenseEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a license endpoint.
- */
-export const deleteLicenseEndpoint: API.OperationMethod<
-  DeleteLicenseEndpointRequest,
-  DeleteLicenseEndpointResponse,
+export type DeleteLicenseEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a license endpoint.
+ */
+export const deleteLicenseEndpoint: API.OperationMethod<
+  DeleteLicenseEndpointRequest,
+  DeleteLicenseEndpointResponse,
+  DeleteLicenseEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseEndpointRequest,
@@ -10922,42 +10888,34 @@ export const deleteLicenseEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListLicenseEndpointsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists license endpoints.
  */
 export const listLicenseEndpoints: API.OperationMethod<
   ListLicenseEndpointsRequest,
   ListLicenseEndpointsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLicenseEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLicenseEndpointsRequest,
   ) => stream.Stream<
     ListLicenseEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLicenseEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLicenseEndpointsRequest,
   ) => stream.Stream<
     LicenseEndpointSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLicenseEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10977,18 +10935,20 @@ export const listLicenseEndpoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteMeteredProductError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a metered product.
  */
 export const deleteMeteredProduct: API.OperationMethod<
   DeleteMeteredProductRequest,
   DeleteMeteredProductResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMeteredProductError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMeteredProductRequest,
@@ -11001,42 +10961,34 @@ export const deleteMeteredProduct: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMeteredProductsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists metered products.
  */
 export const listMeteredProducts: API.OperationMethod<
   ListMeteredProductsRequest,
   ListMeteredProductsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMeteredProductsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMeteredProductsRequest,
   ) => stream.Stream<
     ListMeteredProductsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMeteredProductsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMeteredProductsRequest,
   ) => stream.Stream<
     MeteredProductSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMeteredProductsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11056,18 +11008,20 @@ export const listMeteredProducts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutMeteredProductError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a metered product.
  */
 export const putMeteredProduct: API.OperationMethod<
   PutMeteredProductRequest,
   PutMeteredProductResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutMeteredProductError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMeteredProductRequest,
@@ -11080,18 +11034,20 @@ export const putMeteredProduct: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateMonitorError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
  */
 export const createMonitor: API.OperationMethod<
   CreateMonitorRequest,
   CreateMonitorResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorRequest,
@@ -11104,18 +11060,20 @@ export const createMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMonitorError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified monitor.
  */
 export const getMonitor: API.OperationMethod<
   GetMonitorRequest,
   GetMonitorResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorRequest,
@@ -11128,18 +11086,20 @@ export const getMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMonitorError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call `UpdateMonitor`.
  */
 export const updateMonitor: API.OperationMethod<
   UpdateMonitorRequest,
   UpdateMonitorResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorRequest,
@@ -11152,18 +11112,20 @@ export const updateMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMonitorError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
  */
 export const deleteMonitor: API.OperationMethod<
   DeleteMonitorRequest,
   DeleteMonitorResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorRequest,
@@ -11176,39 +11138,33 @@ export const deleteMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMonitorsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of your monitors in Deadline Cloud.
  */
 export const listMonitors: API.OperationMethod<
   ListMonitorsRequest,
   ListMonitorsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMonitorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMonitorsRequest,
   ) => stream.Stream<
     ListMonitorsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitorsRequest,
   ) => stream.Stream<
     MonitorSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

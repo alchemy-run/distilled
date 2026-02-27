@@ -1153,6 +1153,11 @@ export class SyncBlockerDoesNotExistException extends S.TaggedErrorClass<SyncBlo
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateConnectionError =
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so
  * that it can access third-party code repositories. The connection is in pending status until
@@ -1161,10 +1166,7 @@ export class SyncBlockerDoesNotExistException extends S.TaggedErrorClass<SyncBlo
 export const createConnection: API.OperationMethod<
   CreateConnectionInput,
   CreateConnectionOutput,
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  CreateConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionInput,
@@ -1175,6 +1177,7 @@ export const createConnection: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
+export type CreateHostError = LimitExceededException | CommonErrors;
 /**
  * Creates a resource that represents the infrastructure where a third-party provider is
  * installed. The host is used when you create connections to an installed third-party provider
@@ -1187,19 +1190,14 @@ export const createConnection: API.OperationMethod<
 export const createHost: API.OperationMethod<
   CreateHostInput,
   CreateHostOutput,
-  LimitExceededException | CommonErrors,
+  CreateHostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHostInput,
   output: CreateHostOutput,
   errors: [LimitExceededException],
 }));
-/**
- * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
- */
-export const createRepositoryLink: API.OperationMethod<
-  CreateRepositoryLinkInput,
-  CreateRepositoryLinkOutput,
+export type CreateRepositoryLinkError =
   | AccessDeniedException
   | ConcurrentModificationException
   | InternalServerException
@@ -1207,7 +1205,14 @@ export const createRepositoryLink: API.OperationMethod<
   | LimitExceededException
   | ResourceAlreadyExistsException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+ */
+export const createRepositoryLink: API.OperationMethod<
+  CreateRepositoryLinkInput,
+  CreateRepositoryLinkOutput,
+  CreateRepositoryLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryLinkInput,
@@ -1222,6 +1227,15 @@ export const createRepositoryLink: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateSyncConfigurationError =
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a sync configuration which allows Amazon Web Services to sync content from a Git
  * repository to update a specified Amazon Web Services resource. Parameters for the sync
@@ -1230,14 +1244,7 @@ export const createRepositoryLink: API.OperationMethod<
 export const createSyncConfiguration: API.OperationMethod<
   CreateSyncConfigurationInput,
   CreateSyncConfigurationOutput,
-  | AccessDeniedException
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateSyncConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSyncConfigurationInput,
@@ -1252,19 +1259,24 @@ export const createSyncConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
 /**
  * The connection to be deleted.
  */
 export const deleteConnection: API.OperationMethod<
   DeleteConnectionInput,
   DeleteConnectionOutput,
-  ResourceNotFoundException | CommonErrors,
+  DeleteConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionInput,
   output: DeleteConnectionOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DeleteHostError =
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.
  *
@@ -1273,19 +1285,14 @@ export const deleteConnection: API.OperationMethod<
 export const deleteHost: API.OperationMethod<
   DeleteHostInput,
   DeleteHostOutput,
-  ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
+  DeleteHostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHostInput,
   output: DeleteHostOutput,
   errors: [ResourceNotFoundException, ResourceUnavailableException],
 }));
-/**
- * Deletes the association between your connection and a specified external Git repository.
- */
-export const deleteRepositoryLink: API.OperationMethod<
-  DeleteRepositoryLinkInput,
-  DeleteRepositoryLinkOutput,
+export type DeleteRepositoryLinkError =
   | AccessDeniedException
   | ConcurrentModificationException
   | InternalServerException
@@ -1294,7 +1301,14 @@ export const deleteRepositoryLink: API.OperationMethod<
   | SyncConfigurationStillExistsException
   | ThrottlingException
   | UnsupportedProviderTypeException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the association between your connection and a specified external Git repository.
+ */
+export const deleteRepositoryLink: API.OperationMethod<
+  DeleteRepositoryLinkInput,
+  DeleteRepositoryLinkOutput,
+  DeleteRepositoryLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryLinkInput,
@@ -1310,19 +1324,21 @@ export const deleteRepositoryLink: API.OperationMethod<
     UnsupportedProviderTypeException,
   ],
 }));
-/**
- * Deletes the sync configuration for a specified repository and connection.
- */
-export const deleteSyncConfiguration: API.OperationMethod<
-  DeleteSyncConfigurationInput,
-  DeleteSyncConfigurationOutput,
+export type DeleteSyncConfigurationError =
   | AccessDeniedException
   | ConcurrentModificationException
   | InternalServerException
   | InvalidInputException
   | LimitExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the sync configuration for a specified repository and connection.
+ */
+export const deleteSyncConfiguration: API.OperationMethod<
+  DeleteSyncConfigurationInput,
+  DeleteSyncConfigurationOutput,
+  DeleteSyncConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSyncConfigurationInput,
@@ -1336,19 +1352,27 @@ export const deleteSyncConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetConnectionError =
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Returns the connection ARN and details such as status, owner, and provider type.
  */
 export const getConnection: API.OperationMethod<
   GetConnectionInput,
   GetConnectionOutput,
-  ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
+  GetConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionInput,
   output: GetConnectionOutput,
   errors: [ResourceNotFoundException, ResourceUnavailableException],
 }));
+export type GetHostError =
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Returns the host ARN and details such as status, provider type, endpoint, and, if
  * applicable, the VPC configuration.
@@ -1356,13 +1380,21 @@ export const getConnection: API.OperationMethod<
 export const getHost: API.OperationMethod<
   GetHostInput,
   GetHostOutput,
-  ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
+  GetHostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostInput,
   output: GetHostOutput,
   errors: [ResourceNotFoundException, ResourceUnavailableException],
 }));
+export type GetRepositoryLinkError =
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns details about a repository link. A repository link allows Git sync to monitor
  * and sync changes from files in a specified Git repository.
@@ -1370,13 +1402,7 @@ export const getHost: API.OperationMethod<
 export const getRepositoryLink: API.OperationMethod<
   GetRepositoryLinkInput,
   GetRepositoryLinkOutput,
-  | AccessDeniedException
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetRepositoryLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryLinkInput,
@@ -1390,6 +1416,13 @@ export const getRepositoryLink: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetRepositorySyncStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns details about the sync status for a repository. A repository sync uses Git sync
  * to push and pull changes from your remote repository.
@@ -1397,12 +1430,7 @@ export const getRepositoryLink: API.OperationMethod<
 export const getRepositorySyncStatus: API.OperationMethod<
   GetRepositorySyncStatusInput,
   GetRepositorySyncStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetRepositorySyncStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositorySyncStatusInput,
@@ -1415,6 +1443,13 @@ export const getRepositorySyncStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResourceSyncStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the status of the sync with the Git repository for a specific Amazon Web Services
  * resource.
@@ -1422,12 +1457,7 @@ export const getRepositorySyncStatus: API.OperationMethod<
 export const getResourceSyncStatus: API.OperationMethod<
   GetResourceSyncStatusInput,
   GetResourceSyncStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetResourceSyncStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceSyncStatusInput,
@@ -1440,18 +1470,20 @@ export const getResourceSyncStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetSyncBlockerSummaryError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of the most recent sync blockers.
  */
 export const getSyncBlockerSummary: API.OperationMethod<
   GetSyncBlockerSummaryInput,
   GetSyncBlockerSummaryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetSyncBlockerSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSyncBlockerSummaryInput,
@@ -1464,18 +1496,20 @@ export const getSyncBlockerSummary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetSyncConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
  */
 export const getSyncConfiguration: API.OperationMethod<
   GetSyncConfigurationInput,
   GetSyncConfigurationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetSyncConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSyncConfigurationInput,
@@ -1488,27 +1522,28 @@ export const getSyncConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the connections associated with your account.
  */
 export const listConnections: API.OperationMethod<
   ListConnectionsInput,
   ListConnectionsOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectionsInput,
   ) => stream.Stream<
     ListConnectionsOutput,
-    ResourceNotFoundException | CommonErrors,
+    ListConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionsInput,
   ) => stream.Stream<
     unknown,
-    ResourceNotFoundException | CommonErrors,
+    ListConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1521,27 +1556,28 @@ export const listConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListHostsError = CommonErrors;
 /**
  * Lists the hosts associated with your account.
  */
 export const listHosts: API.OperationMethod<
   ListHostsInput,
   ListHostsOutput,
-  CommonErrors,
+  ListHostsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHostsInput,
   ) => stream.Stream<
     ListHostsOutput,
-    CommonErrors,
+    ListHostsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHostsInput,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListHostsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1554,45 +1590,35 @@ export const listHosts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the repository links created for connections in your account.
- */
-export const listRepositoryLinks: API.OperationMethod<
-  ListRepositoryLinksInput,
-  ListRepositoryLinksOutput,
+export type ListRepositoryLinksError =
   | AccessDeniedException
   | ConcurrentModificationException
   | InternalServerException
   | InvalidInputException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the repository links created for connections in your account.
+ */
+export const listRepositoryLinks: API.OperationMethod<
+  ListRepositoryLinksInput,
+  ListRepositoryLinksOutput,
+  ListRepositoryLinksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoryLinksInput,
   ) => stream.Stream<
     ListRepositoryLinksOutput,
-    | AccessDeniedException
-    | ConcurrentModificationException
-    | InternalServerException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRepositoryLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoryLinksInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConcurrentModificationException
-    | InternalServerException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRepositoryLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1612,18 +1638,20 @@ export const listRepositoryLinks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRepositorySyncDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the repository sync definitions for repository links in your account.
  */
 export const listRepositorySyncDefinitions: API.OperationMethod<
   ListRepositorySyncDefinitionsInput,
   ListRepositorySyncDefinitionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRepositorySyncDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRepositorySyncDefinitionsInput,
@@ -1636,42 +1664,34 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListSyncConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of sync configurations for a specified repository.
  */
 export const listSyncConfigurations: API.OperationMethod<
   ListSyncConfigurationsInput,
   ListSyncConfigurationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSyncConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSyncConfigurationsInput,
   ) => stream.Stream<
     ListSyncConfigurationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSyncConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSyncConfigurationsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSyncConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1690,19 +1710,24 @@ export const listSyncConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets the set of key-value pairs (metadata) that are used to manage the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
  * to manage a resource.
@@ -1710,37 +1735,40 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  LimitExceededException | ResourceNotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [LimitExceededException, ResourceNotFoundException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateHostError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Updates a specified host with the provided configurations.
  */
 export const updateHost: API.OperationMethod<
   UpdateHostInput,
   UpdateHostOutput,
-  | ConflictException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdateHostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHostInput,
@@ -1752,6 +1780,15 @@ export const updateHost: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type UpdateRepositoryLinkError =
+  | AccessDeniedException
+  | ConditionalCheckFailedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UpdateOutOfSyncException
+  | CommonErrors;
 /**
  * Updates the association between your connection and a specified external Git repository.
  * A repository link allows Git sync to monitor and sync changes to files in a specified Git
@@ -1760,14 +1797,7 @@ export const updateHost: API.OperationMethod<
 export const updateRepositoryLink: API.OperationMethod<
   UpdateRepositoryLinkInput,
   UpdateRepositoryLinkOutput,
-  | AccessDeniedException
-  | ConditionalCheckFailedException
-  | InternalServerException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UpdateOutOfSyncException
-  | CommonErrors,
+  UpdateRepositoryLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepositoryLinkInput,
@@ -1782,12 +1812,7 @@ export const updateRepositoryLink: API.OperationMethod<
     UpdateOutOfSyncException,
   ],
 }));
-/**
- * Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
- */
-export const updateSyncBlocker: API.OperationMethod<
-  UpdateSyncBlockerInput,
-  UpdateSyncBlockerOutput,
+export type UpdateSyncBlockerError =
   | AccessDeniedException
   | InternalServerException
   | InvalidInputException
@@ -1795,7 +1820,14 @@ export const updateSyncBlocker: API.OperationMethod<
   | RetryLatestCommitFailedException
   | SyncBlockerDoesNotExistException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
+ */
+export const updateSyncBlocker: API.OperationMethod<
+  UpdateSyncBlockerInput,
+  UpdateSyncBlockerOutput,
+  UpdateSyncBlockerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSyncBlockerInput,
@@ -1810,12 +1842,7 @@ export const updateSyncBlocker: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the sync configuration for your connection and a specified external Git repository.
- */
-export const updateSyncConfiguration: API.OperationMethod<
-  UpdateSyncConfigurationInput,
-  UpdateSyncConfigurationOutput,
+export type UpdateSyncConfigurationError =
   | AccessDeniedException
   | ConcurrentModificationException
   | InternalServerException
@@ -1823,7 +1850,14 @@ export const updateSyncConfiguration: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | UpdateOutOfSyncException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the sync configuration for your connection and a specified external Git repository.
+ */
+export const updateSyncConfiguration: API.OperationMethod<
+  UpdateSyncConfigurationInput,
+  UpdateSyncConfigurationOutput,
+  UpdateSyncConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSyncConfigurationInput,

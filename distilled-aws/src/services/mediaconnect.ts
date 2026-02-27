@@ -6587,23 +6587,23 @@ export const BatchGetRouterInputRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetRouterInputRequest>;
 export type RouterInputList = RouterInput[];
 export const RouterInputList = S.Array(RouterInput);
-export interface BatchGetRouterInputError {
+export interface BatchGetRouterInputError_ {
   Arn: string;
   Code: string;
   Message: string;
 }
-export const BatchGetRouterInputError = S.suspend(() =>
+export const BatchGetRouterInputError_ = S.suspend(() =>
   S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
     S.encodeKeys({ Arn: "arn", Code: "code", Message: "message" }),
   ),
 ).annotate({
   identifier: "BatchGetRouterInputError",
-}) as any as S.Schema<BatchGetRouterInputError>;
-export type BatchGetRouterInputErrorList = BatchGetRouterInputError[];
-export const BatchGetRouterInputErrorList = S.Array(BatchGetRouterInputError);
+}) as any as S.Schema<BatchGetRouterInputError_>;
+export type BatchGetRouterInputErrorList = BatchGetRouterInputError_[];
+export const BatchGetRouterInputErrorList = S.Array(BatchGetRouterInputError_);
 export interface BatchGetRouterInputResponse {
   RouterInputs: RouterInput[];
-  Errors: BatchGetRouterInputError[];
+  Errors: BatchGetRouterInputError_[];
 }
 export const BatchGetRouterInputResponse = S.suspend(() =>
   S.Struct({
@@ -6993,26 +6993,26 @@ export const BatchGetRouterNetworkInterfaceRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetRouterNetworkInterfaceRequest>;
 export type RouterNetworkInterfaceList = RouterNetworkInterface[];
 export const RouterNetworkInterfaceList = S.Array(RouterNetworkInterface);
-export interface BatchGetRouterNetworkInterfaceError {
+export interface BatchGetRouterNetworkInterfaceError_ {
   Arn: string;
   Code: string;
   Message: string;
 }
-export const BatchGetRouterNetworkInterfaceError = S.suspend(() =>
+export const BatchGetRouterNetworkInterfaceError_ = S.suspend(() =>
   S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
     S.encodeKeys({ Arn: "arn", Code: "code", Message: "message" }),
   ),
 ).annotate({
   identifier: "BatchGetRouterNetworkInterfaceError",
-}) as any as S.Schema<BatchGetRouterNetworkInterfaceError>;
+}) as any as S.Schema<BatchGetRouterNetworkInterfaceError_>;
 export type BatchGetRouterNetworkInterfaceErrorList =
-  BatchGetRouterNetworkInterfaceError[];
+  BatchGetRouterNetworkInterfaceError_[];
 export const BatchGetRouterNetworkInterfaceErrorList = S.Array(
-  BatchGetRouterNetworkInterfaceError,
+  BatchGetRouterNetworkInterfaceError_,
 );
 export interface BatchGetRouterNetworkInterfaceResponse {
   RouterNetworkInterfaces: RouterNetworkInterface[];
-  Errors: BatchGetRouterNetworkInterfaceError[];
+  Errors: BatchGetRouterNetworkInterfaceError_[];
 }
 export const BatchGetRouterNetworkInterfaceResponse = S.suspend(() =>
   S.Struct({
@@ -7946,23 +7946,25 @@ export const BatchGetRouterOutputRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetRouterOutputRequest>;
 export type RouterOutputList = RouterOutput[];
 export const RouterOutputList = S.Array(RouterOutput);
-export interface BatchGetRouterOutputError {
+export interface BatchGetRouterOutputError_ {
   Arn: string;
   Code: string;
   Message: string;
 }
-export const BatchGetRouterOutputError = S.suspend(() =>
+export const BatchGetRouterOutputError_ = S.suspend(() =>
   S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
     S.encodeKeys({ Arn: "arn", Code: "code", Message: "message" }),
   ),
 ).annotate({
   identifier: "BatchGetRouterOutputError",
-}) as any as S.Schema<BatchGetRouterOutputError>;
-export type BatchGetRouterOutputErrorList = BatchGetRouterOutputError[];
-export const BatchGetRouterOutputErrorList = S.Array(BatchGetRouterOutputError);
+}) as any as S.Schema<BatchGetRouterOutputError_>;
+export type BatchGetRouterOutputErrorList = BatchGetRouterOutputError_[];
+export const BatchGetRouterOutputErrorList = S.Array(
+  BatchGetRouterOutputError_,
+);
 export interface BatchGetRouterOutputResponse {
   RouterOutputs: RouterOutput[];
-  Errors: BatchGetRouterOutputError[];
+  Errors: BatchGetRouterOutputError_[];
 }
 export const BatchGetRouterOutputResponse = S.suspend(() =>
   S.Struct({
@@ -8040,39 +8042,33 @@ export class RouterOutputServiceQuotaExceededException extends S.TaggedErrorClas
 ) {}
 
 //# Operations
+export type ListEntitlementsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
  */
 export const listEntitlements: API.OperationMethod<
   ListEntitlementsRequest,
   ListEntitlementsResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEntitlementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntitlementsRequest,
   ) => stream.Stream<
     ListEntitlementsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntitlementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntitlementsRequest,
   ) => stream.Stream<
     ListedEntitlement,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntitlementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8091,16 +8087,18 @@ export const listEntitlements: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForGlobalResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
 export const listTagsForGlobalResource: API.OperationMethod<
   ListTagsForGlobalResourceRequest,
   ListTagsForGlobalResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsForGlobalResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForGlobalResourceRequest,
@@ -8111,16 +8109,18 @@ export const listTagsForGlobalResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * List all tags on a MediaConnect resource in the current region.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -8131,16 +8131,18 @@ export const listTagsForResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type TagGlobalResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
 export const tagGlobalResource: API.OperationMethod<
   TagGlobalResourceRequest,
   TagGlobalResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  TagGlobalResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagGlobalResourceRequest,
@@ -8151,16 +8153,18 @@ export const tagGlobalResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn` in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8171,16 +8175,18 @@ export const tagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UntagGlobalResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
 export const untagGlobalResource: API.OperationMethod<
   UntagGlobalResourceRequest,
   UntagGlobalResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UntagGlobalResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagGlobalResourceRequest,
@@ -8191,16 +8197,18 @@ export const untagGlobalResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes specified tags from a resource in the current region.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8211,12 +8219,7 @@ export const untagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Creates a new bridge. The request must include one source.
- */
-export const createBridge: API.OperationMethod<
-  CreateBridgeRequest,
-  CreateBridgeResponse,
+export type CreateBridgeError =
   | BadRequestException
   | ConflictException
   | CreateBridge420Exception
@@ -8224,7 +8227,14 @@ export const createBridge: API.OperationMethod<
   | InternalServerErrorException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new bridge. The request must include one source.
+ */
+export const createBridge: API.OperationMethod<
+  CreateBridgeRequest,
+  CreateBridgeResponse,
+  CreateBridgeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBridgeRequest,
@@ -8239,12 +8249,7 @@ export const createBridge: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Displays the details of a bridge.
- */
-export const describeBridge: API.OperationMethod<
-  DescribeBridgeRequest,
-  DescribeBridgeResponse,
+export type DescribeBridgeError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8252,7 +8257,14 @@ export const describeBridge: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Displays the details of a bridge.
+ */
+export const describeBridge: API.OperationMethod<
+  DescribeBridgeRequest,
+  DescribeBridgeResponse,
+  DescribeBridgeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBridgeRequest,
@@ -8267,12 +8279,7 @@ export const describeBridge: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the bridge.
- */
-export const updateBridge: API.OperationMethod<
-  UpdateBridgeRequest,
-  UpdateBridgeResponse,
+export type UpdateBridgeError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8280,7 +8287,14 @@ export const updateBridge: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the bridge.
+ */
+export const updateBridge: API.OperationMethod<
+  UpdateBridgeRequest,
+  UpdateBridgeResponse,
+  UpdateBridgeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeRequest,
@@ -8295,12 +8309,7 @@ export const updateBridge: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
- */
-export const deleteBridge: API.OperationMethod<
-  DeleteBridgeRequest,
-  DeleteBridgeResponse,
+export type DeleteBridgeError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8308,7 +8317,14 @@ export const deleteBridge: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
+ */
+export const deleteBridge: API.OperationMethod<
+  DeleteBridgeRequest,
+  DeleteBridgeResponse,
+  DeleteBridgeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBridgeRequest,
@@ -8323,42 +8339,34 @@ export const deleteBridge: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListBridgesError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
  */
 export const listBridges: API.OperationMethod<
   ListBridgesRequest,
   ListBridgesResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListBridgesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBridgesRequest,
   ) => stream.Stream<
     ListBridgesResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListBridgesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBridgesRequest,
   ) => stream.Stream<
     ListedBridge,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListBridgesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8378,12 +8386,7 @@ export const listBridges: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Adds outputs to an existing bridge.
- */
-export const addBridgeOutputs: API.OperationMethod<
-  AddBridgeOutputsRequest,
-  AddBridgeOutputsResponse,
+export type AddBridgeOutputsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8391,7 +8394,14 @@ export const addBridgeOutputs: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds outputs to an existing bridge.
+ */
+export const addBridgeOutputs: API.OperationMethod<
+  AddBridgeOutputsRequest,
+  AddBridgeOutputsResponse,
+  AddBridgeOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddBridgeOutputsRequest,
@@ -8406,12 +8416,7 @@ export const addBridgeOutputs: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds sources to an existing bridge.
- */
-export const addBridgeSources: API.OperationMethod<
-  AddBridgeSourcesRequest,
-  AddBridgeSourcesResponse,
+export type AddBridgeSourcesError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8419,7 +8424,14 @@ export const addBridgeSources: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds sources to an existing bridge.
+ */
+export const addBridgeSources: API.OperationMethod<
+  AddBridgeSourcesRequest,
+  AddBridgeSourcesResponse,
+  AddBridgeSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddBridgeSourcesRequest,
@@ -8434,12 +8446,7 @@ export const addBridgeSources: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Removes an output from a bridge.
- */
-export const removeBridgeOutput: API.OperationMethod<
-  RemoveBridgeOutputRequest,
-  RemoveBridgeOutputResponse,
+export type RemoveBridgeOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8447,7 +8454,14 @@ export const removeBridgeOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes an output from a bridge.
+ */
+export const removeBridgeOutput: API.OperationMethod<
+  RemoveBridgeOutputRequest,
+  RemoveBridgeOutputResponse,
+  RemoveBridgeOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveBridgeOutputRequest,
@@ -8462,12 +8476,7 @@ export const removeBridgeOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Removes a source from a bridge.
- */
-export const removeBridgeSource: API.OperationMethod<
-  RemoveBridgeSourceRequest,
-  RemoveBridgeSourceResponse,
+export type RemoveBridgeSourceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8475,7 +8484,14 @@ export const removeBridgeSource: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a source from a bridge.
+ */
+export const removeBridgeSource: API.OperationMethod<
+  RemoveBridgeSourceRequest,
+  RemoveBridgeSourceResponse,
+  RemoveBridgeSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveBridgeSourceRequest,
@@ -8490,12 +8506,7 @@ export const removeBridgeSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing bridge output.
- */
-export const updateBridgeOutput: API.OperationMethod<
-  UpdateBridgeOutputRequest,
-  UpdateBridgeOutputResponse,
+export type UpdateBridgeOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8503,7 +8514,14 @@ export const updateBridgeOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing bridge output.
+ */
+export const updateBridgeOutput: API.OperationMethod<
+  UpdateBridgeOutputRequest,
+  UpdateBridgeOutputResponse,
+  UpdateBridgeOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeOutputRequest,
@@ -8518,12 +8536,7 @@ export const updateBridgeOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing bridge source.
- */
-export const updateBridgeSource: API.OperationMethod<
-  UpdateBridgeSourceRequest,
-  UpdateBridgeSourceResponse,
+export type UpdateBridgeSourceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8531,7 +8544,14 @@ export const updateBridgeSource: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing bridge source.
+ */
+export const updateBridgeSource: API.OperationMethod<
+  UpdateBridgeSourceRequest,
+  UpdateBridgeSourceResponse,
+  UpdateBridgeSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeSourceRequest,
@@ -8546,12 +8566,7 @@ export const updateBridgeSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the bridge state.
- */
-export const updateBridgeState: API.OperationMethod<
-  UpdateBridgeStateRequest,
-  UpdateBridgeStateResponse,
+export type UpdateBridgeStateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -8559,7 +8574,14 @@ export const updateBridgeState: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the bridge state.
+ */
+export const updateBridgeState: API.OperationMethod<
+  UpdateBridgeStateRequest,
+  UpdateBridgeStateResponse,
+  UpdateBridgeStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeStateRequest,
@@ -8574,19 +8596,21 @@ export const updateBridgeState: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
- */
-export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
-  CreateFlowResponse,
+export type CreateFlowError =
   | BadRequestException
   | CreateFlow420Exception
   | ForbiddenException
   | InternalServerErrorException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
+ */
+export const createFlow: API.OperationMethod<
+  CreateFlowRequest,
+  CreateFlowResponse,
+  CreateFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowRequest,
@@ -8600,19 +8624,21 @@ export const createFlow: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
- */
-export const describeFlow: API.OperationMethod<
-  DescribeFlowRequest,
-  DescribeFlowResponse,
+export type DescribeFlowError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
+ */
+export const describeFlow: API.OperationMethod<
+  DescribeFlowRequest,
+  DescribeFlowResponse,
+  DescribeFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlowRequest,
@@ -8626,6 +8652,14 @@ export const describeFlow: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateFlowError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an existing flow.
  *
@@ -8646,13 +8680,7 @@ export const describeFlow: API.OperationMethod<
 export const updateFlow: API.OperationMethod<
   UpdateFlowRequest,
   UpdateFlowResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowRequest,
@@ -8666,19 +8694,21 @@ export const updateFlow: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a flow. Before you can delete a flow, you must stop the flow.
- */
-export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
-  DeleteFlowResponse,
+export type DeleteFlowError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a flow. Before you can delete a flow, you must stop the flow.
+ */
+export const deleteFlow: API.OperationMethod<
+  DeleteFlowRequest,
+  DeleteFlowResponse,
+  DeleteFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowRequest,
@@ -8692,39 +8722,33 @@ export const deleteFlow: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListFlowsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of flows that are associated with this account. This request returns a paginated result.
  */
 export const listFlows: API.OperationMethod<
   ListFlowsRequest,
   ListFlowsResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListFlowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowsRequest,
   ) => stream.Stream<
     ListFlowsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFlowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowsRequest,
   ) => stream.Stream<
     ListedFlow,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFlowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8743,19 +8767,21 @@ export const listFlows: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
- */
-export const addFlowMediaStreams: API.OperationMethod<
-  AddFlowMediaStreamsRequest,
-  AddFlowMediaStreamsResponse,
+export type AddFlowMediaStreamsError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
+ */
+export const addFlowMediaStreams: API.OperationMethod<
+  AddFlowMediaStreamsRequest,
+  AddFlowMediaStreamsResponse,
+  AddFlowMediaStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowMediaStreamsRequest,
@@ -8769,12 +8795,7 @@ export const addFlowMediaStreams: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds outputs to an existing flow. You can create up to 50 outputs per flow.
- */
-export const addFlowOutputs: API.OperationMethod<
-  AddFlowOutputsRequest,
-  AddFlowOutputsResponse,
+export type AddFlowOutputsError =
   | AddFlowOutputs420Exception
   | BadRequestException
   | ForbiddenException
@@ -8782,7 +8803,14 @@ export const addFlowOutputs: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds outputs to an existing flow. You can create up to 50 outputs per flow.
+ */
+export const addFlowOutputs: API.OperationMethod<
+  AddFlowOutputsRequest,
+  AddFlowOutputsResponse,
+  AddFlowOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowOutputsRequest,
@@ -8797,19 +8825,21 @@ export const addFlowOutputs: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds sources to a flow.
- */
-export const addFlowSources: API.OperationMethod<
-  AddFlowSourcesRequest,
-  AddFlowSourcesResponse,
+export type AddFlowSourcesError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds sources to a flow.
+ */
+export const addFlowSources: API.OperationMethod<
+  AddFlowSourcesRequest,
+  AddFlowSourcesResponse,
+  AddFlowSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowSourcesRequest,
@@ -8823,19 +8853,21 @@ export const addFlowSources: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds VPC interfaces to a flow.
- */
-export const addFlowVpcInterfaces: API.OperationMethod<
-  AddFlowVpcInterfacesRequest,
-  AddFlowVpcInterfacesResponse,
+export type AddFlowVpcInterfacesError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds VPC interfaces to a flow.
+ */
+export const addFlowVpcInterfaces: API.OperationMethod<
+  AddFlowVpcInterfacesRequest,
+  AddFlowVpcInterfacesResponse,
+  AddFlowVpcInterfacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowVpcInterfacesRequest,
@@ -8849,19 +8881,21 @@ export const addFlowVpcInterfaces: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * The `DescribeFlowSourceMetadata` API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
- */
-export const describeFlowSourceMetadata: API.OperationMethod<
-  DescribeFlowSourceMetadataRequest,
-  DescribeFlowSourceMetadataResponse,
+export type DescribeFlowSourceMetadataError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The `DescribeFlowSourceMetadata` API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
+ */
+export const describeFlowSourceMetadata: API.OperationMethod<
+  DescribeFlowSourceMetadataRequest,
+  DescribeFlowSourceMetadataResponse,
+  DescribeFlowSourceMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlowSourceMetadataRequest,
@@ -8875,19 +8909,21 @@ export const describeFlowSourceMetadata: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes the thumbnail for the flow source.
- */
-export const describeFlowSourceThumbnail: API.OperationMethod<
-  DescribeFlowSourceThumbnailRequest,
-  DescribeFlowSourceThumbnailResponse,
+export type DescribeFlowSourceThumbnailError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the thumbnail for the flow source.
+ */
+export const describeFlowSourceThumbnail: API.OperationMethod<
+  DescribeFlowSourceThumbnailRequest,
+  DescribeFlowSourceThumbnailResponse,
+  DescribeFlowSourceThumbnailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlowSourceThumbnailRequest,
@@ -8901,12 +8937,7 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Grants entitlements to an existing flow.
- */
-export const grantFlowEntitlements: API.OperationMethod<
-  GrantFlowEntitlementsRequest,
-  GrantFlowEntitlementsResponse,
+export type GrantFlowEntitlementsError =
   | BadRequestException
   | ForbiddenException
   | GrantFlowEntitlements420Exception
@@ -8914,7 +8945,14 @@ export const grantFlowEntitlements: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Grants entitlements to an existing flow.
+ */
+export const grantFlowEntitlements: API.OperationMethod<
+  GrantFlowEntitlementsRequest,
+  GrantFlowEntitlementsResponse,
+  GrantFlowEntitlementsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GrantFlowEntitlementsRequest,
@@ -8929,19 +8967,21 @@ export const grantFlowEntitlements: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
- */
-export const removeFlowMediaStream: API.OperationMethod<
-  RemoveFlowMediaStreamRequest,
-  RemoveFlowMediaStreamResponse,
+export type RemoveFlowMediaStreamError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
+ */
+export const removeFlowMediaStream: API.OperationMethod<
+  RemoveFlowMediaStreamRequest,
+  RemoveFlowMediaStreamResponse,
+  RemoveFlowMediaStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFlowMediaStreamRequest,
@@ -8955,19 +8995,21 @@ export const removeFlowMediaStream: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
- */
-export const removeFlowOutput: API.OperationMethod<
-  RemoveFlowOutputRequest,
-  RemoveFlowOutputResponse,
+export type RemoveFlowOutputError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
+ */
+export const removeFlowOutput: API.OperationMethod<
+  RemoveFlowOutputRequest,
+  RemoveFlowOutputResponse,
+  RemoveFlowOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFlowOutputRequest,
@@ -8981,19 +9023,21 @@ export const removeFlowOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
- */
-export const removeFlowSource: API.OperationMethod<
-  RemoveFlowSourceRequest,
-  RemoveFlowSourceResponse,
+export type RemoveFlowSourceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
+ */
+export const removeFlowSource: API.OperationMethod<
+  RemoveFlowSourceRequest,
+  RemoveFlowSourceResponse,
+  RemoveFlowSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFlowSourceRequest,
@@ -9007,19 +9051,21 @@ export const removeFlowSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
- */
-export const removeFlowVpcInterface: API.OperationMethod<
-  RemoveFlowVpcInterfaceRequest,
-  RemoveFlowVpcInterfaceResponse,
+export type RemoveFlowVpcInterfaceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
+ */
+export const removeFlowVpcInterface: API.OperationMethod<
+  RemoveFlowVpcInterfaceRequest,
+  RemoveFlowVpcInterfaceResponse,
+  RemoveFlowVpcInterfaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFlowVpcInterfaceRequest,
@@ -9033,19 +9079,21 @@ export const removeFlowVpcInterface: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
- */
-export const revokeFlowEntitlement: API.OperationMethod<
-  RevokeFlowEntitlementRequest,
-  RevokeFlowEntitlementResponse,
+export type RevokeFlowEntitlementError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
+ */
+export const revokeFlowEntitlement: API.OperationMethod<
+  RevokeFlowEntitlementRequest,
+  RevokeFlowEntitlementResponse,
+  RevokeFlowEntitlementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeFlowEntitlementRequest,
@@ -9059,19 +9107,21 @@ export const revokeFlowEntitlement: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Starts a flow.
- */
-export const startFlow: API.OperationMethod<
-  StartFlowRequest,
-  StartFlowResponse,
+export type StartFlowError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a flow.
+ */
+export const startFlow: API.OperationMethod<
+  StartFlowRequest,
+  StartFlowResponse,
+  StartFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowRequest,
@@ -9085,19 +9135,21 @@ export const startFlow: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Stops a flow.
- */
-export const stopFlow: API.OperationMethod<
-  StopFlowRequest,
-  StopFlowResponse,
+export type StopFlowError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a flow.
+ */
+export const stopFlow: API.OperationMethod<
+  StopFlowRequest,
+  StopFlowResponse,
+  StopFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFlowRequest,
@@ -9111,19 +9163,21 @@ export const stopFlow: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
- */
-export const updateFlowEntitlement: API.OperationMethod<
-  UpdateFlowEntitlementRequest,
-  UpdateFlowEntitlementResponse,
+export type UpdateFlowEntitlementError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
+ */
+export const updateFlowEntitlement: API.OperationMethod<
+  UpdateFlowEntitlementRequest,
+  UpdateFlowEntitlementResponse,
+  UpdateFlowEntitlementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowEntitlementRequest,
@@ -9137,19 +9191,21 @@ export const updateFlowEntitlement: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing media stream.
- */
-export const updateFlowMediaStream: API.OperationMethod<
-  UpdateFlowMediaStreamRequest,
-  UpdateFlowMediaStreamResponse,
+export type UpdateFlowMediaStreamError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing media stream.
+ */
+export const updateFlowMediaStream: API.OperationMethod<
+  UpdateFlowMediaStreamRequest,
+  UpdateFlowMediaStreamResponse,
+  UpdateFlowMediaStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowMediaStreamRequest,
@@ -9163,19 +9219,21 @@ export const updateFlowMediaStream: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing flow output.
- */
-export const updateFlowOutput: API.OperationMethod<
-  UpdateFlowOutputRequest,
-  UpdateFlowOutputResponse,
+export type UpdateFlowOutputError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing flow output.
+ */
+export const updateFlowOutput: API.OperationMethod<
+  UpdateFlowOutputRequest,
+  UpdateFlowOutputResponse,
+  UpdateFlowOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowOutputRequest,
@@ -9189,6 +9247,14 @@ export const updateFlowOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateFlowSourceError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the source of a flow.
  *
@@ -9209,13 +9275,7 @@ export const updateFlowOutput: API.OperationMethod<
 export const updateFlowSource: API.OperationMethod<
   UpdateFlowSourceRequest,
   UpdateFlowSourceResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateFlowSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowSourceRequest,
@@ -9229,12 +9289,7 @@ export const updateFlowSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Displays the details of an instance.
- */
-export const describeGatewayInstance: API.OperationMethod<
-  DescribeGatewayInstanceRequest,
-  DescribeGatewayInstanceResponse,
+export type DescribeGatewayInstanceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9242,7 +9297,14 @@ export const describeGatewayInstance: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Displays the details of an instance.
+ */
+export const describeGatewayInstance: API.OperationMethod<
+  DescribeGatewayInstanceRequest,
+  DescribeGatewayInstanceResponse,
+  DescribeGatewayInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayInstanceRequest,
@@ -9257,12 +9319,7 @@ export const describeGatewayInstance: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing gateway instance.
- */
-export const updateGatewayInstance: API.OperationMethod<
-  UpdateGatewayInstanceRequest,
-  UpdateGatewayInstanceResponse,
+export type UpdateGatewayInstanceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9270,7 +9327,14 @@ export const updateGatewayInstance: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing gateway instance.
+ */
+export const updateGatewayInstance: API.OperationMethod<
+  UpdateGatewayInstanceRequest,
+  UpdateGatewayInstanceResponse,
+  UpdateGatewayInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayInstanceRequest,
@@ -9285,12 +9349,7 @@ export const updateGatewayInstance: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
- */
-export const deregisterGatewayInstance: API.OperationMethod<
-  DeregisterGatewayInstanceRequest,
-  DeregisterGatewayInstanceResponse,
+export type DeregisterGatewayInstanceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9298,7 +9357,14 @@ export const deregisterGatewayInstance: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
+ */
+export const deregisterGatewayInstance: API.OperationMethod<
+  DeregisterGatewayInstanceRequest,
+  DeregisterGatewayInstanceResponse,
+  DeregisterGatewayInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterGatewayInstanceRequest,
@@ -9313,42 +9379,34 @@ export const deregisterGatewayInstance: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListGatewayInstancesError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
  */
 export const listGatewayInstances: API.OperationMethod<
   ListGatewayInstancesRequest,
   ListGatewayInstancesResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListGatewayInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewayInstancesRequest,
   ) => stream.Stream<
     ListGatewayInstancesResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGatewayInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewayInstancesRequest,
   ) => stream.Stream<
     ListedGatewayInstance,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGatewayInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9368,12 +9426,7 @@ export const listGatewayInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Creates a new gateway. The request must include at least one network (up to four).
- */
-export const createGateway: API.OperationMethod<
-  CreateGatewayRequest,
-  CreateGatewayResponse,
+export type CreateGatewayError =
   | BadRequestException
   | ConflictException
   | CreateGateway420Exception
@@ -9381,7 +9434,14 @@ export const createGateway: API.OperationMethod<
   | InternalServerErrorException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new gateway. The request must include at least one network (up to four).
+ */
+export const createGateway: API.OperationMethod<
+  CreateGatewayRequest,
+  CreateGatewayResponse,
+  CreateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRequest,
@@ -9396,12 +9456,7 @@ export const createGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
- */
-export const describeGateway: API.OperationMethod<
-  DescribeGatewayRequest,
-  DescribeGatewayResponse,
+export type DescribeGatewayError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9409,7 +9464,14 @@ export const describeGateway: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
+ */
+export const describeGateway: API.OperationMethod<
+  DescribeGatewayRequest,
+  DescribeGatewayResponse,
+  DescribeGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayRequest,
@@ -9424,12 +9486,7 @@ export const describeGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
- */
-export const deleteGateway: API.OperationMethod<
-  DeleteGatewayRequest,
-  DeleteGatewayResponse,
+export type DeleteGatewayError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9437,7 +9494,14 @@ export const deleteGateway: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
+ */
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayRequest,
+  DeleteGatewayResponse,
+  DeleteGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRequest,
@@ -9452,42 +9516,34 @@ export const deleteGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListGatewaysError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of gateways that are associated with this account. This request returns a paginated result.
  */
 export const listGateways: API.OperationMethod<
   ListGatewaysRequest,
   ListGatewaysResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
     ListGatewaysResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
     ListedGateway,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9507,18 +9563,20 @@ export const listGateways: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeOfferingError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
  */
 export const describeOffering: API.OperationMethod<
   DescribeOfferingRequest,
   DescribeOfferingResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOfferingRequest,
@@ -9531,39 +9589,33 @@ export const describeOffering: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListOfferingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
  */
 export const listOfferings: API.OperationMethod<
   ListOfferingsRequest,
   ListOfferingsResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListOfferingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
     ListOfferingsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
     Offering,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9582,19 +9634,21 @@ export const listOfferings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
- */
-export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
-  PurchaseOfferingResponse,
+export type PurchaseOfferingError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
+ */
+export const purchaseOffering: API.OperationMethod<
+  PurchaseOfferingRequest,
+  PurchaseOfferingResponse,
+  PurchaseOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseOfferingRequest,
@@ -9608,18 +9662,20 @@ export const purchaseOffering: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeReservationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
  */
 export const describeReservation: API.OperationMethod<
   DescribeReservationRequest,
   DescribeReservationResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReservationRequest,
@@ -9632,39 +9688,33 @@ export const describeReservation: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListReservationsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
  */
 export const listReservations: API.OperationMethod<
   ListReservationsRequest,
   ListReservationsResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListReservationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReservationsRequest,
   ) => stream.Stream<
     ListReservationsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReservationsRequest,
   ) => stream.Stream<
     Reservation,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9683,12 +9733,7 @@ export const listReservations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Creates a new router input in AWS Elemental MediaConnect.
- */
-export const createRouterInput: API.OperationMethod<
-  CreateRouterInputRequest,
-  CreateRouterInputResponse,
+export type CreateRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9696,7 +9741,14 @@ export const createRouterInput: API.OperationMethod<
   | RouterInputServiceQuotaExceededException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new router input in AWS Elemental MediaConnect.
+ */
+export const createRouterInput: API.OperationMethod<
+  CreateRouterInputRequest,
+  CreateRouterInputResponse,
+  CreateRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouterInputRequest,
@@ -9711,12 +9763,7 @@ export const createRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieves information about a specific router input in AWS Elemental MediaConnect.
- */
-export const getRouterInput: API.OperationMethod<
-  GetRouterInputRequest,
-  GetRouterInputResponse,
+export type GetRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9724,7 +9771,14 @@ export const getRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a specific router input in AWS Elemental MediaConnect.
+ */
+export const getRouterInput: API.OperationMethod<
+  GetRouterInputRequest,
+  GetRouterInputResponse,
+  GetRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterInputRequest,
@@ -9739,12 +9793,7 @@ export const getRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the configuration of an existing router input in AWS Elemental MediaConnect.
- */
-export const updateRouterInput: API.OperationMethod<
-  UpdateRouterInputRequest,
-  UpdateRouterInputResponse,
+export type UpdateRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9752,7 +9801,14 @@ export const updateRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing router input in AWS Elemental MediaConnect.
+ */
+export const updateRouterInput: API.OperationMethod<
+  UpdateRouterInputRequest,
+  UpdateRouterInputResponse,
+  UpdateRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouterInputRequest,
@@ -9767,12 +9823,7 @@ export const updateRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a router input from AWS Elemental MediaConnect.
- */
-export const deleteRouterInput: API.OperationMethod<
-  DeleteRouterInputRequest,
-  DeleteRouterInputResponse,
+export type DeleteRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9780,7 +9831,14 @@ export const deleteRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a router input from AWS Elemental MediaConnect.
+ */
+export const deleteRouterInput: API.OperationMethod<
+  DeleteRouterInputRequest,
+  DeleteRouterInputResponse,
+  DeleteRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouterInputRequest,
@@ -9795,42 +9853,34 @@ export const deleteRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListRouterInputsError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves a list of router inputs in AWS Elemental MediaConnect.
  */
 export const listRouterInputs: API.OperationMethod<
   ListRouterInputsRequest,
   ListRouterInputsResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRouterInputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRouterInputsRequest,
   ) => stream.Stream<
     ListRouterInputsResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRouterInputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRouterInputsRequest,
   ) => stream.Stream<
     ListedRouterInput,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRouterInputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9850,19 +9900,21 @@ export const listRouterInputs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
- */
-export const getRouterInputSourceMetadata: API.OperationMethod<
-  GetRouterInputSourceMetadataRequest,
-  GetRouterInputSourceMetadataResponse,
+export type GetRouterInputSourceMetadataError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
+ */
+export const getRouterInputSourceMetadata: API.OperationMethod<
+  GetRouterInputSourceMetadataRequest,
+  GetRouterInputSourceMetadataResponse,
+  GetRouterInputSourceMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterInputSourceMetadataRequest,
@@ -9876,19 +9928,21 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
- */
-export const getRouterInputThumbnail: API.OperationMethod<
-  GetRouterInputThumbnailRequest,
-  GetRouterInputThumbnailResponse,
+export type GetRouterInputThumbnailError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
+ */
+export const getRouterInputThumbnail: API.OperationMethod<
+  GetRouterInputThumbnailRequest,
+  GetRouterInputThumbnailResponse,
+  GetRouterInputThumbnailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterInputThumbnailRequest,
@@ -9902,12 +9956,7 @@ export const getRouterInputThumbnail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Restarts a router input. This operation can be used to recover from errors or refresh the input state.
- */
-export const restartRouterInput: API.OperationMethod<
-  RestartRouterInputRequest,
-  RestartRouterInputResponse,
+export type RestartRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9915,7 +9964,14 @@ export const restartRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restarts a router input. This operation can be used to recover from errors or refresh the input state.
+ */
+export const restartRouterInput: API.OperationMethod<
+  RestartRouterInputRequest,
+  RestartRouterInputResponse,
+  RestartRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestartRouterInputRequest,
@@ -9930,12 +9986,7 @@ export const restartRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Starts a router input in AWS Elemental MediaConnect.
- */
-export const startRouterInput: API.OperationMethod<
-  StartRouterInputRequest,
-  StartRouterInputResponse,
+export type StartRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9943,7 +9994,14 @@ export const startRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a router input in AWS Elemental MediaConnect.
+ */
+export const startRouterInput: API.OperationMethod<
+  StartRouterInputRequest,
+  StartRouterInputResponse,
+  StartRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRouterInputRequest,
@@ -9958,12 +10016,7 @@ export const startRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Stops a router input in AWS Elemental MediaConnect.
- */
-export const stopRouterInput: API.OperationMethod<
-  StopRouterInputRequest,
-  StopRouterInputResponse,
+export type StopRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9971,7 +10024,14 @@ export const stopRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a router input in AWS Elemental MediaConnect.
+ */
+export const stopRouterInput: API.OperationMethod<
+  StopRouterInputRequest,
+  StopRouterInputResponse,
+  StopRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRouterInputRequest,
@@ -9986,18 +10046,20 @@ export const stopRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type BatchGetRouterInputError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
  */
 export const batchGetRouterInput: API.OperationMethod<
   BatchGetRouterInputRequest,
   BatchGetRouterInputResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  BatchGetRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRouterInputRequest,
@@ -10010,12 +10072,7 @@ export const batchGetRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates a new router network interface in AWS Elemental MediaConnect.
- */
-export const createRouterNetworkInterface: API.OperationMethod<
-  CreateRouterNetworkInterfaceRequest,
-  CreateRouterNetworkInterfaceResponse,
+export type CreateRouterNetworkInterfaceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10023,7 +10080,14 @@ export const createRouterNetworkInterface: API.OperationMethod<
   | RouterNetworkInterfaceServiceQuotaExceededException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new router network interface in AWS Elemental MediaConnect.
+ */
+export const createRouterNetworkInterface: API.OperationMethod<
+  CreateRouterNetworkInterfaceRequest,
+  CreateRouterNetworkInterfaceResponse,
+  CreateRouterNetworkInterfaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouterNetworkInterfaceRequest,
@@ -10038,12 +10102,7 @@ export const createRouterNetworkInterface: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
- */
-export const getRouterNetworkInterface: API.OperationMethod<
-  GetRouterNetworkInterfaceRequest,
-  GetRouterNetworkInterfaceResponse,
+export type GetRouterNetworkInterfaceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10051,7 +10110,14 @@ export const getRouterNetworkInterface: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
+ */
+export const getRouterNetworkInterface: API.OperationMethod<
+  GetRouterNetworkInterfaceRequest,
+  GetRouterNetworkInterfaceResponse,
+  GetRouterNetworkInterfaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterNetworkInterfaceRequest,
@@ -10066,19 +10132,21 @@ export const getRouterNetworkInterface: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
- */
-export const updateRouterNetworkInterface: API.OperationMethod<
-  UpdateRouterNetworkInterfaceRequest,
-  UpdateRouterNetworkInterfaceResponse,
+export type UpdateRouterNetworkInterfaceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
+ */
+export const updateRouterNetworkInterface: API.OperationMethod<
+  UpdateRouterNetworkInterfaceRequest,
+  UpdateRouterNetworkInterfaceResponse,
+  UpdateRouterNetworkInterfaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouterNetworkInterfaceRequest,
@@ -10092,12 +10160,7 @@ export const updateRouterNetworkInterface: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a router network interface from AWS Elemental MediaConnect.
- */
-export const deleteRouterNetworkInterface: API.OperationMethod<
-  DeleteRouterNetworkInterfaceRequest,
-  DeleteRouterNetworkInterfaceResponse,
+export type DeleteRouterNetworkInterfaceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10105,7 +10168,14 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a router network interface from AWS Elemental MediaConnect.
+ */
+export const deleteRouterNetworkInterface: API.OperationMethod<
+  DeleteRouterNetworkInterfaceRequest,
+  DeleteRouterNetworkInterfaceResponse,
+  DeleteRouterNetworkInterfaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouterNetworkInterfaceRequest,
@@ -10120,42 +10190,34 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListRouterNetworkInterfacesError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
  */
 export const listRouterNetworkInterfaces: API.OperationMethod<
   ListRouterNetworkInterfacesRequest,
   ListRouterNetworkInterfacesResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRouterNetworkInterfacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRouterNetworkInterfacesRequest,
   ) => stream.Stream<
     ListRouterNetworkInterfacesResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRouterNetworkInterfacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRouterNetworkInterfacesRequest,
   ) => stream.Stream<
     ListedRouterNetworkInterface,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRouterNetworkInterfacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10175,18 +10237,20 @@ export const listRouterNetworkInterfaces: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type BatchGetRouterNetworkInterfaceError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
  */
 export const batchGetRouterNetworkInterface: API.OperationMethod<
   BatchGetRouterNetworkInterfaceRequest,
   BatchGetRouterNetworkInterfaceResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  BatchGetRouterNetworkInterfaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRouterNetworkInterfaceRequest,
@@ -10199,12 +10263,7 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates a new router output in AWS Elemental MediaConnect.
- */
-export const createRouterOutput: API.OperationMethod<
-  CreateRouterOutputRequest,
-  CreateRouterOutputResponse,
+export type CreateRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10212,7 +10271,14 @@ export const createRouterOutput: API.OperationMethod<
   | RouterOutputServiceQuotaExceededException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new router output in AWS Elemental MediaConnect.
+ */
+export const createRouterOutput: API.OperationMethod<
+  CreateRouterOutputRequest,
+  CreateRouterOutputResponse,
+  CreateRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouterOutputRequest,
@@ -10227,12 +10293,7 @@ export const createRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieves information about a specific router output in AWS Elemental MediaConnect.
- */
-export const getRouterOutput: API.OperationMethod<
-  GetRouterOutputRequest,
-  GetRouterOutputResponse,
+export type GetRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10240,7 +10301,14 @@ export const getRouterOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a specific router output in AWS Elemental MediaConnect.
+ */
+export const getRouterOutput: API.OperationMethod<
+  GetRouterOutputRequest,
+  GetRouterOutputResponse,
+  GetRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterOutputRequest,
@@ -10255,12 +10323,7 @@ export const getRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the configuration of an existing router output in AWS Elemental MediaConnect.
- */
-export const updateRouterOutput: API.OperationMethod<
-  UpdateRouterOutputRequest,
-  UpdateRouterOutputResponse,
+export type UpdateRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10268,7 +10331,14 @@ export const updateRouterOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing router output in AWS Elemental MediaConnect.
+ */
+export const updateRouterOutput: API.OperationMethod<
+  UpdateRouterOutputRequest,
+  UpdateRouterOutputResponse,
+  UpdateRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouterOutputRequest,
@@ -10283,12 +10353,7 @@ export const updateRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a router output from AWS Elemental MediaConnect.
- */
-export const deleteRouterOutput: API.OperationMethod<
-  DeleteRouterOutputRequest,
-  DeleteRouterOutputResponse,
+export type DeleteRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10296,7 +10361,14 @@ export const deleteRouterOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a router output from AWS Elemental MediaConnect.
+ */
+export const deleteRouterOutput: API.OperationMethod<
+  DeleteRouterOutputRequest,
+  DeleteRouterOutputResponse,
+  DeleteRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouterOutputRequest,
@@ -10311,42 +10383,34 @@ export const deleteRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListRouterOutputsError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves a list of router outputs in AWS Elemental MediaConnect.
  */
 export const listRouterOutputs: API.OperationMethod<
   ListRouterOutputsRequest,
   ListRouterOutputsResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRouterOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRouterOutputsRequest,
   ) => stream.Stream<
     ListRouterOutputsResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRouterOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRouterOutputsRequest,
   ) => stream.Stream<
     ListedRouterOutput,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRouterOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10366,12 +10430,7 @@ export const listRouterOutputs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Restarts a router output. This operation can be used to recover from errors or refresh the output state.
- */
-export const restartRouterOutput: API.OperationMethod<
-  RestartRouterOutputRequest,
-  RestartRouterOutputResponse,
+export type RestartRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10379,7 +10438,14 @@ export const restartRouterOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restarts a router output. This operation can be used to recover from errors or refresh the output state.
+ */
+export const restartRouterOutput: API.OperationMethod<
+  RestartRouterOutputRequest,
+  RestartRouterOutputResponse,
+  RestartRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestartRouterOutputRequest,
@@ -10394,12 +10460,7 @@ export const restartRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Starts a router output in AWS Elemental MediaConnect.
- */
-export const startRouterOutput: API.OperationMethod<
-  StartRouterOutputRequest,
-  StartRouterOutputResponse,
+export type StartRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10407,7 +10468,14 @@ export const startRouterOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a router output in AWS Elemental MediaConnect.
+ */
+export const startRouterOutput: API.OperationMethod<
+  StartRouterOutputRequest,
+  StartRouterOutputResponse,
+  StartRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRouterOutputRequest,
@@ -10422,12 +10490,7 @@ export const startRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Stops a router output in AWS Elemental MediaConnect.
- */
-export const stopRouterOutput: API.OperationMethod<
-  StopRouterOutputRequest,
-  StopRouterOutputResponse,
+export type StopRouterOutputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10435,7 +10498,14 @@ export const stopRouterOutput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a router output in AWS Elemental MediaConnect.
+ */
+export const stopRouterOutput: API.OperationMethod<
+  StopRouterOutputRequest,
+  StopRouterOutputResponse,
+  StopRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRouterOutputRequest,
@@ -10450,12 +10520,7 @@ export const stopRouterOutput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Associates a router input with a router output in AWS Elemental MediaConnect.
- */
-export const takeRouterInput: API.OperationMethod<
-  TakeRouterInputRequest,
-  TakeRouterInputResponse,
+export type TakeRouterInputError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10463,7 +10528,14 @@ export const takeRouterInput: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a router input with a router output in AWS Elemental MediaConnect.
+ */
+export const takeRouterInput: API.OperationMethod<
+  TakeRouterInputRequest,
+  TakeRouterInputResponse,
+  TakeRouterInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TakeRouterInputRequest,
@@ -10478,18 +10550,20 @@ export const takeRouterInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type BatchGetRouterOutputError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
  */
 export const batchGetRouterOutput: API.OperationMethod<
   BatchGetRouterOutputRequest,
   BatchGetRouterOutputResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  BatchGetRouterOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRouterOutputRequest,

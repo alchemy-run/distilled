@@ -3308,19 +3308,21 @@ export class InvalidConfigurationException extends S.TaggedErrorClass<InvalidCon
 ) {}
 
 //# Operations
-/**
- * Adds a member (user or group) to the resource's set of delegates.
- */
-export const associateDelegateToResource: API.OperationMethod<
-  AssociateDelegateToResourceRequest,
-  AssociateDelegateToResourceResponse,
+export type AssociateDelegateToResourceError =
   | EntityNotFoundException
   | EntityStateException
   | InvalidParameterException
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a member (user or group) to the resource's set of delegates.
+ */
+export const associateDelegateToResource: API.OperationMethod<
+  AssociateDelegateToResourceRequest,
+  AssociateDelegateToResourceResponse,
+  AssociateDelegateToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDelegateToResourceRequest,
@@ -3334,12 +3336,7 @@ export const associateDelegateToResource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Adds a member (user or group) to the group's set.
- */
-export const associateMemberToGroup: API.OperationMethod<
-  AssociateMemberToGroupRequest,
-  AssociateMemberToGroupResponse,
+export type AssociateMemberToGroupError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EntityNotFoundException
@@ -3348,7 +3345,14 @@ export const associateMemberToGroup: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a member (user or group) to the group's set.
+ */
+export const associateMemberToGroup: API.OperationMethod<
+  AssociateMemberToGroupRequest,
+  AssociateMemberToGroupResponse,
+  AssociateMemberToGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberToGroupRequest,
@@ -3364,6 +3368,12 @@ export const associateMemberToGroup: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type AssumeImpersonationRoleError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Assumes an impersonation role for the given WorkMail organization. This method returns an
  * authentication token you can use to make impersonated calls.
@@ -3371,11 +3381,7 @@ export const associateMemberToGroup: API.OperationMethod<
 export const assumeImpersonationRole: API.OperationMethod<
   AssumeImpersonationRoleRequest,
   AssumeImpersonationRoleResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssumeImpersonationRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeImpersonationRoleRequest,
@@ -3387,6 +3393,12 @@ export const assumeImpersonationRole: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CancelMailboxExportJobError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Cancels a mailbox export job.
  *
@@ -3396,11 +3408,7 @@ export const assumeImpersonationRole: API.OperationMethod<
 export const cancelMailboxExportJob: API.OperationMethod<
   CancelMailboxExportJobRequest,
   CancelMailboxExportJobResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  CancelMailboxExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMailboxExportJobRequest,
@@ -3412,12 +3420,7 @@ export const cancelMailboxExportJob: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
-/**
- * Adds an alias to the set of a given member (user or group) of WorkMail.
- */
-export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
-  CreateAliasResponse,
+export type CreateAliasError =
   | EmailAddressInUseException
   | EntityNotFoundException
   | EntityStateException
@@ -3427,7 +3430,14 @@ export const createAlias: API.OperationMethod<
   | MailDomainStateException
   | OrganizationNotFoundException
   | OrganizationStateException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds an alias to the set of a given member (user or group) of WorkMail.
+ */
+export const createAlias: API.OperationMethod<
+  CreateAliasRequest,
+  CreateAliasResponse,
+  CreateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasRequest,
@@ -3444,18 +3454,20 @@ export const createAlias: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type CreateAvailabilityConfigurationError =
+  | InvalidParameterException
+  | LimitExceededException
+  | NameAvailabilityException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Creates an `AvailabilityConfiguration` for the given WorkMail organization and domain.
  */
 export const createAvailabilityConfiguration: API.OperationMethod<
   CreateAvailabilityConfigurationRequest,
   CreateAvailabilityConfigurationResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | NameAvailabilityException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  CreateAvailabilityConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAvailabilityConfigurationRequest,
@@ -3468,12 +3480,7 @@ export const createAvailabilityConfiguration: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
-/**
- * Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
- */
-export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
-  CreateGroupResponse,
+export type CreateGroupError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | InvalidParameterException
@@ -3482,7 +3489,14 @@ export const createGroup: API.OperationMethod<
   | OrganizationStateException
   | ReservedNameException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
+ */
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
+  CreateGroupResponse,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
@@ -3498,19 +3512,30 @@ export const createGroup: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateIdentityCenterApplicationError =
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
  */
 export const createIdentityCenterApplication: API.OperationMethod<
   CreateIdentityCenterApplicationRequest,
   CreateIdentityCenterApplicationResponse,
-  InvalidParameterException | CommonErrors,
+  CreateIdentityCenterApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdentityCenterApplicationRequest,
   output: CreateIdentityCenterApplicationResponse,
   errors: [InvalidParameterException],
 }));
+export type CreateImpersonationRoleError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | LimitExceededException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Creates an impersonation role for the given WorkMail organization.
  *
@@ -3522,13 +3547,7 @@ export const createIdentityCenterApplication: API.OperationMethod<
 export const createImpersonationRole: API.OperationMethod<
   CreateImpersonationRoleRequest,
   CreateImpersonationRoleResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | LimitExceededException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  CreateImpersonationRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImpersonationRoleRequest,
@@ -3542,17 +3561,19 @@ export const createImpersonationRole: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type CreateMobileDeviceAccessRuleError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Creates a new mobile device access rule for the specified WorkMail organization.
  */
 export const createMobileDeviceAccessRule: API.OperationMethod<
   CreateMobileDeviceAccessRuleRequest,
   CreateMobileDeviceAccessRuleResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  CreateMobileDeviceAccessRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMobileDeviceAccessRuleRequest,
@@ -3564,6 +3585,13 @@ export const createMobileDeviceAccessRule: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type CreateOrganizationError =
+  | DirectoryInUseException
+  | DirectoryUnavailableException
+  | InvalidParameterException
+  | LimitExceededException
+  | NameAvailabilityException
+  | CommonErrors;
 /**
  * Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an organization in the *WorkMail Administrator Guide*.
  *
@@ -3580,12 +3608,7 @@ export const createMobileDeviceAccessRule: API.OperationMethod<
 export const createOrganization: API.OperationMethod<
   CreateOrganizationRequest,
   CreateOrganizationResponse,
-  | DirectoryInUseException
-  | DirectoryUnavailableException
-  | InvalidParameterException
-  | LimitExceededException
-  | NameAvailabilityException
-  | CommonErrors,
+  CreateOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationRequest,
@@ -3598,12 +3621,7 @@ export const createOrganization: API.OperationMethod<
     NameAvailabilityException,
   ],
 }));
-/**
- * Creates a new WorkMail resource.
- */
-export const createResource: API.OperationMethod<
-  CreateResourceRequest,
-  CreateResourceResponse,
+export type CreateResourceError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | InvalidParameterException
@@ -3612,7 +3630,14 @@ export const createResource: API.OperationMethod<
   | OrganizationStateException
   | ReservedNameException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new WorkMail resource.
+ */
+export const createResource: API.OperationMethod<
+  CreateResourceRequest,
+  CreateResourceResponse,
+  CreateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceRequest,
@@ -3628,12 +3653,7 @@ export const createResource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
- */
-export const createUser: API.OperationMethod<
-  CreateUserRequest,
-  CreateUserResponse,
+export type CreateUserError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | InvalidParameterException
@@ -3643,7 +3663,14 @@ export const createUser: API.OperationMethod<
   | OrganizationStateException
   | ReservedNameException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
+ */
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
+  CreateUserResponse,
+  CreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -3660,6 +3687,10 @@ export const createUser: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteAccessControlRuleError =
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes an access control rule for the specified WorkMail organization.
  *
@@ -3668,13 +3699,20 @@ export const createUser: API.OperationMethod<
 export const deleteAccessControlRule: API.OperationMethod<
   DeleteAccessControlRuleRequest,
   DeleteAccessControlRuleResponse,
-  OrganizationNotFoundException | OrganizationStateException | CommonErrors,
+  DeleteAccessControlRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessControlRuleRequest,
   output: DeleteAccessControlRuleResponse,
   errors: [OrganizationNotFoundException, OrganizationStateException],
 }));
+export type DeleteAliasError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Remove one or more specified aliases from a set of aliases for a given
  * user.
@@ -3682,12 +3720,7 @@ export const deleteAccessControlRule: API.OperationMethod<
 export const deleteAlias: API.OperationMethod<
   DeleteAliasRequest,
   DeleteAliasResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasRequest,
@@ -3700,29 +3733,35 @@ export const deleteAlias: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteAvailabilityConfigurationError =
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes the `AvailabilityConfiguration` for the given WorkMail organization and domain.
  */
 export const deleteAvailabilityConfiguration: API.OperationMethod<
   DeleteAvailabilityConfigurationRequest,
   DeleteAvailabilityConfigurationResponse,
-  OrganizationNotFoundException | OrganizationStateException | CommonErrors,
+  DeleteAvailabilityConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAvailabilityConfigurationRequest,
   output: DeleteAvailabilityConfigurationResponse,
   errors: [OrganizationNotFoundException, OrganizationStateException],
 }));
+export type DeleteEmailMonitoringConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes the email monitoring configuration for a specified organization.
  */
 export const deleteEmailMonitoringConfiguration: API.OperationMethod<
   DeleteEmailMonitoringConfigurationRequest,
   DeleteEmailMonitoringConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteEmailMonitoringConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailMonitoringConfigurationRequest,
@@ -3733,12 +3772,7 @@ export const deleteEmailMonitoringConfiguration: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
-/**
- * Deletes a group from WorkMail.
- */
-export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
-  DeleteGroupResponse,
+export type DeleteGroupError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EntityStateException
@@ -3746,7 +3780,14 @@ export const deleteGroup: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a group from WorkMail.
+ */
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
+  DeleteGroupResponse,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
@@ -3761,29 +3802,35 @@ export const deleteGroup: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteIdentityCenterApplicationError =
+  | InvalidParameterException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
  */
 export const deleteIdentityCenterApplication: API.OperationMethod<
   DeleteIdentityCenterApplicationRequest,
   DeleteIdentityCenterApplicationResponse,
-  InvalidParameterException | OrganizationStateException | CommonErrors,
+  DeleteIdentityCenterApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityCenterApplicationRequest,
   output: DeleteIdentityCenterApplicationResponse,
   errors: [InvalidParameterException, OrganizationStateException],
 }));
+export type DeleteIdentityProviderConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
  */
 export const deleteIdentityProviderConfiguration: API.OperationMethod<
   DeleteIdentityProviderConfigurationRequest,
   DeleteIdentityProviderConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteIdentityProviderConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityProviderConfigurationRequest,
@@ -3794,16 +3841,18 @@ export const deleteIdentityProviderConfiguration: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteImpersonationRoleError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes an impersonation role for the given WorkMail organization.
  */
 export const deleteImpersonationRole: API.OperationMethod<
   DeleteImpersonationRoleRequest,
   DeleteImpersonationRoleResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteImpersonationRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImpersonationRoleRequest,
@@ -3814,18 +3863,20 @@ export const deleteImpersonationRole: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteMailboxPermissionsError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes permissions granted to a member (user or group).
  */
 export const deleteMailboxPermissions: API.OperationMethod<
   DeleteMailboxPermissionsRequest,
   DeleteMailboxPermissionsResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteMailboxPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMailboxPermissionsRequest,
@@ -3838,6 +3889,12 @@ export const deleteMailboxPermissions: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteMobileDeviceAccessOverrideError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes the mobile device access override for the given WorkMail organization, user, and device.
  *
@@ -3846,11 +3903,7 @@ export const deleteMailboxPermissions: API.OperationMethod<
 export const deleteMobileDeviceAccessOverride: API.OperationMethod<
   DeleteMobileDeviceAccessOverrideRequest,
   DeleteMobileDeviceAccessOverrideResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteMobileDeviceAccessOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMobileDeviceAccessOverrideRequest,
@@ -3862,6 +3915,11 @@ export const deleteMobileDeviceAccessOverride: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteMobileDeviceAccessRuleError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes a mobile device access rule for the specified WorkMail organization.
  *
@@ -3870,10 +3928,7 @@ export const deleteMobileDeviceAccessOverride: API.OperationMethod<
 export const deleteMobileDeviceAccessRule: API.OperationMethod<
   DeleteMobileDeviceAccessRuleRequest,
   DeleteMobileDeviceAccessRuleResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteMobileDeviceAccessRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMobileDeviceAccessRuleRequest,
@@ -3884,16 +3939,18 @@ export const deleteMobileDeviceAccessRule: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteOrganizationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the *WorkMail Administrator Guide*.
  */
 export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationRequest,
   DeleteOrganizationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationRequest,
@@ -3904,16 +3961,18 @@ export const deleteOrganization: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeletePersonalAccessTokenError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes the Personal Access Token from the provided WorkMail Organization.
  */
 export const deletePersonalAccessToken: API.OperationMethod<
   DeletePersonalAccessTokenRequest,
   DeletePersonalAccessTokenResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeletePersonalAccessTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePersonalAccessTokenRequest,
@@ -3924,18 +3983,20 @@ export const deletePersonalAccessToken: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteResourceError =
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes the specified resource.
  */
 export const deleteResource: API.OperationMethod<
   DeleteResourceRequest,
   DeleteResourceResponse,
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceRequest,
@@ -3948,16 +4009,18 @@ export const deleteResource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteRetentionPolicyError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Deletes the specified retention policy from the specified organization.
  */
 export const deleteRetentionPolicy: API.OperationMethod<
   DeleteRetentionPolicyRequest,
   DeleteRetentionPolicyResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeleteRetentionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRetentionPolicyRequest,
@@ -3968,6 +4031,15 @@ export const deleteRetentionPolicy: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeleteUserError =
+  | DirectoryServiceAuthenticationFailedException
+  | DirectoryUnavailableException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes a user from WorkMail and all subsequent systems. Before you can delete a
  * user, the user state must be `DISABLED`. Use the DescribeUser
@@ -3979,14 +4051,7 @@ export const deleteRetentionPolicy: API.OperationMethod<
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | DirectoryServiceAuthenticationFailedException
-  | DirectoryUnavailableException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -4001,6 +4066,13 @@ export const deleteUser: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeregisterFromWorkMailError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Mark a user, group, or resource as no longer used in WorkMail. This action
  * disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days
@@ -4010,12 +4082,7 @@ export const deleteUser: API.OperationMethod<
 export const deregisterFromWorkMail: API.OperationMethod<
   DeregisterFromWorkMailRequest,
   DeregisterFromWorkMailResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeregisterFromWorkMailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterFromWorkMailRequest,
@@ -4028,6 +4095,13 @@ export const deregisterFromWorkMail: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DeregisterMailDomainError =
+  | InvalidCustomSesConfigurationException
+  | InvalidParameterException
+  | MailDomainInUseException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first
  * remove any email address used by WorkMail entities before you remove the domain.
@@ -4035,12 +4109,7 @@ export const deregisterFromWorkMail: API.OperationMethod<
 export const deregisterMailDomain: API.OperationMethod<
   DeregisterMailDomainRequest,
   DeregisterMailDomainResponse,
-  | InvalidCustomSesConfigurationException
-  | InvalidParameterException
-  | MailDomainInUseException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DeregisterMailDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterMailDomainRequest,
@@ -4053,17 +4122,19 @@ export const deregisterMailDomain: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DescribeEmailMonitoringConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the current email monitoring configuration for a specified organization.
  */
 export const describeEmailMonitoringConfiguration: API.OperationMethod<
   DescribeEmailMonitoringConfigurationRequest,
   DescribeEmailMonitoringConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeEmailMonitoringConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEmailMonitoringConfigurationRequest,
@@ -4075,17 +4146,19 @@ export const describeEmailMonitoringConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeEntityError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns basic details about an entity in WorkMail.
  */
 export const describeEntity: API.OperationMethod<
   DescribeEntityRequest,
   DescribeEntityResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DescribeEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntityRequest,
@@ -4097,17 +4170,19 @@ export const describeEntity: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DescribeGroupError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns the data available for the group.
  */
 export const describeGroup: API.OperationMethod<
   DescribeGroupRequest,
   DescribeGroupResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DescribeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupRequest,
@@ -4119,17 +4194,19 @@ export const describeGroup: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DescribeIdentityProviderConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns detailed information on the current IdC setup for the WorkMail organization.
  */
 export const describeIdentityProviderConfiguration: API.OperationMethod<
   DescribeIdentityProviderConfigurationRequest,
   DescribeIdentityProviderConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeIdentityProviderConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityProviderConfigurationRequest,
@@ -4141,30 +4218,36 @@ export const describeIdentityProviderConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeInboundDmarcSettingsError =
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists the settings in a DMARC policy for a specified organization.
  */
 export const describeInboundDmarcSettings: API.OperationMethod<
   DescribeInboundDmarcSettingsRequest,
   DescribeInboundDmarcSettingsResponse,
-  OrganizationNotFoundException | OrganizationStateException | CommonErrors,
+  DescribeInboundDmarcSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInboundDmarcSettingsRequest,
   output: DescribeInboundDmarcSettingsResponse,
   errors: [OrganizationNotFoundException, OrganizationStateException],
 }));
+export type DescribeMailboxExportJobError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Describes the current status of a mailbox export job.
  */
 export const describeMailboxExportJob: API.OperationMethod<
   DescribeMailboxExportJobRequest,
   DescribeMailboxExportJobResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  DescribeMailboxExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMailboxExportJobRequest,
@@ -4176,6 +4259,10 @@ export const describeMailboxExportJob: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type DescribeOrganizationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | CommonErrors;
 /**
  * Provides more information regarding a given organization based on its
  * identifier.
@@ -4183,25 +4270,27 @@ export const describeMailboxExportJob: API.OperationMethod<
 export const describeOrganization: API.OperationMethod<
   DescribeOrganizationRequest,
   DescribeOrganizationResponse,
-  InvalidParameterException | OrganizationNotFoundException | CommonErrors,
+  DescribeOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOrganizationRequest,
   output: DescribeOrganizationResponse,
   errors: [InvalidParameterException, OrganizationNotFoundException],
 }));
+export type DescribeResourceError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns the data available for the resource.
  */
 export const describeResource: API.OperationMethod<
   DescribeResourceRequest,
   DescribeResourceResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourceRequest,
@@ -4214,19 +4303,21 @@ export const describeResource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Provides information regarding the user.
- */
-export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
-  DescribeUserResponse,
+export type DescribeUserError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EntityNotFoundException
   | InvalidParameterException
   | OrganizationNotFoundException
   | OrganizationStateException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides information regarding the user.
+ */
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
+  DescribeUserResponse,
+  DescribeUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
@@ -4240,19 +4331,21 @@ export const describeUser: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
-/**
- * Removes a member from the resource's set of delegates.
- */
-export const disassociateDelegateFromResource: API.OperationMethod<
-  DisassociateDelegateFromResourceRequest,
-  DisassociateDelegateFromResourceResponse,
+export type DisassociateDelegateFromResourceError =
   | EntityNotFoundException
   | EntityStateException
   | InvalidParameterException
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a member from the resource's set of delegates.
+ */
+export const disassociateDelegateFromResource: API.OperationMethod<
+  DisassociateDelegateFromResourceRequest,
+  DisassociateDelegateFromResourceResponse,
+  DisassociateDelegateFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateDelegateFromResourceRequest,
@@ -4266,12 +4359,7 @@ export const disassociateDelegateFromResource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Removes a member from a group.
- */
-export const disassociateMemberFromGroup: API.OperationMethod<
-  DisassociateMemberFromGroupRequest,
-  DisassociateMemberFromGroupResponse,
+export type DisassociateMemberFromGroupError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EntityNotFoundException
@@ -4280,7 +4368,14 @@ export const disassociateMemberFromGroup: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a member from a group.
+ */
+export const disassociateMemberFromGroup: API.OperationMethod<
+  DisassociateMemberFromGroupRequest,
+  DisassociateMemberFromGroupResponse,
+  DisassociateMemberFromGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberFromGroupRequest,
@@ -4296,6 +4391,13 @@ export const disassociateMemberFromGroup: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetAccessControlEffectError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the effects of an organization's access control rules as they apply to a
  * specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
@@ -4303,12 +4405,7 @@ export const disassociateMemberFromGroup: API.OperationMethod<
 export const getAccessControlEffect: API.OperationMethod<
   GetAccessControlEffectRequest,
   GetAccessControlEffectResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetAccessControlEffectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessControlEffectRequest,
@@ -4321,17 +4418,19 @@ export const getAccessControlEffect: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetDefaultRetentionPolicyError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Gets the default retention policy details for the specified organization.
  */
 export const getDefaultRetentionPolicy: API.OperationMethod<
   GetDefaultRetentionPolicyRequest,
   GetDefaultRetentionPolicyResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  GetDefaultRetentionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultRetentionPolicyRequest,
@@ -4343,17 +4442,19 @@ export const getDefaultRetentionPolicy: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type GetImpersonationRoleError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the impersonation role details for the given WorkMail organization.
  */
 export const getImpersonationRole: API.OperationMethod<
   GetImpersonationRoleRequest,
   GetImpersonationRoleResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetImpersonationRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImpersonationRoleRequest,
@@ -4365,19 +4466,21 @@ export const getImpersonationRole: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Tests whether the given impersonation role can impersonate a target user.
- */
-export const getImpersonationRoleEffect: API.OperationMethod<
-  GetImpersonationRoleEffectRequest,
-  GetImpersonationRoleEffectResponse,
+export type GetImpersonationRoleEffectError =
   | EntityNotFoundException
   | EntityStateException
   | InvalidParameterException
   | OrganizationNotFoundException
   | OrganizationStateException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tests whether the given impersonation role can impersonate a target user.
+ */
+export const getImpersonationRoleEffect: API.OperationMethod<
+  GetImpersonationRoleEffectRequest,
+  GetImpersonationRoleEffectResponse,
+  GetImpersonationRoleEffectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImpersonationRoleEffectRequest,
@@ -4391,17 +4494,19 @@ export const getImpersonationRoleEffect: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMailboxDetailsError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Requests a user's mailbox details for a specified organization and user.
  */
 export const getMailboxDetails: API.OperationMethod<
   GetMailboxDetailsRequest,
   GetMailboxDetailsResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  GetMailboxDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMailboxDetailsRequest,
@@ -4413,17 +4518,19 @@ export const getMailboxDetails: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type GetMailDomainError =
+  | InvalidParameterException
+  | MailDomainNotFoundException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Gets details for a mail domain, including domain records required to configure your domain with recommended security.
  */
 export const getMailDomain: API.OperationMethod<
   GetMailDomainRequest,
   GetMailDomainResponse,
-  | InvalidParameterException
-  | MailDomainNotFoundException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  GetMailDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMailDomainRequest,
@@ -4435,6 +4542,11 @@ export const getMailDomain: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type GetMobileDeviceAccessEffectError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access
  * rules for the WorkMail organization for a particular user's attributes.
@@ -4442,10 +4554,7 @@ export const getMailDomain: API.OperationMethod<
 export const getMobileDeviceAccessEffect: API.OperationMethod<
   GetMobileDeviceAccessEffectRequest,
   GetMobileDeviceAccessEffectResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  GetMobileDeviceAccessEffectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMobileDeviceAccessEffectRequest,
@@ -4456,18 +4565,20 @@ export const getMobileDeviceAccessEffect: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type GetMobileDeviceAccessOverrideError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the mobile device access override for the given WorkMail organization, user, and device.
  */
 export const getMobileDeviceAccessOverride: API.OperationMethod<
   GetMobileDeviceAccessOverrideRequest,
   GetMobileDeviceAccessOverrideResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMobileDeviceAccessOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMobileDeviceAccessOverrideRequest,
@@ -4480,17 +4591,19 @@ export const getMobileDeviceAccessOverride: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetPersonalAccessTokenMetadataError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Requests details of a specific Personal Access Token within the WorkMail organization.
  */
 export const getPersonalAccessTokenMetadata: API.OperationMethod<
   GetPersonalAccessTokenMetadataRequest,
   GetPersonalAccessTokenMetadataResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetPersonalAccessTokenMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPersonalAccessTokenMetadataRequest,
@@ -4502,19 +4615,30 @@ export const getPersonalAccessTokenMetadata: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListAccessControlRulesError =
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists the access control rules for the specified organization.
  */
 export const listAccessControlRules: API.OperationMethod<
   ListAccessControlRulesRequest,
   ListAccessControlRulesResponse,
-  OrganizationNotFoundException | OrganizationStateException | CommonErrors,
+  ListAccessControlRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccessControlRulesRequest,
   output: ListAccessControlRulesResponse,
   errors: [OrganizationNotFoundException, OrganizationStateException],
 }));
+export type ListAliasesError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Creates a paginated call to list the aliases associated with a given
  * entity.
@@ -4522,36 +4646,21 @@ export const listAccessControlRules: API.OperationMethod<
 export const listAliases: API.OperationMethod<
   ListAliasesRequest,
   ListAliasesResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
     ListAliasesResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAliasesRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4570,36 +4679,32 @@ export const listAliases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAvailabilityConfigurationsError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * List all the `AvailabilityConfiguration`'s for the given WorkMail organization.
  */
 export const listAvailabilityConfigurations: API.OperationMethod<
   ListAvailabilityConfigurationsRequest,
   ListAvailabilityConfigurationsResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListAvailabilityConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAvailabilityConfigurationsRequest,
   ) => stream.Stream<
     ListAvailabilityConfigurationsResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListAvailabilityConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAvailabilityConfigurationsRequest,
   ) => stream.Stream<
     AvailabilityConfiguration,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListAvailabilityConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4617,6 +4722,13 @@ export const listAvailabilityConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupMembersError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns an overview of the members of a group. Users and groups can be members of a
  * group.
@@ -4624,36 +4736,21 @@ export const listAvailabilityConfigurations: API.OperationMethod<
 export const listGroupMembers: API.OperationMethod<
   ListGroupMembersRequest,
   ListGroupMembersResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListGroupMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupMembersRequest,
   ) => stream.Stream<
     ListGroupMembersResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListGroupMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupMembersRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListGroupMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4672,39 +4769,33 @@ export const listGroupMembers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupsError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns summaries of the organization's groups.
  */
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     ListGroupsResponse,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4722,42 +4813,34 @@ export const listGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupsForEntityError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns all the groups to which an entity belongs.
  */
 export const listGroupsForEntity: API.OperationMethod<
   ListGroupsForEntityRequest,
   ListGroupsForEntityResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListGroupsForEntityError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsForEntityRequest,
   ) => stream.Stream<
     ListGroupsForEntityResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListGroupsForEntityError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsForEntityRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListGroupsForEntityError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4776,36 +4859,32 @@ export const listGroupsForEntity: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListImpersonationRolesError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists all the impersonation roles for the given WorkMail organization.
  */
 export const listImpersonationRoles: API.OperationMethod<
   ListImpersonationRolesRequest,
   ListImpersonationRolesResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListImpersonationRolesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImpersonationRolesRequest,
   ) => stream.Stream<
     ListImpersonationRolesResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListImpersonationRolesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImpersonationRolesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListImpersonationRolesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4822,6 +4901,11 @@ export const listImpersonationRoles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMailboxExportJobsError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists the mailbox export jobs started for the specified organization within the last
  * seven days.
@@ -4829,30 +4913,21 @@ export const listImpersonationRoles: API.OperationMethod<
 export const listMailboxExportJobs: API.OperationMethod<
   ListMailboxExportJobsRequest,
   ListMailboxExportJobsResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListMailboxExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMailboxExportJobsRequest,
   ) => stream.Stream<
     ListMailboxExportJobsResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMailboxExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMailboxExportJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMailboxExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4869,6 +4944,12 @@ export const listMailboxExportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMailboxPermissionsError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists the mailbox permissions associated with a user, group, or resource
  * mailbox.
@@ -4876,33 +4957,21 @@ export const listMailboxExportJobs: API.OperationMethod<
 export const listMailboxPermissions: API.OperationMethod<
   ListMailboxPermissionsRequest,
   ListMailboxPermissionsResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListMailboxPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMailboxPermissionsRequest,
   ) => stream.Stream<
     ListMailboxPermissionsResponse,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMailboxPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMailboxPermissionsRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMailboxPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4920,36 +4989,32 @@ export const listMailboxPermissions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMailDomainsError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists the mail domains in a given WorkMail organization.
  */
 export const listMailDomains: API.OperationMethod<
   ListMailDomainsRequest,
   ListMailDomainsResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListMailDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMailDomainsRequest,
   ) => stream.Stream<
     ListMailDomainsResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMailDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMailDomainsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMailDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4966,39 +5031,33 @@ export const listMailDomains: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMobileDeviceAccessOverridesError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
  */
 export const listMobileDeviceAccessOverrides: API.OperationMethod<
   ListMobileDeviceAccessOverridesRequest,
   ListMobileDeviceAccessOverridesResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListMobileDeviceAccessOverridesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMobileDeviceAccessOverridesRequest,
   ) => stream.Stream<
     ListMobileDeviceAccessOverridesResponse,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMobileDeviceAccessOverridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMobileDeviceAccessOverridesRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListMobileDeviceAccessOverridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5016,16 +5075,18 @@ export const listMobileDeviceAccessOverrides: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMobileDeviceAccessRulesError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Lists the mobile device access rules for the specified WorkMail organization.
  */
 export const listMobileDeviceAccessRules: API.OperationMethod<
   ListMobileDeviceAccessRulesRequest,
   ListMobileDeviceAccessRulesResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListMobileDeviceAccessRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMobileDeviceAccessRulesRequest,
@@ -5036,27 +5097,28 @@ export const listMobileDeviceAccessRules: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type ListOrganizationsError = InvalidParameterException | CommonErrors;
 /**
  * Returns summaries of the customer's organizations.
  */
 export const listOrganizations: API.OperationMethod<
   ListOrganizationsRequest,
   ListOrganizationsResponse,
-  InvalidParameterException | CommonErrors,
+  ListOrganizationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationsRequest,
   ) => stream.Stream<
     ListOrganizationsResponse,
-    InvalidParameterException | CommonErrors,
+    ListOrganizationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationsRequest,
   ) => stream.Stream<
     unknown,
-    InvalidParameterException | CommonErrors,
+    ListOrganizationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5069,42 +5131,34 @@ export const listOrganizations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPersonalAccessTokensError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns a summary of your Personal Access Tokens.
  */
 export const listPersonalAccessTokens: API.OperationMethod<
   ListPersonalAccessTokensRequest,
   ListPersonalAccessTokensResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListPersonalAccessTokensError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPersonalAccessTokensRequest,
   ) => stream.Stream<
     ListPersonalAccessTokensResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListPersonalAccessTokensError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPersonalAccessTokensRequest,
   ) => stream.Stream<
     PersonalAccessTokenSummary,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListPersonalAccessTokensError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5124,6 +5178,14 @@ export const listPersonalAccessTokens: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceDelegatesError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Lists the delegates associated with a resource. Users and groups can be resource
  * delegates and answer requests on behalf of the resource.
@@ -5131,39 +5193,21 @@ export const listPersonalAccessTokens: API.OperationMethod<
 export const listResourceDelegates: API.OperationMethod<
   ListResourceDelegatesRequest,
   ListResourceDelegatesResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListResourceDelegatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceDelegatesRequest,
   ) => stream.Stream<
     ListResourceDelegatesResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListResourceDelegatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceDelegatesRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListResourceDelegatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5183,39 +5227,33 @@ export const listResourceDelegates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourcesError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns summaries of the organization's resources.
  */
 export const listResources: API.OperationMethod<
   ListResourcesRequest,
   ListResourcesResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesRequest,
   ) => stream.Stream<
     ListResourcesResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5233,49 +5271,46 @@ export const listResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags applied to an WorkMail organization resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type ListUsersError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Returns summaries of the organization's users.
  */
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5292,6 +5327,14 @@ export const listUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutAccessControlRuleError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | LimitExceededException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds a new access control rule for the specified organization. The rule allows or
  * denies access to the organization for the specified IPv4 addresses, access protocol
@@ -5301,13 +5344,7 @@ export const listUsers: API.OperationMethod<
 export const putAccessControlRule: API.OperationMethod<
   PutAccessControlRuleRequest,
   PutAccessControlRuleResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | LimitExceededException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutAccessControlRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccessControlRuleRequest,
@@ -5321,17 +5358,19 @@ export const putAccessControlRule: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutEmailMonitoringConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates or updates the email monitoring configuration for a specified organization.
  */
 export const putEmailMonitoringConfiguration: API.OperationMethod<
   PutEmailMonitoringConfigurationRequest,
   PutEmailMonitoringConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutEmailMonitoringConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailMonitoringConfigurationRequest,
@@ -5343,6 +5382,12 @@ export const putEmailMonitoringConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutIdentityProviderConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through
  * IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
@@ -5350,11 +5395,7 @@ export const putEmailMonitoringConfiguration: API.OperationMethod<
 export const putIdentityProviderConfiguration: API.OperationMethod<
   PutIdentityProviderConfigurationRequest,
   PutIdentityProviderConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutIdentityProviderConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIdentityProviderConfigurationRequest,
@@ -5366,19 +5407,30 @@ export const putIdentityProviderConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutInboundDmarcSettingsError =
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Enables or disables a DMARC policy for a given organization.
  */
 export const putInboundDmarcSettings: API.OperationMethod<
   PutInboundDmarcSettingsRequest,
   PutInboundDmarcSettingsResponse,
-  OrganizationNotFoundException | OrganizationStateException | CommonErrors,
+  PutInboundDmarcSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInboundDmarcSettingsRequest,
   output: PutInboundDmarcSettingsResponse,
   errors: [OrganizationNotFoundException, OrganizationStateException],
 }));
+export type PutMailboxPermissionsError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Sets permissions for a user, group, or resource. This replaces any pre-existing
  * permissions.
@@ -5386,12 +5438,7 @@ export const putInboundDmarcSettings: API.OperationMethod<
 export const putMailboxPermissions: API.OperationMethod<
   PutMailboxPermissionsRequest,
   PutMailboxPermissionsResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  PutMailboxPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMailboxPermissionsRequest,
@@ -5404,18 +5451,20 @@ export const putMailboxPermissions: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type PutMobileDeviceAccessOverrideError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
  */
 export const putMobileDeviceAccessOverride: API.OperationMethod<
   PutMobileDeviceAccessOverrideRequest,
   PutMobileDeviceAccessOverrideResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  PutMobileDeviceAccessOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMobileDeviceAccessOverrideRequest,
@@ -5428,17 +5477,19 @@ export const putMobileDeviceAccessOverride: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type PutRetentionPolicyError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Puts a retention policy to the specified organization.
  */
 export const putRetentionPolicy: API.OperationMethod<
   PutRetentionPolicyRequest,
   PutRetentionPolicyResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  PutRetentionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRetentionPolicyRequest,
@@ -5450,6 +5501,13 @@ export const putRetentionPolicy: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type RegisterMailDomainError =
+  | InvalidParameterException
+  | LimitExceededException
+  | MailDomainInUseException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has
  * permanent permission to use the specified domain for sending your users' emails.
@@ -5457,12 +5515,7 @@ export const putRetentionPolicy: API.OperationMethod<
 export const registerMailDomain: API.OperationMethod<
   RegisterMailDomainRequest,
   RegisterMailDomainResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | MailDomainInUseException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  RegisterMailDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterMailDomainRequest,
@@ -5475,6 +5528,20 @@ export const registerMailDomain: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type RegisterToWorkMailError =
+  | DirectoryServiceAuthenticationFailedException
+  | DirectoryUnavailableException
+  | EmailAddressInUseException
+  | EntityAlreadyRegisteredException
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | MailDomainNotFoundException
+  | MailDomainStateException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Registers an existing and disabled user, group, or resource for WorkMail use by
  * associating a mailbox and calendaring capabilities. It performs no change if the user,
@@ -5488,19 +5555,7 @@ export const registerMailDomain: API.OperationMethod<
 export const registerToWorkMail: API.OperationMethod<
   RegisterToWorkMailRequest,
   RegisterToWorkMailResponse,
-  | DirectoryServiceAuthenticationFailedException
-  | DirectoryUnavailableException
-  | EmailAddressInUseException
-  | EntityAlreadyRegisteredException
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | MailDomainNotFoundException
-  | MailDomainStateException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | UnsupportedOperationException
-  | CommonErrors,
+  RegisterToWorkMailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterToWorkMailRequest,
@@ -5520,12 +5575,7 @@ export const registerToWorkMail: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Allows the administrator to reset the password for a user.
- */
-export const resetPassword: API.OperationMethod<
-  ResetPasswordRequest,
-  ResetPasswordResponse,
+export type ResetPasswordError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EntityNotFoundException
@@ -5535,7 +5585,14 @@ export const resetPassword: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows the administrator to reset the password for a user.
+ */
+export const resetPassword: API.OperationMethod<
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  ResetPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetPasswordRequest,
@@ -5552,6 +5609,13 @@ export const resetPassword: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StartMailboxExportJobError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | LimitExceededException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Starts a mailbox export job to export MIME-format email messages and calendar items
  * from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3)
@@ -5561,12 +5625,7 @@ export const resetPassword: API.OperationMethod<
 export const startMailboxExportJob: API.OperationMethod<
   StartMailboxExportJobRequest,
   StartMailboxExportJobResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | LimitExceededException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  StartMailboxExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMailboxExportJobRequest,
@@ -5579,6 +5638,12 @@ export const startMailboxExportJob: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type TagResourceError =
+  | InvalidParameterException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Applies the specified tags to the specified WorkMailorganization
  * resource.
@@ -5586,11 +5651,7 @@ export const startMailboxExportJob: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidParameterException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5602,6 +5663,12 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type TestAvailabilityConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access
  * policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a `SourceArn` or `SourceAccount` header.
@@ -5614,11 +5681,7 @@ export const tagResource: API.OperationMethod<
 export const testAvailabilityConfiguration: API.OperationMethod<
   TestAvailabilityConfigurationRequest,
   TestAvailabilityConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TestAvailabilityConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestAvailabilityConfigurationRequest,
@@ -5630,6 +5693,7 @@ export const testAvailabilityConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Untags the specified tags from the specified WorkMail organization
  * resource.
@@ -5637,13 +5701,19 @@ export const testAvailabilityConfiguration: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateAvailabilityConfigurationError =
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing `AvailabilityConfiguration` for the given WorkMail
  * organization and domain.
@@ -5651,11 +5721,7 @@ export const untagResource: API.OperationMethod<
 export const updateAvailabilityConfiguration: API.OperationMethod<
   UpdateAvailabilityConfigurationRequest,
   UpdateAvailabilityConfigurationResponse,
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateAvailabilityConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAvailabilityConfigurationRequest,
@@ -5667,18 +5733,20 @@ export const updateAvailabilityConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateDefaultMailDomainError =
+  | InvalidParameterException
+  | MailDomainNotFoundException
+  | MailDomainStateException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
  */
 export const updateDefaultMailDomain: API.OperationMethod<
   UpdateDefaultMailDomainRequest,
   UpdateDefaultMailDomainResponse,
-  | InvalidParameterException
-  | MailDomainNotFoundException
-  | MailDomainStateException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  UpdateDefaultMailDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDefaultMailDomainRequest,
@@ -5691,19 +5759,21 @@ export const updateDefaultMailDomain: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
-/**
- * Updates attributes in a group.
- */
-export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
-  UpdateGroupResponse,
+export type UpdateGroupError =
   | EntityNotFoundException
   | EntityStateException
   | InvalidParameterException
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates attributes in a group.
+ */
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
+  UpdateGroupResponse,
+  UpdateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
@@ -5717,12 +5787,7 @@ export const updateGroup: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates an impersonation role for the given WorkMail organization.
- */
-export const updateImpersonationRole: API.OperationMethod<
-  UpdateImpersonationRoleRequest,
-  UpdateImpersonationRoleResponse,
+export type UpdateImpersonationRoleError =
   | EntityNotFoundException
   | EntityStateException
   | InvalidParameterException
@@ -5730,7 +5795,14 @@ export const updateImpersonationRole: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an impersonation role for the given WorkMail organization.
+ */
+export const updateImpersonationRole: API.OperationMethod<
+  UpdateImpersonationRoleRequest,
+  UpdateImpersonationRoleResponse,
+  UpdateImpersonationRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateImpersonationRoleRequest,
@@ -5745,6 +5817,13 @@ export const updateImpersonationRole: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateMailboxQuotaError =
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Updates a user's current mailbox quota for a specified organization and
  * user.
@@ -5752,12 +5831,7 @@ export const updateImpersonationRole: API.OperationMethod<
 export const updateMailboxQuota: API.OperationMethod<
   UpdateMailboxQuotaRequest,
   UpdateMailboxQuotaResponse,
-  | EntityNotFoundException
-  | EntityStateException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  UpdateMailboxQuotaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMailboxQuotaRequest,
@@ -5770,17 +5844,19 @@ export const updateMailboxQuota: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
+export type UpdateMobileDeviceAccessRuleError =
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors;
 /**
  * Updates a mobile device access rule for the specified WorkMail organization.
  */
 export const updateMobileDeviceAccessRule: API.OperationMethod<
   UpdateMobileDeviceAccessRuleRequest,
   UpdateMobileDeviceAccessRuleResponse,
-  | EntityNotFoundException
-  | InvalidParameterException
-  | OrganizationNotFoundException
-  | OrganizationStateException
-  | CommonErrors,
+  UpdateMobileDeviceAccessRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMobileDeviceAccessRuleRequest,
@@ -5792,14 +5868,7 @@ export const updateMobileDeviceAccessRule: API.OperationMethod<
     OrganizationStateException,
   ],
 }));
-/**
- * Updates the primary email for a user, group, or resource. The current email is moved
- * into the list of aliases (or swapped between an existing alias and the current primary
- * email), and the email provided in the input is promoted as the primary.
- */
-export const updatePrimaryEmailAddress: API.OperationMethod<
-  UpdatePrimaryEmailAddressRequest,
-  UpdatePrimaryEmailAddressResponse,
+export type UpdatePrimaryEmailAddressError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EmailAddressInUseException
@@ -5811,7 +5880,16 @@ export const updatePrimaryEmailAddress: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the primary email for a user, group, or resource. The current email is moved
+ * into the list of aliases (or swapped between an existing alias and the current primary
+ * email), and the email provided in the input is promoted as the primary.
+ */
+export const updatePrimaryEmailAddress: API.OperationMethod<
+  UpdatePrimaryEmailAddressRequest,
+  UpdatePrimaryEmailAddressResponse,
+  UpdatePrimaryEmailAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePrimaryEmailAddressRequest,
@@ -5830,14 +5908,7 @@ export const updatePrimaryEmailAddress: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates data for the resource. To have the latest information, it must be preceded by
- * a DescribeResource call. The dataset in the request should be the one
- * expected when performing another `DescribeResource` call.
- */
-export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
-  UpdateResourceResponse,
+export type UpdateResourceError =
   | DirectoryUnavailableException
   | EmailAddressInUseException
   | EntityNotFoundException
@@ -5850,7 +5921,16 @@ export const updateResource: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates data for the resource. To have the latest information, it must be preceded by
+ * a DescribeResource call. The dataset in the request should be the one
+ * expected when performing another `DescribeResource` call.
+ */
+export const updateResource: API.OperationMethod<
+  UpdateResourceRequest,
+  UpdateResourceResponse,
+  UpdateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceRequest,
@@ -5870,14 +5950,7 @@ export const updateResource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates data for the user. To have the latest information, it must be preceded by a
- * DescribeUser call. The dataset in the request should be the one
- * expected when performing another `DescribeUser` call.
- */
-export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
-  UpdateUserResponse,
+export type UpdateUserError =
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
   | EntityNotFoundException
@@ -5886,7 +5959,16 @@ export const updateUser: API.OperationMethod<
   | OrganizationNotFoundException
   | OrganizationStateException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates data for the user. To have the latest information, it must be preceded by a
+ * DescribeUser call. The dataset in the request should be the one
+ * expected when performing another `DescribeUser` call.
+ */
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
+  UpdateUserResponse,
+  UpdateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,

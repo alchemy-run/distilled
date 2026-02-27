@@ -3233,12 +3233,7 @@ export class MultipleIamArnsProvidedException extends S.TaggedErrorClass<Multipl
 ) {}
 
 //# Operations
-/**
- * Adds tags to on-premises instances.
- */
-export const addTagsToOnPremisesInstances: API.OperationMethod<
-  AddTagsToOnPremisesInstancesInput,
-  AddTagsToOnPremisesInstancesResponse,
+export type AddTagsToOnPremisesInstancesError =
   | InstanceLimitExceededException
   | InstanceNameRequiredException
   | InstanceNotRegisteredException
@@ -3246,7 +3241,14 @@ export const addTagsToOnPremisesInstances: API.OperationMethod<
   | InvalidTagException
   | TagLimitExceededException
   | TagRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds tags to on-premises instances.
+ */
+export const addTagsToOnPremisesInstances: API.OperationMethod<
+  AddTagsToOnPremisesInstancesInput,
+  AddTagsToOnPremisesInstancesResponse,
+  AddTagsToOnPremisesInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToOnPremisesInstancesInput,
@@ -3261,6 +3263,14 @@ export const addTagsToOnPremisesInstances: API.OperationMethod<
     TagRequiredException,
   ],
 }));
+export type BatchGetApplicationRevisionsError =
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | BatchLimitExceededException
+  | InvalidApplicationNameException
+  | InvalidRevisionException
+  | RevisionRequiredException
+  | CommonErrors;
 /**
  * Gets information about one or more application revisions. The maximum number of
  * application revisions that can be returned is 25.
@@ -3268,13 +3278,7 @@ export const addTagsToOnPremisesInstances: API.OperationMethod<
 export const batchGetApplicationRevisions: API.OperationMethod<
   BatchGetApplicationRevisionsInput,
   BatchGetApplicationRevisionsOutput,
-  | ApplicationDoesNotExistException
-  | ApplicationNameRequiredException
-  | BatchLimitExceededException
-  | InvalidApplicationNameException
-  | InvalidRevisionException
-  | RevisionRequiredException
-  | CommonErrors,
+  BatchGetApplicationRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetApplicationRevisionsInput,
@@ -3288,6 +3292,12 @@ export const batchGetApplicationRevisions: API.OperationMethod<
     RevisionRequiredException,
   ],
 }));
+export type BatchGetApplicationsError =
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | BatchLimitExceededException
+  | InvalidApplicationNameException
+  | CommonErrors;
 /**
  * Gets information about one or more applications. The maximum number of applications
  * that can be returned is 100.
@@ -3295,11 +3305,7 @@ export const batchGetApplicationRevisions: API.OperationMethod<
 export const batchGetApplications: API.OperationMethod<
   BatchGetApplicationsInput,
   BatchGetApplicationsOutput,
-  | ApplicationDoesNotExistException
-  | ApplicationNameRequiredException
-  | BatchLimitExceededException
-  | InvalidApplicationNameException
-  | CommonErrors,
+  BatchGetApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetApplicationsInput,
@@ -3311,12 +3317,7 @@ export const batchGetApplications: API.OperationMethod<
     InvalidApplicationNameException,
   ],
 }));
-/**
- * Gets information about one or more deployment groups.
- */
-export const batchGetDeploymentGroups: API.OperationMethod<
-  BatchGetDeploymentGroupsInput,
-  BatchGetDeploymentGroupsOutput,
+export type BatchGetDeploymentGroupsError =
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
   | BatchLimitExceededException
@@ -3324,7 +3325,14 @@ export const batchGetDeploymentGroups: API.OperationMethod<
   | DeploymentGroupNameRequiredException
   | InvalidApplicationNameException
   | InvalidDeploymentGroupNameException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about one or more deployment groups.
+ */
+export const batchGetDeploymentGroups: API.OperationMethod<
+  BatchGetDeploymentGroupsInput,
+  BatchGetDeploymentGroupsOutput,
+  BatchGetDeploymentGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDeploymentGroupsInput,
@@ -3339,6 +3347,15 @@ export const batchGetDeploymentGroups: API.OperationMethod<
     InvalidDeploymentGroupNameException,
   ],
 }));
+export type BatchGetDeploymentInstancesError =
+  | BatchLimitExceededException
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InstanceIdRequiredException
+  | InvalidComputePlatformException
+  | InvalidDeploymentIdException
+  | InvalidInstanceNameException
+  | CommonErrors;
 /**
  * This method works, but is deprecated. Use `BatchGetDeploymentTargets`
  * instead.
@@ -3351,14 +3368,7 @@ export const batchGetDeploymentGroups: API.OperationMethod<
 export const batchGetDeploymentInstances: API.OperationMethod<
   BatchGetDeploymentInstancesInput,
   BatchGetDeploymentInstancesOutput,
-  | BatchLimitExceededException
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | InstanceIdRequiredException
-  | InvalidComputePlatformException
-  | InvalidDeploymentIdException
-  | InvalidInstanceNameException
-  | CommonErrors,
+  BatchGetDeploymentInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDeploymentInstancesInput,
@@ -3373,6 +3383,11 @@ export const batchGetDeploymentInstances: API.OperationMethod<
     InvalidInstanceNameException,
   ],
 }));
+export type BatchGetDeploymentsError =
+  | BatchLimitExceededException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | CommonErrors;
 /**
  * Gets information about one or more deployments. The maximum number of deployments that
  * can be returned is 25.
@@ -3380,10 +3395,7 @@ export const batchGetDeploymentInstances: API.OperationMethod<
 export const batchGetDeployments: API.OperationMethod<
   BatchGetDeploymentsInput,
   BatchGetDeploymentsOutput,
-  | BatchLimitExceededException
-  | DeploymentIdRequiredException
-  | InvalidDeploymentIdException
-  | CommonErrors,
+  BatchGetDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDeploymentsInput,
@@ -3394,6 +3406,17 @@ export const batchGetDeployments: API.OperationMethod<
     InvalidDeploymentIdException,
   ],
 }));
+export type BatchGetDeploymentTargetsError =
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | DeploymentTargetDoesNotExistException
+  | DeploymentTargetIdRequiredException
+  | DeploymentTargetListSizeExceededException
+  | InstanceDoesNotExistException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentTargetIdException
+  | CommonErrors;
 /**
  * Returns an array of one or more targets associated with a deployment. This method
  * works with all compute types and should be used instead of the deprecated
@@ -3417,16 +3440,7 @@ export const batchGetDeployments: API.OperationMethod<
 export const batchGetDeploymentTargets: API.OperationMethod<
   BatchGetDeploymentTargetsInput,
   BatchGetDeploymentTargetsOutput,
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | DeploymentNotStartedException
-  | DeploymentTargetDoesNotExistException
-  | DeploymentTargetIdRequiredException
-  | DeploymentTargetListSizeExceededException
-  | InstanceDoesNotExistException
-  | InvalidDeploymentIdException
-  | InvalidDeploymentTargetIdException
-  | CommonErrors,
+  BatchGetDeploymentTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDeploymentTargetsInput,
@@ -3443,6 +3457,11 @@ export const batchGetDeploymentTargets: API.OperationMethod<
     InvalidDeploymentTargetIdException,
   ],
 }));
+export type BatchGetOnPremisesInstancesError =
+  | BatchLimitExceededException
+  | InstanceNameRequiredException
+  | InvalidInstanceNameException
+  | CommonErrors;
 /**
  * Gets information about one or more on-premises instances. The maximum number of
  * on-premises instances that can be returned is 25.
@@ -3450,10 +3469,7 @@ export const batchGetDeploymentTargets: API.OperationMethod<
 export const batchGetOnPremisesInstances: API.OperationMethod<
   BatchGetOnPremisesInstancesInput,
   BatchGetOnPremisesInstancesOutput,
-  | BatchLimitExceededException
-  | InstanceNameRequiredException
-  | InvalidInstanceNameException
-  | CommonErrors,
+  BatchGetOnPremisesInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetOnPremisesInstancesInput,
@@ -3464,6 +3480,16 @@ export const batchGetOnPremisesInstances: API.OperationMethod<
     InvalidInstanceNameException,
   ],
 }));
+export type ContinueDeploymentError =
+  | DeploymentAlreadyCompletedException
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentIsNotInReadyStateException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentStatusException
+  | InvalidDeploymentWaitTypeException
+  | UnsupportedActionForDeploymentTypeException
+  | CommonErrors;
 /**
  * For a blue/green deployment, starts the process of rerouting traffic from instances in
  * the original environment to instances in the replacement environment without waiting for
@@ -3474,15 +3500,7 @@ export const batchGetOnPremisesInstances: API.OperationMethod<
 export const continueDeployment: API.OperationMethod<
   ContinueDeploymentInput,
   ContinueDeploymentResponse,
-  | DeploymentAlreadyCompletedException
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | DeploymentIsNotInReadyStateException
-  | InvalidDeploymentIdException
-  | InvalidDeploymentStatusException
-  | InvalidDeploymentWaitTypeException
-  | UnsupportedActionForDeploymentTypeException
-  | CommonErrors,
+  ContinueDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ContinueDeploymentInput,
@@ -3498,19 +3516,21 @@ export const continueDeployment: API.OperationMethod<
     UnsupportedActionForDeploymentTypeException,
   ],
 }));
-/**
- * Creates an application.
- */
-export const createApplication: API.OperationMethod<
-  CreateApplicationInput,
-  CreateApplicationOutput,
+export type CreateApplicationError =
   | ApplicationAlreadyExistsException
   | ApplicationLimitExceededException
   | ApplicationNameRequiredException
   | InvalidApplicationNameException
   | InvalidComputePlatformException
   | InvalidTagsToAddException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an application.
+ */
+export const createApplication: API.OperationMethod<
+  CreateApplicationInput,
+  CreateApplicationOutput,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationInput,
@@ -3524,12 +3544,7 @@ export const createApplication: API.OperationMethod<
     InvalidTagsToAddException,
   ],
 }));
-/**
- * Deploys an application revision through the specified deployment group.
- */
-export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
-  CreateDeploymentOutput,
+export type CreateDeploymentError =
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3556,7 +3571,14 @@ export const createDeployment: API.OperationMethod<
   | RevisionDoesNotExistException
   | RevisionRequiredException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deploys an application revision through the specified deployment group.
+ */
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentInput,
+  CreateDeploymentOutput,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentInput,
@@ -3590,12 +3612,7 @@ export const createDeployment: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a deployment configuration.
- */
-export const createDeploymentConfig: API.OperationMethod<
-  CreateDeploymentConfigInput,
-  CreateDeploymentConfigOutput,
+export type CreateDeploymentConfigError =
   | DeploymentConfigAlreadyExistsException
   | DeploymentConfigLimitExceededException
   | DeploymentConfigNameRequiredException
@@ -3604,7 +3621,14 @@ export const createDeploymentConfig: API.OperationMethod<
   | InvalidMinimumHealthyHostValueException
   | InvalidTrafficRoutingConfigurationException
   | InvalidZonalDeploymentConfigurationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a deployment configuration.
+ */
+export const createDeploymentConfig: API.OperationMethod<
+  CreateDeploymentConfigInput,
+  CreateDeploymentConfigOutput,
+  CreateDeploymentConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentConfigInput,
@@ -3620,12 +3644,7 @@ export const createDeploymentConfig: API.OperationMethod<
     InvalidZonalDeploymentConfigurationException,
   ],
 }));
-/**
- * Creates a deployment group to which application revisions are deployed.
- */
-export const createDeploymentGroup: API.OperationMethod<
-  CreateDeploymentGroupInput,
-  CreateDeploymentGroupOutput,
+export type CreateDeploymentGroupError =
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3659,7 +3678,14 @@ export const createDeploymentGroup: API.OperationMethod<
   | TagSetListLimitExceededException
   | ThrottlingException
   | TriggerTargetsLimitExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a deployment group to which application revisions are deployed.
+ */
+export const createDeploymentGroup: API.OperationMethod<
+  CreateDeploymentGroupInput,
+  CreateDeploymentGroupOutput,
+  CreateDeploymentGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentGroupInput,
@@ -3700,16 +3726,18 @@ export const createDeploymentGroup: API.OperationMethod<
     TriggerTargetsLimitExceededException,
   ],
 }));
+export type DeleteApplicationError =
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidRoleException
+  | CommonErrors;
 /**
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationInput,
   DeleteApplicationResponse,
-  | ApplicationNameRequiredException
-  | InvalidApplicationNameException
-  | InvalidRoleException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationInput,
@@ -3720,6 +3748,12 @@ export const deleteApplication: API.OperationMethod<
     InvalidRoleException,
   ],
 }));
+export type DeleteDeploymentConfigError =
+  | DeploymentConfigInUseException
+  | DeploymentConfigNameRequiredException
+  | InvalidDeploymentConfigNameException
+  | InvalidOperationException
+  | CommonErrors;
 /**
  * Deletes a deployment configuration.
  *
@@ -3729,11 +3763,7 @@ export const deleteApplication: API.OperationMethod<
 export const deleteDeploymentConfig: API.OperationMethod<
   DeleteDeploymentConfigInput,
   DeleteDeploymentConfigResponse,
-  | DeploymentConfigInUseException
-  | DeploymentConfigNameRequiredException
-  | InvalidDeploymentConfigNameException
-  | InvalidOperationException
-  | CommonErrors,
+  DeleteDeploymentConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentConfigInput,
@@ -3745,18 +3775,20 @@ export const deleteDeploymentConfig: API.OperationMethod<
     InvalidOperationException,
   ],
 }));
+export type DeleteDeploymentGroupError =
+  | ApplicationNameRequiredException
+  | DeploymentGroupNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidDeploymentGroupNameException
+  | InvalidRoleException
+  | CommonErrors;
 /**
  * Deletes a deployment group.
  */
 export const deleteDeploymentGroup: API.OperationMethod<
   DeleteDeploymentGroupInput,
   DeleteDeploymentGroupOutput,
-  | ApplicationNameRequiredException
-  | DeploymentGroupNameRequiredException
-  | InvalidApplicationNameException
-  | InvalidDeploymentGroupNameException
-  | InvalidRoleException
-  | CommonErrors,
+  DeleteDeploymentGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentGroupInput,
@@ -3769,18 +3801,20 @@ export const deleteDeploymentGroup: API.OperationMethod<
     InvalidRoleException,
   ],
 }));
+export type DeleteGitHubAccountTokenError =
+  | GitHubAccountTokenDoesNotExistException
+  | GitHubAccountTokenNameRequiredException
+  | InvalidGitHubAccountTokenNameException
+  | OperationNotSupportedException
+  | ResourceValidationException
+  | CommonErrors;
 /**
  * Deletes a GitHub account connection.
  */
 export const deleteGitHubAccountToken: API.OperationMethod<
   DeleteGitHubAccountTokenInput,
   DeleteGitHubAccountTokenOutput,
-  | GitHubAccountTokenDoesNotExistException
-  | GitHubAccountTokenNameRequiredException
-  | InvalidGitHubAccountTokenNameException
-  | OperationNotSupportedException
-  | ResourceValidationException
-  | CommonErrors,
+  DeleteGitHubAccountTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGitHubAccountTokenInput,
@@ -3793,6 +3827,7 @@ export const deleteGitHubAccountToken: API.OperationMethod<
     ResourceValidationException,
   ],
 }));
+export type DeleteResourcesByExternalIdError = CommonErrors;
 /**
  * Deletes resources linked to an external ID. This action only applies if you have
  * configured blue/green deployments through CloudFormation.
@@ -3805,36 +3840,42 @@ export const deleteGitHubAccountToken: API.OperationMethod<
 export const deleteResourcesByExternalId: API.OperationMethod<
   DeleteResourcesByExternalIdInput,
   DeleteResourcesByExternalIdOutput,
-  CommonErrors,
+  DeleteResourcesByExternalIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcesByExternalIdInput,
   output: DeleteResourcesByExternalIdOutput,
   errors: [],
 }));
+export type DeregisterOnPremisesInstanceError =
+  | InstanceNameRequiredException
+  | InvalidInstanceNameException
+  | CommonErrors;
 /**
  * Deregisters an on-premises instance.
  */
 export const deregisterOnPremisesInstance: API.OperationMethod<
   DeregisterOnPremisesInstanceInput,
   DeregisterOnPremisesInstanceResponse,
-  InstanceNameRequiredException | InvalidInstanceNameException | CommonErrors,
+  DeregisterOnPremisesInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterOnPremisesInstanceInput,
   output: DeregisterOnPremisesInstanceResponse,
   errors: [InstanceNameRequiredException, InvalidInstanceNameException],
 }));
+export type GetApplicationError =
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | CommonErrors;
 /**
  * Gets information about an application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationInput,
   GetApplicationOutput,
-  | ApplicationDoesNotExistException
-  | ApplicationNameRequiredException
-  | InvalidApplicationNameException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationInput,
@@ -3845,19 +3886,21 @@ export const getApplication: API.OperationMethod<
     InvalidApplicationNameException,
   ],
 }));
-/**
- * Gets information about an application revision.
- */
-export const getApplicationRevision: API.OperationMethod<
-  GetApplicationRevisionInput,
-  GetApplicationRevisionOutput,
+export type GetApplicationRevisionError =
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
   | InvalidApplicationNameException
   | InvalidRevisionException
   | RevisionDoesNotExistException
   | RevisionRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about an application revision.
+ */
+export const getApplicationRevision: API.OperationMethod<
+  GetApplicationRevisionInput,
+  GetApplicationRevisionOutput,
+  GetApplicationRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRevisionInput,
@@ -3871,6 +3914,11 @@ export const getApplicationRevision: API.OperationMethod<
     RevisionRequiredException,
   ],
 }));
+export type GetDeploymentError =
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | CommonErrors;
 /**
  * Gets information about a deployment.
  *
@@ -3882,10 +3930,7 @@ export const getApplicationRevision: API.OperationMethod<
 export const getDeployment: API.OperationMethod<
   GetDeploymentInput,
   GetDeploymentOutput,
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | InvalidDeploymentIdException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
@@ -3896,17 +3941,19 @@ export const getDeployment: API.OperationMethod<
     InvalidDeploymentIdException,
   ],
 }));
+export type GetDeploymentConfigError =
+  | DeploymentConfigDoesNotExistException
+  | DeploymentConfigNameRequiredException
+  | InvalidComputePlatformException
+  | InvalidDeploymentConfigNameException
+  | CommonErrors;
 /**
  * Gets information about a deployment configuration.
  */
 export const getDeploymentConfig: API.OperationMethod<
   GetDeploymentConfigInput,
   GetDeploymentConfigOutput,
-  | DeploymentConfigDoesNotExistException
-  | DeploymentConfigNameRequiredException
-  | InvalidComputePlatformException
-  | InvalidDeploymentConfigNameException
-  | CommonErrors,
+  GetDeploymentConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentConfigInput,
@@ -3918,12 +3965,7 @@ export const getDeploymentConfig: API.OperationMethod<
     InvalidDeploymentConfigNameException,
   ],
 }));
-/**
- * Gets information about a deployment group.
- */
-export const getDeploymentGroup: API.OperationMethod<
-  GetDeploymentGroupInput,
-  GetDeploymentGroupOutput,
+export type GetDeploymentGroupError =
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
   | DeploymentConfigDoesNotExistException
@@ -3931,7 +3973,14 @@ export const getDeploymentGroup: API.OperationMethod<
   | DeploymentGroupNameRequiredException
   | InvalidApplicationNameException
   | InvalidDeploymentGroupNameException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about a deployment group.
+ */
+export const getDeploymentGroup: API.OperationMethod<
+  GetDeploymentGroupInput,
+  GetDeploymentGroupOutput,
+  GetDeploymentGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentGroupInput,
@@ -3946,12 +3995,7 @@ export const getDeploymentGroup: API.OperationMethod<
     InvalidDeploymentGroupNameException,
   ],
 }));
-/**
- * Gets information about an instance as part of a deployment.
- */
-export const getDeploymentInstance: API.OperationMethod<
-  GetDeploymentInstanceInput,
-  GetDeploymentInstanceOutput,
+export type GetDeploymentInstanceError =
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
   | InstanceDoesNotExistException
@@ -3959,7 +4003,14 @@ export const getDeploymentInstance: API.OperationMethod<
   | InvalidComputePlatformException
   | InvalidDeploymentIdException
   | InvalidInstanceNameException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about an instance as part of a deployment.
+ */
+export const getDeploymentInstance: API.OperationMethod<
+  GetDeploymentInstanceInput,
+  GetDeploymentInstanceOutput,
+  GetDeploymentInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInstanceInput,
@@ -3974,12 +4025,7 @@ export const getDeploymentInstance: API.OperationMethod<
     InvalidInstanceNameException,
   ],
 }));
-/**
- * Returns information about a deployment target.
- */
-export const getDeploymentTarget: API.OperationMethod<
-  GetDeploymentTargetInput,
-  GetDeploymentTargetOutput,
+export type GetDeploymentTargetError =
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
   | DeploymentNotStartedException
@@ -3988,7 +4034,14 @@ export const getDeploymentTarget: API.OperationMethod<
   | InvalidDeploymentIdException
   | InvalidDeploymentTargetIdException
   | InvalidInstanceNameException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a deployment target.
+ */
+export const getDeploymentTarget: API.OperationMethod<
+  GetDeploymentTargetInput,
+  GetDeploymentTargetOutput,
+  GetDeploymentTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentTargetInput,
@@ -4004,16 +4057,18 @@ export const getDeploymentTarget: API.OperationMethod<
     InvalidInstanceNameException,
   ],
 }));
+export type GetOnPremisesInstanceError =
+  | InstanceNameRequiredException
+  | InstanceNotRegisteredException
+  | InvalidInstanceNameException
+  | CommonErrors;
 /**
  * Gets information about an on-premises instance.
  */
 export const getOnPremisesInstance: API.OperationMethod<
   GetOnPremisesInstanceInput,
   GetOnPremisesInstanceOutput,
-  | InstanceNameRequiredException
-  | InstanceNotRegisteredException
-  | InvalidInstanceNameException
-  | CommonErrors,
+  GetOnPremisesInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOnPremisesInstanceInput,
@@ -4024,12 +4079,7 @@ export const getOnPremisesInstance: API.OperationMethod<
     InvalidInstanceNameException,
   ],
 }));
-/**
- * Lists information about revisions for an application.
- */
-export const listApplicationRevisions: API.OperationMethod<
-  ListApplicationRevisionsInput,
-  ListApplicationRevisionsOutput,
+export type ListApplicationRevisionsError =
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
   | BucketNameFilterRequiredException
@@ -4040,41 +4090,28 @@ export const listApplicationRevisions: API.OperationMethod<
   | InvalidNextTokenException
   | InvalidSortByException
   | InvalidSortOrderException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists information about revisions for an application.
+ */
+export const listApplicationRevisions: API.OperationMethod<
+  ListApplicationRevisionsInput,
+  ListApplicationRevisionsOutput,
+  ListApplicationRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationRevisionsInput,
   ) => stream.Stream<
     ListApplicationRevisionsOutput,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | BucketNameFilterRequiredException
-    | InvalidApplicationNameException
-    | InvalidBucketNameFilterException
-    | InvalidDeployedStateFilterException
-    | InvalidKeyPrefixFilterException
-    | InvalidNextTokenException
-    | InvalidSortByException
-    | InvalidSortOrderException
-    | CommonErrors,
+    ListApplicationRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationRevisionsInput,
   ) => stream.Stream<
     RevisionLocation,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | BucketNameFilterRequiredException
-    | InvalidApplicationNameException
-    | InvalidBucketNameFilterException
-    | InvalidDeployedStateFilterException
-    | InvalidKeyPrefixFilterException
-    | InvalidNextTokenException
-    | InvalidSortByException
-    | InvalidSortOrderException
-    | CommonErrors,
+    ListApplicationRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4098,27 +4135,28 @@ export const listApplicationRevisions: API.OperationMethod<
     items: "revisions",
   } as const,
 }));
+export type ListApplicationsError = InvalidNextTokenException | CommonErrors;
 /**
  * Lists the applications registered with the user or Amazon Web Services account.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsInput,
   ListApplicationsOutput,
-  InvalidNextTokenException | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsInput,
   ) => stream.Stream<
     ListApplicationsOutput,
-    InvalidNextTokenException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsInput,
   ) => stream.Stream<
     ApplicationName,
-    InvalidNextTokenException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4131,27 +4169,30 @@ export const listApplications: API.OperationMethod<
     items: "applications",
   } as const,
 }));
+export type ListDeploymentConfigsError =
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Lists the deployment configurations with the user or Amazon Web Services account.
  */
 export const listDeploymentConfigs: API.OperationMethod<
   ListDeploymentConfigsInput,
   ListDeploymentConfigsOutput,
-  InvalidNextTokenException | CommonErrors,
+  ListDeploymentConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentConfigsInput,
   ) => stream.Stream<
     ListDeploymentConfigsOutput,
-    InvalidNextTokenException | CommonErrors,
+    ListDeploymentConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentConfigsInput,
   ) => stream.Stream<
     DeploymentConfigName,
-    InvalidNextTokenException | CommonErrors,
+    ListDeploymentConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4164,6 +4205,12 @@ export const listDeploymentConfigs: API.OperationMethod<
     items: "deploymentConfigsList",
   } as const,
 }));
+export type ListDeploymentGroupsError =
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Lists the deployment groups for an application registered with the Amazon Web Services
  * user or Amazon Web Services account.
@@ -4171,33 +4218,21 @@ export const listDeploymentConfigs: API.OperationMethod<
 export const listDeploymentGroups: API.OperationMethod<
   ListDeploymentGroupsInput,
   ListDeploymentGroupsOutput,
-  | ApplicationDoesNotExistException
-  | ApplicationNameRequiredException
-  | InvalidApplicationNameException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListDeploymentGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentGroupsInput,
   ) => stream.Stream<
     ListDeploymentGroupsOutput,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | InvalidApplicationNameException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListDeploymentGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentGroupsInput,
   ) => stream.Stream<
     DeploymentGroupName,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | InvalidApplicationNameException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListDeploymentGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4215,6 +4250,18 @@ export const listDeploymentGroups: API.OperationMethod<
     items: "deploymentGroups",
   } as const,
 }));
+export type ListDeploymentInstancesError =
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | InvalidComputePlatformException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentInstanceTypeException
+  | InvalidInstanceStatusException
+  | InvalidInstanceTypeException
+  | InvalidNextTokenException
+  | InvalidTargetFilterNameException
+  | CommonErrors;
 /**
  * The newer `BatchGetDeploymentTargets` should be used instead because
  * it works with all compute types. `ListDeploymentInstances` throws an
@@ -4226,51 +4273,21 @@ export const listDeploymentGroups: API.OperationMethod<
 export const listDeploymentInstances: API.OperationMethod<
   ListDeploymentInstancesInput,
   ListDeploymentInstancesOutput,
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | DeploymentNotStartedException
-  | InvalidComputePlatformException
-  | InvalidDeploymentIdException
-  | InvalidDeploymentInstanceTypeException
-  | InvalidInstanceStatusException
-  | InvalidInstanceTypeException
-  | InvalidNextTokenException
-  | InvalidTargetFilterNameException
-  | CommonErrors,
+  ListDeploymentInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentInstancesInput,
   ) => stream.Stream<
     ListDeploymentInstancesOutput,
-    | DeploymentDoesNotExistException
-    | DeploymentIdRequiredException
-    | DeploymentNotStartedException
-    | InvalidComputePlatformException
-    | InvalidDeploymentIdException
-    | InvalidDeploymentInstanceTypeException
-    | InvalidInstanceStatusException
-    | InvalidInstanceTypeException
-    | InvalidNextTokenException
-    | InvalidTargetFilterNameException
-    | CommonErrors,
+    ListDeploymentInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentInstancesInput,
   ) => stream.Stream<
     InstanceId,
-    | DeploymentDoesNotExistException
-    | DeploymentIdRequiredException
-    | DeploymentNotStartedException
-    | InvalidComputePlatformException
-    | InvalidDeploymentIdException
-    | InvalidDeploymentInstanceTypeException
-    | InvalidInstanceStatusException
-    | InvalidInstanceTypeException
-    | InvalidNextTokenException
-    | InvalidTargetFilterNameException
-    | CommonErrors,
+    ListDeploymentInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4294,13 +4311,7 @@ export const listDeploymentInstances: API.OperationMethod<
     items: "instancesList",
   } as const,
 }));
-/**
- * Lists the deployments in a deployment group for an application registered with the
- * user or Amazon Web Services account.
- */
-export const listDeployments: API.OperationMethod<
-  ListDeploymentsInput,
-  ListDeploymentsOutput,
+export type ListDeploymentsError =
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
   | DeploymentGroupDoesNotExistException
@@ -4312,43 +4323,29 @@ export const listDeployments: API.OperationMethod<
   | InvalidInputException
   | InvalidNextTokenException
   | InvalidTimeRangeException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the deployments in a deployment group for an application registered with the
+ * user or Amazon Web Services account.
+ */
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsInput,
+  ListDeploymentsOutput,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
     ListDeploymentsOutput,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | DeploymentGroupDoesNotExistException
-    | DeploymentGroupNameRequiredException
-    | InvalidApplicationNameException
-    | InvalidDeploymentGroupNameException
-    | InvalidDeploymentStatusException
-    | InvalidExternalIdException
-    | InvalidInputException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
     DeploymentId,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | DeploymentGroupDoesNotExistException
-    | DeploymentGroupNameRequiredException
-    | InvalidApplicationNameException
-    | InvalidDeploymentGroupNameException
-    | InvalidDeploymentStatusException
-    | InvalidExternalIdException
-    | InvalidInputException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4373,12 +4370,7 @@ export const listDeployments: API.OperationMethod<
     items: "deployments",
   } as const,
 }));
-/**
- * Returns an array of target IDs that are associated a deployment.
- */
-export const listDeploymentTargets: API.OperationMethod<
-  ListDeploymentTargetsInput,
-  ListDeploymentTargetsOutput,
+export type ListDeploymentTargetsError =
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
   | DeploymentNotStartedException
@@ -4388,7 +4380,14 @@ export const listDeploymentTargets: API.OperationMethod<
   | InvalidInstanceTypeException
   | InvalidNextTokenException
   | InvalidTargetFilterNameException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns an array of target IDs that are associated a deployment.
+ */
+export const listDeploymentTargets: API.OperationMethod<
+  ListDeploymentTargetsInput,
+  ListDeploymentTargetsOutput,
+  ListDeploymentTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeploymentTargetsInput,
@@ -4405,16 +4404,18 @@ export const listDeploymentTargets: API.OperationMethod<
     InvalidTargetFilterNameException,
   ],
 }));
+export type ListGitHubAccountTokenNamesError =
+  | InvalidNextTokenException
+  | OperationNotSupportedException
+  | ResourceValidationException
+  | CommonErrors;
 /**
  * Lists the names of stored connections to GitHub accounts.
  */
 export const listGitHubAccountTokenNames: API.OperationMethod<
   ListGitHubAccountTokenNamesInput,
   ListGitHubAccountTokenNamesOutput,
-  | InvalidNextTokenException
-  | OperationNotSupportedException
-  | ResourceValidationException
-  | CommonErrors,
+  ListGitHubAccountTokenNamesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGitHubAccountTokenNamesInput,
@@ -4425,6 +4426,11 @@ export const listGitHubAccountTokenNames: API.OperationMethod<
     ResourceValidationException,
   ],
 }));
+export type ListOnPremisesInstancesError =
+  | InvalidNextTokenException
+  | InvalidRegistrationStatusException
+  | InvalidTagFilterException
+  | CommonErrors;
 /**
  * Gets a list of names for one or more on-premises instances.
  *
@@ -4435,10 +4441,7 @@ export const listGitHubAccountTokenNames: API.OperationMethod<
 export const listOnPremisesInstances: API.OperationMethod<
   ListOnPremisesInstancesInput,
   ListOnPremisesInstancesOutput,
-  | InvalidNextTokenException
-  | InvalidRegistrationStatusException
-  | InvalidTagFilterException
-  | CommonErrors,
+  ListOnPremisesInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOnPremisesInstancesInput,
@@ -4449,6 +4452,11 @@ export const listOnPremisesInstances: API.OperationMethod<
     InvalidTagFilterException,
   ],
 }));
+export type ListTagsForResourceError =
+  | ArnNotSupportedException
+  | InvalidArnException
+  | ResourceArnRequiredException
+  | CommonErrors;
 /**
  * Returns a list of tags for the resource identified by a specified Amazon Resource
  * Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
@@ -4456,10 +4464,7 @@ export const listOnPremisesInstances: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | ArnNotSupportedException
-  | InvalidArnException
-  | ResourceArnRequiredException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -4470,6 +4475,15 @@ export const listTagsForResource: API.OperationMethod<
     ResourceArnRequiredException,
   ],
 }));
+export type PutLifecycleEventHookExecutionStatusError =
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | InvalidLifecycleEventHookExecutionIdException
+  | InvalidLifecycleEventHookExecutionStatusException
+  | LifecycleEventAlreadyCompletedException
+  | UnsupportedActionForDeploymentTypeException
+  | CommonErrors;
 /**
  * Sets the result of a Lambda validation function. The function validates
  * lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available
@@ -4484,14 +4498,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putLifecycleEventHookExecutionStatus: API.OperationMethod<
   PutLifecycleEventHookExecutionStatusInput,
   PutLifecycleEventHookExecutionStatusOutput,
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | InvalidDeploymentIdException
-  | InvalidLifecycleEventHookExecutionIdException
-  | InvalidLifecycleEventHookExecutionStatusException
-  | LifecycleEventAlreadyCompletedException
-  | UnsupportedActionForDeploymentTypeException
-  | CommonErrors,
+  PutLifecycleEventHookExecutionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecycleEventHookExecutionStatusInput,
@@ -4506,19 +4513,21 @@ export const putLifecycleEventHookExecutionStatus: API.OperationMethod<
     UnsupportedActionForDeploymentTypeException,
   ],
 }));
-/**
- * Registers with CodeDeploy a revision for the specified application.
- */
-export const registerApplicationRevision: API.OperationMethod<
-  RegisterApplicationRevisionInput,
-  RegisterApplicationRevisionResponse,
+export type RegisterApplicationRevisionError =
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
   | DescriptionTooLongException
   | InvalidApplicationNameException
   | InvalidRevisionException
   | RevisionRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers with CodeDeploy a revision for the specified application.
+ */
+export const registerApplicationRevision: API.OperationMethod<
+  RegisterApplicationRevisionInput,
+  RegisterApplicationRevisionResponse,
+  RegisterApplicationRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterApplicationRevisionInput,
@@ -4532,14 +4541,7 @@ export const registerApplicationRevision: API.OperationMethod<
     RevisionRequiredException,
   ],
 }));
-/**
- * Registers an on-premises instance.
- *
- * Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
- */
-export const registerOnPremisesInstance: API.OperationMethod<
-  RegisterOnPremisesInstanceInput,
-  RegisterOnPremisesInstanceResponse,
+export type RegisterOnPremisesInstanceError =
   | IamArnRequiredException
   | IamSessionArnAlreadyRegisteredException
   | IamUserArnAlreadyRegisteredException
@@ -4550,7 +4552,16 @@ export const registerOnPremisesInstance: API.OperationMethod<
   | InvalidIamUserArnException
   | InvalidInstanceNameException
   | MultipleIamArnsProvidedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers an on-premises instance.
+ *
+ * Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
+ */
+export const registerOnPremisesInstance: API.OperationMethod<
+  RegisterOnPremisesInstanceInput,
+  RegisterOnPremisesInstanceResponse,
+  RegisterOnPremisesInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOnPremisesInstanceInput,
@@ -4568,12 +4579,7 @@ export const registerOnPremisesInstance: API.OperationMethod<
     MultipleIamArnsProvidedException,
   ],
 }));
-/**
- * Removes one or more tags from one or more on-premises instances.
- */
-export const removeTagsFromOnPremisesInstances: API.OperationMethod<
-  RemoveTagsFromOnPremisesInstancesInput,
-  RemoveTagsFromOnPremisesInstancesResponse,
+export type RemoveTagsFromOnPremisesInstancesError =
   | InstanceLimitExceededException
   | InstanceNameRequiredException
   | InstanceNotRegisteredException
@@ -4581,7 +4587,14 @@ export const removeTagsFromOnPremisesInstances: API.OperationMethod<
   | InvalidTagException
   | TagLimitExceededException
   | TagRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes one or more tags from one or more on-premises instances.
+ */
+export const removeTagsFromOnPremisesInstances: API.OperationMethod<
+  RemoveTagsFromOnPremisesInstancesInput,
+  RemoveTagsFromOnPremisesInstancesResponse,
+  RemoveTagsFromOnPremisesInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromOnPremisesInstancesInput,
@@ -4596,6 +4609,14 @@ export const removeTagsFromOnPremisesInstances: API.OperationMethod<
     TagRequiredException,
   ],
 }));
+export type SkipWaitTimeForInstanceTerminationError =
+  | DeploymentAlreadyCompletedException
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | InvalidDeploymentIdException
+  | UnsupportedActionForDeploymentTypeException
+  | CommonErrors;
 /**
  * In a blue/green deployment, overrides any specified wait time and starts terminating
  * instances immediately after the traffic routing is complete.
@@ -4603,13 +4624,7 @@ export const removeTagsFromOnPremisesInstances: API.OperationMethod<
 export const skipWaitTimeForInstanceTermination: API.OperationMethod<
   SkipWaitTimeForInstanceTerminationInput,
   SkipWaitTimeForInstanceTerminationResponse,
-  | DeploymentAlreadyCompletedException
-  | DeploymentDoesNotExistException
-  | DeploymentIdRequiredException
-  | DeploymentNotStartedException
-  | InvalidDeploymentIdException
-  | UnsupportedActionForDeploymentTypeException
-  | CommonErrors,
+  SkipWaitTimeForInstanceTerminationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SkipWaitTimeForInstanceTerminationInput,
@@ -4623,19 +4638,21 @@ export const skipWaitTimeForInstanceTermination: API.OperationMethod<
     UnsupportedActionForDeploymentTypeException,
   ],
 }));
-/**
- * Attempts to stop an ongoing deployment.
- */
-export const stopDeployment: API.OperationMethod<
-  StopDeploymentInput,
-  StopDeploymentOutput,
+export type StopDeploymentError =
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
   | DeploymentGroupDoesNotExistException
   | DeploymentIdRequiredException
   | InvalidDeploymentIdException
   | UnsupportedActionForDeploymentTypeException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attempts to stop an ongoing deployment.
+ */
+export const stopDeployment: API.OperationMethod<
+  StopDeploymentInput,
+  StopDeploymentOutput,
+  StopDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDeploymentInput,
@@ -4649,13 +4666,7 @@ export const stopDeployment: API.OperationMethod<
     UnsupportedActionForDeploymentTypeException,
   ],
 }));
-/**
- * Associates the list of tags in the input `Tags` parameter with the
- * resource identified by the `ResourceArn` input parameter.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceInput,
-  TagResourceOutput,
+export type TagResourceError =
   | ApplicationDoesNotExistException
   | ArnNotSupportedException
   | DeploymentConfigDoesNotExistException
@@ -4664,7 +4675,15 @@ export const tagResource: API.OperationMethod<
   | InvalidTagsToAddException
   | ResourceArnRequiredException
   | TagRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates the list of tags in the input `Tags` parameter with the
+ * resource identified by the `ResourceArn` input parameter.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
+  TagResourceOutput,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4680,14 +4699,7 @@ export const tagResource: API.OperationMethod<
     TagRequiredException,
   ],
 }));
-/**
- * Disassociates a resource from a list of tags. The resource is identified by the
- * `ResourceArn` input parameter. The tags are identified by the list of
- * keys in the `TagKeys` input parameter.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceInput,
-  UntagResourceOutput,
+export type UntagResourceError =
   | ApplicationDoesNotExistException
   | ArnNotSupportedException
   | DeploymentConfigDoesNotExistException
@@ -4696,7 +4708,16 @@ export const untagResource: API.OperationMethod<
   | InvalidTagsToAddException
   | ResourceArnRequiredException
   | TagRequiredException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a resource from a list of tags. The resource is identified by the
+ * `ResourceArn` input parameter. The tags are identified by the list of
+ * keys in the `TagKeys` input parameter.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
+  UntagResourceOutput,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -4712,17 +4733,19 @@ export const untagResource: API.OperationMethod<
     TagRequiredException,
   ],
 }));
+export type UpdateApplicationError =
+  | ApplicationAlreadyExistsException
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | CommonErrors;
 /**
  * Changes the name of an application.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationInput,
   UpdateApplicationResponse,
-  | ApplicationAlreadyExistsException
-  | ApplicationDoesNotExistException
-  | ApplicationNameRequiredException
-  | InvalidApplicationNameException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationInput,
@@ -4734,12 +4757,7 @@ export const updateApplication: API.OperationMethod<
     InvalidApplicationNameException,
   ],
 }));
-/**
- * Changes information about a deployment group.
- */
-export const updateDeploymentGroup: API.OperationMethod<
-  UpdateDeploymentGroupInput,
-  UpdateDeploymentGroupOutput,
+export type UpdateDeploymentGroupError =
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -4771,7 +4789,14 @@ export const updateDeploymentGroup: API.OperationMethod<
   | TagSetListLimitExceededException
   | ThrottlingException
   | TriggerTargetsLimitExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes information about a deployment group.
+ */
+export const updateDeploymentGroup: API.OperationMethod<
+  UpdateDeploymentGroupInput,
+  UpdateDeploymentGroupOutput,
+  UpdateDeploymentGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentGroupInput,

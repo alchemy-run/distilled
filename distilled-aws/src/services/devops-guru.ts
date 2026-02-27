@@ -2843,6 +2843,15 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddNotificationChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a notification channel to DevOps Guru. A notification channel is used to notify you
  * about important DevOps Guru events, such as when an insight is generated.
@@ -2859,14 +2868,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const addNotificationChannel: API.OperationMethod<
   AddNotificationChannelRequest,
   AddNotificationChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AddNotificationChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddNotificationChannelRequest,
@@ -2881,19 +2883,21 @@ export const addNotificationChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the insight along with the associated anomalies, events and recommendations.
- */
-export const deleteInsight: API.OperationMethod<
-  DeleteInsightRequest,
-  DeleteInsightResponse,
+export type DeleteInsightError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the insight along with the associated anomalies, events and recommendations.
+ */
+export const deleteInsight: API.OperationMethod<
+  DeleteInsightRequest,
+  DeleteInsightResponse,
+  DeleteInsightError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInsightRequest,
@@ -2907,6 +2911,12 @@ export const deleteInsight: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAccountHealthError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the number of open reactive insights, the number of open proactive insights,
  * and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the
@@ -2915,11 +2925,7 @@ export const deleteInsight: API.OperationMethod<
 export const describeAccountHealth: API.OperationMethod<
   DescribeAccountHealthRequest,
   DescribeAccountHealthResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAccountHealthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountHealthRequest,
@@ -2931,6 +2937,12 @@ export const describeAccountHealth: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAccountOverviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * For the time range passed in, returns the number of open reactive insight that were
  * created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all
@@ -2939,11 +2951,7 @@ export const describeAccountHealth: API.OperationMethod<
 export const describeAccountOverview: API.OperationMethod<
   DescribeAccountOverviewRequest,
   DescribeAccountOverviewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAccountOverviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountOverviewRequest,
@@ -2955,18 +2963,20 @@ export const describeAccountOverview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAnomalyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about an anomaly that you specify using its ID.
  */
 export const describeAnomaly: API.OperationMethod<
   DescribeAnomalyRequest,
   DescribeAnomalyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAnomalyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAnomalyRequest,
@@ -2979,6 +2989,12 @@ export const describeAnomaly: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeEventSourcesConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the integration status of services that are integrated with DevOps Guru as Consumer
  * via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru
@@ -2988,11 +3004,7 @@ export const describeAnomaly: API.OperationMethod<
 export const describeEventSourcesConfig: API.OperationMethod<
   DescribeEventSourcesConfigRequest,
   DescribeEventSourcesConfigResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeEventSourcesConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventSourcesConfigRequest,
@@ -3004,18 +3016,20 @@ export const describeEventSourcesConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
  */
 export const describeFeedback: API.OperationMethod<
   DescribeFeedbackRequest,
   DescribeFeedbackResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFeedbackRequest,
@@ -3028,18 +3042,20 @@ export const describeFeedback: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeInsightError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
   DescribeInsightRequest,
   DescribeInsightResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeInsightError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInsightRequest,
@@ -3052,6 +3068,12 @@ export const describeInsight: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeOrganizationHealthError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns active insights, predictive insights, and resource hours analyzed in last
  * hour.
@@ -3059,11 +3081,7 @@ export const describeInsight: API.OperationMethod<
 export const describeOrganizationHealth: API.OperationMethod<
   DescribeOrganizationHealthRequest,
   DescribeOrganizationHealthResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeOrganizationHealthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOrganizationHealthRequest,
@@ -3075,6 +3093,12 @@ export const describeOrganizationHealth: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeOrganizationOverviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an overview of your organization's history based on the specified time range.
  * The overview includes the total reactive and proactive insights.
@@ -3082,11 +3106,7 @@ export const describeOrganizationHealth: API.OperationMethod<
 export const describeOrganizationOverview: API.OperationMethod<
   DescribeOrganizationOverviewRequest,
   DescribeOrganizationOverviewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeOrganizationOverviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOrganizationOverviewRequest,
@@ -3098,6 +3118,12 @@ export const describeOrganizationOverview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeOrganizationResourceCollectionHealthError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides an overview of your system's health. If additional member accounts are part
  * of your organization, you can filter those accounts using the `AccountIds`
@@ -3106,33 +3132,21 @@ export const describeOrganizationOverview: API.OperationMethod<
 export const describeOrganizationResourceCollectionHealth: API.OperationMethod<
   DescribeOrganizationResourceCollectionHealthRequest,
   DescribeOrganizationResourceCollectionHealthResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeOrganizationResourceCollectionHealthError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrganizationResourceCollectionHealthRequest,
   ) => stream.Stream<
     DescribeOrganizationResourceCollectionHealthResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeOrganizationResourceCollectionHealthError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrganizationResourceCollectionHealthRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeOrganizationResourceCollectionHealthError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3146,6 +3160,12 @@ export const describeOrganizationResourceCollectionHealth: API.OperationMethod<
   ],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type DescribeResourceCollectionHealthError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
  * for all closed insights in resource collections in your account. You specify the type of
@@ -3156,33 +3176,21 @@ export const describeOrganizationResourceCollectionHealth: API.OperationMethod<
 export const describeResourceCollectionHealth: API.OperationMethod<
   DescribeResourceCollectionHealthRequest,
   DescribeResourceCollectionHealthResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeResourceCollectionHealthError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeResourceCollectionHealthRequest,
   ) => stream.Stream<
     DescribeResourceCollectionHealthResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeResourceCollectionHealthError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeResourceCollectionHealthRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeResourceCollectionHealthError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3196,6 +3204,13 @@ export const describeResourceCollectionHealth: API.OperationMethod<
   ],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type DescribeServiceIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the integration status of services that are integrated with DevOps Guru.
  * The one service that can be integrated with DevOps Guru
@@ -3204,12 +3219,7 @@ export const describeResourceCollectionHealth: API.OperationMethod<
 export const describeServiceIntegration: API.OperationMethod<
   DescribeServiceIntegrationRequest,
   DescribeServiceIntegrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeServiceIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceIntegrationRequest,
@@ -3222,6 +3232,13 @@ export const describeServiceIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCostEstimationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
  * For more information,
@@ -3232,36 +3249,21 @@ export const describeServiceIntegration: API.OperationMethod<
 export const getCostEstimation: API.OperationMethod<
   GetCostEstimationRequest,
   GetCostEstimationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCostEstimationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCostEstimationRequest,
   ) => stream.Stream<
     GetCostEstimationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCostEstimationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCostEstimationRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCostEstimationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3276,6 +3278,13 @@ export const getCostEstimation: API.OperationMethod<
   ],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type GetResourceCollectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns lists Amazon Web Services resources that are of the specified resource collection type.
  * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
@@ -3285,36 +3294,21 @@ export const getCostEstimation: API.OperationMethod<
 export const getResourceCollection: API.OperationMethod<
   GetResourceCollectionRequest,
   GetResourceCollectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourceCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceCollectionRequest,
   ) => stream.Stream<
     GetResourceCollectionResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetResourceCollectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceCollectionRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetResourceCollectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3329,6 +3323,13 @@ export const getResourceCollection: API.OperationMethod<
   ],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type ListAnomaliesForInsightError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the anomalies that belong to an insight that you specify using its
  * ID.
@@ -3336,36 +3337,21 @@ export const getResourceCollection: API.OperationMethod<
 export const listAnomaliesForInsight: API.OperationMethod<
   ListAnomaliesForInsightRequest,
   ListAnomaliesForInsightResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAnomaliesForInsightError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnomaliesForInsightRequest,
   ) => stream.Stream<
     ListAnomaliesForInsightResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnomaliesForInsightError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnomaliesForInsightRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnomaliesForInsightError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3384,42 +3370,34 @@ export const listAnomaliesForInsight: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAnomalousLogGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of log groups that contain log anomalies.
  */
 export const listAnomalousLogGroups: API.OperationMethod<
   ListAnomalousLogGroupsRequest,
   ListAnomalousLogGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAnomalousLogGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnomalousLogGroupsRequest,
   ) => stream.Stream<
     ListAnomalousLogGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnomalousLogGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnomalousLogGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnomalousLogGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3438,6 +3416,13 @@ export const listAnomalousLogGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
  * You can use filters to specify which events are returned.
@@ -3445,36 +3430,21 @@ export const listAnomalousLogGroups: API.OperationMethod<
 export const listEvents: API.OperationMethod<
   ListEventsRequest,
   ListEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventsRequest,
   ) => stream.Stream<
     ListEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventsRequest,
   ) => stream.Stream<
     Event,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3494,6 +3464,12 @@ export const listEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of insights in your Amazon Web Services account. You can specify which insights are
  * returned by their start time and status (`ONGOING`, `CLOSED`, or
@@ -3502,33 +3478,21 @@ export const listEvents: API.OperationMethod<
 export const listInsights: API.OperationMethod<
   ListInsightsRequest,
   ListInsightsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInsightsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInsightsRequest,
   ) => stream.Stream<
     ListInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInsightsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3546,39 +3510,33 @@ export const listInsights: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMonitoredResourcesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
 export const listMonitoredResources: API.OperationMethod<
   ListMonitoredResourcesRequest,
   ListMonitoredResourcesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMonitoredResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMonitoredResourcesRequest,
   ) => stream.Stream<
     ListMonitoredResourcesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitoredResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitoredResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitoredResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3596,6 +3554,12 @@ export const listMonitoredResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNotificationChannelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of notification channels configured for DevOps Guru. Each notification
  * channel is used to notify you when DevOps Guru generates an insight that contains information
@@ -3605,33 +3569,21 @@ export const listMonitoredResources: API.OperationMethod<
 export const listNotificationChannels: API.OperationMethod<
   ListNotificationChannelsRequest,
   ListNotificationChannelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationChannelsRequest,
   ) => stream.Stream<
     ListNotificationChannelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationChannelsRequest,
   ) => stream.Stream<
     NotificationChannel,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3649,39 +3601,33 @@ export const listNotificationChannels: API.OperationMethod<
     items: "Channels",
   } as const,
 }));
+export type ListOrganizationInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of insights associated with the account or OU Id.
  */
 export const listOrganizationInsights: API.OperationMethod<
   ListOrganizationInsightsRequest,
   ListOrganizationInsightsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOrganizationInsightsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationInsightsRequest,
   ) => stream.Stream<
     ListOrganizationInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationInsightsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3699,6 +3645,13 @@ export const listOrganizationInsights: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of a specified insight's recommendations. Each recommendation includes
  * a list of related metrics and a list of related events.
@@ -3706,36 +3659,21 @@ export const listOrganizationInsights: API.OperationMethod<
 export const listRecommendations: API.OperationMethod<
   ListRecommendationsRequest,
   ListRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     Recommendation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3754,19 +3692,21 @@ export const listRecommendations: API.OperationMethod<
     items: "Recommendations",
   } as const,
 }));
-/**
- * Collects customer feedback about the specified insight.
- */
-export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
-  PutFeedbackResponse,
+export type PutFeedbackError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Collects customer feedback about the specified insight.
+ */
+export const putFeedback: API.OperationMethod<
+  PutFeedbackRequest,
+  PutFeedbackResponse,
+  PutFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFeedbackRequest,
@@ -3780,6 +3720,14 @@ export const putFeedback: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveNotificationChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a notification channel from DevOps Guru. A notification channel is used to notify
  * you when DevOps Guru generates an insight that contains information about how to improve your
@@ -3788,13 +3736,7 @@ export const putFeedback: API.OperationMethod<
 export const removeNotificationChannel: API.OperationMethod<
   RemoveNotificationChannelRequest,
   RemoveNotificationChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveNotificationChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveNotificationChannelRequest,
@@ -3808,6 +3750,12 @@ export const removeNotificationChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of insights in your Amazon Web Services account. You can specify which insights are
  * returned by their start time, one or more statuses (`ONGOING` or `CLOSED`), one or more severities
@@ -3821,33 +3769,21 @@ export const removeNotificationChannel: API.OperationMethod<
 export const searchInsights: API.OperationMethod<
   SearchInsightsRequest,
   SearchInsightsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchInsightsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchInsightsRequest,
   ) => stream.Stream<
     SearchInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchInsightsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3865,6 +3801,12 @@ export const searchInsights: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchOrganizationInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of insights in your organization. You can specify which insights are
  * returned by their start time, one or more statuses (`ONGOING`,
@@ -3879,33 +3821,21 @@ export const searchInsights: API.OperationMethod<
 export const searchOrganizationInsights: API.OperationMethod<
   SearchOrganizationInsightsRequest,
   SearchOrganizationInsightsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchOrganizationInsightsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchOrganizationInsightsRequest,
   ) => stream.Stream<
     SearchOrganizationInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchOrganizationInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchOrganizationInsightsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchOrganizationInsightsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3923,6 +3853,14 @@ export const searchOrganizationInsights: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartCostEstimationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
  * resources.
@@ -3930,13 +3868,7 @@ export const searchOrganizationInsights: API.OperationMethod<
 export const startCostEstimation: API.OperationMethod<
   StartCostEstimationRequest,
   StartCostEstimationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartCostEstimationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCostEstimationRequest,
@@ -3950,6 +3882,12 @@ export const startCostEstimation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEventSourcesConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables or disables integration with a service that can be integrated with DevOps Guru. The
  * one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
@@ -3958,11 +3896,7 @@ export const startCostEstimation: API.OperationMethod<
 export const updateEventSourcesConfig: API.OperationMethod<
   UpdateEventSourcesConfigRequest,
   UpdateEventSourcesConfigResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEventSourcesConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventSourcesConfigRequest,
@@ -3974,6 +3908,13 @@ export const updateEventSourcesConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateResourceCollectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the collection of resources that DevOps Guru analyzes.
  * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
@@ -3984,12 +3925,7 @@ export const updateEventSourcesConfig: API.OperationMethod<
 export const updateResourceCollection: API.OperationMethod<
   UpdateResourceCollectionRequest,
   UpdateResourceCollectionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateResourceCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceCollectionRequest,
@@ -4002,6 +3938,13 @@ export const updateResourceCollection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateServiceIntegrationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables or disables integration with a service that can be integrated with DevOps Guru. The
  * one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create
@@ -4010,12 +3953,7 @@ export const updateResourceCollection: API.OperationMethod<
 export const updateServiceIntegration: API.OperationMethod<
   UpdateServiceIntegrationRequest,
   UpdateServiceIntegrationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServiceIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceIntegrationRequest,

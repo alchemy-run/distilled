@@ -156,20 +156,20 @@ export const View = S.suspend(() =>
 ).annotate({ identifier: "View" }) as any as S.Schema<View>;
 export type ViewList = View[];
 export const ViewList = S.Array(View);
-export interface BatchGetViewError {
+export interface BatchGetViewError_ {
   ViewArn: string;
   ErrorMessage: string;
 }
-export const BatchGetViewError = S.suspend(() =>
+export const BatchGetViewError_ = S.suspend(() =>
   S.Struct({ ViewArn: S.String, ErrorMessage: S.String }),
 ).annotate({
   identifier: "BatchGetViewError",
-}) as any as S.Schema<BatchGetViewError>;
-export type BatchGetViewErrors = BatchGetViewError[];
-export const BatchGetViewErrors = S.Array(BatchGetViewError);
+}) as any as S.Schema<BatchGetViewError_>;
+export type BatchGetViewErrors = BatchGetViewError_[];
+export const BatchGetViewErrors = S.Array(BatchGetViewError_);
 export interface BatchGetViewOutput {
   Views?: View[];
-  Errors?: BatchGetViewError[];
+  Errors?: BatchGetViewError_[];
 }
 export const BatchGetViewOutput = S.suspend(() =>
   S.Struct({
@@ -1353,18 +1353,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type BatchGetViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a list of views.
  */
 export const batchGetView: API.OperationMethod<
   BatchGetViewInput,
   BatchGetViewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  BatchGetViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetViewInput,
@@ -1377,18 +1379,20 @@ export const batchGetView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResourceExplorerSetupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
  */
 export const createResourceExplorerSetup: API.OperationMethod<
   CreateResourceExplorerSetupInput,
   CreateResourceExplorerSetupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateResourceExplorerSetupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceExplorerSetupInput,
@@ -1401,18 +1405,20 @@ export const createResourceExplorerSetup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourceExplorerSetupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
  */
 export const deleteResourceExplorerSetup: API.OperationMethod<
   DeleteResourceExplorerSetupInput,
   DeleteResourceExplorerSetupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourceExplorerSetupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceExplorerSetupInput,
@@ -1425,6 +1431,13 @@ export const deleteResourceExplorerSetup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateDefaultViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * After you call this operation, the affected Amazon Web Services Region no longer has a default view. All Search operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the AssociateDefaultView operation.
  *
@@ -1433,12 +1446,7 @@ export const deleteResourceExplorerSetup: API.OperationMethod<
 export const disassociateDefaultView: API.OperationMethod<
   DisassociateDefaultViewRequest,
   DisassociateDefaultViewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateDefaultViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateDefaultViewRequest,
@@ -1451,17 +1459,19 @@ export const disassociateDefaultView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccountLevelServiceConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
  */
 export const getAccountLevelServiceConfiguration: API.OperationMethod<
   GetAccountLevelServiceConfigurationRequest,
   GetAccountLevelServiceConfigurationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetAccountLevelServiceConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountLevelServiceConfigurationRequest,
@@ -1473,18 +1483,20 @@ export const getAccountLevelServiceConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetDefaultViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
  */
 export const getDefaultView: API.OperationMethod<
   GetDefaultViewRequest,
   GetDefaultViewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDefaultViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultViewRequest,
@@ -1497,18 +1509,20 @@ export const getDefaultView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIndexError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
  */
 export const getIndex: API.OperationMethod<
   GetIndexRequest,
   GetIndexOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexRequest,
@@ -1521,19 +1535,21 @@ export const getIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves details of the specified Amazon Web Services-managed view.
- */
-export const getManagedView: API.OperationMethod<
-  GetManagedViewInput,
-  GetManagedViewOutput,
+export type GetManagedViewError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details of the specified Amazon Web Services-managed view.
+ */
+export const getManagedView: API.OperationMethod<
+  GetManagedViewInput,
+  GetManagedViewOutput,
+  GetManagedViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedViewInput,
@@ -1547,42 +1563,34 @@ export const getManagedView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourceExplorerSetupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
  */
 export const getResourceExplorerSetup: API.OperationMethod<
   GetResourceExplorerSetupInput,
   GetResourceExplorerSetupOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourceExplorerSetupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceExplorerSetupInput,
   ) => stream.Stream<
     GetResourceExplorerSetupOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetResourceExplorerSetupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceExplorerSetupInput,
   ) => stream.Stream<
     RegionStatus,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetResourceExplorerSetupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1602,18 +1610,20 @@ export const getResourceExplorerSetup: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetServiceIndexError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
  */
 export const getServiceIndex: API.OperationMethod<
   GetServiceIndexRequest,
   GetServiceIndexOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceIndexRequest,
@@ -1626,18 +1636,20 @@ export const getServiceIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
  */
 export const getServiceView: API.OperationMethod<
   GetServiceViewInput,
   GetServiceViewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceViewInput,
@@ -1650,39 +1662,33 @@ export const getServiceView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIndexesForMembersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
  */
 export const listIndexesForMembers: API.OperationMethod<
   ListIndexesForMembersInput,
   ListIndexesForMembersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIndexesForMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIndexesForMembersInput,
   ) => stream.Stream<
     ListIndexesForMembersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIndexesForMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIndexesForMembersInput,
   ) => stream.Stream<
     MemberIndex,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIndexesForMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1701,42 +1707,34 @@ export const listIndexesForMembers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListManagedViewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
  */
 export const listManagedViews: API.OperationMethod<
   ListManagedViewsInput,
   ListManagedViewsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListManagedViewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedViewsInput,
   ) => stream.Stream<
     ListManagedViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListManagedViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedViewsInput,
   ) => stream.Stream<
     string,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListManagedViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1756,45 +1754,35 @@ export const listManagedViews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
- */
-export const listResources: API.OperationMethod<
-  ListResourcesInput,
-  ListResourcesOutput,
+export type ListResourcesError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
+ */
+export const listResources: API.OperationMethod<
+  ListResourcesInput,
+  ListResourcesOutput,
+  ListResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesInput,
   ) => stream.Stream<
     ListResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesInput,
   ) => stream.Stream<
     Resource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1815,39 +1803,33 @@ export const listResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServiceIndexesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
  */
 export const listServiceIndexes: API.OperationMethod<
   ListServiceIndexesInput,
   ListServiceIndexesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceIndexesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceIndexesInput,
   ) => stream.Stream<
     ListServiceIndexesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceIndexesInput,
   ) => stream.Stream<
     Index,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1866,39 +1848,33 @@ export const listServiceIndexes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServiceViewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
  */
 export const listServiceViews: API.OperationMethod<
   ListServiceViewsInput,
   ListServiceViewsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceViewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceViewsInput,
   ) => stream.Stream<
     ListServiceViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceViewsInput,
   ) => stream.Stream<
     string,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1917,36 +1893,32 @@ export const listServiceViews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStreamingAccessForServicesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
  */
 export const listStreamingAccessForServices: API.OperationMethod<
   ListStreamingAccessForServicesInput,
   ListStreamingAccessForServicesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListStreamingAccessForServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamingAccessForServicesInput,
   ) => stream.Stream<
     ListStreamingAccessForServicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListStreamingAccessForServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamingAccessForServicesInput,
   ) => stream.Stream<
     StreamingAccessDetails,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListStreamingAccessForServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1960,39 +1932,33 @@ export const listStreamingAccessForServices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSupportedResourceTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
  */
 export const listSupportedResourceTypes: API.OperationMethod<
   ListSupportedResourceTypesInput,
   ListSupportedResourceTypesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSupportedResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSupportedResourceTypesInput,
   ) => stream.Stream<
     ListSupportedResourceTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSupportedResourceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSupportedResourceTypesInput,
   ) => stream.Stream<
     SupportedResourceType,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSupportedResourceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2011,19 +1977,21 @@ export const listSupportedResourceTypes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the tags that are attached to the specified resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
-  ListTagsForResourceOutput,
+export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags that are attached to the specified resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -2037,6 +2005,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string.
  *
@@ -2049,39 +2025,21 @@ export const listTagsForResource: API.OperationMethod<
 export const search: API.OperationMethod<
   SearchInput,
   SearchOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  SearchError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchInput,
   ) => stream.Stream<
     SearchOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchInput,
   ) => stream.Stream<
     Resource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2102,19 +2060,21 @@ export const search: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceInput,
-  TagResourceOutput,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
+  TagResourceOutput,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -2128,19 +2088,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceInput,
-  UntagResourceOutput,
+export type UntagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
+  UntagResourceOutput,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -2154,6 +2116,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateIndexError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Turns on Amazon Web Services Resource Explorer in the Amazon Web Services Region in which you called this operation by creating an index. Resource Explorer begins discovering the resources in this Region and stores the details about the resources in the index so that they can be queried by using the Search operation. You can create only one index in a Region.
  *
@@ -2180,12 +2149,7 @@ export const untagResource: API.OperationMethod<
 export const createIndex: API.OperationMethod<
   CreateIndexInput,
   CreateIndexOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexInput,
@@ -2198,6 +2162,15 @@ export const createIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateIndexTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Changes the type of the index from one of the following types to the other. For more information about indexes and the role they perform in Amazon Web Services Resource Explorer, see Turning on cross-Region search by creating an aggregator index in the *Amazon Web Services Resource Explorer User Guide*.
  *
@@ -2220,14 +2193,7 @@ export const createIndex: API.OperationMethod<
 export const updateIndexType: API.OperationMethod<
   UpdateIndexTypeInput,
   UpdateIndexTypeOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateIndexTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexTypeInput,
@@ -2242,6 +2208,13 @@ export const updateIndexType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIndexError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the GetIndex operation and checking the `Status` response value.
  *
@@ -2250,12 +2223,7 @@ export const updateIndexType: API.OperationMethod<
 export const deleteIndex: API.OperationMethod<
   DeleteIndexInput,
   DeleteIndexOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexInput,
@@ -2268,39 +2236,33 @@ export const deleteIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIndexesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
  */
 export const listIndexes: API.OperationMethod<
   ListIndexesInput,
   ListIndexesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIndexesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIndexesInput,
   ) => stream.Stream<
     ListIndexesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIndexesInput,
   ) => stream.Stream<
     Index,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2319,6 +2281,15 @@ export const listIndexes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateViewError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a view that users can query by using the Search operation. Results from queries that you make using this view include only resources that match the view's `Filters`. For more information about Amazon Web Services Resource Explorer views, see Managing views in the *Amazon Web Services Resource Explorer User Guide*.
  *
@@ -2327,14 +2298,7 @@ export const listIndexes: API.OperationMethod<
 export const createView: API.OperationMethod<
   CreateViewInput,
   CreateViewOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  CreateViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateViewInput,
@@ -2349,19 +2313,21 @@ export const createView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves details of the specified view.
- */
-export const getView: API.OperationMethod<
-  GetViewInput,
-  GetViewOutput,
+export type GetViewError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details of the specified view.
+ */
+export const getView: API.OperationMethod<
+  GetViewInput,
+  GetViewOutput,
+  GetViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetViewInput,
@@ -2375,19 +2341,21 @@ export const getView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
- */
-export const updateView: API.OperationMethod<
-  UpdateViewInput,
-  UpdateViewOutput,
+export type UpdateViewError =
   | AccessDeniedException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
+ */
+export const updateView: API.OperationMethod<
+  UpdateViewInput,
+  UpdateViewOutput,
+  UpdateViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateViewInput,
@@ -2401,6 +2369,14 @@ export const updateView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified view.
  *
@@ -2409,13 +2385,7 @@ export const updateView: API.OperationMethod<
 export const deleteView: API.OperationMethod<
   DeleteViewInput,
   DeleteViewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteViewInput,
@@ -2429,6 +2399,12 @@ export const deleteView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListViewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation.
  *
@@ -2437,33 +2413,21 @@ export const deleteView: API.OperationMethod<
 export const listViews: API.OperationMethod<
   ListViewsInput,
   ListViewsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListViewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListViewsInput,
   ) => stream.Stream<
     ListViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListViewsInput,
   ) => stream.Stream<
     string,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2482,6 +2446,13 @@ export const listViews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type AssociateDefaultViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region.
  *
@@ -2490,12 +2461,7 @@ export const listViews: API.OperationMethod<
 export const associateDefaultView: API.OperationMethod<
   AssociateDefaultViewInput,
   AssociateDefaultViewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateDefaultViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDefaultViewInput,

@@ -158,6 +158,12 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type JoinStorageSessionError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Before using this API, you must call the `GetSignalingChannelEndpoint` API to request the WEBRTC endpoint. You then specify the endpoint and region in your `JoinStorageSession` API request.
  *
@@ -206,11 +212,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const joinStorageSession: API.OperationMethod<
   JoinStorageSessionInput,
   JoinStorageSessionResponse,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  JoinStorageSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: JoinStorageSessionInput,
@@ -222,6 +224,12 @@ export const joinStorageSession: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type JoinStorageSessionAsViewerError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Join the ongoing one way-video and/or multi-way audio WebRTC session as
  * a viewer for an input channel. If there’s
@@ -244,11 +252,7 @@ export const joinStorageSession: API.OperationMethod<
 export const joinStorageSessionAsViewer: API.OperationMethod<
   JoinStorageSessionAsViewerInput,
   JoinStorageSessionAsViewerResponse,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  JoinStorageSessionAsViewerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: JoinStorageSessionAsViewerInput,

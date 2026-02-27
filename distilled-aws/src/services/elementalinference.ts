@@ -576,18 +576,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all tags that are on an Elemental Inference resource in the current region.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | TooManyRequestException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -600,19 +602,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -626,19 +630,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes specified tags from the specified resource in the current region.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes specified tags from the specified resource in the current region.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -652,19 +658,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a feed. The feed is the target for live streams being sent by the calling application. An example of a calling application is AWS Elemental MediaLive. After you create the feed, you can associate a resource with the feed.
- */
-export const createFeed: API.OperationMethod<
-  CreateFeedRequest,
-  CreateFeedResponse,
+export type CreateFeedError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ServiceQuotaExceededException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a feed. The feed is the target for live streams being sent by the calling application. An example of a calling application is AWS Elemental MediaLive. After you create the feed, you can associate a resource with the feed.
+ */
+export const createFeed: API.OperationMethod<
+  CreateFeedRequest,
+  CreateFeedResponse,
+  CreateFeedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFeedRequest,
@@ -678,17 +686,19 @@ export const createFeed: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFeedError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | CommonErrors;
 /**
  * Retrieves information about the specified feed.
  */
 export const getFeed: API.OperationMethod<
   GetFeedRequest,
   GetFeedResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | TooManyRequestException
-  | CommonErrors,
+  GetFeedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFeedRequest,
@@ -700,12 +710,7 @@ export const getFeed: API.OperationMethod<
     TooManyRequestException,
   ],
 }));
-/**
- * Updates the name and/or outputs in a feed.
- */
-export const updateFeed: API.OperationMethod<
-  UpdateFeedRequest,
-  UpdateFeedResponse,
+export type UpdateFeedError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
@@ -713,7 +718,14 @@ export const updateFeed: API.OperationMethod<
   | ServiceQuotaExceededException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the name and/or outputs in a feed.
+ */
+export const updateFeed: API.OperationMethod<
+  UpdateFeedRequest,
+  UpdateFeedResponse,
+  UpdateFeedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFeedRequest,
@@ -728,19 +740,21 @@ export const updateFeed: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified feed. The feed can be deleted at any time.
- */
-export const deleteFeed: API.OperationMethod<
-  DeleteFeedRequest,
-  DeleteFeedResponse,
+export type DeleteFeedError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified feed. The feed can be deleted at any time.
+ */
+export const deleteFeed: API.OperationMethod<
+  DeleteFeedRequest,
+  DeleteFeedResponse,
+  DeleteFeedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFeedRequest,
@@ -754,42 +768,34 @@ export const deleteFeed: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFeedsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays a list of feeds that belong to this AWS account.
  */
 export const listFeeds: API.OperationMethod<
   ListFeedsRequest,
   ListFeedsResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | TooManyRequestException
-  | ValidationException
-  | CommonErrors,
+  ListFeedsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFeedsRequest,
   ) => stream.Stream<
     ListFeedsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | TooManyRequestException
-    | ValidationException
-    | CommonErrors,
+    ListFeedsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFeedsRequest,
   ) => stream.Stream<
     FeedSummary,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | TooManyRequestException
-    | ValidationException
-    | CommonErrors,
+    ListFeedsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -809,12 +815,7 @@ export const listFeeds: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Associates a resource with the feed. The resource provides the input that Elemental Inference needs needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed.
- */
-export const associateFeed: API.OperationMethod<
-  AssociateFeedRequest,
-  AssociateFeedResponse,
+export type AssociateFeedError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
@@ -822,7 +823,14 @@ export const associateFeed: API.OperationMethod<
   | ServiceQuotaExceededException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a resource with the feed. The resource provides the input that Elemental Inference needs needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed.
+ */
+export const associateFeed: API.OperationMethod<
+  AssociateFeedRequest,
+  AssociateFeedResponse,
+  AssociateFeedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFeedRequest,
@@ -837,19 +845,21 @@ export const associateFeed: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Releases the resource (for example, an MediaLive channel) that is associated with this feed. The outputs in the feed become disabled.
- */
-export const disassociateFeed: API.OperationMethod<
-  DisassociateFeedRequest,
-  DisassociateFeedResponse,
+export type DisassociateFeedError =
   | AccessDeniedException
   | ConflictException
   | InternalServerErrorException
   | ResourceNotFoundException
   | TooManyRequestException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Releases the resource (for example, an MediaLive channel) that is associated with this feed. The outputs in the feed become disabled.
+ */
+export const disassociateFeed: API.OperationMethod<
+  DisassociateFeedRequest,
+  DisassociateFeedResponse,
+  DisassociateFeedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFeedRequest,

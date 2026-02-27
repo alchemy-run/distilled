@@ -884,6 +884,10 @@ export class KmsNotFoundException extends S.TaggedErrorClass<KmsNotFoundExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.
  *
@@ -896,13 +900,18 @@ export class KmsNotFoundException extends S.TaggedErrorClass<KmsNotFoundExceptio
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type TagResourceError =
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource.
  *
@@ -915,16 +924,18 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
 }));
+export type UntagResourceError =
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys.
  *
@@ -937,16 +948,18 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
 }));
+export type CreateVectorBucketError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.
  *
@@ -959,10 +972,7 @@ export const untagResource: API.OperationMethod<
 export const createVectorBucket: API.OperationMethod<
   CreateVectorBucketInput,
   CreateVectorBucketOutput,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateVectorBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVectorBucketInput,
@@ -973,6 +983,11 @@ export const createVectorBucket: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteVectorBucketError =
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -983,16 +998,17 @@ export const createVectorBucket: API.OperationMethod<
 export const deleteVectorBucket: API.OperationMethod<
   DeleteVectorBucketInput,
   DeleteVectorBucketOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteVectorBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVectorBucketInput,
   output: DeleteVectorBucketOutput,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
 }));
+export type DeleteVectorBucketPolicyError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1003,13 +1019,17 @@ export const deleteVectorBucket: API.OperationMethod<
 export const deleteVectorBucketPolicy: API.OperationMethod<
   DeleteVectorBucketPolicyInput,
   DeleteVectorBucketPolicyOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  DeleteVectorBucketPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVectorBucketPolicyInput,
   output: DeleteVectorBucketPolicyOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type GetVectorBucketError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1020,13 +1040,17 @@ export const deleteVectorBucketPolicy: API.OperationMethod<
 export const getVectorBucket: API.OperationMethod<
   GetVectorBucketInput,
   GetVectorBucketOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  GetVectorBucketError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorBucketInput,
   output: GetVectorBucketOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type GetVectorBucketPolicyError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1037,13 +1061,14 @@ export const getVectorBucket: API.OperationMethod<
 export const getVectorBucketPolicy: API.OperationMethod<
   GetVectorBucketPolicyInput,
   GetVectorBucketPolicyOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  GetVectorBucketPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorBucketPolicyInput,
   output: GetVectorBucketPolicyOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type ListVectorBucketsError = ServiceUnavailableException | CommonErrors;
 /**
  * Returns a list of all the vector buckets that are owned by the authenticated sender of the request.
  *
@@ -1054,21 +1079,21 @@ export const getVectorBucketPolicy: API.OperationMethod<
 export const listVectorBuckets: API.OperationMethod<
   ListVectorBucketsInput,
   ListVectorBucketsOutput,
-  ServiceUnavailableException | CommonErrors,
+  ListVectorBucketsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVectorBucketsInput,
   ) => stream.Stream<
     ListVectorBucketsOutput,
-    ServiceUnavailableException | CommonErrors,
+    ListVectorBucketsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVectorBucketsInput,
   ) => stream.Stream<
     VectorBucketSummary,
-    ServiceUnavailableException | CommonErrors,
+    ListVectorBucketsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1082,6 +1107,10 @@ export const listVectorBuckets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutVectorBucketPolicyError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1092,13 +1121,19 @@ export const listVectorBuckets: API.OperationMethod<
 export const putVectorBucketPolicy: API.OperationMethod<
   PutVectorBucketPolicyInput,
   PutVectorBucketPolicyOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  PutVectorBucketPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVectorBucketPolicyInput,
   output: PutVectorBucketPolicyOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type CreateIndexError =
+  | ConflictException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1111,11 +1146,7 @@ export const putVectorBucketPolicy: API.OperationMethod<
 export const createIndex: API.OperationMethod<
   CreateIndexInput,
   CreateIndexOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexInput,
@@ -1127,6 +1158,10 @@ export const createIndex: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteIndexError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1137,13 +1172,17 @@ export const createIndex: API.OperationMethod<
 export const deleteIndex: API.OperationMethod<
   DeleteIndexInput,
   DeleteIndexOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  DeleteIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexInput,
   output: DeleteIndexOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type GetIndexError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1154,13 +1193,17 @@ export const deleteIndex: API.OperationMethod<
 export const getIndex: API.OperationMethod<
   GetIndexInput,
   GetIndexOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  GetIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexInput,
   output: GetIndexOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
+export type ListIndexesError =
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1171,21 +1214,21 @@ export const getIndex: API.OperationMethod<
 export const listIndexes: API.OperationMethod<
   ListIndexesInput,
   ListIndexesOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
+  ListIndexesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIndexesInput,
   ) => stream.Stream<
     ListIndexesOutput,
-    NotFoundException | ServiceUnavailableException | CommonErrors,
+    ListIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIndexesInput,
   ) => stream.Stream<
     IndexSummary,
-    NotFoundException | ServiceUnavailableException | CommonErrors,
+    ListIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1199,6 +1242,15 @@ export const listIndexes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteVectorsError =
+  | AccessDeniedException
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1209,14 +1261,7 @@ export const listIndexes: API.OperationMethod<
 export const deleteVectors: API.OperationMethod<
   DeleteVectorsInput,
   DeleteVectorsOutput,
-  | AccessDeniedException
-  | KmsDisabledException
-  | KmsInvalidKeyUsageException
-  | KmsInvalidStateException
-  | KmsNotFoundException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteVectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVectorsInput,
@@ -1231,6 +1276,14 @@ export const deleteVectors: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetVectorsError =
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1241,13 +1294,7 @@ export const deleteVectors: API.OperationMethod<
 export const getVectors: API.OperationMethod<
   GetVectorsInput,
   GetVectorsOutput,
-  | KmsDisabledException
-  | KmsInvalidKeyUsageException
-  | KmsInvalidStateException
-  | KmsNotFoundException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetVectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorsInput,
@@ -1261,6 +1308,11 @@ export const getVectors: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListVectorsError =
+  | AccessDeniedException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1277,30 +1329,21 @@ export const getVectors: API.OperationMethod<
 export const listVectors: API.OperationMethod<
   ListVectorsInput,
   ListVectorsOutput,
-  | AccessDeniedException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListVectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVectorsInput,
   ) => stream.Stream<
     ListVectorsOutput,
-    | AccessDeniedException
-    | NotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListVectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVectorsInput,
   ) => stream.Stream<
     ListOutputVector,
-    | AccessDeniedException
-    | NotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListVectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1318,6 +1361,16 @@ export const listVectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutVectorsError =
+  | AccessDeniedException
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1332,15 +1385,7 @@ export const listVectors: API.OperationMethod<
 export const putVectors: API.OperationMethod<
   PutVectorsInput,
   PutVectorsOutput,
-  | AccessDeniedException
-  | KmsDisabledException
-  | KmsInvalidKeyUsageException
-  | KmsInvalidStateException
-  | KmsNotFoundException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutVectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVectorsInput,
@@ -1356,6 +1401,14 @@ export const putVectors: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type QueryVectorsError =
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.
  *
@@ -1372,13 +1425,7 @@ export const putVectors: API.OperationMethod<
 export const queryVectors: API.OperationMethod<
   QueryVectorsInput,
   QueryVectorsOutput,
-  | KmsDisabledException
-  | KmsInvalidKeyUsageException
-  | KmsInvalidStateException
-  | KmsNotFoundException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  QueryVectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryVectorsInput,

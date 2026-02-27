@@ -406,18 +406,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -430,18 +432,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -454,18 +458,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts..
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -478,19 +484,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an email contact for the provided email address.
- */
-export const createEmailContact: API.OperationMethod<
-  CreateEmailContactRequest,
-  CreateEmailContactResponse,
+export type CreateEmailContactError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an email contact for the provided email address.
+ */
+export const createEmailContact: API.OperationMethod<
+  CreateEmailContactRequest,
+  CreateEmailContactResponse,
+  CreateEmailContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailContactRequest,
@@ -504,18 +512,20 @@ export const createEmailContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEmailContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an email contact.
  */
 export const getEmailContact: API.OperationMethod<
   GetEmailContactRequest,
   GetEmailContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEmailContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailContactRequest,
@@ -528,6 +538,14 @@ export const getEmailContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEmailContactError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an email contact.
  *
@@ -536,13 +554,7 @@ export const getEmailContact: API.OperationMethod<
 export const deleteEmailContact: API.OperationMethod<
   DeleteEmailContactRequest,
   DeleteEmailContactResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEmailContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailContactRequest,
@@ -556,39 +568,33 @@ export const deleteEmailContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEmailContactsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all email contacts created under the Account.
  */
 export const listEmailContacts: API.OperationMethod<
   ListEmailContactsRequest,
   ListEmailContactsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEmailContactsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEmailContactsRequest,
   ) => stream.Stream<
     ListEmailContactsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEmailContactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEmailContactsRequest,
   ) => stream.Stream<
     EmailContact,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEmailContactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -607,19 +613,21 @@ export const listEmailContacts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
- */
-export const activateEmailContact: API.OperationMethod<
-  ActivateEmailContactRequest,
-  ActivateEmailContactResponse,
+export type ActivateEmailContactError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
+ */
+export const activateEmailContact: API.OperationMethod<
+  ActivateEmailContactRequest,
+  ActivateEmailContactResponse,
+  ActivateEmailContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateEmailContactRequest,
@@ -633,6 +641,14 @@ export const activateEmailContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendActivationCodeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends an activation email to the email address associated with the specified email contact.
  *
@@ -641,13 +657,7 @@ export const activateEmailContact: API.OperationMethod<
 export const sendActivationCode: API.OperationMethod<
   SendActivationCodeRequest,
   SendActivationCodeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendActivationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendActivationCodeRequest,

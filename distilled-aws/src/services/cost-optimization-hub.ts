@@ -1905,17 +1905,19 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetPreferencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
  */
 export const getPreferences: API.OperationMethod<
   GetPreferencesRequest,
   GetPreferencesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPreferencesRequest,
@@ -1927,6 +1929,13 @@ export const getPreferences: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRecommendationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns both the current and recommended resource configuration and the estimated cost impact for a recommendation.
  *
@@ -1935,12 +1944,7 @@ export const getPreferences: API.OperationMethod<
 export const getRecommendation: API.OperationMethod<
   GetRecommendationRequest,
   GetRecommendationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationRequest,
@@ -1953,6 +1957,12 @@ export const getRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEfficiencyMetricsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources.
  *
@@ -1961,33 +1971,21 @@ export const getRecommendation: API.OperationMethod<
 export const listEfficiencyMetrics: API.OperationMethod<
   ListEfficiencyMetricsRequest,
   ListEfficiencyMetricsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEfficiencyMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEfficiencyMetricsRequest,
   ) => stream.Stream<
     ListEfficiencyMetricsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEfficiencyMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEfficiencyMetricsRequest,
   ) => stream.Stream<
     EfficiencyMetricsByGroup,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEfficiencyMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2006,39 +2004,33 @@ export const listEfficiencyMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEnrollmentStatusesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
  */
 export const listEnrollmentStatuses: API.OperationMethod<
   ListEnrollmentStatusesRequest,
   ListEnrollmentStatusesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnrollmentStatusesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnrollmentStatusesRequest,
   ) => stream.Stream<
     ListEnrollmentStatusesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnrollmentStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnrollmentStatusesRequest,
   ) => stream.Stream<
     AccountEnrollmentStatus,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnrollmentStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2057,39 +2049,33 @@ export const listEnrollmentStatuses: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of recommendations.
  */
 export const listRecommendations: API.OperationMethod<
   ListRecommendationsRequest,
   ListRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     Recommendation,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2108,6 +2094,12 @@ export const listRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendationSummariesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations.
  *
@@ -2116,33 +2108,21 @@ export const listRecommendations: API.OperationMethod<
 export const listRecommendationSummaries: API.OperationMethod<
   ListRecommendationSummariesRequest,
   ListRecommendationSummariesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationSummariesRequest,
   ) => stream.Stream<
     ListRecommendationSummariesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationSummariesRequest,
   ) => stream.Stream<
     RecommendationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2161,6 +2141,12 @@ export const listRecommendationSummaries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateEnrollmentStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service.
  *
@@ -2171,11 +2157,7 @@ export const listRecommendationSummaries: API.OperationMethod<
 export const updateEnrollmentStatus: API.OperationMethod<
   UpdateEnrollmentStatusRequest,
   UpdateEnrollmentStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEnrollmentStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnrollmentStatusRequest,
@@ -2187,17 +2169,19 @@ export const updateEnrollmentStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePreferencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
  */
 export const updatePreferences: API.OperationMethod<
   UpdatePreferencesRequest,
   UpdatePreferencesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePreferencesRequest,

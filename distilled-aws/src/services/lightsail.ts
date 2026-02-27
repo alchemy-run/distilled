@@ -8416,12 +8416,7 @@ export class UnauthenticatedException extends S.TaggedErrorClass<Unauthenticated
 ).pipe(C.withAuthError) {}
 
 //# Operations
-/**
- * Allocates a static IP address.
- */
-export const allocateStaticIp: API.OperationMethod<
-  AllocateStaticIpRequest,
-  AllocateStaticIpResult,
+export type AllocateStaticIpError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -8430,7 +8425,14 @@ export const allocateStaticIp: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allocates a static IP address.
+ */
+export const allocateStaticIp: API.OperationMethod<
+  AllocateStaticIpRequest,
+  AllocateStaticIpResult,
+  AllocateStaticIpError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllocateStaticIpRequest,
@@ -8446,6 +8448,14 @@ export const allocateStaticIp: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type AttachCertificateToDistributionError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -8465,13 +8475,7 @@ export const allocateStaticIp: API.OperationMethod<
 export const attachCertificateToDistribution: API.OperationMethod<
   AttachCertificateToDistributionRequest,
   AttachCertificateToDistributionResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  AttachCertificateToDistributionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachCertificateToDistributionRequest,
@@ -8485,6 +8489,16 @@ export const attachCertificateToDistribution: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type AttachDiskError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Attaches a block storage disk to a running or stopped Lightsail instance and exposes it
  * to the instance with the specified disk name.
@@ -8496,15 +8510,7 @@ export const attachCertificateToDistribution: API.OperationMethod<
 export const attachDisk: API.OperationMethod<
   AttachDiskRequest,
   AttachDiskResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  AttachDiskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachDiskRequest,
@@ -8520,6 +8526,16 @@ export const attachDisk: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type AttachInstancesToLoadBalancerError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Attaches one or more Lightsail instances to a load balancer.
  *
@@ -8533,15 +8549,7 @@ export const attachDisk: API.OperationMethod<
 export const attachInstancesToLoadBalancer: API.OperationMethod<
   AttachInstancesToLoadBalancerRequest,
   AttachInstancesToLoadBalancerResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  AttachInstancesToLoadBalancerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachInstancesToLoadBalancerRequest,
@@ -8557,6 +8565,16 @@ export const attachInstancesToLoadBalancer: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type AttachLoadBalancerTlsCertificateError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just
  * an updated, more secure version of Secure Socket Layer (SSL).
@@ -8573,15 +8591,7 @@ export const attachInstancesToLoadBalancer: API.OperationMethod<
 export const attachLoadBalancerTlsCertificate: API.OperationMethod<
   AttachLoadBalancerTlsCertificateRequest,
   AttachLoadBalancerTlsCertificateResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  AttachLoadBalancerTlsCertificateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachLoadBalancerTlsCertificateRequest,
@@ -8597,12 +8607,7 @@ export const attachLoadBalancerTlsCertificate: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Attaches a static IP address to a specific Amazon Lightsail instance.
- */
-export const attachStaticIp: API.OperationMethod<
-  AttachStaticIpRequest,
-  AttachStaticIpResult,
+export type AttachStaticIpError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -8611,7 +8616,14 @@ export const attachStaticIp: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches a static IP address to a specific Amazon Lightsail instance.
+ */
+export const attachStaticIp: API.OperationMethod<
+  AttachStaticIpRequest,
+  AttachStaticIpResult,
+  AttachStaticIpError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachStaticIpRequest,
@@ -8627,6 +8639,16 @@ export const attachStaticIp: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CloseInstancePublicPortsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Closes ports for a specific Amazon Lightsail instance.
  *
@@ -8637,15 +8659,7 @@ export const attachStaticIp: API.OperationMethod<
 export const closeInstancePublicPorts: API.OperationMethod<
   CloseInstancePublicPortsRequest,
   CloseInstancePublicPortsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CloseInstancePublicPortsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseInstancePublicPortsRequest,
@@ -8661,6 +8675,16 @@ export const closeInstancePublicPorts: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CopySnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an
  * automatic snapshot of an instance or disk as a manual snapshot. This operation can also be
@@ -8678,15 +8702,7 @@ export const closeInstancePublicPorts: API.OperationMethod<
 export const copySnapshot: API.OperationMethod<
   CopySnapshotRequest,
   CopySnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CopySnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotRequest,
@@ -8702,6 +8718,13 @@ export const copySnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateBucketError =
+  | AccessDeniedException
+  | InvalidInputException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an Amazon Lightsail bucket.
  *
@@ -8713,12 +8736,7 @@ export const copySnapshot: API.OperationMethod<
 export const createBucket: API.OperationMethod<
   CreateBucketRequest,
   CreateBucketResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateBucketError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBucketRequest,
@@ -8731,6 +8749,14 @@ export const createBucket: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateBucketAccessKeyError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of
  * an access key ID and corresponding secret access key.
@@ -8748,13 +8774,7 @@ export const createBucket: API.OperationMethod<
 export const createBucketAccessKey: API.OperationMethod<
   CreateBucketAccessKeyRequest,
   CreateBucketAccessKeyResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateBucketAccessKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBucketAccessKeyRequest,
@@ -8768,6 +8788,14 @@ export const createBucketAccessKey: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateCertificateError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN)
  * distribution and a container service.
@@ -8786,13 +8814,7 @@ export const createBucketAccessKey: API.OperationMethod<
 export const createCertificate: API.OperationMethod<
   CreateCertificateRequest,
   CreateCertificateResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateCertificateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCertificateRequest,
@@ -8806,6 +8828,16 @@ export const createCertificate: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateCloudFormationStackError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported
  * Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be
@@ -8818,15 +8850,7 @@ export const createCertificate: API.OperationMethod<
 export const createCloudFormationStack: API.OperationMethod<
   CreateCloudFormationStackRequest,
   CreateCloudFormationStackResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateCloudFormationStackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCloudFormationStackRequest,
@@ -8842,6 +8866,15 @@ export const createCloudFormationStack: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateContactMethodError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an email or SMS text message contact method.
  *
@@ -8853,14 +8886,7 @@ export const createCloudFormationStack: API.OperationMethod<
 export const createContactMethod: API.OperationMethod<
   CreateContactMethodRequest,
   CreateContactMethodResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateContactMethodError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactMethodRequest,
@@ -8875,6 +8901,14 @@ export const createContactMethod: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateContainerServiceError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an Amazon Lightsail container service.
  *
@@ -8885,13 +8919,7 @@ export const createContactMethod: API.OperationMethod<
 export const createContainerService: API.OperationMethod<
   CreateContainerServiceRequest,
   CreateContainerServiceResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateContainerServiceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerServiceRequest,
@@ -8905,6 +8933,14 @@ export const createContainerService: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateContainerServiceDeploymentError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a deployment for your Amazon Lightsail container service.
  *
@@ -8922,13 +8958,7 @@ export const createContainerService: API.OperationMethod<
 export const createContainerServiceDeployment: API.OperationMethod<
   CreateContainerServiceDeploymentRequest,
   CreateContainerServiceDeploymentResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateContainerServiceDeploymentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerServiceDeploymentRequest,
@@ -8942,6 +8972,14 @@ export const createContainerServiceDeployment: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateContainerServiceRegistryLoginError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a temporary set of log in credentials that you can use to log in to the Docker
  * process on your local machine. After you're logged in, you can use the native Docker commands
@@ -8966,13 +9004,7 @@ export const createContainerServiceDeployment: API.OperationMethod<
 export const createContainerServiceRegistryLogin: API.OperationMethod<
   CreateContainerServiceRegistryLoginRequest,
   CreateContainerServiceRegistryLoginResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateContainerServiceRegistryLoginError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerServiceRegistryLoginRequest,
@@ -8986,6 +9018,16 @@ export const createContainerServiceRegistryLogin: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateDiskError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
  * same Availability Zone (`us-east-2a`).
@@ -8996,15 +9038,7 @@ export const createContainerServiceRegistryLogin: API.OperationMethod<
 export const createDisk: API.OperationMethod<
   CreateDiskRequest,
   CreateDiskResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateDiskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiskRequest,
@@ -9020,6 +9054,16 @@ export const createDisk: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateDiskFromSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
  * disk can be attached to an Amazon Lightsail instance in the same Availability Zone
@@ -9032,15 +9076,7 @@ export const createDisk: API.OperationMethod<
 export const createDiskFromSnapshot: API.OperationMethod<
   CreateDiskFromSnapshotRequest,
   CreateDiskFromSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateDiskFromSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiskFromSnapshotRequest,
@@ -9056,6 +9092,16 @@ export const createDiskFromSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateDiskSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a snapshot of a block storage disk. You can use snapshots for backups, to make
  * copies of disks, and to save data before shutting down a Lightsail instance.
@@ -9083,15 +9129,7 @@ export const createDiskFromSnapshot: API.OperationMethod<
 export const createDiskSnapshot: API.OperationMethod<
   CreateDiskSnapshotRequest,
   CreateDiskSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateDiskSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiskSnapshotRequest,
@@ -9107,6 +9145,14 @@ export const createDiskSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateDistributionError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an Amazon Lightsail content delivery network (CDN) distribution.
  *
@@ -9117,13 +9163,7 @@ export const createDiskSnapshot: API.OperationMethod<
 export const createDistribution: API.OperationMethod<
   CreateDistributionRequest,
   CreateDistributionResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateDistributionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDistributionRequest,
@@ -9137,6 +9177,16 @@ export const createDistribution: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateDomainError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a domain resource for the specified domain (example.com).
  *
@@ -9146,15 +9196,7 @@ export const createDistribution: API.OperationMethod<
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
@@ -9170,6 +9212,16 @@ export const createDomain: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateDomainEntryError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates one of the following domain name system (DNS) records in a domain DNS zone:
  * Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
@@ -9182,15 +9234,7 @@ export const createDomain: API.OperationMethod<
 export const createDomainEntry: API.OperationMethod<
   CreateDomainEntryRequest,
   CreateDomainEntryResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateDomainEntryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainEntryRequest,
@@ -9206,6 +9250,14 @@ export const createDomainEntry: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateGUISessionAccessDetailsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates two URLs that are used to access a virtual computer’s graphical user interface
  * (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual
@@ -9217,13 +9269,7 @@ export const createDomainEntry: API.OperationMethod<
 export const createGUISessionAccessDetails: API.OperationMethod<
   CreateGUISessionAccessDetailsRequest,
   CreateGUISessionAccessDetailsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateGUISessionAccessDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGUISessionAccessDetailsRequest,
@@ -9237,6 +9283,16 @@ export const createGUISessionAccessDetails: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateInstancesError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates one or more Amazon Lightsail instances.
  *
@@ -9246,15 +9302,7 @@ export const createGUISessionAccessDetails: API.OperationMethod<
 export const createInstances: API.OperationMethod<
   CreateInstancesRequest,
   CreateInstancesResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstancesRequest,
@@ -9270,6 +9318,16 @@ export const createInstances: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateInstancesFromSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates one or more new instances from a manual or automatic snapshot of an
  * instance.
@@ -9281,15 +9339,7 @@ export const createInstances: API.OperationMethod<
 export const createInstancesFromSnapshot: API.OperationMethod<
   CreateInstancesFromSnapshotRequest,
   CreateInstancesFromSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateInstancesFromSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstancesFromSnapshotRequest,
@@ -9305,6 +9355,16 @@ export const createInstancesFromSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateInstanceSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a snapshot of a specific virtual private server, or *instance*.
  * You can use a snapshot to create a new instance that is based on that snapshot.
@@ -9315,15 +9375,7 @@ export const createInstancesFromSnapshot: API.OperationMethod<
 export const createInstanceSnapshot: API.OperationMethod<
   CreateInstanceSnapshotRequest,
   CreateInstanceSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateInstanceSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceSnapshotRequest,
@@ -9339,6 +9391,16 @@ export const createInstanceSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateKeyPairError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a custom SSH key pair that you can use with an Amazon Lightsail
  * instance.
@@ -9353,15 +9415,7 @@ export const createInstanceSnapshot: API.OperationMethod<
 export const createKeyPair: API.OperationMethod<
   CreateKeyPairRequest,
   CreateKeyPairResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateKeyPairError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyPairRequest,
@@ -9377,6 +9431,16 @@ export const createKeyPair: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateLoadBalancerError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a Lightsail load balancer. To learn more about deciding whether to load balance
  * your application, see Configure your Lightsail instances for load balancing. You can create up to 10
@@ -9392,15 +9456,7 @@ export const createKeyPair: API.OperationMethod<
 export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerRequest,
   CreateLoadBalancerResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateLoadBalancerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoadBalancerRequest,
@@ -9416,6 +9472,16 @@ export const createLoadBalancer: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateLoadBalancerTlsCertificateError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an SSL/TLS certificate for an Amazon Lightsail load balancer.
  *
@@ -9428,15 +9494,7 @@ export const createLoadBalancer: API.OperationMethod<
 export const createLoadBalancerTlsCertificate: API.OperationMethod<
   CreateLoadBalancerTlsCertificateRequest,
   CreateLoadBalancerTlsCertificateResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateLoadBalancerTlsCertificateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoadBalancerTlsCertificateRequest,
@@ -9452,6 +9510,16 @@ export const createLoadBalancerTlsCertificate: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateRelationalDatabaseError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a new database in Amazon Lightsail.
  *
@@ -9461,15 +9529,7 @@ export const createLoadBalancerTlsCertificate: API.OperationMethod<
 export const createRelationalDatabase: API.OperationMethod<
   CreateRelationalDatabaseRequest,
   CreateRelationalDatabaseResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelationalDatabaseRequest,
@@ -9485,6 +9545,16 @@ export const createRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateRelationalDatabaseFromSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a new database from an existing database snapshot in Amazon Lightsail.
  *
@@ -9499,15 +9569,7 @@ export const createRelationalDatabase: API.OperationMethod<
 export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
   CreateRelationalDatabaseFromSnapshotRequest,
   CreateRelationalDatabaseFromSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateRelationalDatabaseFromSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelationalDatabaseFromSnapshotRequest,
@@ -9523,6 +9585,16 @@ export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type CreateRelationalDatabaseSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
  * to make copies of a database, and to save data before deleting a database.
@@ -9533,15 +9605,7 @@ export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
 export const createRelationalDatabaseSnapshot: API.OperationMethod<
   CreateRelationalDatabaseSnapshotRequest,
   CreateRelationalDatabaseSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  CreateRelationalDatabaseSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelationalDatabaseSnapshotRequest,
@@ -9557,6 +9621,15 @@ export const createRelationalDatabaseSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteAlarmError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes an alarm.
  *
@@ -9568,14 +9641,7 @@ export const createRelationalDatabaseSnapshot: API.OperationMethod<
 export const deleteAlarm: API.OperationMethod<
   DeleteAlarmRequest,
   DeleteAlarmResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteAlarmError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmRequest,
@@ -9590,12 +9656,7 @@ export const deleteAlarm: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const deleteAutoSnapshot: API.OperationMethod<
-  DeleteAutoSnapshotRequest,
-  DeleteAutoSnapshotResult,
+export type DeleteAutoSnapshotError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
@@ -9603,7 +9664,14 @@ export const deleteAutoSnapshot: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const deleteAutoSnapshot: API.OperationMethod<
+  DeleteAutoSnapshotRequest,
+  DeleteAutoSnapshotResult,
+  DeleteAutoSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutoSnapshotRequest,
@@ -9618,6 +9686,14 @@ export const deleteAutoSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteBucketError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a Amazon Lightsail bucket.
  *
@@ -9627,13 +9703,7 @@ export const deleteAutoSnapshot: API.OperationMethod<
 export const deleteBucket: API.OperationMethod<
   DeleteBucketRequest,
   DeleteBucketResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteBucketError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketRequest,
@@ -9647,6 +9717,14 @@ export const deleteBucket: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteBucketAccessKeyError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes an access key for the specified Amazon Lightsail bucket.
  *
@@ -9658,13 +9736,7 @@ export const deleteBucket: API.OperationMethod<
 export const deleteBucketAccessKey: API.OperationMethod<
   DeleteBucketAccessKeyRequest,
   DeleteBucketAccessKeyResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteBucketAccessKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketAccessKeyRequest,
@@ -9678,6 +9750,14 @@ export const deleteBucketAccessKey: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteCertificateError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -9689,13 +9769,7 @@ export const deleteBucketAccessKey: API.OperationMethod<
 export const deleteCertificate: API.OperationMethod<
   DeleteCertificateRequest,
   DeleteCertificateResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteCertificateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
@@ -9709,6 +9783,15 @@ export const deleteCertificate: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteContactMethodError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a contact method.
  *
@@ -9720,14 +9803,7 @@ export const deleteCertificate: API.OperationMethod<
 export const deleteContactMethod: API.OperationMethod<
   DeleteContactMethodRequest,
   DeleteContactMethodResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteContactMethodError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactMethodRequest,
@@ -9742,6 +9818,14 @@ export const deleteContactMethod: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteContainerImageError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a container image that is registered to your Amazon Lightsail container
  * service.
@@ -9749,13 +9833,7 @@ export const deleteContactMethod: API.OperationMethod<
 export const deleteContainerImage: API.OperationMethod<
   DeleteContainerImageRequest,
   DeleteContainerImageResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteContainerImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerImageRequest,
@@ -9769,19 +9847,21 @@ export const deleteContainerImage: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Deletes your Amazon Lightsail container service.
- */
-export const deleteContainerService: API.OperationMethod<
-  DeleteContainerServiceRequest,
-  DeleteContainerServiceResult,
+export type DeleteContainerServiceError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes your Amazon Lightsail container service.
+ */
+export const deleteContainerService: API.OperationMethod<
+  DeleteContainerServiceRequest,
+  DeleteContainerServiceResult,
+  DeleteContainerServiceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerServiceRequest,
@@ -9795,6 +9875,16 @@ export const deleteContainerService: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteDiskError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes the specified block storage disk. The disk must be in the `available`
  * state (not attached to a Lightsail instance).
@@ -9808,15 +9898,7 @@ export const deleteContainerService: API.OperationMethod<
 export const deleteDisk: API.OperationMethod<
   DeleteDiskRequest,
   DeleteDiskResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteDiskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDiskRequest,
@@ -9832,6 +9914,16 @@ export const deleteDisk: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteDiskSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes the specified disk snapshot.
  *
@@ -9848,15 +9940,7 @@ export const deleteDisk: API.OperationMethod<
 export const deleteDiskSnapshot: API.OperationMethod<
   DeleteDiskSnapshotRequest,
   DeleteDiskSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteDiskSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDiskSnapshotRequest,
@@ -9872,19 +9956,21 @@ export const deleteDiskSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
- */
-export const deleteDistribution: API.OperationMethod<
-  DeleteDistributionRequest,
-  DeleteDistributionResult,
+export type DeleteDistributionError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
   | OperationFailureException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
+ */
+export const deleteDistribution: API.OperationMethod<
+  DeleteDistributionRequest,
+  DeleteDistributionResult,
+  DeleteDistributionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDistributionRequest,
@@ -9898,6 +9984,16 @@ export const deleteDistribution: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteDomainError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes the specified domain recordset and all of its domain records.
  *
@@ -9908,15 +10004,7 @@ export const deleteDistribution: API.OperationMethod<
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
@@ -9932,6 +10020,16 @@ export const deleteDomain: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteDomainEntryError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a specific domain entry.
  *
@@ -9942,15 +10040,7 @@ export const deleteDomain: API.OperationMethod<
 export const deleteDomainEntry: API.OperationMethod<
   DeleteDomainEntryRequest,
   DeleteDomainEntryResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteDomainEntryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainEntryRequest,
@@ -9966,6 +10056,16 @@ export const deleteDomainEntry: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteInstanceError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes an Amazon Lightsail instance.
  *
@@ -9976,15 +10076,7 @@ export const deleteDomainEntry: API.OperationMethod<
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
   DeleteInstanceResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
@@ -10000,6 +10092,16 @@ export const deleteInstance: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteInstanceSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a specific snapshot of a virtual private server (or
  * *instance*).
@@ -10011,15 +10113,7 @@ export const deleteInstance: API.OperationMethod<
 export const deleteInstanceSnapshot: API.OperationMethod<
   DeleteInstanceSnapshotRequest,
   DeleteInstanceSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteInstanceSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceSnapshotRequest,
@@ -10035,6 +10129,16 @@ export const deleteInstanceSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteKeyPairError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes the specified key pair by removing the public key from Amazon Lightsail.
  *
@@ -10050,15 +10154,7 @@ export const deleteInstanceSnapshot: API.OperationMethod<
 export const deleteKeyPair: API.OperationMethod<
   DeleteKeyPairRequest,
   DeleteKeyPairResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteKeyPairError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyPairRequest,
@@ -10074,6 +10170,16 @@ export const deleteKeyPair: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteKnownHostKeysError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or
  * RDP clients to authenticate an instance. This operation enables the Lightsail browser-based
@@ -10087,15 +10193,7 @@ export const deleteKeyPair: API.OperationMethod<
 export const deleteKnownHostKeys: API.OperationMethod<
   DeleteKnownHostKeysRequest,
   DeleteKnownHostKeysResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteKnownHostKeysError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnownHostKeysRequest,
@@ -10111,6 +10209,16 @@ export const deleteKnownHostKeys: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteLoadBalancerError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the
  * load balancer is deleted, you will need to create a new load balancer, create a new
@@ -10123,15 +10231,7 @@ export const deleteKnownHostKeys: API.OperationMethod<
 export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerRequest,
   DeleteLoadBalancerResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteLoadBalancerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerRequest,
@@ -10147,6 +10247,16 @@ export const deleteLoadBalancer: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteLoadBalancerTlsCertificateError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
  *
@@ -10157,15 +10267,7 @@ export const deleteLoadBalancer: API.OperationMethod<
 export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
   DeleteLoadBalancerTlsCertificateRequest,
   DeleteLoadBalancerTlsCertificateResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteLoadBalancerTlsCertificateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerTlsCertificateRequest,
@@ -10181,6 +10283,16 @@ export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteRelationalDatabaseError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a database in Amazon Lightsail.
  *
@@ -10191,15 +10303,7 @@ export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
 export const deleteRelationalDatabase: API.OperationMethod<
   DeleteRelationalDatabaseRequest,
   DeleteRelationalDatabaseResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelationalDatabaseRequest,
@@ -10215,6 +10319,16 @@ export const deleteRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DeleteRelationalDatabaseSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes a database snapshot in Amazon Lightsail.
  *
@@ -10225,15 +10339,7 @@ export const deleteRelationalDatabase: API.OperationMethod<
 export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
   DeleteRelationalDatabaseSnapshotRequest,
   DeleteRelationalDatabaseSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DeleteRelationalDatabaseSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelationalDatabaseSnapshotRequest,
@@ -10249,6 +10355,14 @@ export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DetachCertificateFromDistributionError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -10259,13 +10373,7 @@ export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
 export const detachCertificateFromDistribution: API.OperationMethod<
   DetachCertificateFromDistributionRequest,
   DetachCertificateFromDistributionResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DetachCertificateFromDistributionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachCertificateFromDistributionRequest,
@@ -10279,6 +10387,16 @@ export const detachCertificateFromDistribution: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DetachDiskError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount
  * any file systems on the device within your operating system before stopping the instance and
@@ -10291,15 +10409,7 @@ export const detachCertificateFromDistribution: API.OperationMethod<
 export const detachDisk: API.OperationMethod<
   DetachDiskRequest,
   DetachDiskResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DetachDiskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachDiskRequest,
@@ -10315,6 +10425,16 @@ export const detachDisk: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DetachInstancesFromLoadBalancerError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Detaches the specified instances from a Lightsail load balancer.
  *
@@ -10328,15 +10448,7 @@ export const detachDisk: API.OperationMethod<
 export const detachInstancesFromLoadBalancer: API.OperationMethod<
   DetachInstancesFromLoadBalancerRequest,
   DetachInstancesFromLoadBalancerResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DetachInstancesFromLoadBalancerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachInstancesFromLoadBalancerRequest,
@@ -10352,12 +10464,7 @@ export const detachInstancesFromLoadBalancer: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Detaches a static IP from the Amazon Lightsail instance to which it is attached.
- */
-export const detachStaticIp: API.OperationMethod<
-  DetachStaticIpRequest,
-  DetachStaticIpResult,
+export type DetachStaticIpError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -10366,7 +10473,14 @@ export const detachStaticIp: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Detaches a static IP from the Amazon Lightsail instance to which it is attached.
+ */
+export const detachStaticIp: API.OperationMethod<
+  DetachStaticIpRequest,
+  DetachStaticIpResult,
+  DetachStaticIpError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachStaticIpRequest,
@@ -10382,12 +10496,7 @@ export const detachStaticIp: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
- */
-export const disableAddOn: API.OperationMethod<
-  DisableAddOnRequest,
-  DisableAddOnResult,
+export type DisableAddOnError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
@@ -10395,7 +10504,14 @@ export const disableAddOn: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
+ */
+export const disableAddOn: API.OperationMethod<
+  DisableAddOnRequest,
+  DisableAddOnResult,
+  DisableAddOnError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableAddOnRequest,
@@ -10410,6 +10526,16 @@ export const disableAddOn: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type DownloadDefaultKeyPairError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Downloads the regional Amazon Lightsail default key pair.
  *
@@ -10419,15 +10545,7 @@ export const disableAddOn: API.OperationMethod<
 export const downloadDefaultKeyPair: API.OperationMethod<
   DownloadDefaultKeyPairRequest,
   DownloadDefaultKeyPairResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  DownloadDefaultKeyPairError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadDefaultKeyPairRequest,
@@ -10443,13 +10561,7 @@ export const downloadDefaultKeyPair: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
- * the Amazon Lightsail Developer Guide.
- */
-export const enableAddOn: API.OperationMethod<
-  EnableAddOnRequest,
-  EnableAddOnResult,
+export type EnableAddOnError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
@@ -10457,7 +10569,15 @@ export const enableAddOn: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
+ * the Amazon Lightsail Developer Guide.
+ */
+export const enableAddOn: API.OperationMethod<
+  EnableAddOnRequest,
+  EnableAddOnResult,
+  EnableAddOnError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAddOnRequest,
@@ -10472,6 +10592,16 @@ export const enableAddOn: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type ExportSnapshotError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2).
  * This operation results in an export snapshot record that can be used with the create
@@ -10492,15 +10622,7 @@ export const enableAddOn: API.OperationMethod<
 export const exportSnapshot: API.OperationMethod<
   ExportSnapshotRequest,
   ExportSnapshotResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  ExportSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportSnapshotRequest,
@@ -10516,12 +10638,7 @@ export const exportSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns the names of all active (not deleted) resources.
- */
-export const getActiveNames: API.OperationMethod<
-  GetActiveNamesRequest,
-  GetActiveNamesResult,
+export type GetActiveNamesError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -10530,7 +10647,14 @@ export const getActiveNames: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the names of all active (not deleted) resources.
+ */
+export const getActiveNames: API.OperationMethod<
+  GetActiveNamesRequest,
+  GetActiveNamesResult,
+  GetActiveNamesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActiveNamesRequest,
@@ -10546,6 +10670,15 @@ export const getActiveNames: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetAlarmsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about the configured alarms. Specify an alarm name in your request to
  * return information about a specific alarm, or specify a monitored resource name to return
@@ -10559,14 +10692,7 @@ export const getActiveNames: API.OperationMethod<
 export const getAlarms: API.OperationMethod<
   GetAlarmsRequest,
   GetAlarmsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetAlarmsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAlarmsRequest,
@@ -10581,13 +10707,7 @@ export const getAlarms: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns the available automatic snapshots for an instance or disk. For more information,
- * see the Amazon Lightsail Developer Guide.
- */
-export const getAutoSnapshots: API.OperationMethod<
-  GetAutoSnapshotsRequest,
-  GetAutoSnapshotsResult,
+export type GetAutoSnapshotsError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
@@ -10595,7 +10715,15 @@ export const getAutoSnapshots: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the available automatic snapshots for an instance or disk. For more information,
+ * see the Amazon Lightsail Developer Guide.
+ */
+export const getAutoSnapshots: API.OperationMethod<
+  GetAutoSnapshotsRequest,
+  GetAutoSnapshotsResult,
+  GetAutoSnapshotsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutoSnapshotsRequest,
@@ -10610,6 +10738,16 @@ export const getAutoSnapshots: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetBlueprintsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the list of available instance images, or *blueprints*. You can
  * use a blueprint to create a new instance already running a specific operating system, as well
@@ -10624,15 +10762,7 @@ export const getAutoSnapshots: API.OperationMethod<
 export const getBlueprints: API.OperationMethod<
   GetBlueprintsRequest,
   GetBlueprintsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetBlueprintsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlueprintsRequest,
@@ -10648,6 +10778,14 @@ export const getBlueprints: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetBucketAccessKeysError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the existing access key IDs for the specified Amazon Lightsail bucket.
  *
@@ -10658,13 +10796,7 @@ export const getBlueprints: API.OperationMethod<
 export const getBucketAccessKeys: API.OperationMethod<
   GetBucketAccessKeysRequest,
   GetBucketAccessKeysResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetBucketAccessKeysError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketAccessKeysRequest,
@@ -10678,6 +10810,13 @@ export const getBucketAccessKeys: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetBucketBundlesError =
+  | AccessDeniedException
+  | InvalidInputException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the bundles that you can apply to a Amazon Lightsail bucket.
  *
@@ -10690,12 +10829,7 @@ export const getBucketAccessKeys: API.OperationMethod<
 export const getBucketBundles: API.OperationMethod<
   GetBucketBundlesRequest,
   GetBucketBundlesResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetBucketBundlesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketBundlesRequest,
@@ -10708,6 +10842,14 @@ export const getBucketBundles: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetBucketMetricDataError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the data points of a specific metric for an Amazon Lightsail bucket.
  *
@@ -10718,13 +10860,7 @@ export const getBucketBundles: API.OperationMethod<
 export const getBucketMetricData: API.OperationMethod<
   GetBucketMetricDataRequest,
   GetBucketMetricDataResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetBucketMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketMetricDataRequest,
@@ -10738,6 +10874,14 @@ export const getBucketMetricData: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetBucketsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about one or more Amazon Lightsail buckets. The information returned
  * includes the synchronization status of the Amazon Simple Storage Service (Amazon S3)
@@ -10749,13 +10893,7 @@ export const getBucketMetricData: API.OperationMethod<
 export const getBuckets: API.OperationMethod<
   GetBucketsRequest,
   GetBucketsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetBucketsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketsRequest,
@@ -10769,6 +10907,16 @@ export const getBuckets: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetBundlesError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the bundles that you can apply to an Amazon Lightsail instance when you create
  * it.
@@ -10783,15 +10931,7 @@ export const getBuckets: API.OperationMethod<
 export const getBundles: API.OperationMethod<
   GetBundlesRequest,
   GetBundlesResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetBundlesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBundlesRequest,
@@ -10807,6 +10947,14 @@ export const getBundles: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetCertificatesError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about one or more Amazon Lightsail SSL/TLS certificates.
  *
@@ -10817,13 +10965,7 @@ export const getBundles: API.OperationMethod<
 export const getCertificates: API.OperationMethod<
   GetCertificatesRequest,
   GetCertificatesResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetCertificatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCertificatesRequest,
@@ -10837,6 +10979,16 @@ export const getCertificates: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetCloudFormationStackRecordsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the CloudFormation stack record created as a result of the create cloud
  * formation stack operation.
@@ -10847,15 +10999,7 @@ export const getCertificates: API.OperationMethod<
 export const getCloudFormationStackRecords: API.OperationMethod<
   GetCloudFormationStackRecordsRequest,
   GetCloudFormationStackRecordsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetCloudFormationStackRecordsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudFormationStackRecordsRequest,
@@ -10871,6 +11015,15 @@ export const getCloudFormationStackRecords: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContactMethodsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about the configured contact methods. Specify a protocol in your
  * request to return information about a specific contact method.
@@ -10883,14 +11036,7 @@ export const getCloudFormationStackRecords: API.OperationMethod<
 export const getContactMethods: API.OperationMethod<
   GetContactMethodsRequest,
   GetContactMethodsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContactMethodsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactMethodsRequest,
@@ -10905,6 +11051,12 @@ export const getContactMethods: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContainerAPIMetadataError =
+  | AccessDeniedException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about Amazon Lightsail containers, such as the current version of the
  * Lightsail Control (lightsailctl) plugin.
@@ -10912,11 +11064,7 @@ export const getContactMethods: API.OperationMethod<
 export const getContainerAPIMetadata: API.OperationMethod<
   GetContainerAPIMetadataRequest,
   GetContainerAPIMetadataResult,
-  | AccessDeniedException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContainerAPIMetadataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerAPIMetadataRequest,
@@ -10928,6 +11076,14 @@ export const getContainerAPIMetadata: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContainerImagesError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the container images that are registered to your Amazon Lightsail container
  * service.
@@ -10939,13 +11095,7 @@ export const getContainerAPIMetadata: API.OperationMethod<
 export const getContainerImages: API.OperationMethod<
   GetContainerImagesRequest,
   GetContainerImagesResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContainerImagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerImagesRequest,
@@ -10959,6 +11109,14 @@ export const getContainerImages: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContainerLogError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the log events of a container of your Amazon Lightsail container service.
  *
@@ -10974,13 +11132,7 @@ export const getContainerImages: API.OperationMethod<
 export const getContainerLog: API.OperationMethod<
   GetContainerLogRequest,
   GetContainerLogResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContainerLogError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerLogRequest,
@@ -10994,6 +11146,14 @@ export const getContainerLog: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContainerServiceDeploymentsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the deployments for your Amazon Lightsail container service
  *
@@ -11011,13 +11171,7 @@ export const getContainerLog: API.OperationMethod<
 export const getContainerServiceDeployments: API.OperationMethod<
   GetContainerServiceDeploymentsRequest,
   GetContainerServiceDeploymentsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContainerServiceDeploymentsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerServiceDeploymentsRequest,
@@ -11031,6 +11185,14 @@ export const getContainerServiceDeployments: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContainerServiceMetricDataError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the data points of a specific metric of your Amazon Lightsail container
  * service.
@@ -11041,13 +11203,7 @@ export const getContainerServiceDeployments: API.OperationMethod<
 export const getContainerServiceMetricData: API.OperationMethod<
   GetContainerServiceMetricDataRequest,
   GetContainerServiceMetricDataResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContainerServiceMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerServiceMetricDataRequest,
@@ -11061,6 +11217,14 @@ export const getContainerServiceMetricData: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetContainerServicePowersError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the list of powers that can be specified for your Amazon Lightsail container
  * services.
@@ -11071,13 +11235,7 @@ export const getContainerServiceMetricData: API.OperationMethod<
 export const getContainerServicePowers: API.OperationMethod<
   GetContainerServicePowersRequest,
   GetContainerServicePowersResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetContainerServicePowersError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerServicePowersRequest,
@@ -11091,19 +11249,21 @@ export const getContainerServicePowers: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about one or more of your Amazon Lightsail container services.
- */
-export const getContainerServices: API.OperationMethod<
-  GetContainerServicesRequest,
-  ContainerServicesListResult,
+export type GetContainerServicesError =
   | AccessDeniedException
   | InvalidInputException
   | NotFoundException
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about one or more of your Amazon Lightsail container services.
+ */
+export const getContainerServices: API.OperationMethod<
+  GetContainerServicesRequest,
+  ContainerServicesListResult,
+  GetContainerServicesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerServicesRequest,
@@ -11117,6 +11277,14 @@ export const getContainerServices: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetCostEstimateError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Retrieves information about the cost estimate for a specified resource. A cost estimate
  * will not generate for a resource that has been deleted.
@@ -11124,13 +11292,7 @@ export const getContainerServices: API.OperationMethod<
 export const getCostEstimate: API.OperationMethod<
   GetCostEstimateRequest,
   GetCostEstimateResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetCostEstimateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCostEstimateRequest,
@@ -11144,12 +11306,7 @@ export const getCostEstimate: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific block storage disk.
- */
-export const getDisk: API.OperationMethod<
-  GetDiskRequest,
-  GetDiskResult,
+export type GetDiskError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11158,7 +11315,14 @@ export const getDisk: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific block storage disk.
+ */
+export const getDisk: API.OperationMethod<
+  GetDiskRequest,
+  GetDiskResult,
+  GetDiskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiskRequest,
@@ -11174,12 +11338,7 @@ export const getDisk: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all block storage disks in your AWS account and region.
- */
-export const getDisks: API.OperationMethod<
-  GetDisksRequest,
-  GetDisksResult,
+export type GetDisksError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11188,7 +11347,14 @@ export const getDisks: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all block storage disks in your AWS account and region.
+ */
+export const getDisks: API.OperationMethod<
+  GetDisksRequest,
+  GetDisksResult,
+  GetDisksError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDisksRequest,
@@ -11204,12 +11370,7 @@ export const getDisks: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific block storage disk snapshot.
- */
-export const getDiskSnapshot: API.OperationMethod<
-  GetDiskSnapshotRequest,
-  GetDiskSnapshotResult,
+export type GetDiskSnapshotError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11218,7 +11379,14 @@ export const getDiskSnapshot: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific block storage disk snapshot.
+ */
+export const getDiskSnapshot: API.OperationMethod<
+  GetDiskSnapshotRequest,
+  GetDiskSnapshotResult,
+  GetDiskSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiskSnapshotRequest,
@@ -11234,13 +11402,7 @@ export const getDiskSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all block storage disk snapshots in your AWS account and
- * region.
- */
-export const getDiskSnapshots: API.OperationMethod<
-  GetDiskSnapshotsRequest,
-  GetDiskSnapshotsResult,
+export type GetDiskSnapshotsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11249,7 +11411,15 @@ export const getDiskSnapshots: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all block storage disk snapshots in your AWS account and
+ * region.
+ */
+export const getDiskSnapshots: API.OperationMethod<
+  GetDiskSnapshotsRequest,
+  GetDiskSnapshotsResult,
+  GetDiskSnapshotsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiskSnapshotsRequest,
@@ -11265,6 +11435,14 @@ export const getDiskSnapshots: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetDistributionBundlesError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the bundles that can be applied to your Amazon Lightsail content delivery network
  * (CDN) distributions.
@@ -11275,13 +11453,7 @@ export const getDiskSnapshots: API.OperationMethod<
 export const getDistributionBundles: API.OperationMethod<
   GetDistributionBundlesRequest,
   GetDistributionBundlesResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetDistributionBundlesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDistributionBundlesRequest,
@@ -11295,6 +11467,14 @@ export const getDistributionBundles: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetDistributionLatestCacheResetError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail
  * content delivery network (CDN) distribution.
@@ -11302,13 +11482,7 @@ export const getDistributionBundles: API.OperationMethod<
 export const getDistributionLatestCacheReset: API.OperationMethod<
   GetDistributionLatestCacheResetRequest,
   GetDistributionLatestCacheResetResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetDistributionLatestCacheResetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDistributionLatestCacheResetRequest,
@@ -11322,6 +11496,14 @@ export const getDistributionLatestCacheReset: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetDistributionMetricDataError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the data points of a specific metric for an Amazon Lightsail content delivery
  * network (CDN) distribution.
@@ -11333,13 +11515,7 @@ export const getDistributionLatestCacheReset: API.OperationMethod<
 export const getDistributionMetricData: API.OperationMethod<
   GetDistributionMetricDataRequest,
   GetDistributionMetricDataResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetDistributionMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDistributionMetricDataRequest,
@@ -11353,6 +11529,14 @@ export const getDistributionMetricData: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetDistributionsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about one or more of your Amazon Lightsail content delivery network
  * (CDN) distributions.
@@ -11360,13 +11544,7 @@ export const getDistributionMetricData: API.OperationMethod<
 export const getDistributions: API.OperationMethod<
   GetDistributionsRequest,
   GetDistributionsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetDistributionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDistributionsRequest,
@@ -11380,12 +11558,7 @@ export const getDistributions: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific domain recordset.
- */
-export const getDomain: API.OperationMethod<
-  GetDomainRequest,
-  GetDomainResult,
+export type GetDomainError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11394,7 +11567,14 @@ export const getDomain: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific domain recordset.
+ */
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
+  GetDomainResult,
+  GetDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
@@ -11410,12 +11590,7 @@ export const getDomain: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns a list of all domains in the user's account.
- */
-export const getDomains: API.OperationMethod<
-  GetDomainsRequest,
-  GetDomainsResult,
+export type GetDomainsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11424,7 +11599,14 @@ export const getDomains: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all domains in the user's account.
+ */
+export const getDomains: API.OperationMethod<
+  GetDomainsRequest,
+  GetDomainsResult,
+  GetDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainsRequest,
@@ -11440,6 +11622,16 @@ export const getDomains: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetExportSnapshotRecordsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns all export snapshot records created as a result of the export
  * snapshot operation.
@@ -11451,15 +11643,7 @@ export const getDomains: API.OperationMethod<
 export const getExportSnapshotRecords: API.OperationMethod<
   GetExportSnapshotRecordsRequest,
   GetExportSnapshotRecordsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetExportSnapshotRecordsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportSnapshotRecordsRequest,
@@ -11475,13 +11659,7 @@ export const getExportSnapshotRecords: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific Amazon Lightsail instance, which is a virtual private
- * server.
- */
-export const getInstance: API.OperationMethod<
-  GetInstanceRequest,
-  GetInstanceResult,
+export type GetInstanceError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11490,7 +11668,15 @@ export const getInstance: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific Amazon Lightsail instance, which is a virtual private
+ * server.
+ */
+export const getInstance: API.OperationMethod<
+  GetInstanceRequest,
+  GetInstanceResult,
+  GetInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceRequest,
@@ -11506,6 +11692,16 @@ export const getInstance: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetInstanceAccessDetailsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns temporary SSH keys you can use to connect to a specific virtual private server, or
  * *instance*.
@@ -11517,15 +11713,7 @@ export const getInstance: API.OperationMethod<
 export const getInstanceAccessDetails: API.OperationMethod<
   GetInstanceAccessDetailsRequest,
   GetInstanceAccessDetailsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetInstanceAccessDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceAccessDetailsRequest,
@@ -11541,6 +11729,16 @@ export const getInstanceAccessDetails: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetInstanceMetricDataError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the data points for the specified Amazon Lightsail instance metric, given an
  * instance name.
@@ -11552,15 +11750,7 @@ export const getInstanceAccessDetails: API.OperationMethod<
 export const getInstanceMetricData: API.OperationMethod<
   GetInstanceMetricDataRequest,
   GetInstanceMetricDataResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetInstanceMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceMetricDataRequest,
@@ -11576,13 +11766,7 @@ export const getInstanceMetricData: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses
- * allowed to connect to the instance through the ports, and the protocol.
- */
-export const getInstancePortStates: API.OperationMethod<
-  GetInstancePortStatesRequest,
-  GetInstancePortStatesResult,
+export type GetInstancePortStatesError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11591,7 +11775,15 @@ export const getInstancePortStates: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses
+ * allowed to connect to the instance through the ports, and the protocol.
+ */
+export const getInstancePortStates: API.OperationMethod<
+  GetInstancePortStatesRequest,
+  GetInstancePortStatesResult,
+  GetInstancePortStatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstancePortStatesRequest,
@@ -11607,13 +11799,7 @@ export const getInstancePortStates: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all Amazon Lightsail virtual private servers, or
- * *instances*.
- */
-export const getInstances: API.OperationMethod<
-  GetInstancesRequest,
-  GetInstancesResult,
+export type GetInstancesError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11622,7 +11808,15 @@ export const getInstances: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all Amazon Lightsail virtual private servers, or
+ * *instances*.
+ */
+export const getInstances: API.OperationMethod<
+  GetInstancesRequest,
+  GetInstancesResult,
+  GetInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstancesRequest,
@@ -11638,12 +11832,7 @@ export const getInstances: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific instance snapshot.
- */
-export const getInstanceSnapshot: API.OperationMethod<
-  GetInstanceSnapshotRequest,
-  GetInstanceSnapshotResult,
+export type GetInstanceSnapshotError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11652,7 +11841,14 @@ export const getInstanceSnapshot: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific instance snapshot.
+ */
+export const getInstanceSnapshot: API.OperationMethod<
+  GetInstanceSnapshotRequest,
+  GetInstanceSnapshotResult,
+  GetInstanceSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceSnapshotRequest,
@@ -11668,12 +11864,7 @@ export const getInstanceSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns all instance snapshots for the user's account.
- */
-export const getInstanceSnapshots: API.OperationMethod<
-  GetInstanceSnapshotsRequest,
-  GetInstanceSnapshotsResult,
+export type GetInstanceSnapshotsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11682,7 +11873,14 @@ export const getInstanceSnapshots: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns all instance snapshots for the user's account.
+ */
+export const getInstanceSnapshots: API.OperationMethod<
+  GetInstanceSnapshotsRequest,
+  GetInstanceSnapshotsResult,
+  GetInstanceSnapshotsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceSnapshotsRequest,
@@ -11698,12 +11896,7 @@ export const getInstanceSnapshots: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns the state of a specific instance. Works on one instance at a time.
- */
-export const getInstanceState: API.OperationMethod<
-  GetInstanceStateRequest,
-  GetInstanceStateResult,
+export type GetInstanceStateError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11712,7 +11905,14 @@ export const getInstanceState: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the state of a specific instance. Works on one instance at a time.
+ */
+export const getInstanceState: API.OperationMethod<
+  GetInstanceStateRequest,
+  GetInstanceStateResult,
+  GetInstanceStateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceStateRequest,
@@ -11728,12 +11928,7 @@ export const getInstanceState: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific key pair.
- */
-export const getKeyPair: API.OperationMethod<
-  GetKeyPairRequest,
-  GetKeyPairResult,
+export type GetKeyPairError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11742,7 +11937,14 @@ export const getKeyPair: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific key pair.
+ */
+export const getKeyPair: API.OperationMethod<
+  GetKeyPairRequest,
+  GetKeyPairResult,
+  GetKeyPairError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyPairRequest,
@@ -11758,12 +11960,7 @@ export const getKeyPair: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all key pairs in the user's account.
- */
-export const getKeyPairs: API.OperationMethod<
-  GetKeyPairsRequest,
-  GetKeyPairsResult,
+export type GetKeyPairsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11772,7 +11969,14 @@ export const getKeyPairs: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all key pairs in the user's account.
+ */
+export const getKeyPairs: API.OperationMethod<
+  GetKeyPairsRequest,
+  GetKeyPairsResult,
+  GetKeyPairsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyPairsRequest,
@@ -11788,12 +11992,7 @@ export const getKeyPairs: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about the specified Lightsail load balancer.
- */
-export const getLoadBalancer: API.OperationMethod<
-  GetLoadBalancerRequest,
-  GetLoadBalancerResult,
+export type GetLoadBalancerError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11802,7 +12001,14 @@ export const getLoadBalancer: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the specified Lightsail load balancer.
+ */
+export const getLoadBalancer: API.OperationMethod<
+  GetLoadBalancerRequest,
+  GetLoadBalancerResult,
+  GetLoadBalancerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancerRequest,
@@ -11818,6 +12024,16 @@ export const getLoadBalancer: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetLoadBalancerMetricDataError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about health metrics for your Lightsail load balancer.
  *
@@ -11828,15 +12044,7 @@ export const getLoadBalancer: API.OperationMethod<
 export const getLoadBalancerMetricData: API.OperationMethod<
   GetLoadBalancerMetricDataRequest,
   GetLoadBalancerMetricDataResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetLoadBalancerMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancerMetricDataRequest,
@@ -11852,12 +12060,7 @@ export const getLoadBalancerMetricData: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all load balancers in an account.
- */
-export const getLoadBalancers: API.OperationMethod<
-  GetLoadBalancersRequest,
-  GetLoadBalancersResult,
+export type GetLoadBalancersError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11866,7 +12069,14 @@ export const getLoadBalancers: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all load balancers in an account.
+ */
+export const getLoadBalancers: API.OperationMethod<
+  GetLoadBalancersRequest,
+  GetLoadBalancersResult,
+  GetLoadBalancersError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancersRequest,
@@ -11882,6 +12092,16 @@ export const getLoadBalancers: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetLoadBalancerTlsCertificatesError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about the TLS certificates that are associated with the specified
  * Lightsail load balancer.
@@ -11894,15 +12114,7 @@ export const getLoadBalancers: API.OperationMethod<
 export const getLoadBalancerTlsCertificates: API.OperationMethod<
   GetLoadBalancerTlsCertificatesRequest,
   GetLoadBalancerTlsCertificatesResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetLoadBalancerTlsCertificatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancerTlsCertificatesRequest,
@@ -11918,6 +12130,14 @@ export const getLoadBalancerTlsCertificates: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetLoadBalancerTlsPoliciesError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns a list of TLS security policies that you can apply to Lightsail load
  * balancers.
@@ -11928,13 +12148,7 @@ export const getLoadBalancerTlsCertificates: API.OperationMethod<
 export const getLoadBalancerTlsPolicies: API.OperationMethod<
   GetLoadBalancerTlsPoliciesRequest,
   GetLoadBalancerTlsPoliciesResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetLoadBalancerTlsPoliciesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancerTlsPoliciesRequest,
@@ -11948,13 +12162,7 @@ export const getLoadBalancerTlsPolicies: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific operation. Operations include events such as when you
- * create an instance, allocate a static IP, attach a static IP, and so on.
- */
-export const getOperation: API.OperationMethod<
-  GetOperationRequest,
-  GetOperationResult,
+export type GetOperationError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -11963,7 +12171,15 @@ export const getOperation: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific operation. Operations include events such as when you
+ * create an instance, allocate a static IP, attach a static IP, and so on.
+ */
+export const getOperation: API.OperationMethod<
+  GetOperationRequest,
+  GetOperationResult,
+  GetOperationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationRequest,
@@ -11979,6 +12195,16 @@ export const getOperation: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetOperationsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns information about all operations.
  *
@@ -11989,15 +12215,7 @@ export const getOperation: API.OperationMethod<
 export const getOperations: API.OperationMethod<
   GetOperationsRequest,
   GetOperationsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetOperationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
@@ -12013,12 +12231,7 @@ export const getOperations: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Gets operations for a specific resource (an instance or a static IP).
- */
-export const getOperationsForResource: API.OperationMethod<
-  GetOperationsForResourceRequest,
-  GetOperationsForResourceResult,
+export type GetOperationsForResourceError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12027,7 +12240,14 @@ export const getOperationsForResource: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets operations for a specific resource (an instance or a static IP).
+ */
+export const getOperationsForResource: API.OperationMethod<
+  GetOperationsForResourceRequest,
+  GetOperationsForResourceResult,
+  GetOperationsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsForResourceRequest,
@@ -12043,14 +12263,7 @@ export const getOperationsForResource: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns a list of all valid regions for Amazon Lightsail. Use the include
- * availability zones parameter to also return the Availability Zones in a
- * region.
- */
-export const getRegions: API.OperationMethod<
-  GetRegionsRequest,
-  GetRegionsResult,
+export type GetRegionsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12059,7 +12272,16 @@ export const getRegions: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all valid regions for Amazon Lightsail. Use the include
+ * availability zones parameter to also return the Availability Zones in a
+ * region.
+ */
+export const getRegions: API.OperationMethod<
+  GetRegionsRequest,
+  GetRegionsResult,
+  GetRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegionsRequest,
@@ -12075,12 +12297,7 @@ export const getRegions: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific database in Amazon Lightsail.
- */
-export const getRelationalDatabase: API.OperationMethod<
-  GetRelationalDatabaseRequest,
-  GetRelationalDatabaseResult,
+export type GetRelationalDatabaseError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12089,7 +12306,14 @@ export const getRelationalDatabase: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific database in Amazon Lightsail.
+ */
+export const getRelationalDatabase: API.OperationMethod<
+  GetRelationalDatabaseRequest,
+  GetRelationalDatabaseResult,
+  GetRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseRequest,
@@ -12105,6 +12329,16 @@ export const getRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetRelationalDatabaseBlueprintsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes
  * the major engine version of a database.
@@ -12115,15 +12349,7 @@ export const getRelationalDatabase: API.OperationMethod<
 export const getRelationalDatabaseBlueprints: API.OperationMethod<
   GetRelationalDatabaseBlueprintsRequest,
   GetRelationalDatabaseBlueprintsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetRelationalDatabaseBlueprintsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseBlueprintsRequest,
@@ -12139,6 +12365,16 @@ export const getRelationalDatabaseBlueprints: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetRelationalDatabaseBundlesError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the
  * performance specifications for a database.
@@ -12149,15 +12385,7 @@ export const getRelationalDatabaseBlueprints: API.OperationMethod<
 export const getRelationalDatabaseBundles: API.OperationMethod<
   GetRelationalDatabaseBundlesRequest,
   GetRelationalDatabaseBundlesResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetRelationalDatabaseBundlesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseBundlesRequest,
@@ -12173,12 +12401,7 @@ export const getRelationalDatabaseBundles: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns a list of events for a specific database in Amazon Lightsail.
- */
-export const getRelationalDatabaseEvents: API.OperationMethod<
-  GetRelationalDatabaseEventsRequest,
-  GetRelationalDatabaseEventsResult,
+export type GetRelationalDatabaseEventsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12187,7 +12410,14 @@ export const getRelationalDatabaseEvents: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of events for a specific database in Amazon Lightsail.
+ */
+export const getRelationalDatabaseEvents: API.OperationMethod<
+  GetRelationalDatabaseEventsRequest,
+  GetRelationalDatabaseEventsResult,
+  GetRelationalDatabaseEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseEventsRequest,
@@ -12203,12 +12433,7 @@ export const getRelationalDatabaseEvents: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns a list of log events for a database in Amazon Lightsail.
- */
-export const getRelationalDatabaseLogEvents: API.OperationMethod<
-  GetRelationalDatabaseLogEventsRequest,
-  GetRelationalDatabaseLogEventsResult,
+export type GetRelationalDatabaseLogEventsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12217,7 +12442,14 @@ export const getRelationalDatabaseLogEvents: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of log events for a database in Amazon Lightsail.
+ */
+export const getRelationalDatabaseLogEvents: API.OperationMethod<
+  GetRelationalDatabaseLogEventsRequest,
+  GetRelationalDatabaseLogEventsResult,
+  GetRelationalDatabaseLogEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseLogEventsRequest,
@@ -12233,12 +12465,7 @@ export const getRelationalDatabaseLogEvents: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns a list of available log streams for a specific database in Amazon Lightsail.
- */
-export const getRelationalDatabaseLogStreams: API.OperationMethod<
-  GetRelationalDatabaseLogStreamsRequest,
-  GetRelationalDatabaseLogStreamsResult,
+export type GetRelationalDatabaseLogStreamsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12247,7 +12474,14 @@ export const getRelationalDatabaseLogStreams: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of available log streams for a specific database in Amazon Lightsail.
+ */
+export const getRelationalDatabaseLogStreams: API.OperationMethod<
+  GetRelationalDatabaseLogStreamsRequest,
+  GetRelationalDatabaseLogStreamsResult,
+  GetRelationalDatabaseLogStreamsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseLogStreamsRequest,
@@ -12263,6 +12497,16 @@ export const getRelationalDatabaseLogStreams: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetRelationalDatabaseMasterUserPasswordError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the current, previous, or pending versions of the master user password for a
  * Lightsail database.
@@ -12274,15 +12518,7 @@ export const getRelationalDatabaseLogStreams: API.OperationMethod<
 export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
   GetRelationalDatabaseMasterUserPasswordRequest,
   GetRelationalDatabaseMasterUserPasswordResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetRelationalDatabaseMasterUserPasswordError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseMasterUserPasswordRequest,
@@ -12298,6 +12534,16 @@ export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetRelationalDatabaseMetricDataError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns the data points of the specified metric for a database in Amazon Lightsail.
  *
@@ -12308,15 +12554,7 @@ export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
 export const getRelationalDatabaseMetricData: API.OperationMethod<
   GetRelationalDatabaseMetricDataRequest,
   GetRelationalDatabaseMetricDataResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetRelationalDatabaseMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseMetricDataRequest,
@@ -12332,6 +12570,16 @@ export const getRelationalDatabaseMetricData: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetRelationalDatabaseParametersError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns all of the runtime parameters offered by the underlying database software, or
  * engine, for a specific database in Amazon Lightsail.
@@ -12343,15 +12591,7 @@ export const getRelationalDatabaseMetricData: API.OperationMethod<
 export const getRelationalDatabaseParameters: API.OperationMethod<
   GetRelationalDatabaseParametersRequest,
   GetRelationalDatabaseParametersResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetRelationalDatabaseParametersError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseParametersRequest,
@@ -12367,12 +12607,7 @@ export const getRelationalDatabaseParameters: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all of your databases in Amazon Lightsail.
- */
-export const getRelationalDatabases: API.OperationMethod<
-  GetRelationalDatabasesRequest,
-  GetRelationalDatabasesResult,
+export type GetRelationalDatabasesError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12381,7 +12616,14 @@ export const getRelationalDatabases: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all of your databases in Amazon Lightsail.
+ */
+export const getRelationalDatabases: API.OperationMethod<
+  GetRelationalDatabasesRequest,
+  GetRelationalDatabasesResult,
+  GetRelationalDatabasesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabasesRequest,
@@ -12397,12 +12639,7 @@ export const getRelationalDatabases: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about a specific database snapshot in Amazon Lightsail.
- */
-export const getRelationalDatabaseSnapshot: API.OperationMethod<
-  GetRelationalDatabaseSnapshotRequest,
-  GetRelationalDatabaseSnapshotResult,
+export type GetRelationalDatabaseSnapshotError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12411,7 +12648,14 @@ export const getRelationalDatabaseSnapshot: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a specific database snapshot in Amazon Lightsail.
+ */
+export const getRelationalDatabaseSnapshot: API.OperationMethod<
+  GetRelationalDatabaseSnapshotRequest,
+  GetRelationalDatabaseSnapshotResult,
+  GetRelationalDatabaseSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseSnapshotRequest,
@@ -12427,12 +12671,7 @@ export const getRelationalDatabaseSnapshot: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all of your database snapshots in Amazon Lightsail.
- */
-export const getRelationalDatabaseSnapshots: API.OperationMethod<
-  GetRelationalDatabaseSnapshotsRequest,
-  GetRelationalDatabaseSnapshotsResult,
+export type GetRelationalDatabaseSnapshotsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12441,7 +12680,14 @@ export const getRelationalDatabaseSnapshots: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all of your database snapshots in Amazon Lightsail.
+ */
+export const getRelationalDatabaseSnapshots: API.OperationMethod<
+  GetRelationalDatabaseSnapshotsRequest,
+  GetRelationalDatabaseSnapshotsResult,
+  GetRelationalDatabaseSnapshotsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationalDatabaseSnapshotsRequest,
@@ -12457,6 +12703,14 @@ export const getRelationalDatabaseSnapshots: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type GetSetupHistoryError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Returns detailed information for five of the most recent `SetupInstanceHttps`
  * requests that were ran on the target instance.
@@ -12464,13 +12718,7 @@ export const getRelationalDatabaseSnapshots: API.OperationMethod<
 export const getSetupHistory: API.OperationMethod<
   GetSetupHistoryRequest,
   GetSetupHistoryResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  GetSetupHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSetupHistoryRequest,
@@ -12484,12 +12732,7 @@ export const getSetupHistory: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about an Amazon Lightsail static IP.
- */
-export const getStaticIp: API.OperationMethod<
-  GetStaticIpRequest,
-  GetStaticIpResult,
+export type GetStaticIpError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12498,7 +12741,14 @@ export const getStaticIp: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about an Amazon Lightsail static IP.
+ */
+export const getStaticIp: API.OperationMethod<
+  GetStaticIpRequest,
+  GetStaticIpResult,
+  GetStaticIpError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStaticIpRequest,
@@ -12514,12 +12764,7 @@ export const getStaticIp: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns information about all static IPs in the user's account.
- */
-export const getStaticIps: API.OperationMethod<
-  GetStaticIpsRequest,
-  GetStaticIpsResult,
+export type GetStaticIpsError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12528,7 +12773,14 @@ export const getStaticIps: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about all static IPs in the user's account.
+ */
+export const getStaticIps: API.OperationMethod<
+  GetStaticIpsRequest,
+  GetStaticIpsResult,
+  GetStaticIpsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStaticIpsRequest,
@@ -12544,12 +12796,7 @@ export const getStaticIps: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Imports a public SSH key from a specific key pair.
- */
-export const importKeyPair: API.OperationMethod<
-  ImportKeyPairRequest,
-  ImportKeyPairResult,
+export type ImportKeyPairError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12558,7 +12805,14 @@ export const importKeyPair: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Imports a public SSH key from a specific key pair.
+ */
+export const importKeyPair: API.OperationMethod<
+  ImportKeyPairRequest,
+  ImportKeyPairResult,
+  ImportKeyPairError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyPairRequest,
@@ -12574,12 +12828,7 @@ export const importKeyPair: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Returns a Boolean value indicating whether your Lightsail VPC is peered.
- */
-export const isVpcPeered: API.OperationMethod<
-  IsVpcPeeredRequest,
-  IsVpcPeeredResult,
+export type IsVpcPeeredError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12588,7 +12837,14 @@ export const isVpcPeered: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a Boolean value indicating whether your Lightsail VPC is peered.
+ */
+export const isVpcPeered: API.OperationMethod<
+  IsVpcPeeredRequest,
+  IsVpcPeeredResult,
+  IsVpcPeeredError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IsVpcPeeredRequest,
@@ -12604,6 +12860,16 @@ export const isVpcPeered: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type OpenInstancePublicPortsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
  * allowed to connect to the instance through the ports, and the protocol.
@@ -12615,15 +12881,7 @@ export const isVpcPeered: API.OperationMethod<
 export const openInstancePublicPorts: API.OperationMethod<
   OpenInstancePublicPortsRequest,
   OpenInstancePublicPortsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  OpenInstancePublicPortsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OpenInstancePublicPortsRequest,
@@ -12639,12 +12897,7 @@ export const openInstancePublicPorts: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Peers the Lightsail VPC with the user's default VPC.
- */
-export const peerVpc: API.OperationMethod<
-  PeerVpcRequest,
-  PeerVpcResult,
+export type PeerVpcError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12653,7 +12906,14 @@ export const peerVpc: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Peers the Lightsail VPC with the user's default VPC.
+ */
+export const peerVpc: API.OperationMethod<
+  PeerVpcRequest,
+  PeerVpcResult,
+  PeerVpcError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PeerVpcRequest,
@@ -12669,6 +12929,15 @@ export const peerVpc: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type PutAlarmError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates or updates an alarm, and associates it with the specified metric.
  *
@@ -12688,14 +12957,7 @@ export const peerVpc: API.OperationMethod<
 export const putAlarm: API.OperationMethod<
   PutAlarmRequest,
   PutAlarmResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  PutAlarmError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAlarmRequest,
@@ -12710,6 +12972,16 @@ export const putAlarm: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type PutInstancePublicPortsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
  * allowed to connect to the instance through the ports, and the protocol. This action also
@@ -12725,15 +12997,7 @@ export const putAlarm: API.OperationMethod<
 export const putInstancePublicPorts: API.OperationMethod<
   PutInstancePublicPortsRequest,
   PutInstancePublicPortsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  PutInstancePublicPortsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInstancePublicPortsRequest,
@@ -12749,6 +13013,16 @@ export const putInstancePublicPorts: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type RebootInstanceError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Restarts a specific instance.
  *
@@ -12759,15 +13033,7 @@ export const putInstancePublicPorts: API.OperationMethod<
 export const rebootInstance: API.OperationMethod<
   RebootInstanceRequest,
   RebootInstanceResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  RebootInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootInstanceRequest,
@@ -12783,6 +13049,16 @@ export const rebootInstance: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type RebootRelationalDatabaseError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Restarts a specific database in Amazon Lightsail.
  *
@@ -12793,15 +13069,7 @@ export const rebootInstance: API.OperationMethod<
 export const rebootRelationalDatabase: API.OperationMethod<
   RebootRelationalDatabaseRequest,
   RebootRelationalDatabaseResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  RebootRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootRelationalDatabaseRequest,
@@ -12817,6 +13085,14 @@ export const rebootRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type RegisterContainerImageError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Registers a container image to your Amazon Lightsail container service.
  *
@@ -12828,13 +13104,7 @@ export const rebootRelationalDatabase: API.OperationMethod<
 export const registerContainerImage: API.OperationMethod<
   RegisterContainerImageRequest,
   RegisterContainerImageResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  RegisterContainerImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterContainerImageRequest,
@@ -12848,12 +13118,7 @@ export const registerContainerImage: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Deletes a specific static IP from your account.
- */
-export const releaseStaticIp: API.OperationMethod<
-  ReleaseStaticIpRequest,
-  ReleaseStaticIpResult,
+export type ReleaseStaticIpError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -12862,7 +13127,14 @@ export const releaseStaticIp: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a specific static IP from your account.
+ */
+export const releaseStaticIp: API.OperationMethod<
+  ReleaseStaticIpRequest,
+  ReleaseStaticIpResult,
+  ReleaseStaticIpError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseStaticIpRequest,
@@ -12878,6 +13150,14 @@ export const releaseStaticIp: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type ResetDistributionCacheError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes currently cached content from your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -12888,13 +13168,7 @@ export const releaseStaticIp: API.OperationMethod<
 export const resetDistributionCache: API.OperationMethod<
   ResetDistributionCacheRequest,
   ResetDistributionCacheResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  ResetDistributionCacheError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetDistributionCacheRequest,
@@ -12908,6 +13182,15 @@ export const resetDistributionCache: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type SendContactMethodVerificationError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Sends a verification request to an email contact method to ensure it's owned by the
  * requester. SMS contact methods don't need to be verified.
@@ -12927,14 +13210,7 @@ export const resetDistributionCache: API.OperationMethod<
 export const sendContactMethodVerification: API.OperationMethod<
   SendContactMethodVerificationRequest,
   SendContactMethodVerificationResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  SendContactMethodVerificationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendContactMethodVerificationRequest,
@@ -12949,6 +13225,16 @@ export const sendContactMethodVerification: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type SetIpAddressTypeError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Sets the IP address type for an Amazon Lightsail resource.
  *
@@ -12959,15 +13245,7 @@ export const sendContactMethodVerification: API.OperationMethod<
 export const setIpAddressType: API.OperationMethod<
   SetIpAddressTypeRequest,
   SetIpAddressTypeResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  SetIpAddressTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIpAddressTypeRequest,
@@ -12983,6 +13261,14 @@ export const setIpAddressType: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type SetResourceAccessForBucketError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Sets the Amazon Lightsail resources that can access the specified Lightsail
  * bucket.
@@ -12993,13 +13279,7 @@ export const setIpAddressType: API.OperationMethod<
 export const setResourceAccessForBucket: API.OperationMethod<
   SetResourceAccessForBucketRequest,
   SetResourceAccessForBucketResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  SetResourceAccessForBucketError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetResourceAccessForBucketRequest,
@@ -13013,6 +13293,14 @@ export const setResourceAccessForBucket: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type SetupInstanceHttpsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Creates an SSL/TLS certificate that secures traffic for your website. After the
  * certificate is created, it is installed on the specified Lightsail instance.
@@ -13023,13 +13311,7 @@ export const setResourceAccessForBucket: API.OperationMethod<
 export const setupInstanceHttps: API.OperationMethod<
   SetupInstanceHttpsRequest,
   SetupInstanceHttpsResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  SetupInstanceHttpsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetupInstanceHttpsRequest,
@@ -13043,6 +13325,14 @@ export const setupInstanceHttps: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type StartGUISessionError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Initiates a graphical user interface (GUI) session that’s used to access a virtual
  * computer’s operating system and application. The session will be active for 1 hour. Use this
@@ -13051,13 +13341,7 @@ export const setupInstanceHttps: API.OperationMethod<
 export const startGUISession: API.OperationMethod<
   StartGUISessionRequest,
   StartGUISessionResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  StartGUISessionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartGUISessionRequest,
@@ -13071,6 +13355,16 @@ export const startGUISession: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type StartInstanceError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance,
  * use the `reboot instance` operation.
@@ -13086,15 +13380,7 @@ export const startGUISession: API.OperationMethod<
 export const startInstance: API.OperationMethod<
   StartInstanceRequest,
   StartInstanceResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  StartInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInstanceRequest,
@@ -13110,6 +13396,16 @@ export const startInstance: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type StartRelationalDatabaseError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Starts a specific database from a stopped state in Amazon Lightsail. To restart a database,
  * use the `reboot relational database` operation.
@@ -13121,15 +13417,7 @@ export const startInstance: API.OperationMethod<
 export const startRelationalDatabase: API.OperationMethod<
   StartRelationalDatabaseRequest,
   StartRelationalDatabaseResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  StartRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRelationalDatabaseRequest,
@@ -13145,6 +13433,14 @@ export const startRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type StopGUISessionError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s
  * operating system or application. The session will close and any unsaved data will be
@@ -13153,13 +13449,7 @@ export const startRelationalDatabase: API.OperationMethod<
 export const stopGUISession: API.OperationMethod<
   StopGUISessionRequest,
   StopGUISessionResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  StopGUISessionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopGUISessionRequest,
@@ -13173,6 +13463,16 @@ export const stopGUISession: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type StopInstanceError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Stops a specific Amazon Lightsail instance that is currently running.
  *
@@ -13187,15 +13487,7 @@ export const stopGUISession: API.OperationMethod<
 export const stopInstance: API.OperationMethod<
   StopInstanceRequest,
   StopInstanceResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  StopInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopInstanceRequest,
@@ -13211,6 +13503,16 @@ export const stopInstance: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type StopRelationalDatabaseError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Stops a specific database that is currently running in Amazon Lightsail.
  *
@@ -13225,15 +13527,7 @@ export const stopInstance: API.OperationMethod<
 export const stopRelationalDatabase: API.OperationMethod<
   StopRelationalDatabaseRequest,
   StopRelationalDatabaseResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  StopRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRelationalDatabaseRequest,
@@ -13249,6 +13543,16 @@ export const stopRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a
  * maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique
@@ -13261,15 +13565,7 @@ export const stopRelationalDatabase: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -13285,6 +13581,15 @@ export const tagResource: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type TestAlarmError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification
  * trigger is configured for the specified alarm, the test also sends a notification to the
@@ -13299,14 +13604,7 @@ export const tagResource: API.OperationMethod<
 export const testAlarm: API.OperationMethod<
   TestAlarmRequest,
   TestAlarmResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  TestAlarmError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestAlarmRequest,
@@ -13321,12 +13619,7 @@ export const testAlarm: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
-/**
- * Unpeers the Lightsail VPC from the user's default VPC.
- */
-export const unpeerVpc: API.OperationMethod<
-  UnpeerVpcRequest,
-  UnpeerVpcResult,
+export type UnpeerVpcError =
   | AccessDeniedException
   | AccountSetupInProgressException
   | InvalidInputException
@@ -13335,7 +13628,14 @@ export const unpeerVpc: API.OperationMethod<
   | RegionSetupInProgressException
   | ServiceException
   | UnauthenticatedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Unpeers the Lightsail VPC from the user's default VPC.
+ */
+export const unpeerVpc: API.OperationMethod<
+  UnpeerVpcRequest,
+  UnpeerVpcResult,
+  UnpeerVpcError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnpeerVpcRequest,
@@ -13351,6 +13651,16 @@ export const unpeerVpc: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
  * resource.
@@ -13362,15 +13672,7 @@ export const unpeerVpc: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -13386,6 +13688,14 @@ export const untagResource: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateBucketError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates an existing Amazon Lightsail bucket.
  *
@@ -13395,13 +13705,7 @@ export const untagResource: API.OperationMethod<
 export const updateBucket: API.OperationMethod<
   UpdateBucketRequest,
   UpdateBucketResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateBucketError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBucketRequest,
@@ -13415,6 +13719,14 @@ export const updateBucket: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateBucketBundleError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket.
  *
@@ -13435,13 +13747,7 @@ export const updateBucket: API.OperationMethod<
 export const updateBucketBundle: API.OperationMethod<
   UpdateBucketBundleRequest,
   UpdateBucketBundleResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateBucketBundleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBucketBundleRequest,
@@ -13455,6 +13761,14 @@ export const updateBucketBundle: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateContainerServiceError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates the configuration of your Amazon Lightsail container service, such as its power,
  * scale, and public domain names.
@@ -13462,13 +13776,7 @@ export const updateBucketBundle: API.OperationMethod<
 export const updateContainerService: API.OperationMethod<
   UpdateContainerServiceRequest,
   UpdateContainerServiceResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateContainerServiceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContainerServiceRequest,
@@ -13482,6 +13790,14 @@ export const updateContainerService: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateDistributionError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates an existing Amazon Lightsail content delivery network (CDN) distribution.
  *
@@ -13490,13 +13806,7 @@ export const updateContainerService: API.OperationMethod<
 export const updateDistribution: API.OperationMethod<
   UpdateDistributionRequest,
   UpdateDistributionResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateDistributionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDistributionRequest,
@@ -13510,6 +13820,14 @@ export const updateDistribution: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateDistributionBundleError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates the bundle of your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -13527,13 +13845,7 @@ export const updateDistribution: API.OperationMethod<
 export const updateDistributionBundle: API.OperationMethod<
   UpdateDistributionBundleRequest,
   UpdateDistributionBundleResult,
-  | AccessDeniedException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateDistributionBundleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDistributionBundleRequest,
@@ -13547,6 +13859,16 @@ export const updateDistributionBundle: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateDomainEntryError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates a domain recordset after it is created.
  *
@@ -13557,15 +13879,7 @@ export const updateDistributionBundle: API.OperationMethod<
 export const updateDomainEntry: API.OperationMethod<
   UpdateDomainEntryRequest,
   UpdateDomainEntryResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateDomainEntryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainEntryRequest,
@@ -13581,6 +13895,16 @@ export const updateDomainEntry: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateInstanceMetadataOptionsError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Modifies the Amazon Lightsail instance metadata parameters on a running or stopped
  * instance. When you modify the parameters on a running instance, the `GetInstance`
@@ -13592,15 +13916,7 @@ export const updateDomainEntry: API.OperationMethod<
 export const updateInstanceMetadataOptions: API.OperationMethod<
   UpdateInstanceMetadataOptionsRequest,
   UpdateInstanceMetadataOptionsResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateInstanceMetadataOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceMetadataOptionsRequest,
@@ -13616,6 +13932,16 @@ export const updateInstanceMetadataOptions: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateLoadBalancerAttributeError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Updates the specified attribute for a load balancer. You can only update one attribute at
  * a time.
@@ -13627,15 +13953,7 @@ export const updateInstanceMetadataOptions: API.OperationMethod<
 export const updateLoadBalancerAttribute: API.OperationMethod<
   UpdateLoadBalancerAttributeRequest,
   UpdateLoadBalancerAttributeResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateLoadBalancerAttributeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoadBalancerAttributeRequest,
@@ -13651,6 +13969,16 @@ export const updateLoadBalancerAttribute: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateRelationalDatabaseError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Allows the update of one or more attributes of a database in Amazon Lightsail.
  *
@@ -13664,15 +13992,7 @@ export const updateLoadBalancerAttribute: API.OperationMethod<
 export const updateRelationalDatabase: API.OperationMethod<
   UpdateRelationalDatabaseRequest,
   UpdateRelationalDatabaseResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateRelationalDatabaseError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelationalDatabaseRequest,
@@ -13688,6 +14008,16 @@ export const updateRelationalDatabase: API.OperationMethod<
     UnauthenticatedException,
   ],
 }));
+export type UpdateRelationalDatabaseParametersError =
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
 /**
  * Allows the update of one or more parameters of a database in Amazon Lightsail.
  *
@@ -13705,15 +14035,7 @@ export const updateRelationalDatabase: API.OperationMethod<
 export const updateRelationalDatabaseParameters: API.OperationMethod<
   UpdateRelationalDatabaseParametersRequest,
   UpdateRelationalDatabaseParametersResult,
-  | AccessDeniedException
-  | AccountSetupInProgressException
-  | InvalidInputException
-  | NotFoundException
-  | OperationFailureException
-  | RegionSetupInProgressException
-  | ServiceException
-  | UnauthenticatedException
-  | CommonErrors,
+  UpdateRelationalDatabaseParametersError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelationalDatabaseParametersRequest,

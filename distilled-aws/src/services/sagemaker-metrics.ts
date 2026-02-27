@@ -241,22 +241,22 @@ export type PutMetricsErrorCode =
   | "CONFLICT_ERROR"
   | (string & {});
 export const PutMetricsErrorCode = S.String;
-export interface BatchPutMetricsError {
+export interface BatchPutMetricsError_ {
   Code?: PutMetricsErrorCode;
   MetricIndex?: number;
 }
-export const BatchPutMetricsError = S.suspend(() =>
+export const BatchPutMetricsError_ = S.suspend(() =>
   S.Struct({
     Code: S.optional(PutMetricsErrorCode),
     MetricIndex: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "BatchPutMetricsError",
-}) as any as S.Schema<BatchPutMetricsError>;
-export type BatchPutMetricsErrorList = BatchPutMetricsError[];
-export const BatchPutMetricsErrorList = S.Array(BatchPutMetricsError);
+}) as any as S.Schema<BatchPutMetricsError_>;
+export type BatchPutMetricsErrorList = BatchPutMetricsError_[];
+export const BatchPutMetricsErrorList = S.Array(BatchPutMetricsError_);
 export interface BatchPutMetricsResponse {
-  Errors?: BatchPutMetricsError[];
+  Errors?: BatchPutMetricsError_[];
 }
 export const BatchPutMetricsResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(BatchPutMetricsErrorList) }),
@@ -267,26 +267,28 @@ export const BatchPutMetricsResponse = S.suspend(() =>
 //# Errors
 
 //# Operations
+export type BatchGetMetricsError = CommonErrors;
 /**
  * Used to retrieve training metrics from SageMaker.
  */
 export const batchGetMetrics: API.OperationMethod<
   BatchGetMetricsRequest,
   BatchGetMetricsResponse,
-  CommonErrors,
+  BatchGetMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetMetricsRequest,
   output: BatchGetMetricsResponse,
   errors: [],
 }));
+export type BatchPutMetricsError = CommonErrors;
 /**
  * Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
  */
 export const batchPutMetrics: API.OperationMethod<
   BatchPutMetricsRequest,
   BatchPutMetricsResponse,
-  CommonErrors,
+  BatchPutMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutMetricsRequest,

@@ -4416,6 +4416,14 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type AssociateLensesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associate a lens to a workload.
  *
@@ -4431,13 +4439,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const associateLenses: API.OperationMethod<
   AssociateLensesInput,
   AssociateLensesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateLensesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLensesInput,
@@ -4451,19 +4453,21 @@ export const associateLenses: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate a profile with a workload.
- */
-export const associateProfiles: API.OperationMethod<
-  AssociateProfilesInput,
-  AssociateProfilesResponse,
+export type AssociateProfilesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate a profile with a workload.
+ */
+export const associateProfiles: API.OperationMethod<
+  AssociateProfilesInput,
+  AssociateProfilesResponse,
+  AssociateProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateProfilesInput,
@@ -4477,6 +4481,15 @@ export const associateProfiles: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLensShareError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a lens share.
  *
@@ -4504,14 +4517,7 @@ export const associateProfiles: API.OperationMethod<
 export const createLensShare: API.OperationMethod<
   CreateLensShareInput,
   CreateLensShareOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateLensShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLensShareInput,
@@ -4526,6 +4532,15 @@ export const createLensShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLensVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a new lens version.
  *
@@ -4539,14 +4554,7 @@ export const createLensShare: API.OperationMethod<
 export const createLensVersion: API.OperationMethod<
   CreateLensVersionInput,
   CreateLensVersionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateLensVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLensVersionInput,
@@ -4561,12 +4569,7 @@ export const createLensVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a milestone for an existing workload.
- */
-export const createMilestone: API.OperationMethod<
-  CreateMilestoneInput,
-  CreateMilestoneOutput,
+export type CreateMilestoneError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4574,7 +4577,14 @@ export const createMilestone: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a milestone for an existing workload.
+ */
+export const createMilestone: API.OperationMethod<
+  CreateMilestoneInput,
+  CreateMilestoneOutput,
+  CreateMilestoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMilestoneInput,
@@ -4589,19 +4599,21 @@ export const createMilestone: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a profile.
- */
-export const createProfile: API.OperationMethod<
-  CreateProfileInput,
-  CreateProfileOutput,
+export type CreateProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a profile.
+ */
+export const createProfile: API.OperationMethod<
+  CreateProfileInput,
+  CreateProfileOutput,
+  CreateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileInput,
@@ -4615,12 +4627,7 @@ export const createProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a profile share.
- */
-export const createProfileShare: API.OperationMethod<
-  CreateProfileShareInput,
-  CreateProfileShareOutput,
+export type CreateProfileShareError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4628,7 +4635,14 @@ export const createProfileShare: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a profile share.
+ */
+export const createProfileShare: API.OperationMethod<
+  CreateProfileShareInput,
+  CreateProfileShareOutput,
+  CreateProfileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileShareInput,
@@ -4643,6 +4657,15 @@ export const createProfileShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateReviewTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a review template.
  *
@@ -4658,14 +4681,7 @@ export const createProfileShare: API.OperationMethod<
 export const createReviewTemplate: API.OperationMethod<
   CreateReviewTemplateInput,
   CreateReviewTemplateOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateReviewTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReviewTemplateInput,
@@ -4680,6 +4696,15 @@ export const createReviewTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTemplateShareError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a review template share.
  *
@@ -4701,14 +4726,7 @@ export const createReviewTemplate: API.OperationMethod<
 export const createTemplateShare: API.OperationMethod<
   CreateTemplateShareInput,
   CreateTemplateShareOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTemplateShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateShareInput,
@@ -4723,6 +4741,15 @@ export const createTemplateShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateWorkloadError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a new workload.
  *
@@ -4752,14 +4779,7 @@ export const createTemplateShare: API.OperationMethod<
 export const createWorkload: API.OperationMethod<
   CreateWorkloadInput,
   CreateWorkloadOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkloadInput,
@@ -4774,6 +4794,15 @@ export const createWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateWorkloadShareError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a workload share.
  *
@@ -4790,14 +4819,7 @@ export const createWorkload: API.OperationMethod<
 export const createWorkloadShare: API.OperationMethod<
   CreateWorkloadShareInput,
   CreateWorkloadShareOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkloadShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkloadShareInput,
@@ -4812,6 +4834,14 @@ export const createWorkloadShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLensError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an existing lens.
  *
@@ -4830,13 +4860,7 @@ export const createWorkloadShare: API.OperationMethod<
 export const deleteLens: API.OperationMethod<
   DeleteLensInput,
   DeleteLensResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteLensError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLensInput,
@@ -4850,6 +4874,14 @@ export const deleteLens: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLensShareError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a lens share.
  *
@@ -4869,13 +4901,7 @@ export const deleteLens: API.OperationMethod<
 export const deleteLensShare: API.OperationMethod<
   DeleteLensShareInput,
   DeleteLensShareResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteLensShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLensShareInput,
@@ -4889,6 +4915,14 @@ export const deleteLensShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a profile.
  *
@@ -4904,13 +4938,7 @@ export const deleteLensShare: API.OperationMethod<
 export const deleteProfile: API.OperationMethod<
   DeleteProfileInput,
   DeleteProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileInput,
@@ -4924,19 +4952,21 @@ export const deleteProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a profile share.
- */
-export const deleteProfileShare: API.OperationMethod<
-  DeleteProfileShareInput,
-  DeleteProfileShareResponse,
+export type DeleteProfileShareError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a profile share.
+ */
+export const deleteProfileShare: API.OperationMethod<
+  DeleteProfileShareInput,
+  DeleteProfileShareResponse,
+  DeleteProfileShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileShareInput,
@@ -4950,6 +4980,14 @@ export const deleteProfileShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteReviewTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a review template.
  *
@@ -4962,13 +5000,7 @@ export const deleteProfileShare: API.OperationMethod<
 export const deleteReviewTemplate: API.OperationMethod<
   DeleteReviewTemplateInput,
   DeleteReviewTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteReviewTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReviewTemplateInput,
@@ -4982,6 +5014,14 @@ export const deleteReviewTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTemplateShareError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a review template share.
  *
@@ -4992,13 +5032,7 @@ export const deleteReviewTemplate: API.OperationMethod<
 export const deleteTemplateShare: API.OperationMethod<
   DeleteTemplateShareInput,
   DeleteTemplateShareResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTemplateShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateShareInput,
@@ -5012,19 +5046,21 @@ export const deleteTemplateShare: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete an existing workload.
- */
-export const deleteWorkload: API.OperationMethod<
-  DeleteWorkloadInput,
-  DeleteWorkloadResponse,
+export type DeleteWorkloadError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an existing workload.
+ */
+export const deleteWorkload: API.OperationMethod<
+  DeleteWorkloadInput,
+  DeleteWorkloadResponse,
+  DeleteWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkloadInput,
@@ -5038,19 +5074,21 @@ export const deleteWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a workload share.
- */
-export const deleteWorkloadShare: API.OperationMethod<
-  DeleteWorkloadShareInput,
-  DeleteWorkloadShareResponse,
+export type DeleteWorkloadShareError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a workload share.
+ */
+export const deleteWorkloadShare: API.OperationMethod<
+  DeleteWorkloadShareInput,
+  DeleteWorkloadShareResponse,
+  DeleteWorkloadShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkloadShareInput,
@@ -5064,6 +5102,14 @@ export const deleteWorkloadShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateLensesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociate a lens from a workload.
  *
@@ -5075,13 +5121,7 @@ export const deleteWorkloadShare: API.OperationMethod<
 export const disassociateLenses: API.OperationMethod<
   DisassociateLensesInput,
   DisassociateLensesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateLensesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLensesInput,
@@ -5095,19 +5135,21 @@ export const disassociateLenses: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociate a profile from a workload.
- */
-export const disassociateProfiles: API.OperationMethod<
-  DisassociateProfilesInput,
-  DisassociateProfilesResponse,
+export type DisassociateProfilesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociate a profile from a workload.
+ */
+export const disassociateProfiles: API.OperationMethod<
+  DisassociateProfilesInput,
+  DisassociateProfilesResponse,
+  DisassociateProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateProfilesInput,
@@ -5121,6 +5163,13 @@ export const disassociateProfiles: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExportLensError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Export an existing lens.
  *
@@ -5142,12 +5191,7 @@ export const disassociateProfiles: API.OperationMethod<
 export const exportLens: API.OperationMethod<
   ExportLensInput,
   ExportLensOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ExportLensError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportLensInput,
@@ -5160,18 +5204,20 @@ export const exportLens: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAnswerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the answer to a specific question in a workload review.
  */
 export const getAnswer: API.OperationMethod<
   GetAnswerInput,
   GetAnswerOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAnswerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnswerInput,
@@ -5184,6 +5230,13 @@ export const getAnswer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConsolidatedReportError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a consolidated report of your workloads.
  *
@@ -5192,36 +5245,21 @@ export const getAnswer: API.OperationMethod<
 export const getConsolidatedReport: API.OperationMethod<
   GetConsolidatedReportInput,
   GetConsolidatedReportOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConsolidatedReportError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetConsolidatedReportInput,
   ) => stream.Stream<
     GetConsolidatedReportOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetConsolidatedReportError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetConsolidatedReportInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetConsolidatedReportError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5240,17 +5278,19 @@ export const getConsolidatedReport: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetGlobalSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Global settings for all workloads.
  */
 export const getGlobalSettings: API.OperationMethod<
   GetGlobalSettingsRequest,
   GetGlobalSettingsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGlobalSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlobalSettingsRequest,
@@ -5262,18 +5302,20 @@ export const getGlobalSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLensError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get an existing lens.
  */
 export const getLens: API.OperationMethod<
   GetLensInput,
   GetLensOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLensError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensInput,
@@ -5286,18 +5328,20 @@ export const getLens: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLensReviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get lens review.
  */
 export const getLensReview: API.OperationMethod<
   GetLensReviewInput,
   GetLensReviewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLensReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensReviewInput,
@@ -5310,18 +5354,20 @@ export const getLensReview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLensReviewReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get lens review report.
  */
 export const getLensReviewReport: API.OperationMethod<
   GetLensReviewReportInput,
   GetLensReviewReportOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLensReviewReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensReviewReportInput,
@@ -5334,18 +5380,20 @@ export const getLensReviewReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLensVersionDifferenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get lens version differences.
  */
 export const getLensVersionDifference: API.OperationMethod<
   GetLensVersionDifferenceInput,
   GetLensVersionDifferenceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLensVersionDifferenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensVersionDifferenceInput,
@@ -5358,18 +5406,20 @@ export const getLensVersionDifference: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMilestoneError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a milestone for an existing workload.
  */
 export const getMilestone: API.OperationMethod<
   GetMilestoneInput,
   GetMilestoneOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMilestoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMilestoneInput,
@@ -5382,18 +5432,20 @@ export const getMilestone: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get profile information.
  */
 export const getProfile: API.OperationMethod<
   GetProfileInput,
   GetProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileInput,
@@ -5406,18 +5458,20 @@ export const getProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProfileTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get profile template.
  */
 export const getProfileTemplate: API.OperationMethod<
   GetProfileTemplateInput,
   GetProfileTemplateOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProfileTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileTemplateInput,
@@ -5430,18 +5484,20 @@ export const getProfileTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReviewTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get review template.
  */
 export const getReviewTemplate: API.OperationMethod<
   GetReviewTemplateInput,
   GetReviewTemplateOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReviewTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReviewTemplateInput,
@@ -5454,18 +5510,20 @@ export const getReviewTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReviewTemplateAnswerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get review template answer.
  */
 export const getReviewTemplateAnswer: API.OperationMethod<
   GetReviewTemplateAnswerInput,
   GetReviewTemplateAnswerOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReviewTemplateAnswerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReviewTemplateAnswerInput,
@@ -5478,18 +5536,20 @@ export const getReviewTemplateAnswer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReviewTemplateLensReviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a lens review associated with a review template.
  */
 export const getReviewTemplateLensReview: API.OperationMethod<
   GetReviewTemplateLensReviewInput,
   GetReviewTemplateLensReviewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReviewTemplateLensReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReviewTemplateLensReviewInput,
@@ -5502,18 +5562,20 @@ export const getReviewTemplateLensReview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkloadError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get an existing workload.
  */
 export const getWorkload: API.OperationMethod<
   GetWorkloadInput,
   GetWorkloadOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadInput,
@@ -5526,6 +5588,15 @@ export const getWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportLensError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Import a new custom lens or update an existing custom lens.
  *
@@ -5553,14 +5624,7 @@ export const getWorkload: API.OperationMethod<
 export const importLens: API.OperationMethod<
   ImportLensInput,
   ImportLensOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ImportLensError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportLensInput,
@@ -5575,42 +5639,34 @@ export const importLens: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAnswersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of answers for a particular workload and lens.
  */
 export const listAnswers: API.OperationMethod<
   ListAnswersInput,
   ListAnswersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAnswersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnswersInput,
   ) => stream.Stream<
     ListAnswersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnswersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnswersInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnswersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5629,42 +5685,34 @@ export const listAnswers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCheckDetailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of Trusted Advisor check details by account related to the workload.
  */
 export const listCheckDetails: API.OperationMethod<
   ListCheckDetailsInput,
   ListCheckDetailsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCheckDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCheckDetailsInput,
   ) => stream.Stream<
     ListCheckDetailsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCheckDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCheckDetailsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCheckDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5683,42 +5731,34 @@ export const listCheckDetails: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCheckSummariesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of Trusted Advisor checks summarized for all accounts related to the workload.
  */
 export const listCheckSummaries: API.OperationMethod<
   ListCheckSummariesInput,
   ListCheckSummariesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCheckSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCheckSummariesInput,
   ) => stream.Stream<
     ListCheckSummariesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCheckSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCheckSummariesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCheckSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5737,39 +5777,33 @@ export const listCheckSummaries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLensesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the available lenses.
  */
 export const listLenses: API.OperationMethod<
   ListLensesInput,
   ListLensesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLensesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLensesInput,
   ) => stream.Stream<
     ListLensesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLensesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5787,42 +5821,34 @@ export const listLenses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLensReviewImprovementsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the improvements of a particular lens review.
  */
 export const listLensReviewImprovements: API.OperationMethod<
   ListLensReviewImprovementsInput,
   ListLensReviewImprovementsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLensReviewImprovementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLensReviewImprovementsInput,
   ) => stream.Stream<
     ListLensReviewImprovementsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensReviewImprovementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLensReviewImprovementsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensReviewImprovementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5841,42 +5867,34 @@ export const listLensReviewImprovements: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLensReviewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List lens reviews for a particular workload.
  */
 export const listLensReviews: API.OperationMethod<
   ListLensReviewsInput,
   ListLensReviewsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLensReviewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLensReviewsInput,
   ) => stream.Stream<
     ListLensReviewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensReviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLensReviewsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensReviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5895,42 +5913,34 @@ export const listLensReviews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLensSharesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the lens shares associated with the lens.
  */
 export const listLensShares: API.OperationMethod<
   ListLensSharesInput,
   ListLensSharesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLensSharesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLensSharesInput,
   ) => stream.Stream<
     ListLensSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLensSharesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLensSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5949,42 +5959,34 @@ export const listLensShares: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMilestonesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all milestones for an existing workload.
  */
 export const listMilestones: API.OperationMethod<
   ListMilestonesInput,
   ListMilestonesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMilestonesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMilestonesInput,
   ) => stream.Stream<
     ListMilestonesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMilestonesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMilestonesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMilestonesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6003,39 +6005,33 @@ export const listMilestones: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNotificationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List lens notifications.
  */
 export const listNotifications: API.OperationMethod<
   ListNotificationsInput,
   ListNotificationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationsInput,
   ) => stream.Stream<
     ListNotificationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6053,39 +6049,33 @@ export const listNotifications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProfileNotificationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List profile notifications.
  */
 export const listProfileNotifications: API.OperationMethod<
   ListProfileNotificationsInput,
   ListProfileNotificationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProfileNotificationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProfileNotificationsInput,
   ) => stream.Stream<
     ListProfileNotificationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfileNotificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProfileNotificationsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfileNotificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6103,39 +6093,33 @@ export const listProfileNotifications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List profiles.
  */
 export const listProfiles: API.OperationMethod<
   ListProfilesInput,
   ListProfilesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProfilesInput,
   ) => stream.Stream<
     ListProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProfilesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6153,42 +6137,34 @@ export const listProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProfileSharesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List profile shares.
  */
 export const listProfileShares: API.OperationMethod<
   ListProfileSharesInput,
   ListProfileSharesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProfileSharesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProfileSharesInput,
   ) => stream.Stream<
     ListProfileSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfileSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProfileSharesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProfileSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6207,42 +6183,34 @@ export const listProfileShares: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListReviewTemplateAnswersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the answers of a review template.
  */
 export const listReviewTemplateAnswers: API.OperationMethod<
   ListReviewTemplateAnswersInput,
   ListReviewTemplateAnswersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReviewTemplateAnswersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReviewTemplateAnswersInput,
   ) => stream.Stream<
     ListReviewTemplateAnswersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReviewTemplateAnswersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReviewTemplateAnswersInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReviewTemplateAnswersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6261,39 +6229,33 @@ export const listReviewTemplateAnswers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListReviewTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List review templates.
  */
 export const listReviewTemplates: API.OperationMethod<
   ListReviewTemplatesInput,
   ListReviewTemplatesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReviewTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReviewTemplatesInput,
   ) => stream.Stream<
     ListReviewTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReviewTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReviewTemplatesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReviewTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6311,6 +6273,12 @@ export const listReviewTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListShareInvitationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the share invitations.
  *
@@ -6321,33 +6289,21 @@ export const listReviewTemplates: API.OperationMethod<
 export const listShareInvitations: API.OperationMethod<
   ListShareInvitationsInput,
   ListShareInvitationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListShareInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListShareInvitationsInput,
   ) => stream.Stream<
     ListShareInvitationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListShareInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListShareInvitationsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListShareInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6365,6 +6321,10 @@ export const listShareInvitations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * List the tags for a resource.
  *
@@ -6373,49 +6333,41 @@ export const listShareInvitations: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type ListTemplateSharesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List review template shares.
  */
 export const listTemplateShares: API.OperationMethod<
   ListTemplateSharesInput,
   ListTemplateSharesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTemplateSharesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplateSharesInput,
   ) => stream.Stream<
     ListTemplateSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplateSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplateSharesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplateSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6434,39 +6386,33 @@ export const listTemplateShares: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWorkloadsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Paginated list of workloads.
  */
 export const listWorkloads: API.OperationMethod<
   ListWorkloadsInput,
   ListWorkloadsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkloadsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadsInput,
   ) => stream.Stream<
     ListWorkloadsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6484,42 +6430,34 @@ export const listWorkloads: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWorkloadSharesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the workload shares associated with the workload.
  */
 export const listWorkloadShares: API.OperationMethod<
   ListWorkloadSharesInput,
   ListWorkloadSharesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkloadSharesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadSharesInput,
   ) => stream.Stream<
     ListWorkloadSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadSharesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadSharesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6538,6 +6476,10 @@ export const listWorkloadShares: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more tags to the specified resource.
  *
@@ -6546,13 +6488,17 @@ export const listWorkloadShares: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes specified tags from a resource.
  *
@@ -6565,26 +6511,28 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
-/**
- * Update the answer to a specific question in a workload review.
- */
-export const updateAnswer: API.OperationMethod<
-  UpdateAnswerInput,
-  UpdateAnswerOutput,
+export type UpdateAnswerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the answer to a specific question in a workload review.
+ */
+export const updateAnswer: API.OperationMethod<
+  UpdateAnswerInput,
+  UpdateAnswerOutput,
+  UpdateAnswerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAnswerInput,
@@ -6598,18 +6546,20 @@ export const updateAnswer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGlobalSettingsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
  */
 export const updateGlobalSettings: API.OperationMethod<
   UpdateGlobalSettingsInput,
   UpdateGlobalSettingsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateGlobalSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlobalSettingsInput,
@@ -6622,19 +6572,21 @@ export const updateGlobalSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update integration features.
- */
-export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationInput,
-  UpdateIntegrationResponse,
+export type UpdateIntegrationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update integration features.
+ */
+export const updateIntegration: API.OperationMethod<
+  UpdateIntegrationInput,
+  UpdateIntegrationResponse,
+  UpdateIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationInput,
@@ -6648,19 +6600,21 @@ export const updateIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update lens review for a particular workload.
- */
-export const updateLensReview: API.OperationMethod<
-  UpdateLensReviewInput,
-  UpdateLensReviewOutput,
+export type UpdateLensReviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update lens review for a particular workload.
+ */
+export const updateLensReview: API.OperationMethod<
+  UpdateLensReviewInput,
+  UpdateLensReviewOutput,
+  UpdateLensReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLensReviewInput,
@@ -6674,19 +6628,21 @@ export const updateLensReview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a profile.
- */
-export const updateProfile: API.OperationMethod<
-  UpdateProfileInput,
-  UpdateProfileOutput,
+export type UpdateProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a profile.
+ */
+export const updateProfile: API.OperationMethod<
+  UpdateProfileInput,
+  UpdateProfileOutput,
+  UpdateProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileInput,
@@ -6700,19 +6656,21 @@ export const updateProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a review template.
- */
-export const updateReviewTemplate: API.OperationMethod<
-  UpdateReviewTemplateInput,
-  UpdateReviewTemplateOutput,
+export type UpdateReviewTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a review template.
+ */
+export const updateReviewTemplate: API.OperationMethod<
+  UpdateReviewTemplateInput,
+  UpdateReviewTemplateOutput,
+  UpdateReviewTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReviewTemplateInput,
@@ -6726,19 +6684,21 @@ export const updateReviewTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a review template answer.
- */
-export const updateReviewTemplateAnswer: API.OperationMethod<
-  UpdateReviewTemplateAnswerInput,
-  UpdateReviewTemplateAnswerOutput,
+export type UpdateReviewTemplateAnswerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a review template answer.
+ */
+export const updateReviewTemplateAnswer: API.OperationMethod<
+  UpdateReviewTemplateAnswerInput,
+  UpdateReviewTemplateAnswerOutput,
+  UpdateReviewTemplateAnswerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReviewTemplateAnswerInput,
@@ -6752,19 +6712,21 @@ export const updateReviewTemplateAnswer: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a lens review associated with a review template.
- */
-export const updateReviewTemplateLensReview: API.OperationMethod<
-  UpdateReviewTemplateLensReviewInput,
-  UpdateReviewTemplateLensReviewOutput,
+export type UpdateReviewTemplateLensReviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a lens review associated with a review template.
+ */
+export const updateReviewTemplateLensReview: API.OperationMethod<
+  UpdateReviewTemplateLensReviewInput,
+  UpdateReviewTemplateLensReviewOutput,
+  UpdateReviewTemplateLensReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReviewTemplateLensReviewInput,
@@ -6778,6 +6740,14 @@ export const updateReviewTemplateLensReview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateShareInvitationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a workload or custom lens share invitation.
  *
@@ -6786,13 +6756,7 @@ export const updateReviewTemplateLensReview: API.OperationMethod<
 export const updateShareInvitation: API.OperationMethod<
   UpdateShareInvitationInput,
   UpdateShareInvitationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateShareInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateShareInvitationInput,
@@ -6806,19 +6770,21 @@ export const updateShareInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update an existing workload.
- */
-export const updateWorkload: API.OperationMethod<
-  UpdateWorkloadInput,
-  UpdateWorkloadOutput,
+export type UpdateWorkloadError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update an existing workload.
+ */
+export const updateWorkload: API.OperationMethod<
+  UpdateWorkloadInput,
+  UpdateWorkloadOutput,
+  UpdateWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadInput,
@@ -6832,19 +6798,21 @@ export const updateWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a workload share.
- */
-export const updateWorkloadShare: API.OperationMethod<
-  UpdateWorkloadShareInput,
-  UpdateWorkloadShareOutput,
+export type UpdateWorkloadShareError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a workload share.
+ */
+export const updateWorkloadShare: API.OperationMethod<
+  UpdateWorkloadShareInput,
+  UpdateWorkloadShareOutput,
+  UpdateWorkloadShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadShareInput,
@@ -6858,12 +6826,7 @@ export const updateWorkloadShare: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Upgrade lens review for a particular workload.
- */
-export const upgradeLensReview: API.OperationMethod<
-  UpgradeLensReviewInput,
-  UpgradeLensReviewResponse,
+export type UpgradeLensReviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6871,7 +6834,14 @@ export const upgradeLensReview: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Upgrade lens review for a particular workload.
+ */
+export const upgradeLensReview: API.OperationMethod<
+  UpgradeLensReviewInput,
+  UpgradeLensReviewResponse,
+  UpgradeLensReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeLensReviewInput,
@@ -6886,12 +6856,7 @@ export const upgradeLensReview: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Upgrade a profile.
- */
-export const upgradeProfileVersion: API.OperationMethod<
-  UpgradeProfileVersionInput,
-  UpgradeProfileVersionResponse,
+export type UpgradeProfileVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6899,7 +6864,14 @@ export const upgradeProfileVersion: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Upgrade a profile.
+ */
+export const upgradeProfileVersion: API.OperationMethod<
+  UpgradeProfileVersionInput,
+  UpgradeProfileVersionResponse,
+  UpgradeProfileVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeProfileVersionInput,
@@ -6914,19 +6886,21 @@ export const upgradeProfileVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Upgrade the lens review of a review template.
- */
-export const upgradeReviewTemplateLensReview: API.OperationMethod<
-  UpgradeReviewTemplateLensReviewInput,
-  UpgradeReviewTemplateLensReviewResponse,
+export type UpgradeReviewTemplateLensReviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Upgrade the lens review of a review template.
+ */
+export const upgradeReviewTemplateLensReview: API.OperationMethod<
+  UpgradeReviewTemplateLensReviewInput,
+  UpgradeReviewTemplateLensReviewResponse,
+  UpgradeReviewTemplateLensReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeReviewTemplateLensReviewInput,

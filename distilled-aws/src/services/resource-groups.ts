@@ -1247,6 +1247,14 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelTagSyncTaskError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Cancels the specified tag-sync task.
  *
@@ -1261,13 +1269,7 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 export const cancelTagSyncTask: API.OperationMethod<
   CancelTagSyncTaskInput,
   CancelTagSyncTaskResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  CancelTagSyncTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTagSyncTaskInput,
@@ -1281,6 +1283,13 @@ export const cancelTagSyncTask: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateGroupError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a resource group with the specified name and description. You can optionally
  * include either a resource query or a service configuration. For more information about
@@ -1297,12 +1306,7 @@ export const cancelTagSyncTask: API.OperationMethod<
 export const createGroup: API.OperationMethod<
   CreateGroupInput,
   CreateGroupOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupInput,
@@ -1315,6 +1319,14 @@ export const createGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteGroupError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the specified resource group. Deleting a resource group does not delete any
  * resources that are members of the group; it only deletes the group structure.
@@ -1328,13 +1340,7 @@ export const createGroup: API.OperationMethod<
 export const deleteGroup: API.OperationMethod<
   DeleteGroupInput,
   DeleteGroupOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupInput,
@@ -1348,18 +1354,20 @@ export const deleteGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetAccountSettingsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the current status of optional features in Resource Groups.
  */
 export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsRequest,
   GetAccountSettingsOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
@@ -1372,6 +1380,14 @@ export const getAccountSettings: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetGroupError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information about a specified resource group.
  *
@@ -1384,13 +1400,7 @@ export const getAccountSettings: API.OperationMethod<
 export const getGroup: API.OperationMethod<
   GetGroupInput,
   GetGroupOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupInput,
@@ -1404,6 +1414,14 @@ export const getGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetGroupConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the service configuration associated with the specified resource group. For
  * details about the service configuration syntax, see Service configurations for Resource Groups.
@@ -1417,13 +1435,7 @@ export const getGroup: API.OperationMethod<
 export const getGroupConfiguration: API.OperationMethod<
   GetGroupConfigurationInput,
   GetGroupConfigurationOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetGroupConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupConfigurationInput,
@@ -1437,6 +1449,14 @@ export const getGroupConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetGroupQueryError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the resource query associated with the specified resource group. For more
  * information about resource queries, see Create
@@ -1451,13 +1471,7 @@ export const getGroupConfiguration: API.OperationMethod<
 export const getGroupQuery: API.OperationMethod<
   GetGroupQueryInput,
   GetGroupQueryOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetGroupQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupQueryInput,
@@ -1471,6 +1485,14 @@ export const getGroupQuery: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTagsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of tags that are associated with a resource group, specified by an
  * Amazon resource name (ARN).
@@ -1484,13 +1506,7 @@ export const getGroupQuery: API.OperationMethod<
 export const getTags: API.OperationMethod<
   GetTagsInput,
   GetTagsOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsInput,
@@ -1504,6 +1520,15 @@ export const getTags: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTagSyncTaskError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns information about a specified tag-sync task.
  *
@@ -1516,14 +1541,7 @@ export const getTags: API.OperationMethod<
 export const getTagSyncTask: API.OperationMethod<
   GetTagSyncTaskInput,
   GetTagSyncTaskOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  GetTagSyncTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagSyncTaskInput,
@@ -1538,6 +1556,14 @@ export const getTagSyncTask: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GroupResourcesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds the specified resources to the specified group.
  *
@@ -1561,13 +1587,7 @@ export const getTagSyncTask: API.OperationMethod<
 export const groupResources: API.OperationMethod<
   GroupResourcesInput,
   GroupResourcesOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GroupResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GroupResourcesInput,
@@ -1581,6 +1601,13 @@ export const groupResources: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListGroupingStatusesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the status of the last grouping or ungrouping action for
  * each resource in the specified application group.
@@ -1588,36 +1615,21 @@ export const groupResources: API.OperationMethod<
 export const listGroupingStatuses: API.OperationMethod<
   ListGroupingStatusesInput,
   ListGroupingStatusesOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListGroupingStatusesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupingStatusesInput,
   ) => stream.Stream<
     ListGroupingStatusesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGroupingStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupingStatusesInput,
   ) => stream.Stream<
     GroupingStatusesItem,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGroupingStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1637,6 +1649,15 @@ export const listGroupingStatuses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupResourcesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource
  * group.
@@ -1656,42 +1677,21 @@ export const listGroupingStatuses: API.OperationMethod<
 export const listGroupResources: API.OperationMethod<
   ListGroupResourcesInput,
   ListGroupResourcesOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  ListGroupResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupResourcesInput,
   ) => stream.Stream<
     ListGroupResourcesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGroupResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupResourcesInput,
   ) => stream.Stream<
     ResourceIdentifier,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGroupResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1713,6 +1713,13 @@ export const listGroupResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of existing Resource Groups in your account.
  *
@@ -1725,36 +1732,21 @@ export const listGroupResources: API.OperationMethod<
 export const listGroups: API.OperationMethod<
   ListGroupsInput,
   ListGroupsOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsInput,
   ) => stream.Stream<
     ListGroupsOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsInput,
   ) => stream.Stream<
     GroupIdentifier,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1774,6 +1766,14 @@ export const listGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagSyncTasksError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns a list of tag-sync tasks.
  *
@@ -1787,39 +1787,21 @@ export const listGroups: API.OperationMethod<
 export const listTagSyncTasks: API.OperationMethod<
   ListTagSyncTasksInput,
   ListTagSyncTasksOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTagSyncTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagSyncTasksInput,
   ) => stream.Stream<
     ListTagSyncTasksOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTagSyncTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagSyncTasksInput,
   ) => stream.Stream<
     TagSyncTaskItem,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTagSyncTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1840,6 +1822,14 @@ export const listTagSyncTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutGroupConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Attaches a service configuration to the specified group. This occurs asynchronously,
  * and can take time to complete. You can use GetGroupConfiguration to
@@ -1854,13 +1844,7 @@ export const listTagSyncTasks: API.OperationMethod<
 export const putGroupConfiguration: API.OperationMethod<
   PutGroupConfigurationInput,
   PutGroupConfigurationOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutGroupConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGroupConfigurationInput,
@@ -1874,6 +1858,14 @@ export const putGroupConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SearchResourcesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Returns a list of Amazon Web Services resource identifiers that matches the specified query. The
  * query uses the same format as a resource query in a CreateGroup or
@@ -1894,39 +1886,21 @@ export const putGroupConfiguration: API.OperationMethod<
 export const searchResources: API.OperationMethod<
   SearchResourcesInput,
   SearchResourcesOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  SearchResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchResourcesInput,
   ) => stream.Stream<
     SearchResourcesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    SearchResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchResourcesInput,
   ) => stream.Stream<
     ResourceIdentifier,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
+    SearchResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1947,6 +1921,15 @@ export const searchResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartTagSyncTaskError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an
  * application. To start a tag-sync task, you need a resource tagging role.
@@ -1969,14 +1952,7 @@ export const searchResources: API.OperationMethod<
 export const startTagSyncTask: API.OperationMethod<
   StartTagSyncTaskInput,
   StartTagSyncTaskOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | UnauthorizedException
-  | CommonErrors,
+  StartTagSyncTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTagSyncTaskInput,
@@ -1991,6 +1967,14 @@ export const startTagSyncTask: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TagError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds tags to a resource group with the specified Amazon resource name (ARN). Existing tags on a resource
  * group are not changed if they are not specified in the request parameters.
@@ -2009,13 +1993,7 @@ export const startTagSyncTask: API.OperationMethod<
 export const tag: API.OperationMethod<
   TagInput,
   TagOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagInput,
@@ -2029,6 +2007,14 @@ export const tag: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UngroupResourcesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes the specified resources from the specified group. This operation works only
  * with static groups that you populated using the GroupResources
@@ -2044,13 +2030,7 @@ export const tag: API.OperationMethod<
 export const ungroupResources: API.OperationMethod<
   UngroupResourcesInput,
   UngroupResourcesOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UngroupResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UngroupResourcesInput,
@@ -2064,6 +2044,14 @@ export const ungroupResources: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes tags from a specified resource group.
  *
@@ -2076,13 +2064,7 @@ export const ungroupResources: API.OperationMethod<
 export const untag: API.OperationMethod<
   UntagInput,
   UntagOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagInput,
@@ -2096,6 +2078,13 @@ export const untag: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateAccountSettingsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Turns on or turns off optional features in Resource Groups.
  *
@@ -2107,12 +2096,7 @@ export const untag: API.OperationMethod<
 export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsInput,
   UpdateAccountSettingsOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsInput,
@@ -2125,6 +2109,14 @@ export const updateAccountSettings: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateGroupError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the description for an existing group. You cannot update the name of a
  * resource group.
@@ -2138,13 +2130,7 @@ export const updateAccountSettings: API.OperationMethod<
 export const updateGroup: API.OperationMethod<
   UpdateGroupInput,
   UpdateGroupOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupInput,
@@ -2158,6 +2144,14 @@ export const updateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateGroupQueryError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the resource query of a group. For more information about resource queries,
  * see Create a tag-based group in Resource Groups.
@@ -2171,13 +2165,7 @@ export const updateGroup: API.OperationMethod<
 export const updateGroupQuery: API.OperationMethod<
   UpdateGroupQueryInput,
   UpdateGroupQueryOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | MethodNotAllowedException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateGroupQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupQueryInput,

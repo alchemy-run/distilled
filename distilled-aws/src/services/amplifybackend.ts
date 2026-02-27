@@ -2616,17 +2616,19 @@ export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequests
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type CloneBackendError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * This operation clones an existing backend.
  */
 export const cloneBackend: API.OperationMethod<
   CloneBackendRequest,
   CloneBackendResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CloneBackendError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloneBackendRequest,
@@ -2638,17 +2640,19 @@ export const cloneBackend: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateBackendError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
  */
 export const createBackend: API.OperationMethod<
   CreateBackendRequest,
   CreateBackendResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateBackendError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackendRequest,
@@ -2660,17 +2664,19 @@ export const createBackend: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateBackendAPIError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new backend API resource.
  */
 export const createBackendAPI: API.OperationMethod<
   CreateBackendAPIRequest,
   CreateBackendAPIResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateBackendAPIError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackendAPIRequest,
@@ -2682,17 +2688,19 @@ export const createBackendAPI: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateBackendAuthError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new backend authentication resource.
  */
 export const createBackendAuth: API.OperationMethod<
   CreateBackendAuthRequest,
   CreateBackendAuthResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateBackendAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackendAuthRequest,
@@ -2704,17 +2712,19 @@ export const createBackendAuth: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateBackendConfigError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a config object for a backend.
  */
 export const createBackendConfig: API.OperationMethod<
   CreateBackendConfigRequest,
   CreateBackendConfigResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateBackendConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackendConfigRequest,
@@ -2726,17 +2736,19 @@ export const createBackendConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateBackendStorageError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a backend storage resource.
  */
 export const createBackendStorage: API.OperationMethod<
   CreateBackendStorageRequest,
   CreateBackendStorageResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateBackendStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackendStorageRequest,
@@ -2748,17 +2760,19 @@ export const createBackendStorage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTokenError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
  */
 export const createToken: API.OperationMethod<
   CreateTokenRequest,
   CreateTokenResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
@@ -2770,17 +2784,19 @@ export const createToken: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteBackendError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes an existing environment from your Amplify project.
  */
 export const deleteBackend: API.OperationMethod<
   DeleteBackendRequest,
   DeleteBackendResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteBackendError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackendRequest,
@@ -2792,17 +2808,19 @@ export const deleteBackend: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteBackendAPIError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing backend API resource.
  */
 export const deleteBackendAPI: API.OperationMethod<
   DeleteBackendAPIRequest,
   DeleteBackendAPIResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteBackendAPIError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackendAPIRequest,
@@ -2814,17 +2832,19 @@ export const deleteBackendAPI: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteBackendAuthError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing backend authentication resource.
  */
 export const deleteBackendAuth: API.OperationMethod<
   DeleteBackendAuthRequest,
   DeleteBackendAuthResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteBackendAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackendAuthRequest,
@@ -2836,17 +2856,19 @@ export const deleteBackendAuth: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteBackendStorageError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes the specified backend storage resource.
  */
 export const deleteBackendStorage: API.OperationMethod<
   DeleteBackendStorageRequest,
   DeleteBackendStorageResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteBackendStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackendStorageRequest,
@@ -2858,17 +2880,19 @@ export const deleteBackendStorage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTokenError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the challenge token based on the given appId and sessionId.
  */
 export const deleteToken: API.OperationMethod<
   DeleteTokenRequest,
   DeleteTokenResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTokenRequest,
@@ -2880,17 +2904,19 @@ export const deleteToken: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GenerateBackendAPIModelsError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Generates a model schema for an existing backend API resource.
  */
 export const generateBackendAPIModels: API.OperationMethod<
   GenerateBackendAPIModelsRequest,
   GenerateBackendAPIModelsResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GenerateBackendAPIModelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateBackendAPIModelsRequest,
@@ -2902,17 +2928,19 @@ export const generateBackendAPIModels: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBackendError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides project-level details for your Amplify UI project.
  */
 export const getBackend: API.OperationMethod<
   GetBackendRequest,
   GetBackendResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBackendError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackendRequest,
@@ -2924,17 +2952,19 @@ export const getBackend: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBackendAPIError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the details for a backend API.
  */
 export const getBackendAPI: API.OperationMethod<
   GetBackendAPIRequest,
   GetBackendAPIResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBackendAPIError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackendAPIRequest,
@@ -2946,17 +2976,19 @@ export const getBackendAPI: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBackendAPIModelsError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a model introspection schema for an existing backend API resource.
  */
 export const getBackendAPIModels: API.OperationMethod<
   GetBackendAPIModelsRequest,
   GetBackendAPIModelsResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBackendAPIModelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackendAPIModelsRequest,
@@ -2968,17 +3000,19 @@ export const getBackendAPIModels: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBackendAuthError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a backend auth details.
  */
 export const getBackendAuth: API.OperationMethod<
   GetBackendAuthRequest,
   GetBackendAuthResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBackendAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackendAuthRequest,
@@ -2990,17 +3024,19 @@ export const getBackendAuth: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBackendJobError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information about a specific job.
  */
 export const getBackendJob: API.OperationMethod<
   GetBackendJobRequest,
   GetBackendJobResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBackendJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackendJobRequest,
@@ -3012,17 +3048,19 @@ export const getBackendJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBackendStorageError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details for a backend storage resource.
  */
 export const getBackendStorage: API.OperationMethod<
   GetBackendStorageRequest,
   GetBackendStorageResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBackendStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackendStorageRequest,
@@ -3034,17 +3072,19 @@ export const getBackendStorage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTokenError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the challenge token based on the given appId and sessionId.
  */
 export const getToken: API.OperationMethod<
   GetTokenRequest,
   GetTokenResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenRequest,
@@ -3056,17 +3096,19 @@ export const getToken: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ImportBackendAuthError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Imports an existing backend authentication resource.
  */
 export const importBackendAuth: API.OperationMethod<
   ImportBackendAuthRequest,
   ImportBackendAuthResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ImportBackendAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportBackendAuthRequest,
@@ -3078,17 +3120,19 @@ export const importBackendAuth: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ImportBackendStorageError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Imports an existing backend storage resource.
  */
 export const importBackendStorage: API.OperationMethod<
   ImportBackendStorageRequest,
   ImportBackendStorageResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ImportBackendStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportBackendStorageRequest,
@@ -3100,17 +3144,19 @@ export const importBackendStorage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListBackendJobsError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the jobs for the backend of an Amplify app.
  */
 export const listBackendJobs: API.OperationMethod<
   ListBackendJobsRequest,
   ListBackendJobsResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListBackendJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBackendJobsRequest,
@@ -3122,17 +3168,19 @@ export const listBackendJobs: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListS3BucketsError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * The list of S3 buckets in your account.
  */
 export const listS3Buckets: API.OperationMethod<
   ListS3BucketsRequest,
   ListS3BucketsResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListS3BucketsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListS3BucketsRequest,
@@ -3144,17 +3192,19 @@ export const listS3Buckets: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type RemoveAllBackendsError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes all backend environments from your Amplify project.
  */
 export const removeAllBackends: API.OperationMethod<
   RemoveAllBackendsRequest,
   RemoveAllBackendsResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  RemoveAllBackendsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAllBackendsRequest,
@@ -3166,17 +3216,19 @@ export const removeAllBackends: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type RemoveBackendConfigError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes the AWS resources required to access the Amplify Admin UI.
  */
 export const removeBackendConfig: API.OperationMethod<
   RemoveBackendConfigRequest,
   RemoveBackendConfigResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  RemoveBackendConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveBackendConfigRequest,
@@ -3188,17 +3240,19 @@ export const removeBackendConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateBackendAPIError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an existing backend API resource.
  */
 export const updateBackendAPI: API.OperationMethod<
   UpdateBackendAPIRequest,
   UpdateBackendAPIResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateBackendAPIError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackendAPIRequest,
@@ -3210,17 +3264,19 @@ export const updateBackendAPI: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateBackendAuthError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an existing backend authentication resource.
  */
 export const updateBackendAuth: API.OperationMethod<
   UpdateBackendAuthRequest,
   UpdateBackendAuthResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateBackendAuthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackendAuthRequest,
@@ -3232,17 +3288,19 @@ export const updateBackendAuth: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateBackendConfigError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the AWS resources required to access the Amplify Admin UI.
  */
 export const updateBackendConfig: API.OperationMethod<
   UpdateBackendConfigRequest,
   UpdateBackendConfigResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateBackendConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackendConfigRequest,
@@ -3254,17 +3312,19 @@ export const updateBackendConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateBackendJobError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a specific job.
  */
 export const updateBackendJob: API.OperationMethod<
   UpdateBackendJobRequest,
   UpdateBackendJobResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateBackendJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackendJobRequest,
@@ -3276,17 +3336,19 @@ export const updateBackendJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateBackendStorageError =
+  | BadRequestException
+  | GatewayTimeoutException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an existing backend storage resource.
  */
 export const updateBackendStorage: API.OperationMethod<
   UpdateBackendStorageRequest,
   UpdateBackendStorageResponse,
-  | BadRequestException
-  | GatewayTimeoutException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateBackendStorageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackendStorageRequest,

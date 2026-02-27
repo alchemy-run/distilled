@@ -1248,6 +1248,12 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DeleteScalingPolicyError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified scaling policy for an Application Auto Scaling scalable target.
  *
@@ -1261,11 +1267,7 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 export const deleteScalingPolicy: API.OperationMethod<
   DeleteScalingPolicyRequest,
   DeleteScalingPolicyResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteScalingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScalingPolicyRequest,
@@ -1277,6 +1279,12 @@ export const deleteScalingPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteScheduledActionError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified scheduled action for an Application Auto Scaling scalable target.
  *
@@ -1285,11 +1293,7 @@ export const deleteScalingPolicy: API.OperationMethod<
 export const deleteScheduledAction: API.OperationMethod<
   DeleteScheduledActionRequest,
   DeleteScheduledActionResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduledActionRequest,
@@ -1301,6 +1305,12 @@ export const deleteScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeregisterScalableTargetError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which
  * resources have been registered, use DescribeScalableTargets.
@@ -1311,11 +1321,7 @@ export const deleteScheduledAction: API.OperationMethod<
 export const deregisterScalableTarget: API.OperationMethod<
   DeregisterScalableTargetRequest,
   DeregisterScalableTargetResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeregisterScalableTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterScalableTargetRequest,
@@ -1327,6 +1333,12 @@ export const deregisterScalableTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeScalableTargetsError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the scalable targets in the specified namespace.
  *
@@ -1336,33 +1348,21 @@ export const deregisterScalableTarget: API.OperationMethod<
 export const describeScalableTargets: API.OperationMethod<
   DescribeScalableTargetsRequest,
   DescribeScalableTargetsResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  DescribeScalableTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScalableTargetsRequest,
   ) => stream.Stream<
     DescribeScalableTargetsResponse,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScalableTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScalableTargetsRequest,
   ) => stream.Stream<
     ScalableTarget,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScalableTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1381,6 +1381,12 @@ export const describeScalableTargets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeScalingActivitiesError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides descriptive information about the scaling activities in the specified namespace
  * from the previous six weeks.
@@ -1393,33 +1399,21 @@ export const describeScalableTargets: API.OperationMethod<
 export const describeScalingActivities: API.OperationMethod<
   DescribeScalingActivitiesRequest,
   DescribeScalingActivitiesResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  DescribeScalingActivitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScalingActivitiesRequest,
   ) => stream.Stream<
     DescribeScalingActivitiesResponse,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScalingActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScalingActivitiesRequest,
   ) => stream.Stream<
     ScalingActivity,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScalingActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1438,6 +1432,13 @@ export const describeScalingActivities: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeScalingPoliciesError =
+  | ConcurrentUpdateException
+  | FailedResourceAccessException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the Application Auto Scaling scaling policies for the specified service namespace.
  *
@@ -1449,36 +1450,21 @@ export const describeScalingActivities: API.OperationMethod<
 export const describeScalingPolicies: API.OperationMethod<
   DescribeScalingPoliciesRequest,
   DescribeScalingPoliciesResponse,
-  | ConcurrentUpdateException
-  | FailedResourceAccessException
-  | InternalServiceException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  DescribeScalingPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScalingPoliciesRequest,
   ) => stream.Stream<
     DescribeScalingPoliciesResponse,
-    | ConcurrentUpdateException
-    | FailedResourceAccessException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScalingPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScalingPoliciesRequest,
   ) => stream.Stream<
     ScalingPolicy,
-    | ConcurrentUpdateException
-    | FailedResourceAccessException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScalingPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1498,6 +1484,12 @@ export const describeScalingPolicies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeScheduledActionsError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the Application Auto Scaling scheduled actions for the specified service namespace.
  *
@@ -1509,33 +1501,21 @@ export const describeScalingPolicies: API.OperationMethod<
 export const describeScheduledActions: API.OperationMethod<
   DescribeScheduledActionsRequest,
   DescribeScheduledActionsResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  DescribeScheduledActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScheduledActionsRequest,
   ) => stream.Stream<
     DescribeScheduledActionsResponse,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScheduledActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScheduledActionsRequest,
   ) => stream.Stream<
     ScheduledAction,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    DescribeScheduledActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1554,6 +1534,10 @@ export const describeScheduledActions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetPredictiveScalingForecastError =
+  | InternalServiceException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the forecast data for a predictive scaling policy.
  *
@@ -1568,13 +1552,14 @@ export const describeScheduledActions: API.OperationMethod<
 export const getPredictiveScalingForecast: API.OperationMethod<
   GetPredictiveScalingForecastRequest,
   GetPredictiveScalingForecastResponse,
-  InternalServiceException | ValidationException | CommonErrors,
+  GetPredictiveScalingForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPredictiveScalingForecastRequest,
   output: GetPredictiveScalingForecastResponse,
   errors: [InternalServiceException, ValidationException],
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Returns all the tags on the specified Application Auto Scaling scalable target.
  *
@@ -1584,13 +1569,21 @@ export const getPredictiveScalingForecast: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type PutScalingPolicyError =
+  | ConcurrentUpdateException
+  | FailedResourceAccessException
+  | InternalServiceException
+  | LimitExceededException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a scaling policy for an Application Auto Scaling scalable target.
  *
@@ -1625,13 +1618,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putScalingPolicy: API.OperationMethod<
   PutScalingPolicyRequest,
   PutScalingPolicyResponse,
-  | ConcurrentUpdateException
-  | FailedResourceAccessException
-  | InternalServiceException
-  | LimitExceededException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutScalingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScalingPolicyRequest,
@@ -1645,6 +1632,13 @@ export const putScalingPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutScheduledActionError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | LimitExceededException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a scheduled action for an Application Auto Scaling scalable target.
  *
@@ -1668,12 +1662,7 @@ export const putScalingPolicy: API.OperationMethod<
 export const putScheduledAction: API.OperationMethod<
   PutScheduledActionRequest,
   PutScheduledActionResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | LimitExceededException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScheduledActionRequest,
@@ -1686,6 +1675,12 @@ export const putScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterScalableTargetError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Registers or updates a scalable target, which is the resource that you want to
  * scale.
@@ -1728,11 +1723,7 @@ export const putScheduledAction: API.OperationMethod<
 export const registerScalableTarget: API.OperationMethod<
   RegisterScalableTargetRequest,
   RegisterScalableTargetResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  RegisterScalableTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterScalableTargetRequest,
@@ -1744,6 +1735,11 @@ export const registerScalableTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or edits tags on an Application Auto Scaling scalable target.
  *
@@ -1766,10 +1762,7 @@ export const registerScalableTarget: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1780,6 +1773,10 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and
  * the Application Auto Scaling scalable target.
@@ -1787,7 +1784,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

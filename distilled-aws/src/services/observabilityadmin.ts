@@ -1962,19 +1962,21 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const createCentralizationRuleForOrganization: API.OperationMethod<
-  CreateCentralizationRuleForOrganizationInput,
-  CreateCentralizationRuleForOrganizationOutput,
+export type CreateCentralizationRuleForOrganizationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const createCentralizationRuleForOrganization: API.OperationMethod<
+  CreateCentralizationRuleForOrganizationInput,
+  CreateCentralizationRuleForOrganizationOutput,
+  CreateCentralizationRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCentralizationRuleForOrganizationInput,
@@ -1988,19 +1990,21 @@ export const createCentralizationRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
- */
-export const createS3TableIntegration: API.OperationMethod<
-  CreateS3TableIntegrationInput,
-  CreateS3TableIntegrationOutput,
+export type CreateS3TableIntegrationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
+ */
+export const createS3TableIntegration: API.OperationMethod<
+  CreateS3TableIntegrationInput,
+  CreateS3TableIntegrationOutput,
+  CreateS3TableIntegrationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateS3TableIntegrationInput,
@@ -2014,19 +2018,21 @@ export const createS3TableIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
- */
-export const createTelemetryRule: API.OperationMethod<
-  CreateTelemetryRuleInput,
-  CreateTelemetryRuleOutput,
+export type CreateTelemetryRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
+ */
+export const createTelemetryRule: API.OperationMethod<
+  CreateTelemetryRuleInput,
+  CreateTelemetryRuleOutput,
+  CreateTelemetryRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTelemetryRuleInput,
@@ -2040,19 +2046,21 @@ export const createTelemetryRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const createTelemetryRuleForOrganization: API.OperationMethod<
-  CreateTelemetryRuleForOrganizationInput,
-  CreateTelemetryRuleForOrganizationOutput,
+export type CreateTelemetryRuleForOrganizationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const createTelemetryRuleForOrganization: API.OperationMethod<
+  CreateTelemetryRuleForOrganizationInput,
+  CreateTelemetryRuleForOrganizationOutput,
+  CreateTelemetryRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTelemetryRuleForOrganizationInput,
@@ -2066,18 +2074,20 @@ export const createTelemetryRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCentralizationRuleForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const deleteCentralizationRuleForOrganization: API.OperationMethod<
   DeleteCentralizationRuleForOrganizationInput,
   DeleteCentralizationRuleForOrganizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  DeleteCentralizationRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCentralizationRuleForOrganizationInput,
@@ -2090,19 +2100,21 @@ export const deleteCentralizationRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
- */
-export const deleteS3TableIntegration: API.OperationMethod<
-  DeleteS3TableIntegrationInput,
-  DeleteS3TableIntegrationResponse,
+export type DeleteS3TableIntegrationError =
   | AccessDeniedException
   | InternalServerException
   | InvalidStateException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
+ */
+export const deleteS3TableIntegration: API.OperationMethod<
+  DeleteS3TableIntegrationInput,
+  DeleteS3TableIntegrationResponse,
+  DeleteS3TableIntegrationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteS3TableIntegrationInput,
@@ -2116,18 +2128,20 @@ export const deleteS3TableIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTelemetryRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
  */
 export const deleteTelemetryRule: API.OperationMethod<
   DeleteTelemetryRuleInput,
   DeleteTelemetryRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  DeleteTelemetryRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTelemetryRuleInput,
@@ -2140,18 +2154,20 @@ export const deleteTelemetryRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTelemetryRuleForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const deleteTelemetryRuleForOrganization: API.OperationMethod<
   DeleteTelemetryRuleForOrganizationInput,
   DeleteTelemetryRuleForOrganizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  DeleteTelemetryRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTelemetryRuleForOrganizationInput,
@@ -2164,18 +2180,20 @@ export const deleteTelemetryRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCentralizationRuleForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const getCentralizationRuleForOrganization: API.OperationMethod<
   GetCentralizationRuleForOrganizationInput,
   GetCentralizationRuleForOrganizationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetCentralizationRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCentralizationRuleForOrganizationInput,
@@ -2188,18 +2206,20 @@ export const getCentralizationRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetS3TableIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
  */
 export const getS3TableIntegration: API.OperationMethod<
   GetS3TableIntegrationInput,
   GetS3TableIntegrationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetS3TableIntegrationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetS3TableIntegrationInput,
@@ -2212,17 +2232,19 @@ export const getS3TableIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTelemetryEnrichmentStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
  */
 export const getTelemetryEnrichmentStatus: API.OperationMethod<
   GetTelemetryEnrichmentStatusRequest,
   GetTelemetryEnrichmentStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTelemetryEnrichmentStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryEnrichmentStatusRequest,
@@ -2234,16 +2256,18 @@ export const getTelemetryEnrichmentStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTelemetryEvaluationStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
  */
 export const getTelemetryEvaluationStatus: API.OperationMethod<
   GetTelemetryEvaluationStatusRequest,
   GetTelemetryEvaluationStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTelemetryEvaluationStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryEvaluationStatusRequest,
@@ -2254,17 +2278,19 @@ export const getTelemetryEvaluationStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTelemetryEvaluationStatusForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
  */
 export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
   GetTelemetryEvaluationStatusForOrganizationRequest,
   GetTelemetryEvaluationStatusForOrganizationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetTelemetryEvaluationStatusForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryEvaluationStatusForOrganizationRequest,
@@ -2276,18 +2302,20 @@ export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTelemetryRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of a specific telemetry rule in your account.
  */
 export const getTelemetryRule: API.OperationMethod<
   GetTelemetryRuleInput,
   GetTelemetryRuleOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetTelemetryRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryRuleInput,
@@ -2300,18 +2328,20 @@ export const getTelemetryRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTelemetryRuleForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const getTelemetryRuleForOrganization: API.OperationMethod<
   GetTelemetryRuleForOrganizationInput,
   GetTelemetryRuleForOrganizationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetTelemetryRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryRuleForOrganizationInput,
@@ -2324,39 +2354,33 @@ export const getTelemetryRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCentralizationRulesForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const listCentralizationRulesForOrganization: API.OperationMethod<
   ListCentralizationRulesForOrganizationInput,
   ListCentralizationRulesForOrganizationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListCentralizationRulesForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCentralizationRulesForOrganizationInput,
   ) => stream.Stream<
     ListCentralizationRulesForOrganizationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListCentralizationRulesForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCentralizationRulesForOrganizationInput,
   ) => stream.Stream<
     CentralizationRuleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListCentralizationRulesForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2375,39 +2399,33 @@ export const listCentralizationRulesForOrganization: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceTelemetryError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
  */
 export const listResourceTelemetry: API.OperationMethod<
   ListResourceTelemetryInput,
   ListResourceTelemetryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListResourceTelemetryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceTelemetryInput,
   ) => stream.Stream<
     ListResourceTelemetryOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListResourceTelemetryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceTelemetryInput,
   ) => stream.Stream<
     TelemetryConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListResourceTelemetryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2426,39 +2444,33 @@ export const listResourceTelemetry: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceTelemetryForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
  */
 export const listResourceTelemetryForOrganization: API.OperationMethod<
   ListResourceTelemetryForOrganizationInput,
   ListResourceTelemetryForOrganizationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListResourceTelemetryForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceTelemetryForOrganizationInput,
   ) => stream.Stream<
     ListResourceTelemetryForOrganizationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListResourceTelemetryForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceTelemetryForOrganizationInput,
   ) => stream.Stream<
     TelemetryConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListResourceTelemetryForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2477,39 +2489,33 @@ export const listResourceTelemetryForOrganization: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListS3TableIntegrationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listS3TableIntegrations: API.OperationMethod<
   ListS3TableIntegrationsInput,
   ListS3TableIntegrationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListS3TableIntegrationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListS3TableIntegrationsInput,
   ) => stream.Stream<
     ListS3TableIntegrationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListS3TableIntegrationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListS3TableIntegrationsInput,
   ) => stream.Stream<
     IntegrationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListS3TableIntegrationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2528,18 +2534,20 @@ export const listS3TableIntegrations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -2552,39 +2560,33 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTelemetryRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
  */
 export const listTelemetryRules: API.OperationMethod<
   ListTelemetryRulesInput,
   ListTelemetryRulesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListTelemetryRulesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTelemetryRulesInput,
   ) => stream.Stream<
     ListTelemetryRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListTelemetryRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTelemetryRulesInput,
   ) => stream.Stream<
     TelemetryRuleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListTelemetryRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2603,39 +2605,33 @@ export const listTelemetryRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTelemetryRulesForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const listTelemetryRulesForOrganization: API.OperationMethod<
   ListTelemetryRulesForOrganizationInput,
   ListTelemetryRulesForOrganizationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListTelemetryRulesForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTelemetryRulesForOrganizationInput,
   ) => stream.Stream<
     ListTelemetryRulesForOrganizationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListTelemetryRulesForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTelemetryRulesForOrganizationInput,
   ) => stream.Stream<
     TelemetryRuleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListTelemetryRulesForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2654,17 +2650,19 @@ export const listTelemetryRulesForOrganization: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartTelemetryEnrichmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
  */
 export const startTelemetryEnrichment: API.OperationMethod<
   StartTelemetryEnrichmentRequest,
   StartTelemetryEnrichmentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartTelemetryEnrichmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTelemetryEnrichmentRequest,
@@ -2676,17 +2674,19 @@ export const startTelemetryEnrichment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartTelemetryEvaluationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
  */
 export const startTelemetryEvaluation: API.OperationMethod<
   StartTelemetryEvaluationRequest,
   StartTelemetryEvaluationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  StartTelemetryEvaluationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTelemetryEvaluationRequest,
@@ -2698,17 +2698,19 @@ export const startTelemetryEvaluation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartTelemetryEvaluationForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * This actions begins onboarding the organization and all member accounts to the telemetry config feature.
  */
 export const startTelemetryEvaluationForOrganization: API.OperationMethod<
   StartTelemetryEvaluationForOrganizationRequest,
   StartTelemetryEvaluationForOrganizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  StartTelemetryEvaluationForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTelemetryEvaluationForOrganizationRequest,
@@ -2720,17 +2722,19 @@ export const startTelemetryEvaluationForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopTelemetryEnrichmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
  */
 export const stopTelemetryEnrichment: API.OperationMethod<
   StopTelemetryEnrichmentRequest,
   StopTelemetryEnrichmentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopTelemetryEnrichmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTelemetryEnrichmentRequest,
@@ -2742,17 +2746,19 @@ export const stopTelemetryEnrichment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StopTelemetryEvaluationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
  */
 export const stopTelemetryEvaluation: API.OperationMethod<
   StopTelemetryEvaluationRequest,
   StopTelemetryEvaluationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  StopTelemetryEvaluationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTelemetryEvaluationRequest,
@@ -2764,17 +2770,19 @@ export const stopTelemetryEvaluation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopTelemetryEvaluationForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
  */
 export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
   StopTelemetryEvaluationForOrganizationRequest,
   StopTelemetryEvaluationForOrganizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  StopTelemetryEvaluationForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTelemetryEvaluationForOrganizationRequest,
@@ -2786,19 +2794,21 @@ export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceInput,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -2812,17 +2822,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TestTelemetryPipelineError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
  */
 export const testTelemetryPipeline: API.OperationMethod<
   TestTelemetryPipelineInput,
   TestTelemetryPipelineOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  TestTelemetryPipelineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestTelemetryPipelineInput,
@@ -2834,18 +2846,20 @@ export const testTelemetryPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -2858,19 +2872,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const updateCentralizationRuleForOrganization: API.OperationMethod<
-  UpdateCentralizationRuleForOrganizationInput,
-  UpdateCentralizationRuleForOrganizationOutput,
+export type UpdateCentralizationRuleForOrganizationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const updateCentralizationRuleForOrganization: API.OperationMethod<
+  UpdateCentralizationRuleForOrganizationInput,
+  UpdateCentralizationRuleForOrganizationOutput,
+  UpdateCentralizationRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCentralizationRuleForOrganizationInput,
@@ -2884,12 +2900,7 @@ export const updateCentralizationRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
- */
-export const updateTelemetryRule: API.OperationMethod<
-  UpdateTelemetryRuleInput,
-  UpdateTelemetryRuleOutput,
+export type UpdateTelemetryRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2897,7 +2908,14 @@ export const updateTelemetryRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
+ */
+export const updateTelemetryRule: API.OperationMethod<
+  UpdateTelemetryRuleInput,
+  UpdateTelemetryRuleOutput,
+  UpdateTelemetryRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTelemetryRuleInput,
@@ -2912,19 +2930,21 @@ export const updateTelemetryRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
- */
-export const updateTelemetryRuleForOrganization: API.OperationMethod<
-  UpdateTelemetryRuleForOrganizationInput,
-  UpdateTelemetryRuleForOrganizationOutput,
+export type UpdateTelemetryRuleForOrganizationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+ */
+export const updateTelemetryRuleForOrganization: API.OperationMethod<
+  UpdateTelemetryRuleForOrganizationInput,
+  UpdateTelemetryRuleForOrganizationOutput,
+  UpdateTelemetryRuleForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTelemetryRuleForOrganizationInput,
@@ -2938,17 +2958,19 @@ export const updateTelemetryRuleForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ValidateTelemetryPipelineConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
  */
 export const validateTelemetryPipelineConfiguration: API.OperationMethod<
   ValidateTelemetryPipelineConfigurationInput,
   ValidateTelemetryPipelineConfigurationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ValidateTelemetryPipelineConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateTelemetryPipelineConfigurationInput,
@@ -2960,19 +2982,21 @@ export const validateTelemetryPipelineConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
- */
-export const createTelemetryPipeline: API.OperationMethod<
-  CreateTelemetryPipelineInput,
-  CreateTelemetryPipelineOutput,
+export type CreateTelemetryPipelineError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
+ */
+export const createTelemetryPipeline: API.OperationMethod<
+  CreateTelemetryPipelineInput,
+  CreateTelemetryPipelineOutput,
+  CreateTelemetryPipelineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTelemetryPipelineInput,
@@ -2986,18 +3010,20 @@ export const createTelemetryPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTelemetryPipelineError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
  */
 export const getTelemetryPipeline: API.OperationMethod<
   GetTelemetryPipelineInput,
   GetTelemetryPipelineOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetTelemetryPipelineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryPipelineInput,
@@ -3010,6 +3036,13 @@ export const getTelemetryPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTelemetryPipelineError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing telemetry pipeline.
  *
@@ -3064,12 +3097,7 @@ export const getTelemetryPipeline: API.OperationMethod<
 export const updateTelemetryPipeline: API.OperationMethod<
   UpdateTelemetryPipelineInput,
   UpdateTelemetryPipelineOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  UpdateTelemetryPipelineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTelemetryPipelineInput,
@@ -3082,19 +3110,21 @@ export const updateTelemetryPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
- */
-export const deleteTelemetryPipeline: API.OperationMethod<
-  DeleteTelemetryPipelineInput,
-  DeleteTelemetryPipelineOutput,
+export type DeleteTelemetryPipelineError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
+ */
+export const deleteTelemetryPipeline: API.OperationMethod<
+  DeleteTelemetryPipelineInput,
+  DeleteTelemetryPipelineOutput,
+  DeleteTelemetryPipelineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTelemetryPipelineInput,
@@ -3108,39 +3138,33 @@ export const deleteTelemetryPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTelemetryPipelinesError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the `NextToken` value from the response to retrieve the next set of results.
  */
 export const listTelemetryPipelines: API.OperationMethod<
   ListTelemetryPipelinesInput,
   ListTelemetryPipelinesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListTelemetryPipelinesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTelemetryPipelinesInput,
   ) => stream.Stream<
     ListTelemetryPipelinesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListTelemetryPipelinesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTelemetryPipelinesInput,
   ) => stream.Stream<
     TelemetryPipelineSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListTelemetryPipelinesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

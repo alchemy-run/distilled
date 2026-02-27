@@ -573,6 +573,15 @@ export class ConcurrentAccessException extends S.TaggedErrorClass<ConcurrentAcce
 ) {}
 
 //# Operations
+export type CreateEnvironmentEC2Error =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and
  * then connects from the instance to the environment.
@@ -584,14 +593,7 @@ export class ConcurrentAccessException extends S.TaggedErrorClass<ConcurrentAcce
 export const createEnvironmentEC2: API.OperationMethod<
   CreateEnvironmentEC2Request,
   CreateEnvironmentEC2Result,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateEnvironmentEC2Error,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentEC2Request,
@@ -606,6 +608,15 @@ export const createEnvironmentEC2: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateEnvironmentMembershipError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds an environment member to an Cloud9 development environment.
  *
@@ -616,14 +627,7 @@ export const createEnvironmentEC2: API.OperationMethod<
 export const createEnvironmentMembership: API.OperationMethod<
   CreateEnvironmentMembershipRequest,
   CreateEnvironmentMembershipResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateEnvironmentMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentMembershipRequest,
@@ -638,6 +642,15 @@ export const createEnvironmentMembership: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the
  * environment, also terminates the instance.
@@ -649,14 +662,7 @@ export const createEnvironmentMembership: API.OperationMethod<
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
@@ -671,6 +677,15 @@ export const deleteEnvironment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEnvironmentMembershipError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an environment member from a development environment.
  *
@@ -681,14 +696,7 @@ export const deleteEnvironment: API.OperationMethod<
 export const deleteEnvironmentMembership: API.OperationMethod<
   DeleteEnvironmentMembershipRequest,
   DeleteEnvironmentMembershipResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEnvironmentMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentMembershipRequest,
@@ -703,6 +711,15 @@ export const deleteEnvironmentMembership: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeEnvironmentMembershipsError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets information about environment members for an Cloud9 development environment.
  *
@@ -713,42 +730,21 @@ export const deleteEnvironmentMembership: API.OperationMethod<
 export const describeEnvironmentMemberships: API.OperationMethod<
   DescribeEnvironmentMembershipsRequest,
   DescribeEnvironmentMembershipsResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEnvironmentMembershipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEnvironmentMembershipsRequest,
   ) => stream.Stream<
     DescribeEnvironmentMembershipsResult,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | LimitExceededException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    DescribeEnvironmentMembershipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEnvironmentMembershipsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | LimitExceededException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    DescribeEnvironmentMembershipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -769,6 +765,15 @@ export const describeEnvironmentMemberships: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeEnvironmentsError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets information about Cloud9 development environments.
  *
@@ -779,14 +784,7 @@ export const describeEnvironmentMemberships: API.OperationMethod<
 export const describeEnvironments: API.OperationMethod<
   DescribeEnvironmentsRequest,
   DescribeEnvironmentsResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEnvironmentsRequest,
@@ -801,6 +799,15 @@ export const describeEnvironments: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeEnvironmentStatusError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets status information for an Cloud9 development environment.
  *
@@ -811,14 +818,7 @@ export const describeEnvironments: API.OperationMethod<
 export const describeEnvironmentStatus: API.OperationMethod<
   DescribeEnvironmentStatusRequest,
   DescribeEnvironmentStatusResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEnvironmentStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEnvironmentStatusRequest,
@@ -833,6 +833,15 @@ export const describeEnvironmentStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListEnvironmentsError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of Cloud9 development environment identifiers.
  *
@@ -847,42 +856,21 @@ export const describeEnvironmentStatus: API.OperationMethod<
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   ListEnvironmentsResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     ListEnvironmentsResult,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | LimitExceededException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | LimitExceededException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -903,6 +891,11 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets a list of the tags associated with an Cloud9 development environment.
  *
@@ -913,10 +906,7 @@ export const listEnvironments: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -927,6 +917,12 @@ export const listTagsForResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConcurrentAccessException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Adds tags to an Cloud9 development environment.
  *
@@ -940,11 +936,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConcurrentAccessException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -956,6 +948,12 @@ export const tagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConcurrentAccessException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes tags from an Cloud9 development environment.
  *
@@ -966,11 +964,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConcurrentAccessException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -982,6 +976,15 @@ export const untagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateEnvironmentError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Changes the settings of an existing Cloud9 development environment.
  *
@@ -992,14 +995,7 @@ export const untagResource: API.OperationMethod<
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentRequest,
   UpdateEnvironmentResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
@@ -1014,6 +1010,15 @@ export const updateEnvironment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateEnvironmentMembershipError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Changes the settings of an existing environment member for an Cloud9 development
  * environment.
@@ -1025,14 +1030,7 @@ export const updateEnvironment: API.OperationMethod<
 export const updateEnvironmentMembership: API.OperationMethod<
   UpdateEnvironmentMembershipRequest,
   UpdateEnvironmentMembershipResult,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateEnvironmentMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentMembershipRequest,

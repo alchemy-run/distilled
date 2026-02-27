@@ -8077,17 +8077,19 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ValidateFlowDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Validates the definition of a flow.
  */
 export const validateFlowDefinition: API.OperationMethod<
   ValidateFlowDefinitionRequest,
   ValidateFlowDefinitionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ValidateFlowDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateFlowDefinitionRequest,
@@ -8099,6 +8101,15 @@ export const validateFlowDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAgentActionGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them.
  *
@@ -8111,14 +8122,7 @@ export const validateFlowDefinition: API.OperationMethod<
 export const createAgentActionGroup: API.OperationMethod<
   CreateAgentActionGroupRequest,
   CreateAgentActionGroupResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAgentActionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentActionGroupRequest,
@@ -8133,19 +8137,21 @@ export const createAgentActionGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an action group in an agent.
- */
-export const deleteAgentActionGroup: API.OperationMethod<
-  DeleteAgentActionGroupRequest,
-  DeleteAgentActionGroupResponse,
+export type DeleteAgentActionGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an action group in an agent.
+ */
+export const deleteAgentActionGroup: API.OperationMethod<
+  DeleteAgentActionGroupRequest,
+  DeleteAgentActionGroupResponse,
+  DeleteAgentActionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentActionGroupRequest,
@@ -8159,18 +8165,20 @@ export const deleteAgentActionGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentActionGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an action group for an agent.
  */
 export const getAgentActionGroup: API.OperationMethod<
   GetAgentActionGroupRequest,
   GetAgentActionGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentActionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentActionGroupRequest,
@@ -8183,42 +8191,34 @@ export const getAgentActionGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAgentActionGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the action groups for an agent and information about each one.
  */
 export const listAgentActionGroups: API.OperationMethod<
   ListAgentActionGroupsRequest,
   ListAgentActionGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentActionGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentActionGroupsRequest,
   ) => stream.Stream<
     ListAgentActionGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentActionGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentActionGroupsRequest,
   ) => stream.Stream<
     ActionGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentActionGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8238,12 +8238,7 @@ export const listAgentActionGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates the configuration for an action group for an agent.
- */
-export const updateAgentActionGroup: API.OperationMethod<
-  UpdateAgentActionGroupRequest,
-  UpdateAgentActionGroupResponse,
+export type UpdateAgentActionGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8251,7 +8246,14 @@ export const updateAgentActionGroup: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration for an action group for an agent.
+ */
+export const updateAgentActionGroup: API.OperationMethod<
+  UpdateAgentActionGroupRequest,
+  UpdateAgentActionGroupResponse,
+  UpdateAgentActionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentActionGroupRequest,
@@ -8266,12 +8268,7 @@ export const updateAgentActionGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Makes an agent a collaborator for another agent.
- */
-export const associateAgentCollaborator: API.OperationMethod<
-  AssociateAgentCollaboratorRequest,
-  AssociateAgentCollaboratorResponse,
+export type AssociateAgentCollaboratorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8279,7 +8276,14 @@ export const associateAgentCollaborator: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Makes an agent a collaborator for another agent.
+ */
+export const associateAgentCollaborator: API.OperationMethod<
+  AssociateAgentCollaboratorRequest,
+  AssociateAgentCollaboratorResponse,
+  AssociateAgentCollaboratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAgentCollaboratorRequest,
@@ -8294,19 +8298,21 @@ export const associateAgentCollaborator: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates an agent collaborator.
- */
-export const disassociateAgentCollaborator: API.OperationMethod<
-  DisassociateAgentCollaboratorRequest,
-  DisassociateAgentCollaboratorResponse,
+export type DisassociateAgentCollaboratorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates an agent collaborator.
+ */
+export const disassociateAgentCollaborator: API.OperationMethod<
+  DisassociateAgentCollaboratorRequest,
+  DisassociateAgentCollaboratorResponse,
+  DisassociateAgentCollaboratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAgentCollaboratorRequest,
@@ -8320,18 +8326,20 @@ export const disassociateAgentCollaborator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentCollaboratorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an agent's collaborator.
  */
 export const getAgentCollaborator: API.OperationMethod<
   GetAgentCollaboratorRequest,
   GetAgentCollaboratorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentCollaboratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentCollaboratorRequest,
@@ -8344,42 +8352,34 @@ export const getAgentCollaborator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAgentCollaboratorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve a list of an agent's collaborators.
  */
 export const listAgentCollaborators: API.OperationMethod<
   ListAgentCollaboratorsRequest,
   ListAgentCollaboratorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentCollaboratorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentCollaboratorsRequest,
   ) => stream.Stream<
     ListAgentCollaboratorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentCollaboratorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentCollaboratorsRequest,
   ) => stream.Stream<
     AgentCollaboratorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentCollaboratorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8399,12 +8399,7 @@ export const listAgentCollaborators: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates an agent's collaborator.
- */
-export const updateAgentCollaborator: API.OperationMethod<
-  UpdateAgentCollaboratorRequest,
-  UpdateAgentCollaboratorResponse,
+export type UpdateAgentCollaboratorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8412,7 +8407,14 @@ export const updateAgentCollaborator: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an agent's collaborator.
+ */
+export const updateAgentCollaborator: API.OperationMethod<
+  UpdateAgentCollaboratorRequest,
+  UpdateAgentCollaboratorResponse,
+  UpdateAgentCollaboratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentCollaboratorRequest,
@@ -8427,6 +8429,14 @@ export const updateAgentCollaborator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAgentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.
  *
@@ -8449,13 +8459,7 @@ export const updateAgentCollaborator: API.OperationMethod<
 export const createAgent: API.OperationMethod<
   CreateAgentRequest,
   CreateAgentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentRequest,
@@ -8469,19 +8473,21 @@ export const createAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an agent.
- */
-export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
-  DeleteAgentResponse,
+export type DeleteAgentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an agent.
+ */
+export const deleteAgent: API.OperationMethod<
+  DeleteAgentRequest,
+  DeleteAgentResponse,
+  DeleteAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentRequest,
@@ -8495,18 +8501,20 @@ export const deleteAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an agent.
  */
 export const getAgent: API.OperationMethod<
   GetAgentRequest,
   GetAgentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentRequest,
@@ -8519,39 +8527,33 @@ export const getAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAgentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the agents belonging to an account and information about each agent.
  */
 export const listAgents: API.OperationMethod<
   ListAgentsRequest,
   ListAgentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentsRequest,
   ) => stream.Stream<
     ListAgentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentsRequest,
   ) => stream.Stream<
     AgentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8570,12 +8572,7 @@ export const listAgents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a `DRAFT` version of the agent that can be used for internal testing.
- */
-export const prepareAgent: API.OperationMethod<
-  PrepareAgentRequest,
-  PrepareAgentResponse,
+export type PrepareAgentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8583,7 +8580,14 @@ export const prepareAgent: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a `DRAFT` version of the agent that can be used for internal testing.
+ */
+export const prepareAgent: API.OperationMethod<
+  PrepareAgentRequest,
+  PrepareAgentResponse,
+  PrepareAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PrepareAgentRequest,
@@ -8598,12 +8602,7 @@ export const prepareAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an agent.
- */
-export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
-  UpdateAgentResponse,
+export type UpdateAgentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8611,7 +8610,14 @@ export const updateAgent: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an agent.
+ */
+export const updateAgent: API.OperationMethod<
+  UpdateAgentRequest,
+  UpdateAgentResponse,
+  UpdateAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentRequest,
@@ -8626,12 +8632,7 @@ export const updateAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an alias of an agent that can be used to deploy the agent.
- */
-export const createAgentAlias: API.OperationMethod<
-  CreateAgentAliasRequest,
-  CreateAgentAliasResponse,
+export type CreateAgentAliasError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8639,7 +8640,14 @@ export const createAgentAlias: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an alias of an agent that can be used to deploy the agent.
+ */
+export const createAgentAlias: API.OperationMethod<
+  CreateAgentAliasRequest,
+  CreateAgentAliasResponse,
+  CreateAgentAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentAliasRequest,
@@ -8654,18 +8662,20 @@ export const createAgentAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAgentAliasError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an alias of an agent.
  */
 export const deleteAgentAlias: API.OperationMethod<
   DeleteAgentAliasRequest,
   DeleteAgentAliasResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAgentAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentAliasRequest,
@@ -8678,18 +8688,20 @@ export const deleteAgentAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentAliasError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an alias of an agent.
  */
 export const getAgentAlias: API.OperationMethod<
   GetAgentAliasRequest,
   GetAgentAliasResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentAliasRequest,
@@ -8702,42 +8714,34 @@ export const getAgentAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAgentAliasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the aliases of an agent and information about each one.
  */
 export const listAgentAliases: API.OperationMethod<
   ListAgentAliasesRequest,
   ListAgentAliasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentAliasesRequest,
   ) => stream.Stream<
     ListAgentAliasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentAliasesRequest,
   ) => stream.Stream<
     AgentAliasSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8757,12 +8761,7 @@ export const listAgentAliases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates configurations for an alias of an agent.
- */
-export const updateAgentAlias: API.OperationMethod<
-  UpdateAgentAliasRequest,
-  UpdateAgentAliasResponse,
+export type UpdateAgentAliasError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8770,7 +8769,14 @@ export const updateAgentAlias: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates configurations for an alias of an agent.
+ */
+export const updateAgentAlias: API.OperationMethod<
+  UpdateAgentAliasRequest,
+  UpdateAgentAliasResponse,
+  UpdateAgentAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentAliasRequest,
@@ -8785,6 +8791,15 @@ export const updateAgentAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDataSourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Connects a knowledge base to a data source. You specify the configuration for the specific data source service in the `dataSourceConfiguration` field.
  *
@@ -8793,14 +8808,7 @@ export const updateAgentAlias: API.OperationMethod<
 export const createDataSource: API.OperationMethod<
   CreateDataSourceRequest,
   CreateDataSourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceRequest,
@@ -8815,19 +8823,21 @@ export const createDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a data source from a knowledge base.
- */
-export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
-  DeleteDataSourceResponse,
+export type DeleteDataSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a data source from a knowledge base.
+ */
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
+  DeleteDataSourceResponse,
+  DeleteDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
@@ -8841,18 +8851,20 @@ export const deleteDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataSourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a data source.
  */
 export const getDataSource: API.OperationMethod<
   GetDataSourceRequest,
   GetDataSourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRequest,
@@ -8865,42 +8877,34 @@ export const getDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataSourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the data sources in a knowledge base and information about each one.
  */
 export const listDataSources: API.OperationMethod<
   ListDataSourcesRequest,
   ListDataSourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
     ListDataSourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
     DataSourceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8920,6 +8924,14 @@ export const listDataSources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateDataSourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configurations for a data source connector.
  *
@@ -8928,13 +8940,7 @@ export const listDataSources: API.OperationMethod<
 export const updateDataSource: API.OperationMethod<
   UpdateDataSourceRequest,
   UpdateDataSourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
@@ -8948,19 +8954,21 @@ export const updateDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
-  CreateFlowResponse,
+export type CreateFlowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const createFlow: API.OperationMethod<
+  CreateFlowRequest,
+  CreateFlowResponse,
+  CreateFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowRequest,
@@ -8974,18 +8982,20 @@ export const createFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFlowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlow: API.OperationMethod<
   GetFlowRequest,
   GetFlowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowRequest,
@@ -8998,12 +9008,7 @@ export const getFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
-  UpdateFlowResponse,
+export type UpdateFlowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9011,7 +9016,14 @@ export const updateFlow: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const updateFlow: API.OperationMethod<
+  UpdateFlowRequest,
+  UpdateFlowResponse,
+  UpdateFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowRequest,
@@ -9026,19 +9038,21 @@ export const updateFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a flow.
- */
-export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
-  DeleteFlowResponse,
+export type DeleteFlowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a flow.
+ */
+export const deleteFlow: API.OperationMethod<
+  DeleteFlowRequest,
+  DeleteFlowResponse,
+  DeleteFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowRequest,
@@ -9052,39 +9066,33 @@ export const deleteFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFlowsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const listFlows: API.OperationMethod<
   ListFlowsRequest,
   ListFlowsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFlowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowsRequest,
   ) => stream.Stream<
     ListFlowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowsRequest,
   ) => stream.Stream<
     FlowSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9103,12 +9111,7 @@ export const listFlows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const prepareFlow: API.OperationMethod<
-  PrepareFlowRequest,
-  PrepareFlowResponse,
+export type PrepareFlowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9116,7 +9119,14 @@ export const prepareFlow: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const prepareFlow: API.OperationMethod<
+  PrepareFlowRequest,
+  PrepareFlowResponse,
+  PrepareFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PrepareFlowRequest,
@@ -9131,12 +9141,7 @@ export const prepareFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an alias of a flow for deployment. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const createFlowAlias: API.OperationMethod<
-  CreateFlowAliasRequest,
-  CreateFlowAliasResponse,
+export type CreateFlowAliasError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9144,7 +9149,14 @@ export const createFlowAlias: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an alias of a flow for deployment. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const createFlowAlias: API.OperationMethod<
+  CreateFlowAliasRequest,
+  CreateFlowAliasResponse,
+  CreateFlowAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowAliasRequest,
@@ -9159,18 +9171,20 @@ export const createFlowAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFlowAliasError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlowAlias: API.OperationMethod<
   GetFlowAliasRequest,
   GetFlowAliasResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFlowAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowAliasRequest,
@@ -9183,12 +9197,7 @@ export const getFlowAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const updateFlowAlias: API.OperationMethod<
-  UpdateFlowAliasRequest,
-  UpdateFlowAliasResponse,
+export type UpdateFlowAliasError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9196,7 +9205,14 @@ export const updateFlowAlias: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const updateFlowAlias: API.OperationMethod<
+  UpdateFlowAliasRequest,
+  UpdateFlowAliasResponse,
+  UpdateFlowAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowAliasRequest,
@@ -9211,19 +9227,21 @@ export const updateFlowAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an alias of a flow.
- */
-export const deleteFlowAlias: API.OperationMethod<
-  DeleteFlowAliasRequest,
-  DeleteFlowAliasResponse,
+export type DeleteFlowAliasError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an alias of a flow.
+ */
+export const deleteFlowAlias: API.OperationMethod<
+  DeleteFlowAliasRequest,
+  DeleteFlowAliasResponse,
+  DeleteFlowAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowAliasRequest,
@@ -9237,42 +9255,34 @@ export const deleteFlowAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFlowAliasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of aliases for a flow.
  */
 export const listFlowAliases: API.OperationMethod<
   ListFlowAliasesRequest,
   ListFlowAliasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFlowAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowAliasesRequest,
   ) => stream.Stream<
     ListFlowAliasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowAliasesRequest,
   ) => stream.Stream<
     FlowAliasSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9292,12 +9302,7 @@ export const listFlowAliases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const createFlowVersion: API.OperationMethod<
-  CreateFlowVersionRequest,
-  CreateFlowVersionResponse,
+export type CreateFlowVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9305,7 +9310,14 @@ export const createFlowVersion: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const createFlowVersion: API.OperationMethod<
+  CreateFlowVersionRequest,
+  CreateFlowVersionResponse,
+  CreateFlowVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowVersionRequest,
@@ -9320,18 +9332,20 @@ export const createFlowVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFlowVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlowVersion: API.OperationMethod<
   GetFlowVersionRequest,
   GetFlowVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFlowVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowVersionRequest,
@@ -9344,19 +9358,21 @@ export const getFlowVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a version of a flow.
- */
-export const deleteFlowVersion: API.OperationMethod<
-  DeleteFlowVersionRequest,
-  DeleteFlowVersionResponse,
+export type DeleteFlowVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a version of a flow.
+ */
+export const deleteFlowVersion: API.OperationMethod<
+  DeleteFlowVersionRequest,
+  DeleteFlowVersionResponse,
+  DeleteFlowVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowVersionRequest,
@@ -9370,42 +9386,34 @@ export const deleteFlowVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFlowVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const listFlowVersions: API.OperationMethod<
   ListFlowVersionsRequest,
   ListFlowVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFlowVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowVersionsRequest,
   ) => stream.Stream<
     ListFlowVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowVersionsRequest,
   ) => stream.Stream<
     FlowVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFlowVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9425,18 +9433,20 @@ export const listFlowVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetIngestionJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
 export const getIngestionJob: API.OperationMethod<
   GetIngestionJobRequest,
   GetIngestionJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIngestionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIngestionJobRequest,
@@ -9449,42 +9459,34 @@ export const getIngestionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIngestionJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the data ingestion jobs for a data source. The list also includes information about each job.
  */
 export const listIngestionJobs: API.OperationMethod<
   ListIngestionJobsRequest,
   ListIngestionJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIngestionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIngestionJobsRequest,
   ) => stream.Stream<
     ListIngestionJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIngestionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIngestionJobsRequest,
   ) => stream.Stream<
     IngestionJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIngestionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9504,12 +9506,7 @@ export const listIngestionJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
- */
-export const startIngestionJob: API.OperationMethod<
-  StartIngestionJobRequest,
-  StartIngestionJobResponse,
+export type StartIngestionJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9517,7 +9514,14 @@ export const startIngestionJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
+ */
+export const startIngestionJob: API.OperationMethod<
+  StartIngestionJobRequest,
+  StartIngestionJobResponse,
+  StartIngestionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIngestionJobRequest,
@@ -9532,19 +9536,21 @@ export const startIngestionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops a currently running data ingestion job. You can send a `StartIngestionJob` request again to ingest the rest of your data when you are ready.
- */
-export const stopIngestionJob: API.OperationMethod<
-  StopIngestionJobRequest,
-  StopIngestionJobResponse,
+export type StopIngestionJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a currently running data ingestion job. You can send a `StartIngestionJob` request again to ingest the rest of your data when you are ready.
+ */
+export const stopIngestionJob: API.OperationMethod<
+  StopIngestionJobRequest,
+  StopIngestionJobResponse,
+  StopIngestionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopIngestionJobRequest,
@@ -9558,19 +9564,21 @@ export const stopIngestionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
- */
-export const deleteKnowledgeBaseDocuments: API.OperationMethod<
-  DeleteKnowledgeBaseDocumentsRequest,
-  DeleteKnowledgeBaseDocumentsResponse,
+export type DeleteKnowledgeBaseDocumentsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
+ */
+export const deleteKnowledgeBaseDocuments: API.OperationMethod<
+  DeleteKnowledgeBaseDocumentsRequest,
+  DeleteKnowledgeBaseDocumentsResponse,
+  DeleteKnowledgeBaseDocumentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnowledgeBaseDocumentsRequest,
@@ -9584,19 +9592,21 @@ export const deleteKnowledgeBaseDocuments: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
- */
-export const getKnowledgeBaseDocuments: API.OperationMethod<
-  GetKnowledgeBaseDocumentsRequest,
-  GetKnowledgeBaseDocumentsResponse,
+export type GetKnowledgeBaseDocumentsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
+ */
+export const getKnowledgeBaseDocuments: API.OperationMethod<
+  GetKnowledgeBaseDocumentsRequest,
+  GetKnowledgeBaseDocumentsResponse,
+  GetKnowledgeBaseDocumentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseDocumentsRequest,
@@ -9610,19 +9620,21 @@ export const getKnowledgeBaseDocuments: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Ingests documents directly into the knowledge base that is connected to the data source. The `dataSourceType` specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
- */
-export const ingestKnowledgeBaseDocuments: API.OperationMethod<
-  IngestKnowledgeBaseDocumentsRequest,
-  IngestKnowledgeBaseDocumentsResponse,
+export type IngestKnowledgeBaseDocumentsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Ingests documents directly into the knowledge base that is connected to the data source. The `dataSourceType` specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
+ */
+export const ingestKnowledgeBaseDocuments: API.OperationMethod<
+  IngestKnowledgeBaseDocumentsRequest,
+  IngestKnowledgeBaseDocumentsResponse,
+  IngestKnowledgeBaseDocumentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IngestKnowledgeBaseDocumentsRequest,
@@ -9636,45 +9648,35 @@ export const ingestKnowledgeBaseDocuments: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
- */
-export const listKnowledgeBaseDocuments: API.OperationMethod<
-  ListKnowledgeBaseDocumentsRequest,
-  ListKnowledgeBaseDocumentsResponse,
+export type ListKnowledgeBaseDocumentsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
+ */
+export const listKnowledgeBaseDocuments: API.OperationMethod<
+  ListKnowledgeBaseDocumentsRequest,
+  ListKnowledgeBaseDocumentsResponse,
+  ListKnowledgeBaseDocumentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKnowledgeBaseDocumentsRequest,
   ) => stream.Stream<
     ListKnowledgeBaseDocumentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKnowledgeBaseDocumentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKnowledgeBaseDocumentsRequest,
   ) => stream.Stream<
     KnowledgeBaseDocumentDetail,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKnowledgeBaseDocumentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9695,12 +9697,7 @@ export const listKnowledgeBaseDocuments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Associates a knowledge base with an agent. If a knowledge base is associated and its `indexState` is set to `Enabled`, the agent queries the knowledge base for information to augment its response to the user.
- */
-export const associateAgentKnowledgeBase: API.OperationMethod<
-  AssociateAgentKnowledgeBaseRequest,
-  AssociateAgentKnowledgeBaseResponse,
+export type AssociateAgentKnowledgeBaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9708,7 +9705,14 @@ export const associateAgentKnowledgeBase: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a knowledge base with an agent. If a knowledge base is associated and its `indexState` is set to `Enabled`, the agent queries the knowledge base for information to augment its response to the user.
+ */
+export const associateAgentKnowledgeBase: API.OperationMethod<
+  AssociateAgentKnowledgeBaseRequest,
+  AssociateAgentKnowledgeBaseResponse,
+  AssociateAgentKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAgentKnowledgeBaseRequest,
@@ -9723,6 +9727,14 @@ export const associateAgentKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateKnowledgeBaseError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.
  *
@@ -9747,13 +9759,7 @@ export const associateAgentKnowledgeBase: API.OperationMethod<
 export const createKnowledgeBase: API.OperationMethod<
   CreateKnowledgeBaseRequest,
   CreateKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKnowledgeBaseRequest,
@@ -9767,19 +9773,21 @@ export const createKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
- */
-export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
-  DeleteKnowledgeBaseResponse,
+export type DeleteKnowledgeBaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
+ */
+export const deleteKnowledgeBase: API.OperationMethod<
+  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseResponse,
+  DeleteKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnowledgeBaseRequest,
@@ -9793,19 +9801,21 @@ export const deleteKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a knowledge base from an agent.
- */
-export const disassociateAgentKnowledgeBase: API.OperationMethod<
-  DisassociateAgentKnowledgeBaseRequest,
-  DisassociateAgentKnowledgeBaseResponse,
+export type DisassociateAgentKnowledgeBaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a knowledge base from an agent.
+ */
+export const disassociateAgentKnowledgeBase: API.OperationMethod<
+  DisassociateAgentKnowledgeBaseRequest,
+  DisassociateAgentKnowledgeBaseResponse,
+  DisassociateAgentKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAgentKnowledgeBaseRequest,
@@ -9819,18 +9829,20 @@ export const disassociateAgentKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentKnowledgeBaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a knowledge base associated with an agent.
  */
 export const getAgentKnowledgeBase: API.OperationMethod<
   GetAgentKnowledgeBaseRequest,
   GetAgentKnowledgeBaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentKnowledgeBaseRequest,
@@ -9843,18 +9855,20 @@ export const getAgentKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKnowledgeBaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
   GetKnowledgeBaseRequest,
   GetKnowledgeBaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseRequest,
@@ -9867,42 +9881,34 @@ export const getKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAgentKnowledgeBasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists knowledge bases associated with an agent and information about each one.
  */
 export const listAgentKnowledgeBases: API.OperationMethod<
   ListAgentKnowledgeBasesRequest,
   ListAgentKnowledgeBasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentKnowledgeBasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentKnowledgeBasesRequest,
   ) => stream.Stream<
     ListAgentKnowledgeBasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentKnowledgeBasesRequest,
   ) => stream.Stream<
     AgentKnowledgeBaseSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9922,39 +9928,33 @@ export const listAgentKnowledgeBases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListKnowledgeBasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
  */
 export const listKnowledgeBases: API.OperationMethod<
   ListKnowledgeBasesRequest,
   ListKnowledgeBasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKnowledgeBasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
     ListKnowledgeBasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
     KnowledgeBaseSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9973,19 +9973,21 @@ export const listKnowledgeBases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates the configuration for a knowledge base that has been associated with an agent.
- */
-export const updateAgentKnowledgeBase: API.OperationMethod<
-  UpdateAgentKnowledgeBaseRequest,
-  UpdateAgentKnowledgeBaseResponse,
+export type UpdateAgentKnowledgeBaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration for a knowledge base that has been associated with an agent.
+ */
+export const updateAgentKnowledgeBase: API.OperationMethod<
+  UpdateAgentKnowledgeBaseRequest,
+  UpdateAgentKnowledgeBaseResponse,
+  UpdateAgentKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentKnowledgeBaseRequest,
@@ -9999,6 +10001,14 @@ export const updateAgentKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKnowledgeBaseError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of a knowledge base with the fields that you specify. Because all fields will be overwritten, you must include the same values for fields that you want to keep the same.
  *
@@ -10015,13 +10025,7 @@ export const updateAgentKnowledgeBase: API.OperationMethod<
 export const updateKnowledgeBase: API.OperationMethod<
   UpdateKnowledgeBaseRequest,
   UpdateKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKnowledgeBaseRequest,
@@ -10035,19 +10039,21 @@ export const updateKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a prompt in your prompt library that you can add to a flow. For more information, see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt flows in Amazon Bedrock in the Amazon Bedrock User Guide.
- */
-export const createPrompt: API.OperationMethod<
-  CreatePromptRequest,
-  CreatePromptResponse,
+export type CreatePromptError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a prompt in your prompt library that you can add to a flow. For more information, see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+ */
+export const createPrompt: API.OperationMethod<
+  CreatePromptRequest,
+  CreatePromptResponse,
+  CreatePromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePromptRequest,
@@ -10061,18 +10067,20 @@ export const createPrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPromptError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
  */
 export const getPrompt: API.OperationMethod<
   GetPromptRequest,
   GetPromptResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPromptRequest,
@@ -10085,12 +10093,7 @@ export const getPrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see Prompt management in Amazon Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
- */
-export const updatePrompt: API.OperationMethod<
-  UpdatePromptRequest,
-  UpdatePromptResponse,
+export type UpdatePromptError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -10098,7 +10101,14 @@ export const updatePrompt: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see Prompt management in Amazon Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
+ */
+export const updatePrompt: API.OperationMethod<
+  UpdatePromptRequest,
+  UpdatePromptResponse,
+  UpdatePromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePromptRequest,
@@ -10113,19 +10123,21 @@ export const updatePrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
- */
-export const deletePrompt: API.OperationMethod<
-  DeletePromptRequest,
-  DeletePromptResponse,
+export type DeletePromptError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
+ */
+export const deletePrompt: API.OperationMethod<
+  DeletePromptRequest,
+  DeletePromptResponse,
+  DeletePromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePromptRequest,
@@ -10139,42 +10151,34 @@ export const deletePrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPromptsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns either information about the working draft (`DRAFT` version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the `promptIdentifier` field or not. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
  */
 export const listPrompts: API.OperationMethod<
   ListPromptsRequest,
   ListPromptsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPromptsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPromptsRequest,
   ) => stream.Stream<
     ListPromptsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPromptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPromptsRequest,
   ) => stream.Stream<
     PromptSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPromptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10194,12 +10198,7 @@ export const listPrompts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide.
- */
-export const createPromptVersion: API.OperationMethod<
-  CreatePromptVersionRequest,
-  CreatePromptVersionResponse,
+export type CreatePromptVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -10207,7 +10206,14 @@ export const createPromptVersion: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide.
+ */
+export const createPromptVersion: API.OperationMethod<
+  CreatePromptVersionRequest,
+  CreatePromptVersionResponse,
+  CreatePromptVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePromptVersionRequest,
@@ -10222,18 +10228,20 @@ export const createPromptVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all the tags for the resource you specify.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -10246,19 +10254,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -10272,18 +10282,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -10296,19 +10308,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a version of an agent.
- */
-export const deleteAgentVersion: API.OperationMethod<
-  DeleteAgentVersionRequest,
-  DeleteAgentVersionResponse,
+export type DeleteAgentVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a version of an agent.
+ */
+export const deleteAgentVersion: API.OperationMethod<
+  DeleteAgentVersionRequest,
+  DeleteAgentVersionResponse,
+  DeleteAgentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentVersionRequest,
@@ -10322,18 +10336,20 @@ export const deleteAgentVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgentVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details about a version of an agent.
  */
 export const getAgentVersion: API.OperationMethod<
   GetAgentVersionRequest,
   GetAgentVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentVersionRequest,
@@ -10346,42 +10362,34 @@ export const getAgentVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAgentVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the versions of an agent and information about each version.
  */
 export const listAgentVersions: API.OperationMethod<
   ListAgentVersionsRequest,
   ListAgentVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAgentVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentVersionsRequest,
   ) => stream.Stream<
     ListAgentVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentVersionsRequest,
   ) => stream.Stream<
     AgentVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAgentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

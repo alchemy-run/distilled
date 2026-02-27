@@ -345,39 +345,44 @@ export class InternalServiceException extends S.TaggedErrorClass<InternalService
 ) {}
 
 //# Operations
+export type GetDeploymentsError = InternalServiceException | CommonErrors;
 /**
  * Use to get the active deployments from a device.
  */
 export const getDeployments: API.OperationMethod<
   GetDeploymentsRequest,
   GetDeploymentsResult,
-  InternalServiceException | CommonErrors,
+  GetDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResult,
   errors: [InternalServiceException],
 }));
+export type GetDeviceRegistrationError =
+  | InternalServiceException
+  | CommonErrors;
 /**
  * Use to check if a device is registered with SageMaker Edge Manager.
  */
 export const getDeviceRegistration: API.OperationMethod<
   GetDeviceRegistrationRequest,
   GetDeviceRegistrationResult,
-  InternalServiceException | CommonErrors,
+  GetDeviceRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRegistrationRequest,
   output: GetDeviceRegistrationResult,
   errors: [InternalServiceException],
 }));
+export type SendHeartbeatError = InternalServiceException | CommonErrors;
 /**
  * Use to get the current status of devices registered on SageMaker Edge Manager.
  */
 export const sendHeartbeat: API.OperationMethod<
   SendHeartbeatRequest,
   SendHeartbeatResponse,
-  InternalServiceException | CommonErrors,
+  SendHeartbeatError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendHeartbeatRequest,

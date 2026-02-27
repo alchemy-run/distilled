@@ -1904,6 +1904,12 @@ export class TLDRulesViolation extends S.TaggedErrorClass<TLDRulesViolation>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AcceptDomainTransferFromAnotherAwsAccountError =
+  | DomainLimitExceeded
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Accepts the transfer of a domain from another Amazon Web Services account to the
  * currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount.
@@ -1918,11 +1924,7 @@ export class TLDRulesViolation extends S.TaggedErrorClass<TLDRulesViolation>()(
 export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   AcceptDomainTransferFromAnotherAwsAccountRequest,
   AcceptDomainTransferFromAnotherAwsAccountResponse,
-  | DomainLimitExceeded
-  | InvalidInput
-  | OperationLimitExceeded
-  | UnsupportedTLD
-  | CommonErrors,
+  AcceptDomainTransferFromAnotherAwsAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptDomainTransferFromAnotherAwsAccountRequest,
@@ -1934,6 +1936,14 @@ export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type AssociateDelegationSignerToDomainError =
+  | DnssecLimitExceeded
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Creates a delegation signer (DS) record in the registry zone for this domain
  * name.
@@ -1948,13 +1958,7 @@ export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
 export const associateDelegationSignerToDomain: API.OperationMethod<
   AssociateDelegationSignerToDomainRequest,
   AssociateDelegationSignerToDomainResponse,
-  | DnssecLimitExceeded
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  AssociateDelegationSignerToDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDelegationSignerToDomainRequest,
@@ -1968,6 +1972,11 @@ export const associateDelegationSignerToDomain: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type CancelDomainTransferToAnotherAwsAccountError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Cancels the transfer of a domain from the current Amazon Web Services account to
  * another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount.
@@ -1981,13 +1990,17 @@ export const associateDelegationSignerToDomain: API.OperationMethod<
 export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
   CancelDomainTransferToAnotherAwsAccountRequest,
   CancelDomainTransferToAnotherAwsAccountResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  CancelDomainTransferToAnotherAwsAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDomainTransferToAnotherAwsAccountRequest,
   output: CancelDomainTransferToAnotherAwsAccountResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type CheckDomainAvailabilityError =
+  | InvalidInput
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation checks the availability of one domain name. Note that if the
  * availability status of a domain is pending, you must submit another request to determine
@@ -1996,26 +2009,36 @@ export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
 export const checkDomainAvailability: API.OperationMethod<
   CheckDomainAvailabilityRequest,
   CheckDomainAvailabilityResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  CheckDomainAvailabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckDomainAvailabilityRequest,
   output: CheckDomainAvailabilityResponse,
   errors: [InvalidInput, UnsupportedTLD],
 }));
+export type CheckDomainTransferabilityError =
+  | InvalidInput
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Checks whether a domain name can be transferred to Amazon Route 53.
  */
 export const checkDomainTransferability: API.OperationMethod<
   CheckDomainTransferabilityRequest,
   CheckDomainTransferabilityResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  CheckDomainTransferabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckDomainTransferabilityRequest,
   output: CheckDomainTransferabilityResponse,
   errors: [InvalidInput, UnsupportedTLD],
 }));
+export type DeleteDomainError =
+  | DuplicateRequest
+  | InvalidInput
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation deletes the specified domain. This action is permanent. For more
  * information, see Deleting a domain name
@@ -2038,17 +2061,18 @@ export const checkDomainTransferability: API.OperationMethod<
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  DeleteDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [DuplicateRequest, InvalidInput, TLDRulesViolation, UnsupportedTLD],
 }));
+export type DeleteTagsForDomainError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation deletes the specified tags for a domain.
  *
@@ -2058,13 +2082,17 @@ export const deleteDomain: API.OperationMethod<
 export const deleteTagsForDomain: API.OperationMethod<
   DeleteTagsForDomainRequest,
   DeleteTagsForDomainResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  DeleteTagsForDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsForDomainRequest,
   output: DeleteTagsForDomainResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type DisableDomainAutoRenewError =
+  | InvalidInput
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation disables automatic renewal of domain registration for the specified
  * domain.
@@ -2072,13 +2100,20 @@ export const deleteTagsForDomain: API.OperationMethod<
 export const disableDomainAutoRenew: API.OperationMethod<
   DisableDomainAutoRenewRequest,
   DisableDomainAutoRenewResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  DisableDomainAutoRenewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDomainAutoRenewRequest,
   output: DisableDomainAutoRenewResponse,
   errors: [InvalidInput, UnsupportedTLD],
 }));
+export type DisableDomainTransferLockError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation removes the transfer lock on the domain (specifically the
  * `clientTransferProhibited` status) to allow domain transfers. We
@@ -2090,12 +2125,7 @@ export const disableDomainAutoRenew: API.OperationMethod<
 export const disableDomainTransferLock: API.OperationMethod<
   DisableDomainTransferLockRequest,
   DisableDomainTransferLockResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  DisableDomainTransferLockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDomainTransferLockRequest,
@@ -2108,6 +2138,13 @@ export const disableDomainTransferLock: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type DisassociateDelegationSignerFromDomainError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Deletes a delegation signer (DS) record in the registry zone for this domain
  * name.
@@ -2115,12 +2152,7 @@ export const disableDomainTransferLock: API.OperationMethod<
 export const disassociateDelegationSignerFromDomain: API.OperationMethod<
   DisassociateDelegationSignerFromDomainRequest,
   DisassociateDelegationSignerFromDomainResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  DisassociateDelegationSignerFromDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateDelegationSignerFromDomainRequest,
@@ -2133,6 +2165,11 @@ export const disassociateDelegationSignerFromDomain: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type EnableDomainAutoRenewError =
+  | InvalidInput
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation configures Amazon Route 53 to automatically renew the specified domain
  * before the domain registration expires. The cost of renewing your domain registration is
@@ -2147,13 +2184,20 @@ export const disassociateDelegationSignerFromDomain: API.OperationMethod<
 export const enableDomainAutoRenew: API.OperationMethod<
   EnableDomainAutoRenewRequest,
   EnableDomainAutoRenewResponse,
-  InvalidInput | TLDRulesViolation | UnsupportedTLD | CommonErrors,
+  EnableDomainAutoRenewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDomainAutoRenewRequest,
   output: EnableDomainAutoRenewResponse,
   errors: [InvalidInput, TLDRulesViolation, UnsupportedTLD],
 }));
+export type EnableDomainTransferLockError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation sets the transfer lock on the domain (specifically the
  * `clientTransferProhibited` status) to prevent domain transfers.
@@ -2164,12 +2208,7 @@ export const enableDomainAutoRenew: API.OperationMethod<
 export const enableDomainTransferLock: API.OperationMethod<
   EnableDomainTransferLockRequest,
   EnableDomainTransferLockResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  EnableDomainTransferLockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDomainTransferLockRequest,
@@ -2182,6 +2221,11 @@ export const enableDomainTransferLock: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type GetContactReachabilityStatusError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * For operations that require confirmation that the email address for the registrant
  * contact is valid, such as registering a new domain, this operation returns information
@@ -2193,13 +2237,14 @@ export const enableDomainTransferLock: API.OperationMethod<
 export const getContactReachabilityStatus: API.OperationMethod<
   GetContactReachabilityStatusRequest,
   GetContactReachabilityStatusResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  GetContactReachabilityStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactReachabilityStatusRequest,
   output: GetContactReachabilityStatusResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type GetDomainDetailError = InvalidInput | UnsupportedTLD | CommonErrors;
 /**
  * This operation returns detailed information about a specified domain that is
  * associated with the current Amazon Web Services account. Contact information for the
@@ -2208,26 +2253,31 @@ export const getContactReachabilityStatus: API.OperationMethod<
 export const getDomainDetail: API.OperationMethod<
   GetDomainDetailRequest,
   GetDomainDetailResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  GetDomainDetailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainDetailRequest,
   output: GetDomainDetailResponse,
   errors: [InvalidInput, UnsupportedTLD],
 }));
+export type GetDomainSuggestionsError =
+  | InvalidInput
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * The GetDomainSuggestions operation returns a list of suggested domain names.
  */
 export const getDomainSuggestions: API.OperationMethod<
   GetDomainSuggestionsRequest,
   GetDomainSuggestionsResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  GetDomainSuggestionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainSuggestionsRequest,
   output: GetDomainSuggestionsResponse,
   errors: [InvalidInput, UnsupportedTLD],
 }));
+export type GetOperationDetailError = InvalidInput | CommonErrors;
 /**
  * This operation returns the current status of an operation that is not
  * completed.
@@ -2235,13 +2285,14 @@ export const getDomainSuggestions: API.OperationMethod<
 export const getOperationDetail: API.OperationMethod<
   GetOperationDetailRequest,
   GetOperationDetailResponse,
-  InvalidInput | CommonErrors,
+  GetOperationDetailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationDetailRequest,
   output: GetOperationDetailResponse,
   errors: [InvalidInput],
 }));
+export type ListDomainsError = InvalidInput | CommonErrors;
 /**
  * This operation returns all the domain names registered with Amazon Route 53 for the
  * current Amazon Web Services account if no filtering conditions are used.
@@ -2249,21 +2300,21 @@ export const getOperationDetail: API.OperationMethod<
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
-  InvalidInput | CommonErrors,
+  ListDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     ListDomainsResponse,
-    InvalidInput | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     DomainSummary,
-    InvalidInput | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2277,6 +2328,7 @@ export const listDomains: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListOperationsError = InvalidInput | CommonErrors;
 /**
  * Returns information about all of the operations that return an operation ID and that
  * have ever been performed on domains that were registered by the current account.
@@ -2286,21 +2338,21 @@ export const listDomains: API.OperationMethod<
 export const listOperations: API.OperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
-  InvalidInput | CommonErrors,
+  ListOperationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOperationsRequest,
   ) => stream.Stream<
     ListOperationsResponse,
-    InvalidInput | CommonErrors,
+    ListOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOperationsRequest,
   ) => stream.Stream<
     OperationSummary,
-    InvalidInput | CommonErrors,
+    ListOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2314,6 +2366,7 @@ export const listOperations: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListPricesError = InvalidInput | UnsupportedTLD | CommonErrors;
 /**
  * Lists the following prices for either all the TLDs supported by Route 53, or
  * the specified TLD:
@@ -2331,21 +2384,21 @@ export const listOperations: API.OperationMethod<
 export const listPrices: API.OperationMethod<
   ListPricesRequest,
   ListPricesResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  ListPricesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPricesRequest,
   ) => stream.Stream<
     ListPricesResponse,
-    InvalidInput | UnsupportedTLD | CommonErrors,
+    ListPricesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPricesRequest,
   ) => stream.Stream<
     DomainPrice,
-    InvalidInput | UnsupportedTLD | CommonErrors,
+    ListPricesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2359,6 +2412,11 @@ export const listPrices: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListTagsForDomainError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation returns all of the tags that are associated with the specified
  * domain.
@@ -2369,13 +2427,18 @@ export const listPrices: API.OperationMethod<
 export const listTagsForDomain: API.OperationMethod<
   ListTagsForDomainRequest,
   ListTagsForDomainResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  ListTagsForDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForDomainRequest,
   output: ListTagsForDomainResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type PushDomainError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Moves a domain from Amazon Web Services to another registrar.
  *
@@ -2387,13 +2450,21 @@ export const listTagsForDomain: API.OperationMethod<
 export const pushDomain: API.OperationMethod<
   PushDomainRequest,
   PushDomainResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  PushDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PushDomainRequest,
   output: PushDomainResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type RegisterDomainError =
+  | DomainLimitExceeded
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation registers a domain. For some top-level domains (TLDs), this operation
  * requires extra parameters.
@@ -2427,13 +2498,7 @@ export const pushDomain: API.OperationMethod<
 export const registerDomain: API.OperationMethod<
   RegisterDomainRequest,
   RegisterDomainResponse,
-  | DomainLimitExceeded
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  RegisterDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDomainRequest,
@@ -2447,6 +2512,11 @@ export const registerDomain: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type RejectDomainTransferFromAnotherAwsAccountError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Rejects the transfer of a domain from another Amazon Web Services account to the
  * current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount.
@@ -2457,13 +2527,20 @@ export const registerDomain: API.OperationMethod<
 export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   RejectDomainTransferFromAnotherAwsAccountRequest,
   RejectDomainTransferFromAnotherAwsAccountResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  RejectDomainTransferFromAnotherAwsAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectDomainTransferFromAnotherAwsAccountRequest,
   output: RejectDomainTransferFromAnotherAwsAccountResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type RenewDomainError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation renews a domain for the specified number of years. The cost of renewing
  * your domain is billed to your Amazon Web Services account.
@@ -2477,12 +2554,7 @@ export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
 export const renewDomain: API.OperationMethod<
   RenewDomainRequest,
   RenewDomainResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  RenewDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenewDomainRequest,
@@ -2495,6 +2567,11 @@ export const renewDomain: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type ResendContactReachabilityEmailError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * For operations that require confirmation that the email address for the registrant
  * contact is valid, such as registering a new domain, this operation resends the
@@ -2503,26 +2580,31 @@ export const renewDomain: API.OperationMethod<
 export const resendContactReachabilityEmail: API.OperationMethod<
   ResendContactReachabilityEmailRequest,
   ResendContactReachabilityEmailResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  ResendContactReachabilityEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResendContactReachabilityEmailRequest,
   output: ResendContactReachabilityEmailResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type ResendOperationAuthorizationError = InvalidInput | CommonErrors;
 /**
  * Resend the form of authorization email for this operation.
  */
 export const resendOperationAuthorization: API.OperationMethod<
   ResendOperationAuthorizationRequest,
   ResendOperationAuthorizationResponse,
-  InvalidInput | CommonErrors,
+  ResendOperationAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResendOperationAuthorizationRequest,
   output: ResendOperationAuthorizationResponse,
   errors: [InvalidInput],
 }));
+export type RetrieveDomainAuthCodeError =
+  | InvalidInput
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation returns the authorization code for the domain. To transfer a domain to
  * another registrar, you provide this value to the new registrar.
@@ -2530,13 +2612,21 @@ export const resendOperationAuthorization: API.OperationMethod<
 export const retrieveDomainAuthCode: API.OperationMethod<
   RetrieveDomainAuthCodeRequest,
   RetrieveDomainAuthCodeResponse,
-  InvalidInput | UnsupportedTLD | CommonErrors,
+  RetrieveDomainAuthCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveDomainAuthCodeRequest,
   output: RetrieveDomainAuthCodeResponse,
   errors: [InvalidInput, UnsupportedTLD],
 }));
+export type TransferDomainError =
+  | DomainLimitExceeded
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Transfers a domain from another registrar to Amazon Route 53.
  *
@@ -2576,13 +2666,7 @@ export const retrieveDomainAuthCode: API.OperationMethod<
 export const transferDomain: API.OperationMethod<
   TransferDomainRequest,
   TransferDomainResponse,
-  | DomainLimitExceeded
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  TransferDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferDomainRequest,
@@ -2596,6 +2680,12 @@ export const transferDomain: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type TransferDomainToAnotherAwsAccountError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following:
  *
@@ -2621,11 +2711,7 @@ export const transferDomain: API.OperationMethod<
 export const transferDomainToAnotherAwsAccount: API.OperationMethod<
   TransferDomainToAnotherAwsAccountRequest,
   TransferDomainToAnotherAwsAccountResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | UnsupportedTLD
-  | CommonErrors,
+  TransferDomainToAnotherAwsAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferDomainToAnotherAwsAccountRequest,
@@ -2637,6 +2723,13 @@ export const transferDomainToAnotherAwsAccount: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type UpdateDomainContactError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation updates the contact information for a particular domain. You must
  * specify information for at least one contact: registrant, administrator, or
@@ -2649,12 +2742,7 @@ export const transferDomainToAnotherAwsAccount: API.OperationMethod<
 export const updateDomainContact: API.OperationMethod<
   UpdateDomainContactRequest,
   UpdateDomainContactResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  UpdateDomainContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainContactRequest,
@@ -2667,6 +2755,13 @@ export const updateDomainContact: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type UpdateDomainContactPrivacyError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation updates the specified domain contact's privacy setting. When privacy
  * protection is enabled, your contact information is replaced with contact information for
@@ -2693,12 +2788,7 @@ export const updateDomainContact: API.OperationMethod<
 export const updateDomainContactPrivacy: API.OperationMethod<
   UpdateDomainContactPrivacyRequest,
   UpdateDomainContactPrivacyResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  UpdateDomainContactPrivacyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainContactPrivacyRequest,
@@ -2711,6 +2801,13 @@ export const updateDomainContactPrivacy: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type UpdateDomainNameserversError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | TLDRulesViolation
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation replaces the current set of name servers for the domain with the
  * specified set of name servers. If you use Amazon Route 53 as your DNS service, specify
@@ -2723,12 +2820,7 @@ export const updateDomainContactPrivacy: API.OperationMethod<
 export const updateDomainNameservers: API.OperationMethod<
   UpdateDomainNameserversRequest,
   UpdateDomainNameserversResponse,
-  | DuplicateRequest
-  | InvalidInput
-  | OperationLimitExceeded
-  | TLDRulesViolation
-  | UnsupportedTLD
-  | CommonErrors,
+  UpdateDomainNameserversError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameserversRequest,
@@ -2741,6 +2833,11 @@ export const updateDomainNameservers: API.OperationMethod<
     UnsupportedTLD,
   ],
 }));
+export type UpdateTagsForDomainError =
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
 /**
  * This operation adds or updates tags for a specified domain.
  *
@@ -2750,34 +2847,35 @@ export const updateDomainNameservers: API.OperationMethod<
 export const updateTagsForDomain: API.OperationMethod<
   UpdateTagsForDomainRequest,
   UpdateTagsForDomainResponse,
-  InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
+  UpdateTagsForDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTagsForDomainRequest,
   output: UpdateTagsForDomainResponse,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
 }));
+export type ViewBillingError = InvalidInput | CommonErrors;
 /**
  * Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
  */
 export const viewBilling: API.OperationMethod<
   ViewBillingRequest,
   ViewBillingResponse,
-  InvalidInput | CommonErrors,
+  ViewBillingError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ViewBillingRequest,
   ) => stream.Stream<
     ViewBillingResponse,
-    InvalidInput | CommonErrors,
+    ViewBillingError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ViewBillingRequest,
   ) => stream.Stream<
     BillingRecord,
-    InvalidInput | CommonErrors,
+    ViewBillingError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

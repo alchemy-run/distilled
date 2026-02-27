@@ -10132,12 +10132,7 @@ export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequests
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
- */
-export const associateCertificate: API.OperationMethod<
-  AssociateCertificateRequest,
-  AssociateCertificateResponse,
+export type AssociateCertificateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10145,7 +10140,14 @@ export const associateCertificate: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
+ */
+export const associateCertificate: API.OperationMethod<
+  AssociateCertificateRequest,
+  AssociateCertificateResponse,
+  AssociateCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateCertificateRequest,
@@ -10160,12 +10162,7 @@ export const associateCertificate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Permanently cancel a job. Once you have canceled a job, you can't start it again.
- */
-export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
-  CancelJobResponse,
+export type CancelJobError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10173,7 +10170,14 @@ export const cancelJob: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently cancel a job. Once you have canceled a job, you can't start it again.
+ */
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
+  CancelJobResponse,
+  CancelJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
@@ -10188,12 +10192,7 @@ export const cancelJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const createJob: API.OperationMethod<
-  CreateJobRequest,
-  CreateJobResponse,
+export type CreateJobError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10201,7 +10200,14 @@ export const createJob: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
+  CreateJobResponse,
+  CreateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -10216,12 +10222,7 @@ export const createJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const createJobTemplate: API.OperationMethod<
-  CreateJobTemplateRequest,
-  CreateJobTemplateResponse,
+export type CreateJobTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10229,7 +10230,14 @@ export const createJobTemplate: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const createJobTemplate: API.OperationMethod<
+  CreateJobTemplateRequest,
+  CreateJobTemplateResponse,
+  CreateJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
@@ -10244,12 +10252,7 @@ export const createJobTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const createPreset: API.OperationMethod<
-  CreatePresetRequest,
-  CreatePresetResponse,
+export type CreatePresetError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10257,7 +10260,14 @@ export const createPreset: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const createPreset: API.OperationMethod<
+  CreatePresetRequest,
+  CreatePresetResponse,
+  CreatePresetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePresetRequest,
@@ -10272,12 +10282,7 @@ export const createPreset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
- */
-export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
-  CreateQueueResponse,
+export type CreateQueueError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10285,7 +10290,14 @@ export const createQueue: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
+ */
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
+  CreateQueueResponse,
+  CreateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
@@ -10300,12 +10312,7 @@ export const createQueue: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new resource share request for MediaConvert resources with AWS Support.
- */
-export const createResourceShare: API.OperationMethod<
-  CreateResourceShareRequest,
-  CreateResourceShareResponse,
+export type CreateResourceShareError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10313,7 +10320,14 @@ export const createResourceShare: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new resource share request for MediaConvert resources with AWS Support.
+ */
+export const createResourceShare: API.OperationMethod<
+  CreateResourceShareRequest,
+  CreateResourceShareResponse,
+  CreateResourceShareError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceShareRequest,
@@ -10328,12 +10342,7 @@ export const createResourceShare: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Permanently delete a job template you have created.
- */
-export const deleteJobTemplate: API.OperationMethod<
-  DeleteJobTemplateRequest,
-  DeleteJobTemplateResponse,
+export type DeleteJobTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10341,7 +10350,14 @@ export const deleteJobTemplate: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete a job template you have created.
+ */
+export const deleteJobTemplate: API.OperationMethod<
+  DeleteJobTemplateRequest,
+  DeleteJobTemplateResponse,
+  DeleteJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
@@ -10356,12 +10372,7 @@ export const deleteJobTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Permanently delete a policy that you created.
- */
-export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
-  DeletePolicyResponse,
+export type DeletePolicyError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10369,7 +10380,14 @@ export const deletePolicy: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete a policy that you created.
+ */
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
+  DeletePolicyResponse,
+  DeletePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
@@ -10384,12 +10402,7 @@ export const deletePolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Permanently delete a preset you have created.
- */
-export const deletePreset: API.OperationMethod<
-  DeletePresetRequest,
-  DeletePresetResponse,
+export type DeletePresetError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10397,7 +10410,14 @@ export const deletePreset: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete a preset you have created.
+ */
+export const deletePreset: API.OperationMethod<
+  DeletePresetRequest,
+  DeletePresetResponse,
+  DeletePresetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePresetRequest,
@@ -10412,12 +10432,7 @@ export const deletePreset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Permanently delete a queue you have created.
- */
-export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
-  DeleteQueueResponse,
+export type DeleteQueueError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10425,7 +10440,14 @@ export const deleteQueue: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete a queue you have created.
+ */
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
+  DeleteQueueResponse,
+  DeleteQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
@@ -10440,12 +10462,7 @@ export const deleteQueue: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
- */
-export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
-  DescribeEndpointsResponse,
+export type DescribeEndpointsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10453,35 +10470,28 @@ export const describeEndpoints: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
+ */
+export const describeEndpoints: API.OperationMethod<
+  DescribeEndpointsRequest,
+  DescribeEndpointsResponse,
+  DescribeEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEndpointsRequest,
   ) => stream.Stream<
     DescribeEndpointsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    DescribeEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointsRequest,
   ) => stream.Stream<
     Endpoint,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    DescribeEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10503,12 +10513,7 @@ export const describeEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
- */
-export const disassociateCertificate: API.OperationMethod<
-  DisassociateCertificateRequest,
-  DisassociateCertificateResponse,
+export type DisassociateCertificateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10516,7 +10521,14 @@ export const disassociateCertificate: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
+ */
+export const disassociateCertificate: API.OperationMethod<
+  DisassociateCertificateRequest,
+  DisassociateCertificateResponse,
+  DisassociateCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateCertificateRequest,
@@ -10531,12 +10543,7 @@ export const disassociateCertificate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve the JSON for a specific transcoding job.
- */
-export const getJob: API.OperationMethod<
-  GetJobRequest,
-  GetJobResponse,
+export type GetJobError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10544,7 +10551,14 @@ export const getJob: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the JSON for a specific transcoding job.
+ */
+export const getJob: API.OperationMethod<
+  GetJobRequest,
+  GetJobResponse,
+  GetJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
@@ -10559,12 +10573,7 @@ export const getJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
- */
-export const getJobsQueryResults: API.OperationMethod<
-  GetJobsQueryResultsRequest,
-  GetJobsQueryResultsResponse,
+export type GetJobsQueryResultsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10572,7 +10581,14 @@ export const getJobsQueryResults: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
+ */
+export const getJobsQueryResults: API.OperationMethod<
+  GetJobsQueryResultsRequest,
+  GetJobsQueryResultsResponse,
+  GetJobsQueryResultsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobsQueryResultsRequest,
@@ -10587,12 +10603,7 @@ export const getJobsQueryResults: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve the JSON for a specific job template.
- */
-export const getJobTemplate: API.OperationMethod<
-  GetJobTemplateRequest,
-  GetJobTemplateResponse,
+export type GetJobTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10600,7 +10611,14 @@ export const getJobTemplate: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the JSON for a specific job template.
+ */
+export const getJobTemplate: API.OperationMethod<
+  GetJobTemplateRequest,
+  GetJobTemplateResponse,
+  GetJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobTemplateRequest,
@@ -10615,12 +10633,7 @@ export const getJobTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve the JSON for your policy.
- */
-export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
-  GetPolicyResponse,
+export type GetPolicyError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10628,7 +10641,14 @@ export const getPolicy: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the JSON for your policy.
+ */
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
+  GetPolicyResponse,
+  GetPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
@@ -10643,12 +10663,7 @@ export const getPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve the JSON for a specific preset.
- */
-export const getPreset: API.OperationMethod<
-  GetPresetRequest,
-  GetPresetResponse,
+export type GetPresetError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10656,7 +10671,14 @@ export const getPreset: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the JSON for a specific preset.
+ */
+export const getPreset: API.OperationMethod<
+  GetPresetRequest,
+  GetPresetResponse,
+  GetPresetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPresetRequest,
@@ -10671,12 +10693,7 @@ export const getPreset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve the JSON for a specific queue.
- */
-export const getQueue: API.OperationMethod<
-  GetQueueRequest,
-  GetQueueResponse,
+export type GetQueueError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10684,7 +10701,14 @@ export const getQueue: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the JSON for a specific queue.
+ */
+export const getQueue: API.OperationMethod<
+  GetQueueRequest,
+  GetQueueResponse,
+  GetQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueRequest,
@@ -10699,12 +10723,7 @@ export const getQueue: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
- */
-export const listJobs: API.OperationMethod<
-  ListJobsRequest,
-  ListJobsResponse,
+export type ListJobsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10712,35 +10731,28 @@ export const listJobs: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
+ */
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     Job,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10762,12 +10774,7 @@ export const listJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
- */
-export const listJobTemplates: API.OperationMethod<
-  ListJobTemplatesRequest,
-  ListJobTemplatesResponse,
+export type ListJobTemplatesError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10775,35 +10782,28 @@ export const listJobTemplates: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
+ */
+export const listJobTemplates: API.OperationMethod<
+  ListJobTemplatesRequest,
+  ListJobTemplatesResponse,
+  ListJobTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
     ListJobTemplatesResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListJobTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
     JobTemplate,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListJobTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10825,12 +10825,7 @@ export const listJobTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
- */
-export const listPresets: API.OperationMethod<
-  ListPresetsRequest,
-  ListPresetsResponse,
+export type ListPresetsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10838,35 +10833,28 @@ export const listPresets: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
+ */
+export const listPresets: API.OperationMethod<
+  ListPresetsRequest,
+  ListPresetsResponse,
+  ListPresetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPresetsRequest,
   ) => stream.Stream<
     ListPresetsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListPresetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPresetsRequest,
   ) => stream.Stream<
     Preset,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListPresetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10888,12 +10876,7 @@ export const listPresets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
- */
-export const listQueues: API.OperationMethod<
-  ListQueuesRequest,
-  ListQueuesResponse,
+export type ListQueuesError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10901,35 +10884,28 @@ export const listQueues: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
+ */
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResponse,
+  ListQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     ListQueuesResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     Queue,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10951,12 +10927,7 @@ export const listQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve the tags for a MediaConvert resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10964,7 +10935,14 @@ export const listTagsForResource: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the tags for a MediaConvert resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -10979,12 +10957,7 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve a JSON array of all available Job engine versions and the date they expire.
- */
-export const listVersions: API.OperationMethod<
-  ListVersionsRequest,
-  ListVersionsResponse,
+export type ListVersionsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10992,35 +10965,28 @@ export const listVersions: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array of all available Job engine versions and the date they expire.
+ */
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
+  ListVersionsResponse,
+  ListVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVersionsRequest,
   ) => stream.Stream<
     ListVersionsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVersionsRequest,
   ) => stream.Stream<
     JobEngineVersion,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11042,12 +11008,7 @@ export const listVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
- */
-export const probe: API.OperationMethod<
-  ProbeRequest,
-  ProbeResponse,
+export type ProbeError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11055,7 +11016,14 @@ export const probe: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
+ */
+export const probe: API.OperationMethod<
+  ProbeRequest,
+  ProbeResponse,
+  ProbeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProbeRequest,
@@ -11070,12 +11038,7 @@ export const probe: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const putPolicy: API.OperationMethod<
-  PutPolicyRequest,
-  PutPolicyResponse,
+export type PutPolicyError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11083,7 +11046,14 @@ export const putPolicy: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const putPolicy: API.OperationMethod<
+  PutPolicyRequest,
+  PutPolicyResponse,
+  PutPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPolicyRequest,
@@ -11098,12 +11068,7 @@ export const putPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
- */
-export const searchJobs: API.OperationMethod<
-  SearchJobsRequest,
-  SearchJobsResponse,
+export type SearchJobsError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11111,35 +11076,28 @@ export const searchJobs: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
+ */
+export const searchJobs: API.OperationMethod<
+  SearchJobsRequest,
+  SearchJobsResponse,
+  SearchJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchJobsRequest,
   ) => stream.Stream<
     SearchJobsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    SearchJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchJobsRequest,
   ) => stream.Stream<
     Job,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
+    SearchJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11161,12 +11119,7 @@ export const searchJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
- */
-export const startJobsQuery: API.OperationMethod<
-  StartJobsQueryRequest,
-  StartJobsQueryResponse,
+export type StartJobsQueryError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11174,7 +11127,14 @@ export const startJobsQuery: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
+ */
+export const startJobsQuery: API.OperationMethod<
+  StartJobsQueryRequest,
+  StartJobsQueryResponse,
+  StartJobsQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobsQueryRequest,
@@ -11189,12 +11149,7 @@ export const startJobsQuery: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11202,7 +11157,14 @@ export const tagResource: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -11217,12 +11179,7 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11230,7 +11187,14 @@ export const untagResource: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -11245,12 +11209,7 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Modify one of your existing job templates.
- */
-export const updateJobTemplate: API.OperationMethod<
-  UpdateJobTemplateRequest,
-  UpdateJobTemplateResponse,
+export type UpdateJobTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11258,7 +11217,14 @@ export const updateJobTemplate: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modify one of your existing job templates.
+ */
+export const updateJobTemplate: API.OperationMethod<
+  UpdateJobTemplateRequest,
+  UpdateJobTemplateResponse,
+  UpdateJobTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobTemplateRequest,
@@ -11273,12 +11239,7 @@ export const updateJobTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Modify one of your existing presets.
- */
-export const updatePreset: API.OperationMethod<
-  UpdatePresetRequest,
-  UpdatePresetResponse,
+export type UpdatePresetError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11286,7 +11247,14 @@ export const updatePreset: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modify one of your existing presets.
+ */
+export const updatePreset: API.OperationMethod<
+  UpdatePresetRequest,
+  UpdatePresetResponse,
+  UpdatePresetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePresetRequest,
@@ -11301,12 +11269,7 @@ export const updatePreset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Modify one of your existing queues.
- */
-export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
-  UpdateQueueResponse,
+export type UpdateQueueError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -11314,7 +11277,14 @@ export const updateQueue: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modify one of your existing queues.
+ */
+export const updateQueue: API.OperationMethod<
+  UpdateQueueRequest,
+  UpdateQueueResponse,
+  UpdateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueRequest,

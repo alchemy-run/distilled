@@ -2223,14 +2223,7 @@ export class S3Exception extends S.TaggedErrorClass<S3Exception>()(
 ).pipe(C.withBadRequestError, C.withRetryableError) {}
 
 //# Operations
-/**
- * Cancels a Gremlin query. See Gremlin query cancellation for more information.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
- */
-export const cancelGremlinQuery: API.OperationMethod<
-  CancelGremlinQueryInput,
-  CancelGremlinQueryOutput,
+export type CancelGremlinQueryError =
   | BadRequestException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -2245,7 +2238,16 @@ export const cancelGremlinQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a Gremlin query. See Gremlin query cancellation for more information.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
+ */
+export const cancelGremlinQuery: API.OperationMethod<
+  CancelGremlinQueryInput,
+  CancelGremlinQueryOutput,
+  CancelGremlinQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelGremlinQueryInput,
@@ -2267,14 +2269,7 @@ export const cancelGremlinQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Cancels a specified load job. This is an HTTP `DELETE` request. See Neptune Loader Get-Status API for more information.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
- */
-export const cancelLoaderJob: API.OperationMethod<
-  CancelLoaderJobInput,
-  CancelLoaderJobOutput,
+export type CancelLoaderJobError =
   | BadRequestException
   | BulkLoadIdNotFoundException
   | ClientTimeoutException
@@ -2288,7 +2283,16 @@ export const cancelLoaderJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a specified load job. This is an HTTP `DELETE` request. See Neptune Loader Get-Status API for more information.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
+ */
+export const cancelLoaderJob: API.OperationMethod<
+  CancelLoaderJobInput,
+  CancelLoaderJobOutput,
+  CancelLoaderJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelLoaderJobInput,
@@ -2309,14 +2313,7 @@ export const cancelLoaderJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Cancels a Neptune ML data processing job. See The `dataprocessing` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
- */
-export const cancelMLDataProcessingJob: API.OperationMethod<
-  CancelMLDataProcessingJobInput,
-  CancelMLDataProcessingJobOutput,
+export type CancelMLDataProcessingJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2328,7 +2325,16 @@ export const cancelMLDataProcessingJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a Neptune ML data processing job. See The `dataprocessing` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
+ */
+export const cancelMLDataProcessingJob: API.OperationMethod<
+  CancelMLDataProcessingJobInput,
+  CancelMLDataProcessingJobOutput,
+  CancelMLDataProcessingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMLDataProcessingJobInput,
@@ -2347,14 +2353,7 @@ export const cancelMLDataProcessingJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Cancels a Neptune ML model training job. See Model training using the `modeltraining` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
- */
-export const cancelMLModelTrainingJob: API.OperationMethod<
-  CancelMLModelTrainingJobInput,
-  CancelMLModelTrainingJobOutput,
+export type CancelMLModelTrainingJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2366,7 +2365,16 @@ export const cancelMLModelTrainingJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a Neptune ML model training job. See Model training using the `modeltraining` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
+ */
+export const cancelMLModelTrainingJob: API.OperationMethod<
+  CancelMLModelTrainingJobInput,
+  CancelMLModelTrainingJobOutput,
+  CancelMLModelTrainingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMLModelTrainingJobInput,
@@ -2385,14 +2393,7 @@ export const cancelMLModelTrainingJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Cancels a specified model transform job. See Use a trained model to generate new model artifacts.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
- */
-export const cancelMLModelTransformJob: API.OperationMethod<
-  CancelMLModelTransformJobInput,
-  CancelMLModelTransformJobOutput,
+export type CancelMLModelTransformJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2404,7 +2405,16 @@ export const cancelMLModelTransformJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a specified model transform job. See Use a trained model to generate new model artifacts.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
+ */
+export const cancelMLModelTransformJob: API.OperationMethod<
+  CancelMLModelTransformJobInput,
+  CancelMLModelTransformJobOutput,
+  CancelMLModelTransformJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMLModelTransformJobInput,
@@ -2423,14 +2433,7 @@ export const cancelMLModelTransformJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Cancels a specified openCypher query. See Neptune openCypher status endpoint for more information.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
- */
-export const cancelOpenCypherQuery: API.OperationMethod<
-  CancelOpenCypherQueryInput,
-  CancelOpenCypherQueryOutput,
+export type CancelOpenCypherQueryError =
   | BadRequestException
   | ClientTimeoutException
   | ConcurrentModificationException
@@ -2446,7 +2449,16 @@ export const cancelOpenCypherQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a specified openCypher query. See Neptune openCypher status endpoint for more information.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
+ */
+export const cancelOpenCypherQuery: API.OperationMethod<
+  CancelOpenCypherQueryInput,
+  CancelOpenCypherQueryOutput,
+  CancelOpenCypherQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOpenCypherQueryInput,
@@ -2469,14 +2481,7 @@ export const cancelOpenCypherQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See Managing inference endpoints using the endpoints command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
- */
-export const createMLEndpoint: API.OperationMethod<
-  CreateMLEndpointInput,
-  CreateMLEndpointOutput,
+export type CreateMLEndpointError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2488,7 +2493,16 @@ export const createMLEndpoint: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See Managing inference endpoints using the endpoints command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
+ */
+export const createMLEndpoint: API.OperationMethod<
+  CreateMLEndpointInput,
+  CreateMLEndpointOutput,
+  CreateMLEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMLEndpointInput,
@@ -2507,14 +2521,7 @@ export const createMLEndpoint: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints using the endpoints command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
- */
-export const deleteMLEndpoint: API.OperationMethod<
-  DeleteMLEndpointInput,
-  DeleteMLEndpointOutput,
+export type DeleteMLEndpointError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2526,7 +2533,16 @@ export const deleteMLEndpoint: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints using the endpoints command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
+ */
+export const deleteMLEndpoint: API.OperationMethod<
+  DeleteMLEndpointInput,
+  DeleteMLEndpointOutput,
+  DeleteMLEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMLEndpointInput,
@@ -2545,14 +2561,7 @@ export const deleteMLEndpoint: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Deletes statistics for Gremlin and openCypher (property graph) data.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
- */
-export const deletePropertygraphStatistics: API.OperationMethod<
-  DeletePropertygraphStatisticsRequest,
-  DeletePropertygraphStatisticsOutput,
+export type DeletePropertygraphStatisticsError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -2566,7 +2575,16 @@ export const deletePropertygraphStatistics: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes statistics for Gremlin and openCypher (property graph) data.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
+ */
+export const deletePropertygraphStatistics: API.OperationMethod<
+  DeletePropertygraphStatisticsRequest,
+  DeletePropertygraphStatisticsOutput,
+  DeletePropertygraphStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertygraphStatisticsRequest,
@@ -2587,14 +2605,7 @@ export const deletePropertygraphStatistics: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Deletes SPARQL statistics
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
- */
-export const deleteSparqlStatistics: API.OperationMethod<
-  DeleteSparqlStatisticsRequest,
-  DeleteSparqlStatisticsOutput,
+export type DeleteSparqlStatisticsError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -2608,7 +2619,16 @@ export const deleteSparqlStatistics: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes SPARQL statistics
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
+ */
+export const deleteSparqlStatistics: API.OperationMethod<
+  DeleteSparqlStatisticsRequest,
+  DeleteSparqlStatisticsOutput,
+  DeleteSparqlStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSparqlStatisticsRequest,
@@ -2629,16 +2649,7 @@ export const deleteSparqlStatistics: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of its data.
- *
- * Neptune fast reset is a two-step process. First you call `ExecuteFastReset` with `action` set to `initiateDatabaseReset`. This returns a UUID token which you then include when calling `ExecuteFastReset` again with `action` set to `performDatabaseReset`. See Empty an Amazon Neptune DB cluster using the fast reset API.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
- */
-export const executeFastReset: API.OperationMethod<
-  ExecuteFastResetInput,
-  ExecuteFastResetOutput,
+export type ExecuteFastResetError =
   | AccessDeniedException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2652,7 +2663,18 @@ export const executeFastReset: API.OperationMethod<
   | ServerShutdownException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of its data.
+ *
+ * Neptune fast reset is a two-step process. First you call `ExecuteFastReset` with `action` set to `initiateDatabaseReset`. This returns a UUID token which you then include when calling `ExecuteFastReset` again with `action` set to `performDatabaseReset`. See Empty an Amazon Neptune DB cluster using the fast reset API.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
+ */
+export const executeFastReset: API.OperationMethod<
+  ExecuteFastResetInput,
+  ExecuteFastResetOutput,
+  ExecuteFastResetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteFastResetInput,
@@ -2673,26 +2695,7 @@ export const executeFastReset: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Executes a Gremlin Explain query.
- *
- * Amazon Neptune has added a Gremlin feature named `explain` that provides is a self-service tool for understanding the execution approach being taken by the Neptune engine for the query. You invoke it by adding an `explain` parameter to an HTTP call that submits a Gremlin query.
- *
- * The explain feature provides information about the logical structure of query execution plans. You can use this information to identify potential evaluation and execution bottlenecks and to tune your query, as explained in Tuning Gremlin queries. You can also use query hints to improve query execution plans.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
- *
- * - neptune-db:ReadDataViaQuery
- *
- * - neptune-db:WriteDataViaQuery
- *
- * - neptune-db:DeleteDataViaQuery
- *
- * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const executeGremlinExplainQuery: API.OperationMethod<
-  ExecuteGremlinExplainQueryInput,
-  ExecuteGremlinExplainQueryOutput,
+export type ExecuteGremlinExplainQueryError =
   | BadRequestException
   | CancelledByUserException
   | ClientTimeoutException
@@ -2713,7 +2716,28 @@ export const executeGremlinExplainQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Executes a Gremlin Explain query.
+ *
+ * Amazon Neptune has added a Gremlin feature named `explain` that provides is a self-service tool for understanding the execution approach being taken by the Neptune engine for the query. You invoke it by adding an `explain` parameter to an HTTP call that submits a Gremlin query.
+ *
+ * The explain feature provides information about the logical structure of query execution plans. You can use this information to identify potential evaluation and execution bottlenecks and to tune your query, as explained in Tuning Gremlin queries. You can also use query hints to improve query execution plans.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
+ *
+ * - neptune-db:ReadDataViaQuery
+ *
+ * - neptune-db:WriteDataViaQuery
+ *
+ * - neptune-db:DeleteDataViaQuery
+ *
+ * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const executeGremlinExplainQuery: API.OperationMethod<
+  ExecuteGremlinExplainQueryInput,
+  ExecuteGremlinExplainQueryOutput,
+  ExecuteGremlinExplainQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteGremlinExplainQueryInput,
@@ -2741,16 +2765,7 @@ export const executeGremlinExplainQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster.
- *
- * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const executeGremlinProfileQuery: API.OperationMethod<
-  ExecuteGremlinProfileQueryInput,
-  ExecuteGremlinProfileQueryOutput,
+export type ExecuteGremlinProfileQueryError =
   | BadRequestException
   | CancelledByUserException
   | ClientTimeoutException
@@ -2771,7 +2786,18 @@ export const executeGremlinProfileQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster.
+ *
+ * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const executeGremlinProfileQuery: API.OperationMethod<
+  ExecuteGremlinProfileQueryInput,
+  ExecuteGremlinProfileQueryOutput,
+  ExecuteGremlinProfileQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteGremlinProfileQueryInput,
@@ -2799,22 +2825,7 @@ export const executeGremlinProfileQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described under The Graph in the Apache TinkerPop3 documentation. More details can also be found in Accessing a Neptune graph with Gremlin.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that enables one of the following IAM actions in that cluster, depending on the query:
- *
- * - neptune-db:ReadDataViaQuery
- *
- * - neptune-db:WriteDataViaQuery
- *
- * - neptune-db:DeleteDataViaQuery
- *
- * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const executeGremlinQuery: API.OperationMethod<
-  ExecuteGremlinQueryInput,
-  ExecuteGremlinQueryOutput,
+export type ExecuteGremlinQueryError =
   | BadRequestException
   | CancelledByUserException
   | ClientTimeoutException
@@ -2835,7 +2846,24 @@ export const executeGremlinQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described under The Graph in the Apache TinkerPop3 documentation. More details can also be found in Accessing a Neptune graph with Gremlin.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that enables one of the following IAM actions in that cluster, depending on the query:
+ *
+ * - neptune-db:ReadDataViaQuery
+ *
+ * - neptune-db:WriteDataViaQuery
+ *
+ * - neptune-db:DeleteDataViaQuery
+ *
+ * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const executeGremlinQuery: API.OperationMethod<
+  ExecuteGremlinQueryInput,
+  ExecuteGremlinQueryOutput,
+  ExecuteGremlinQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteGremlinQueryInput,
@@ -2863,16 +2891,7 @@ export const executeGremlinQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Executes an openCypher `explain` request. See The openCypher explain feature for more information.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster.
- *
- * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const executeOpenCypherExplainQuery: API.OperationMethod<
-  ExecuteOpenCypherExplainQueryInput,
-  ExecuteOpenCypherExplainQueryOutput,
+export type ExecuteOpenCypherExplainQueryError =
   | BadRequestException
   | CancelledByUserException
   | ClientTimeoutException
@@ -2894,7 +2913,18 @@ export const executeOpenCypherExplainQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Executes an openCypher `explain` request. See The openCypher explain feature for more information.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster.
+ *
+ * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const executeOpenCypherExplainQuery: API.OperationMethod<
+  ExecuteOpenCypherExplainQueryInput,
+  ExecuteOpenCypherExplainQueryOutput,
+  ExecuteOpenCypherExplainQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteOpenCypherExplainQueryInput,
@@ -2923,26 +2953,7 @@ export const executeOpenCypherExplainQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Executes an openCypher query. See Accessing the Neptune Graph with openCypher for more information.
- *
- * Neptune supports building graph applications using openCypher, which is currently one of the most popular query languages among developers working with graph databases. Developers, business analysts, and data scientists like openCypher's declarative, SQL-inspired syntax because it provides a familiar structure in which to querying property graphs.
- *
- * The openCypher language was originally developed by Neo4j, then open-sourced in 2015 and contributed to the openCypher project under an Apache 2 open-source license.
- *
- * Note that when invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
- *
- * - neptune-db:ReadDataViaQuery
- *
- * - neptune-db:WriteDataViaQuery
- *
- * - neptune-db:DeleteDataViaQuery
- *
- * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const executeOpenCypherQuery: API.OperationMethod<
-  ExecuteOpenCypherQueryInput,
-  ExecuteOpenCypherQueryOutput,
+export type ExecuteOpenCypherQueryError =
   | BadRequestException
   | CancelledByUserException
   | ClientTimeoutException
@@ -2964,7 +2975,28 @@ export const executeOpenCypherQuery: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Executes an openCypher query. See Accessing the Neptune Graph with openCypher for more information.
+ *
+ * Neptune supports building graph applications using openCypher, which is currently one of the most popular query languages among developers working with graph databases. Developers, business analysts, and data scientists like openCypher's declarative, SQL-inspired syntax because it provides a familiar structure in which to querying property graphs.
+ *
+ * The openCypher language was originally developed by Neo4j, then open-sourced in 2015 and contributed to the openCypher project under an Apache 2 open-source license.
+ *
+ * Note that when invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
+ *
+ * - neptune-db:ReadDataViaQuery
+ *
+ * - neptune-db:WriteDataViaQuery
+ *
+ * - neptune-db:DeleteDataViaQuery
+ *
+ * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const executeOpenCypherQuery: API.OperationMethod<
+  ExecuteOpenCypherQueryInput,
+  ExecuteOpenCypherQueryOutput,
+  ExecuteOpenCypherQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteOpenCypherQueryInput,
@@ -2993,14 +3025,7 @@ export const executeOpenCypherQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Retrieves the status of the graph database on the host.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
- */
-export const getEngineStatus: API.OperationMethod<
-  GetEngineStatusRequest,
-  GetEngineStatusOutput,
+export type GetEngineStatusError =
   | ClientTimeoutException
   | ConstraintViolationException
   | IllegalArgumentException
@@ -3009,7 +3034,16 @@ export const getEngineStatus: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the status of the graph database on the host.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
+ */
+export const getEngineStatus: API.OperationMethod<
+  GetEngineStatusRequest,
+  GetEngineStatusOutput,
+  GetEngineStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEngineStatusRequest,
@@ -3025,16 +3059,7 @@ export const getEngineStatus: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets the status of a specified Gremlin query.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
- *
- * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const getGremlinQueryStatus: API.OperationMethod<
-  GetGremlinQueryStatusInput,
-  GetGremlinQueryStatusOutput,
+export type GetGremlinQueryStatusError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3051,7 +3076,18 @@ export const getGremlinQueryStatus: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the status of a specified Gremlin query.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
+ *
+ * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const getGremlinQueryStatus: API.OperationMethod<
+  GetGremlinQueryStatusInput,
+  GetGremlinQueryStatusOutput,
+  GetGremlinQueryStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGremlinQueryStatusInput,
@@ -3075,16 +3111,7 @@ export const getGremlinQueryStatus: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job.
- *
- * See Neptune Loader Get-Status API for more information.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
- */
-export const getLoaderJobStatus: API.OperationMethod<
-  GetLoaderJobStatusInput,
-  GetLoaderJobStatusOutput,
+export type GetLoaderJobStatusError =
   | BadRequestException
   | BulkLoadIdNotFoundException
   | ClientTimeoutException
@@ -3098,7 +3125,18 @@ export const getLoaderJobStatus: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job.
+ *
+ * See Neptune Loader Get-Status API for more information.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
+ */
+export const getLoaderJobStatus: API.OperationMethod<
+  GetLoaderJobStatusInput,
+  GetLoaderJobStatusOutput,
+  GetLoaderJobStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoaderJobStatusInput,
@@ -3119,14 +3157,7 @@ export const getLoaderJobStatus: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Retrieves information about a specified data processing job. See The `dataprocessing` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
- */
-export const getMLDataProcessingJob: API.OperationMethod<
-  GetMLDataProcessingJobInput,
-  GetMLDataProcessingJobOutput,
+export type GetMLDataProcessingJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3138,7 +3169,16 @@ export const getMLDataProcessingJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a specified data processing job. See The `dataprocessing` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
+ */
+export const getMLDataProcessingJob: API.OperationMethod<
+  GetMLDataProcessingJobInput,
+  GetMLDataProcessingJobOutput,
+  GetMLDataProcessingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLDataProcessingJobInput,
@@ -3157,14 +3197,7 @@ export const getMLDataProcessingJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Retrieves details about an inference endpoint. See Managing inference endpoints using the endpoints command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
- */
-export const getMLEndpoint: API.OperationMethod<
-  GetMLEndpointInput,
-  GetMLEndpointOutput,
+export type GetMLEndpointError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3176,7 +3209,16 @@ export const getMLEndpoint: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details about an inference endpoint. See Managing inference endpoints using the endpoints command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
+ */
+export const getMLEndpoint: API.OperationMethod<
+  GetMLEndpointInput,
+  GetMLEndpointOutput,
+  GetMLEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLEndpointInput,
@@ -3195,14 +3237,7 @@ export const getMLEndpoint: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Retrieves information about a Neptune ML model training job. See Model training using the `modeltraining` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
- */
-export const getMLModelTrainingJob: API.OperationMethod<
-  GetMLModelTrainingJobInput,
-  GetMLModelTrainingJobOutput,
+export type GetMLModelTrainingJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3214,7 +3249,16 @@ export const getMLModelTrainingJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a Neptune ML model training job. See Model training using the `modeltraining` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
+ */
+export const getMLModelTrainingJob: API.OperationMethod<
+  GetMLModelTrainingJobInput,
+  GetMLModelTrainingJobOutput,
+  GetMLModelTrainingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLModelTrainingJobInput,
@@ -3233,14 +3277,7 @@ export const getMLModelTrainingJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets information about a specified model transform job. See Use a trained model to generate new model artifacts.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
- */
-export const getMLModelTransformJob: API.OperationMethod<
-  GetMLModelTransformJobInput,
-  GetMLModelTransformJobOutput,
+export type GetMLModelTransformJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3252,7 +3289,16 @@ export const getMLModelTransformJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about a specified model transform job. See Use a trained model to generate new model artifacts.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
+ */
+export const getMLModelTransformJob: API.OperationMethod<
+  GetMLModelTransformJobInput,
+  GetMLModelTransformJobOutput,
+  GetMLModelTransformJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLModelTransformJobInput,
@@ -3271,16 +3317,7 @@ export const getMLModelTransformJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Retrieves the status of a specified openCypher query.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
- *
- * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const getOpenCypherQueryStatus: API.OperationMethod<
-  GetOpenCypherQueryStatusInput,
-  GetOpenCypherQueryStatusOutput,
+export type GetOpenCypherQueryStatusError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3298,7 +3335,18 @@ export const getOpenCypherQueryStatus: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the status of a specified openCypher query.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
+ *
+ * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const getOpenCypherQueryStatus: API.OperationMethod<
+  GetOpenCypherQueryStatusInput,
+  GetOpenCypherQueryStatusOutput,
+  GetOpenCypherQueryStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpenCypherQueryStatusInput,
@@ -3323,14 +3371,7 @@ export const getOpenCypherQueryStatus: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets property graph statistics (Gremlin and openCypher).
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
- */
-export const getPropertygraphStatistics: API.OperationMethod<
-  GetPropertygraphStatisticsRequest,
-  GetPropertygraphStatisticsOutput,
+export type GetPropertygraphStatisticsError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3344,7 +3385,16 @@ export const getPropertygraphStatistics: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets property graph statistics (Gremlin and openCypher).
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
+ */
+export const getPropertygraphStatistics: API.OperationMethod<
+  GetPropertygraphStatisticsRequest,
+  GetPropertygraphStatisticsOutput,
+  GetPropertygraphStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertygraphStatisticsRequest,
@@ -3365,6 +3415,20 @@ export const getPropertygraphStatistics: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetPropertygraphStreamError =
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | ExpiredStreamException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MemoryLimitExceededException
+  | PreconditionsFailedException
+  | StreamRecordsNotFoundException
+  | ThrottlingException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Gets a stream for a property graph.
  *
@@ -3389,19 +3453,7 @@ export const getPropertygraphStatistics: API.OperationMethod<
 export const getPropertygraphStream: API.OperationMethod<
   GetPropertygraphStreamInput,
   GetPropertygraphStreamOutput,
-  | ClientTimeoutException
-  | ConstraintViolationException
-  | ExpiredStreamException
-  | IllegalArgumentException
-  | InvalidArgumentException
-  | InvalidParameterException
-  | MemoryLimitExceededException
-  | PreconditionsFailedException
-  | StreamRecordsNotFoundException
-  | ThrottlingException
-  | TooManyRequestsException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetPropertygraphStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertygraphStreamInput,
@@ -3421,14 +3473,7 @@ export const getPropertygraphStream: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets a graph summary for a property graph.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
- */
-export const getPropertygraphSummary: API.OperationMethod<
-  GetPropertygraphSummaryInput,
-  GetPropertygraphSummaryOutput,
+export type GetPropertygraphSummaryError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3442,7 +3487,16 @@ export const getPropertygraphSummary: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets a graph summary for a property graph.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
+ */
+export const getPropertygraphSummary: API.OperationMethod<
+  GetPropertygraphSummaryInput,
+  GetPropertygraphSummaryOutput,
+  GetPropertygraphSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertygraphSummaryInput,
@@ -3463,14 +3517,7 @@ export const getPropertygraphSummary: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets a graph summary for an RDF graph.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
- */
-export const getRDFGraphSummary: API.OperationMethod<
-  GetRDFGraphSummaryInput,
-  GetRDFGraphSummaryOutput,
+export type GetRDFGraphSummaryError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3484,7 +3531,16 @@ export const getRDFGraphSummary: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets a graph summary for an RDF graph.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
+ */
+export const getRDFGraphSummary: API.OperationMethod<
+  GetRDFGraphSummaryInput,
+  GetRDFGraphSummaryOutput,
+  GetRDFGraphSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRDFGraphSummaryInput,
@@ -3505,12 +3561,7 @@ export const getRDFGraphSummary: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets RDF statistics (SPARQL).
- */
-export const getSparqlStatistics: API.OperationMethod<
-  GetSparqlStatisticsRequest,
-  GetSparqlStatisticsOutput,
+export type GetSparqlStatisticsError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3524,7 +3575,14 @@ export const getSparqlStatistics: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets RDF statistics (SPARQL).
+ */
+export const getSparqlStatistics: API.OperationMethod<
+  GetSparqlStatisticsRequest,
+  GetSparqlStatisticsOutput,
+  GetSparqlStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSparqlStatisticsRequest,
@@ -3545,6 +3603,20 @@ export const getSparqlStatistics: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetSparqlStreamError =
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | ExpiredStreamException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MemoryLimitExceededException
+  | PreconditionsFailedException
+  | StreamRecordsNotFoundException
+  | ThrottlingException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Gets a stream for an RDF graph.
  *
@@ -3561,19 +3633,7 @@ export const getSparqlStatistics: API.OperationMethod<
 export const getSparqlStream: API.OperationMethod<
   GetSparqlStreamInput,
   GetSparqlStreamOutput,
-  | ClientTimeoutException
-  | ConstraintViolationException
-  | ExpiredStreamException
-  | IllegalArgumentException
-  | InvalidArgumentException
-  | InvalidParameterException
-  | MemoryLimitExceededException
-  | PreconditionsFailedException
-  | StreamRecordsNotFoundException
-  | ThrottlingException
-  | TooManyRequestsException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetSparqlStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSparqlStreamInput,
@@ -3593,16 +3653,7 @@ export const getSparqlStream: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Lists active Gremlin queries. See Gremlin query status API for details about the output.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
- *
- * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const listGremlinQueries: API.OperationMethod<
-  ListGremlinQueriesInput,
-  ListGremlinQueriesOutput,
+export type ListGremlinQueriesError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3619,7 +3670,18 @@ export const listGremlinQueries: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists active Gremlin queries. See Gremlin query status API for details about the output.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
+ *
+ * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const listGremlinQueries: API.OperationMethod<
+  ListGremlinQueriesInput,
+  ListGremlinQueriesOutput,
+  ListGremlinQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGremlinQueriesInput,
@@ -3643,14 +3705,7 @@ export const listGremlinQueries: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Retrieves a list of the `loadIds` for all active loader jobs.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
- */
-export const listLoaderJobs: API.OperationMethod<
-  ListLoaderJobsInput,
-  ListLoaderJobsOutput,
+export type ListLoaderJobsError =
   | BadRequestException
   | BulkLoadIdNotFoundException
   | ClientTimeoutException
@@ -3663,7 +3718,16 @@ export const listLoaderJobs: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a list of the `loadIds` for all active loader jobs.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
+ */
+export const listLoaderJobs: API.OperationMethod<
+  ListLoaderJobsInput,
+  ListLoaderJobsOutput,
+  ListLoaderJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoaderJobsInput,
@@ -3683,14 +3747,7 @@ export const listLoaderJobs: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Returns a list of Neptune ML data processing jobs. See Listing active data-processing jobs using the Neptune ML dataprocessing command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
- */
-export const listMLDataProcessingJobs: API.OperationMethod<
-  ListMLDataProcessingJobsInput,
-  ListMLDataProcessingJobsOutput,
+export type ListMLDataProcessingJobsError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3702,7 +3759,16 @@ export const listMLDataProcessingJobs: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of Neptune ML data processing jobs. See Listing active data-processing jobs using the Neptune ML dataprocessing command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
+ */
+export const listMLDataProcessingJobs: API.OperationMethod<
+  ListMLDataProcessingJobsInput,
+  ListMLDataProcessingJobsOutput,
+  ListMLDataProcessingJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMLDataProcessingJobsInput,
@@ -3721,14 +3787,7 @@ export const listMLDataProcessingJobs: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Lists existing inference endpoints. See Managing inference endpoints using the endpoints command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
- */
-export const listMLEndpoints: API.OperationMethod<
-  ListMLEndpointsInput,
-  ListMLEndpointsOutput,
+export type ListMLEndpointsError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3740,7 +3799,16 @@ export const listMLEndpoints: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists existing inference endpoints. See Managing inference endpoints using the endpoints command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
+ */
+export const listMLEndpoints: API.OperationMethod<
+  ListMLEndpointsInput,
+  ListMLEndpointsOutput,
+  ListMLEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMLEndpointsInput,
@@ -3759,14 +3827,7 @@ export const listMLEndpoints: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Lists Neptune ML model-training jobs. See Model training using the `modeltraining` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
- */
-export const listMLModelTrainingJobs: API.OperationMethod<
-  ListMLModelTrainingJobsInput,
-  ListMLModelTrainingJobsOutput,
+export type ListMLModelTrainingJobsError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3778,7 +3839,16 @@ export const listMLModelTrainingJobs: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists Neptune ML model-training jobs. See Model training using the `modeltraining` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
+ */
+export const listMLModelTrainingJobs: API.OperationMethod<
+  ListMLModelTrainingJobsInput,
+  ListMLModelTrainingJobsOutput,
+  ListMLModelTrainingJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMLModelTrainingJobsInput,
@@ -3797,14 +3867,7 @@ export const listMLModelTrainingJobs: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Returns a list of model transform job IDs. See Use a trained model to generate new model artifacts.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
- */
-export const listMLModelTransformJobs: API.OperationMethod<
-  ListMLModelTransformJobsInput,
-  ListMLModelTransformJobsOutput,
+export type ListMLModelTransformJobsError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3816,7 +3879,16 @@ export const listMLModelTransformJobs: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of model transform job IDs. See Use a trained model to generate new model artifacts.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
+ */
+export const listMLModelTransformJobs: API.OperationMethod<
+  ListMLModelTransformJobsInput,
+  ListMLModelTransformJobsOutput,
+  ListMLModelTransformJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMLModelTransformJobsInput,
@@ -3835,16 +3907,7 @@ export const listMLModelTransformJobs: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Lists active openCypher queries. See Neptune openCypher status endpoint for more information.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
- *
- * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
- */
-export const listOpenCypherQueries: API.OperationMethod<
-  ListOpenCypherQueriesInput,
-  ListOpenCypherQueriesOutput,
+export type ListOpenCypherQueriesError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3862,7 +3925,18 @@ export const listOpenCypherQueries: API.OperationMethod<
   | TimeLimitExceededException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists active openCypher queries. See Neptune openCypher status endpoint for more information.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster.
+ *
+ * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
+ */
+export const listOpenCypherQueries: API.OperationMethod<
+  ListOpenCypherQueriesInput,
+  ListOpenCypherQueriesOutput,
+  ListOpenCypherQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOpenCypherQueriesInput,
@@ -3887,14 +3961,7 @@ export const listOpenCypherQueries: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Manages the generation and use of property graph statistics.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
- */
-export const managePropertygraphStatistics: API.OperationMethod<
-  ManagePropertygraphStatisticsInput,
-  ManagePropertygraphStatisticsOutput,
+export type ManagePropertygraphStatisticsError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3908,7 +3975,16 @@ export const managePropertygraphStatistics: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Manages the generation and use of property graph statistics.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
+ */
+export const managePropertygraphStatistics: API.OperationMethod<
+  ManagePropertygraphStatisticsInput,
+  ManagePropertygraphStatisticsOutput,
+  ManagePropertygraphStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ManagePropertygraphStatisticsInput,
@@ -3929,14 +4005,7 @@ export const managePropertygraphStatistics: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Manages the generation and use of RDF graph statistics.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
- */
-export const manageSparqlStatistics: API.OperationMethod<
-  ManageSparqlStatisticsInput,
-  ManageSparqlStatisticsOutput,
+export type ManageSparqlStatisticsError =
   | AccessDeniedException
   | BadRequestException
   | ClientTimeoutException
@@ -3950,7 +4019,16 @@ export const manageSparqlStatistics: API.OperationMethod<
   | StatisticsNotAvailableException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Manages the generation and use of RDF graph statistics.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
+ */
+export const manageSparqlStatistics: API.OperationMethod<
+  ManageSparqlStatisticsInput,
+  ManageSparqlStatisticsOutput,
+  ManageSparqlStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ManageSparqlStatisticsInput,
@@ -3971,14 +4049,7 @@ export const manageSparqlStatistics: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See Using the Amazon Neptune Bulk Loader to Ingest Data.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
- */
-export const startLoaderJob: API.OperationMethod<
-  StartLoaderJobInput,
-  StartLoaderJobOutput,
+export type StartLoaderJobError =
   | BadRequestException
   | BulkLoadIdNotFoundException
   | ClientTimeoutException
@@ -3993,7 +4064,16 @@ export const startLoaderJob: API.OperationMethod<
   | S3Exception
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See Using the Amazon Neptune Bulk Loader to Ingest Data.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
+ */
+export const startLoaderJob: API.OperationMethod<
+  StartLoaderJobInput,
+  StartLoaderJobOutput,
+  StartLoaderJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLoaderJobInput,
@@ -4015,14 +4095,7 @@ export const startLoaderJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The `dataprocessing` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
- */
-export const startMLDataProcessingJob: API.OperationMethod<
-  StartMLDataProcessingJobInput,
-  StartMLDataProcessingJobOutput,
+export type StartMLDataProcessingJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -4034,7 +4107,16 @@ export const startMLDataProcessingJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The `dataprocessing` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
+ */
+export const startMLDataProcessingJob: API.OperationMethod<
+  StartMLDataProcessingJobInput,
+  StartMLDataProcessingJobOutput,
+  StartMLDataProcessingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMLDataProcessingJobInput,
@@ -4053,14 +4135,7 @@ export const startMLDataProcessingJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a new Neptune ML model training job. See Model training using the `modeltraining` command.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
- */
-export const startMLModelTrainingJob: API.OperationMethod<
-  StartMLModelTrainingJobInput,
-  StartMLModelTrainingJobOutput,
+export type StartMLModelTrainingJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -4072,7 +4147,16 @@ export const startMLModelTrainingJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Neptune ML model training job. See Model training using the `modeltraining` command.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
+ */
+export const startMLModelTrainingJob: API.OperationMethod<
+  StartMLModelTrainingJobInput,
+  StartMLModelTrainingJobOutput,
+  StartMLModelTrainingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMLModelTrainingJobInput,
@@ -4091,14 +4175,7 @@ export const startMLModelTrainingJob: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a new model transform job. See Use a trained model to generate new model artifacts.
- *
- * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
- */
-export const startMLModelTransformJob: API.OperationMethod<
-  StartMLModelTransformJobInput,
-  StartMLModelTransformJobOutput,
+export type StartMLModelTransformJobError =
   | BadRequestException
   | ClientTimeoutException
   | ConstraintViolationException
@@ -4110,7 +4187,16 @@ export const startMLModelTransformJob: API.OperationMethod<
   | PreconditionsFailedException
   | TooManyRequestsException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new model transform job. See Use a trained model to generate new model artifacts.
+ *
+ * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
+ */
+export const startMLModelTransformJob: API.OperationMethod<
+  StartMLModelTransformJobInput,
+  StartMLModelTransformJobOutput,
+  StartMLModelTransformJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMLModelTransformJobInput,

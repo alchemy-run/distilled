@@ -490,6 +490,14 @@ export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailab
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type InvokeEndpointWithBidirectionalStreamError =
+  | InputValidationError
+  | InternalServerError
+  | InternalStreamFailure
+  | ModelError
+  | ModelStreamError
+  | ServiceUnavailableError
+  | CommonErrors;
 /**
  * Invokes a model endpoint with bidirectional streaming capabilities. This operation establishes a persistent connection that allows you to send multiple requests and receive streaming responses from the model in real-time.
  *
@@ -508,13 +516,7 @@ export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailab
 export const invokeEndpointWithBidirectionalStream: API.OperationMethod<
   InvokeEndpointWithBidirectionalStreamInput,
   InvokeEndpointWithBidirectionalStreamOutput,
-  | InputValidationError
-  | InternalServerError
-  | InternalStreamFailure
-  | ModelError
-  | ModelStreamError
-  | ServiceUnavailableError
-  | CommonErrors,
+  InvokeEndpointWithBidirectionalStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeEndpointWithBidirectionalStreamInput,

@@ -1159,6 +1159,14 @@ export class PublicPolicyException extends S.TaggedErrorClass<PublicPolicyExcept
 ) {}
 
 //# Operations
+export type BatchGetSecretValueError =
+  | DecryptionFailure
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the contents of the encrypted fields `SecretString` or
  * `SecretBinary` for up to 20 secrets. To retrieve a single secret, call
@@ -1187,39 +1195,21 @@ export class PublicPolicyException extends S.TaggedErrorClass<PublicPolicyExcept
 export const batchGetSecretValue: API.OperationMethod<
   BatchGetSecretValueRequest,
   BatchGetSecretValueResponse,
-  | DecryptionFailure
-  | InternalServiceError
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  BatchGetSecretValueError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: BatchGetSecretValueRequest,
   ) => stream.Stream<
     BatchGetSecretValueResponse,
-    | DecryptionFailure
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    BatchGetSecretValueError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: BatchGetSecretValueRequest,
   ) => stream.Stream<
     unknown,
-    | DecryptionFailure
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    BatchGetSecretValueError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1239,6 +1229,12 @@ export const batchGetSecretValue: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CancelRotateSecretError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Turns off automatic rotation, and if a rotation is currently in progress, cancels the
  * rotation.
@@ -1264,11 +1260,7 @@ export const batchGetSecretValue: API.OperationMethod<
 export const cancelRotateSecret: API.OperationMethod<
   CancelRotateSecretRequest,
   CancelRotateSecretResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CancelRotateSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelRotateSecretRequest,
@@ -1280,6 +1272,18 @@ export const cancelRotateSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateSecretError =
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a new secret. A *secret* can be a password, a set of
  * credentials such as a user name and password, an OAuth token, or other secret
@@ -1340,17 +1344,7 @@ export const cancelRotateSecret: API.OperationMethod<
 export const createSecret: API.OperationMethod<
   CreateSecretRequest,
   CreateSecretResponse,
-  | DecryptionFailure
-  | EncryptionFailure
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | PreconditionNotMetException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecretRequest,
@@ -1368,6 +1362,12 @@ export const createSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the resource-based permission policy attached to the secret. To attach a
  * policy to a secret, use PutResourcePolicy.
@@ -1383,11 +1383,7 @@ export const createSecret: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -1399,6 +1395,12 @@ export const deleteResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteSecretError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a secret and all of its versions. You can specify a recovery window during
  * which you can restore the secret. The minimum recovery window is 7 days. The default
@@ -1442,11 +1444,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteSecret: API.OperationMethod<
   DeleteSecretRequest,
   DeleteSecretResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecretRequest,
@@ -1458,6 +1456,11 @@ export const deleteSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeSecretError =
+  | InternalServiceError
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the details of a secret. It does not include the encrypted secret value.
  * Secrets Manager only returns fields that have a value in the response.
@@ -1473,10 +1476,7 @@ export const deleteSecret: API.OperationMethod<
 export const describeSecret: API.OperationMethod<
   DescribeSecretRequest,
   DescribeSecretResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSecretRequest,
@@ -1487,6 +1487,11 @@ export const describeSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetRandomPasswordError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Generates a random password. We recommend that you specify the maximum length and
  * include every character type that the system you are generating a password for can
@@ -1506,10 +1511,7 @@ export const describeSecret: API.OperationMethod<
 export const getRandomPassword: API.OperationMethod<
   GetRandomPasswordRequest,
   GetRandomPasswordResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | CommonErrors,
+  GetRandomPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRandomPasswordRequest,
@@ -1520,6 +1522,12 @@ export const getRandomPassword: API.OperationMethod<
     InvalidRequestException,
   ],
 }));
+export type GetResourcePolicyError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the JSON text of the resource-based policy document attached to the secret.
  * For more information about permissions policies attached to a secret, see Permissions policies attached to a secret.
@@ -1535,11 +1543,7 @@ export const getRandomPassword: API.OperationMethod<
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -1551,6 +1555,13 @@ export const getResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSecretValueError =
+  | DecryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the contents of the encrypted fields `SecretString` or
  * `SecretBinary` from the specified version of a secret, whichever contains
@@ -1578,12 +1589,7 @@ export const getResourcePolicy: API.OperationMethod<
 export const getSecretValue: API.OperationMethod<
   GetSecretValueRequest,
   GetSecretValueResponse,
-  | DecryptionFailure
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSecretValueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecretValueRequest,
@@ -1596,6 +1602,12 @@ export const getSecretValue: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListSecretsError =
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets
  * that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager
@@ -1624,33 +1636,21 @@ export const getSecretValue: API.OperationMethod<
 export const listSecrets: API.OperationMethod<
   ListSecretsRequest,
   ListSecretsResponse,
-  | InternalServiceError
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidRequestException
-  | CommonErrors,
+  ListSecretsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecretsRequest,
   ) => stream.Stream<
     ListSecretsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
+    ListSecretsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecretsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
+    ListSecretsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1668,6 +1668,12 @@ export const listSecrets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecretVersionIdsError =
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different
  * versions of a secret. For more information, see Secrets Manager
@@ -1686,33 +1692,21 @@ export const listSecrets: API.OperationMethod<
 export const listSecretVersionIds: API.OperationMethod<
   ListSecretVersionIdsRequest,
   ListSecretVersionIdsResponse,
-  | InternalServiceError
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListSecretVersionIdsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecretVersionIdsRequest,
   ) => stream.Stream<
     ListSecretVersionIdsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSecretVersionIdsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecretVersionIdsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSecretVersionIdsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1730,6 +1724,14 @@ export const listSecretVersionIds: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutResourcePolicyError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | MalformedPolicyDocumentException
+  | PublicPolicyException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Attaches a resource-based permission policy to a secret. A resource-based policy is
  * optional. For more information, see Authentication and access control for Secrets Manager
@@ -1747,13 +1749,7 @@ export const listSecretVersionIds: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | MalformedPolicyDocumentException
-  | PublicPolicyException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -1767,6 +1763,16 @@ export const putResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutSecretValueError =
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a new version of your secret by creating a new encrypted value and attaching
  * it to the secret. version can contain a new `SecretString` value or a new
@@ -1810,15 +1816,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const putSecretValue: API.OperationMethod<
   PutSecretValueRequest,
   PutSecretValueResponse,
-  | DecryptionFailure
-  | EncryptionFailure
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutSecretValueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSecretValueRequest,
@@ -1834,6 +1832,12 @@ export const putSecretValue: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RemoveRegionsFromReplicationError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For a secret that is replicated to other Regions, deletes the secret replicas from the
  * Regions you specify.
@@ -1850,11 +1854,7 @@ export const putSecretValue: API.OperationMethod<
 export const removeRegionsFromReplication: API.OperationMethod<
   RemoveRegionsFromReplicationRequest,
   RemoveRegionsFromReplicationResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RemoveRegionsFromReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRegionsFromReplicationRequest,
@@ -1866,6 +1866,12 @@ export const removeRegionsFromReplication: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ReplicateSecretToRegionsError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Replicates the secret to a new Regions. See Multi-Region secrets.
  *
@@ -1885,11 +1891,7 @@ export const removeRegionsFromReplication: API.OperationMethod<
 export const replicateSecretToRegions: API.OperationMethod<
   ReplicateSecretToRegionsRequest,
   ReplicateSecretToRegionsResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ReplicateSecretToRegionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplicateSecretToRegionsRequest,
@@ -1901,6 +1903,12 @@ export const replicateSecretToRegions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RestoreSecretError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Cancels the scheduled deletion of a secret by removing the `DeletedDate`
  * time stamp. You can access a secret again after it has been restored.
@@ -1916,11 +1924,7 @@ export const replicateSecretToRegions: API.OperationMethod<
 export const restoreSecret: API.OperationMethod<
   RestoreSecretRequest,
   RestoreSecretResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RestoreSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreSecretRequest,
@@ -1932,6 +1936,12 @@ export const restoreSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RotateSecretError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Configures and starts the asynchronous process of rotating the secret. For information
  * about rotation, see Rotate secrets
@@ -1963,11 +1973,7 @@ export const restoreSecret: API.OperationMethod<
 export const rotateSecret: API.OperationMethod<
   RotateSecretRequest,
   RotateSecretResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RotateSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateSecretRequest,
@@ -1979,6 +1985,12 @@ export const rotateSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopReplicationToReplicaError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes the link between the replica secret and the primary secret and promotes the
  * replica to a primary secret in the replica Region.
@@ -1997,11 +2009,7 @@ export const rotateSecret: API.OperationMethod<
 export const stopReplicationToReplica: API.OperationMethod<
   StopReplicationToReplicaRequest,
   StopReplicationToReplicaResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopReplicationToReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopReplicationToReplicaRequest,
@@ -2013,6 +2021,12 @@ export const stopReplicationToReplica: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of
  * the secret's metadata. They are not associated with specific versions of the secret.
@@ -2037,11 +2051,7 @@ export const stopReplicationToReplica: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2053,6 +2063,12 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes specific tags from a secret.
  *
@@ -2075,11 +2091,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2091,6 +2103,18 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateSecretError =
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the details of a secret, including metadata and the secret value. To change
  * the secret value, you can also use PutSecretValue.
@@ -2141,17 +2165,7 @@ export const untagResource: API.OperationMethod<
 export const updateSecret: API.OperationMethod<
   UpdateSecretRequest,
   UpdateSecretResponse,
-  | DecryptionFailure
-  | EncryptionFailure
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | PreconditionNotMetException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecretRequest,
@@ -2169,6 +2183,13 @@ export const updateSecret: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateSecretVersionStageError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the staging labels attached to a version of a secret. Secrets Manager uses staging
  * labels to track a version as it progresses through the secret rotation process. Each
@@ -2202,12 +2223,7 @@ export const updateSecret: API.OperationMethod<
 export const updateSecretVersionStage: API.OperationMethod<
   UpdateSecretVersionStageRequest,
   UpdateSecretVersionStageResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateSecretVersionStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecretVersionStageRequest,
@@ -2220,6 +2236,13 @@ export const updateSecretVersionStage: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ValidateResourcePolicyError =
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | MalformedPolicyDocumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Validates that a resource policy does not grant a wide range of principals access to
  * your secret. A resource-based policy is optional for secrets.
@@ -2246,12 +2269,7 @@ export const updateSecretVersionStage: API.OperationMethod<
 export const validateResourcePolicy: API.OperationMethod<
   ValidateResourcePolicyRequest,
   ValidateResourcePolicyResponse,
-  | InternalServiceError
-  | InvalidParameterException
-  | InvalidRequestException
-  | MalformedPolicyDocumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ValidateResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateResourcePolicyRequest,

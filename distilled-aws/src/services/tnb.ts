@@ -1913,6 +1913,13 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type CancelSolNetworkOperationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a network operation.
  *
@@ -1921,12 +1928,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const cancelSolNetworkOperation: API.OperationMethod<
   CancelSolNetworkOperationInput,
   CancelSolNetworkOperationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelSolNetworkOperationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSolNetworkOperationInput,
@@ -1939,6 +1941,13 @@ export const cancelSolNetworkOperation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSolFunctionPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a function package.
  *
@@ -1952,12 +1961,7 @@ export const cancelSolNetworkOperation: API.OperationMethod<
 export const createSolFunctionPackage: API.OperationMethod<
   CreateSolFunctionPackageInput,
   CreateSolFunctionPackageOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSolFunctionPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSolFunctionPackageInput,
@@ -1970,6 +1974,14 @@ export const createSolFunctionPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSolNetworkInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a network instance.
  *
@@ -1983,13 +1995,7 @@ export const createSolFunctionPackage: API.OperationMethod<
 export const createSolNetworkInstance: API.OperationMethod<
   CreateSolNetworkInstanceInput,
   CreateSolNetworkInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSolNetworkInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSolNetworkInstanceInput,
@@ -2003,6 +2009,13 @@ export const createSolNetworkInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSolNetworkPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a network package.
  *
@@ -2020,12 +2033,7 @@ export const createSolNetworkInstance: API.OperationMethod<
 export const createSolNetworkPackage: API.OperationMethod<
   CreateSolNetworkPackageInput,
   CreateSolNetworkPackageOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSolNetworkPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSolNetworkPackageInput,
@@ -2038,6 +2046,13 @@ export const createSolNetworkPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSolFunctionPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a function package.
  *
@@ -2049,12 +2064,7 @@ export const createSolNetworkPackage: API.OperationMethod<
 export const deleteSolFunctionPackage: API.OperationMethod<
   DeleteSolFunctionPackageInput,
   DeleteSolFunctionPackageResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSolFunctionPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSolFunctionPackageInput,
@@ -2067,6 +2077,13 @@ export const deleteSolFunctionPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSolNetworkInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a network instance.
  *
@@ -2078,12 +2095,7 @@ export const deleteSolFunctionPackage: API.OperationMethod<
 export const deleteSolNetworkInstance: API.OperationMethod<
   DeleteSolNetworkInstanceInput,
   DeleteSolNetworkInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSolNetworkInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSolNetworkInstanceInput,
@@ -2096,6 +2108,13 @@ export const deleteSolNetworkInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSolNetworkPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes network package.
  *
@@ -2107,12 +2126,7 @@ export const deleteSolNetworkInstance: API.OperationMethod<
 export const deleteSolNetworkPackage: API.OperationMethod<
   DeleteSolNetworkPackageInput,
   DeleteSolNetworkPackageResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSolNetworkPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSolNetworkPackageInput,
@@ -2125,6 +2139,13 @@ export const deleteSolNetworkPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolFunctionInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of a network function instance, including the instantiation state and
  * metadata from the function package descriptor in the network function package.
@@ -2134,12 +2155,7 @@ export const deleteSolNetworkPackage: API.OperationMethod<
 export const getSolFunctionInstance: API.OperationMethod<
   GetSolFunctionInstanceInput,
   GetSolFunctionInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolFunctionInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolFunctionInstanceInput,
@@ -2152,6 +2168,13 @@ export const getSolFunctionInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolFunctionPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of an individual function package, such as the operational state and
  * whether the package is in use.
@@ -2161,12 +2184,7 @@ export const getSolFunctionInstance: API.OperationMethod<
 export const getSolFunctionPackage: API.OperationMethod<
   GetSolFunctionPackageInput,
   GetSolFunctionPackageOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolFunctionPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolFunctionPackageInput,
@@ -2179,6 +2197,13 @@ export const getSolFunctionPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolFunctionPackageContentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the contents of a function package.
  *
@@ -2187,12 +2212,7 @@ export const getSolFunctionPackage: API.OperationMethod<
 export const getSolFunctionPackageContent: API.OperationMethod<
   GetSolFunctionPackageContentInput,
   GetSolFunctionPackageContentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolFunctionPackageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolFunctionPackageContentInput,
@@ -2205,6 +2225,13 @@ export const getSolFunctionPackageContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolFunctionPackageDescriptorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a function package descriptor in a function package.
  *
@@ -2215,12 +2242,7 @@ export const getSolFunctionPackageContent: API.OperationMethod<
 export const getSolFunctionPackageDescriptor: API.OperationMethod<
   GetSolFunctionPackageDescriptorInput,
   GetSolFunctionPackageDescriptorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolFunctionPackageDescriptorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolFunctionPackageDescriptorInput,
@@ -2233,6 +2255,13 @@ export const getSolFunctionPackageDescriptor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolNetworkInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of the network instance.
  *
@@ -2241,12 +2270,7 @@ export const getSolFunctionPackageDescriptor: API.OperationMethod<
 export const getSolNetworkInstance: API.OperationMethod<
   GetSolNetworkInstanceInput,
   GetSolNetworkInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolNetworkInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolNetworkInstanceInput,
@@ -2259,6 +2283,13 @@ export const getSolNetworkInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolNetworkOperationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of a network operation, including the tasks involved in the network
  * operation and the status of the tasks.
@@ -2268,12 +2299,7 @@ export const getSolNetworkInstance: API.OperationMethod<
 export const getSolNetworkOperation: API.OperationMethod<
   GetSolNetworkOperationInput,
   GetSolNetworkOperationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolNetworkOperationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolNetworkOperationInput,
@@ -2286,6 +2312,13 @@ export const getSolNetworkOperation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolNetworkPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of a network package.
  *
@@ -2294,12 +2327,7 @@ export const getSolNetworkOperation: API.OperationMethod<
 export const getSolNetworkPackage: API.OperationMethod<
   GetSolNetworkPackageInput,
   GetSolNetworkPackageOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolNetworkPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolNetworkPackageInput,
@@ -2312,6 +2340,13 @@ export const getSolNetworkPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolNetworkPackageContentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the contents of a network package.
  *
@@ -2320,12 +2355,7 @@ export const getSolNetworkPackage: API.OperationMethod<
 export const getSolNetworkPackageContent: API.OperationMethod<
   GetSolNetworkPackageContentInput,
   GetSolNetworkPackageContentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolNetworkPackageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolNetworkPackageContentInput,
@@ -2338,6 +2368,13 @@ export const getSolNetworkPackageContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSolNetworkPackageDescriptorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the content of the network service descriptor.
  *
@@ -2346,12 +2383,7 @@ export const getSolNetworkPackageContent: API.OperationMethod<
 export const getSolNetworkPackageDescriptor: API.OperationMethod<
   GetSolNetworkPackageDescriptorInput,
   GetSolNetworkPackageDescriptorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSolNetworkPackageDescriptorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolNetworkPackageDescriptorInput,
@@ -2364,6 +2396,14 @@ export const getSolNetworkPackageDescriptor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type InstantiateSolNetworkInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Instantiates a network instance.
  *
@@ -2375,13 +2415,7 @@ export const getSolNetworkPackageDescriptor: API.OperationMethod<
 export const instantiateSolNetworkInstance: API.OperationMethod<
   InstantiateSolNetworkInstanceInput,
   InstantiateSolNetworkInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  InstantiateSolNetworkInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InstantiateSolNetworkInstanceInput,
@@ -2395,6 +2429,12 @@ export const instantiateSolNetworkInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSolFunctionInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists network function instances.
  *
@@ -2403,33 +2443,21 @@ export const instantiateSolNetworkInstance: API.OperationMethod<
 export const listSolFunctionInstances: API.OperationMethod<
   ListSolFunctionInstancesInput,
   ListSolFunctionInstancesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSolFunctionInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolFunctionInstancesInput,
   ) => stream.Stream<
     ListSolFunctionInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolFunctionInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolFunctionInstancesInput,
   ) => stream.Stream<
     ListSolFunctionInstanceInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolFunctionInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2448,6 +2476,12 @@ export const listSolFunctionInstances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSolFunctionPackagesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about function packages.
  *
@@ -2456,33 +2490,21 @@ export const listSolFunctionInstances: API.OperationMethod<
 export const listSolFunctionPackages: API.OperationMethod<
   ListSolFunctionPackagesInput,
   ListSolFunctionPackagesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSolFunctionPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolFunctionPackagesInput,
   ) => stream.Stream<
     ListSolFunctionPackagesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolFunctionPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolFunctionPackagesInput,
   ) => stream.Stream<
     ListSolFunctionPackageInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolFunctionPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2501,6 +2523,12 @@ export const listSolFunctionPackages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSolNetworkInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists your network instances.
  *
@@ -2509,33 +2537,21 @@ export const listSolFunctionPackages: API.OperationMethod<
 export const listSolNetworkInstances: API.OperationMethod<
   ListSolNetworkInstancesInput,
   ListSolNetworkInstancesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSolNetworkInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolNetworkInstancesInput,
   ) => stream.Stream<
     ListSolNetworkInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolNetworkInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolNetworkInstancesInput,
   ) => stream.Stream<
     ListSolNetworkInstanceInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolNetworkInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2554,6 +2570,12 @@ export const listSolNetworkInstances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSolNetworkOperationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists details for a network operation, including when the operation started and the
  * status of the operation.
@@ -2563,33 +2585,21 @@ export const listSolNetworkInstances: API.OperationMethod<
 export const listSolNetworkOperations: API.OperationMethod<
   ListSolNetworkOperationsInput,
   ListSolNetworkOperationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSolNetworkOperationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolNetworkOperationsInput,
   ) => stream.Stream<
     ListSolNetworkOperationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolNetworkOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolNetworkOperationsInput,
   ) => stream.Stream<
     ListSolNetworkOperationsInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolNetworkOperationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2608,6 +2618,12 @@ export const listSolNetworkOperations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSolNetworkPackagesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists network packages.
  *
@@ -2616,33 +2632,21 @@ export const listSolNetworkOperations: API.OperationMethod<
 export const listSolNetworkPackages: API.OperationMethod<
   ListSolNetworkPackagesInput,
   ListSolNetworkPackagesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSolNetworkPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolNetworkPackagesInput,
   ) => stream.Stream<
     ListSolNetworkPackagesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolNetworkPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolNetworkPackagesInput,
   ) => stream.Stream<
     ListSolNetworkPackageInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSolNetworkPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2661,18 +2665,20 @@ export const listSolNetworkPackages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags for AWS TNB resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -2685,6 +2691,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutSolFunctionPackageContentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Uploads the contents of a function package.
  *
@@ -2693,12 +2706,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putSolFunctionPackageContent: API.OperationMethod<
   PutSolFunctionPackageContentInput,
   PutSolFunctionPackageContentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutSolFunctionPackageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSolFunctionPackageContentInput,
@@ -2711,6 +2719,13 @@ export const putSolFunctionPackageContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutSolNetworkPackageContentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Uploads the contents of a network package.
  *
@@ -2719,12 +2734,7 @@ export const putSolFunctionPackageContent: API.OperationMethod<
 export const putSolNetworkPackageContent: API.OperationMethod<
   PutSolNetworkPackageContentInput,
   PutSolNetworkPackageContentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutSolNetworkPackageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSolNetworkPackageContentInput,
@@ -2737,6 +2747,13 @@ export const putSolNetworkPackageContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags an AWS TNB resource.
  *
@@ -2745,12 +2762,7 @@ export const putSolNetworkPackageContent: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -2763,6 +2775,14 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TerminateSolNetworkInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Terminates a network instance.
  *
@@ -2773,13 +2793,7 @@ export const tagResource: API.OperationMethod<
 export const terminateSolNetworkInstance: API.OperationMethod<
   TerminateSolNetworkInstanceInput,
   TerminateSolNetworkInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TerminateSolNetworkInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateSolNetworkInstanceInput,
@@ -2793,6 +2807,13 @@ export const terminateSolNetworkInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Untags an AWS TNB resource.
  *
@@ -2801,12 +2822,7 @@ export const terminateSolNetworkInstance: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -2819,6 +2835,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSolFunctionPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the operational state of function package.
  *
@@ -2827,12 +2850,7 @@ export const untagResource: API.OperationMethod<
 export const updateSolFunctionPackage: API.OperationMethod<
   UpdateSolFunctionPackageInput,
   UpdateSolFunctionPackageOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSolFunctionPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSolFunctionPackageInput,
@@ -2845,6 +2863,14 @@ export const updateSolFunctionPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSolNetworkInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a network instance.
  *
@@ -2855,13 +2881,7 @@ export const updateSolFunctionPackage: API.OperationMethod<
 export const updateSolNetworkInstance: API.OperationMethod<
   UpdateSolNetworkInstanceInput,
   UpdateSolNetworkInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSolNetworkInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSolNetworkInstanceInput,
@@ -2875,6 +2895,13 @@ export const updateSolNetworkInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSolNetworkPackageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the operational state of a network package.
  *
@@ -2885,12 +2912,7 @@ export const updateSolNetworkInstance: API.OperationMethod<
 export const updateSolNetworkPackage: API.OperationMethod<
   UpdateSolNetworkPackageInput,
   UpdateSolNetworkPackageOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSolNetworkPackageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSolNetworkPackageInput,
@@ -2903,6 +2925,13 @@ export const updateSolNetworkPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ValidateSolFunctionPackageContentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Validates function package content. This can be used as a dry run before uploading
  * function package content with PutSolFunctionPackageContent.
@@ -2912,12 +2941,7 @@ export const updateSolNetworkPackage: API.OperationMethod<
 export const validateSolFunctionPackageContent: API.OperationMethod<
   ValidateSolFunctionPackageContentInput,
   ValidateSolFunctionPackageContentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ValidateSolFunctionPackageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateSolFunctionPackageContentInput,
@@ -2930,6 +2954,13 @@ export const validateSolFunctionPackageContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ValidateSolNetworkPackageContentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Validates network package content. This can be used as a dry run before uploading
  * network package content with PutSolNetworkPackageContent.
@@ -2939,12 +2970,7 @@ export const validateSolFunctionPackageContent: API.OperationMethod<
 export const validateSolNetworkPackageContent: API.OperationMethod<
   ValidateSolNetworkPackageContentInput,
   ValidateSolNetworkPackageContentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ValidateSolNetworkPackageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateSolNetworkPackageContentInput,

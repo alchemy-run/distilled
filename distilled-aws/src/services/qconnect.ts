@@ -1191,26 +1191,26 @@ export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
 ).annotate({
   identifier: "NotifyRecommendationsReceivedRequest",
 }) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
-export interface NotifyRecommendationsReceivedError {
+export interface NotifyRecommendationsReceivedError_ {
   recommendationId?: string;
   message?: string;
 }
-export const NotifyRecommendationsReceivedError = S.suspend(() =>
+export const NotifyRecommendationsReceivedError_ = S.suspend(() =>
   S.Struct({
     recommendationId: S.optional(S.String),
     message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedError",
-}) as any as S.Schema<NotifyRecommendationsReceivedError>;
+}) as any as S.Schema<NotifyRecommendationsReceivedError_>;
 export type NotifyRecommendationsReceivedErrorList =
-  NotifyRecommendationsReceivedError[];
+  NotifyRecommendationsReceivedError_[];
 export const NotifyRecommendationsReceivedErrorList = S.Array(
-  NotifyRecommendationsReceivedError,
+  NotifyRecommendationsReceivedError_,
 );
 export interface NotifyRecommendationsReceivedResponse {
   recommendationIds?: string[];
-  errors?: NotifyRecommendationsReceivedError[];
+  errors?: NotifyRecommendationsReceivedError_[];
 }
 export const NotifyRecommendationsReceivedResponse = S.suspend(() =>
   S.Struct({
@@ -7758,57 +7758,65 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 ) {}
 
 //# Operations
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | TooManyTagsException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, TooManyTagsException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type CreateAssistantError =
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Q in Connect assistant.
  */
 export const createAssistant: API.OperationMethod<
   CreateAssistantRequest,
   CreateAssistantResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ServiceQuotaExceededException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  CreateAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssistantRequest,
@@ -7821,17 +7829,19 @@ export const createAssistant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssistantError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an assistant.
  */
 export const getAssistant: API.OperationMethod<
   GetAssistantRequest,
   GetAssistantResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssistantRequest,
@@ -7843,17 +7853,19 @@ export const getAssistant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssistantError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an assistant.
  */
 export const deleteAssistant: API.OperationMethod<
   DeleteAssistantRequest,
   DeleteAssistantResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssistantRequest,
@@ -7865,36 +7877,32 @@ export const deleteAssistant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssistantsError =
+  | AccessDeniedException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about assistants.
  */
 export const listAssistants: API.OperationMethod<
   ListAssistantsRequest,
   ListAssistantsResponse,
-  | AccessDeniedException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAssistantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssistantsRequest,
   ) => stream.Stream<
     ListAssistantsResponse,
-    | AccessDeniedException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAssistantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssistantsRequest,
   ) => stream.Stream<
     AssistantSummary,
-    | AccessDeniedException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAssistantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7908,6 +7916,11 @@ export const listAssistants: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetRecommendationsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
  *
@@ -7916,10 +7929,7 @@ export const listAssistants: API.OperationMethod<
 export const getRecommendations: API.OperationMethod<
   GetRecommendationsRequest,
   GetRecommendationsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
@@ -7930,16 +7940,18 @@ export const getRecommendations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type NotifyRecommendationsReceivedError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling behavior and avoiding duplicate recommendations.
  */
 export const notifyRecommendationsReceived: API.OperationMethod<
   NotifyRecommendationsReceivedRequest,
   NotifyRecommendationsReceivedResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  NotifyRecommendationsReceivedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyRecommendationsReceivedRequest,
@@ -7950,16 +7962,18 @@ export const notifyRecommendationsReceived: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutFeedbackError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
  */
 export const putFeedback: API.OperationMethod<
   PutFeedbackRequest,
   PutFeedbackResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFeedbackRequest,
@@ -7970,6 +7984,12 @@ export const putFeedback: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type QueryAssistantError =
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
  *
@@ -7978,33 +7998,21 @@ export const putFeedback: API.OperationMethod<
 export const queryAssistant: API.OperationMethod<
   QueryAssistantRequest,
   QueryAssistantResponse,
-  | AccessDeniedException
-  | RequestTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  QueryAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: QueryAssistantRequest,
   ) => stream.Stream<
     QueryAssistantResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    QueryAssistantError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: QueryAssistantRequest,
   ) => stream.Stream<
     ResultData,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    QueryAssistantError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8023,17 +8031,19 @@ export const queryAssistant: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RemoveAssistantAIAgentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
 export const removeAssistantAIAgent: API.OperationMethod<
   RemoveAssistantAIAgentRequest,
   RemoveAssistantAIAgentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveAssistantAIAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAssistantAIAgentRequest,
@@ -8045,12 +8055,7 @@ export const removeAssistantAIAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves content from knowledge sources based on a query.
- */
-export const retrieve: API.OperationMethod<
-  RetrieveRequest,
-  RetrieveResponse,
+export type RetrieveError =
   | AccessDeniedException
   | ConflictException
   | DependencyFailedException
@@ -8059,7 +8064,14 @@ export const retrieve: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves content from knowledge sources based on a query.
+ */
+export const retrieve: API.OperationMethod<
+  RetrieveRequest,
+  RetrieveResponse,
+  RetrieveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveRequest,
@@ -8075,39 +8087,33 @@ export const retrieve: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchSessionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for sessions.
  */
 export const searchSessions: API.OperationMethod<
   SearchSessionsRequest,
   SearchSessionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  SearchSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSessionsRequest,
   ) => stream.Stream<
     SearchSessionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSessionsRequest,
   ) => stream.Stream<
     SessionSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8126,17 +8132,19 @@ export const searchSessions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateAssistantAIAgentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
 export const updateAssistantAIAgent: API.OperationMethod<
   UpdateAssistantAIAgentRequest,
   UpdateAssistantAIAgentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssistantAIAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssistantAIAgentRequest,
@@ -8148,12 +8156,7 @@ export const updateAssistantAIAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon Q in Connect AI Agent.
- */
-export const createAIAgent: API.OperationMethod<
-  CreateAIAgentRequest,
-  CreateAIAgentResponse,
+export type CreateAIAgentError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8161,7 +8164,14 @@ export const createAIAgent: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect AI Agent.
+ */
+export const createAIAgent: API.OperationMethod<
+  CreateAIAgentRequest,
+  CreateAIAgentResponse,
+  CreateAIAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIAgentRequest,
@@ -8176,18 +8186,20 @@ export const createAIAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAIAgentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Q in Connect AI Agent.
  */
 export const getAIAgent: API.OperationMethod<
   GetAIAgentRequest,
   GetAIAgentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetAIAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAIAgentRequest,
@@ -8200,19 +8212,21 @@ export const getAIAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an AI Agent.
- */
-export const updateAIAgent: API.OperationMethod<
-  UpdateAIAgentRequest,
-  UpdateAIAgentResponse,
+export type UpdateAIAgentError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an AI Agent.
+ */
+export const updateAIAgent: API.OperationMethod<
+  UpdateAIAgentRequest,
+  UpdateAIAgentResponse,
+  UpdateAIAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAIAgentRequest,
@@ -8226,18 +8240,20 @@ export const updateAIAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAIAgentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Q in Connect AI Agent.
  */
 export const deleteAIAgent: API.OperationMethod<
   DeleteAIAgentRequest,
   DeleteAIAgentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteAIAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIAgentRequest,
@@ -8250,42 +8266,34 @@ export const deleteAIAgent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAIAgentsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists AI Agents.
  */
 export const listAIAgents: API.OperationMethod<
   ListAIAgentsRequest,
   ListAIAgentsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAIAgentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAIAgentsRequest,
   ) => stream.Stream<
     ListAIAgentsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAIAgentsRequest,
   ) => stream.Stream<
     AIAgentSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8305,12 +8313,7 @@ export const listAIAgents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates and Amazon Q in Connect AI Agent version.
- */
-export const createAIAgentVersion: API.OperationMethod<
-  CreateAIAgentVersionRequest,
-  CreateAIAgentVersionResponse,
+export type CreateAIAgentVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8318,7 +8321,14 @@ export const createAIAgentVersion: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates and Amazon Q in Connect AI Agent version.
+ */
+export const createAIAgentVersion: API.OperationMethod<
+  CreateAIAgentVersionRequest,
+  CreateAIAgentVersionResponse,
+  CreateAIAgentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIAgentVersionRequest,
@@ -8333,19 +8343,21 @@ export const createAIAgentVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Amazon Q in Connect AI Agent Version.
- */
-export const deleteAIAgentVersion: API.OperationMethod<
-  DeleteAIAgentVersionRequest,
-  DeleteAIAgentVersionResponse,
+export type DeleteAIAgentVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Q in Connect AI Agent Version.
+ */
+export const deleteAIAgentVersion: API.OperationMethod<
+  DeleteAIAgentVersionRequest,
+  DeleteAIAgentVersionResponse,
+  DeleteAIAgentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIAgentVersionRequest,
@@ -8359,42 +8371,34 @@ export const deleteAIAgentVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAIAgentVersionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * List AI Agent versions.
  */
 export const listAIAgentVersions: API.OperationMethod<
   ListAIAgentVersionsRequest,
   ListAIAgentVersionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAIAgentVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAIAgentVersionsRequest,
   ) => stream.Stream<
     ListAIAgentVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIAgentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAIAgentVersionsRequest,
   ) => stream.Stream<
     AIAgentVersionSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIAgentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8414,12 +8418,7 @@ export const listAIAgentVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Q in Connect AI Guardrail.
- */
-export const createAIGuardrail: API.OperationMethod<
-  CreateAIGuardrailRequest,
-  CreateAIGuardrailResponse,
+export type CreateAIGuardrailError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8427,7 +8426,14 @@ export const createAIGuardrail: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect AI Guardrail.
+ */
+export const createAIGuardrail: API.OperationMethod<
+  CreateAIGuardrailRequest,
+  CreateAIGuardrailResponse,
+  CreateAIGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIGuardrailRequest,
@@ -8442,18 +8448,20 @@ export const createAIGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAIGuardrailError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the Amazon Q in Connect AI Guardrail.
  */
 export const getAIGuardrail: API.OperationMethod<
   GetAIGuardrailRequest,
   GetAIGuardrailResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetAIGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAIGuardrailRequest,
@@ -8466,19 +8474,21 @@ export const getAIGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an AI Guardrail.
- */
-export const updateAIGuardrail: API.OperationMethod<
-  UpdateAIGuardrailRequest,
-  UpdateAIGuardrailResponse,
+export type UpdateAIGuardrailError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an AI Guardrail.
+ */
+export const updateAIGuardrail: API.OperationMethod<
+  UpdateAIGuardrailRequest,
+  UpdateAIGuardrailResponse,
+  UpdateAIGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAIGuardrailRequest,
@@ -8492,19 +8502,21 @@ export const updateAIGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Amazon Q in Connect AI Guardrail.
- */
-export const deleteAIGuardrail: API.OperationMethod<
-  DeleteAIGuardrailRequest,
-  DeleteAIGuardrailResponse,
+export type DeleteAIGuardrailError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Q in Connect AI Guardrail.
+ */
+export const deleteAIGuardrail: API.OperationMethod<
+  DeleteAIGuardrailRequest,
+  DeleteAIGuardrailResponse,
+  DeleteAIGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIGuardrailRequest,
@@ -8518,42 +8530,34 @@ export const deleteAIGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAIGuardrailsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the AI Guardrails available on the Amazon Q in Connect assistant.
  */
 export const listAIGuardrails: API.OperationMethod<
   ListAIGuardrailsRequest,
   ListAIGuardrailsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAIGuardrailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAIGuardrailsRequest,
   ) => stream.Stream<
     ListAIGuardrailsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIGuardrailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAIGuardrailsRequest,
   ) => stream.Stream<
     AIGuardrailSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIGuardrailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8573,12 +8577,7 @@ export const listAIGuardrails: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Q in Connect AI Guardrail version.
- */
-export const createAIGuardrailVersion: API.OperationMethod<
-  CreateAIGuardrailVersionRequest,
-  CreateAIGuardrailVersionResponse,
+export type CreateAIGuardrailVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8586,7 +8585,14 @@ export const createAIGuardrailVersion: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect AI Guardrail version.
+ */
+export const createAIGuardrailVersion: API.OperationMethod<
+  CreateAIGuardrailVersionRequest,
+  CreateAIGuardrailVersionResponse,
+  CreateAIGuardrailVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIGuardrailVersionRequest,
@@ -8601,19 +8607,21 @@ export const createAIGuardrailVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete and Amazon Q in Connect AI Guardrail version.
- */
-export const deleteAIGuardrailVersion: API.OperationMethod<
-  DeleteAIGuardrailVersionRequest,
-  DeleteAIGuardrailVersionResponse,
+export type DeleteAIGuardrailVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete and Amazon Q in Connect AI Guardrail version.
+ */
+export const deleteAIGuardrailVersion: API.OperationMethod<
+  DeleteAIGuardrailVersionRequest,
+  DeleteAIGuardrailVersionResponse,
+  DeleteAIGuardrailVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIGuardrailVersionRequest,
@@ -8627,42 +8635,34 @@ export const deleteAIGuardrailVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAIGuardrailVersionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists AI Guardrail versions.
  */
 export const listAIGuardrailVersions: API.OperationMethod<
   ListAIGuardrailVersionsRequest,
   ListAIGuardrailVersionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAIGuardrailVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAIGuardrailVersionsRequest,
   ) => stream.Stream<
     ListAIGuardrailVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIGuardrailVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAIGuardrailVersionsRequest,
   ) => stream.Stream<
     AIGuardrailVersionSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIGuardrailVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8682,12 +8682,7 @@ export const listAIGuardrailVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Q in Connect AI Prompt.
- */
-export const createAIPrompt: API.OperationMethod<
-  CreateAIPromptRequest,
-  CreateAIPromptResponse,
+export type CreateAIPromptError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8695,7 +8690,14 @@ export const createAIPrompt: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect AI Prompt.
+ */
+export const createAIPrompt: API.OperationMethod<
+  CreateAIPromptRequest,
+  CreateAIPromptResponse,
+  CreateAIPromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIPromptRequest,
@@ -8710,18 +8712,20 @@ export const createAIPrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAIPromptError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets and Amazon Q in Connect AI Prompt.
  */
 export const getAIPrompt: API.OperationMethod<
   GetAIPromptRequest,
   GetAIPromptResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetAIPromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAIPromptRequest,
@@ -8734,19 +8738,21 @@ export const getAIPrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an AI Prompt.
- */
-export const updateAIPrompt: API.OperationMethod<
-  UpdateAIPromptRequest,
-  UpdateAIPromptResponse,
+export type UpdateAIPromptError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an AI Prompt.
+ */
+export const updateAIPrompt: API.OperationMethod<
+  UpdateAIPromptRequest,
+  UpdateAIPromptResponse,
+  UpdateAIPromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAIPromptRequest,
@@ -8760,18 +8766,20 @@ export const updateAIPrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAIPromptError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Q in Connect AI Prompt.
  */
 export const deleteAIPrompt: API.OperationMethod<
   DeleteAIPromptRequest,
   DeleteAIPromptResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteAIPromptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIPromptRequest,
@@ -8784,42 +8792,34 @@ export const deleteAIPrompt: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAIPromptsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the AI Prompts available on the Amazon Q in Connect assistant.
  */
 export const listAIPrompts: API.OperationMethod<
   ListAIPromptsRequest,
   ListAIPromptsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAIPromptsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAIPromptsRequest,
   ) => stream.Stream<
     ListAIPromptsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIPromptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAIPromptsRequest,
   ) => stream.Stream<
     AIPromptSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIPromptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8839,12 +8839,7 @@ export const listAIPrompts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Q in Connect AI Prompt version.
- */
-export const createAIPromptVersion: API.OperationMethod<
-  CreateAIPromptVersionRequest,
-  CreateAIPromptVersionResponse,
+export type CreateAIPromptVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -8852,7 +8847,14 @@ export const createAIPromptVersion: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect AI Prompt version.
+ */
+export const createAIPromptVersion: API.OperationMethod<
+  CreateAIPromptVersionRequest,
+  CreateAIPromptVersionResponse,
+  CreateAIPromptVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIPromptVersionRequest,
@@ -8867,19 +8869,21 @@ export const createAIPromptVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete and Amazon Q in Connect AI Prompt version.
- */
-export const deleteAIPromptVersion: API.OperationMethod<
-  DeleteAIPromptVersionRequest,
-  DeleteAIPromptVersionResponse,
+export type DeleteAIPromptVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete and Amazon Q in Connect AI Prompt version.
+ */
+export const deleteAIPromptVersion: API.OperationMethod<
+  DeleteAIPromptVersionRequest,
+  DeleteAIPromptVersionResponse,
+  DeleteAIPromptVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIPromptVersionRequest,
@@ -8893,42 +8897,34 @@ export const deleteAIPromptVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAIPromptVersionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists AI Prompt versions.
  */
 export const listAIPromptVersions: API.OperationMethod<
   ListAIPromptVersionsRequest,
   ListAIPromptVersionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListAIPromptVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAIPromptVersionsRequest,
   ) => stream.Stream<
     ListAIPromptVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIPromptVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAIPromptVersionsRequest,
   ) => stream.Stream<
     AIPromptVersionSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListAIPromptVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8948,18 +8944,20 @@ export const listAIPromptVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateAssistantAssociationError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
  */
 export const createAssistantAssociation: API.OperationMethod<
   CreateAssistantAssociationRequest,
   CreateAssistantAssociationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateAssistantAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssistantAssociationRequest,
@@ -8972,17 +8970,19 @@ export const createAssistantAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssistantAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an assistant association.
  */
 export const getAssistantAssociation: API.OperationMethod<
   GetAssistantAssociationRequest,
   GetAssistantAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetAssistantAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssistantAssociationRequest,
@@ -8994,17 +8994,19 @@ export const getAssistantAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssistantAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an assistant association.
  */
 export const deleteAssistantAssociation: API.OperationMethod<
   DeleteAssistantAssociationRequest,
   DeleteAssistantAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssistantAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssistantAssociationRequest,
@@ -9016,36 +9018,32 @@ export const deleteAssistantAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssistantAssociationsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about assistant associations.
  */
 export const listAssistantAssociations: API.OperationMethod<
   ListAssistantAssociationsRequest,
   ListAssistantAssociationsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssistantAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssistantAssociationsRequest,
   ) => stream.Stream<
     ListAssistantAssociationsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssistantAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssistantAssociationsRequest,
   ) => stream.Stream<
     AssistantAssociationSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssistantAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9063,19 +9061,21 @@ export const listAssistantAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
- */
-export const createSession: API.OperationMethod<
-  CreateSessionRequest,
-  CreateSessionResponse,
+export type CreateSessionError =
   | AccessDeniedException
   | ConflictException
   | DependencyFailedException
   | ResourceNotFoundException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+ */
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
+  CreateSessionResponse,
+  CreateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
@@ -9089,17 +9089,19 @@ export const createSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSessionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information for a specified session.
  */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -9111,17 +9113,19 @@ export const getSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSessionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const updateSession: API.OperationMethod<
   UpdateSessionRequest,
   UpdateSessionResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  UpdateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionRequest,
@@ -9133,17 +9137,19 @@ export const updateSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNextMessageError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnprocessableContentException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves next message on an Amazon Q in Connect session.
  */
 export const getNextMessage: API.OperationMethod<
   GetNextMessageRequest,
   GetNextMessageResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnprocessableContentException
-  | ValidationException
-  | CommonErrors,
+  GetNextMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNextMessageRequest,
@@ -9155,36 +9161,32 @@ export const getNextMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMessagesError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists messages on an Amazon Q in Connect session.
  */
 export const listMessages: API.OperationMethod<
   ListMessagesRequest,
   ListMessagesResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListMessagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMessagesRequest,
   ) => stream.Stream<
     ListMessagesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMessagesRequest,
   ) => stream.Stream<
     MessageOutput,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9202,36 +9204,32 @@ export const listMessages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSpansError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
  */
 export const listSpans: API.OperationMethod<
   ListSpansRequest,
   ListSpansResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListSpansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSpansRequest,
   ) => stream.Stream<
     ListSpansResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSpansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpansRequest,
   ) => stream.Stream<
     Span,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSpansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9249,12 +9247,7 @@ export const listSpans: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Submits a message to the Amazon Q in Connect session.
- */
-export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
-  SendMessageResponse,
+export type SendMessageError =
   | AccessDeniedException
   | ConflictException
   | DependencyFailedException
@@ -9263,7 +9256,14 @@ export const sendMessage: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Submits a message to the Amazon Q in Connect session.
+ */
+export const sendMessage: API.OperationMethod<
+  SendMessageRequest,
+  SendMessageResponse,
+  SendMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
@@ -9279,17 +9279,19 @@ export const sendMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSessionDataError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the data stored on an Amazon Q in Connect Session.
  */
 export const updateSessionData: API.OperationMethod<
   UpdateSessionDataRequest,
   UpdateSessionDataResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  UpdateSessionDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionDataRequest,
@@ -9301,6 +9303,13 @@ export const updateSessionData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateKnowledgeBaseError =
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a knowledge base.
  *
@@ -9319,12 +9328,7 @@ export const updateSessionData: API.OperationMethod<
 export const createKnowledgeBase: API.OperationMethod<
   CreateKnowledgeBaseRequest,
   CreateKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ServiceQuotaExceededException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  CreateKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKnowledgeBaseRequest,
@@ -9337,17 +9341,19 @@ export const createKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKnowledgeBaseError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
   GetKnowledgeBaseRequest,
   GetKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseRequest,
@@ -9359,6 +9365,13 @@ export const getKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteKnowledgeBaseError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the knowledge base.
  *
@@ -9367,12 +9380,7 @@ export const getKnowledgeBase: API.OperationMethod<
 export const deleteKnowledgeBase: API.OperationMethod<
   DeleteKnowledgeBaseRequest,
   DeleteKnowledgeBaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteKnowledgeBaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnowledgeBaseRequest,
@@ -9385,27 +9393,31 @@ export const deleteKnowledgeBase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListKnowledgeBasesError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the knowledge bases.
  */
 export const listKnowledgeBases: API.OperationMethod<
   ListKnowledgeBasesRequest,
   ListKnowledgeBasesResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListKnowledgeBasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
     ListKnowledgeBasesResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
     KnowledgeBaseSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListKnowledgeBasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9419,18 +9431,20 @@ export const listKnowledgeBases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the quick response import job.
  */
 export const deleteImportJob: API.OperationMethod<
   DeleteImportJobRequest,
   DeleteImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImportJobRequest,
@@ -9443,16 +9457,18 @@ export const deleteImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetImportJobError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the started import job.
  */
 export const getImportJob: API.OperationMethod<
   GetImportJobRequest,
   GetImportJobResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
@@ -9463,27 +9479,31 @@ export const getImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListImportJobsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about import jobs.
  */
 export const listImportJobs: API.OperationMethod<
   ListImportJobsRequest,
   ListImportJobsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
     ListImportJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
     ImportJobSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9497,16 +9517,18 @@ export const listImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RemoveKnowledgeBaseTemplateUriError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a URI template from a knowledge base.
  */
 export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   RemoveKnowledgeBaseTemplateUriRequest,
   RemoveKnowledgeBaseTemplateUriResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RemoveKnowledgeBaseTemplateUriError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveKnowledgeBaseTemplateUriRequest,
@@ -9517,39 +9539,33 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchContentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
  */
 export const searchContent: API.OperationMethod<
   SearchContentRequest,
   SearchContentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  SearchContentError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchContentRequest,
   ) => stream.Stream<
     SearchContentResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchContentError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchContentRequest,
   ) => stream.Stream<
     ContentSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchContentError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9568,42 +9584,34 @@ export const searchContent: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchMessageTemplatesError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for Amazon Q in Connect message templates in the specified knowledge base.
  */
 export const searchMessageTemplates: API.OperationMethod<
   SearchMessageTemplatesRequest,
   SearchMessageTemplatesResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  SearchMessageTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchMessageTemplatesRequest,
   ) => stream.Stream<
     SearchMessageTemplatesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchMessageTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchMessageTemplatesRequest,
   ) => stream.Stream<
     MessageTemplateSearchResultData,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchMessageTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9623,42 +9631,34 @@ export const searchMessageTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchQuickResponsesError =
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
  */
 export const searchQuickResponses: API.OperationMethod<
   SearchQuickResponsesRequest,
   SearchQuickResponsesResponse,
-  | AccessDeniedException
-  | RequestTimeoutException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  SearchQuickResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchQuickResponsesRequest,
   ) => stream.Stream<
     SearchQuickResponsesResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchQuickResponsesRequest,
   ) => stream.Stream<
     QuickResponseSearchResultData,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    SearchQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9678,17 +9678,19 @@ export const searchQuickResponses: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartContentUploadError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
  */
 export const startContentUpload: API.OperationMethod<
   StartContentUploadRequest,
   StartContentUploadResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  StartContentUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContentUploadRequest,
@@ -9700,6 +9702,14 @@ export const startContentUpload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data.
  *
@@ -9708,13 +9718,7 @@ export const startContentUpload: API.OperationMethod<
 export const startImportJob: API.OperationMethod<
   StartImportJobRequest,
   StartImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  StartImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportJobRequest,
@@ -9728,16 +9732,18 @@ export const startImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKnowledgeBaseTemplateUriError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in `${variable}` format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an `Id` value, and you can set the template URI to `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
 export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   UpdateKnowledgeBaseTemplateUriRequest,
   UpdateKnowledgeBaseTemplateUriResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateKnowledgeBaseTemplateUriError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKnowledgeBaseTemplateUriRequest,
@@ -9748,19 +9754,21 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
- */
-export const createContent: API.OperationMethod<
-  CreateContentRequest,
-  CreateContentResponse,
+export type CreateContentError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
+ */
+export const createContent: API.OperationMethod<
+  CreateContentRequest,
+  CreateContentResponse,
+  CreateContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContentRequest,
@@ -9774,17 +9782,19 @@ export const createContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetContentError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves content, including a pre-signed URL to download the content.
  */
 export const getContent: API.OperationMethod<
   GetContentRequest,
   GetContentResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentRequest,
@@ -9796,18 +9806,20 @@ export const getContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateContentError =
+  | AccessDeniedException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates information about the content.
  */
 export const updateContent: API.OperationMethod<
   UpdateContentRequest,
   UpdateContentResponse,
-  | AccessDeniedException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  UpdateContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContentRequest,
@@ -9820,18 +9832,20 @@ export const updateContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteContentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the content.
  */
 export const deleteContent: API.OperationMethod<
   DeleteContentRequest,
   DeleteContentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContentRequest,
@@ -9844,36 +9858,32 @@ export const deleteContent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListContentsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the content.
  */
 export const listContents: API.OperationMethod<
   ListContentsRequest,
   ListContentsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListContentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContentsRequest,
   ) => stream.Stream<
     ListContentsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListContentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContentsRequest,
   ) => stream.Stream<
     ContentSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListContentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9891,17 +9901,19 @@ export const listContents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetContentSummaryError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves summary information about the content.
  */
 export const getContentSummary: API.OperationMethod<
   GetContentSummaryRequest,
   GetContentSummaryResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetContentSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentSummaryRequest,
@@ -9913,6 +9925,15 @@ export const getContentSummary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateContentAssociationError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an association between a content resource in a knowledge base and step-by-step guides. Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides.
  *
@@ -9929,14 +9950,7 @@ export const getContentSummary: API.OperationMethod<
 export const createContentAssociation: API.OperationMethod<
   CreateContentAssociationRequest,
   CreateContentAssociationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  CreateContentAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContentAssociationRequest,
@@ -9951,6 +9965,12 @@ export const createContentAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetContentAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the content association.
  *
@@ -9959,11 +9979,7 @@ export const createContentAssociation: API.OperationMethod<
 export const getContentAssociation: API.OperationMethod<
   GetContentAssociationRequest,
   GetContentAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetContentAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentAssociationRequest,
@@ -9975,6 +9991,12 @@ export const getContentAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteContentAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the content association.
  *
@@ -9983,11 +10005,7 @@ export const getContentAssociation: API.OperationMethod<
 export const deleteContentAssociation: API.OperationMethod<
   DeleteContentAssociationRequest,
   DeleteContentAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteContentAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContentAssociationRequest,
@@ -9999,6 +10017,12 @@ export const deleteContentAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListContentAssociationsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the content associations.
  *
@@ -10007,33 +10031,21 @@ export const deleteContentAssociation: API.OperationMethod<
 export const listContentAssociations: API.OperationMethod<
   ListContentAssociationsRequest,
   ListContentAssociationsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  ListContentAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContentAssociationsRequest,
   ) => stream.Stream<
     ListContentAssociationsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListContentAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContentAssociationsRequest,
   ) => stream.Stream<
     ContentAssociationSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListContentAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10052,19 +10064,21 @@ export const listContentAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the `$LATEST` qualifier to reference the created message template.
- */
-export const createMessageTemplate: API.OperationMethod<
-  CreateMessageTemplateRequest,
-  CreateMessageTemplateResponse,
+export type CreateMessageTemplateError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the `$LATEST` qualifier to reference the created message template.
+ */
+export const createMessageTemplate: API.OperationMethod<
+  CreateMessageTemplateRequest,
+  CreateMessageTemplateResponse,
+  CreateMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMessageTemplateRequest,
@@ -10078,18 +10092,20 @@ export const createMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMessageTemplateError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, `<message-template-id>:<qualifier>`, which is either an actual version number or an Amazon Q Connect managed qualifier `$ACTIVE_VERSION` | `$LATEST`. If it is not supplied, then `$LATEST` is assumed implicitly.
  */
 export const getMessageTemplate: API.OperationMethod<
   GetMessageTemplateRequest,
   GetMessageTemplateResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMessageTemplateRequest,
@@ -10102,18 +10118,20 @@ export const getMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMessageTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the `$LATEST` qualifier. Any modification will only apply to the message template that is referenced by the `$LATEST` qualifier. The fields for all available versions will remain unchanged.
  */
 export const updateMessageTemplate: API.OperationMethod<
   UpdateMessageTemplateRequest,
   UpdateMessageTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMessageTemplateRequest,
@@ -10126,18 +10144,20 @@ export const updateMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMessageTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as `<message-template-id>:<versionNumber>` to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
  */
 export const deleteMessageTemplate: API.OperationMethod<
   DeleteMessageTemplateRequest,
   DeleteMessageTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageTemplateRequest,
@@ -10150,39 +10170,33 @@ export const deleteMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMessageTemplatesError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
  */
 export const listMessageTemplates: API.OperationMethod<
   ListMessageTemplatesRequest,
   ListMessageTemplatesResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMessageTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMessageTemplatesRequest,
   ) => stream.Stream<
     ListMessageTemplatesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMessageTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMessageTemplatesRequest,
   ) => stream.Stream<
     MessageTemplateSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMessageTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10201,18 +10215,20 @@ export const listMessageTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ActivateMessageTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the `$ACTIVE_VERSION` qualifier later to reference the version that is in active status.
  */
 export const activateMessageTemplate: API.OperationMethod<
   ActivateMessageTemplateRequest,
   ActivateMessageTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ActivateMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateMessageTemplateRequest,
@@ -10225,12 +10241,7 @@ export const activateMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the `$LATEST` qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
- */
-export const createMessageTemplateAttachment: API.OperationMethod<
-  CreateMessageTemplateAttachmentRequest,
-  CreateMessageTemplateAttachmentResponse,
+export type CreateMessageTemplateAttachmentError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
@@ -10238,7 +10249,14 @@ export const createMessageTemplateAttachment: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the `$LATEST` qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
+ */
+export const createMessageTemplateAttachment: API.OperationMethod<
+  CreateMessageTemplateAttachmentRequest,
+  CreateMessageTemplateAttachmentResponse,
+  CreateMessageTemplateAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMessageTemplateAttachmentRequest,
@@ -10253,19 +10271,21 @@ export const createMessageTemplateAttachment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in `<message-template-id>:<versionNumber>` as the message template identifier. An error is displayed if the supplied `messageTemplateContentSha256` is different from the `messageTemplateContentSha256` of the message template with `$LATEST` qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
- */
-export const createMessageTemplateVersion: API.OperationMethod<
-  CreateMessageTemplateVersionRequest,
-  CreateMessageTemplateVersionResponse,
+export type CreateMessageTemplateVersionError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in `<message-template-id>:<versionNumber>` as the message template identifier. An error is displayed if the supplied `messageTemplateContentSha256` is different from the `messageTemplateContentSha256` of the message template with `$LATEST` qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
+ */
+export const createMessageTemplateVersion: API.OperationMethod<
+  CreateMessageTemplateVersionRequest,
+  CreateMessageTemplateVersionResponse,
+  CreateMessageTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMessageTemplateVersionRequest,
@@ -10279,18 +10299,20 @@ export const createMessageTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeactivateMessageTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the `$ACTIVE_VERSION` qualifier to reference the version in active status.
  */
 export const deactivateMessageTemplate: API.OperationMethod<
   DeactivateMessageTemplateRequest,
   DeactivateMessageTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeactivateMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateMessageTemplateRequest,
@@ -10303,18 +10325,20 @@ export const deactivateMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMessageTemplateAttachmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the attachment file from the Amazon Q in Connect message template that is referenced by `$LATEST` qualifier. Attachments on available message template versions will remain unchanged.
  */
 export const deleteMessageTemplateAttachment: API.OperationMethod<
   DeleteMessageTemplateAttachmentRequest,
   DeleteMessageTemplateAttachmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMessageTemplateAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageTemplateAttachmentRequest,
@@ -10327,39 +10351,33 @@ export const deleteMessageTemplateAttachment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMessageTemplateVersionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the available versions for the specified Amazon Q in Connect message template.
  */
 export const listMessageTemplateVersions: API.OperationMethod<
   ListMessageTemplateVersionsRequest,
   ListMessageTemplateVersionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMessageTemplateVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMessageTemplateVersionsRequest,
   ) => stream.Stream<
     ListMessageTemplateVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMessageTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMessageTemplateVersionsRequest,
   ) => stream.Stream<
     MessageTemplateVersionSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMessageTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10378,17 +10396,19 @@ export const listMessageTemplateVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RenderMessageTemplateError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
  */
 export const renderMessageTemplate: API.OperationMethod<
   RenderMessageTemplateRequest,
   RenderMessageTemplateResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RenderMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenderMessageTemplateRequest,
@@ -10400,18 +10420,20 @@ export const renderMessageTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMessageTemplateMetadataError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the `$LATEST` qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
  */
 export const updateMessageTemplateMetadata: API.OperationMethod<
   UpdateMessageTemplateMetadataRequest,
   UpdateMessageTemplateMetadataResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMessageTemplateMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMessageTemplateMetadataRequest,
@@ -10424,19 +10446,21 @@ export const updateMessageTemplateMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon Q in Connect quick response.
- */
-export const createQuickResponse: API.OperationMethod<
-  CreateQuickResponseRequest,
-  CreateQuickResponseResponse,
+export type CreateQuickResponseError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Q in Connect quick response.
+ */
+export const createQuickResponse: API.OperationMethod<
+  CreateQuickResponseRequest,
+  CreateQuickResponseResponse,
+  CreateQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuickResponseRequest,
@@ -10450,17 +10474,19 @@ export const createQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQuickResponseError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the quick response.
  */
 export const getQuickResponse: API.OperationMethod<
   GetQuickResponseRequest,
   GetQuickResponseResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuickResponseRequest,
@@ -10472,19 +10498,21 @@ export const getQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Amazon Q in Connect quick response.
- */
-export const updateQuickResponse: API.OperationMethod<
-  UpdateQuickResponseRequest,
-  UpdateQuickResponseResponse,
+export type UpdateQuickResponseError =
   | AccessDeniedException
   | ConflictException
   | PreconditionFailedException
   | ResourceNotFoundException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Amazon Q in Connect quick response.
+ */
+export const updateQuickResponse: API.OperationMethod<
+  UpdateQuickResponseRequest,
+  UpdateQuickResponseResponse,
+  UpdateQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQuickResponseRequest,
@@ -10498,17 +10526,19 @@ export const updateQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteQuickResponseError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a quick response.
  */
 export const deleteQuickResponse: API.OperationMethod<
   DeleteQuickResponseRequest,
   DeleteQuickResponseResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  DeleteQuickResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQuickResponseRequest,
@@ -10520,36 +10550,32 @@ export const deleteQuickResponse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListQuickResponsesError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about quick response.
  */
 export const listQuickResponses: API.OperationMethod<
   ListQuickResponsesRequest,
   ListQuickResponsesResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListQuickResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQuickResponsesRequest,
   ) => stream.Stream<
     ListQuickResponsesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQuickResponsesRequest,
   ) => stream.Stream<
     QuickResponseSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListQuickResponsesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -2165,18 +2165,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type CancelCapacityTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the capacity task.
  */
 export const cancelCapacityTask: API.OperationMethod<
   CancelCapacityTaskInput,
   CancelCapacityTaskOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelCapacityTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCapacityTaskInput,
@@ -2189,18 +2191,20 @@ export const cancelCapacityTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelOrderError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the specified order for an Outpost.
  */
 export const cancelOrder: API.OperationMethod<
   CancelOrderInput,
   CancelOrderOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelOrderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOrderInput,
@@ -2213,19 +2217,21 @@ export const cancelOrder: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an order for an Outpost.
- */
-export const createOrder: API.OperationMethod<
-  CreateOrderInput,
-  CreateOrderOutput,
+export type CreateOrderError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | NotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an order for an Outpost.
+ */
+export const createOrder: API.OperationMethod<
+  CreateOrderInput,
+  CreateOrderOutput,
+  CreateOrderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrderInput,
@@ -2239,6 +2245,14 @@ export const createOrder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateOutpostError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Outpost.
  *
@@ -2247,13 +2261,7 @@ export const createOrder: API.OperationMethod<
 export const createOutpost: API.OperationMethod<
   CreateOutpostInput,
   CreateOutpostOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateOutpostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOutpostInput,
@@ -2267,18 +2275,20 @@ export const createOutpost: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSiteError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a site for an Outpost.
  */
 export const createSite: API.OperationMethod<
   CreateSiteInput,
   CreateSiteOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateSiteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSiteInput,
@@ -2291,18 +2301,20 @@ export const createSite: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOutpostError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified Outpost.
  */
 export const deleteOutpost: API.OperationMethod<
   DeleteOutpostInput,
   DeleteOutpostOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteOutpostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutpostInput,
@@ -2315,18 +2327,20 @@ export const deleteOutpost: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSiteError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified site.
  */
 export const deleteSite: API.OperationMethod<
   DeleteSiteInput,
   DeleteSiteOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSiteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSiteInput,
@@ -2339,17 +2353,19 @@ export const deleteSite: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCapacityTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details of the specified capacity task.
  */
 export const getCapacityTask: API.OperationMethod<
   GetCapacityTaskInput,
   GetCapacityTaskOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetCapacityTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCapacityTaskInput,
@@ -2361,17 +2377,19 @@ export const getCapacityTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCatalogItemError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified catalog item.
  */
 export const getCatalogItem: API.OperationMethod<
   GetCatalogItemInput,
   GetCatalogItemOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetCatalogItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCatalogItemInput,
@@ -2383,6 +2401,12 @@ export const getCatalogItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Amazon Web Services uses this action to install Outpost servers.
  *
@@ -2396,11 +2420,7 @@ export const getCatalogItem: API.OperationMethod<
 export const getConnection: API.OperationMethod<
   GetConnectionRequest,
   GetConnectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
@@ -2412,33 +2432,37 @@ export const getConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOrderError =
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified order.
  */
 export const getOrder: API.OperationMethod<
   GetOrderInput,
   GetOrderOutput,
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetOrderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrderInput,
   output: GetOrderOutput,
   errors: [InternalServerException, NotFoundException, ValidationException],
 }));
+export type GetOutpostError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified Outpost.
  */
 export const getOutpost: API.OperationMethod<
   GetOutpostInput,
   GetOutpostOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetOutpostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOutpostInput,
@@ -2450,36 +2474,32 @@ export const getOutpost: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOutpostBillingInformationError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets current and historical billing information about the specified Outpost.
  */
 export const getOutpostBillingInformation: API.OperationMethod<
   GetOutpostBillingInformationInput,
   GetOutpostBillingInformationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | CommonErrors,
+  GetOutpostBillingInformationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOutpostBillingInformationInput,
   ) => stream.Stream<
     GetOutpostBillingInformationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | CommonErrors,
+    GetOutpostBillingInformationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOutpostBillingInformationInput,
   ) => stream.Stream<
     Subscription,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | CommonErrors,
+    GetOutpostBillingInformationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2493,39 +2513,33 @@ export const getOutpostBillingInformation: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetOutpostInstanceTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the instance types for the specified Outpost.
  */
 export const getOutpostInstanceTypes: API.OperationMethod<
   GetOutpostInstanceTypesInput,
   GetOutpostInstanceTypesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetOutpostInstanceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOutpostInstanceTypesInput,
   ) => stream.Stream<
     GetOutpostInstanceTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetOutpostInstanceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOutpostInstanceTypesInput,
   ) => stream.Stream<
     InstanceTypeItem,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetOutpostInstanceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2544,6 +2558,12 @@ export const getOutpostInstanceTypes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetOutpostSupportedInstanceTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the instance types that an Outpost can support in `InstanceTypeCapacity`.
  * This will generally include instance types that are not currently configured and therefore
@@ -2552,33 +2572,21 @@ export const getOutpostInstanceTypes: API.OperationMethod<
 export const getOutpostSupportedInstanceTypes: API.OperationMethod<
   GetOutpostSupportedInstanceTypesInput,
   GetOutpostSupportedInstanceTypesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetOutpostSupportedInstanceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOutpostSupportedInstanceTypesInput,
   ) => stream.Stream<
     GetOutpostSupportedInstanceTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetOutpostSupportedInstanceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOutpostSupportedInstanceTypesInput,
   ) => stream.Stream<
     InstanceTypeItem,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetOutpostSupportedInstanceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2597,17 +2605,19 @@ export const getOutpostSupportedInstanceTypes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetSiteError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified Outpost site.
  */
 export const getSite: API.OperationMethod<
   GetSiteInput,
   GetSiteOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSiteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSiteInput,
@@ -2619,17 +2629,19 @@ export const getSite: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSiteAddressError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the site address of the specified site.
  */
 export const getSiteAddress: API.OperationMethod<
   GetSiteAddressInput,
   GetSiteAddressOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSiteAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSiteAddressInput,
@@ -2641,6 +2653,12 @@ export const getSiteAddress: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssetInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost.
  * Does not include Amazon EBS or Amazon S3 instances.
@@ -2648,33 +2666,21 @@ export const getSiteAddress: API.OperationMethod<
 export const listAssetInstances: API.OperationMethod<
   ListAssetInstancesInput,
   ListAssetInstancesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssetInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetInstancesInput,
   ) => stream.Stream<
     ListAssetInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssetInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetInstancesInput,
   ) => stream.Stream<
     AssetInstance,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssetInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2693,6 +2699,12 @@ export const listAssetInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAssetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the hardware assets for the specified Outpost.
  *
@@ -2703,33 +2715,21 @@ export const listAssetInstances: API.OperationMethod<
 export const listAssets: API.OperationMethod<
   ListAssetsInput,
   ListAssetsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetsInput,
   ) => stream.Stream<
     ListAssetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetsInput,
   ) => stream.Stream<
     AssetInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2748,6 +2748,12 @@ export const listAssets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListBlockingInstancesForCapacityTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * A list of Amazon EC2 instances running on the Outpost and belonging to the account that
  * initiated the capacity task. Use this list to specify the instances you cannot stop to free up
@@ -2756,33 +2762,21 @@ export const listAssets: API.OperationMethod<
 export const listBlockingInstancesForCapacityTask: API.OperationMethod<
   ListBlockingInstancesForCapacityTaskInput,
   ListBlockingInstancesForCapacityTaskOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListBlockingInstancesForCapacityTaskError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBlockingInstancesForCapacityTaskInput,
   ) => stream.Stream<
     ListBlockingInstancesForCapacityTaskOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListBlockingInstancesForCapacityTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBlockingInstancesForCapacityTaskInput,
   ) => stream.Stream<
     BlockingInstance,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListBlockingInstancesForCapacityTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2801,6 +2795,12 @@ export const listBlockingInstancesForCapacityTask: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCapacityTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the capacity tasks for your Amazon Web Services account.
  *
@@ -2811,33 +2811,21 @@ export const listBlockingInstancesForCapacityTask: API.OperationMethod<
 export const listCapacityTasks: API.OperationMethod<
   ListCapacityTasksInput,
   ListCapacityTasksOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListCapacityTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCapacityTasksInput,
   ) => stream.Stream<
     ListCapacityTasksOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListCapacityTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCapacityTasksInput,
   ) => stream.Stream<
     CapacityTaskSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListCapacityTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2856,6 +2844,12 @@ export const listCapacityTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCatalogItemsError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the items in the catalog.
  *
@@ -2866,33 +2860,21 @@ export const listCapacityTasks: API.OperationMethod<
 export const listCatalogItems: API.OperationMethod<
   ListCatalogItemsInput,
   ListCatalogItemsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListCatalogItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCatalogItemsInput,
   ) => stream.Stream<
     ListCatalogItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListCatalogItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCatalogItemsInput,
   ) => stream.Stream<
     CatalogItem,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListCatalogItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2911,39 +2893,33 @@ export const listCatalogItems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOrdersError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Outpost orders for your Amazon Web Services account.
  */
 export const listOrders: API.OperationMethod<
   ListOrdersInput,
   ListOrdersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListOrdersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrdersInput,
   ) => stream.Stream<
     ListOrdersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListOrdersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrdersInput,
   ) => stream.Stream<
     OrderSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListOrdersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2962,6 +2938,11 @@ export const listOrders: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOutpostsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Outposts for your Amazon Web Services account.
  *
@@ -2972,30 +2953,21 @@ export const listOrders: API.OperationMethod<
 export const listOutposts: API.OperationMethod<
   ListOutpostsInput,
   ListOutpostsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListOutpostsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOutpostsInput,
   ) => stream.Stream<
     ListOutpostsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListOutpostsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOutpostsInput,
   ) => stream.Stream<
     Outpost,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListOutpostsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3009,6 +2981,11 @@ export const listOutposts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSitesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific
  * results.
@@ -3020,30 +2997,21 @@ export const listOutposts: API.OperationMethod<
 export const listSites: API.OperationMethod<
   ListSitesInput,
   ListSitesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListSitesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSitesInput,
   ) => stream.Stream<
     ListSitesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListSitesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSitesInput,
   ) => stream.Stream<
     Site,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListSitesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3057,22 +3025,31 @@ export const listSites: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
 }));
+export type StartCapacityTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the specified capacity task. You can have one active capacity task for each order
  * and each Outpost.
@@ -3080,12 +3057,7 @@ export const listTagsForResource: API.OperationMethod<
 export const startCapacityTask: API.OperationMethod<
   StartCapacityTaskInput,
   StartCapacityTaskOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartCapacityTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCapacityTaskInput,
@@ -3098,6 +3070,12 @@ export const startCapacityTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Amazon Web Services uses this action to install Outpost servers.
  *
@@ -3111,11 +3089,7 @@ export const startCapacityTask: API.OperationMethod<
 export const startConnection: API.OperationMethod<
   StartConnectionRequest,
   StartConnectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConnectionRequest,
@@ -3127,18 +3101,20 @@ export const startConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartOutpostDecommissionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the decommission process to return the Outposts racks or servers.
  */
 export const startOutpostDecommission: API.OperationMethod<
   StartOutpostDecommissionInput,
   StartOutpostDecommissionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartOutpostDecommissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartOutpostDecommissionInput,
@@ -3151,50 +3127,56 @@ export const startOutpostDecommission: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
 }));
+export type UpdateOutpostError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an Outpost.
  */
 export const updateOutpost: API.OperationMethod<
   UpdateOutpostInput,
   UpdateOutpostOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateOutpostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOutpostInput,
@@ -3207,18 +3189,20 @@ export const updateOutpost: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSiteError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified site.
  */
 export const updateSite: API.OperationMethod<
   UpdateSiteInput,
   UpdateSiteOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSiteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSiteInput,
@@ -3231,6 +3215,13 @@ export const updateSite: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSiteAddressError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the address of the specified site.
  *
@@ -3243,12 +3234,7 @@ export const updateSite: API.OperationMethod<
 export const updateSiteAddress: API.OperationMethod<
   UpdateSiteAddressInput,
   UpdateSiteAddressOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSiteAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSiteAddressInput,
@@ -3261,6 +3247,13 @@ export const updateSiteAddress: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSiteRackPhysicalPropertiesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the physical and logistical details for a rack at a site. For more information
  * about hardware requirements for racks, see Network
@@ -3272,12 +3265,7 @@ export const updateSiteAddress: API.OperationMethod<
 export const updateSiteRackPhysicalProperties: API.OperationMethod<
   UpdateSiteRackPhysicalPropertiesInput,
   UpdateSiteRackPhysicalPropertiesOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | NotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSiteRackPhysicalPropertiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSiteRackPhysicalPropertiesInput,

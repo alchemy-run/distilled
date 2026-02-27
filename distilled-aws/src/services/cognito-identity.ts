@@ -1064,6 +1064,14 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateIdentityPoolError =
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new identity pool. The identity pool is a store of user identity
  * information that is specific to your Amazon Web Services account. The keys for
@@ -1089,13 +1097,7 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 export const createIdentityPool: API.OperationMethod<
   CreateIdentityPoolInput,
   IdentityPool,
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateIdentityPoolError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdentityPoolInput,
@@ -1109,6 +1111,11 @@ export const createIdentityPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteIdentitiesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes identities from an identity pool. You can specify a list of 1-60 identities
  * that you want to delete.
@@ -1119,10 +1126,7 @@ export const createIdentityPool: API.OperationMethod<
 export const deleteIdentities: API.OperationMethod<
   DeleteIdentitiesInput,
   DeleteIdentitiesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteIdentitiesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentitiesInput,
@@ -1133,6 +1137,13 @@ export const deleteIdentities: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteIdentityPoolError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an identity pool. Once a pool is deleted, users will not be able to
  * authenticate with the pool.
@@ -1143,12 +1154,7 @@ export const deleteIdentities: API.OperationMethod<
 export const deleteIdentityPool: API.OperationMethod<
   DeleteIdentityPoolInput,
   DeleteIdentityPoolResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteIdentityPoolError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityPoolInput,
@@ -1161,6 +1167,13 @@ export const deleteIdentityPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeIdentityError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns metadata related to the given identity, including when the identity was
  * created and any associated linked logins.
@@ -1171,12 +1184,7 @@ export const deleteIdentityPool: API.OperationMethod<
 export const describeIdentity: API.OperationMethod<
   DescribeIdentityInput,
   IdentityDescription,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityInput,
@@ -1189,6 +1197,13 @@ export const describeIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeIdentityPoolError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets details about a particular identity pool, including the pool name, ID
  * description, creation date, and current number of users.
@@ -1199,12 +1214,7 @@ export const describeIdentity: API.OperationMethod<
 export const describeIdentityPool: API.OperationMethod<
   DescribeIdentityPoolInput,
   IdentityPool,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeIdentityPoolError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityPoolInput,
@@ -1217,6 +1227,16 @@ export const describeIdentityPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetCredentialsForIdentityError =
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidIdentityPoolConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns credentials for the provided identity ID. Any provided logins will be
  * validated against supported login providers. If the token is for
@@ -1227,15 +1247,7 @@ export const describeIdentityPool: API.OperationMethod<
 export const getCredentialsForIdentity: API.OperationMethod<
   GetCredentialsForIdentityInput,
   GetCredentialsForIdentityResponse,
-  | ExternalServiceException
-  | InternalErrorException
-  | InvalidIdentityPoolConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCredentialsForIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCredentialsForIdentityInput,
@@ -1251,6 +1263,16 @@ export const getCredentialsForIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetIdError =
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Generates (or retrieves) IdentityID. Supplying multiple logins will create an
  * implicit linked account.
@@ -1260,15 +1282,7 @@ export const getCredentialsForIdentity: API.OperationMethod<
 export const getId: API.OperationMethod<
   GetIdInput,
   GetIdResponse,
-  | ExternalServiceException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetIdError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdInput,
@@ -1284,6 +1298,14 @@ export const getId: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetIdentityPoolRolesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the roles for an identity pool.
  *
@@ -1293,13 +1315,7 @@ export const getId: API.OperationMethod<
 export const getIdentityPoolRoles: API.OperationMethod<
   GetIdentityPoolRolesInput,
   GetIdentityPoolRolesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetIdentityPoolRolesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityPoolRolesInput,
@@ -1313,6 +1329,15 @@ export const getIdentityPoolRoles: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetOpenIdTokenError =
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
  * GetId. You can optionally add additional logins for the identity.
@@ -1325,14 +1350,7 @@ export const getIdentityPoolRoles: API.OperationMethod<
 export const getOpenIdToken: API.OperationMethod<
   GetOpenIdTokenInput,
   GetOpenIdTokenResponse,
-  | ExternalServiceException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetOpenIdTokenError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpenIdTokenInput,
@@ -1347,6 +1365,15 @@ export const getOpenIdToken: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetOpenIdTokenForDeveloperIdentityError =
+  | DeveloperUserAlreadyRegisteredException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Registers (or retrieves) a Cognito `IdentityId` and an OpenID Connect
  * token for a user authenticated by your backend authentication process. Supplying multiple
@@ -1368,14 +1395,7 @@ export const getOpenIdToken: API.OperationMethod<
 export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
   GetOpenIdTokenForDeveloperIdentityInput,
   GetOpenIdTokenForDeveloperIdentityResponse,
-  | DeveloperUserAlreadyRegisteredException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetOpenIdTokenForDeveloperIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpenIdTokenForDeveloperIdentityInput,
@@ -1390,6 +1410,13 @@ export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetPrincipalTagAttributeMapError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Use `GetPrincipalTagAttributeMap` to list all mappings between
  * `PrincipalTags` and user attributes.
@@ -1397,12 +1424,7 @@ export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
 export const getPrincipalTagAttributeMap: API.OperationMethod<
   GetPrincipalTagAttributeMapInput,
   GetPrincipalTagAttributeMapResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetPrincipalTagAttributeMapError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPrincipalTagAttributeMapInput,
@@ -1415,6 +1437,13 @@ export const getPrincipalTagAttributeMap: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListIdentitiesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the identities in an identity pool.
  *
@@ -1424,12 +1453,7 @@ export const getPrincipalTagAttributeMap: API.OperationMethod<
 export const listIdentities: API.OperationMethod<
   ListIdentitiesInput,
   ListIdentitiesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListIdentitiesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIdentitiesInput,
@@ -1442,6 +1466,13 @@ export const listIdentities: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListIdentityPoolsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists all of the Cognito identity pools registered for your account.
  *
@@ -1451,36 +1482,21 @@ export const listIdentities: API.OperationMethod<
 export const listIdentityPools: API.OperationMethod<
   ListIdentityPoolsInput,
   ListIdentityPoolsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListIdentityPoolsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdentityPoolsInput,
   ) => stream.Stream<
     ListIdentityPoolsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListIdentityPoolsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentityPoolsInput,
   ) => stream.Stream<
     IdentityPoolShortDescription,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListIdentityPoolsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1500,6 +1516,13 @@ export const listIdentityPools: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the tags that are assigned to an Amazon Cognito identity pool.
  *
@@ -1511,12 +1534,7 @@ export const listIdentityPools: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -1529,6 +1547,14 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type LookupDeveloperIdentityError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the `IdentityID` associated with a
  * `DeveloperUserIdentifier` or the list of `DeveloperUserIdentifier`
@@ -1553,13 +1579,7 @@ export const listTagsForResource: API.OperationMethod<
 export const lookupDeveloperIdentity: API.OperationMethod<
   LookupDeveloperIdentityInput,
   LookupDeveloperIdentityResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  LookupDeveloperIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupDeveloperIdentityInput,
@@ -1573,6 +1593,14 @@ export const lookupDeveloperIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type MergeDeveloperIdentitiesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Merges two users having different `IdentityId`s, existing in the same
  * identity pool, and identified by the same developer provider. You can use this action to
@@ -1594,13 +1622,7 @@ export const lookupDeveloperIdentity: API.OperationMethod<
 export const mergeDeveloperIdentities: API.OperationMethod<
   MergeDeveloperIdentitiesInput,
   MergeDeveloperIdentitiesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  MergeDeveloperIdentitiesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergeDeveloperIdentitiesInput,
@@ -1614,6 +1636,15 @@ export const mergeDeveloperIdentities: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetIdentityPoolRolesError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
  *
@@ -1623,14 +1654,7 @@ export const mergeDeveloperIdentities: API.OperationMethod<
 export const setIdentityPoolRoles: API.OperationMethod<
   SetIdentityPoolRolesInput,
   SetIdentityPoolRolesResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetIdentityPoolRolesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityPoolRolesInput,
@@ -1645,6 +1669,13 @@ export const setIdentityPoolRoles: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetPrincipalTagAttributeMapError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * You can use this operation to use default (username and clientID) attribute or custom
  * attribute mappings.
@@ -1652,12 +1683,7 @@ export const setIdentityPoolRoles: API.OperationMethod<
 export const setPrincipalTagAttributeMap: API.OperationMethod<
   SetPrincipalTagAttributeMapInput,
   SetPrincipalTagAttributeMapResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetPrincipalTagAttributeMapError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetPrincipalTagAttributeMapInput,
@@ -1670,6 +1696,13 @@ export const setPrincipalTagAttributeMap: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
  * that you can use to categorize and manage identity pools in different ways, such as by
@@ -1693,12 +1726,7 @@ export const setPrincipalTagAttributeMap: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1711,6 +1739,14 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UnlinkDeveloperIdentityError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Unlinks a `DeveloperUserIdentifier` from an existing identity. Unlinked
  * developer users will be considered new identities next time they are seen. If, for a given
@@ -1723,13 +1759,7 @@ export const tagResource: API.OperationMethod<
 export const unlinkDeveloperIdentity: API.OperationMethod<
   UnlinkDeveloperIdentityInput,
   UnlinkDeveloperIdentityResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UnlinkDeveloperIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlinkDeveloperIdentityInput,
@@ -1743,6 +1773,15 @@ export const unlinkDeveloperIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UnlinkIdentityError =
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Unlinks a federated identity from an existing account. Unlinked logins will be
  * considered new identities next time they are seen. Removing the last linked login will make
@@ -1753,14 +1792,7 @@ export const unlinkDeveloperIdentity: API.OperationMethod<
 export const unlinkIdentity: API.OperationMethod<
   UnlinkIdentityInput,
   UnlinkIdentityResponse,
-  | ExternalServiceException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UnlinkIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlinkIdentityInput,
@@ -1775,6 +1807,13 @@ export const unlinkIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
  * this action up to 5 times per second, per account
@@ -1782,12 +1821,7 @@ export const unlinkIdentity: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1800,6 +1834,16 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateIdentityPoolError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the configuration of an identity pool.
  *
@@ -1811,15 +1855,7 @@ export const untagResource: API.OperationMethod<
 export const updateIdentityPool: API.OperationMethod<
   IdentityPool,
   IdentityPool,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateIdentityPoolError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IdentityPool,

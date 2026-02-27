@@ -3578,12 +3578,7 @@ export class LicenseUsageException extends S.TaggedErrorClass<LicenseUsageExcept
 ) {}
 
 //# Operations
-/**
- * Accepts the specified grant.
- */
-export const acceptGrant: API.OperationMethod<
-  AcceptGrantRequest,
-  AcceptGrantResponse,
+export type AcceptGrantError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -3591,7 +3586,14 @@ export const acceptGrant: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accepts the specified grant.
+ */
+export const acceptGrant: API.OperationMethod<
+  AcceptGrantRequest,
+  AcceptGrantResponse,
+  AcceptGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptGrantRequest,
@@ -3606,12 +3608,7 @@ export const acceptGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Checks in the specified license. Check in a license when it is no longer in use.
- */
-export const checkInLicense: API.OperationMethod<
-  CheckInLicenseRequest,
-  CheckInLicenseResponse,
+export type CheckInLicenseError =
   | AccessDeniedException
   | AuthorizationException
   | ConflictException
@@ -3620,7 +3617,14 @@ export const checkInLicense: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Checks in the specified license. Check in a license when it is no longer in use.
+ */
+export const checkInLicense: API.OperationMethod<
+  CheckInLicenseRequest,
+  CheckInLicenseResponse,
+  CheckInLicenseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckInLicenseRequest,
@@ -3636,12 +3640,7 @@ export const checkInLicense: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Checks out the specified license for offline use.
- */
-export const checkoutBorrowLicense: API.OperationMethod<
-  CheckoutBorrowLicenseRequest,
-  CheckoutBorrowLicenseResponse,
+export type CheckoutBorrowLicenseError =
   | AccessDeniedException
   | AuthorizationException
   | EntitlementNotAllowedException
@@ -3653,7 +3652,14 @@ export const checkoutBorrowLicense: API.OperationMethod<
   | ServerInternalException
   | UnsupportedDigitalSignatureMethodException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Checks out the specified license for offline use.
+ */
+export const checkoutBorrowLicense: API.OperationMethod<
+  CheckoutBorrowLicenseRequest,
+  CheckoutBorrowLicenseResponse,
+  CheckoutBorrowLicenseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckoutBorrowLicenseRequest,
@@ -3672,15 +3678,7 @@ export const checkoutBorrowLicense: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Checks out the specified license.
- *
- * If the account that created the license is the same that is performing the check out, you must
- * specify the account as the beneficiary.
- */
-export const checkoutLicense: API.OperationMethod<
-  CheckoutLicenseRequest,
-  CheckoutLicenseResponse,
+export type CheckoutLicenseError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -3691,7 +3689,17 @@ export const checkoutLicense: API.OperationMethod<
   | ServerInternalException
   | UnsupportedDigitalSignatureMethodException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Checks out the specified license.
+ *
+ * If the account that created the license is the same that is performing the check out, you must
+ * specify the account as the beneficiary.
+ */
+export const checkoutLicense: API.OperationMethod<
+  CheckoutLicenseRequest,
+  CheckoutLicenseResponse,
+  CheckoutLicenseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckoutLicenseRequest,
@@ -3709,6 +3717,15 @@ export const checkoutLicense: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGrantError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a grant for the specified license. A grant shares the use of license
  * entitlements with a specific Amazon Web Services account, an organization, or an
@@ -3717,14 +3734,7 @@ export const checkoutLicense: API.OperationMethod<
 export const createGrant: API.OperationMethod<
   CreateGrantRequest,
   CreateGrantResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ResourceLimitExceededException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  CreateGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGrantRequest,
@@ -3739,13 +3749,7 @@ export const createGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new version of the specified grant. For more information, see
- * Granted licenses in License Manager in the *License Manager User Guide*.
- */
-export const createGrantVersion: API.OperationMethod<
-  CreateGrantVersionRequest,
-  CreateGrantVersionResponse,
+export type CreateGrantVersionError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -3753,7 +3757,15 @@ export const createGrantVersion: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new version of the specified grant. For more information, see
+ * Granted licenses in License Manager in the *License Manager User Guide*.
+ */
+export const createGrantVersion: API.OperationMethod<
+  CreateGrantVersionRequest,
+  CreateGrantVersionResponse,
+  CreateGrantVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGrantVersionRequest,
@@ -3768,12 +3780,7 @@ export const createGrantVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a license.
- */
-export const createLicense: API.OperationMethod<
-  CreateLicenseRequest,
-  CreateLicenseResponse,
+export type CreateLicenseError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -3781,7 +3788,14 @@ export const createLicense: API.OperationMethod<
   | RedirectException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a license.
+ */
+export const createLicense: API.OperationMethod<
+  CreateLicenseRequest,
+  CreateLicenseResponse,
+  CreateLicenseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseRequest,
@@ -3796,19 +3810,21 @@ export const createLicense: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a license asset group.
- */
-export const createLicenseAssetGroup: API.OperationMethod<
-  CreateLicenseAssetGroupRequest,
-  CreateLicenseAssetGroupResponse,
+export type CreateLicenseAssetGroupError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a license asset group.
+ */
+export const createLicenseAssetGroup: API.OperationMethod<
+  CreateLicenseAssetGroupRequest,
+  CreateLicenseAssetGroupResponse,
+  CreateLicenseAssetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseAssetGroupRequest,
@@ -3822,19 +3838,21 @@ export const createLicenseAssetGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a license asset ruleset.
- */
-export const createLicenseAssetRuleset: API.OperationMethod<
-  CreateLicenseAssetRulesetRequest,
-  CreateLicenseAssetRulesetResponse,
+export type CreateLicenseAssetRulesetError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a license asset ruleset.
+ */
+export const createLicenseAssetRuleset: API.OperationMethod<
+  CreateLicenseAssetRulesetRequest,
+  CreateLicenseAssetRulesetResponse,
+  CreateLicenseAssetRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseAssetRulesetRequest,
@@ -3848,6 +3866,14 @@ export const createLicenseAssetRuleset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLicenseConfigurationError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Creates a license configuration.
  *
@@ -3860,13 +3886,7 @@ export const createLicenseAssetRuleset: API.OperationMethod<
 export const createLicenseConfiguration: API.OperationMethod<
   CreateLicenseConfigurationRequest,
   CreateLicenseConfigurationResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ResourceLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  CreateLicenseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseConfigurationRequest,
@@ -3880,19 +3900,21 @@ export const createLicenseConfiguration: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Creates a new license conversion task.
- */
-export const createLicenseConversionTaskForResource: API.OperationMethod<
-  CreateLicenseConversionTaskForResourceRequest,
-  CreateLicenseConversionTaskForResourceResponse,
+export type CreateLicenseConversionTaskForResourceError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new license conversion task.
+ */
+export const createLicenseConversionTaskForResource: API.OperationMethod<
+  CreateLicenseConversionTaskForResourceRequest,
+  CreateLicenseConversionTaskForResourceResponse,
+  CreateLicenseConversionTaskForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseConversionTaskForResourceRequest,
@@ -3906,12 +3928,7 @@ export const createLicenseConversionTaskForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a report generator.
- */
-export const createLicenseManagerReportGenerator: API.OperationMethod<
-  CreateLicenseManagerReportGeneratorRequest,
-  CreateLicenseManagerReportGeneratorResponse,
+export type CreateLicenseManagerReportGeneratorError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -3920,7 +3937,14 @@ export const createLicenseManagerReportGenerator: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a report generator.
+ */
+export const createLicenseManagerReportGenerator: API.OperationMethod<
+  CreateLicenseManagerReportGeneratorRequest,
+  CreateLicenseManagerReportGeneratorResponse,
+  CreateLicenseManagerReportGeneratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseManagerReportGeneratorRequest,
@@ -3936,12 +3960,7 @@ export const createLicenseManagerReportGenerator: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new version of the specified license.
- */
-export const createLicenseVersion: API.OperationMethod<
-  CreateLicenseVersionRequest,
-  CreateLicenseVersionResponse,
+export type CreateLicenseVersionError =
   | AccessDeniedException
   | AuthorizationException
   | ConflictException
@@ -3950,7 +3969,14 @@ export const createLicenseVersion: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new version of the specified license.
+ */
+export const createLicenseVersion: API.OperationMethod<
+  CreateLicenseVersionRequest,
+  CreateLicenseVersionResponse,
+  CreateLicenseVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseVersionRequest,
@@ -3966,6 +3992,16 @@ export const createLicenseVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTokenError =
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | RedirectException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a long-lived token.
  *
@@ -3976,15 +4012,7 @@ export const createLicenseVersion: API.OperationMethod<
 export const createToken: API.OperationMethod<
   CreateTokenRequest,
   CreateTokenResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | RateLimitExceededException
-  | RedirectException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  CreateTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
@@ -4000,12 +4028,7 @@ export const createToken: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified grant.
- */
-export const deleteGrant: API.OperationMethod<
-  DeleteGrantRequest,
-  DeleteGrantResponse,
+export type DeleteGrantError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4013,7 +4036,14 @@ export const deleteGrant: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified grant.
+ */
+export const deleteGrant: API.OperationMethod<
+  DeleteGrantRequest,
+  DeleteGrantResponse,
+  DeleteGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGrantRequest,
@@ -4028,12 +4058,7 @@ export const deleteGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified license.
- */
-export const deleteLicense: API.OperationMethod<
-  DeleteLicenseRequest,
-  DeleteLicenseResponse,
+export type DeleteLicenseError =
   | AccessDeniedException
   | AuthorizationException
   | ConflictException
@@ -4042,7 +4067,14 @@ export const deleteLicense: API.OperationMethod<
   | RedirectException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified license.
+ */
+export const deleteLicense: API.OperationMethod<
+  DeleteLicenseRequest,
+  DeleteLicenseResponse,
+  DeleteLicenseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseRequest,
@@ -4058,19 +4090,21 @@ export const deleteLicense: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a license asset group.
- */
-export const deleteLicenseAssetGroup: API.OperationMethod<
-  DeleteLicenseAssetGroupRequest,
-  DeleteLicenseAssetGroupResponse,
+export type DeleteLicenseAssetGroupError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a license asset group.
+ */
+export const deleteLicenseAssetGroup: API.OperationMethod<
+  DeleteLicenseAssetGroupRequest,
+  DeleteLicenseAssetGroupResponse,
+  DeleteLicenseAssetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseAssetGroupRequest,
@@ -4084,19 +4118,21 @@ export const deleteLicenseAssetGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a license asset ruleset.
- */
-export const deleteLicenseAssetRuleset: API.OperationMethod<
-  DeleteLicenseAssetRulesetRequest,
-  DeleteLicenseAssetRulesetResponse,
+export type DeleteLicenseAssetRulesetError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a license asset ruleset.
+ */
+export const deleteLicenseAssetRuleset: API.OperationMethod<
+  DeleteLicenseAssetRulesetRequest,
+  DeleteLicenseAssetRulesetResponse,
+  DeleteLicenseAssetRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseAssetRulesetRequest,
@@ -4110,6 +4146,13 @@ export const deleteLicenseAssetRuleset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLicenseConfigurationError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Deletes the specified license configuration.
  *
@@ -4118,12 +4161,7 @@ export const deleteLicenseAssetRuleset: API.OperationMethod<
 export const deleteLicenseConfiguration: API.OperationMethod<
   DeleteLicenseConfigurationRequest,
   DeleteLicenseConfigurationResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  DeleteLicenseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseConfigurationRequest,
@@ -4136,6 +4174,16 @@ export const deleteLicenseConfiguration: API.OperationMethod<
     ServerInternalException,
   ],
 }));
+export type DeleteLicenseManagerReportGeneratorError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified report generator.
  *
@@ -4145,15 +4193,7 @@ export const deleteLicenseConfiguration: API.OperationMethod<
 export const deleteLicenseManagerReportGenerator: API.OperationMethod<
   DeleteLicenseManagerReportGeneratorRequest,
   DeleteLicenseManagerReportGeneratorResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  DeleteLicenseManagerReportGeneratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseManagerReportGeneratorRequest,
@@ -4169,12 +4209,7 @@ export const deleteLicenseManagerReportGenerator: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified token. Must be called in the license home Region.
- */
-export const deleteToken: API.OperationMethod<
-  DeleteTokenRequest,
-  DeleteTokenResponse,
+export type DeleteTokenError =
   | AccessDeniedException
   | AuthorizationException
   | RateLimitExceededException
@@ -4182,7 +4217,14 @@ export const deleteToken: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified token. Must be called in the license home Region.
+ */
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
+  DeleteTokenResponse,
+  DeleteTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTokenRequest,
@@ -4197,12 +4239,7 @@ export const deleteToken: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Extends the expiration date for license consumption.
- */
-export const extendLicenseConsumption: API.OperationMethod<
-  ExtendLicenseConsumptionRequest,
-  ExtendLicenseConsumptionResponse,
+export type ExtendLicenseConsumptionError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4210,7 +4247,14 @@ export const extendLicenseConsumption: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Extends the expiration date for license consumption.
+ */
+export const extendLicenseConsumption: API.OperationMethod<
+  ExtendLicenseConsumptionRequest,
+  ExtendLicenseConsumptionResponse,
+  ExtendLicenseConsumptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExtendLicenseConsumptionRequest,
@@ -4225,6 +4269,13 @@ export const extendLicenseConsumption: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccessTokenError =
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
  * are valid for one hour.
@@ -4232,12 +4283,7 @@ export const extendLicenseConsumption: API.OperationMethod<
 export const getAccessToken: API.OperationMethod<
   GetAccessTokenRequest,
   GetAccessTokenResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | RateLimitExceededException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  GetAccessTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessTokenRequest,
@@ -4250,12 +4296,7 @@ export const getAccessToken: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets detailed information about the specified grant.
- */
-export const getGrant: API.OperationMethod<
-  GetGrantRequest,
-  GetGrantResponse,
+export type GetGrantError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4263,7 +4304,14 @@ export const getGrant: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets detailed information about the specified grant.
+ */
+export const getGrant: API.OperationMethod<
+  GetGrantRequest,
+  GetGrantResponse,
+  GetGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGrantRequest,
@@ -4278,19 +4326,21 @@ export const getGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets detailed information about the specified license.
- */
-export const getLicense: API.OperationMethod<
-  GetLicenseRequest,
-  GetLicenseResponse,
+export type GetLicenseError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets detailed information about the specified license.
+ */
+export const getLicense: API.OperationMethod<
+  GetLicenseRequest,
+  GetLicenseResponse,
+  GetLicenseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseRequest,
@@ -4304,19 +4354,21 @@ export const getLicense: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets a license asset group.
- */
-export const getLicenseAssetGroup: API.OperationMethod<
-  GetLicenseAssetGroupRequest,
-  GetLicenseAssetGroupResponse,
+export type GetLicenseAssetGroupError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets a license asset group.
+ */
+export const getLicenseAssetGroup: API.OperationMethod<
+  GetLicenseAssetGroupRequest,
+  GetLicenseAssetGroupResponse,
+  GetLicenseAssetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseAssetGroupRequest,
@@ -4330,19 +4382,21 @@ export const getLicenseAssetGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets a license asset ruleset.
- */
-export const getLicenseAssetRuleset: API.OperationMethod<
-  GetLicenseAssetRulesetRequest,
-  GetLicenseAssetRulesetResponse,
+export type GetLicenseAssetRulesetError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets a license asset ruleset.
+ */
+export const getLicenseAssetRuleset: API.OperationMethod<
+  GetLicenseAssetRulesetRequest,
+  GetLicenseAssetRulesetResponse,
+  GetLicenseAssetRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseAssetRulesetRequest,
@@ -4356,18 +4410,20 @@ export const getLicenseAssetRuleset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLicenseConfigurationError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Gets detailed information about the specified license configuration.
  */
 export const getLicenseConfiguration: API.OperationMethod<
   GetLicenseConfigurationRequest,
   GetLicenseConfigurationResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  GetLicenseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseConfigurationRequest,
@@ -4380,18 +4436,20 @@ export const getLicenseConfiguration: API.OperationMethod<
     ServerInternalException,
   ],
 }));
+export type GetLicenseConversionTaskError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Gets information about the specified license type conversion task.
  */
 export const getLicenseConversionTask: API.OperationMethod<
   GetLicenseConversionTaskRequest,
   GetLicenseConversionTaskResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  GetLicenseConversionTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseConversionTaskRequest,
@@ -4404,12 +4462,7 @@ export const getLicenseConversionTask: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Gets information about the specified report generator.
- */
-export const getLicenseManagerReportGenerator: API.OperationMethod<
-  GetLicenseManagerReportGeneratorRequest,
-  GetLicenseManagerReportGeneratorResponse,
+export type GetLicenseManagerReportGeneratorError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4418,7 +4471,14 @@ export const getLicenseManagerReportGenerator: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about the specified report generator.
+ */
+export const getLicenseManagerReportGenerator: API.OperationMethod<
+  GetLicenseManagerReportGeneratorRequest,
+  GetLicenseManagerReportGeneratorResponse,
+  GetLicenseManagerReportGeneratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseManagerReportGeneratorRequest,
@@ -4434,19 +4494,21 @@ export const getLicenseManagerReportGenerator: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets detailed information about the usage of the specified license.
- */
-export const getLicenseUsage: API.OperationMethod<
-  GetLicenseUsageRequest,
-  GetLicenseUsageResponse,
+export type GetLicenseUsageError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets detailed information about the usage of the specified license.
+ */
+export const getLicenseUsage: API.OperationMethod<
+  GetLicenseUsageRequest,
+  GetLicenseUsageResponse,
+  GetLicenseUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseUsageRequest,
@@ -4460,17 +4522,19 @@ export const getLicenseUsage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceSettingsError =
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Gets the License Manager settings for the current Region.
  */
 export const getServiceSettings: API.OperationMethod<
   GetServiceSettingsRequest,
   GetServiceSettingsResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  GetServiceSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
@@ -4482,19 +4546,21 @@ export const getServiceSettings: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Lists assets for a license asset group.
- */
-export const listAssetsForLicenseAssetGroup: API.OperationMethod<
-  ListAssetsForLicenseAssetGroupRequest,
-  ListAssetsForLicenseAssetGroupResponse,
+export type ListAssetsForLicenseAssetGroupError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists assets for a license asset group.
+ */
+export const listAssetsForLicenseAssetGroup: API.OperationMethod<
+  ListAssetsForLicenseAssetGroupRequest,
+  ListAssetsForLicenseAssetGroupResponse,
+  ListAssetsForLicenseAssetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAssetsForLicenseAssetGroupRequest,
@@ -4508,6 +4574,14 @@ export const listAssetsForLicenseAssetGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssociationsForLicenseConfigurationError =
+  | AccessDeniedException
+  | AuthorizationException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Lists the resource associations for the specified license configuration.
  *
@@ -4518,13 +4592,7 @@ export const listAssetsForLicenseAssetGroup: API.OperationMethod<
 export const listAssociationsForLicenseConfiguration: API.OperationMethod<
   ListAssociationsForLicenseConfigurationRequest,
   ListAssociationsForLicenseConfigurationResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | FilterLimitExceededException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  ListAssociationsForLicenseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAssociationsForLicenseConfigurationRequest,
@@ -4538,12 +4606,7 @@ export const listAssociationsForLicenseConfiguration: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Lists the grants distributed for the specified license.
- */
-export const listDistributedGrants: API.OperationMethod<
-  ListDistributedGrantsRequest,
-  ListDistributedGrantsResponse,
+export type ListDistributedGrantsError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4551,7 +4614,14 @@ export const listDistributedGrants: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the grants distributed for the specified license.
+ */
+export const listDistributedGrants: API.OperationMethod<
+  ListDistributedGrantsRequest,
+  ListDistributedGrantsResponse,
+  ListDistributedGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDistributedGrantsRequest,
@@ -4566,18 +4636,20 @@ export const listDistributedGrants: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFailuresForLicenseConfigurationOperationsError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Lists the license configuration operations that failed.
  */
 export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
   ListFailuresForLicenseConfigurationOperationsRequest,
   ListFailuresForLicenseConfigurationOperationsResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  ListFailuresForLicenseConfigurationOperationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFailuresForLicenseConfigurationOperationsRequest,
@@ -4590,19 +4662,21 @@ export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Lists license asset groups.
- */
-export const listLicenseAssetGroups: API.OperationMethod<
-  ListLicenseAssetGroupsRequest,
-  ListLicenseAssetGroupsResponse,
+export type ListLicenseAssetGroupsError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists license asset groups.
+ */
+export const listLicenseAssetGroups: API.OperationMethod<
+  ListLicenseAssetGroupsRequest,
+  ListLicenseAssetGroupsResponse,
+  ListLicenseAssetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseAssetGroupsRequest,
@@ -4616,19 +4690,21 @@ export const listLicenseAssetGroups: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists license asset rulesets.
- */
-export const listLicenseAssetRulesets: API.OperationMethod<
-  ListLicenseAssetRulesetsRequest,
-  ListLicenseAssetRulesetsResponse,
+export type ListLicenseAssetRulesetsError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists license asset rulesets.
+ */
+export const listLicenseAssetRulesets: API.OperationMethod<
+  ListLicenseAssetRulesetsRequest,
+  ListLicenseAssetRulesetsResponse,
+  ListLicenseAssetRulesetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseAssetRulesetsRequest,
@@ -4642,19 +4718,21 @@ export const listLicenseAssetRulesets: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the license configurations for your account.
- */
-export const listLicenseConfigurations: API.OperationMethod<
-  ListLicenseConfigurationsRequest,
-  ListLicenseConfigurationsResponse,
+export type ListLicenseConfigurationsError =
   | AccessDeniedException
   | AuthorizationException
   | FilterLimitExceededException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the license configurations for your account.
+ */
+export const listLicenseConfigurations: API.OperationMethod<
+  ListLicenseConfigurationsRequest,
+  ListLicenseConfigurationsResponse,
+  ListLicenseConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseConfigurationsRequest,
@@ -4668,19 +4746,21 @@ export const listLicenseConfigurations: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Lists license configurations for an organization.
- */
-export const listLicenseConfigurationsForOrganization: API.OperationMethod<
-  ListLicenseConfigurationsForOrganizationRequest,
-  ListLicenseConfigurationsForOrganizationResponse,
+export type ListLicenseConfigurationsForOrganizationError =
   | AccessDeniedException
   | AuthorizationException
   | FilterLimitExceededException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists license configurations for an organization.
+ */
+export const listLicenseConfigurationsForOrganization: API.OperationMethod<
+  ListLicenseConfigurationsForOrganizationRequest,
+  ListLicenseConfigurationsForOrganizationResponse,
+  ListLicenseConfigurationsForOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseConfigurationsForOrganizationRequest,
@@ -4694,18 +4774,20 @@ export const listLicenseConfigurationsForOrganization: API.OperationMethod<
     ServerInternalException,
   ],
 }));
+export type ListLicenseConversionTasksError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Lists the license type conversion tasks for your account.
  */
 export const listLicenseConversionTasks: API.OperationMethod<
   ListLicenseConversionTasksRequest,
   ListLicenseConversionTasksResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  ListLicenseConversionTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseConversionTasksRequest,
@@ -4718,12 +4800,7 @@ export const listLicenseConversionTasks: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Lists the report generators for your account.
- */
-export const listLicenseManagerReportGenerators: API.OperationMethod<
-  ListLicenseManagerReportGeneratorsRequest,
-  ListLicenseManagerReportGeneratorsResponse,
+export type ListLicenseManagerReportGeneratorsError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4732,7 +4809,14 @@ export const listLicenseManagerReportGenerators: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the report generators for your account.
+ */
+export const listLicenseManagerReportGenerators: API.OperationMethod<
+  ListLicenseManagerReportGeneratorsRequest,
+  ListLicenseManagerReportGeneratorsResponse,
+  ListLicenseManagerReportGeneratorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseManagerReportGeneratorsRequest,
@@ -4748,19 +4832,21 @@ export const listLicenseManagerReportGenerators: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the licenses for your account.
- */
-export const listLicenses: API.OperationMethod<
-  ListLicensesRequest,
-  ListLicensesResponse,
+export type ListLicensesError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the licenses for your account.
+ */
+export const listLicenses: API.OperationMethod<
+  ListLicensesRequest,
+  ListLicensesResponse,
+  ListLicensesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicensesRequest,
@@ -4774,18 +4860,20 @@ export const listLicenses: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListLicenseSpecificationsForResourceError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Describes the license configurations for the specified resource.
  */
 export const listLicenseSpecificationsForResource: API.OperationMethod<
   ListLicenseSpecificationsForResourceRequest,
   ListLicenseSpecificationsForResourceResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  ListLicenseSpecificationsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseSpecificationsForResourceRequest,
@@ -4798,18 +4886,20 @@ export const listLicenseSpecificationsForResource: API.OperationMethod<
     ServerInternalException,
   ],
 }));
+export type ListLicenseVersionsError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Lists all versions of the specified license.
  */
 export const listLicenseVersions: API.OperationMethod<
   ListLicenseVersionsRequest,
   ListLicenseVersionsResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  ListLicenseVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseVersionsRequest,
@@ -4822,6 +4912,15 @@ export const listLicenseVersions: API.OperationMethod<
     ServerInternalException,
   ],
 }));
+export type ListReceivedGrantsError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists grants that are received. Received grants are grants created while specifying the
  * recipient as this Amazon Web Services account, your organization, or an organizational unit
@@ -4830,14 +4929,7 @@ export const listLicenseVersions: API.OperationMethod<
 export const listReceivedGrants: API.OperationMethod<
   ListReceivedGrantsRequest,
   ListReceivedGrantsResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ResourceLimitExceededException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  ListReceivedGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceivedGrantsRequest,
@@ -4852,12 +4944,7 @@ export const listReceivedGrants: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the grants received for all accounts in the organization.
- */
-export const listReceivedGrantsForOrganization: API.OperationMethod<
-  ListReceivedGrantsForOrganizationRequest,
-  ListReceivedGrantsForOrganizationResponse,
+export type ListReceivedGrantsForOrganizationError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4865,7 +4952,14 @@ export const listReceivedGrantsForOrganization: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the grants received for all accounts in the organization.
+ */
+export const listReceivedGrantsForOrganization: API.OperationMethod<
+  ListReceivedGrantsForOrganizationRequest,
+  ListReceivedGrantsForOrganizationResponse,
+  ListReceivedGrantsForOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceivedGrantsForOrganizationRequest,
@@ -4880,12 +4974,7 @@ export const listReceivedGrantsForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists received licenses.
- */
-export const listReceivedLicenses: API.OperationMethod<
-  ListReceivedLicensesRequest,
-  ListReceivedLicensesResponse,
+export type ListReceivedLicensesError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4893,7 +4982,14 @@ export const listReceivedLicenses: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists received licenses.
+ */
+export const listReceivedLicenses: API.OperationMethod<
+  ListReceivedLicensesRequest,
+  ListReceivedLicensesResponse,
+  ListReceivedLicensesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceivedLicensesRequest,
@@ -4908,12 +5004,7 @@ export const listReceivedLicenses: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the licenses received for all accounts in the organization.
- */
-export const listReceivedLicensesForOrganization: API.OperationMethod<
-  ListReceivedLicensesForOrganizationRequest,
-  ListReceivedLicensesForOrganizationResponse,
+export type ListReceivedLicensesForOrganizationError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -4921,7 +5012,14 @@ export const listReceivedLicensesForOrganization: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the licenses received for all accounts in the organization.
+ */
+export const listReceivedLicensesForOrganization: API.OperationMethod<
+  ListReceivedLicensesForOrganizationRequest,
+  ListReceivedLicensesForOrganizationResponse,
+  ListReceivedLicensesForOrganizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceivedLicensesForOrganizationRequest,
@@ -4936,12 +5034,7 @@ export const listReceivedLicensesForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists resources managed using Systems Manager inventory.
- */
-export const listResourceInventory: API.OperationMethod<
-  ListResourceInventoryRequest,
-  ListResourceInventoryResponse,
+export type ListResourceInventoryError =
   | AccessDeniedException
   | AuthorizationException
   | FailedDependencyException
@@ -4949,7 +5042,14 @@ export const listResourceInventory: API.OperationMethod<
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists resources managed using Systems Manager inventory.
+ */
+export const listResourceInventory: API.OperationMethod<
+  ListResourceInventoryRequest,
+  ListResourceInventoryResponse,
+  ListResourceInventoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListResourceInventoryRequest,
@@ -4964,6 +5064,14 @@ export const listResourceInventory: API.OperationMethod<
     ServerInternalException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for the specified resource. For more information about tagging support in
  * License Manager, see the TagResource operation.
@@ -4971,13 +5079,7 @@ export const listResourceInventory: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -4991,18 +5093,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTokensError =
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists your tokens.
  */
 export const listTokens: API.OperationMethod<
   ListTokensRequest,
   ListTokensResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | RateLimitExceededException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  ListTokensError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokensRequest,
@@ -5015,6 +5119,14 @@ export const listTokens: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListUsageForLicenseConfigurationError =
+  | AccessDeniedException
+  | AuthorizationException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Lists all license usage records for a license configuration, displaying license
  * consumption details by resource at a selected point in time. Use this action to audit the
@@ -5023,13 +5135,7 @@ export const listTokens: API.OperationMethod<
 export const listUsageForLicenseConfiguration: API.OperationMethod<
   ListUsageForLicenseConfigurationRequest,
   ListUsageForLicenseConfigurationResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | FilterLimitExceededException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  ListUsageForLicenseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUsageForLicenseConfigurationRequest,
@@ -5043,12 +5149,7 @@ export const listUsageForLicenseConfiguration: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Rejects the specified grant.
- */
-export const rejectGrant: API.OperationMethod<
-  RejectGrantRequest,
-  RejectGrantResponse,
+export type RejectGrantError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -5056,7 +5157,14 @@ export const rejectGrant: API.OperationMethod<
   | ResourceLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rejects the specified grant.
+ */
+export const rejectGrant: API.OperationMethod<
+  RejectGrantRequest,
+  RejectGrantResponse,
+  RejectGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectGrantRequest,
@@ -5071,6 +5179,14 @@ export const rejectGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource. The following resources support
  * tagging in License Manager:
@@ -5086,13 +5202,7 @@ export const rejectGrant: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | InvalidParameterValueException
-  | RateLimitExceededException
-  | ServerInternalException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5106,19 +5216,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the specified tags from the specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the specified tags from the specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5132,19 +5244,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a license asset group.
- */
-export const updateLicenseAssetGroup: API.OperationMethod<
-  UpdateLicenseAssetGroupRequest,
-  UpdateLicenseAssetGroupResponse,
+export type UpdateLicenseAssetGroupError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a license asset group.
+ */
+export const updateLicenseAssetGroup: API.OperationMethod<
+  UpdateLicenseAssetGroupRequest,
+  UpdateLicenseAssetGroupResponse,
+  UpdateLicenseAssetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLicenseAssetGroupRequest,
@@ -5158,19 +5272,21 @@ export const updateLicenseAssetGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a license asset ruleset.
- */
-export const updateLicenseAssetRuleset: API.OperationMethod<
-  UpdateLicenseAssetRulesetRequest,
-  UpdateLicenseAssetRulesetResponse,
+export type UpdateLicenseAssetRulesetError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a license asset ruleset.
+ */
+export const updateLicenseAssetRuleset: API.OperationMethod<
+  UpdateLicenseAssetRulesetRequest,
+  UpdateLicenseAssetRulesetResponse,
+  UpdateLicenseAssetRulesetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLicenseAssetRulesetRequest,
@@ -5184,12 +5300,7 @@ export const updateLicenseAssetRuleset: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies the attributes of an existing license configuration.
- */
-export const updateLicenseConfiguration: API.OperationMethod<
-  UpdateLicenseConfigurationRequest,
-  UpdateLicenseConfigurationResponse,
+export type UpdateLicenseConfigurationError =
   | AccessDeniedException
   | AuthorizationException
   | ConflictException
@@ -5197,7 +5308,14 @@ export const updateLicenseConfiguration: API.OperationMethod<
   | RateLimitExceededException
   | ResourceLimitExceededException
   | ServerInternalException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies the attributes of an existing license configuration.
+ */
+export const updateLicenseConfiguration: API.OperationMethod<
+  UpdateLicenseConfigurationRequest,
+  UpdateLicenseConfigurationResponse,
+  UpdateLicenseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLicenseConfigurationRequest,
@@ -5212,14 +5330,7 @@ export const updateLicenseConfiguration: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Updates a report generator.
- *
- * After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
- */
-export const updateLicenseManagerReportGenerator: API.OperationMethod<
-  UpdateLicenseManagerReportGeneratorRequest,
-  UpdateLicenseManagerReportGeneratorResponse,
+export type UpdateLicenseManagerReportGeneratorError =
   | AccessDeniedException
   | AuthorizationException
   | InvalidParameterValueException
@@ -5228,7 +5339,16 @@ export const updateLicenseManagerReportGenerator: API.OperationMethod<
   | ResourceNotFoundException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a report generator.
+ *
+ * After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
+ */
+export const updateLicenseManagerReportGenerator: API.OperationMethod<
+  UpdateLicenseManagerReportGeneratorRequest,
+  UpdateLicenseManagerReportGeneratorResponse,
+  UpdateLicenseManagerReportGeneratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLicenseManagerReportGeneratorRequest,
@@ -5244,6 +5364,16 @@ export const updateLicenseManagerReportGenerator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLicenseSpecificationsForResourceError =
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | InvalidParameterValueException
+  | InvalidResourceStateException
+  | LicenseUsageException
+  | RateLimitExceededException
+  | ServerInternalException
+  | CommonErrors;
 /**
  * Adds or removes the specified license configurations for the specified Amazon Web Services resource.
  *
@@ -5254,15 +5384,7 @@ export const updateLicenseManagerReportGenerator: API.OperationMethod<
 export const updateLicenseSpecificationsForResource: API.OperationMethod<
   UpdateLicenseSpecificationsForResourceRequest,
   UpdateLicenseSpecificationsForResourceResponse,
-  | AccessDeniedException
-  | AuthorizationException
-  | ConflictException
-  | InvalidParameterValueException
-  | InvalidResourceStateException
-  | LicenseUsageException
-  | RateLimitExceededException
-  | ServerInternalException
-  | CommonErrors,
+  UpdateLicenseSpecificationsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLicenseSpecificationsForResourceRequest,
@@ -5278,12 +5400,7 @@ export const updateLicenseSpecificationsForResource: API.OperationMethod<
     ServerInternalException,
   ],
 }));
-/**
- * Updates License Manager settings for the current Region.
- */
-export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsRequest,
-  UpdateServiceSettingsResponse,
+export type UpdateServiceSettingsError =
   | AccessDeniedException
   | AuthorizationException
   | ConflictException
@@ -5291,7 +5408,14 @@ export const updateServiceSettings: API.OperationMethod<
   | RateLimitExceededException
   | ServerInternalException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates License Manager settings for the current Region.
+ */
+export const updateServiceSettings: API.OperationMethod<
+  UpdateServiceSettingsRequest,
+  UpdateServiceSettingsResponse,
+  UpdateServiceSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceSettingsRequest,

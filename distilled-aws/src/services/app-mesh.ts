@@ -3447,45 +3447,35 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 ).pipe(C.withConflictError) {}
 
 //# Operations
-/**
- * List the tags for an App Mesh resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
-  ListTagsForResourceOutput,
+export type ListTagsForResourceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the tags for an App Mesh resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     ListTagsForResourceOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     TagRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3506,6 +3496,15 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`.
  * If existing tags on a resource aren't specified in the request parameters, they aren't
@@ -3515,14 +3514,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -3537,19 +3529,21 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Deletes specified tags from a resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceInput,
-  UntagResourceOutput,
+export type UntagResourceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
+  UntagResourceOutput,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -3563,6 +3557,16 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateMeshError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a service mesh.
  *
@@ -3576,15 +3580,7 @@ export const untagResource: API.OperationMethod<
 export const createMesh: API.OperationMethod<
   CreateMeshInput,
   CreateMeshOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateMeshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMeshInput,
@@ -3600,19 +3596,21 @@ export const createMesh: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing service mesh.
- */
-export const describeMesh: API.OperationMethod<
-  DescribeMeshInput,
-  DescribeMeshOutput,
+export type DescribeMeshError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing service mesh.
+ */
+export const describeMesh: API.OperationMethod<
+  DescribeMeshInput,
+  DescribeMeshOutput,
+  DescribeMeshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMeshInput,
@@ -3626,12 +3624,7 @@ export const describeMesh: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing service mesh.
- */
-export const updateMesh: API.OperationMethod<
-  UpdateMeshInput,
-  UpdateMeshOutput,
+export type UpdateMeshError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3639,7 +3632,14 @@ export const updateMesh: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing service mesh.
+ */
+export const updateMesh: API.OperationMethod<
+  UpdateMeshInput,
+  UpdateMeshOutput,
+  UpdateMeshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMeshInput,
@@ -3654,6 +3654,15 @@ export const updateMesh: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteMeshError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing service mesh.
  *
@@ -3663,14 +3672,7 @@ export const updateMesh: API.OperationMethod<
 export const deleteMesh: API.OperationMethod<
   DeleteMeshInput,
   DeleteMeshOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ResourceInUseException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteMeshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMeshInput,
@@ -3685,45 +3687,35 @@ export const deleteMesh: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns a list of existing service meshes.
- */
-export const listMeshes: API.OperationMethod<
-  ListMeshesInput,
-  ListMeshesOutput,
+export type ListMeshesError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of existing service meshes.
+ */
+export const listMeshes: API.OperationMethod<
+  ListMeshesInput,
+  ListMeshesOutput,
+  ListMeshesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMeshesInput,
   ) => stream.Stream<
     ListMeshesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMeshesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMeshesInput,
   ) => stream.Stream<
     MeshRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMeshesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3744,6 +3736,16 @@ export const listMeshes: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type CreateVirtualGatewayError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a virtual gateway.
  *
@@ -3757,15 +3759,7 @@ export const listMeshes: API.OperationMethod<
 export const createVirtualGateway: API.OperationMethod<
   CreateVirtualGatewayInput,
   CreateVirtualGatewayOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateVirtualGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualGatewayInput,
@@ -3781,19 +3775,21 @@ export const createVirtualGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing virtual gateway.
- */
-export const describeVirtualGateway: API.OperationMethod<
-  DescribeVirtualGatewayInput,
-  DescribeVirtualGatewayOutput,
+export type DescribeVirtualGatewayError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing virtual gateway.
+ */
+export const describeVirtualGateway: API.OperationMethod<
+  DescribeVirtualGatewayInput,
+  DescribeVirtualGatewayOutput,
+  DescribeVirtualGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVirtualGatewayInput,
@@ -3807,12 +3803,7 @@ export const describeVirtualGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing virtual gateway in a specified service mesh.
- */
-export const updateVirtualGateway: API.OperationMethod<
-  UpdateVirtualGatewayInput,
-  UpdateVirtualGatewayOutput,
+export type UpdateVirtualGatewayError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3821,7 +3812,14 @@ export const updateVirtualGateway: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing virtual gateway in a specified service mesh.
+ */
+export const updateVirtualGateway: API.OperationMethod<
+  UpdateVirtualGatewayInput,
+  UpdateVirtualGatewayOutput,
+  UpdateVirtualGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVirtualGatewayInput,
@@ -3837,13 +3835,7 @@ export const updateVirtualGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
- * routes are associated to it.
- */
-export const deleteVirtualGateway: API.OperationMethod<
-  DeleteVirtualGatewayInput,
-  DeleteVirtualGatewayOutput,
+export type DeleteVirtualGatewayError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -3851,7 +3843,15 @@ export const deleteVirtualGateway: API.OperationMethod<
   | ResourceInUseException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
+ * routes are associated to it.
+ */
+export const deleteVirtualGateway: API.OperationMethod<
+  DeleteVirtualGatewayInput,
+  DeleteVirtualGatewayOutput,
+  DeleteVirtualGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualGatewayInput,
@@ -3866,45 +3866,35 @@ export const deleteVirtualGateway: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns a list of existing virtual gateways in a service mesh.
- */
-export const listVirtualGateways: API.OperationMethod<
-  ListVirtualGatewaysInput,
-  ListVirtualGatewaysOutput,
+export type ListVirtualGatewaysError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of existing virtual gateways in a service mesh.
+ */
+export const listVirtualGateways: API.OperationMethod<
+  ListVirtualGatewaysInput,
+  ListVirtualGatewaysOutput,
+  ListVirtualGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVirtualGatewaysInput,
   ) => stream.Stream<
     ListVirtualGatewaysOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualGatewaysInput,
   ) => stream.Stream<
     VirtualGatewayRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3925,6 +3915,16 @@ export const listVirtualGateways: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type CreateGatewayRouteError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a gateway route.
  *
@@ -3937,15 +3937,7 @@ export const listVirtualGateways: API.OperationMethod<
 export const createGatewayRoute: API.OperationMethod<
   CreateGatewayRouteInput,
   CreateGatewayRouteOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateGatewayRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRouteInput,
@@ -3961,19 +3953,21 @@ export const createGatewayRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing gateway route.
- */
-export const describeGatewayRoute: API.OperationMethod<
-  DescribeGatewayRouteInput,
-  DescribeGatewayRouteOutput,
+export type DescribeGatewayRouteError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing gateway route.
+ */
+export const describeGatewayRoute: API.OperationMethod<
+  DescribeGatewayRouteInput,
+  DescribeGatewayRouteOutput,
+  DescribeGatewayRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayRouteInput,
@@ -3987,13 +3981,7 @@ export const describeGatewayRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing gateway route that is associated to a specified virtual gateway in a
- * service mesh.
- */
-export const updateGatewayRoute: API.OperationMethod<
-  UpdateGatewayRouteInput,
-  UpdateGatewayRouteOutput,
+export type UpdateGatewayRouteError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4002,7 +3990,15 @@ export const updateGatewayRoute: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing gateway route that is associated to a specified virtual gateway in a
+ * service mesh.
+ */
+export const updateGatewayRoute: API.OperationMethod<
+  UpdateGatewayRouteInput,
+  UpdateGatewayRouteOutput,
+  UpdateGatewayRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayRouteInput,
@@ -4018,12 +4014,7 @@ export const updateGatewayRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an existing gateway route.
- */
-export const deleteGatewayRoute: API.OperationMethod<
-  DeleteGatewayRouteInput,
-  DeleteGatewayRouteOutput,
+export type DeleteGatewayRouteError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -4031,7 +4022,14 @@ export const deleteGatewayRoute: API.OperationMethod<
   | ResourceInUseException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing gateway route.
+ */
+export const deleteGatewayRoute: API.OperationMethod<
+  DeleteGatewayRouteInput,
+  DeleteGatewayRouteOutput,
+  DeleteGatewayRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRouteInput,
@@ -4046,6 +4044,14 @@ export const deleteGatewayRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListGatewayRoutesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of existing gateway routes that are associated to a virtual
  * gateway.
@@ -4053,39 +4059,21 @@ export const deleteGatewayRoute: API.OperationMethod<
 export const listGatewayRoutes: API.OperationMethod<
   ListGatewayRoutesInput,
   ListGatewayRoutesOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListGatewayRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewayRoutesInput,
   ) => stream.Stream<
     ListGatewayRoutesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGatewayRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewayRoutesInput,
   ) => stream.Stream<
     GatewayRouteRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListGatewayRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4106,6 +4094,16 @@ export const listGatewayRoutes: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type CreateVirtualNodeError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a virtual node within a service mesh.
  *
@@ -4138,15 +4136,7 @@ export const listGatewayRoutes: API.OperationMethod<
 export const createVirtualNode: API.OperationMethod<
   CreateVirtualNodeInput,
   CreateVirtualNodeOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateVirtualNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualNodeInput,
@@ -4162,19 +4152,21 @@ export const createVirtualNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing virtual node.
- */
-export const describeVirtualNode: API.OperationMethod<
-  DescribeVirtualNodeInput,
-  DescribeVirtualNodeOutput,
+export type DescribeVirtualNodeError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing virtual node.
+ */
+export const describeVirtualNode: API.OperationMethod<
+  DescribeVirtualNodeInput,
+  DescribeVirtualNodeOutput,
+  DescribeVirtualNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVirtualNodeInput,
@@ -4188,12 +4180,7 @@ export const describeVirtualNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing virtual node in a specified service mesh.
- */
-export const updateVirtualNode: API.OperationMethod<
-  UpdateVirtualNodeInput,
-  UpdateVirtualNodeOutput,
+export type UpdateVirtualNodeError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4202,7 +4189,14 @@ export const updateVirtualNode: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing virtual node in a specified service mesh.
+ */
+export const updateVirtualNode: API.OperationMethod<
+  UpdateVirtualNodeInput,
+  UpdateVirtualNodeOutput,
+  UpdateVirtualNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVirtualNodeInput,
@@ -4218,6 +4212,15 @@ export const updateVirtualNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteVirtualNodeError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing virtual node.
  *
@@ -4227,14 +4230,7 @@ export const updateVirtualNode: API.OperationMethod<
 export const deleteVirtualNode: API.OperationMethod<
   DeleteVirtualNodeInput,
   DeleteVirtualNodeOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ResourceInUseException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteVirtualNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualNodeInput,
@@ -4249,45 +4245,35 @@ export const deleteVirtualNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns a list of existing virtual nodes.
- */
-export const listVirtualNodes: API.OperationMethod<
-  ListVirtualNodesInput,
-  ListVirtualNodesOutput,
+export type ListVirtualNodesError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of existing virtual nodes.
+ */
+export const listVirtualNodes: API.OperationMethod<
+  ListVirtualNodesInput,
+  ListVirtualNodesOutput,
+  ListVirtualNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVirtualNodesInput,
   ) => stream.Stream<
     ListVirtualNodesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualNodesInput,
   ) => stream.Stream<
     VirtualNodeRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4308,6 +4294,16 @@ export const listVirtualNodes: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type CreateVirtualRouterError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a virtual router within a service mesh.
  *
@@ -4322,15 +4318,7 @@ export const listVirtualNodes: API.OperationMethod<
 export const createVirtualRouter: API.OperationMethod<
   CreateVirtualRouterInput,
   CreateVirtualRouterOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateVirtualRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualRouterInput,
@@ -4346,19 +4334,21 @@ export const createVirtualRouter: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing virtual router.
- */
-export const describeVirtualRouter: API.OperationMethod<
-  DescribeVirtualRouterInput,
-  DescribeVirtualRouterOutput,
+export type DescribeVirtualRouterError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing virtual router.
+ */
+export const describeVirtualRouter: API.OperationMethod<
+  DescribeVirtualRouterInput,
+  DescribeVirtualRouterOutput,
+  DescribeVirtualRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVirtualRouterInput,
@@ -4372,12 +4362,7 @@ export const describeVirtualRouter: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing virtual router in a specified service mesh.
- */
-export const updateVirtualRouter: API.OperationMethod<
-  UpdateVirtualRouterInput,
-  UpdateVirtualRouterOutput,
+export type UpdateVirtualRouterError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4386,7 +4371,14 @@ export const updateVirtualRouter: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing virtual router in a specified service mesh.
+ */
+export const updateVirtualRouter: API.OperationMethod<
+  UpdateVirtualRouterInput,
+  UpdateVirtualRouterOutput,
+  UpdateVirtualRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVirtualRouterInput,
@@ -4402,6 +4394,15 @@ export const updateVirtualRouter: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteVirtualRouterError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing virtual router.
  *
@@ -4411,14 +4412,7 @@ export const updateVirtualRouter: API.OperationMethod<
 export const deleteVirtualRouter: API.OperationMethod<
   DeleteVirtualRouterInput,
   DeleteVirtualRouterOutput,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ResourceInUseException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteVirtualRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualRouterInput,
@@ -4433,45 +4427,35 @@ export const deleteVirtualRouter: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns a list of existing virtual routers in a service mesh.
- */
-export const listVirtualRouters: API.OperationMethod<
-  ListVirtualRoutersInput,
-  ListVirtualRoutersOutput,
+export type ListVirtualRoutersError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of existing virtual routers in a service mesh.
+ */
+export const listVirtualRouters: API.OperationMethod<
+  ListVirtualRoutersInput,
+  ListVirtualRoutersOutput,
+  ListVirtualRoutersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVirtualRoutersInput,
   ) => stream.Stream<
     ListVirtualRoutersOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualRoutersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualRoutersInput,
   ) => stream.Stream<
     VirtualRouterRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualRoutersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4492,6 +4476,16 @@ export const listVirtualRouters: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type CreateRouteError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a route that is associated with a virtual router.
  *
@@ -4503,15 +4497,7 @@ export const listVirtualRouters: API.OperationMethod<
 export const createRoute: API.OperationMethod<
   CreateRouteInput,
   CreateRouteOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteInput,
@@ -4527,19 +4513,21 @@ export const createRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing route.
- */
-export const describeRoute: API.OperationMethod<
-  DescribeRouteInput,
-  DescribeRouteOutput,
+export type DescribeRouteError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing route.
+ */
+export const describeRoute: API.OperationMethod<
+  DescribeRouteInput,
+  DescribeRouteOutput,
+  DescribeRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRouteInput,
@@ -4553,12 +4541,7 @@ export const describeRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing route for a specified service mesh and virtual router.
- */
-export const updateRoute: API.OperationMethod<
-  UpdateRouteInput,
-  UpdateRouteOutput,
+export type UpdateRouteError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4567,7 +4550,14 @@ export const updateRoute: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing route for a specified service mesh and virtual router.
+ */
+export const updateRoute: API.OperationMethod<
+  UpdateRouteInput,
+  UpdateRouteOutput,
+  UpdateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteInput,
@@ -4583,12 +4573,7 @@ export const updateRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an existing route.
- */
-export const deleteRoute: API.OperationMethod<
-  DeleteRouteInput,
-  DeleteRouteOutput,
+export type DeleteRouteError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -4596,7 +4581,14 @@ export const deleteRoute: API.OperationMethod<
   | ResourceInUseException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing route.
+ */
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteInput,
+  DeleteRouteOutput,
+  DeleteRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteInput,
@@ -4611,45 +4603,35 @@ export const deleteRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns a list of existing routes in a service mesh.
- */
-export const listRoutes: API.OperationMethod<
-  ListRoutesInput,
-  ListRoutesOutput,
+export type ListRoutesError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of existing routes in a service mesh.
+ */
+export const listRoutes: API.OperationMethod<
+  ListRoutesInput,
+  ListRoutesOutput,
+  ListRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutesInput,
   ) => stream.Stream<
     ListRoutesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutesInput,
   ) => stream.Stream<
     RouteRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4670,6 +4652,16 @@ export const listRoutes: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type CreateVirtualServiceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a virtual service within a service mesh.
  *
@@ -4684,15 +4676,7 @@ export const listRoutes: API.OperationMethod<
 export const createVirtualService: API.OperationMethod<
   CreateVirtualServiceInput,
   CreateVirtualServiceOutput,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateVirtualServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualServiceInput,
@@ -4708,19 +4692,21 @@ export const createVirtualService: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describes an existing virtual service.
- */
-export const describeVirtualService: API.OperationMethod<
-  DescribeVirtualServiceInput,
-  DescribeVirtualServiceOutput,
+export type DescribeVirtualServiceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an existing virtual service.
+ */
+export const describeVirtualService: API.OperationMethod<
+  DescribeVirtualServiceInput,
+  DescribeVirtualServiceOutput,
+  DescribeVirtualServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVirtualServiceInput,
@@ -4734,12 +4720,7 @@ export const describeVirtualService: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an existing virtual service in a specified service mesh.
- */
-export const updateVirtualService: API.OperationMethod<
-  UpdateVirtualServiceInput,
-  UpdateVirtualServiceOutput,
+export type UpdateVirtualServiceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4748,7 +4729,14 @@ export const updateVirtualService: API.OperationMethod<
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing virtual service in a specified service mesh.
+ */
+export const updateVirtualService: API.OperationMethod<
+  UpdateVirtualServiceInput,
+  UpdateVirtualServiceOutput,
+  UpdateVirtualServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVirtualServiceInput,
@@ -4764,12 +4752,7 @@ export const updateVirtualService: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an existing virtual service.
- */
-export const deleteVirtualService: API.OperationMethod<
-  DeleteVirtualServiceInput,
-  DeleteVirtualServiceOutput,
+export type DeleteVirtualServiceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -4777,7 +4760,14 @@ export const deleteVirtualService: API.OperationMethod<
   | ResourceInUseException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing virtual service.
+ */
+export const deleteVirtualService: API.OperationMethod<
+  DeleteVirtualServiceInput,
+  DeleteVirtualServiceOutput,
+  DeleteVirtualServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualServiceInput,
@@ -4792,45 +4782,35 @@ export const deleteVirtualService: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns a list of existing virtual services in a service mesh.
- */
-export const listVirtualServices: API.OperationMethod<
-  ListVirtualServicesInput,
-  ListVirtualServicesOutput,
+export type ListVirtualServicesError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of existing virtual services in a service mesh.
+ */
+export const listVirtualServices: API.OperationMethod<
+  ListVirtualServicesInput,
+  ListVirtualServicesOutput,
+  ListVirtualServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVirtualServicesInput,
   ) => stream.Stream<
     ListVirtualServicesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualServicesInput,
   ) => stream.Stream<
     VirtualServiceRef,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVirtualServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

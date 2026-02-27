@@ -735,18 +735,20 @@ export class UnsupportedMediaTypeException extends S.TaggedErrorClass<Unsupporte
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DeleteSessionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes session information for a specified bot, alias, and user ID.
  */
 export const deleteSession: API.OperationMethod<
   DeleteSessionRequest,
   DeleteSessionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  DeleteSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
@@ -759,6 +761,12 @@ export const deleteSession: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetSessionError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns session information for a specified bot, alias, and user
  * ID.
@@ -766,11 +774,7 @@ export const deleteSession: API.OperationMethod<
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -782,6 +786,19 @@ export const getSession: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type PostContentError =
+  | BadGatewayException
+  | BadRequestException
+  | ConflictException
+  | DependencyFailedException
+  | InternalFailureException
+  | LimitExceededException
+  | LoopDetectedException
+  | NotAcceptableException
+  | NotFoundException
+  | RequestTimeoutException
+  | UnsupportedMediaTypeException
+  | CommonErrors;
 /**
  * Sends user input (text or speech) to Amazon Lex. Clients use this API to
  * send text and audio requests to Amazon Lex at runtime. Amazon Lex interprets the
@@ -846,18 +863,7 @@ export const getSession: API.OperationMethod<
 export const postContent: API.OperationMethod<
   PostContentRequest,
   PostContentResponse,
-  | BadGatewayException
-  | BadRequestException
-  | ConflictException
-  | DependencyFailedException
-  | InternalFailureException
-  | LimitExceededException
-  | LoopDetectedException
-  | NotAcceptableException
-  | NotFoundException
-  | RequestTimeoutException
-  | UnsupportedMediaTypeException
-  | CommonErrors,
+  PostContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostContentRequest,
@@ -876,6 +882,16 @@ export const postContent: API.OperationMethod<
     UnsupportedMediaTypeException,
   ],
 }));
+export type PostTextError =
+  | BadGatewayException
+  | BadRequestException
+  | ConflictException
+  | DependencyFailedException
+  | InternalFailureException
+  | LimitExceededException
+  | LoopDetectedException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Sends user input to Amazon Lex. Client applications can use this API to
  * send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input
@@ -937,15 +953,7 @@ export const postContent: API.OperationMethod<
 export const postText: API.OperationMethod<
   PostTextRequest,
   PostTextResponse,
-  | BadGatewayException
-  | BadRequestException
-  | ConflictException
-  | DependencyFailedException
-  | InternalFailureException
-  | LimitExceededException
-  | LoopDetectedException
-  | NotFoundException
-  | CommonErrors,
+  PostTextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostTextRequest,
@@ -961,6 +969,16 @@ export const postText: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type PutSessionError =
+  | BadGatewayException
+  | BadRequestException
+  | ConflictException
+  | DependencyFailedException
+  | InternalFailureException
+  | LimitExceededException
+  | NotAcceptableException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Creates a new session or modifies an existing session with an Amazon Lex
  * bot. Use this operation to enable your application to set the state of the
@@ -972,15 +990,7 @@ export const postText: API.OperationMethod<
 export const putSession: API.OperationMethod<
   PutSessionRequest,
   PutSessionResponse,
-  | BadGatewayException
-  | BadRequestException
-  | ConflictException
-  | DependencyFailedException
-  | InternalFailureException
-  | LimitExceededException
-  | NotAcceptableException
-  | NotFoundException
-  | CommonErrors,
+  PutSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSessionRequest,

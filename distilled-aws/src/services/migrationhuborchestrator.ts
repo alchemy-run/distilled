@@ -1821,56 +1821,70 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError, C.withRetryableError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the tags added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tag a resource by specifying its Amazon Resource Name (ARN).
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the tags for a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type CreateWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a workflow to orchestrate your migrations.
  */
 export const createWorkflow: API.OperationMethod<
   CreateMigrationWorkflowRequest,
   CreateMigrationWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMigrationWorkflowRequest,
@@ -1882,18 +1896,20 @@ export const createWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get migration workflow.
  */
 export const getWorkflow: API.OperationMethod<
   GetMigrationWorkflowRequest,
   GetMigrationWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMigrationWorkflowRequest,
@@ -1906,18 +1922,20 @@ export const getWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a migration workflow.
  */
 export const updateWorkflow: API.OperationMethod<
   UpdateMigrationWorkflowRequest,
   UpdateMigrationWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMigrationWorkflowRequest,
@@ -1930,6 +1948,13 @@ export const updateWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to
  * delete it.
@@ -1937,12 +1962,7 @@ export const updateWorkflow: API.OperationMethod<
 export const deleteWorkflow: API.OperationMethod<
   DeleteMigrationWorkflowRequest,
   DeleteMigrationWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMigrationWorkflowRequest,
@@ -1955,42 +1975,34 @@ export const deleteWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkflowsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the migration workflows.
  */
 export const listWorkflows: API.OperationMethod<
   ListMigrationWorkflowsRequest,
   ListMigrationWorkflowsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkflowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMigrationWorkflowsRequest,
   ) => stream.Stream<
     ListMigrationWorkflowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMigrationWorkflowsRequest,
   ) => stream.Stream<
     MigrationWorkflowSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2010,18 +2022,20 @@ export const listWorkflows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start a migration workflow.
  */
 export const startWorkflow: API.OperationMethod<
   StartMigrationWorkflowRequest,
   StartMigrationWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMigrationWorkflowRequest,
@@ -2034,18 +2048,20 @@ export const startWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stop an ongoing migration workflow.
  */
 export const stopWorkflow: API.OperationMethod<
   StopMigrationWorkflowRequest,
   StopMigrationWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMigrationWorkflowRequest,
@@ -2058,18 +2074,20 @@ export const stopWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a migration workflow template.
  */
 export const createTemplate: API.OperationMethod<
   CreateTemplateRequest,
   CreateTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
@@ -2082,17 +2100,19 @@ export const createTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get the template you want to use for creating a migration workflow.
  */
 export const getTemplate: API.OperationMethod<
   GetMigrationWorkflowTemplateRequest,
   GetMigrationWorkflowTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMigrationWorkflowTemplateRequest,
@@ -2104,18 +2124,20 @@ export const getTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a migration workflow template.
  */
 export const updateTemplate: API.OperationMethod<
   UpdateTemplateRequest,
   UpdateTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
@@ -2128,18 +2150,20 @@ export const updateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a migration workflow template.
  */
 export const deleteTemplate: API.OperationMethod<
   DeleteTemplateRequest,
   DeleteTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
@@ -2152,36 +2176,32 @@ export const deleteTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List the templates available in Migration Hub Orchestrator to create a migration workflow.
  */
 export const listTemplates: API.OperationMethod<
   ListMigrationWorkflowTemplatesRequest,
   ListMigrationWorkflowTemplatesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  ListTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMigrationWorkflowTemplatesRequest,
   ) => stream.Stream<
     ListMigrationWorkflowTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
+    ListTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMigrationWorkflowTemplatesRequest,
   ) => stream.Stream<
     TemplateSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
+    ListTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2195,36 +2215,32 @@ export const listTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPluginsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * List AWS Migration Hub Orchestrator plugins.
  */
 export const listPlugins: API.OperationMethod<
   ListPluginsRequest,
   ListPluginsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListPluginsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPluginsRequest,
   ) => stream.Stream<
     ListPluginsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListPluginsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPluginsRequest,
   ) => stream.Stream<
     PluginSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListPluginsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2238,18 +2254,20 @@ export const listPlugins: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetTemplateStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a specific step in a template.
  */
 export const getTemplateStep: API.OperationMethod<
   GetTemplateStepRequest,
   GetTemplateStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateStepRequest,
@@ -2262,42 +2280,34 @@ export const getTemplateStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTemplateStepsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the steps in a template.
  */
 export const listTemplateSteps: API.OperationMethod<
   ListTemplateStepsRequest,
   ListTemplateStepsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTemplateStepsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplateStepsRequest,
   ) => stream.Stream<
     ListTemplateStepsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplateStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplateStepsRequest,
   ) => stream.Stream<
     TemplateStepSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplateStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2317,18 +2327,20 @@ export const listTemplateSteps: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetTemplateStepGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a step group in a template.
  */
 export const getTemplateStepGroup: API.OperationMethod<
   GetTemplateStepGroupRequest,
   GetTemplateStepGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateStepGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateStepGroupRequest,
@@ -2341,39 +2353,33 @@ export const getTemplateStepGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTemplateStepGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List the step groups in a template.
  */
 export const listTemplateStepGroups: API.OperationMethod<
   ListTemplateStepGroupsRequest,
   ListTemplateStepGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTemplateStepGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplateStepGroupsRequest,
   ) => stream.Stream<
     ListTemplateStepGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTemplateStepGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplateStepGroupsRequest,
   ) => stream.Stream<
     TemplateStepGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTemplateStepGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2392,17 +2398,19 @@ export const listTemplateStepGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateWorkflowStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a step in the migration workflow.
  */
 export const createWorkflowStep: API.OperationMethod<
   CreateWorkflowStepRequest,
   CreateWorkflowStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkflowStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowStepRequest,
@@ -2414,17 +2422,19 @@ export const createWorkflowStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkflowStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get a step in the migration workflow.
  */
 export const getWorkflowStep: API.OperationMethod<
   GetWorkflowStepRequest,
   GetWorkflowStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetWorkflowStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowStepRequest,
@@ -2436,17 +2446,19 @@ export const getWorkflowStep: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateWorkflowStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a step in a migration workflow.
  */
 export const updateWorkflowStep: API.OperationMethod<
   UpdateWorkflowStepRequest,
   UpdateWorkflowStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateWorkflowStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkflowStepRequest,
@@ -2458,6 +2470,13 @@ export const updateWorkflowStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWorkflowStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a step in a migration workflow. Pause the workflow to delete a running
  * step.
@@ -2465,12 +2484,7 @@ export const updateWorkflowStep: API.OperationMethod<
 export const deleteWorkflowStep: API.OperationMethod<
   DeleteWorkflowStepRequest,
   DeleteWorkflowStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWorkflowStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowStepRequest,
@@ -2483,39 +2497,33 @@ export const deleteWorkflowStep: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkflowStepsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the steps in a workflow.
  */
 export const listWorkflowSteps: API.OperationMethod<
   ListWorkflowStepsRequest,
   ListWorkflowStepsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkflowStepsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkflowStepsRequest,
   ) => stream.Stream<
     ListWorkflowStepsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkflowStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowStepsRequest,
   ) => stream.Stream<
     WorkflowStepSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkflowStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2534,17 +2542,19 @@ export const listWorkflowSteps: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RetryWorkflowStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retry a failed step in a migration workflow.
  */
 export const retryWorkflowStep: API.OperationMethod<
   RetryWorkflowStepRequest,
   RetryWorkflowStepResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  RetryWorkflowStepError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryWorkflowStepRequest,
@@ -2556,17 +2566,19 @@ export const retryWorkflowStep: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateWorkflowStepGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a step group in a migration workflow.
  */
 export const createWorkflowStepGroup: API.OperationMethod<
   CreateWorkflowStepGroupRequest,
   CreateWorkflowStepGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkflowStepGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowStepGroupRequest,
@@ -2578,18 +2590,20 @@ export const createWorkflowStepGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkflowStepGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the step group of a migration workflow.
  */
 export const getWorkflowStepGroup: API.OperationMethod<
   GetWorkflowStepGroupRequest,
   GetWorkflowStepGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWorkflowStepGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowStepGroupRequest,
@@ -2602,18 +2616,20 @@ export const getWorkflowStepGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateWorkflowStepGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the step group in a migration workflow.
  */
 export const updateWorkflowStepGroup: API.OperationMethod<
   UpdateWorkflowStepGroupRequest,
   UpdateWorkflowStepGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateWorkflowStepGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkflowStepGroupRequest,
@@ -2626,18 +2642,20 @@ export const updateWorkflowStepGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWorkflowStepGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a step group in a migration workflow.
  */
 export const deleteWorkflowStepGroup: API.OperationMethod<
   DeleteWorkflowStepGroupRequest,
   DeleteWorkflowStepGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWorkflowStepGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowStepGroupRequest,
@@ -2650,42 +2668,34 @@ export const deleteWorkflowStepGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkflowStepGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the step groups in a migration workflow.
  */
 export const listWorkflowStepGroups: API.OperationMethod<
   ListWorkflowStepGroupsRequest,
   ListWorkflowStepGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWorkflowStepGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkflowStepGroupsRequest,
   ) => stream.Stream<
     ListWorkflowStepGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkflowStepGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowStepGroupsRequest,
   ) => stream.Stream<
     WorkflowStepGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWorkflowStepGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

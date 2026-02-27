@@ -1212,16 +1212,18 @@ export class AccessDeniedByMetaException extends S.TaggedErrorClass<AccessDenied
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServiceException
+  | InvalidParametersException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * List all tags associated with a resource, such as a phone number or WABA.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServiceException
-  | InvalidParametersException
-  | ThrottledRequestException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -1232,6 +1234,11 @@ export const listTagsForResource: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceException
+  | InvalidParametersException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Adds or overwrites only the specified tags for the specified resource. When you specify
  * an existing tag key, the value is overwritten with the new value.
@@ -1239,10 +1246,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | InternalServiceException
-  | InvalidParametersException
-  | ThrottledRequestException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1253,16 +1257,18 @@ export const tagResource: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceException
+  | InvalidParametersException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Removes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | InternalServiceException
-  | InvalidParametersException
-  | ThrottledRequestException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1273,17 +1279,19 @@ export const untagResource: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type AssociateWhatsAppBusinessAccountError =
+  | DependencyException
+  | InvalidParametersException
+  | LimitExceededException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
  */
 export const associateWhatsAppBusinessAccount: API.OperationMethod<
   AssociateWhatsAppBusinessAccountInput,
   AssociateWhatsAppBusinessAccountOutput,
-  | DependencyException
-  | InvalidParametersException
-  | LimitExceededException
-  | ThrottledRequestException
-  | CommonErrors,
+  AssociateWhatsAppBusinessAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWhatsAppBusinessAccountInput,
@@ -1295,18 +1303,20 @@ export const associateWhatsAppBusinessAccount: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type GetLinkedWhatsAppBusinessAccountError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Get the details of your linked WhatsApp Business Account.
  */
 export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
   GetLinkedWhatsAppBusinessAccountInput,
   GetLinkedWhatsAppBusinessAccountOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  GetLinkedWhatsAppBusinessAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLinkedWhatsAppBusinessAccountInput,
@@ -1319,17 +1329,19 @@ export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type DisassociateWhatsAppBusinessAccountError =
+  | DependencyException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
  */
 export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
   DisassociateWhatsAppBusinessAccountInput,
   DisassociateWhatsAppBusinessAccountOutput,
-  | DependencyException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  DisassociateWhatsAppBusinessAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWhatsAppBusinessAccountInput,
@@ -1341,39 +1353,33 @@ export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type ListLinkedWhatsAppBusinessAccountsError =
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * List all WhatsApp Business Accounts linked to your Amazon Web Services account.
  */
 export const listLinkedWhatsAppBusinessAccounts: API.OperationMethod<
   ListLinkedWhatsAppBusinessAccountsInput,
   ListLinkedWhatsAppBusinessAccountsOutput,
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  ListLinkedWhatsAppBusinessAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLinkedWhatsAppBusinessAccountsInput,
   ) => stream.Stream<
     ListLinkedWhatsAppBusinessAccountsOutput,
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
+    ListLinkedWhatsAppBusinessAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLinkedWhatsAppBusinessAccountsInput,
   ) => stream.Stream<
     LinkedWhatsAppBusinessAccountSummary,
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
+    ListLinkedWhatsAppBusinessAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1392,6 +1398,13 @@ export const listLinkedWhatsAppBusinessAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateWhatsAppMessageTemplateError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Creates a new WhatsApp message template from a custom definition.
  *
@@ -1400,12 +1413,7 @@ export const listLinkedWhatsAppBusinessAccounts: API.OperationMethod<
 export const createWhatsAppMessageTemplate: API.OperationMethod<
   CreateWhatsAppMessageTemplateInput,
   CreateWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  CreateWhatsAppMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWhatsAppMessageTemplateInput,
@@ -1418,18 +1426,20 @@ export const createWhatsAppMessageTemplate: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type CreateWhatsAppMessageTemplateFromLibraryError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Creates a new WhatsApp message template using a template from Meta's template library.
  */
 export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
   CreateWhatsAppMessageTemplateFromLibraryInput,
   CreateWhatsAppMessageTemplateFromLibraryOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  CreateWhatsAppMessageTemplateFromLibraryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWhatsAppMessageTemplateFromLibraryInput,
@@ -1442,18 +1452,20 @@ export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type CreateWhatsAppMessageTemplateMediaError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Uploads media for use in a WhatsApp message template.
  */
 export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
   CreateWhatsAppMessageTemplateMediaInput,
   CreateWhatsAppMessageTemplateMediaOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  CreateWhatsAppMessageTemplateMediaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWhatsAppMessageTemplateMediaInput,
@@ -1466,18 +1478,20 @@ export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type DeleteWhatsAppMessageTemplateError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Deletes a WhatsApp message template.
  */
 export const deleteWhatsAppMessageTemplate: API.OperationMethod<
   DeleteWhatsAppMessageTemplateInput,
   DeleteWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  DeleteWhatsAppMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWhatsAppMessageTemplateInput,
@@ -1490,18 +1504,20 @@ export const deleteWhatsAppMessageTemplate: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type GetWhatsAppMessageTemplateError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Retrieves a specific WhatsApp message template.
  */
 export const getWhatsAppMessageTemplate: API.OperationMethod<
   GetWhatsAppMessageTemplateInput,
   GetWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  GetWhatsAppMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWhatsAppMessageTemplateInput,
@@ -1514,42 +1530,34 @@ export const getWhatsAppMessageTemplate: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type ListWhatsAppMessageTemplatesError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Lists WhatsApp message templates for a specific WhatsApp Business Account.
  */
 export const listWhatsAppMessageTemplates: API.OperationMethod<
   ListWhatsAppMessageTemplatesInput,
   ListWhatsAppMessageTemplatesOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  ListWhatsAppMessageTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWhatsAppMessageTemplatesInput,
   ) => stream.Stream<
     ListWhatsAppMessageTemplatesOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
+    ListWhatsAppMessageTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatsAppMessageTemplatesInput,
   ) => stream.Stream<
     TemplateSummary,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
+    ListWhatsAppMessageTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1569,42 +1577,34 @@ export const listWhatsAppMessageTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListWhatsAppTemplateLibraryError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Lists templates available in Meta's template library for WhatsApp messaging.
  */
 export const listWhatsAppTemplateLibrary: API.OperationMethod<
   ListWhatsAppTemplateLibraryInput,
   ListWhatsAppTemplateLibraryOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  ListWhatsAppTemplateLibraryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWhatsAppTemplateLibraryInput,
   ) => stream.Stream<
     ListWhatsAppTemplateLibraryOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
+    ListWhatsAppTemplateLibraryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatsAppTemplateLibraryInput,
   ) => stream.Stream<
     MetaLibraryTemplateDefinition,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
+    ListWhatsAppTemplateLibraryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1624,16 +1624,18 @@ export const listWhatsAppTemplateLibrary: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutWhatsAppBusinessAccountEventDestinationsError =
+  | InternalServiceException
+  | InvalidParametersException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
  */
 export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   PutWhatsAppBusinessAccountEventDestinationsInput,
   PutWhatsAppBusinessAccountEventDestinationsOutput,
-  | InternalServiceException
-  | InvalidParametersException
-  | ThrottledRequestException
-  | CommonErrors,
+  PutWhatsAppBusinessAccountEventDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutWhatsAppBusinessAccountEventDestinationsInput,
@@ -1644,18 +1646,20 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type UpdateWhatsAppMessageTemplateError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Updates an existing WhatsApp message template.
  */
 export const updateWhatsAppMessageTemplate: API.OperationMethod<
   UpdateWhatsAppMessageTemplateInput,
   UpdateWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  UpdateWhatsAppMessageTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWhatsAppMessageTemplateInput,
@@ -1668,18 +1672,20 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type GetLinkedWhatsAppBusinessAccountPhoneNumberError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
  */
 export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
   GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
   GetLinkedWhatsAppBusinessAccountPhoneNumberOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  GetLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
@@ -1692,19 +1698,21 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
-/**
- * Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
- */
-export const deleteWhatsAppMessageMedia: API.OperationMethod<
-  DeleteWhatsAppMessageMediaInput,
-  DeleteWhatsAppMessageMediaOutput,
+export type DeleteWhatsAppMessageMediaError =
   | AccessDeniedByMetaException
   | DependencyException
   | InternalServiceException
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
+ */
+export const deleteWhatsAppMessageMedia: API.OperationMethod<
+  DeleteWhatsAppMessageMediaInput,
+  DeleteWhatsAppMessageMediaOutput,
+  DeleteWhatsAppMessageMediaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWhatsAppMessageMediaInput,
@@ -1718,6 +1726,14 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type GetWhatsAppMessageMediaError =
+  | AccessDeniedByMetaException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Get a media file from the WhatsApp service. On successful completion the media file is
  * retrieved from Meta and stored in the specified Amazon S3 bucket. Use either
@@ -1728,13 +1744,7 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
 export const getWhatsAppMessageMedia: API.OperationMethod<
   GetWhatsAppMessageMediaInput,
   GetWhatsAppMessageMediaOutput,
-  | AccessDeniedByMetaException
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  GetWhatsAppMessageMediaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWhatsAppMessageMediaInput,
@@ -1748,6 +1758,14 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type PostWhatsAppMessageMediaError =
+  | AccessDeniedByMetaException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Upload a media file to the WhatsApp service. Only the specified
  * `originationPhoneNumberId` has the permissions to send the media file when
@@ -1758,13 +1776,7 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
 export const postWhatsAppMessageMedia: API.OperationMethod<
   PostWhatsAppMessageMediaInput,
   PostWhatsAppMessageMediaOutput,
-  | AccessDeniedByMetaException
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  PostWhatsAppMessageMediaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostWhatsAppMessageMediaInput,
@@ -1778,6 +1790,13 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
     ThrottledRequestException,
   ],
 }));
+export type SendWhatsAppMessageError =
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
 /**
  * Send a WhatsApp message. For examples of sending a message using the Amazon Web Services
  * CLI, see Sending messages in the
@@ -1788,12 +1807,7 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
 export const sendWhatsAppMessage: API.OperationMethod<
   SendWhatsAppMessageInput,
   SendWhatsAppMessageOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
+  SendWhatsAppMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendWhatsAppMessageInput,

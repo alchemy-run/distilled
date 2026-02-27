@@ -3791,18 +3791,7 @@ export class MaxConcurrentQueriesException extends S.TaggedErrorClass<MaxConcurr
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an
- * existing tag's value when a new value is specified for an existing tag key. Tag key names
- * must be unique; you cannot have two keys with the same name but different
- * values. If you specify a key without a value, the tag will be created with the specified
- * key and a value of null. You can tag a trail or event data store that applies to all
- * Amazon Web Services Regions only from the Region in which the trail or event data store
- * was created (also known as its home Region).
- */
-export const addTags: API.OperationMethod<
-  AddTagsRequest,
-  AddTagsResponse,
+export type AddTagsError =
   | ChannelARNInvalidException
   | ChannelNotFoundException
   | CloudTrailARNInvalidException
@@ -3819,7 +3808,20 @@ export const addTags: API.OperationMethod<
   | ResourceTypeNotSupportedException
   | TagsLimitExceededException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an
+ * existing tag's value when a new value is specified for an existing tag key. Tag key names
+ * must be unique; you cannot have two keys with the same name but different
+ * values. If you specify a key without a value, the tag will be created with the specified
+ * key and a value of null. You can tag a trail or event data store that applies to all
+ * Amazon Web Services Regions only from the Region in which the trail or event data store
+ * was created (also known as its home Region).
+ */
+export const addTags: API.OperationMethod<
+  AddTagsRequest,
+  AddTagsResponse,
+  AddTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsRequest,
@@ -3843,6 +3845,18 @@ export const addTags: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CancelQueryError =
+  | ConflictException
+  | EventDataStoreARNInvalidException
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | InactiveQueryException
+  | InvalidParameterException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | QueryIdNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Cancels a query if the query is not in a terminated state, such as
  * `CANCELLED`, `FAILED`, `TIMED_OUT`, or
@@ -3854,17 +3868,7 @@ export const addTags: API.OperationMethod<
 export const cancelQuery: API.OperationMethod<
   CancelQueryRequest,
   CancelQueryResponse,
-  | ConflictException
-  | EventDataStoreARNInvalidException
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | InactiveQueryException
-  | InvalidParameterException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | QueryIdNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CancelQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQueryRequest,
@@ -3882,14 +3886,7 @@ export const cancelQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a channel for CloudTrail to ingest events from a partner or external source.
- * After you create a channel, a CloudTrail Lake event data store can log events
- * from the partner or source that you specify.
- */
-export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
-  CreateChannelResponse,
+export type CreateChannelError =
   | ChannelAlreadyExistsException
   | ChannelMaxLimitExceededException
   | EventDataStoreARNInvalidException
@@ -3902,7 +3899,16 @@ export const createChannel: API.OperationMethod<
   | OperationNotPermittedException
   | TagsLimitExceededException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a channel for CloudTrail to ingest events from a partner or external source.
+ * After you create a channel, a CloudTrail Lake event data store can log events
+ * from the partner or source that you specify.
+ */
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
+  CreateChannelResponse,
+  CreateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
@@ -3922,6 +3928,16 @@ export const createChannel: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateDashboardError =
+  | ConflictException
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | InsufficientEncryptionPolicyException
+  | InvalidQueryStatementException
+  | InvalidTagParameterException
+  | ServiceQuotaExceededException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Creates a custom dashboard or the Highlights dashboard.
  *
@@ -3944,15 +3960,7 @@ export const createChannel: API.OperationMethod<
 export const createDashboard: API.OperationMethod<
   CreateDashboardRequest,
   CreateDashboardResponse,
-  | ConflictException
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | InsufficientEncryptionPolicyException
-  | InvalidQueryStatementException
-  | InvalidTagParameterException
-  | ServiceQuotaExceededException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CreateDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDashboardRequest,
@@ -3968,12 +3976,7 @@ export const createDashboard: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a new event data store.
- */
-export const createEventDataStore: API.OperationMethod<
-  CreateEventDataStoreRequest,
-  CreateEventDataStoreResponse,
+export type CreateEventDataStoreError =
   | CloudTrailAccessNotEnabledException
   | ConflictException
   | EventDataStoreAlreadyExistsException
@@ -3993,7 +3996,14 @@ export const createEventDataStore: API.OperationMethod<
   | OrganizationsNotInUseException
   | ThrottlingException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new event data store.
+ */
+export const createEventDataStore: API.OperationMethod<
+  CreateEventDataStoreRequest,
+  CreateEventDataStoreResponse,
+  CreateEventDataStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventDataStoreRequest,
@@ -4020,12 +4030,7 @@ export const createEventDataStore: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
- */
-export const createTrail: API.OperationMethod<
-  CreateTrailRequest,
-  CreateTrailResponse,
+export type CreateTrailError =
   | CloudTrailAccessNotEnabledException
   | CloudTrailInvalidClientTokenIdException
   | CloudWatchLogsDeliveryUnavailableException
@@ -4059,7 +4064,14 @@ export const createTrail: API.OperationMethod<
   | TrailAlreadyExistsException
   | TrailNotProvidedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
+ */
+export const createTrail: API.OperationMethod<
+  CreateTrailRequest,
+  CreateTrailResponse,
+  CreateTrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrailRequest,
@@ -4100,17 +4112,19 @@ export const createTrail: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteChannelError =
+  | ChannelARNInvalidException
+  | ChannelNotFoundException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes a channel.
  */
 export const deleteChannel: API.OperationMethod<
   DeleteChannelRequest,
   DeleteChannelResponse,
-  | ChannelARNInvalidException
-  | ChannelNotFoundException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
@@ -4122,16 +4136,18 @@ export const deleteChannel: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteDashboardError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
  */
 export const deleteDashboard: API.OperationMethod<
   DeleteDashboardRequest,
   DeleteDashboardResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardRequest,
@@ -4142,6 +4158,22 @@ export const deleteDashboard: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteEventDataStoreError =
+  | ChannelExistsForEDSException
+  | ConflictException
+  | EventDataStoreARNInvalidException
+  | EventDataStoreFederationEnabledException
+  | EventDataStoreHasOngoingImportException
+  | EventDataStoreNotFoundException
+  | EventDataStoreTerminationProtectedException
+  | InactiveEventDataStoreException
+  | InsufficientDependencyServiceAccessPermissionException
+  | InvalidParameterException
+  | NoManagementAccountSLRExistsException
+  | NotOrganizationMasterAccountException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Disables the event data store specified by `EventDataStore`, which accepts an
  * event data store ARN. After you run `DeleteEventDataStore`, the event data store
@@ -4159,21 +4191,7 @@ export const deleteDashboard: API.OperationMethod<
 export const deleteEventDataStore: API.OperationMethod<
   DeleteEventDataStoreRequest,
   DeleteEventDataStoreResponse,
-  | ChannelExistsForEDSException
-  | ConflictException
-  | EventDataStoreARNInvalidException
-  | EventDataStoreFederationEnabledException
-  | EventDataStoreHasOngoingImportException
-  | EventDataStoreNotFoundException
-  | EventDataStoreTerminationProtectedException
-  | InactiveEventDataStoreException
-  | InsufficientDependencyServiceAccessPermissionException
-  | InvalidParameterException
-  | NoManagementAccountSLRExistsException
-  | NotOrganizationMasterAccountException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteEventDataStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventDataStoreRequest,
@@ -4195,12 +4213,7 @@ export const deleteEventDataStore: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
- */
-export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
-  DeleteResourcePolicyResponse,
+export type DeleteResourcePolicyError =
   | ConflictException
   | OperationNotPermittedException
   | ResourceARNNotValidException
@@ -4208,7 +4221,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   | ResourcePolicyNotFoundException
   | ResourceTypeNotSupportedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
+ */
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyResponse,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -4223,6 +4243,19 @@ export const deleteResourcePolicy: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteTrailError =
+  | CloudTrailARNInvalidException
+  | ConflictException
+  | InsufficientDependencyServiceAccessPermissionException
+  | InvalidHomeRegionException
+  | InvalidTrailNameException
+  | NoManagementAccountSLRExistsException
+  | NotOrganizationMasterAccountException
+  | OperationNotPermittedException
+  | ThrottlingException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes a trail. This operation must be called from the Region in which the trail was
  * created. `DeleteTrail` cannot be called on the shadow trails (replicated trails
@@ -4241,18 +4274,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteTrail: API.OperationMethod<
   DeleteTrailRequest,
   DeleteTrailResponse,
-  | CloudTrailARNInvalidException
-  | ConflictException
-  | InsufficientDependencyServiceAccessPermissionException
-  | InvalidHomeRegionException
-  | InvalidTrailNameException
-  | NoManagementAccountSLRExistsException
-  | NotOrganizationMasterAccountException
-  | OperationNotPermittedException
-  | ThrottlingException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteTrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrailRequest,
@@ -4271,13 +4293,7 @@ export const deleteTrail: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Removes CloudTrail delegated administrator permissions from a member account in
- * an organization.
- */
-export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
-  DeregisterOrganizationDelegatedAdminRequest,
-  DeregisterOrganizationDelegatedAdminResponse,
+export type DeregisterOrganizationDelegatedAdminError =
   | AccountNotFoundException
   | AccountNotRegisteredException
   | CloudTrailAccessNotEnabledException
@@ -4289,7 +4305,15 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
   | OrganizationNotInAllFeaturesModeException
   | OrganizationsNotInUseException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes CloudTrail delegated administrator permissions from a member account in
+ * an organization.
+ */
+export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
+  DeregisterOrganizationDelegatedAdminRequest,
+  DeregisterOrganizationDelegatedAdminResponse,
+  DeregisterOrganizationDelegatedAdminError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterOrganizationDelegatedAdminRequest,
@@ -4308,6 +4332,16 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeQueryError =
+  | EventDataStoreARNInvalidException
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | InvalidParameterException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | QueryIdNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns metadata about a query, including query run time in milliseconds, number of
  * events scanned and matched, and query status. If the query results were delivered to an S3 bucket,
@@ -4321,15 +4355,7 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
 export const describeQuery: API.OperationMethod<
   DescribeQueryRequest,
   DescribeQueryResponse,
-  | EventDataStoreARNInvalidException
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | InvalidParameterException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | QueryIdNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQueryRequest,
@@ -4345,6 +4371,13 @@ export const describeQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeTrailsError =
+  | CloudTrailARNInvalidException
+  | InvalidTrailNameException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Retrieves settings for one or more trails associated with the current Region for your
  * account.
@@ -4352,12 +4385,7 @@ export const describeQuery: API.OperationMethod<
 export const describeTrails: API.OperationMethod<
   DescribeTrailsRequest,
   DescribeTrailsResponse,
-  | CloudTrailARNInvalidException
-  | InvalidTrailNameException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeTrailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrailsRequest,
@@ -4370,16 +4398,7 @@ export const describeTrails: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables
- * the integration with Glue, Lake Formation, and Amazon Athena.
- * After disabling Lake query federation, you can no longer query your event data in Amazon Athena.
- *
- * No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
- */
-export const disableFederation: API.OperationMethod<
-  DisableFederationRequest,
-  DisableFederationResponse,
+export type DisableFederationError =
   | AccessDeniedException
   | CloudTrailAccessNotEnabledException
   | ConcurrentModificationException
@@ -4394,7 +4413,18 @@ export const disableFederation: API.OperationMethod<
   | OrganizationNotInAllFeaturesModeException
   | OrganizationsNotInUseException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables
+ * the integration with Glue, Lake Formation, and Amazon Athena.
+ * After disabling Lake query federation, you can no longer query your event data in Amazon Athena.
+ *
+ * No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
+ */
+export const disableFederation: API.OperationMethod<
+  DisableFederationRequest,
+  DisableFederationResponse,
+  DisableFederationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableFederationRequest,
@@ -4416,6 +4446,23 @@ export const disableFederation: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type EnableFederationError =
+  | AccessDeniedException
+  | CloudTrailAccessNotEnabledException
+  | ConcurrentModificationException
+  | EventDataStoreARNInvalidException
+  | EventDataStoreFederationEnabledException
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | InsufficientDependencyServiceAccessPermissionException
+  | InvalidParameterException
+  | NoManagementAccountSLRExistsException
+  | NotOrganizationMasterAccountException
+  | OperationNotPermittedException
+  | OrganizationNotInAllFeaturesModeException
+  | OrganizationsNotInUseException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue
  * Data Catalog and run
@@ -4433,22 +4480,7 @@ export const disableFederation: API.OperationMethod<
 export const enableFederation: API.OperationMethod<
   EnableFederationRequest,
   EnableFederationResponse,
-  | AccessDeniedException
-  | CloudTrailAccessNotEnabledException
-  | ConcurrentModificationException
-  | EventDataStoreARNInvalidException
-  | EventDataStoreFederationEnabledException
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | InsufficientDependencyServiceAccessPermissionException
-  | InvalidParameterException
-  | NoManagementAccountSLRExistsException
-  | NotOrganizationMasterAccountException
-  | OperationNotPermittedException
-  | OrganizationNotInAllFeaturesModeException
-  | OrganizationsNotInUseException
-  | UnsupportedOperationException
-  | CommonErrors,
+  EnableFederationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableFederationRequest,
@@ -4471,6 +4503,16 @@ export const enableFederation: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GenerateQueryError =
+  | EventDataStoreARNInvalidException
+  | EventDataStoreNotFoundException
+  | GenerateResponseException
+  | InactiveEventDataStoreException
+  | InvalidParameterException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Generates a query from a natural language prompt. This operation uses generative artificial intelligence
  * (generative AI) to produce a ready-to-use SQL query from the prompt.
@@ -4492,15 +4534,7 @@ export const enableFederation: API.OperationMethod<
 export const generateQuery: API.OperationMethod<
   GenerateQueryRequest,
   GenerateQueryResponse,
-  | EventDataStoreARNInvalidException
-  | EventDataStoreNotFoundException
-  | GenerateResponseException
-  | InactiveEventDataStoreException
-  | InvalidParameterException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GenerateQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateQueryRequest,
@@ -4516,17 +4550,19 @@ export const generateQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetChannelError =
+  | ChannelARNInvalidException
+  | ChannelNotFoundException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns information about a specific channel.
  */
 export const getChannel: API.OperationMethod<
   GetChannelRequest,
   GetChannelResponse,
-  | ChannelARNInvalidException
-  | ChannelNotFoundException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelRequest,
@@ -4538,25 +4574,24 @@ export const getChannel: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetDashboardError =
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns the specified dashboard.
  */
 export const getDashboard: API.OperationMethod<
   GetDashboardRequest,
   GetDashboardResponse,
-  ResourceNotFoundException | UnsupportedOperationException | CommonErrors,
+  GetDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDashboardRequest,
   output: GetDashboardResponse,
   errors: [ResourceNotFoundException, UnsupportedOperationException],
 }));
-/**
- * Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
- */
-export const getEventConfiguration: API.OperationMethod<
-  GetEventConfigurationRequest,
-  GetEventConfigurationResponse,
+export type GetEventConfigurationError =
   | CloudTrailARNInvalidException
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -4569,7 +4604,14 @@ export const getEventConfiguration: API.OperationMethod<
   | OperationNotPermittedException
   | TrailNotFoundException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
+ */
+export const getEventConfiguration: API.OperationMethod<
+  GetEventConfigurationRequest,
+  GetEventConfigurationResponse,
+  GetEventConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventConfigurationRequest,
@@ -4589,6 +4631,14 @@ export const getEventConfiguration: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetEventDataStoreError =
+  | EventDataStoreARNInvalidException
+  | EventDataStoreNotFoundException
+  | InvalidParameterException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns information about an event data store specified as either an ARN or the ID
  * portion of the ARN.
@@ -4596,13 +4646,7 @@ export const getEventConfiguration: API.OperationMethod<
 export const getEventDataStore: API.OperationMethod<
   GetEventDataStoreRequest,
   GetEventDataStoreResponse,
-  | EventDataStoreARNInvalidException
-  | EventDataStoreNotFoundException
-  | InvalidParameterException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetEventDataStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventDataStoreRequest,
@@ -4616,6 +4660,14 @@ export const getEventDataStore: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetEventSelectorsError =
+  | CloudTrailARNInvalidException
+  | InvalidTrailNameException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Describes the settings for the event selectors that you configured for your trail. The
  * information returned for your event selectors includes the following:
@@ -4643,13 +4695,7 @@ export const getEventDataStore: API.OperationMethod<
 export const getEventSelectors: API.OperationMethod<
   GetEventSelectorsRequest,
   GetEventSelectorsResponse,
-  | CloudTrailARNInvalidException
-  | InvalidTrailNameException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetEventSelectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventSelectorsRequest,
@@ -4663,17 +4709,19 @@ export const getEventSelectors: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetImportError =
+  | ImportNotFoundException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns information about a specific import.
  */
 export const getImport: API.OperationMethod<
   GetImportRequest,
   GetImportResponse,
-  | ImportNotFoundException
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportRequest,
@@ -4685,6 +4733,18 @@ export const getImport: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetInsightSelectorsError =
+  | CloudTrailARNInvalidException
+  | InsightNotEnabledException
+  | InvalidParameterCombinationException
+  | InvalidParameterException
+  | InvalidTrailNameException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | ThrottlingException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Describes the settings for the Insights event selectors that you configured for your
  * trail or event data store. `GetInsightSelectors` shows if CloudTrail Insights logging is enabled
@@ -4700,17 +4760,7 @@ export const getImport: API.OperationMethod<
 export const getInsightSelectors: API.OperationMethod<
   GetInsightSelectorsRequest,
   GetInsightSelectorsResponse,
-  | CloudTrailARNInvalidException
-  | InsightNotEnabledException
-  | InvalidParameterCombinationException
-  | InvalidParameterException
-  | InvalidTrailNameException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | ThrottlingException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetInsightSelectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightSelectorsRequest,
@@ -4728,13 +4778,7 @@ export const getInsightSelectors: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Gets event data results of a query. You must specify the `QueryID` value
- * returned by the `StartQuery` operation.
- */
-export const getQueryResults: API.OperationMethod<
-  GetQueryResultsRequest,
-  GetQueryResultsResponse,
+export type GetQueryResultsError =
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
   | InactiveEventDataStoreException
@@ -4746,43 +4790,29 @@ export const getQueryResults: API.OperationMethod<
   | OperationNotPermittedException
   | QueryIdNotFoundException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets event data results of a query. You must specify the `QueryID` value
+ * returned by the `StartQuery` operation.
+ */
+export const getQueryResults: API.OperationMethod<
+  GetQueryResultsRequest,
+  GetQueryResultsResponse,
+  GetQueryResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetQueryResultsRequest,
   ) => stream.Stream<
     GetQueryResultsResponse,
-    | EventDataStoreARNInvalidException
-    | EventDataStoreNotFoundException
-    | InactiveEventDataStoreException
-    | InsufficientEncryptionPolicyException
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | QueryIdNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    GetQueryResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetQueryResultsRequest,
   ) => stream.Stream<
     unknown,
-    | EventDataStoreARNInvalidException
-    | EventDataStoreNotFoundException
-    | InactiveEventDataStoreException
-    | InsufficientEncryptionPolicyException
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | QueryIdNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    GetQueryResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4803,19 +4833,21 @@ export const getQueryResults: API.OperationMethod<
   ],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
-/**
- * Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
- */
-export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
-  GetResourcePolicyResponse,
+export type GetResourcePolicyError =
   | OperationNotPermittedException
   | ResourceARNNotValidException
   | ResourceNotFoundException
   | ResourcePolicyNotFoundException
   | ResourceTypeNotSupportedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
+ */
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
+  GetResourcePolicyResponse,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -4829,18 +4861,20 @@ export const getResourcePolicy: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetTrailError =
+  | CloudTrailARNInvalidException
+  | InvalidTrailNameException
+  | OperationNotPermittedException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns settings information for a specified trail.
  */
 export const getTrail: API.OperationMethod<
   GetTrailRequest,
   GetTrailResponse,
-  | CloudTrailARNInvalidException
-  | InvalidTrailNameException
-  | OperationNotPermittedException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetTrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrailRequest,
@@ -4853,6 +4887,13 @@ export const getTrail: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetTrailStatusError =
+  | CloudTrailARNInvalidException
+  | InvalidTrailNameException
+  | OperationNotPermittedException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns a JSON-formatted list of information about the specified trail. Fields include
  * information on delivery errors, Amazon SNS and Amazon S3 errors, and start
@@ -4863,12 +4904,7 @@ export const getTrail: API.OperationMethod<
 export const getTrailStatus: API.OperationMethod<
   GetTrailStatusRequest,
   GetTrailStatusResponse,
-  | CloudTrailARNInvalidException
-  | InvalidTrailNameException
-  | OperationNotPermittedException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetTrailStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrailStatusRequest,
@@ -4881,36 +4917,32 @@ export const getTrailStatus: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type ListChannelsError =
+  | InvalidNextTokenException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Lists the channels in the current account, and their source names.
  */
 export const listChannels: API.OperationMethod<
   ListChannelsRequest,
   ListChannelsResponse,
-  | InvalidNextTokenException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    | InvalidNextTokenException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidNextTokenException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4927,19 +4959,27 @@ export const listChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDashboardsError = UnsupportedOperationException | CommonErrors;
 /**
  * Returns information about all dashboards in the account, in the current Region.
  */
 export const listDashboards: API.OperationMethod<
   ListDashboardsRequest,
   ListDashboardsResponse,
-  UnsupportedOperationException | CommonErrors,
+  ListDashboardsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDashboardsRequest,
   output: ListDashboardsResponse,
   errors: [UnsupportedOperationException],
 }));
+export type ListEventDataStoresError =
+  | InvalidMaxResultsException
+  | InvalidNextTokenException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns information about all event data stores in the account, in the current
  * Region.
@@ -4947,36 +4987,21 @@ export const listDashboards: API.OperationMethod<
 export const listEventDataStores: API.OperationMethod<
   ListEventDataStoresRequest,
   ListEventDataStoresResponse,
-  | InvalidMaxResultsException
-  | InvalidNextTokenException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListEventDataStoresError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventDataStoresRequest,
   ) => stream.Stream<
     ListEventDataStoresResponse,
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListEventDataStoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventDataStoresRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListEventDataStoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4995,39 +5020,33 @@ export const listEventDataStores: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListImportFailuresError =
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns a list of failures for the specified import.
  */
 export const listImportFailures: API.OperationMethod<
   ListImportFailuresRequest,
   ListImportFailuresResponse,
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListImportFailuresError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportFailuresRequest,
   ) => stream.Stream<
     ListImportFailuresResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListImportFailuresError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportFailuresRequest,
   ) => stream.Stream<
     ImportFailureListItem,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListImportFailuresError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5046,6 +5065,13 @@ export const listImportFailures: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListImportsError =
+  | EventDataStoreARNInvalidException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns information on all imports, or a select set of imports by
  * `ImportStatus` or `Destination`.
@@ -5053,36 +5079,21 @@ export const listImportFailures: API.OperationMethod<
 export const listImports: API.OperationMethod<
   ListImportsRequest,
   ListImportsResponse,
-  | EventDataStoreARNInvalidException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListImportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportsRequest,
   ) => stream.Stream<
     ListImportsResponse,
-    | EventDataStoreARNInvalidException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportsRequest,
   ) => stream.Stream<
     ImportsListItem,
-    | EventDataStoreARNInvalidException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5102,6 +5113,11 @@ export const listImports: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInsightsDataError =
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days.
  *
@@ -5123,30 +5139,21 @@ export const listImports: API.OperationMethod<
 export const listInsightsData: API.OperationMethod<
   ListInsightsDataRequest,
   ListInsightsDataResponse,
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListInsightsDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInsightsDataRequest,
   ) => stream.Stream<
     ListInsightsDataResponse,
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListInsightsDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInsightsDataRequest,
   ) => stream.Stream<
     Event,
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListInsightsDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5164,6 +5171,12 @@ export const listInsightsData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInsightsMetricDataError =
+  | InvalidParameterException
+  | InvalidTrailNameException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns Insights metrics data for trails that have enabled Insights. The request must include the `EventSource`,
  * `EventName`, and `InsightType` parameters.
@@ -5189,33 +5202,21 @@ export const listInsightsData: API.OperationMethod<
 export const listInsightsMetricData: API.OperationMethod<
   ListInsightsMetricDataRequest,
   ListInsightsMetricDataResponse,
-  | InvalidParameterException
-  | InvalidTrailNameException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListInsightsMetricDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInsightsMetricDataRequest,
   ) => stream.Stream<
     ListInsightsMetricDataResponse,
-    | InvalidParameterException
-    | InvalidTrailNameException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListInsightsMetricDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInsightsMetricDataRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | InvalidTrailNameException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListInsightsMetricDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5233,6 +5234,12 @@ export const listInsightsMetricData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPublicKeysError =
+  | InvalidTimeRangeException
+  | InvalidTokenException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns all public keys whose private keys were used to sign the digest files within the
  * specified time range. The public key is needed to validate digest files that were signed
@@ -5246,33 +5253,21 @@ export const listInsightsMetricData: API.OperationMethod<
 export const listPublicKeys: API.OperationMethod<
   ListPublicKeysRequest,
   ListPublicKeysResponse,
-  | InvalidTimeRangeException
-  | InvalidTokenException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListPublicKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPublicKeysRequest,
   ) => stream.Stream<
     ListPublicKeysResponse,
-    | InvalidTimeRangeException
-    | InvalidTokenException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListPublicKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPublicKeysRequest,
   ) => stream.Stream<
     PublicKey,
-    | InvalidTimeRangeException
-    | InvalidTokenException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListPublicKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5290,6 +5285,19 @@ export const listPublicKeys: API.OperationMethod<
     items: "PublicKeyList",
   } as const,
 }));
+export type ListQueriesError =
+  | EventDataStoreARNInvalidException
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | InvalidDateRangeException
+  | InvalidMaxResultsException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidQueryStatusException
+  | NoManagementAccountSLRExistsException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns a list of queries and query statuses for the past seven days. You must specify
  * an ARN value for `EventDataStore`. Optionally, to shorten the list of results,
@@ -5302,54 +5310,21 @@ export const listPublicKeys: API.OperationMethod<
 export const listQueries: API.OperationMethod<
   ListQueriesRequest,
   ListQueriesResponse,
-  | EventDataStoreARNInvalidException
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | InvalidDateRangeException
-  | InvalidMaxResultsException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidQueryStatusException
-  | NoManagementAccountSLRExistsException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueriesRequest,
   ) => stream.Stream<
     ListQueriesResponse,
-    | EventDataStoreARNInvalidException
-    | EventDataStoreNotFoundException
-    | InactiveEventDataStoreException
-    | InvalidDateRangeException
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidQueryStatusException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueriesRequest,
   ) => stream.Stream<
     unknown,
-    | EventDataStoreARNInvalidException
-    | EventDataStoreNotFoundException
-    | InactiveEventDataStoreException
-    | InvalidDateRangeException
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidQueryStatusException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5374,12 +5349,7 @@ export const listQueries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
- */
-export const listTags: API.OperationMethod<
-  ListTagsRequest,
-  ListTagsResponse,
+export type ListTagsError =
   | ChannelARNInvalidException
   | CloudTrailARNInvalidException
   | EventDataStoreARNInvalidException
@@ -5392,45 +5362,28 @@ export const listTags: API.OperationMethod<
   | ResourceNotFoundException
   | ResourceTypeNotSupportedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
+ */
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
+  ListTagsResponse,
+  ListTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsRequest,
   ) => stream.Stream<
     ListTagsResponse,
-    | ChannelARNInvalidException
-    | CloudTrailARNInvalidException
-    | EventDataStoreARNInvalidException
-    | EventDataStoreNotFoundException
-    | InactiveEventDataStoreException
-    | InvalidTokenException
-    | InvalidTrailNameException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | ResourceNotFoundException
-    | ResourceTypeNotSupportedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsRequest,
   ) => stream.Stream<
     ResourceTag,
-    | ChannelARNInvalidException
-    | CloudTrailARNInvalidException
-    | EventDataStoreARNInvalidException
-    | EventDataStoreNotFoundException
-    | InactiveEventDataStoreException
-    | InvalidTokenException
-    | InvalidTrailNameException
-    | NoManagementAccountSLRExistsException
-    | OperationNotPermittedException
-    | ResourceNotFoundException
-    | ResourceTypeNotSupportedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5456,31 +5409,31 @@ export const listTags: API.OperationMethod<
     items: "ResourceTagList",
   } as const,
 }));
+export type ListTrailsError =
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Lists trails that are in the current account.
  */
 export const listTrails: API.OperationMethod<
   ListTrailsRequest,
   ListTrailsResponse,
-  OperationNotPermittedException | UnsupportedOperationException | CommonErrors,
+  ListTrailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrailsRequest,
   ) => stream.Stream<
     ListTrailsResponse,
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListTrailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrailsRequest,
   ) => stream.Stream<
     TrailInfo,
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListTrailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5493,6 +5446,15 @@ export const listTrails: API.OperationMethod<
     items: "Trails",
   } as const,
 }));
+export type LookupEventsError =
+  | InvalidEventCategoryException
+  | InvalidLookupAttributesException
+  | InvalidMaxResultsException
+  | InvalidNextTokenException
+  | InvalidTimeRangeException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
  * You can look up events that occurred in a Region within the last 90 days.
@@ -5536,42 +5498,21 @@ export const listTrails: API.OperationMethod<
 export const lookupEvents: API.OperationMethod<
   LookupEventsRequest,
   LookupEventsResponse,
-  | InvalidEventCategoryException
-  | InvalidLookupAttributesException
-  | InvalidMaxResultsException
-  | InvalidNextTokenException
-  | InvalidTimeRangeException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  LookupEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: LookupEventsRequest,
   ) => stream.Stream<
     LookupEventsResponse,
-    | InvalidEventCategoryException
-    | InvalidLookupAttributesException
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    LookupEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: LookupEventsRequest,
   ) => stream.Stream<
     Event,
-    | InvalidEventCategoryException
-    | InvalidLookupAttributesException
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | OperationNotPermittedException
-    | UnsupportedOperationException
-    | CommonErrors,
+    LookupEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5593,12 +5534,7 @@ export const lookupEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
- */
-export const putEventConfiguration: API.OperationMethod<
-  PutEventConfigurationRequest,
-  PutEventConfigurationResponse,
+export type PutEventConfigurationError =
   | CloudTrailARNInvalidException
   | ConflictException
   | EventDataStoreARNInvalidException
@@ -5618,7 +5554,14 @@ export const putEventConfiguration: API.OperationMethod<
   | ThrottlingException
   | TrailNotFoundException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
+ */
+export const putEventConfiguration: API.OperationMethod<
+  PutEventConfigurationRequest,
+  PutEventConfigurationResponse,
+  PutEventConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventConfigurationRequest,
@@ -5645,6 +5588,20 @@ export const putEventConfiguration: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type PutEventSelectorsError =
+  | CloudTrailARNInvalidException
+  | ConflictException
+  | InsufficientDependencyServiceAccessPermissionException
+  | InvalidEventSelectorsException
+  | InvalidHomeRegionException
+  | InvalidTrailNameException
+  | NoManagementAccountSLRExistsException
+  | NotOrganizationMasterAccountException
+  | OperationNotPermittedException
+  | ThrottlingException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Configures event selectors (also referred to as *basic event selectors*) or advanced event selectors for your trail. You can use
  * either `AdvancedEventSelectors` or `EventSelectors`, but not both. If
@@ -5706,19 +5663,7 @@ export const putEventConfiguration: API.OperationMethod<
 export const putEventSelectors: API.OperationMethod<
   PutEventSelectorsRequest,
   PutEventSelectorsResponse,
-  | CloudTrailARNInvalidException
-  | ConflictException
-  | InsufficientDependencyServiceAccessPermissionException
-  | InvalidEventSelectorsException
-  | InvalidHomeRegionException
-  | InvalidTrailNameException
-  | NoManagementAccountSLRExistsException
-  | NotOrganizationMasterAccountException
-  | OperationNotPermittedException
-  | ThrottlingException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  PutEventSelectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventSelectorsRequest,
@@ -5738,6 +5683,24 @@ export const putEventSelectors: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type PutInsightSelectorsError =
+  | CloudTrailARNInvalidException
+  | InsufficientEncryptionPolicyException
+  | InsufficientS3BucketPolicyException
+  | InvalidHomeRegionException
+  | InvalidInsightSelectorsException
+  | InvalidParameterCombinationException
+  | InvalidParameterException
+  | InvalidTrailNameException
+  | KmsException
+  | NoManagementAccountSLRExistsException
+  | NotOrganizationMasterAccountException
+  | OperationNotPermittedException
+  | S3BucketDoesNotExistException
+  | ThrottlingException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you
  * want to enable on an existing trail or event data store. You also use `PutInsightSelectors` to turn
@@ -5770,23 +5733,7 @@ export const putEventSelectors: API.OperationMethod<
 export const putInsightSelectors: API.OperationMethod<
   PutInsightSelectorsRequest,
   PutInsightSelectorsResponse,
-  | CloudTrailARNInvalidException
-  | InsufficientEncryptionPolicyException
-  | InsufficientS3BucketPolicyException
-  | InvalidHomeRegionException
-  | InvalidInsightSelectorsException
-  | InvalidParameterCombinationException
-  | InvalidParameterException
-  | InvalidTrailNameException
-  | KmsException
-  | NoManagementAccountSLRExistsException
-  | NotOrganizationMasterAccountException
-  | OperationNotPermittedException
-  | S3BucketDoesNotExistException
-  | ThrottlingException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  PutInsightSelectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInsightSelectorsRequest,
@@ -5810,6 +5757,15 @@ export const putInsightSelectors: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type PutResourcePolicyError =
+  | ConflictException
+  | OperationNotPermittedException
+  | ResourceARNNotValidException
+  | ResourceNotFoundException
+  | ResourcePolicyNotValidException
+  | ResourceTypeNotSupportedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see
  * CloudTrail resource-based policy examples
@@ -5818,14 +5774,7 @@ export const putInsightSelectors: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | ConflictException
-  | OperationNotPermittedException
-  | ResourceARNNotValidException
-  | ResourceNotFoundException
-  | ResourcePolicyNotValidException
-  | ResourceTypeNotSupportedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -5840,12 +5789,7 @@ export const putResourcePolicy: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Registers an organization’s member account as the CloudTrail delegated administrator.
- */
-export const registerOrganizationDelegatedAdmin: API.OperationMethod<
-  RegisterOrganizationDelegatedAdminRequest,
-  RegisterOrganizationDelegatedAdminResponse,
+export type RegisterOrganizationDelegatedAdminError =
   | AccountNotFoundException
   | AccountRegisteredException
   | CannotDelegateManagementAccountException
@@ -5860,7 +5804,14 @@ export const registerOrganizationDelegatedAdmin: API.OperationMethod<
   | OrganizationNotInAllFeaturesModeException
   | OrganizationsNotInUseException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers an organization’s member account as the CloudTrail delegated administrator.
+ */
+export const registerOrganizationDelegatedAdmin: API.OperationMethod<
+  RegisterOrganizationDelegatedAdminRequest,
+  RegisterOrganizationDelegatedAdminResponse,
+  RegisterOrganizationDelegatedAdminError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOrganizationDelegatedAdminRequest,
@@ -5882,12 +5833,7 @@ export const registerOrganizationDelegatedAdmin: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Removes the specified tags from a trail, event data store, dashboard, or channel.
- */
-export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
-  RemoveTagsResponse,
+export type RemoveTagsError =
   | ChannelARNInvalidException
   | ChannelNotFoundException
   | CloudTrailARNInvalidException
@@ -5903,7 +5849,14 @@ export const removeTags: API.OperationMethod<
   | ResourceNotFoundException
   | ResourceTypeNotSupportedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the specified tags from a trail, event data store, dashboard, or channel.
+ */
+export const removeTags: API.OperationMethod<
+  RemoveTagsRequest,
+  RemoveTagsResponse,
+  RemoveTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsRequest,
@@ -5926,15 +5879,7 @@ export const removeTags: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Restores a deleted event data store specified by `EventDataStore`, which
- * accepts an event data store ARN. You can only restore a deleted event data store within the
- * seven-day wait period after deletion. Restoring an event data store can take several
- * minutes, depending on the size of the event data store.
- */
-export const restoreEventDataStore: API.OperationMethod<
-  RestoreEventDataStoreRequest,
-  RestoreEventDataStoreResponse,
+export type RestoreEventDataStoreError =
   | CloudTrailAccessNotEnabledException
   | EventDataStoreARNInvalidException
   | EventDataStoreMaxLimitExceededException
@@ -5948,7 +5893,17 @@ export const restoreEventDataStore: API.OperationMethod<
   | OrganizationNotInAllFeaturesModeException
   | OrganizationsNotInUseException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores a deleted event data store specified by `EventDataStore`, which
+ * accepts an event data store ARN. You can only restore a deleted event data store within the
+ * seven-day wait period after deletion. Restoring an event data store can take several
+ * minutes, depending on the size of the event data store.
+ */
+export const restoreEventDataStore: API.OperationMethod<
+  RestoreEventDataStoreRequest,
+  RestoreEventDataStoreResponse,
+  RestoreEventDataStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreEventDataStoreRequest,
@@ -5969,6 +5924,11 @@ export const restoreEventDataStore: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type SearchSampleQueriesError =
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Searches sample queries and returns a list of sample queries that are sorted by relevance.
  * To search for sample queries, provide a natural language `SearchPhrase` in English.
@@ -5976,10 +5936,7 @@ export const restoreEventDataStore: API.OperationMethod<
 export const searchSampleQueries: API.OperationMethod<
   SearchSampleQueriesRequest,
   SearchSampleQueriesResponse,
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  SearchSampleQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchSampleQueriesRequest,
@@ -5990,6 +5947,13 @@ export const searchSampleQueries: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StartDashboardRefreshError =
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Starts a refresh of the specified dashboard.
  *
@@ -5999,12 +5963,7 @@ export const searchSampleQueries: API.OperationMethod<
 export const startDashboardRefresh: API.OperationMethod<
   StartDashboardRefreshRequest,
   StartDashboardRefreshResponse,
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StartDashboardRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDashboardRefreshRequest,
@@ -6017,13 +5976,7 @@ export const startDashboardRefresh: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store `Status` must be `STOPPED_INGESTION`
- * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
- */
-export const startEventDataStoreIngestion: API.OperationMethod<
-  StartEventDataStoreIngestionRequest,
-  StartEventDataStoreIngestionResponse,
+export type StartEventDataStoreIngestionError =
   | ConflictException
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -6035,7 +5988,15 @@ export const startEventDataStoreIngestion: API.OperationMethod<
   | NotOrganizationMasterAccountException
   | OperationNotPermittedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store `Status` must be `STOPPED_INGESTION`
+ * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
+ */
+export const startEventDataStoreIngestion: API.OperationMethod<
+  StartEventDataStoreIngestionRequest,
+  StartEventDataStoreIngestionResponse,
+  StartEventDataStoreIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEventDataStoreIngestionRequest,
@@ -6054,6 +6015,20 @@ export const startEventDataStoreIngestion: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StartImportError =
+  | AccountHasOngoingImportException
+  | EventDataStoreARNInvalidException
+  | EventDataStoreNotFoundException
+  | ImportNotFoundException
+  | InactiveEventDataStoreException
+  | InsufficientEncryptionPolicyException
+  | InvalidEventDataStoreCategoryException
+  | InvalidEventDataStoreStatusException
+  | InvalidImportSourceException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Starts an import of logged trail events from a source S3 bucket to a destination event
  * data store. By default, CloudTrail only imports events contained in the S3 bucket's
@@ -6077,19 +6052,7 @@ export const startEventDataStoreIngestion: API.OperationMethod<
 export const startImport: API.OperationMethod<
   StartImportRequest,
   StartImportResponse,
-  | AccountHasOngoingImportException
-  | EventDataStoreARNInvalidException
-  | EventDataStoreNotFoundException
-  | ImportNotFoundException
-  | InactiveEventDataStoreException
-  | InsufficientEncryptionPolicyException
-  | InvalidEventDataStoreCategoryException
-  | InvalidEventDataStoreStatusException
-  | InvalidImportSourceException
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StartImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportRequest,
@@ -6109,15 +6072,7 @@ export const startImport: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Starts the recording of Amazon Web Services API calls and log file delivery for a trail.
- * For a trail that is enabled in all Regions, this operation must be called from the Region
- * in which the trail was created. This operation cannot be called on the shadow trails
- * (replicated trails in other Regions) of a trail that is enabled in all Regions.
- */
-export const startLogging: API.OperationMethod<
-  StartLoggingRequest,
-  StartLoggingResponse,
+export type StartLoggingError =
   | CloudTrailARNInvalidException
   | ConflictException
   | InsufficientDependencyServiceAccessPermissionException
@@ -6129,7 +6084,17 @@ export const startLogging: API.OperationMethod<
   | ThrottlingException
   | TrailNotFoundException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the recording of Amazon Web Services API calls and log file delivery for a trail.
+ * For a trail that is enabled in all Regions, this operation must be called from the Region
+ * in which the trail was created. This operation cannot be called on the shadow trails
+ * (replicated trails in other Regions) of a trail that is enabled in all Regions.
+ */
+export const startLogging: API.OperationMethod<
+  StartLoggingRequest,
+  StartLoggingResponse,
+  StartLoggingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLoggingRequest,
@@ -6148,18 +6113,7 @@ export const startLogging: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Starts a CloudTrail Lake query. Use the `QueryStatement`
- * parameter to provide your SQL query, enclosed in single quotation marks. Use the optional
- * `DeliveryS3Uri` parameter to deliver the query results to an S3
- * bucket.
- *
- * `StartQuery` requires you specify either the `QueryStatement` parameter, or a `QueryAlias` and any `QueryParameters`. In the current release,
- * the `QueryAlias` and `QueryParameters` parameters are used only for the queries that populate the CloudTrail Lake dashboards.
- */
-export const startQuery: API.OperationMethod<
-  StartQueryRequest,
-  StartQueryResponse,
+export type StartQueryError =
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
   | InactiveEventDataStoreException
@@ -6174,7 +6128,20 @@ export const startQuery: API.OperationMethod<
   | OperationNotPermittedException
   | S3BucketDoesNotExistException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a CloudTrail Lake query. Use the `QueryStatement`
+ * parameter to provide your SQL query, enclosed in single quotation marks. Use the optional
+ * `DeliveryS3Uri` parameter to deliver the query results to an S3
+ * bucket.
+ *
+ * `StartQuery` requires you specify either the `QueryStatement` parameter, or a `QueryAlias` and any `QueryParameters`. In the current release,
+ * the `QueryAlias` and `QueryParameters` parameters are used only for the queries that populate the CloudTrail Lake dashboards.
+ */
+export const startQuery: API.OperationMethod<
+  StartQueryRequest,
+  StartQueryResponse,
+  StartQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQueryRequest,
@@ -6196,13 +6163,7 @@ export const startQuery: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store `Status` must be `ENABLED`
- * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
- */
-export const stopEventDataStoreIngestion: API.OperationMethod<
-  StopEventDataStoreIngestionRequest,
-  StopEventDataStoreIngestionResponse,
+export type StopEventDataStoreIngestionError =
   | ConflictException
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -6214,7 +6175,15 @@ export const stopEventDataStoreIngestion: API.OperationMethod<
   | NotOrganizationMasterAccountException
   | OperationNotPermittedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store `Status` must be `ENABLED`
+ * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
+ */
+export const stopEventDataStoreIngestion: API.OperationMethod<
+  StopEventDataStoreIngestionRequest,
+  StopEventDataStoreIngestionResponse,
+  StopEventDataStoreIngestionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEventDataStoreIngestionRequest,
@@ -6233,17 +6202,19 @@ export const stopEventDataStoreIngestion: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StopImportError =
+  | ImportNotFoundException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Stops a specified import.
  */
 export const stopImport: API.OperationMethod<
   StopImportRequest,
   StopImportResponse,
-  | ImportNotFoundException
-  | InvalidParameterException
-  | OperationNotPermittedException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StopImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopImportRequest,
@@ -6255,6 +6226,19 @@ export const stopImport: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StopLoggingError =
+  | CloudTrailARNInvalidException
+  | ConflictException
+  | InsufficientDependencyServiceAccessPermissionException
+  | InvalidHomeRegionException
+  | InvalidTrailNameException
+  | NoManagementAccountSLRExistsException
+  | NotOrganizationMasterAccountException
+  | OperationNotPermittedException
+  | ThrottlingException
+  | TrailNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Suspends the recording of Amazon Web Services API calls and log file delivery for the
  * specified trail. Under most circumstances, there is no need to use this action. You can
@@ -6267,18 +6251,7 @@ export const stopImport: API.OperationMethod<
 export const stopLogging: API.OperationMethod<
   StopLoggingRequest,
   StopLoggingResponse,
-  | CloudTrailARNInvalidException
-  | ConflictException
-  | InsufficientDependencyServiceAccessPermissionException
-  | InvalidHomeRegionException
-  | InvalidTrailNameException
-  | NoManagementAccountSLRExistsException
-  | NotOrganizationMasterAccountException
-  | OperationNotPermittedException
-  | ThrottlingException
-  | TrailNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StopLoggingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopLoggingRequest,
@@ -6297,12 +6270,7 @@ export const stopLogging: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates a channel specified by a required channel ARN or UUID.
- */
-export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
-  UpdateChannelResponse,
+export type UpdateChannelError =
   | ChannelAlreadyExistsException
   | ChannelARNInvalidException
   | ChannelNotFoundException
@@ -6313,7 +6281,14 @@ export const updateChannel: API.OperationMethod<
   | InvalidParameterException
   | OperationNotPermittedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a channel specified by a required channel ARN or UUID.
+ */
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
+  UpdateChannelResponse,
+  UpdateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
@@ -6331,6 +6306,16 @@ export const updateChannel: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type UpdateDashboardError =
+  | ConflictException
+  | EventDataStoreNotFoundException
+  | InactiveEventDataStoreException
+  | InsufficientEncryptionPolicyException
+  | InvalidQueryStatementException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Updates the specified dashboard.
  *
@@ -6344,15 +6329,7 @@ export const updateChannel: API.OperationMethod<
 export const updateDashboard: API.OperationMethod<
   UpdateDashboardRequest,
   UpdateDashboardResponse,
-  | ConflictException
-  | EventDataStoreNotFoundException
-  | InactiveEventDataStoreException
-  | InsufficientEncryptionPolicyException
-  | InvalidQueryStatementException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdateDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDashboardRequest,
@@ -6368,23 +6345,7 @@ export const updateDashboard: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates an event data store. The required `EventDataStore` value is an ARN or
- * the ID portion of the ARN. Other parameters are optional, but at least one optional
- * parameter must be specified, or CloudTrail throws an error.
- * `RetentionPeriod` is in days, and valid values are integers between 7 and
- * 3653 if the `BillingMode` is set to `EXTENDABLE_RETENTION_PRICING`, or between 7 and 2557 if `BillingMode` is set to `FIXED_RETENTION_PRICING`. By default, `TerminationProtection` is enabled.
- *
- * For event data stores for CloudTrail events, `AdvancedEventSelectors`
- * includes or excludes management, data, or network activity events in your event data store. For more
- * information about `AdvancedEventSelectors`, see AdvancedEventSelectors.
- *
- * For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events,
- * `AdvancedEventSelectors` includes events of that type in your event data store.
- */
-export const updateEventDataStore: API.OperationMethod<
-  UpdateEventDataStoreRequest,
-  UpdateEventDataStoreResponse,
+export type UpdateEventDataStoreError =
   | CloudTrailAccessNotEnabledException
   | ConflictException
   | EventDataStoreAlreadyExistsException
@@ -6407,7 +6368,25 @@ export const updateEventDataStore: API.OperationMethod<
   | OrganizationsNotInUseException
   | ThrottlingException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an event data store. The required `EventDataStore` value is an ARN or
+ * the ID portion of the ARN. Other parameters are optional, but at least one optional
+ * parameter must be specified, or CloudTrail throws an error.
+ * `RetentionPeriod` is in days, and valid values are integers between 7 and
+ * 3653 if the `BillingMode` is set to `EXTENDABLE_RETENTION_PRICING`, or between 7 and 2557 if `BillingMode` is set to `FIXED_RETENTION_PRICING`. By default, `TerminationProtection` is enabled.
+ *
+ * For event data stores for CloudTrail events, `AdvancedEventSelectors`
+ * includes or excludes management, data, or network activity events in your event data store. For more
+ * information about `AdvancedEventSelectors`, see AdvancedEventSelectors.
+ *
+ * For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events,
+ * `AdvancedEventSelectors` includes events of that type in your event data store.
+ */
+export const updateEventDataStore: API.OperationMethod<
+  UpdateEventDataStoreRequest,
+  UpdateEventDataStoreResponse,
+  UpdateEventDataStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventDataStoreRequest,
@@ -6437,17 +6416,7 @@ export const updateEventDataStore: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates trail settings that control what events you are logging, and how to handle log
- * files. Changes to a trail do not require stopping the CloudTrail service. Use this
- * action to designate an existing bucket for log delivery. If the existing bucket has
- * previously been a target for CloudTrail log files, an IAM policy
- * exists for the bucket. `UpdateTrail` must be called from the Region in which the
- * trail was created; otherwise, an `InvalidHomeRegionException` is thrown.
- */
-export const updateTrail: API.OperationMethod<
-  UpdateTrailRequest,
-  UpdateTrailResponse,
+export type UpdateTrailError =
   | CloudTrailAccessNotEnabledException
   | CloudTrailARNInvalidException
   | CloudTrailInvalidClientTokenIdException
@@ -6481,7 +6450,19 @@ export const updateTrail: API.OperationMethod<
   | TrailNotFoundException
   | TrailNotProvidedException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates trail settings that control what events you are logging, and how to handle log
+ * files. Changes to a trail do not require stopping the CloudTrail service. Use this
+ * action to designate an existing bucket for log delivery. If the existing bucket has
+ * previously been a target for CloudTrail log files, an IAM policy
+ * exists for the bucket. `UpdateTrail` must be called from the Region in which the
+ * trail was created; otherwise, an `InvalidHomeRegionException` is thrown.
+ */
+export const updateTrail: API.OperationMethod<
+  UpdateTrailRequest,
+  UpdateTrailResponse,
+  UpdateTrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrailRequest,

@@ -3110,40 +3110,42 @@ export class BadRequestException extends S.TaggedErrorClass<BadRequestException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ConfigureLogsForPlaybackConfigurationError = CommonErrors;
 /**
  * Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
  */
 export const configureLogsForPlaybackConfiguration: API.OperationMethod<
   ConfigureLogsForPlaybackConfigurationRequest,
   ConfigureLogsForPlaybackConfigurationResponse,
-  CommonErrors,
+  ConfigureLogsForPlaybackConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureLogsForPlaybackConfigurationRequest,
   output: ConfigureLogsForPlaybackConfigurationResponse,
   errors: [],
 }));
+export type ListAlertsError = CommonErrors;
 /**
  * Lists the alerts that are associated with a MediaTailor channel assembly resource.
  */
 export const listAlerts: API.OperationMethod<
   ListAlertsRequest,
   ListAlertsResponse,
-  CommonErrors,
+  ListAlertsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAlertsRequest,
   ) => stream.Stream<
     ListAlertsResponse,
-    CommonErrors,
+    ListAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAlertsRequest,
   ) => stream.Stream<
     Alert,
-    CommonErrors,
+    ListAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3157,118 +3159,126 @@ export const listAlerts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = BadRequestException | CommonErrors;
 /**
  * A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  BadRequestException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException],
 }));
+export type TagResourceError = BadRequestException | CommonErrors;
 /**
  * The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  BadRequestException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [BadRequestException],
 }));
+export type UntagResourceError = BadRequestException | CommonErrors;
 /**
  * The resource to untag.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  BadRequestException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [BadRequestException],
 }));
+export type CreateChannelError = CommonErrors;
 /**
  * Creates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const createChannel: API.OperationMethod<
   CreateChannelRequest,
   CreateChannelResponse,
-  CommonErrors,
+  CreateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
   output: CreateChannelResponse,
   errors: [],
 }));
+export type DescribeChannelError = CommonErrors;
 /**
  * Describes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const describeChannel: API.OperationMethod<
   DescribeChannelRequest,
   DescribeChannelResponse,
-  CommonErrors,
+  DescribeChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
   output: DescribeChannelResponse,
   errors: [],
 }));
+export type UpdateChannelError = CommonErrors;
 /**
  * Updates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const updateChannel: API.OperationMethod<
   UpdateChannelRequest,
   UpdateChannelResponse,
-  CommonErrors,
+  UpdateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
   output: UpdateChannelResponse,
   errors: [],
 }));
+export type DeleteChannelError = CommonErrors;
 /**
  * Deletes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const deleteChannel: API.OperationMethod<
   DeleteChannelRequest,
   DeleteChannelResponse,
-  CommonErrors,
+  DeleteChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
   output: DeleteChannelResponse,
   errors: [],
 }));
+export type ListChannelsError = CommonErrors;
 /**
  * Retrieves information about the channels that are associated with the current AWS account.
  */
 export const listChannels: API.OperationMethod<
   ListChannelsRequest,
   ListChannelsResponse,
-  CommonErrors,
+  ListChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     Channel,
-    CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3282,40 +3292,42 @@ export const listChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ConfigureLogsForChannelError = CommonErrors;
 /**
  * Configures Amazon CloudWatch log settings for a channel.
  */
 export const configureLogsForChannel: API.OperationMethod<
   ConfigureLogsForChannelRequest,
   ConfigureLogsForChannelResponse,
-  CommonErrors,
+  ConfigureLogsForChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureLogsForChannelRequest,
   output: ConfigureLogsForChannelResponse,
   errors: [],
 }));
+export type GetChannelScheduleError = CommonErrors;
 /**
  * Retrieves information about your channel's schedule.
  */
 export const getChannelSchedule: API.OperationMethod<
   GetChannelScheduleRequest,
   GetChannelScheduleResponse,
-  CommonErrors,
+  GetChannelScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetChannelScheduleRequest,
   ) => stream.Stream<
     GetChannelScheduleResponse,
-    CommonErrors,
+    GetChannelScheduleError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetChannelScheduleRequest,
   ) => stream.Stream<
     ScheduleEntry,
-    CommonErrors,
+    GetChannelScheduleError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3329,196 +3341,210 @@ export const getChannelSchedule: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartChannelError = CommonErrors;
 /**
  * Starts a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const startChannel: API.OperationMethod<
   StartChannelRequest,
   StartChannelResponse,
-  CommonErrors,
+  StartChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChannelRequest,
   output: StartChannelResponse,
   errors: [],
 }));
+export type StopChannelError = CommonErrors;
 /**
  * Stops a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
 export const stopChannel: API.OperationMethod<
   StopChannelRequest,
   StopChannelResponse,
-  CommonErrors,
+  StopChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopChannelRequest,
   output: StopChannelResponse,
   errors: [],
 }));
+export type PutChannelPolicyError = CommonErrors;
 /**
  * Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
  */
 export const putChannelPolicy: API.OperationMethod<
   PutChannelPolicyRequest,
   PutChannelPolicyResponse,
-  CommonErrors,
+  PutChannelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutChannelPolicyRequest,
   output: PutChannelPolicyResponse,
   errors: [],
 }));
+export type GetChannelPolicyError = CommonErrors;
 /**
  * Returns the channel's IAM policy. IAM policies are used to control access to your channel.
  */
 export const getChannelPolicy: API.OperationMethod<
   GetChannelPolicyRequest,
   GetChannelPolicyResponse,
-  CommonErrors,
+  GetChannelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelPolicyRequest,
   output: GetChannelPolicyResponse,
   errors: [],
 }));
+export type DeleteChannelPolicyError = CommonErrors;
 /**
  * The channel policy to delete.
  */
 export const deleteChannelPolicy: API.OperationMethod<
   DeleteChannelPolicyRequest,
   DeleteChannelPolicyResponse,
-  CommonErrors,
+  DeleteChannelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelPolicyRequest,
   output: DeleteChannelPolicyResponse,
   errors: [],
 }));
+export type CreateProgramError = CommonErrors;
 /**
  * Creates a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const createProgram: API.OperationMethod<
   CreateProgramRequest,
   CreateProgramResponse,
-  CommonErrors,
+  CreateProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProgramRequest,
   output: CreateProgramResponse,
   errors: [],
 }));
+export type DescribeProgramError = CommonErrors;
 /**
  * Describes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const describeProgram: API.OperationMethod<
   DescribeProgramRequest,
   DescribeProgramResponse,
-  CommonErrors,
+  DescribeProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProgramRequest,
   output: DescribeProgramResponse,
   errors: [],
 }));
+export type UpdateProgramError = CommonErrors;
 /**
  * Updates a program within a channel.
  */
 export const updateProgram: API.OperationMethod<
   UpdateProgramRequest,
   UpdateProgramResponse,
-  CommonErrors,
+  UpdateProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProgramRequest,
   output: UpdateProgramResponse,
   errors: [],
 }));
+export type DeleteProgramError = CommonErrors;
 /**
  * Deletes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
 export const deleteProgram: API.OperationMethod<
   DeleteProgramRequest,
   DeleteProgramResponse,
-  CommonErrors,
+  DeleteProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProgramRequest,
   output: DeleteProgramResponse,
   errors: [],
 }));
+export type CreateLiveSourceError = CommonErrors;
 /**
  * The live source configuration.
  */
 export const createLiveSource: API.OperationMethod<
   CreateLiveSourceRequest,
   CreateLiveSourceResponse,
-  CommonErrors,
+  CreateLiveSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLiveSourceRequest,
   output: CreateLiveSourceResponse,
   errors: [],
 }));
+export type DescribeLiveSourceError = CommonErrors;
 /**
  * The live source to describe.
  */
 export const describeLiveSource: API.OperationMethod<
   DescribeLiveSourceRequest,
   DescribeLiveSourceResponse,
-  CommonErrors,
+  DescribeLiveSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLiveSourceRequest,
   output: DescribeLiveSourceResponse,
   errors: [],
 }));
+export type UpdateLiveSourceError = CommonErrors;
 /**
  * Updates a live source's configuration.
  */
 export const updateLiveSource: API.OperationMethod<
   UpdateLiveSourceRequest,
   UpdateLiveSourceResponse,
-  CommonErrors,
+  UpdateLiveSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLiveSourceRequest,
   output: UpdateLiveSourceResponse,
   errors: [],
 }));
+export type DeleteLiveSourceError = CommonErrors;
 /**
  * The live source to delete.
  */
 export const deleteLiveSource: API.OperationMethod<
   DeleteLiveSourceRequest,
   DeleteLiveSourceResponse,
-  CommonErrors,
+  DeleteLiveSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLiveSourceRequest,
   output: DeleteLiveSourceResponse,
   errors: [],
 }));
+export type ListLiveSourcesError = CommonErrors;
 /**
  * Lists the live sources contained in a source location. A source represents a piece of content.
  */
 export const listLiveSources: API.OperationMethod<
   ListLiveSourcesRequest,
   ListLiveSourcesResponse,
-  CommonErrors,
+  ListLiveSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLiveSourcesRequest,
   ) => stream.Stream<
     ListLiveSourcesResponse,
-    CommonErrors,
+    ListLiveSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLiveSourcesRequest,
   ) => stream.Stream<
     LiveSource,
-    CommonErrors,
+    ListLiveSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3532,66 +3558,70 @@ export const listLiveSources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutPlaybackConfigurationError = CommonErrors;
 /**
  * Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const putPlaybackConfiguration: API.OperationMethod<
   PutPlaybackConfigurationRequest,
   PutPlaybackConfigurationResponse,
-  CommonErrors,
+  PutPlaybackConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPlaybackConfigurationRequest,
   output: PutPlaybackConfigurationResponse,
   errors: [],
 }));
+export type GetPlaybackConfigurationError = CommonErrors;
 /**
  * Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const getPlaybackConfiguration: API.OperationMethod<
   GetPlaybackConfigurationRequest,
   GetPlaybackConfigurationResponse,
-  CommonErrors,
+  GetPlaybackConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlaybackConfigurationRequest,
   output: GetPlaybackConfigurationResponse,
   errors: [],
 }));
+export type DeletePlaybackConfigurationError = CommonErrors;
 /**
  * Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
 export const deletePlaybackConfiguration: API.OperationMethod<
   DeletePlaybackConfigurationRequest,
   DeletePlaybackConfigurationResponse,
-  CommonErrors,
+  DeletePlaybackConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePlaybackConfigurationRequest,
   output: DeletePlaybackConfigurationResponse,
   errors: [],
 }));
+export type ListPlaybackConfigurationsError = CommonErrors;
 /**
  * Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
  */
 export const listPlaybackConfigurations: API.OperationMethod<
   ListPlaybackConfigurationsRequest,
   ListPlaybackConfigurationsResponse,
-  CommonErrors,
+  ListPlaybackConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlaybackConfigurationsRequest,
   ) => stream.Stream<
     ListPlaybackConfigurationsResponse,
-    CommonErrors,
+    ListPlaybackConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPlaybackConfigurationsRequest,
   ) => stream.Stream<
     PlaybackConfiguration,
-    CommonErrors,
+    ListPlaybackConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3605,66 +3635,70 @@ export const listPlaybackConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreatePrefetchScheduleError = CommonErrors;
 /**
  * Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const createPrefetchSchedule: API.OperationMethod<
   CreatePrefetchScheduleRequest,
   CreatePrefetchScheduleResponse,
-  CommonErrors,
+  CreatePrefetchScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePrefetchScheduleRequest,
   output: CreatePrefetchScheduleResponse,
   errors: [],
 }));
+export type GetPrefetchScheduleError = CommonErrors;
 /**
  * Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const getPrefetchSchedule: API.OperationMethod<
   GetPrefetchScheduleRequest,
   GetPrefetchScheduleResponse,
-  CommonErrors,
+  GetPrefetchScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPrefetchScheduleRequest,
   output: GetPrefetchScheduleResponse,
   errors: [],
 }));
+export type DeletePrefetchScheduleError = CommonErrors;
 /**
  * Deletes a prefetch schedule for a specific playback configuration. If you call `DeletePrefetchSchedule` on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
 export const deletePrefetchSchedule: API.OperationMethod<
   DeletePrefetchScheduleRequest,
   DeletePrefetchScheduleResponse,
-  CommonErrors,
+  DeletePrefetchScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePrefetchScheduleRequest,
   output: DeletePrefetchScheduleResponse,
   errors: [],
 }));
+export type ListPrefetchSchedulesError = CommonErrors;
 /**
  * Lists the prefetch schedules for a playback configuration.
  */
 export const listPrefetchSchedules: API.OperationMethod<
   ListPrefetchSchedulesRequest,
   ListPrefetchSchedulesResponse,
-  CommonErrors,
+  ListPrefetchSchedulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrefetchSchedulesRequest,
   ) => stream.Stream<
     ListPrefetchSchedulesResponse,
-    CommonErrors,
+    ListPrefetchSchedulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPrefetchSchedulesRequest,
   ) => stream.Stream<
     PrefetchSchedule,
-    CommonErrors,
+    ListPrefetchSchedulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3678,79 +3712,84 @@ export const listPrefetchSchedules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateSourceLocationError = CommonErrors;
 /**
  * Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const createSourceLocation: API.OperationMethod<
   CreateSourceLocationRequest,
   CreateSourceLocationResponse,
-  CommonErrors,
+  CreateSourceLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSourceLocationRequest,
   output: CreateSourceLocationResponse,
   errors: [],
 }));
+export type DescribeSourceLocationError = CommonErrors;
 /**
  * Describes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const describeSourceLocation: API.OperationMethod<
   DescribeSourceLocationRequest,
   DescribeSourceLocationResponse,
-  CommonErrors,
+  DescribeSourceLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSourceLocationRequest,
   output: DescribeSourceLocationResponse,
   errors: [],
 }));
+export type UpdateSourceLocationError = CommonErrors;
 /**
  * Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const updateSourceLocation: API.OperationMethod<
   UpdateSourceLocationRequest,
   UpdateSourceLocationResponse,
-  CommonErrors,
+  UpdateSourceLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSourceLocationRequest,
   output: UpdateSourceLocationResponse,
   errors: [],
 }));
+export type DeleteSourceLocationError = CommonErrors;
 /**
  * Deletes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
 export const deleteSourceLocation: API.OperationMethod<
   DeleteSourceLocationRequest,
   DeleteSourceLocationResponse,
-  CommonErrors,
+  DeleteSourceLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceLocationRequest,
   output: DeleteSourceLocationResponse,
   errors: [],
 }));
+export type ListSourceLocationsError = CommonErrors;
 /**
  * Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
  */
 export const listSourceLocations: API.OperationMethod<
   ListSourceLocationsRequest,
   ListSourceLocationsResponse,
-  CommonErrors,
+  ListSourceLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceLocationsRequest,
   ) => stream.Stream<
     ListSourceLocationsResponse,
-    CommonErrors,
+    ListSourceLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceLocationsRequest,
   ) => stream.Stream<
     SourceLocation,
-    CommonErrors,
+    ListSourceLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3764,79 +3803,84 @@ export const listSourceLocations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateVodSourceError = CommonErrors;
 /**
  * The VOD source configuration parameters.
  */
 export const createVodSource: API.OperationMethod<
   CreateVodSourceRequest,
   CreateVodSourceResponse,
-  CommonErrors,
+  CreateVodSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVodSourceRequest,
   output: CreateVodSourceResponse,
   errors: [],
 }));
+export type DescribeVodSourceError = CommonErrors;
 /**
  * Provides details about a specific video on demand (VOD) source in a specific source location.
  */
 export const describeVodSource: API.OperationMethod<
   DescribeVodSourceRequest,
   DescribeVodSourceResponse,
-  CommonErrors,
+  DescribeVodSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVodSourceRequest,
   output: DescribeVodSourceResponse,
   errors: [],
 }));
+export type UpdateVodSourceError = CommonErrors;
 /**
  * Updates a VOD source's configuration.
  */
 export const updateVodSource: API.OperationMethod<
   UpdateVodSourceRequest,
   UpdateVodSourceResponse,
-  CommonErrors,
+  UpdateVodSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVodSourceRequest,
   output: UpdateVodSourceResponse,
   errors: [],
 }));
+export type DeleteVodSourceError = CommonErrors;
 /**
  * The video on demand (VOD) source to delete.
  */
 export const deleteVodSource: API.OperationMethod<
   DeleteVodSourceRequest,
   DeleteVodSourceResponse,
-  CommonErrors,
+  DeleteVodSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVodSourceRequest,
   output: DeleteVodSourceResponse,
   errors: [],
 }));
+export type ListVodSourcesError = CommonErrors;
 /**
  * Lists the VOD sources contained in a source location. A source represents a piece of content.
  */
 export const listVodSources: API.OperationMethod<
   ListVodSourcesRequest,
   ListVodSourcesResponse,
-  CommonErrors,
+  ListVodSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVodSourcesRequest,
   ) => stream.Stream<
     ListVodSourcesResponse,
-    CommonErrors,
+    ListVodSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVodSourcesRequest,
   ) => stream.Stream<
     VodSource,
-    CommonErrors,
+    ListVodSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -1182,16 +1182,18 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Shows the tags associated with this resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1202,16 +1204,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Add a tag to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1222,16 +1226,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1242,6 +1248,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeviceError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the devices available in Amazon Braket.
  *
@@ -1250,12 +1263,7 @@ export const untagResource: API.OperationMethod<
 export const getDevice: API.OperationMethod<
   GetDeviceRequest,
   GetDeviceResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRequest,
@@ -1268,39 +1276,33 @@ export const getDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchDevicesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for devices using the specified filters.
  */
 export const searchDevices: API.OperationMethod<
   SearchDevicesRequest,
   SearchDevicesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchDevicesRequest,
   ) => stream.Stream<
     SearchDevicesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchDevicesRequest,
   ) => stream.Stream<
     DeviceSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1319,12 +1321,7 @@ export const searchDevices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Braket hybrid job.
- */
-export const createJob: API.OperationMethod<
-  CreateJobRequest,
-  CreateJobResponse,
+export type CreateJobError =
   | AccessDeniedException
   | ConflictException
   | DeviceOfflineException
@@ -1333,7 +1330,14 @@ export const createJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Braket hybrid job.
+ */
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
+  CreateJobResponse,
+  CreateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -1349,18 +1353,20 @@ export const createJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetJobError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified Amazon Braket hybrid job.
  */
 export const getJob: API.OperationMethod<
   GetJobRequest,
   GetJobResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
@@ -1373,19 +1379,21 @@ export const getJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels an Amazon Braket hybrid job.
- */
-export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
-  CancelJobResponse,
+export type CancelJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels an Amazon Braket hybrid job.
+ */
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
+  CancelJobResponse,
+  CancelJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
@@ -1399,39 +1407,33 @@ export const cancelJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchJobsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for Amazon Braket hybrid jobs that match the specified filter values.
  */
 export const searchJobs: API.OperationMethod<
   SearchJobsRequest,
   SearchJobsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchJobsRequest,
   ) => stream.Stream<
     SearchJobsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchJobsRequest,
   ) => stream.Stream<
     JobSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1450,12 +1452,7 @@ export const searchJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a quantum task.
- */
-export const createQuantumTask: API.OperationMethod<
-  CreateQuantumTaskRequest,
-  CreateQuantumTaskResponse,
+export type CreateQuantumTaskError =
   | AccessDeniedException
   | DeviceOfflineException
   | DeviceRetiredException
@@ -1463,7 +1460,14 @@ export const createQuantumTask: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a quantum task.
+ */
+export const createQuantumTask: API.OperationMethod<
+  CreateQuantumTaskRequest,
+  CreateQuantumTaskResponse,
+  CreateQuantumTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuantumTaskRequest,
@@ -1478,18 +1482,20 @@ export const createQuantumTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQuantumTaskError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified quantum task.
  */
 export const getQuantumTask: API.OperationMethod<
   GetQuantumTaskRequest,
   GetQuantumTaskResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQuantumTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuantumTaskRequest,
@@ -1502,19 +1508,21 @@ export const getQuantumTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels the specified task.
- */
-export const cancelQuantumTask: API.OperationMethod<
-  CancelQuantumTaskRequest,
-  CancelQuantumTaskResponse,
+export type CancelQuantumTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels the specified task.
+ */
+export const cancelQuantumTask: API.OperationMethod<
+  CancelQuantumTaskRequest,
+  CancelQuantumTaskResponse,
+  CancelQuantumTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQuantumTaskRequest,
@@ -1528,39 +1536,33 @@ export const cancelQuantumTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchQuantumTasksError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for tasks that match the specified filter values.
  */
 export const searchQuantumTasks: API.OperationMethod<
   SearchQuantumTasksRequest,
   SearchQuantumTasksResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchQuantumTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchQuantumTasksRequest,
   ) => stream.Stream<
     SearchQuantumTasksResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchQuantumTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchQuantumTasksRequest,
   ) => stream.Stream<
     QuantumTaskSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchQuantumTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1579,18 +1581,20 @@ export const searchQuantumTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateSpendingLimitError =
+  | AccessDeniedException
+  | DeviceRetiredException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
  */
 export const createSpendingLimit: API.OperationMethod<
   CreateSpendingLimitRequest,
   CreateSpendingLimitResponse,
-  | AccessDeniedException
-  | DeviceRetiredException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSpendingLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpendingLimitRequest,
@@ -1603,18 +1607,20 @@ export const createSpendingLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSpendingLimitError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
  */
 export const updateSpendingLimit: API.OperationMethod<
   UpdateSpendingLimitRequest,
   UpdateSpendingLimitResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSpendingLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpendingLimitRequest,
@@ -1627,18 +1633,20 @@ export const updateSpendingLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSpendingLimitError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
  */
 export const deleteSpendingLimit: API.OperationMethod<
   DeleteSpendingLimitRequest,
   DeleteSpendingLimitResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSpendingLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpendingLimitRequest,
@@ -1651,39 +1659,33 @@ export const deleteSpendingLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchSpendingLimitsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const searchSpendingLimits: API.OperationMethod<
   SearchSpendingLimitsRequest,
   SearchSpendingLimitsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchSpendingLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSpendingLimitsRequest,
   ) => stream.Stream<
     SearchSpendingLimitsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchSpendingLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSpendingLimitsRequest,
   ) => stream.Stream<
     SpendingLimitSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchSpendingLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -383,6 +383,17 @@ export class InvalidTokenException extends S.TaggedErrorClass<InvalidTokenExcept
 ) {}
 
 //# Operations
+export type BatchMeterUsageError =
+  | DisabledApiException
+  | InternalServiceErrorException
+  | InvalidCustomerIdentifierException
+  | InvalidProductCodeException
+  | InvalidTagException
+  | InvalidUsageAllocationsException
+  | InvalidUsageDimensionException
+  | ThrottlingException
+  | TimestampOutOfBoundsException
+  | CommonErrors;
 /**
  * The `CustomerIdentifier` and `CustomerAWSAccountID` are mutually exclusive parameters. You must use one or the other, but not both in the same API request.
  * For new implementations, we recommend using the `CustomerAWSAccountID`. Your current integration will continue to work. When updating your implementation, consider migrating to `CustomerAWSAccountID` for improved integration.
@@ -418,16 +429,7 @@ export class InvalidTokenException extends S.TaggedErrorClass<InvalidTokenExcept
 export const batchMeterUsage: API.OperationMethod<
   BatchMeterUsageRequest,
   BatchMeterUsageResult,
-  | DisabledApiException
-  | InternalServiceErrorException
-  | InvalidCustomerIdentifierException
-  | InvalidProductCodeException
-  | InvalidTagException
-  | InvalidUsageAllocationsException
-  | InvalidUsageDimensionException
-  | ThrottlingException
-  | TimestampOutOfBoundsException
-  | CommonErrors,
+  BatchMeterUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchMeterUsageRequest,
@@ -444,6 +446,19 @@ export const batchMeterUsage: API.OperationMethod<
     TimestampOutOfBoundsException,
   ],
 }));
+export type MeterUsageError =
+  | CustomerNotEntitledException
+  | DuplicateRequestException
+  | IdempotencyConflictException
+  | InternalServiceErrorException
+  | InvalidEndpointRegionException
+  | InvalidProductCodeException
+  | InvalidTagException
+  | InvalidUsageAllocationsException
+  | InvalidUsageDimensionException
+  | ThrottlingException
+  | TimestampOutOfBoundsException
+  | CommonErrors;
 /**
  * As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Amazon Web Services Marketplace.
  * You must use the following buyer Amazon Web Services account credentials to sign the API request.
@@ -488,18 +503,7 @@ export const batchMeterUsage: API.OperationMethod<
 export const meterUsage: API.OperationMethod<
   MeterUsageRequest,
   MeterUsageResult,
-  | CustomerNotEntitledException
-  | DuplicateRequestException
-  | IdempotencyConflictException
-  | InternalServiceErrorException
-  | InvalidEndpointRegionException
-  | InvalidProductCodeException
-  | InvalidTagException
-  | InvalidUsageAllocationsException
-  | InvalidUsageDimensionException
-  | ThrottlingException
-  | TimestampOutOfBoundsException
-  | CommonErrors,
+  MeterUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MeterUsageRequest,
@@ -518,6 +522,16 @@ export const meterUsage: API.OperationMethod<
     TimestampOutOfBoundsException,
   ],
 }));
+export type RegisterUsageError =
+  | CustomerNotEntitledException
+  | DisabledApiException
+  | InternalServiceErrorException
+  | InvalidProductCodeException
+  | InvalidPublicKeyVersionException
+  | InvalidRegionException
+  | PlatformNotSupportedException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace
  * Metering Service and call the `RegisterUsage` operation for software
@@ -562,15 +576,7 @@ export const meterUsage: API.OperationMethod<
 export const registerUsage: API.OperationMethod<
   RegisterUsageRequest,
   RegisterUsageResult,
-  | CustomerNotEntitledException
-  | DisabledApiException
-  | InternalServiceErrorException
-  | InvalidProductCodeException
-  | InvalidPublicKeyVersionException
-  | InvalidRegionException
-  | PlatformNotSupportedException
-  | ThrottlingException
-  | CommonErrors,
+  RegisterUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterUsageRequest,
@@ -586,6 +592,13 @@ export const registerUsage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ResolveCustomerError =
+  | DisabledApiException
+  | ExpiredTokenException
+  | InternalServiceErrorException
+  | InvalidTokenException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * `ResolveCustomer` is called by a SaaS application during the registration
  * process. When a buyer visits your website during the registration process, the buyer
@@ -607,12 +620,7 @@ export const registerUsage: API.OperationMethod<
 export const resolveCustomer: API.OperationMethod<
   ResolveCustomerRequest,
   ResolveCustomerResult,
-  | DisabledApiException
-  | ExpiredTokenException
-  | InternalServiceErrorException
-  | InvalidTokenException
-  | ThrottlingException
-  | CommonErrors,
+  ResolveCustomerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveCustomerRequest,

@@ -300,6 +300,14 @@ export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLim
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type GetRoutingControlStateError =
+  | AccessDeniedException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the state for a routing control. A routing control is a simple on/off switch that you
  * can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When
@@ -330,13 +338,7 @@ export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLim
 export const getRoutingControlState: API.OperationMethod<
   GetRoutingControlStateRequest,
   GetRoutingControlStateResponse,
-  | AccessDeniedException
-  | EndpointTemporarilyUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRoutingControlStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoutingControlStateRequest,
@@ -350,6 +352,14 @@ export const getRoutingControlState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRoutingControlsError =
+  | AccessDeniedException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List routing control names and Amazon Resource Names (ARNs), as well as the routing control
  * state for each routing control, along with the control panel name and control panel ARN for the routing controls.
@@ -381,39 +391,21 @@ export const getRoutingControlState: API.OperationMethod<
 export const listRoutingControls: API.OperationMethod<
   ListRoutingControlsRequest,
   ListRoutingControlsResponse,
-  | AccessDeniedException
-  | EndpointTemporarilyUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRoutingControlsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutingControlsRequest,
   ) => stream.Stream<
     ListRoutingControlsResponse,
-    | AccessDeniedException
-    | EndpointTemporarilyUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRoutingControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutingControlsRequest,
   ) => stream.Stream<
     RoutingControl,
-    | AccessDeniedException
-    | EndpointTemporarilyUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRoutingControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -434,6 +426,15 @@ export const listRoutingControls: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type UpdateRoutingControlStateError =
+  | AccessDeniedException
+  | ConflictException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set the state of the routing control to reroute traffic. You can set the value to ON or
  * OFF. When the state is ON, traffic flows to a cell. When the state is OFF, traffic does not
@@ -467,14 +468,7 @@ export const listRoutingControls: API.OperationMethod<
 export const updateRoutingControlState: API.OperationMethod<
   UpdateRoutingControlStateRequest,
   UpdateRoutingControlStateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | EndpointTemporarilyUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateRoutingControlStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingControlStateRequest,
@@ -489,6 +483,16 @@ export const updateRoutingControlState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateRoutingControlStatesError =
+  | AccessDeniedException
+  | ConflictException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set multiple routing control states. You can set the value for each state to be ON or OFF.
  * When the state is ON, traffic flows to a cell. When it's OFF, traffic does not
@@ -522,15 +526,7 @@ export const updateRoutingControlState: API.OperationMethod<
 export const updateRoutingControlStates: API.OperationMethod<
   UpdateRoutingControlStatesRequest,
   UpdateRoutingControlStatesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | EndpointTemporarilyUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceLimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateRoutingControlStatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingControlStatesRequest,

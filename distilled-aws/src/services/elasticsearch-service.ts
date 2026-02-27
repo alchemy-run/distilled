@@ -3542,16 +3542,18 @@ export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidP
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AcceptInboundCrossClusterSearchConnectionError =
+  | DisabledOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the destination domain owner to accept an inbound cross-cluster search connection request.
  */
 export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
   AcceptInboundCrossClusterSearchConnectionRequest,
   AcceptInboundCrossClusterSearchConnectionResponse,
-  | DisabledOperationException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AcceptInboundCrossClusterSearchConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInboundCrossClusterSearchConnectionRequest,
@@ -3562,6 +3564,12 @@ export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AddTagsError =
+  | BaseException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See
  * Tagging Amazon Elasticsearch Service Domains for more information.
@@ -3569,11 +3577,7 @@ export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
 export const addTags: API.OperationMethod<
   AddTagsRequest,
   AddTagsResponse,
-  | BaseException
-  | InternalException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  AddTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsRequest,
@@ -3585,19 +3589,21 @@ export const addTags: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a package with an Amazon ES domain.
- */
-export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
-  AssociatePackageResponse,
+export type AssociatePackageError =
   | AccessDeniedException
   | BaseException
   | ConflictException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a package with an Amazon ES domain.
+ */
+export const associatePackage: API.OperationMethod<
+  AssociatePackageRequest,
+  AssociatePackageResponse,
+  AssociatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePackageRequest,
@@ -3611,19 +3617,21 @@ export const associatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
- */
-export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
-  AuthorizeVpcEndpointAccessResponse,
+export type AuthorizeVpcEndpointAccessError =
   | BaseException
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+ */
+export const authorizeVpcEndpointAccess: API.OperationMethod<
+  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessResponse,
+  AuthorizeVpcEndpointAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeVpcEndpointAccessRequest,
@@ -3637,18 +3645,20 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelDomainConfigChangeError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
   CancelDomainConfigChangeRequest,
   CancelDomainConfigChangeResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelDomainConfigChangeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDomainConfigChangeRequest,
@@ -3661,17 +3671,19 @@ export const cancelDomainConfigChange: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelElasticsearchServiceSoftwareUpdateError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
  */
 export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   CancelElasticsearchServiceSoftwareUpdateRequest,
   CancelElasticsearchServiceSoftwareUpdateResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelElasticsearchServiceSoftwareUpdateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelElasticsearchServiceSoftwareUpdateRequest,
@@ -3683,13 +3695,7 @@ export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Elasticsearch domain. For more information,
- * see Creating Elasticsearch Domains in the *Amazon Elasticsearch Service Developer Guide*.
- */
-export const createElasticsearchDomain: API.OperationMethod<
-  CreateElasticsearchDomainRequest,
-  CreateElasticsearchDomainResponse,
+export type CreateElasticsearchDomainError =
   | BaseException
   | DisabledOperationException
   | InternalException
@@ -3697,7 +3703,15 @@ export const createElasticsearchDomain: API.OperationMethod<
   | LimitExceededException
   | ResourceAlreadyExistsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Elasticsearch domain. For more information,
+ * see Creating Elasticsearch Domains in the *Amazon Elasticsearch Service Developer Guide*.
+ */
+export const createElasticsearchDomain: API.OperationMethod<
+  CreateElasticsearchDomainRequest,
+  CreateElasticsearchDomainResponse,
+  CreateElasticsearchDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateElasticsearchDomainRequest,
@@ -3712,17 +3726,19 @@ export const createElasticsearchDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateOutboundCrossClusterSearchConnectionError =
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a new cross-cluster search connection from a source domain to a destination domain.
  */
 export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
   CreateOutboundCrossClusterSearchConnectionRequest,
   CreateOutboundCrossClusterSearchConnectionResponse,
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateOutboundCrossClusterSearchConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOutboundCrossClusterSearchConnectionRequest,
@@ -3734,12 +3750,7 @@ export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
-/**
- * Create a package for use with Amazon ES domains.
- */
-export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
-  CreatePackageResponse,
+export type CreatePackageError =
   | AccessDeniedException
   | BaseException
   | InternalException
@@ -3747,7 +3758,14 @@ export const createPackage: API.OperationMethod<
   | LimitExceededException
   | ResourceAlreadyExistsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a package for use with Amazon ES domains.
+ */
+export const createPackage: API.OperationMethod<
+  CreatePackageRequest,
+  CreatePackageResponse,
+  CreatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
@@ -3762,19 +3780,21 @@ export const createPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon OpenSearch Service-managed VPC endpoint.
- */
-export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
-  CreateVpcEndpointResponse,
+export type CreateVpcEndpointError =
   | BaseException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon OpenSearch Service-managed VPC endpoint.
+ */
+export const createVpcEndpoint: API.OperationMethod<
+  CreateVpcEndpointRequest,
+  CreateVpcEndpointResponse,
+  CreateVpcEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcEndpointRequest,
@@ -3788,17 +3808,19 @@ export const createVpcEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteElasticsearchDomainError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
  */
 export const deleteElasticsearchDomain: API.OperationMethod<
   DeleteElasticsearchDomainRequest,
   DeleteElasticsearchDomainResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteElasticsearchDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteElasticsearchDomainRequest,
@@ -3810,58 +3832,73 @@ export const deleteElasticsearchDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteElasticsearchServiceRoleError =
+  | BaseException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in *VPC Endpoints for Amazon Elasticsearch Service Domains*.
  */
 export const deleteElasticsearchServiceRole: API.OperationMethod<
   DeleteElasticsearchServiceRoleRequest,
   DeleteElasticsearchServiceRoleResponse,
-  BaseException | InternalException | ValidationException | CommonErrors,
+  DeleteElasticsearchServiceRoleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteElasticsearchServiceRoleRequest,
   output: DeleteElasticsearchServiceRoleResponse,
   errors: [BaseException, InternalException, ValidationException],
 }));
+export type DeleteInboundCrossClusterSearchConnectionError =
+  | DisabledOperationException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
  */
 export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
   DeleteInboundCrossClusterSearchConnectionRequest,
   DeleteInboundCrossClusterSearchConnectionResponse,
-  DisabledOperationException | ResourceNotFoundException | CommonErrors,
+  DeleteInboundCrossClusterSearchConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundCrossClusterSearchConnectionRequest,
   output: DeleteInboundCrossClusterSearchConnectionResponse,
   errors: [DisabledOperationException, ResourceNotFoundException],
 }));
+export type DeleteOutboundCrossClusterSearchConnectionError =
+  | DisabledOperationException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the source domain owner to delete an existing outbound cross-cluster search connection.
  */
 export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
   DeleteOutboundCrossClusterSearchConnectionRequest,
   DeleteOutboundCrossClusterSearchConnectionResponse,
-  DisabledOperationException | ResourceNotFoundException | CommonErrors,
+  DeleteOutboundCrossClusterSearchConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutboundCrossClusterSearchConnectionRequest,
   output: DeleteOutboundCrossClusterSearchConnectionResponse,
   errors: [DisabledOperationException, ResourceNotFoundException],
 }));
-/**
- * Delete the package.
- */
-export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
-  DeletePackageResponse,
+export type DeletePackageError =
   | AccessDeniedException
   | BaseException
   | ConflictException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the package.
+ */
+export const deletePackage: API.OperationMethod<
+  DeletePackageRequest,
+  DeletePackageResponse,
+  DeletePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
@@ -3875,17 +3912,19 @@ export const deletePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteVpcEndpointError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
   DeleteVpcEndpointRequest,
   DeleteVpcEndpointResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteVpcEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcEndpointRequest,
@@ -3897,39 +3936,33 @@ export const deleteVpcEndpoint: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeDomainAutoTunesError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
  */
 export const describeDomainAutoTunes: API.OperationMethod<
   DescribeDomainAutoTunesRequest,
   DescribeDomainAutoTunesResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainAutoTunesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDomainAutoTunesRequest,
   ) => stream.Stream<
     DescribeDomainAutoTunesResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeDomainAutoTunesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDomainAutoTunesRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeDomainAutoTunesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3947,6 +3980,12 @@ export const describeDomainAutoTunes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeDomainChangeProgressError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the current blue/green deployment happening on a domain, including
  * a change ID, status, and progress stages.
@@ -3954,11 +3993,7 @@ export const describeDomainAutoTunes: API.OperationMethod<
 export const describeDomainChangeProgress: API.OperationMethod<
   DescribeDomainChangeProgressRequest,
   DescribeDomainChangeProgressResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainChangeProgressError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainChangeProgressRequest,
@@ -3970,17 +4005,19 @@ export const describeDomainChangeProgress: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeElasticsearchDomainError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomain: API.OperationMethod<
   DescribeElasticsearchDomainRequest,
   DescribeElasticsearchDomainResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeElasticsearchDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeElasticsearchDomainRequest,
@@ -3992,17 +4029,19 @@ export const describeElasticsearchDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeElasticsearchDomainConfigError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
  */
 export const describeElasticsearchDomainConfig: API.OperationMethod<
   DescribeElasticsearchDomainConfigRequest,
   DescribeElasticsearchDomainConfigResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeElasticsearchDomainConfigError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeElasticsearchDomainConfigRequest,
@@ -4014,19 +4053,32 @@ export const describeElasticsearchDomainConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeElasticsearchDomainsError =
+  | BaseException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomains: API.OperationMethod<
   DescribeElasticsearchDomainsRequest,
   DescribeElasticsearchDomainsResponse,
-  BaseException | InternalException | ValidationException | CommonErrors,
+  DescribeElasticsearchDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeElasticsearchDomainsRequest,
   output: DescribeElasticsearchDomainsResponse,
   errors: [BaseException, InternalException, ValidationException],
 }));
+export type DescribeElasticsearchInstanceTypeLimitsError =
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion.
  * When modifying existing Domain, specify the
@@ -4038,13 +4090,7 @@ export const describeElasticsearchDomains: API.OperationMethod<
 export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
   DescribeElasticsearchInstanceTypeLimitsRequest,
   DescribeElasticsearchInstanceTypeLimitsResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeElasticsearchInstanceTypeLimitsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeElasticsearchInstanceTypeLimitsRequest,
@@ -4058,27 +4104,31 @@ export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeInboundCrossClusterSearchConnectionsError =
+  | DisabledOperationException
+  | InvalidPaginationTokenException
+  | CommonErrors;
 /**
  * Lists all the inbound cross-cluster search connections for a destination domain.
  */
 export const describeInboundCrossClusterSearchConnections: API.OperationMethod<
   DescribeInboundCrossClusterSearchConnectionsRequest,
   DescribeInboundCrossClusterSearchConnectionsResponse,
-  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  DescribeInboundCrossClusterSearchConnectionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInboundCrossClusterSearchConnectionsRequest,
   ) => stream.Stream<
     DescribeInboundCrossClusterSearchConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeInboundCrossClusterSearchConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInboundCrossClusterSearchConnectionsRequest,
   ) => stream.Stream<
     unknown,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeInboundCrossClusterSearchConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4091,27 +4141,31 @@ export const describeInboundCrossClusterSearchConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeOutboundCrossClusterSearchConnectionsError =
+  | DisabledOperationException
+  | InvalidPaginationTokenException
+  | CommonErrors;
 /**
  * Lists all the outbound cross-cluster search connections for a source domain.
  */
 export const describeOutboundCrossClusterSearchConnections: API.OperationMethod<
   DescribeOutboundCrossClusterSearchConnectionsRequest,
   DescribeOutboundCrossClusterSearchConnectionsResponse,
-  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  DescribeOutboundCrossClusterSearchConnectionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOutboundCrossClusterSearchConnectionsRequest,
   ) => stream.Stream<
     DescribeOutboundCrossClusterSearchConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeOutboundCrossClusterSearchConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOutboundCrossClusterSearchConnectionsRequest,
   ) => stream.Stream<
     unknown,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+    DescribeOutboundCrossClusterSearchConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4124,42 +4178,34 @@ export const describeOutboundCrossClusterSearchConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePackagesError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
  */
 export const describePackages: API.OperationMethod<
   DescribePackagesRequest,
   DescribePackagesResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribePackagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePackagesRequest,
   ) => stream.Stream<
     DescribePackagesResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribePackagesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePackagesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribePackagesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4178,39 +4224,33 @@ export const describePackages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeReservedElasticsearchInstanceOfferingsError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists available reserved Elasticsearch instance offerings.
  */
 export const describeReservedElasticsearchInstanceOfferings: API.OperationMethod<
   DescribeReservedElasticsearchInstanceOfferingsRequest,
   DescribeReservedElasticsearchInstanceOfferingsResponse,
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeReservedElasticsearchInstanceOfferingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedElasticsearchInstanceOfferingsRequest,
   ) => stream.Stream<
     DescribeReservedElasticsearchInstanceOfferingsResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedElasticsearchInstanceOfferingsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedElasticsearchInstanceOfferingsRequest,
   ) => stream.Stream<
     unknown,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedElasticsearchInstanceOfferingsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4228,39 +4268,33 @@ export const describeReservedElasticsearchInstanceOfferings: API.OperationMethod
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeReservedElasticsearchInstancesError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about reserved Elasticsearch instances for this account.
  */
 export const describeReservedElasticsearchInstances: API.OperationMethod<
   DescribeReservedElasticsearchInstancesRequest,
   DescribeReservedElasticsearchInstancesResponse,
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeReservedElasticsearchInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedElasticsearchInstancesRequest,
   ) => stream.Stream<
     DescribeReservedElasticsearchInstancesResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedElasticsearchInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedElasticsearchInstancesRequest,
   ) => stream.Stream<
     unknown,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeReservedElasticsearchInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4278,17 +4312,19 @@ export const describeReservedElasticsearchInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeVpcEndpointsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
   DescribeVpcEndpointsRequest,
   DescribeVpcEndpointsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ValidationException
-  | CommonErrors,
+  DescribeVpcEndpointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVpcEndpointsRequest,
@@ -4300,19 +4336,21 @@ export const describeVpcEndpoints: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Dissociates a package from the Amazon ES domain.
- */
-export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
-  DissociatePackageResponse,
+export type DissociatePackageError =
   | AccessDeniedException
   | BaseException
   | ConflictException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Dissociates a package from the Amazon ES domain.
+ */
+export const dissociatePackage: API.OperationMethod<
+  DissociatePackageRequest,
+  DissociatePackageResponse,
+  DissociatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociatePackageRequest,
@@ -4326,6 +4364,13 @@ export const dissociatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCompatibleElasticsearchVersionsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of upgrade compatible Elastisearch versions.
  * You can optionally pass a
@@ -4337,12 +4382,7 @@ export const dissociatePackage: API.OperationMethod<
 export const getCompatibleElasticsearchVersions: API.OperationMethod<
   GetCompatibleElasticsearchVersionsRequest,
   GetCompatibleElasticsearchVersionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetCompatibleElasticsearchVersionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCompatibleElasticsearchVersionsRequest,
@@ -4355,42 +4395,34 @@ export const getCompatibleElasticsearchVersions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPackageVersionHistoryError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of versions of the package, along with their creation time and commit message.
  */
 export const getPackageVersionHistory: API.OperationMethod<
   GetPackageVersionHistoryRequest,
   GetPackageVersionHistoryResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPackageVersionHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPackageVersionHistoryRequest,
   ) => stream.Stream<
     GetPackageVersionHistoryResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetPackageVersionHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetPackageVersionHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetPackageVersionHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4409,42 +4441,34 @@ export const getPackageVersionHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetUpgradeHistoryError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the complete history of the last 10 upgrades that were performed on the domain.
  */
 export const getUpgradeHistory: API.OperationMethod<
   GetUpgradeHistoryRequest,
   GetUpgradeHistoryResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetUpgradeHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetUpgradeHistoryRequest,
   ) => stream.Stream<
     GetUpgradeHistoryResponse,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetUpgradeHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetUpgradeHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetUpgradeHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4463,18 +4487,20 @@ export const getUpgradeHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetUpgradeStatusError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
   GetUpgradeStatusRequest,
   GetUpgradeStatusResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetUpgradeStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUpgradeStatusRequest,
@@ -4487,55 +4513,51 @@ export const getUpgradeStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDomainNamesError =
+  | BaseException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the name of all Elasticsearch domains owned by the current user's account.
  */
 export const listDomainNames: API.OperationMethod<
   ListDomainNamesRequest,
   ListDomainNamesResponse,
-  BaseException | ValidationException | CommonErrors,
+  ListDomainNamesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDomainNamesRequest,
   output: ListDomainNamesResponse,
   errors: [BaseException, ValidationException],
 }));
+export type ListDomainsForPackageError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Amazon ES domains associated with the package.
  */
 export const listDomainsForPackage: API.OperationMethod<
   ListDomainsForPackageRequest,
   ListDomainsForPackageResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDomainsForPackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsForPackageRequest,
   ) => stream.Stream<
     ListDomainsForPackageResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsForPackageError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsForPackageRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsForPackageError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4554,39 +4576,33 @@ export const listDomainsForPackage: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListElasticsearchInstanceTypesError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
  */
 export const listElasticsearchInstanceTypes: API.OperationMethod<
   ListElasticsearchInstanceTypesRequest,
   ListElasticsearchInstanceTypesResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListElasticsearchInstanceTypesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListElasticsearchInstanceTypesRequest,
   ) => stream.Stream<
     ListElasticsearchInstanceTypesResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListElasticsearchInstanceTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListElasticsearchInstanceTypesRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListElasticsearchInstanceTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4604,39 +4620,33 @@ export const listElasticsearchInstanceTypes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListElasticsearchVersionsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all supported Elasticsearch versions
  */
 export const listElasticsearchVersions: API.OperationMethod<
   ListElasticsearchVersionsRequest,
   ListElasticsearchVersionsResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListElasticsearchVersionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListElasticsearchVersionsRequest,
   ) => stream.Stream<
     ListElasticsearchVersionsResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListElasticsearchVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListElasticsearchVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListElasticsearchVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4654,42 +4664,34 @@ export const listElasticsearchVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPackagesForDomainError =
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all packages associated with the Amazon ES domain.
  */
 export const listPackagesForDomain: API.OperationMethod<
   ListPackagesForDomainRequest,
   ListPackagesForDomainResponse,
-  | AccessDeniedException
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListPackagesForDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagesForDomainRequest,
   ) => stream.Stream<
     ListPackagesForDomainResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesForDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagesForDomainRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesForDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4708,17 +4710,19 @@ export const listPackagesForDomain: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns all tags for the given Elasticsearch domain.
  */
 export const listTags: API.OperationMethod<
   ListTagsRequest,
   ListTagsResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
@@ -4730,6 +4734,12 @@ export const listTags: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListVpcEndpointAccessError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about each principal that is allowed to access a
  * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
@@ -4737,11 +4747,7 @@ export const listTags: API.OperationMethod<
 export const listVpcEndpointAccess: API.OperationMethod<
   ListVpcEndpointAccessRequest,
   ListVpcEndpointAccessResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListVpcEndpointAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointAccessRequest,
@@ -4753,30 +4759,37 @@ export const listVpcEndpointAccess: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListVpcEndpointsError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | CommonErrors;
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
   ListVpcEndpointsRequest,
   ListVpcEndpointsResponse,
-  BaseException | DisabledOperationException | InternalException | CommonErrors,
+  ListVpcEndpointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointsRequest,
   output: ListVpcEndpointsResponse,
   errors: [BaseException, DisabledOperationException, InternalException],
 }));
+export type ListVpcEndpointsForDomainError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
   ListVpcEndpointsForDomainRequest,
   ListVpcEndpointsForDomainResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListVpcEndpointsForDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointsForDomainRequest,
@@ -4788,19 +4801,21 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Allows you to purchase reserved Elasticsearch instances.
- */
-export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
-  PurchaseReservedElasticsearchInstanceOfferingRequest,
-  PurchaseReservedElasticsearchInstanceOfferingResponse,
+export type PurchaseReservedElasticsearchInstanceOfferingError =
   | DisabledOperationException
   | InternalException
   | LimitExceededException
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to purchase reserved Elasticsearch instances.
+ */
+export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
+  PurchaseReservedElasticsearchInstanceOfferingRequest,
+  PurchaseReservedElasticsearchInstanceOfferingResponse,
+  PurchaseReservedElasticsearchInstanceOfferingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseReservedElasticsearchInstanceOfferingRequest,
@@ -4814,32 +4829,48 @@ export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RejectInboundCrossClusterSearchConnectionError =
+  | DisabledOperationException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
  */
 export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
   RejectInboundCrossClusterSearchConnectionRequest,
   RejectInboundCrossClusterSearchConnectionResponse,
-  DisabledOperationException | ResourceNotFoundException | CommonErrors,
+  RejectInboundCrossClusterSearchConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectInboundCrossClusterSearchConnectionRequest,
   output: RejectInboundCrossClusterSearchConnectionResponse,
   errors: [DisabledOperationException, ResourceNotFoundException],
 }));
+export type RemoveTagsError =
+  | BaseException
+  | InternalException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified set of tags from the specified Elasticsearch domain.
  */
 export const removeTags: API.OperationMethod<
   RemoveTagsRequest,
   RemoveTagsResponse,
-  BaseException | InternalException | ValidationException | CommonErrors,
+  RemoveTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsRequest,
   output: RemoveTagsResponse,
   errors: [BaseException, InternalException, ValidationException],
 }));
+export type RevokeVpcEndpointAccessError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
  * VPC endpoint.
@@ -4847,12 +4878,7 @@ export const removeTags: API.OperationMethod<
 export const revokeVpcEndpointAccess: API.OperationMethod<
   RevokeVpcEndpointAccessRequest,
   RevokeVpcEndpointAccessResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RevokeVpcEndpointAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeVpcEndpointAccessRequest,
@@ -4865,17 +4891,19 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartElasticsearchServiceSoftwareUpdateError =
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Schedules a service software update for an Amazon ES domain.
  */
 export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   StartElasticsearchServiceSoftwareUpdateRequest,
   StartElasticsearchServiceSoftwareUpdateResponse,
-  | BaseException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartElasticsearchServiceSoftwareUpdateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartElasticsearchServiceSoftwareUpdateRequest,
@@ -4887,19 +4915,21 @@ export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
- */
-export const updateElasticsearchDomainConfig: API.OperationMethod<
-  UpdateElasticsearchDomainConfigRequest,
-  UpdateElasticsearchDomainConfigResponse,
+export type UpdateElasticsearchDomainConfigError =
   | BaseException
   | InternalException
   | InvalidTypeException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
+ */
+export const updateElasticsearchDomainConfig: API.OperationMethod<
+  UpdateElasticsearchDomainConfigRequest,
+  UpdateElasticsearchDomainConfigResponse,
+  UpdateElasticsearchDomainConfigError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateElasticsearchDomainConfigRequest,
@@ -4913,19 +4943,21 @@ export const updateElasticsearchDomainConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a package for use with Amazon ES domains.
- */
-export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
-  UpdatePackageResponse,
+export type UpdatePackageError =
   | AccessDeniedException
   | BaseException
   | InternalException
   | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a package for use with Amazon ES domains.
+ */
+export const updatePackage: API.OperationMethod<
+  UpdatePackageRequest,
+  UpdatePackageResponse,
+  UpdatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageRequest,
@@ -4939,19 +4971,21 @@ export const updatePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
- */
-export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
-  UpdateVpcEndpointResponse,
+export type UpdateVpcEndpointError =
   | BaseException
   | ConflictException
   | DisabledOperationException
   | InternalException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+ */
+export const updateVpcEndpoint: API.OperationMethod<
+  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointResponse,
+  UpdateVpcEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcEndpointRequest,
@@ -4965,19 +4999,21 @@ export const updateVpcEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
- */
-export const upgradeElasticsearchDomain: API.OperationMethod<
-  UpgradeElasticsearchDomainRequest,
-  UpgradeElasticsearchDomainResponse,
+export type UpgradeElasticsearchDomainError =
   | BaseException
   | DisabledOperationException
   | InternalException
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
+ */
+export const upgradeElasticsearchDomain: API.OperationMethod<
+  UpgradeElasticsearchDomainRequest,
+  UpgradeElasticsearchDomainResponse,
+  UpgradeElasticsearchDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeElasticsearchDomainRequest,

@@ -1519,14 +1519,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it.
- *
- * Only the management account or a delegated administrator can perform this action.
- */
-export const associateAccounts: API.OperationMethod<
-  AssociateAccountsRequest,
-  AssociateAccountsResponse,
+export type AssociateAccountsError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -1537,7 +1530,16 @@ export const associateAccounts: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const associateAccounts: API.OperationMethod<
+  AssociateAccountsRequest,
+  AssociateAccountsResponse,
+  AssociateAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAccountsRequest,
@@ -1555,12 +1557,7 @@ export const associateAccounts: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
- */
-export const createAutomationRule: API.OperationMethod<
-  CreateAutomationRuleRequest,
-  CreateAutomationRuleResponse,
+export type CreateAutomationRuleError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -1572,7 +1569,14 @@ export const createAutomationRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
+ */
+export const createAutomationRule: API.OperationMethod<
+  CreateAutomationRuleRequest,
+  CreateAutomationRuleResponse,
+  CreateAutomationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutomationRuleRequest,
@@ -1591,12 +1595,7 @@ export const createAutomationRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes an existing automation rule.
- */
-export const deleteAutomationRule: API.OperationMethod<
-  DeleteAutomationRuleRequest,
-  DeleteAutomationRuleResponse,
+export type DeleteAutomationRuleError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -1607,7 +1606,14 @@ export const deleteAutomationRule: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing automation rule.
+ */
+export const deleteAutomationRule: API.OperationMethod<
+  DeleteAutomationRuleRequest,
+  DeleteAutomationRuleResponse,
+  DeleteAutomationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutomationRuleRequest,
@@ -1625,14 +1631,7 @@ export const deleteAutomationRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account.
- *
- * Only the management account or a delegated administrator can perform this action.
- */
-export const disassociateAccounts: API.OperationMethod<
-  DisassociateAccountsRequest,
-  DisassociateAccountsResponse,
+export type DisassociateAccountsError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -1643,7 +1642,16 @@ export const disassociateAccounts: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const disassociateAccounts: API.OperationMethod<
+  DisassociateAccountsRequest,
+  DisassociateAccountsResponse,
+  DisassociateAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAccountsRequest,
@@ -1661,12 +1669,7 @@ export const disassociateAccounts: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves details about a specific automation event.
- */
-export const getAutomationEvent: API.OperationMethod<
-  GetAutomationEventRequest,
-  GetAutomationEventResponse,
+export type GetAutomationEventError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1675,7 +1678,14 @@ export const getAutomationEvent: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details about a specific automation event.
+ */
+export const getAutomationEvent: API.OperationMethod<
+  GetAutomationEventRequest,
+  GetAutomationEventResponse,
+  GetAutomationEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomationEventRequest,
@@ -1691,12 +1701,7 @@ export const getAutomationEvent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves details about a specific automation rule.
- */
-export const getAutomationRule: API.OperationMethod<
-  GetAutomationRuleRequest,
-  GetAutomationRuleResponse,
+export type GetAutomationRuleError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1705,7 +1710,14 @@ export const getAutomationRule: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details about a specific automation rule.
+ */
+export const getAutomationRule: API.OperationMethod<
+  GetAutomationRuleRequest,
+  GetAutomationRuleResponse,
+  GetAutomationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomationRuleRequest,
@@ -1721,12 +1733,7 @@ export const getAutomationRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves the current enrollment configuration for Compute Optimizer Automation.
- */
-export const getEnrollmentConfiguration: API.OperationMethod<
-  GetEnrollmentConfigurationRequest,
-  GetEnrollmentConfigurationResponse,
+export type GetEnrollmentConfigurationError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1735,7 +1742,14 @@ export const getEnrollmentConfiguration: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the current enrollment configuration for Compute Optimizer Automation.
+ */
+export const getEnrollmentConfiguration: API.OperationMethod<
+  GetEnrollmentConfigurationRequest,
+  GetEnrollmentConfigurationResponse,
+  GetEnrollmentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnrollmentConfigurationRequest,
@@ -1751,14 +1765,7 @@ export const getEnrollmentConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation.
- *
- * Only the management account or a delegated administrator can perform this action.
- */
-export const listAccounts: API.OperationMethod<
-  ListAccountsRequest,
-  ListAccountsResponse,
+export type ListAccountsError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1767,37 +1774,30 @@ export const listAccounts: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const listAccounts: API.OperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse,
+  ListAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountsRequest,
   ) => stream.Stream<
     ListAccountsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | NotManagementAccountException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountsRequest,
   ) => stream.Stream<
     AccountInfo,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | NotManagementAccountException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1820,12 +1820,7 @@ export const listAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists automation events based on specified filters. You can retrieve events that were created within the past year.
- */
-export const listAutomationEvents: API.OperationMethod<
-  ListAutomationEventsRequest,
-  ListAutomationEventsResponse,
+export type ListAutomationEventsError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1833,35 +1828,28 @@ export const listAutomationEvents: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists automation events based on specified filters. You can retrieve events that were created within the past year.
+ */
+export const listAutomationEvents: API.OperationMethod<
+  ListAutomationEventsRequest,
+  ListAutomationEventsResponse,
+  ListAutomationEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomationEventsRequest,
   ) => stream.Stream<
     ListAutomationEventsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomationEventsRequest,
   ) => stream.Stream<
     AutomationEvent,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1883,12 +1871,7 @@ export const listAutomationEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
- */
-export const listAutomationEventSteps: API.OperationMethod<
-  ListAutomationEventStepsRequest,
-  ListAutomationEventStepsResponse,
+export type ListAutomationEventStepsError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1897,37 +1880,28 @@ export const listAutomationEventSteps: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
+ */
+export const listAutomationEventSteps: API.OperationMethod<
+  ListAutomationEventStepsRequest,
+  ListAutomationEventStepsResponse,
+  ListAutomationEventStepsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomationEventStepsRequest,
   ) => stream.Stream<
     ListAutomationEventStepsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationEventStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomationEventStepsRequest,
   ) => stream.Stream<
     AutomationEventStep,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationEventStepsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1950,12 +1924,7 @@ export const listAutomationEventSteps: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the summary.
- */
-export const listAutomationEventSummaries: API.OperationMethod<
-  ListAutomationEventSummariesRequest,
-  ListAutomationEventSummariesResponse,
+export type ListAutomationEventSummariesError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -1963,35 +1932,28 @@ export const listAutomationEventSummaries: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the summary.
+ */
+export const listAutomationEventSummaries: API.OperationMethod<
+  ListAutomationEventSummariesRequest,
+  ListAutomationEventSummariesResponse,
+  ListAutomationEventSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomationEventSummariesRequest,
   ) => stream.Stream<
     ListAutomationEventSummariesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationEventSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomationEventSummariesRequest,
   ) => stream.Stream<
     AutomationEventSummary,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationEventSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2013,12 +1975,7 @@ export const listAutomationEventSummaries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a preview of the recommended actions that match your Automation rule's configuration and criteria.
- */
-export const listAutomationRulePreview: API.OperationMethod<
-  ListAutomationRulePreviewRequest,
-  ListAutomationRulePreviewResponse,
+export type ListAutomationRulePreviewError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -2026,35 +1983,28 @@ export const listAutomationRulePreview: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a preview of the recommended actions that match your Automation rule's configuration and criteria.
+ */
+export const listAutomationRulePreview: API.OperationMethod<
+  ListAutomationRulePreviewRequest,
+  ListAutomationRulePreviewResponse,
+  ListAutomationRulePreviewError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomationRulePreviewRequest,
   ) => stream.Stream<
     ListAutomationRulePreviewResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationRulePreviewError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomationRulePreviewRequest,
   ) => stream.Stream<
     PreviewResult,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationRulePreviewError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2076,12 +2026,7 @@ export const listAutomationRulePreview: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Returns a summary of the recommended actions that match your rule preview configuration and criteria.
- */
-export const listAutomationRulePreviewSummaries: API.OperationMethod<
-  ListAutomationRulePreviewSummariesRequest,
-  ListAutomationRulePreviewSummariesResponse,
+export type ListAutomationRulePreviewSummariesError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -2089,35 +2034,28 @@ export const listAutomationRulePreviewSummaries: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a summary of the recommended actions that match your rule preview configuration and criteria.
+ */
+export const listAutomationRulePreviewSummaries: API.OperationMethod<
+  ListAutomationRulePreviewSummariesRequest,
+  ListAutomationRulePreviewSummariesResponse,
+  ListAutomationRulePreviewSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomationRulePreviewSummariesRequest,
   ) => stream.Stream<
     ListAutomationRulePreviewSummariesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationRulePreviewSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomationRulePreviewSummariesRequest,
   ) => stream.Stream<
     PreviewResultSummary,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationRulePreviewSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2139,12 +2077,7 @@ export const listAutomationRulePreviewSummaries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists the automation rules that match specified filters.
- */
-export const listAutomationRules: API.OperationMethod<
-  ListAutomationRulesRequest,
-  ListAutomationRulesResponse,
+export type ListAutomationRulesError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -2152,35 +2085,28 @@ export const listAutomationRules: API.OperationMethod<
   | OptInRequiredException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the automation rules that match specified filters.
+ */
+export const listAutomationRules: API.OperationMethod<
+  ListAutomationRulesRequest,
+  ListAutomationRulesResponse,
+  ListAutomationRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomationRulesRequest,
   ) => stream.Stream<
     ListAutomationRulesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomationRulesRequest,
   ) => stream.Stream<
     AutomationRule,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListAutomationRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2202,6 +2128,15 @@ export const listAutomationRules: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendedActionsError =
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the recommended actions based that match specified filters.
  *
@@ -2210,42 +2145,21 @@ export const listAutomationRules: API.OperationMethod<
 export const listRecommendedActions: API.OperationMethod<
   ListRecommendedActionsRequest,
   ListRecommendedActionsResponse,
-  | AccessDeniedException
-  | ForbiddenException
-  | InternalServerException
-  | InvalidParameterValueException
-  | OptInRequiredException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListRecommendedActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendedActionsRequest,
   ) => stream.Stream<
     ListRecommendedActionsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListRecommendedActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendedActionsRequest,
   ) => stream.Stream<
     RecommendedAction,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListRecommendedActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2267,6 +2181,15 @@ export const listRecommendedActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendedActionSummariesError =
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides a summary of recommended actions based on specified filters.
  *
@@ -2275,42 +2198,21 @@ export const listRecommendedActions: API.OperationMethod<
 export const listRecommendedActionSummaries: API.OperationMethod<
   ListRecommendedActionSummariesRequest,
   ListRecommendedActionSummariesResponse,
-  | AccessDeniedException
-  | ForbiddenException
-  | InternalServerException
-  | InvalidParameterValueException
-  | OptInRequiredException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  ListRecommendedActionSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendedActionSummariesRequest,
   ) => stream.Stream<
     ListRecommendedActionSummariesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListRecommendedActionSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendedActionSummariesRequest,
   ) => stream.Stream<
     RecommendedActionSummary,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    ListRecommendedActionSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2332,12 +2234,7 @@ export const listRecommendedActionSummaries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists the tags for a specified resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | AccessDeniedException
   | ForbiddenException
   | InternalServerException
@@ -2346,7 +2243,14 @@ export const listTagsForResource: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags for a specified resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2362,14 +2266,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Initiates a rollback for a completed automation event.
- *
- * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
- */
-export const rollbackAutomationEvent: API.OperationMethod<
-  RollbackAutomationEventRequest,
-  RollbackAutomationEventResponse,
+export type RollbackAutomationEventError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -2380,7 +2277,16 @@ export const rollbackAutomationEvent: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a rollback for a completed automation event.
+ *
+ * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
+ */
+export const rollbackAutomationEvent: API.OperationMethod<
+  RollbackAutomationEventRequest,
+  RollbackAutomationEventResponse,
+  RollbackAutomationEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackAutomationEventRequest,
@@ -2398,14 +2304,7 @@ export const rollbackAutomationEvent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Initiates a one-time, on-demand automation for the specified recommended action.
- *
- * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
- */
-export const startAutomationEvent: API.OperationMethod<
-  StartAutomationEventRequest,
-  StartAutomationEventResponse,
+export type StartAutomationEventError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -2417,7 +2316,16 @@ export const startAutomationEvent: API.OperationMethod<
   | ServiceQuotaExceededException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a one-time, on-demand automation for the specified recommended action.
+ *
+ * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
+ */
+export const startAutomationEvent: API.OperationMethod<
+  StartAutomationEventRequest,
+  StartAutomationEventResponse,
+  StartAutomationEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAutomationEventRequest,
@@ -2436,12 +2344,7 @@ export const startAutomationEvent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Adds tags to the specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -2452,7 +2355,14 @@ export const tagResource: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds tags to the specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2470,12 +2380,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Removes tags from the specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -2486,7 +2391,14 @@ export const untagResource: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags from the specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2504,12 +2416,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates an existing automation rule.
- */
-export const updateAutomationRule: API.OperationMethod<
-  UpdateAutomationRuleRequest,
-  UpdateAutomationRuleResponse,
+export type UpdateAutomationRuleError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -2520,7 +2427,14 @@ export const updateAutomationRule: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing automation rule.
+ */
+export const updateAutomationRule: API.OperationMethod<
+  UpdateAutomationRuleRequest,
+  UpdateAutomationRuleResponse,
+  UpdateAutomationRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutomationRuleRequest,
@@ -2538,12 +2452,7 @@ export const updateAutomationRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates your account’s Compute Optimizer Automation enrollment configuration.
- */
-export const updateEnrollmentConfiguration: API.OperationMethod<
-  UpdateEnrollmentConfigurationRequest,
-  UpdateEnrollmentConfigurationResponse,
+export type UpdateEnrollmentConfigurationError =
   | AccessDeniedException
   | ForbiddenException
   | IdempotencyTokenInUseException
@@ -2555,7 +2464,14 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates your account’s Compute Optimizer Automation enrollment configuration.
+ */
+export const updateEnrollmentConfiguration: API.OperationMethod<
+  UpdateEnrollmentConfigurationRequest,
+  UpdateEnrollmentConfigurationResponse,
+  UpdateEnrollmentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnrollmentConfigurationRequest,

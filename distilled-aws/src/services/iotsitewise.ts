@@ -6904,6 +6904,15 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateAssetsError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a child asset with the given parent asset through a hierarchy defined in the
  * parent asset's model. For more information, see Associating assets in the
@@ -6912,14 +6921,7 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 export const associateAssets: API.OperationMethod<
   AssociateAssetsRequest,
   AssociateAssetsResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAssetsRequest,
@@ -6934,18 +6936,20 @@ export const associateAssets: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateTimeSeriesToAssetPropertyError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a time series (data stream) with an asset property.
  */
 export const associateTimeSeriesToAssetProperty: API.OperationMethod<
   AssociateTimeSeriesToAssetPropertyRequest,
   AssociateTimeSeriesToAssetPropertyResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateTimeSeriesToAssetPropertyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateTimeSeriesToAssetPropertyRequest,
@@ -6958,18 +6962,20 @@ export const associateTimeSeriesToAssetProperty: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchAssociateProjectAssetsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a group (batch) of assets with an IoT SiteWise Monitor project.
  */
 export const batchAssociateProjectAssets: API.OperationMethod<
   BatchAssociateProjectAssetsRequest,
   BatchAssociateProjectAssetsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchAssociateProjectAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateProjectAssetsRequest,
@@ -6982,17 +6988,19 @@ export const batchAssociateProjectAssets: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchDisassociateProjectAssetsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
  */
 export const batchDisassociateProjectAssets: API.OperationMethod<
   BatchDisassociateProjectAssetsRequest,
   BatchDisassociateProjectAssetsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchDisassociateProjectAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateProjectAssetsRequest,
@@ -7004,6 +7012,12 @@ export const batchDisassociateProjectAssets: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchGetAssetPropertyAggregatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets aggregated values (for example, average, minimum, and maximum) for one or more asset
  * properties. For more information, see Querying aggregates in the
@@ -7012,33 +7026,21 @@ export const batchDisassociateProjectAssets: API.OperationMethod<
 export const batchGetAssetPropertyAggregates: API.OperationMethod<
   BatchGetAssetPropertyAggregatesRequest,
   BatchGetAssetPropertyAggregatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchGetAssetPropertyAggregatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: BatchGetAssetPropertyAggregatesRequest,
   ) => stream.Stream<
     BatchGetAssetPropertyAggregatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    BatchGetAssetPropertyAggregatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: BatchGetAssetPropertyAggregatesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    BatchGetAssetPropertyAggregatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7056,6 +7058,12 @@ export const batchGetAssetPropertyAggregates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchGetAssetPropertyValueError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the current value for one or more asset properties. For more information, see Querying
  * current values in the *IoT SiteWise User Guide*.
@@ -7063,33 +7071,21 @@ export const batchGetAssetPropertyAggregates: API.OperationMethod<
 export const batchGetAssetPropertyValue: API.OperationMethod<
   BatchGetAssetPropertyValueRequest,
   BatchGetAssetPropertyValueResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchGetAssetPropertyValueError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: BatchGetAssetPropertyValueRequest,
   ) => stream.Stream<
     BatchGetAssetPropertyValueResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    BatchGetAssetPropertyValueError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: BatchGetAssetPropertyValueRequest,
   ) => stream.Stream<
     unknown,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    BatchGetAssetPropertyValueError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7103,6 +7099,12 @@ export const batchGetAssetPropertyValue: API.OperationMethod<
   ],
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
 }));
+export type BatchGetAssetPropertyValueHistoryError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the historical values for one or more asset properties. For more information, see
  * Querying historical values in the *IoT SiteWise User Guide*.
@@ -7110,33 +7112,21 @@ export const batchGetAssetPropertyValue: API.OperationMethod<
 export const batchGetAssetPropertyValueHistory: API.OperationMethod<
   BatchGetAssetPropertyValueHistoryRequest,
   BatchGetAssetPropertyValueHistoryResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchGetAssetPropertyValueHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: BatchGetAssetPropertyValueHistoryRequest,
   ) => stream.Stream<
     BatchGetAssetPropertyValueHistoryResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    BatchGetAssetPropertyValueHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: BatchGetAssetPropertyValueHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    BatchGetAssetPropertyValueHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7154,6 +7144,15 @@ export const batchGetAssetPropertyValueHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchPutAssetPropertyValueError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value
  * (TQV) data point. For more information, see Ingesting data using the API in the
@@ -7182,14 +7181,7 @@ export const batchGetAssetPropertyValueHistory: API.OperationMethod<
 export const batchPutAssetPropertyValue: API.OperationMethod<
   BatchPutAssetPropertyValueRequest,
   BatchPutAssetPropertyValueResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  BatchPutAssetPropertyValueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutAssetPropertyValueRequest,
@@ -7204,6 +7196,13 @@ export const batchPutAssetPropertyValue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateAccessPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or
  * IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
@@ -7213,12 +7212,7 @@ export const batchPutAssetPropertyValue: API.OperationMethod<
 export const createAccessPolicy: API.OperationMethod<
   CreateAccessPolicyRequest,
   CreateAccessPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPolicyRequest,
@@ -7231,13 +7225,7 @@ export const createAccessPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates an asset from an existing asset model. For more information, see Creating assets in the
- * *IoT SiteWise User Guide*.
- */
-export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
-  CreateAssetResponse,
+export type CreateAssetError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -7245,7 +7233,15 @@ export const createAsset: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an asset from an existing asset model. For more information, see Creating assets in the
+ * *IoT SiteWise User Guide*.
+ */
+export const createAsset: API.OperationMethod<
+  CreateAssetRequest,
+  CreateAssetResponse,
+  CreateAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetRequest,
@@ -7260,6 +7256,15 @@ export const createAsset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateAssetModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an asset model from specified property and hierarchy definitions. You create
  * assets from asset models. With asset models, you can easily create assets of the same type
@@ -7284,14 +7289,7 @@ export const createAsset: API.OperationMethod<
 export const createAssetModel: API.OperationMethod<
   CreateAssetModelRequest,
   CreateAssetModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateAssetModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetModelRequest,
@@ -7306,6 +7304,16 @@ export const createAssetModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateAssetModelCompositeModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | PreconditionFailedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a custom composite model from specified property and hierarchy definitions. There
  * are two types of custom composite models, `inline` and
@@ -7332,15 +7340,7 @@ export const createAssetModel: API.OperationMethod<
 export const createAssetModelCompositeModel: API.OperationMethod<
   CreateAssetModelCompositeModelRequest,
   CreateAssetModelCompositeModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | PreconditionFailedException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateAssetModelCompositeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetModelCompositeModelRequest,
@@ -7356,6 +7356,15 @@ export const createAssetModelCompositeModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateBulkImportJobError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a
  * bulk import job (CLI) in the *Amazon Simple Storage Service User Guide*.
@@ -7375,14 +7384,7 @@ export const createAssetModelCompositeModel: API.OperationMethod<
 export const createBulkImportJob: API.OperationMethod<
   CreateBulkImportJobRequest,
   CreateBulkImportJobResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateBulkImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBulkImportJobRequest,
@@ -7397,12 +7399,7 @@ export const createBulkImportJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Create a computation model with a configuration and data binding.
- */
-export const createComputationModel: API.OperationMethod<
-  CreateComputationModelRequest,
-  CreateComputationModelResponse,
+export type CreateComputationModelError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -7410,7 +7407,14 @@ export const createComputationModel: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a computation model with a configuration and data binding.
+ */
+export const createComputationModel: API.OperationMethod<
+  CreateComputationModelRequest,
+  CreateComputationModelResponse,
+  CreateComputationModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComputationModelRequest,
@@ -7425,18 +7429,20 @@ export const createComputationModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateDashboardError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a dashboard in an IoT SiteWise Monitor project.
  */
 export const createDashboard: API.OperationMethod<
   CreateDashboardRequest,
   CreateDashboardResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDashboardRequest,
@@ -7449,12 +7455,7 @@ export const createDashboard: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a dataset to connect an external datasource.
- */
-export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
-  CreateDatasetResponse,
+export type CreateDatasetError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -7462,7 +7463,14 @@ export const createDataset: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a dataset to connect an external datasource.
+ */
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
+  CreateDatasetResponse,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -7477,6 +7485,13 @@ export const createDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateGatewayError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a gateway, which is a virtual or edge device that delivers industrial data streams
  * from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the
@@ -7485,12 +7500,7 @@ export const createDataset: API.OperationMethod<
 export const createGateway: API.OperationMethod<
   CreateGatewayRequest,
   CreateGatewayResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRequest,
@@ -7503,6 +7513,13 @@ export const createGateway: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreatePortalError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM
  * to authenticate portal users and manage user permissions.
@@ -7514,12 +7531,7 @@ export const createGateway: API.OperationMethod<
 export const createPortal: API.OperationMethod<
   CreatePortalRequest,
   CreatePortalResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreatePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortalRequest,
@@ -7532,6 +7544,13 @@ export const createPortal: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateProjectError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a project in the specified portal.
  *
@@ -7541,12 +7560,7 @@ export const createPortal: API.OperationMethod<
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
@@ -7559,6 +7573,12 @@ export const createProject: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAccessPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an access policy that grants the specified identity access to the specified
  * IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor
@@ -7567,11 +7587,7 @@ export const createProject: API.OperationMethod<
 export const deleteAccessPolicy: API.OperationMethod<
   DeleteAccessPolicyRequest,
   DeleteAccessPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPolicyRequest,
@@ -7583,6 +7599,13 @@ export const deleteAccessPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAssetError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an asset. This action can't be undone. For more information, see Deleting assets and
  * models in the *IoT SiteWise User Guide*.
@@ -7593,12 +7616,7 @@ export const deleteAccessPolicy: API.OperationMethod<
 export const deleteAsset: API.OperationMethod<
   DeleteAssetRequest,
   DeleteAssetResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetRequest,
@@ -7611,6 +7629,14 @@ export const deleteAsset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAssetModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an asset model. This action can't be undone. You must delete all assets created
  * from an asset model before you can delete the model. Also, you can't delete an asset model if
@@ -7621,13 +7647,7 @@ export const deleteAsset: API.OperationMethod<
 export const deleteAssetModel: API.OperationMethod<
   DeleteAssetModelRequest,
   DeleteAssetModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAssetModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetModelRequest,
@@ -7641,6 +7661,14 @@ export const deleteAssetModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAssetModelCompositeModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a composite model. This action can't be undone. You must delete all assets created
  * from a composite model before you can delete the model. Also, you can't delete a composite
@@ -7651,13 +7679,7 @@ export const deleteAssetModel: API.OperationMethod<
 export const deleteAssetModelCompositeModel: API.OperationMethod<
   DeleteAssetModelCompositeModelRequest,
   DeleteAssetModelCompositeModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAssetModelCompositeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetModelCompositeModelRequest,
@@ -7671,6 +7693,13 @@ export const deleteAssetModelCompositeModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAssetModelInterfaceRelationshipError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an interface relationship between an asset model and an interface asset
  * model.
@@ -7678,12 +7707,7 @@ export const deleteAssetModelCompositeModel: API.OperationMethod<
 export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
   DeleteAssetModelInterfaceRelationshipRequest,
   DeleteAssetModelInterfaceRelationshipResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAssetModelInterfaceRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetModelInterfaceRelationshipRequest,
@@ -7696,18 +7720,20 @@ export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteComputationModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a computation model. This action can't be undone.
  */
 export const deleteComputationModel: API.OperationMethod<
   DeleteComputationModelRequest,
   DeleteComputationModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteComputationModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComputationModelRequest,
@@ -7720,17 +7746,19 @@ export const deleteComputationModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDashboardError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a dashboard from IoT SiteWise Monitor.
  */
 export const deleteDashboard: API.OperationMethod<
   DeleteDashboardRequest,
   DeleteDashboardResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardRequest,
@@ -7742,18 +7770,20 @@ export const deleteDashboard: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDatasetError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a dataset. This cannot be undone.
  */
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
@@ -7766,6 +7796,13 @@ export const deleteDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteGatewayError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain
  * in your gateway's file system.
@@ -7773,12 +7810,7 @@ export const deleteDataset: API.OperationMethod<
 export const deleteGateway: API.OperationMethod<
   DeleteGatewayRequest,
   DeleteGatewayResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRequest,
@@ -7791,18 +7823,20 @@ export const deleteGateway: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeletePortalError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a portal from IoT SiteWise Monitor.
  */
 export const deletePortal: API.OperationMethod<
   DeletePortalRequest,
   DeletePortalResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeletePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalRequest,
@@ -7815,17 +7849,19 @@ export const deletePortal: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteProjectError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a project from IoT SiteWise Monitor.
  */
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
@@ -7837,6 +7873,13 @@ export const deleteProject: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteTimeSeriesError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a time series (data stream). If you delete a time series that's associated with an
  * asset property, the asset property still exists, but the time series will no longer be
@@ -7857,12 +7900,7 @@ export const deleteProject: API.OperationMethod<
 export const deleteTimeSeries: API.OperationMethod<
   DeleteTimeSeriesRequest,
   DeleteTimeSeriesResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteTimeSeriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTimeSeriesRequest,
@@ -7875,6 +7913,12 @@ export const deleteTimeSeries: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAccessPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or
  * project.
@@ -7882,11 +7926,7 @@ export const deleteTimeSeries: API.OperationMethod<
 export const describeAccessPolicy: API.OperationMethod<
   DescribeAccessPolicyRequest,
   DescribeAccessPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccessPolicyRequest,
@@ -7898,17 +7938,19 @@ export const describeAccessPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeActionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an action.
  */
 export const describeAction: API.OperationMethod<
   DescribeActionRequest,
   DescribeActionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeActionRequest,
@@ -7920,17 +7962,19 @@ export const describeAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAssetError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an asset.
  */
 export const describeAsset: API.OperationMethod<
   DescribeAssetRequest,
   DescribeAssetResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetRequest,
@@ -7942,6 +7986,12 @@ export const describeAsset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAssetCompositeModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an asset composite model (also known as an asset component).
  * An `AssetCompositeModel` is an instance of an
@@ -7951,11 +8001,7 @@ export const describeAsset: API.OperationMethod<
 export const describeAssetCompositeModel: API.OperationMethod<
   DescribeAssetCompositeModelRequest,
   DescribeAssetCompositeModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAssetCompositeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetCompositeModelRequest,
@@ -7967,6 +8013,12 @@ export const describeAssetCompositeModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAssetModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an asset model. This includes details about the asset model's
  * properties, hierarchies, composite models, and any interface relationships if the asset model
@@ -7975,11 +8027,7 @@ export const describeAssetCompositeModel: API.OperationMethod<
 export const describeAssetModel: API.OperationMethod<
   DescribeAssetModelRequest,
   DescribeAssetModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAssetModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetModelRequest,
@@ -7991,6 +8039,12 @@ export const describeAssetModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAssetModelCompositeModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an asset model composite model (also known as an asset model
  * component). For more information, see Custom composite models
@@ -7999,11 +8053,7 @@ export const describeAssetModel: API.OperationMethod<
 export const describeAssetModelCompositeModel: API.OperationMethod<
   DescribeAssetModelCompositeModelRequest,
   DescribeAssetModelCompositeModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAssetModelCompositeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetModelCompositeModelRequest,
@@ -8015,6 +8065,12 @@ export const describeAssetModelCompositeModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAssetModelInterfaceRelationshipError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an interface relationship between an asset model and an
  * interface asset model.
@@ -8022,11 +8078,7 @@ export const describeAssetModelCompositeModel: API.OperationMethod<
 export const describeAssetModelInterfaceRelationship: API.OperationMethod<
   DescribeAssetModelInterfaceRelationshipRequest,
   DescribeAssetModelInterfaceRelationshipResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAssetModelInterfaceRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetModelInterfaceRelationshipRequest,
@@ -8038,6 +8090,12 @@ export const describeAssetModelInterfaceRelationship: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAssetPropertyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about an asset property.
  *
@@ -8051,11 +8109,7 @@ export const describeAssetModelInterfaceRelationship: API.OperationMethod<
 export const describeAssetProperty: API.OperationMethod<
   DescribeAssetPropertyRequest,
   DescribeAssetPropertyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAssetPropertyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetPropertyRequest,
@@ -8067,6 +8121,12 @@ export const describeAssetProperty: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeBulkImportJobError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a bulk import job request. For more information, see Describe
  * a bulk import job (CLI) in the *Amazon Simple Storage Service User Guide*.
@@ -8074,11 +8134,7 @@ export const describeAssetProperty: API.OperationMethod<
 export const describeBulkImportJob: API.OperationMethod<
   DescribeBulkImportJobRequest,
   DescribeBulkImportJobResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBulkImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBulkImportJobRequest,
@@ -8090,17 +8146,19 @@ export const describeBulkImportJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeComputationModelError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a computation model.
  */
 export const describeComputationModel: API.OperationMethod<
   DescribeComputationModelRequest,
   DescribeComputationModelResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeComputationModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComputationModelRequest,
@@ -8112,17 +8170,19 @@ export const describeComputationModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeComputationModelExecutionSummaryError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about the execution summary of a computation model.
  */
 export const describeComputationModelExecutionSummary: API.OperationMethod<
   DescribeComputationModelExecutionSummaryRequest,
   DescribeComputationModelExecutionSummaryResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeComputationModelExecutionSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComputationModelExecutionSummaryRequest,
@@ -8134,17 +8194,19 @@ export const describeComputationModelExecutionSummary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDashboardError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a dashboard.
  */
 export const describeDashboard: API.OperationMethod<
   DescribeDashboardRequest,
   DescribeDashboardResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDashboardRequest,
@@ -8156,17 +8218,19 @@ export const describeDashboard: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDatasetError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a dataset.
  */
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
@@ -8178,6 +8242,11 @@ export const describeDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDefaultEncryptionConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about the default encryption configuration for the Amazon Web Services account in
  * the default or specified Region. For more information, see Key management in the
@@ -8186,10 +8255,7 @@ export const describeDataset: API.OperationMethod<
 export const describeDefaultEncryptionConfiguration: API.OperationMethod<
   DescribeDefaultEncryptionConfigurationRequest,
   DescribeDefaultEncryptionConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDefaultEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDefaultEncryptionConfigurationRequest,
@@ -8200,17 +8266,19 @@ export const describeDefaultEncryptionConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeExecutionError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about the execution.
  */
 export const describeExecution: API.OperationMethod<
   DescribeExecutionRequest,
   DescribeExecutionResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExecutionRequest,
@@ -8222,17 +8290,19 @@ export const describeExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeGatewayError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a gateway.
  */
 export const describeGateway: API.OperationMethod<
   DescribeGatewayRequest,
   DescribeGatewayResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayRequest,
@@ -8244,6 +8314,12 @@ export const describeGateway: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeGatewayCapabilityConfigurationError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability.
  *
@@ -8262,11 +8338,7 @@ export const describeGateway: API.OperationMethod<
 export const describeGatewayCapabilityConfiguration: API.OperationMethod<
   DescribeGatewayCapabilityConfigurationRequest,
   DescribeGatewayCapabilityConfigurationResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeGatewayCapabilityConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayCapabilityConfigurationRequest,
@@ -8278,17 +8350,19 @@ export const describeGatewayCapabilityConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeLoggingOptionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the current IoT SiteWise logging options.
  */
 export const describeLoggingOptions: API.OperationMethod<
   DescribeLoggingOptionsRequest,
   DescribeLoggingOptionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLoggingOptionsRequest,
@@ -8300,17 +8374,19 @@ export const describeLoggingOptions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribePortalError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a portal.
  */
 export const describePortal: API.OperationMethod<
   DescribePortalRequest,
   DescribePortalResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePortalRequest,
@@ -8322,17 +8398,19 @@ export const describePortal: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeProjectError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a project.
  */
 export const describeProject: API.OperationMethod<
   DescribeProjectRequest,
   DescribeProjectResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProjectRequest,
@@ -8344,19 +8422,21 @@ export const describeProject: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves information about the storage configuration for IoT SiteWise.
- */
-export const describeStorageConfiguration: API.OperationMethod<
-  DescribeStorageConfigurationRequest,
-  DescribeStorageConfigurationResponse,
+export type DescribeStorageConfigurationError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the storage configuration for IoT SiteWise.
+ */
+export const describeStorageConfiguration: API.OperationMethod<
+  DescribeStorageConfigurationRequest,
+  DescribeStorageConfigurationResponse,
+  DescribeStorageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStorageConfigurationRequest,
@@ -8370,6 +8450,12 @@ export const describeStorageConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeTimeSeriesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves information about a time series (data stream).
  *
@@ -8388,11 +8474,7 @@ export const describeStorageConfiguration: API.OperationMethod<
 export const describeTimeSeries: API.OperationMethod<
   DescribeTimeSeriesRequest,
   DescribeTimeSeriesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeTimeSeriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTimeSeriesRequest,
@@ -8404,6 +8486,13 @@ export const describeTimeSeries: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateAssetsError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a child asset from the given parent asset through a hierarchy defined in the
  * parent asset's model.
@@ -8411,12 +8500,7 @@ export const describeTimeSeries: API.OperationMethod<
 export const disassociateAssets: API.OperationMethod<
   DisassociateAssetsRequest,
   DisassociateAssetsResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAssetsRequest,
@@ -8429,18 +8513,20 @@ export const disassociateAssets: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateTimeSeriesFromAssetPropertyError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a time series (data stream) from an asset property.
  */
 export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
   DisassociateTimeSeriesFromAssetPropertyRequest,
   DisassociateTimeSeriesFromAssetPropertyResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateTimeSeriesFromAssetPropertyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateTimeSeriesFromAssetPropertyRequest,
@@ -8453,19 +8539,21 @@ export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Executes an action on a target resource.
- */
-export const executeAction: API.OperationMethod<
-  ExecuteActionRequest,
-  ExecuteActionResponse,
+export type ExecuteActionError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Executes an action on a target resource.
+ */
+export const executeAction: API.OperationMethod<
+  ExecuteActionRequest,
+  ExecuteActionResponse,
+  ExecuteActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteActionRequest,
@@ -8479,13 +8567,7 @@ export const executeAction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Run SQL queries to retrieve metadata and time-series data from asset models, assets,
- * measurements, metrics, transforms, and aggregates.
- */
-export const executeQuery: API.OperationMethod<
-  ExecuteQueryRequest,
-  ExecuteQueryResponse,
+export type ExecuteQueryError =
   | AccessDeniedException
   | InternalFailureException
   | InvalidRequestException
@@ -8493,35 +8575,29 @@ export const executeQuery: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Run SQL queries to retrieve metadata and time-series data from asset models, assets,
+ * measurements, metrics, transforms, and aggregates.
+ */
+export const executeQuery: API.OperationMethod<
+  ExecuteQueryRequest,
+  ExecuteQueryResponse,
+  ExecuteQueryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ExecuteQueryRequest,
   ) => stream.Stream<
     ExecuteQueryResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidRequestException
-    | QueryTimeoutException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ExecuteQueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExecuteQueryRequest,
   ) => stream.Stream<
     Row,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidRequestException
-    | QueryTimeoutException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ExecuteQueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8543,6 +8619,13 @@ export const executeQuery: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetAssetPropertyAggregatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets aggregated values for an asset property. For more information, see Querying
  * aggregates in the *IoT SiteWise User Guide*.
@@ -8557,36 +8640,21 @@ export const executeQuery: API.OperationMethod<
 export const getAssetPropertyAggregates: API.OperationMethod<
   GetAssetPropertyAggregatesRequest,
   GetAssetPropertyAggregatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetAssetPropertyAggregatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAssetPropertyAggregatesRequest,
   ) => stream.Stream<
     GetAssetPropertyAggregatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    GetAssetPropertyAggregatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAssetPropertyAggregatesRequest,
   ) => stream.Stream<
     AggregatedValue,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    GetAssetPropertyAggregatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8606,6 +8674,13 @@ export const getAssetPropertyAggregates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetAssetPropertyValueError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets an asset property's current value. For more information, see Querying
  * current values in the *IoT SiteWise User Guide*.
@@ -8620,12 +8695,7 @@ export const getAssetPropertyAggregates: API.OperationMethod<
 export const getAssetPropertyValue: API.OperationMethod<
   GetAssetPropertyValueRequest,
   GetAssetPropertyValueResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetAssetPropertyValueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetPropertyValueRequest,
@@ -8638,6 +8708,13 @@ export const getAssetPropertyValue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetAssetPropertyValueHistoryError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the history of an asset property's values. For more information, see Querying
  * historical values in the *IoT SiteWise User Guide*.
@@ -8652,36 +8729,21 @@ export const getAssetPropertyValue: API.OperationMethod<
 export const getAssetPropertyValueHistory: API.OperationMethod<
   GetAssetPropertyValueHistoryRequest,
   GetAssetPropertyValueHistoryResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetAssetPropertyValueHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAssetPropertyValueHistoryRequest,
   ) => stream.Stream<
     GetAssetPropertyValueHistoryResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    GetAssetPropertyValueHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAssetPropertyValueHistoryRequest,
   ) => stream.Stream<
     AssetPropertyValue,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    GetAssetPropertyValueHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8701,6 +8763,13 @@ export const getAssetPropertyValueHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetInterpolatedAssetPropertyValuesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get interpolated values for an asset property for a specified time interval, during a
  * period of time. If your time series is missing data points during the specified time interval,
@@ -8719,36 +8788,21 @@ export const getAssetPropertyValueHistory: API.OperationMethod<
 export const getInterpolatedAssetPropertyValues: API.OperationMethod<
   GetInterpolatedAssetPropertyValuesRequest,
   GetInterpolatedAssetPropertyValuesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetInterpolatedAssetPropertyValuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetInterpolatedAssetPropertyValuesRequest,
   ) => stream.Stream<
     GetInterpolatedAssetPropertyValuesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    GetInterpolatedAssetPropertyValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetInterpolatedAssetPropertyValuesRequest,
   ) => stream.Stream<
     InterpolatedAssetPropertyValue,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    GetInterpolatedAssetPropertyValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8768,12 +8822,7 @@ export const getInterpolatedAssetPropertyValues: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Invokes SiteWise Assistant to start or continue a conversation.
- */
-export const invokeAssistant: API.OperationMethod<
-  InvokeAssistantRequest,
-  InvokeAssistantResponse,
+export type InvokeAssistantError =
   | AccessDeniedException
   | ConflictingOperationException
   | InternalFailureException
@@ -8781,7 +8830,14 @@ export const invokeAssistant: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Invokes SiteWise Assistant to start or continue a conversation.
+ */
+export const invokeAssistant: API.OperationMethod<
+  InvokeAssistantRequest,
+  InvokeAssistantResponse,
+  InvokeAssistantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeAssistantRequest,
@@ -8796,6 +8852,11 @@ export const invokeAssistant: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAccessPoliciesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center
  * group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
@@ -8803,30 +8864,21 @@ export const invokeAssistant: API.OperationMethod<
 export const listAccessPolicies: API.OperationMethod<
   ListAccessPoliciesRequest,
   ListAccessPoliciesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAccessPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
     ListAccessPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAccessPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
     AccessPolicySummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAccessPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8844,17 +8896,19 @@ export const listAccessPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListActionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of actions for a specific target resource.
  */
 export const listActions: API.OperationMethod<
   ListActionsRequest,
   ListActionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListActionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListActionsRequest,
@@ -8866,39 +8920,33 @@ export const listActions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAssetModelCompositeModelsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of composite models associated with the asset model
  */
 export const listAssetModelCompositeModels: API.OperationMethod<
   ListAssetModelCompositeModelsRequest,
   ListAssetModelCompositeModelsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssetModelCompositeModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetModelCompositeModelsRequest,
   ) => stream.Stream<
     ListAssetModelCompositeModelsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetModelCompositeModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetModelCompositeModelsRequest,
   ) => stream.Stream<
     AssetModelCompositeModelSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetModelCompositeModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8917,6 +8965,12 @@ export const listAssetModelCompositeModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetModelPropertiesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of properties associated with an asset model.
  * If you update properties associated with the model before you finish listing all the properties,
@@ -8925,33 +8979,21 @@ export const listAssetModelCompositeModels: API.OperationMethod<
 export const listAssetModelProperties: API.OperationMethod<
   ListAssetModelPropertiesRequest,
   ListAssetModelPropertiesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssetModelPropertiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetModelPropertiesRequest,
   ) => stream.Stream<
     ListAssetModelPropertiesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetModelPropertiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetModelPropertiesRequest,
   ) => stream.Stream<
     AssetModelPropertySummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetModelPropertiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8970,36 +9012,32 @@ export const listAssetModelProperties: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetModelsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of summaries of all asset models.
  */
 export const listAssetModels: API.OperationMethod<
   ListAssetModelsRequest,
   ListAssetModelsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssetModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetModelsRequest,
   ) => stream.Stream<
     ListAssetModelsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetModelsRequest,
   ) => stream.Stream<
     AssetModelSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9017,6 +9055,12 @@ export const listAssetModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetPropertiesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of properties associated with an asset.
  * If you update properties associated with the model before you finish listing all the properties,
@@ -9025,33 +9069,21 @@ export const listAssetModels: API.OperationMethod<
 export const listAssetProperties: API.OperationMethod<
   ListAssetPropertiesRequest,
   ListAssetPropertiesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssetPropertiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetPropertiesRequest,
   ) => stream.Stream<
     ListAssetPropertiesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetPropertiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetPropertiesRequest,
   ) => stream.Stream<
     AssetPropertySummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetPropertiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9070,6 +9102,12 @@ export const listAssetProperties: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetRelationshipsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of asset relationships for an asset. You can use this operation
  * to identify an asset's root asset and all associated assets between that asset and its
@@ -9078,33 +9116,21 @@ export const listAssetProperties: API.OperationMethod<
 export const listAssetRelationships: API.OperationMethod<
   ListAssetRelationshipsRequest,
   ListAssetRelationshipsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssetRelationshipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetRelationshipsRequest,
   ) => stream.Stream<
     ListAssetRelationshipsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetRelationshipsRequest,
   ) => stream.Stream<
     AssetRelationshipSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9123,6 +9149,12 @@ export const listAssetRelationships: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of asset summaries.
  *
@@ -9139,33 +9171,21 @@ export const listAssetRelationships: API.OperationMethod<
 export const listAssets: API.OperationMethod<
   ListAssetsRequest,
   ListAssetsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetsRequest,
   ) => stream.Stream<
     ListAssetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetsRequest,
   ) => stream.Stream<
     AssetSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9184,6 +9204,12 @@ export const listAssets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssociatedAssetsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of associated assets.
  *
@@ -9196,33 +9222,21 @@ export const listAssets: API.OperationMethod<
 export const listAssociatedAssets: API.OperationMethod<
   ListAssociatedAssetsRequest,
   ListAssociatedAssetsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssociatedAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedAssetsRequest,
   ) => stream.Stream<
     ListAssociatedAssetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssociatedAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedAssetsRequest,
   ) => stream.Stream<
     AssociatedAssetsSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAssociatedAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9241,6 +9255,12 @@ export const listAssociatedAssets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBulkImportJobsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of bulk import job requests. For more information, see List bulk
  * import jobs (CLI) in the *IoT SiteWise User Guide*.
@@ -9248,33 +9268,21 @@ export const listAssociatedAssets: API.OperationMethod<
 export const listBulkImportJobs: API.OperationMethod<
   ListBulkImportJobsRequest,
   ListBulkImportJobsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListBulkImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBulkImportJobsRequest,
   ) => stream.Stream<
     ListBulkImportJobsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListBulkImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBulkImportJobsRequest,
   ) => stream.Stream<
     JobSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListBulkImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9293,6 +9301,12 @@ export const listBulkImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCompositionRelationshipsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of composition relationships for an asset model of type
  * `COMPONENT_MODEL`.
@@ -9300,33 +9314,21 @@ export const listBulkImportJobs: API.OperationMethod<
 export const listCompositionRelationships: API.OperationMethod<
   ListCompositionRelationshipsRequest,
   ListCompositionRelationshipsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListCompositionRelationshipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCompositionRelationshipsRequest,
   ) => stream.Stream<
     ListCompositionRelationshipsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListCompositionRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCompositionRelationshipsRequest,
   ) => stream.Stream<
     CompositionRelationshipSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListCompositionRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9345,6 +9347,11 @@ export const listCompositionRelationships: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListComputationModelDataBindingUsagesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all data binding usages for computation models. This allows to identify where
  * specific data bindings are being utilized across the computation models. This track
@@ -9353,30 +9360,21 @@ export const listCompositionRelationships: API.OperationMethod<
 export const listComputationModelDataBindingUsages: API.OperationMethod<
   ListComputationModelDataBindingUsagesRequest,
   ListComputationModelDataBindingUsagesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListComputationModelDataBindingUsagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComputationModelDataBindingUsagesRequest,
   ) => stream.Stream<
     ListComputationModelDataBindingUsagesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListComputationModelDataBindingUsagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComputationModelDataBindingUsagesRequest,
   ) => stream.Stream<
     ComputationModelDataBindingUsageSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListComputationModelDataBindingUsagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9394,6 +9392,12 @@ export const listComputationModelDataBindingUsages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListComputationModelResolveToResourcesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all distinct resources that are resolved from the executed actions of the
  * computation model.
@@ -9401,33 +9405,21 @@ export const listComputationModelDataBindingUsages: API.OperationMethod<
 export const listComputationModelResolveToResources: API.OperationMethod<
   ListComputationModelResolveToResourcesRequest,
   ListComputationModelResolveToResourcesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListComputationModelResolveToResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComputationModelResolveToResourcesRequest,
   ) => stream.Stream<
     ListComputationModelResolveToResourcesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListComputationModelResolveToResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComputationModelResolveToResourcesRequest,
   ) => stream.Stream<
     ComputationModelResolveToResourceSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListComputationModelResolveToResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9446,36 +9438,32 @@ export const listComputationModelResolveToResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListComputationModelsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of summaries of all computation models.
  */
 export const listComputationModels: API.OperationMethod<
   ListComputationModelsRequest,
   ListComputationModelsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListComputationModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComputationModelsRequest,
   ) => stream.Stream<
     ListComputationModelsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListComputationModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComputationModelsRequest,
   ) => stream.Stream<
     ComputationModelSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListComputationModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9493,36 +9481,32 @@ export const listComputationModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDashboardsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
  */
 export const listDashboards: API.OperationMethod<
   ListDashboardsRequest,
   ListDashboardsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListDashboardsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
     ListDashboardsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDashboardsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
     DashboardSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDashboardsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9540,36 +9524,32 @@ export const listDashboards: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDatasetsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of datasets for a specific target resource.
  */
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     ListDatasetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     DatasetSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9587,39 +9567,33 @@ export const listDatasets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExecutionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of summaries of all executions.
  */
 export const listExecutions: API.OperationMethod<
   ListExecutionsRequest,
   ListExecutionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExecutionsRequest,
   ) => stream.Stream<
     ListExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExecutionsRequest,
   ) => stream.Stream<
     ExecutionSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9638,36 +9612,32 @@ export const listExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListGatewaysError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of gateways.
  */
 export const listGateways: API.OperationMethod<
   ListGatewaysRequest,
   ListGatewaysResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
     ListGatewaysResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
     GatewaySummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9685,6 +9655,12 @@ export const listGateways: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListInterfaceRelationshipsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of asset models that have a specific interface asset model
  * applied to them.
@@ -9692,33 +9668,21 @@ export const listGateways: API.OperationMethod<
 export const listInterfaceRelationships: API.OperationMethod<
   ListInterfaceRelationshipsRequest,
   ListInterfaceRelationshipsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListInterfaceRelationshipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInterfaceRelationshipsRequest,
   ) => stream.Stream<
     ListInterfaceRelationshipsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInterfaceRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInterfaceRelationshipsRequest,
   ) => stream.Stream<
     InterfaceRelationshipSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInterfaceRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9737,36 +9701,32 @@ export const listInterfaceRelationships: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPortalsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of IoT SiteWise Monitor portals.
  */
 export const listPortals: API.OperationMethod<
   ListPortalsRequest,
   ListPortalsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListPortalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPortalsRequest,
   ) => stream.Stream<
     ListPortalsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListPortalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPortalsRequest,
   ) => stream.Stream<
     PortalSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListPortalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9784,36 +9744,32 @@ export const listPortals: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProjectAssetsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
  */
 export const listProjectAssets: API.OperationMethod<
   ListProjectAssetsRequest,
   ListProjectAssetsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListProjectAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectAssetsRequest,
   ) => stream.Stream<
     ListProjectAssetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListProjectAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectAssetsRequest,
   ) => stream.Stream<
     ID,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListProjectAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9831,36 +9787,32 @@ export const listProjectAssets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProjectsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
  */
 export const listProjects: API.OperationMethod<
   ListProjectsRequest,
   ListProjectsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     ListProjectsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     ProjectSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9878,12 +9830,7 @@ export const listProjects: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves the list of tags for an IoT SiteWise resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -9891,7 +9838,14 @@ export const listTagsForResource: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the list of tags for an IoT SiteWise resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -9906,39 +9860,33 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListTimeSeriesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of time series (data streams).
  */
 export const listTimeSeries: API.OperationMethod<
   ListTimeSeriesRequest,
   ListTimeSeriesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTimeSeriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTimeSeriesRequest,
   ) => stream.Stream<
     ListTimeSeriesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTimeSeriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTimeSeriesRequest,
   ) => stream.Stream<
     TimeSeriesSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTimeSeriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9957,6 +9905,14 @@ export const listTimeSeries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutAssetModelInterfaceRelationshipError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates or updates an interface relationship between an asset model and an interface asset
  * model. This operation applies an interface to an asset model.
@@ -9964,13 +9920,7 @@ export const listTimeSeries: API.OperationMethod<
 export const putAssetModelInterfaceRelationship: API.OperationMethod<
   PutAssetModelInterfaceRelationshipRequest,
   PutAssetModelInterfaceRelationshipResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  PutAssetModelInterfaceRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAssetModelInterfaceRelationshipRequest,
@@ -9984,6 +9934,13 @@ export const putAssetModelInterfaceRelationship: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type PutDefaultEncryptionConfigurationError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Sets the default encryption configuration for the Amazon Web Services account. For more information, see
  * Key management in
@@ -9992,12 +9949,7 @@ export const putAssetModelInterfaceRelationship: API.OperationMethod<
 export const putDefaultEncryptionConfiguration: API.OperationMethod<
   PutDefaultEncryptionConfigurationRequest,
   PutDefaultEncryptionConfigurationResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ThrottlingException
-  | CommonErrors,
+  PutDefaultEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDefaultEncryptionConfigurationRequest,
@@ -10010,18 +9962,20 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type PutLoggingOptionsError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Sets logging options for IoT SiteWise.
  */
 export const putLoggingOptions: API.OperationMethod<
   PutLoggingOptionsRequest,
   PutLoggingOptionsResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  PutLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingOptionsRequest,
@@ -10034,12 +9988,7 @@ export const putLoggingOptions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Configures storage settings for IoT SiteWise.
- */
-export const putStorageConfiguration: API.OperationMethod<
-  PutStorageConfigurationRequest,
-  PutStorageConfigurationResponse,
+export type PutStorageConfigurationError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -10047,7 +9996,14 @@ export const putStorageConfiguration: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configures storage settings for IoT SiteWise.
+ */
+export const putStorageConfiguration: API.OperationMethod<
+  PutStorageConfigurationRequest,
+  PutStorageConfigurationResponse,
+  PutStorageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutStorageConfigurationRequest,
@@ -10062,13 +10018,7 @@ export const putStorageConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation
- * updates the tag's value.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -10077,7 +10027,15 @@ export const tagResource: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation
+ * updates the tag's value.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -10093,12 +10051,7 @@ export const tagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Removes a tag from an IoT SiteWise resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -10106,7 +10059,14 @@ export const untagResource: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a tag from an IoT SiteWise resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -10121,6 +10081,12 @@ export const untagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateAccessPolicyError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor
  * portal or project resource.
@@ -10128,11 +10094,7 @@ export const untagResource: API.OperationMethod<
 export const updateAccessPolicy: API.OperationMethod<
   UpdateAccessPolicyRequest,
   UpdateAccessPolicyResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessPolicyRequest,
@@ -10144,6 +10106,14 @@ export const updateAccessPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAssetError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an asset's name. For more information, see Updating assets and models in the
  * *IoT SiteWise User Guide*.
@@ -10151,13 +10121,7 @@ export const updateAccessPolicy: API.OperationMethod<
 export const updateAsset: API.OperationMethod<
   UpdateAssetRequest,
   UpdateAssetResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssetRequest,
@@ -10171,6 +10135,16 @@ export const updateAsset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAssetModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | PreconditionFailedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an asset model and all of the assets that were created from the model. Each asset
  * created from the model inherits the updated asset model's property and hierarchy definitions.
@@ -10193,15 +10167,7 @@ export const updateAsset: API.OperationMethod<
 export const updateAssetModel: API.OperationMethod<
   UpdateAssetModelRequest,
   UpdateAssetModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | PreconditionFailedException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAssetModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssetModelRequest,
@@ -10217,6 +10183,16 @@ export const updateAssetModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAssetModelCompositeModelError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | PreconditionFailedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a composite model and all of the assets that were created from the model. Each
  * asset created from the model inherits the updated asset model's property and hierarchy
@@ -10239,15 +10215,7 @@ export const updateAssetModel: API.OperationMethod<
 export const updateAssetModelCompositeModel: API.OperationMethod<
   UpdateAssetModelCompositeModelRequest,
   UpdateAssetModelCompositeModelResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | PreconditionFailedException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAssetModelCompositeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssetModelCompositeModelRequest,
@@ -10263,6 +10231,13 @@ export const updateAssetModelCompositeModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAssetPropertyError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an asset property's alias and notification state.
  *
@@ -10273,12 +10248,7 @@ export const updateAssetModelCompositeModel: API.OperationMethod<
 export const updateAssetProperty: API.OperationMethod<
   UpdateAssetPropertyRequest,
   UpdateAssetPropertyResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAssetPropertyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssetPropertyRequest,
@@ -10291,12 +10261,7 @@ export const updateAssetProperty: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the computation model.
- */
-export const updateComputationModel: API.OperationMethod<
-  UpdateComputationModelRequest,
-  UpdateComputationModelResponse,
+export type UpdateComputationModelError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
@@ -10304,7 +10269,14 @@ export const updateComputationModel: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the computation model.
+ */
+export const updateComputationModel: API.OperationMethod<
+  UpdateComputationModelRequest,
+  UpdateComputationModelResponse,
+  UpdateComputationModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComputationModelRequest,
@@ -10319,17 +10291,19 @@ export const updateComputationModel: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateDashboardError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an IoT SiteWise Monitor dashboard.
  */
 export const updateDashboard: API.OperationMethod<
   UpdateDashboardRequest,
   UpdateDashboardResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDashboardRequest,
@@ -10341,19 +10315,21 @@ export const updateDashboard: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a dataset.
- */
-export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
-  UpdateDatasetResponse,
+export type UpdateDatasetError =
   | ConflictingOperationException
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a dataset.
+ */
+export const updateDataset: API.OperationMethod<
+  UpdateDatasetRequest,
+  UpdateDatasetResponse,
+  UpdateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
@@ -10367,18 +10343,20 @@ export const updateDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateGatewayError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a gateway's name.
  */
 export const updateGateway: API.OperationMethod<
   UpdateGatewayRequest,
   UpdateGatewayResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayRequest,
@@ -10391,6 +10369,14 @@ export const updateGateway: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateGatewayCapabilityConfigurationError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway.
  *
@@ -10413,13 +10399,7 @@ export const updateGateway: API.OperationMethod<
 export const updateGatewayCapabilityConfiguration: API.OperationMethod<
   UpdateGatewayCapabilityConfigurationRequest,
   UpdateGatewayCapabilityConfigurationResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateGatewayCapabilityConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayCapabilityConfigurationRequest,
@@ -10433,18 +10413,20 @@ export const updateGatewayCapabilityConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdatePortalError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an IoT SiteWise Monitor portal.
  */
 export const updatePortal: API.OperationMethod<
   UpdatePortalRequest,
   UpdatePortalResponse,
-  | ConflictingOperationException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdatePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortalRequest,
@@ -10457,17 +10439,19 @@ export const updatePortal: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateProjectError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates an IoT SiteWise Monitor project.
  */
 export const updateProject: API.OperationMethod<
   UpdateProjectRequest,
   UpdateProjectResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectRequest,

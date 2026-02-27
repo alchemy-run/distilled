@@ -2541,6 +2541,14 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a container for a collection of data being ingested for analysis. The dataset
  * contains the metadata describing where the data is and what the data actually looks like.
@@ -2550,13 +2558,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -2570,6 +2572,15 @@ export const createDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateInferenceSchedulerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a scheduled inference. Scheduling an inference is setting up a continuous
  * real-time inference plan to analyze new measurement data. When setting up the schedule, you
@@ -2580,14 +2591,7 @@ export const createDataset: API.OperationMethod<
 export const createInferenceScheduler: API.OperationMethod<
   CreateInferenceSchedulerRequest,
   CreateInferenceSchedulerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateInferenceSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInferenceSchedulerRequest,
@@ -2602,12 +2606,7 @@ export const createInferenceScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a label for an event.
- */
-export const createLabel: API.OperationMethod<
-  CreateLabelRequest,
-  CreateLabelResponse,
+export type CreateLabelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2615,7 +2614,14 @@ export const createLabel: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a label for an event.
+ */
+export const createLabel: API.OperationMethod<
+  CreateLabelRequest,
+  CreateLabelResponse,
+  CreateLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLabelRequest,
@@ -2630,19 +2636,21 @@ export const createLabel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a group of labels.
- */
-export const createLabelGroup: API.OperationMethod<
-  CreateLabelGroupRequest,
-  CreateLabelGroupResponse,
+export type CreateLabelGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a group of labels.
+ */
+export const createLabelGroup: API.OperationMethod<
+  CreateLabelGroupRequest,
+  CreateLabelGroupResponse,
+  CreateLabelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLabelGroupRequest,
@@ -2656,6 +2664,15 @@ export const createLabelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateModelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a machine learning model for data inference.
  *
@@ -2672,14 +2689,7 @@ export const createLabelGroup: API.OperationMethod<
 export const createModel: API.OperationMethod<
   CreateModelRequest,
   CreateModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
@@ -2694,19 +2704,21 @@ export const createModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a retraining scheduler on the specified model.
- */
-export const createRetrainingScheduler: API.OperationMethod<
-  CreateRetrainingSchedulerRequest,
-  CreateRetrainingSchedulerResponse,
+export type CreateRetrainingSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a retraining scheduler on the specified model.
+ */
+export const createRetrainingScheduler: API.OperationMethod<
+  CreateRetrainingSchedulerRequest,
+  CreateRetrainingSchedulerResponse,
+  CreateRetrainingSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRetrainingSchedulerRequest,
@@ -2720,6 +2732,14 @@ export const createRetrainingScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a dataset and associated artifacts. The operation will check to see if any
  * inference scheduler or data ingestion job is currently using the dataset, and if there
@@ -2730,13 +2750,7 @@ export const createRetrainingScheduler: API.OperationMethod<
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
@@ -2750,6 +2764,14 @@ export const deleteDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInferenceSchedulerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an inference scheduler that has been set up. Prior inference results will not be
  * deleted.
@@ -2757,13 +2779,7 @@ export const deleteDataset: API.OperationMethod<
 export const deleteInferenceScheduler: API.OperationMethod<
   DeleteInferenceSchedulerRequest,
   DeleteInferenceSchedulerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteInferenceSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInferenceSchedulerRequest,
@@ -2777,19 +2793,21 @@ export const deleteInferenceScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a label.
- */
-export const deleteLabel: API.OperationMethod<
-  DeleteLabelRequest,
-  DeleteLabelResponse,
+export type DeleteLabelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a label.
+ */
+export const deleteLabel: API.OperationMethod<
+  DeleteLabelRequest,
+  DeleteLabelResponse,
+  DeleteLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelRequest,
@@ -2803,19 +2821,21 @@ export const deleteLabel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a group of labels.
- */
-export const deleteLabelGroup: API.OperationMethod<
-  DeleteLabelGroupRequest,
-  DeleteLabelGroupResponse,
+export type DeleteLabelGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a group of labels.
+ */
+export const deleteLabelGroup: API.OperationMethod<
+  DeleteLabelGroupRequest,
+  DeleteLabelGroupResponse,
+  DeleteLabelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelGroupRequest,
@@ -2829,6 +2849,14 @@ export const deleteLabelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteModelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it
  * from being used with an inference scheduler, even one that is already set up.
@@ -2836,13 +2864,7 @@ export const deleteLabelGroup: API.OperationMethod<
 export const deleteModel: API.OperationMethod<
   DeleteModelRequest,
   DeleteModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
@@ -2856,19 +2878,21 @@ export const deleteModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the resource policy attached to the resource.
- */
-export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
-  DeleteResourcePolicyResponse,
+export type DeleteResourcePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the resource policy attached to the resource.
+ */
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyResponse,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -2882,6 +2906,14 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRetrainingSchedulerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a retraining scheduler from a model. The retraining scheduler must be in the
  * `STOPPED` status.
@@ -2889,13 +2921,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteRetrainingScheduler: API.OperationMethod<
   DeleteRetrainingSchedulerRequest,
   DeleteRetrainingSchedulerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRetrainingSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRetrainingSchedulerRequest,
@@ -2909,6 +2935,13 @@ export const deleteRetrainingScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDataIngestionJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides information on a specific data ingestion job such as creation time, dataset
  * ARN, and status.
@@ -2916,12 +2949,7 @@ export const deleteRetrainingScheduler: API.OperationMethod<
 export const describeDataIngestionJob: API.OperationMethod<
   DescribeDataIngestionJobRequest,
   DescribeDataIngestionJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDataIngestionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataIngestionJobRequest,
@@ -2934,6 +2962,13 @@ export const describeDataIngestionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDatasetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a JSON description of the data in each time series dataset, including names,
  * column names, and data types.
@@ -2941,12 +2976,7 @@ export const describeDataIngestionJob: API.OperationMethod<
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
@@ -2959,6 +2989,13 @@ export const describeDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeInferenceSchedulerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Specifies information about the inference scheduler being used, including name, model,
  * status, and associated metadata
@@ -2966,12 +3003,7 @@ export const describeDataset: API.OperationMethod<
 export const describeInferenceScheduler: API.OperationMethod<
   DescribeInferenceSchedulerRequest,
   DescribeInferenceSchedulerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeInferenceSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInferenceSchedulerRequest,
@@ -2984,18 +3016,20 @@ export const describeInferenceScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeLabelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the name of the label.
  */
 export const describeLabel: API.OperationMethod<
   DescribeLabelRequest,
   DescribeLabelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLabelRequest,
@@ -3008,18 +3042,20 @@ export const describeLabel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeLabelGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the label group.
  */
 export const describeLabelGroup: API.OperationMethod<
   DescribeLabelGroupRequest,
   DescribeLabelGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeLabelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLabelGroupRequest,
@@ -3032,6 +3068,13 @@ export const describeLabelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeModelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a JSON containing the overall information about a specific machine learning
  * model, including model name and ARN, dataset, training and evaluation information, status,
@@ -3040,12 +3083,7 @@ export const describeLabelGroup: API.OperationMethod<
 export const describeModel: API.OperationMethod<
   DescribeModelRequest,
   DescribeModelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeModelRequest,
@@ -3058,18 +3096,20 @@ export const describeModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeModelVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific machine learning model version.
  */
 export const describeModelVersion: API.OperationMethod<
   DescribeModelVersionRequest,
   DescribeModelVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeModelVersionRequest,
@@ -3082,18 +3122,20 @@ export const describeModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides the details of a resource policy attached to a resource.
  */
 export const describeResourcePolicy: API.OperationMethod<
   DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourcePolicyRequest,
@@ -3106,6 +3148,13 @@ export const describeResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRetrainingSchedulerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a description of the retraining scheduler, including information such as the
  * model name and retraining parameters.
@@ -3113,12 +3162,7 @@ export const describeResourcePolicy: API.OperationMethod<
 export const describeRetrainingScheduler: API.OperationMethod<
   DescribeRetrainingSchedulerRequest,
   DescribeRetrainingSchedulerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRetrainingSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRetrainingSchedulerRequest,
@@ -3131,12 +3175,7 @@ export const describeRetrainingScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Imports a dataset.
- */
-export const importDataset: API.OperationMethod<
-  ImportDatasetRequest,
-  ImportDatasetResponse,
+export type ImportDatasetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3144,7 +3183,14 @@ export const importDataset: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Imports a dataset.
+ */
+export const importDataset: API.OperationMethod<
+  ImportDatasetRequest,
+  ImportDatasetResponse,
+  ImportDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDatasetRequest,
@@ -3159,12 +3205,7 @@ export const importDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Imports a model that has been trained successfully.
- */
-export const importModelVersion: API.OperationMethod<
-  ImportModelVersionRequest,
-  ImportModelVersionResponse,
+export type ImportModelVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3172,7 +3213,14 @@ export const importModelVersion: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Imports a model that has been trained successfully.
+ */
+export const importModelVersion: API.OperationMethod<
+  ImportModelVersionRequest,
+  ImportModelVersionResponse,
+  ImportModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportModelVersionRequest,
@@ -3187,6 +3235,12 @@ export const importModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataIngestionJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location
  * of the input data, status, and so on.
@@ -3194,33 +3248,21 @@ export const importModelVersion: API.OperationMethod<
 export const listDataIngestionJobs: API.OperationMethod<
   ListDataIngestionJobsRequest,
   ListDataIngestionJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataIngestionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataIngestionJobsRequest,
   ) => stream.Stream<
     ListDataIngestionJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIngestionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataIngestionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIngestionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3238,39 +3280,33 @@ export const listDataIngestionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatasetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     ListDatasetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3288,42 +3324,34 @@ export const listDatasets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInferenceEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all inference events that have been found for the specified inference scheduler.
  */
 export const listInferenceEvents: API.OperationMethod<
   ListInferenceEventsRequest,
   ListInferenceEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInferenceEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInferenceEventsRequest,
   ) => stream.Stream<
     ListInferenceEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInferenceEventsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3342,6 +3370,13 @@ export const listInferenceEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInferenceExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all inference executions that have been performed by the specified inference
  * scheduler.
@@ -3349,36 +3384,21 @@ export const listInferenceEvents: API.OperationMethod<
 export const listInferenceExecutions: API.OperationMethod<
   ListInferenceExecutionsRequest,
   ListInferenceExecutionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInferenceExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInferenceExecutionsRequest,
   ) => stream.Stream<
     ListInferenceExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInferenceExecutionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3397,39 +3417,33 @@ export const listInferenceExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInferenceSchedulersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all inference schedulers currently available for your account.
  */
 export const listInferenceSchedulers: API.OperationMethod<
   ListInferenceSchedulersRequest,
   ListInferenceSchedulersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInferenceSchedulersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInferenceSchedulersRequest,
   ) => stream.Stream<
     ListInferenceSchedulersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceSchedulersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInferenceSchedulersRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceSchedulersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3447,39 +3461,33 @@ export const listInferenceSchedulers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLabelGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the label groups.
  */
 export const listLabelGroups: API.OperationMethod<
   ListLabelGroupsRequest,
   ListLabelGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLabelGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLabelGroupsRequest,
   ) => stream.Stream<
     ListLabelGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLabelGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLabelGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLabelGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3497,39 +3505,33 @@ export const listLabelGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLabelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a list of labels.
  */
 export const listLabels: API.OperationMethod<
   ListLabelsRequest,
   ListLabelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLabelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLabelsRequest,
   ) => stream.Stream<
     ListLabelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLabelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLabelsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLabelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3547,6 +3549,12 @@ export const listLabels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListModelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates a list of all models in the account, including model name and ARN, dataset,
  * and status.
@@ -3554,33 +3562,21 @@ export const listLabels: API.OperationMethod<
 export const listModels: API.OperationMethod<
   ListModelsRequest,
   ListModelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelsRequest,
   ) => stream.Stream<
     ListModelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3598,6 +3594,13 @@ export const listModels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListModelVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates a list of all model versions for a given model, including the model version,
  * model version ARN, and status. To list a subset of versions, use the
@@ -3606,36 +3609,21 @@ export const listModels: API.OperationMethod<
 export const listModelVersions: API.OperationMethod<
   ListModelVersionsRequest,
   ListModelVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelVersionsRequest,
   ) => stream.Stream<
     ListModelVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3654,6 +3642,12 @@ export const listModelVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRetrainingSchedulersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all retraining schedulers in your account, filtering by model name prefix and
  * status.
@@ -3661,33 +3655,21 @@ export const listModelVersions: API.OperationMethod<
 export const listRetrainingSchedulers: API.OperationMethod<
   ListRetrainingSchedulersRequest,
   ListRetrainingSchedulersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRetrainingSchedulersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRetrainingSchedulersRequest,
   ) => stream.Stream<
     ListRetrainingSchedulersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRetrainingSchedulersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRetrainingSchedulersRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRetrainingSchedulersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3705,6 +3687,13 @@ export const listRetrainingSchedulers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSensorStatisticsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists statistics about the data collected for each of the sensors that have been
  * successfully ingested in the particular dataset. Can also be used to retreive Sensor
@@ -3713,36 +3702,21 @@ export const listRetrainingSchedulers: API.OperationMethod<
 export const listSensorStatistics: API.OperationMethod<
   ListSensorStatisticsRequest,
   ListSensorStatisticsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSensorStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSensorStatisticsRequest,
   ) => stream.Stream<
     ListSensorStatisticsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSensorStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSensorStatisticsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSensorStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3761,18 +3735,20 @@ export const listSensorStatistics: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the tags for a specified resource, including key and value.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3785,12 +3761,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a resource control policy for a given resource.
- */
-export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
-  PutResourcePolicyResponse,
+export type PutResourcePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3798,7 +3769,14 @@ export const putResourcePolicy: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a resource control policy for a given resource.
+ */
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
+  PutResourcePolicyResponse,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -3813,12 +3791,7 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
- */
-export const startDataIngestionJob: API.OperationMethod<
-  StartDataIngestionJobRequest,
-  StartDataIngestionJobResponse,
+export type StartDataIngestionJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3826,7 +3799,14 @@ export const startDataIngestionJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
+ */
+export const startDataIngestionJob: API.OperationMethod<
+  StartDataIngestionJobRequest,
+  StartDataIngestionJobResponse,
+  StartDataIngestionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDataIngestionJobRequest,
@@ -3841,19 +3821,21 @@ export const startDataIngestionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts an inference scheduler.
- */
-export const startInferenceScheduler: API.OperationMethod<
-  StartInferenceSchedulerRequest,
-  StartInferenceSchedulerResponse,
+export type StartInferenceSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an inference scheduler.
+ */
+export const startInferenceScheduler: API.OperationMethod<
+  StartInferenceSchedulerRequest,
+  StartInferenceSchedulerResponse,
+  StartInferenceSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInferenceSchedulerRequest,
@@ -3867,19 +3849,21 @@ export const startInferenceScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a retraining scheduler.
- */
-export const startRetrainingScheduler: API.OperationMethod<
-  StartRetrainingSchedulerRequest,
-  StartRetrainingSchedulerResponse,
+export type StartRetrainingSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a retraining scheduler.
+ */
+export const startRetrainingScheduler: API.OperationMethod<
+  StartRetrainingSchedulerRequest,
+  StartRetrainingSchedulerResponse,
+  StartRetrainingSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRetrainingSchedulerRequest,
@@ -3893,19 +3877,21 @@ export const startRetrainingScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops an inference scheduler.
- */
-export const stopInferenceScheduler: API.OperationMethod<
-  StopInferenceSchedulerRequest,
-  StopInferenceSchedulerResponse,
+export type StopInferenceSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops an inference scheduler.
+ */
+export const stopInferenceScheduler: API.OperationMethod<
+  StopInferenceSchedulerRequest,
+  StopInferenceSchedulerResponse,
+  StopInferenceSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopInferenceSchedulerRequest,
@@ -3919,19 +3905,21 @@ export const stopInferenceScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops a retraining scheduler.
- */
-export const stopRetrainingScheduler: API.OperationMethod<
-  StopRetrainingSchedulerRequest,
-  StopRetrainingSchedulerResponse,
+export type StopRetrainingSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a retraining scheduler.
+ */
+export const stopRetrainingScheduler: API.OperationMethod<
+  StopRetrainingSchedulerRequest,
+  StopRetrainingSchedulerResponse,
+  StopRetrainingSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRetrainingSchedulerRequest,
@@ -3945,6 +3933,14 @@ export const stopRetrainingScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a given tag to a resource in your account. A tag is a key-value pair which
  * can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your
@@ -3955,13 +3951,7 @@ export const stopRetrainingScheduler: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3975,18 +3965,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a specific tag from a given resource. The tag is specified by its key.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3999,19 +3991,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Sets the active model version for a given machine learning model.
- */
-export const updateActiveModelVersion: API.OperationMethod<
-  UpdateActiveModelVersionRequest,
-  UpdateActiveModelVersionResponse,
+export type UpdateActiveModelVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets the active model version for a given machine learning model.
+ */
+export const updateActiveModelVersion: API.OperationMethod<
+  UpdateActiveModelVersionRequest,
+  UpdateActiveModelVersionResponse,
+  UpdateActiveModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateActiveModelVersionRequest,
@@ -4025,19 +4019,21 @@ export const updateActiveModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an inference scheduler.
- */
-export const updateInferenceScheduler: API.OperationMethod<
-  UpdateInferenceSchedulerRequest,
-  UpdateInferenceSchedulerResponse,
+export type UpdateInferenceSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an inference scheduler.
+ */
+export const updateInferenceScheduler: API.OperationMethod<
+  UpdateInferenceSchedulerRequest,
+  UpdateInferenceSchedulerResponse,
+  UpdateInferenceSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInferenceSchedulerRequest,
@@ -4051,19 +4047,21 @@ export const updateInferenceScheduler: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the label group.
- */
-export const updateLabelGroup: API.OperationMethod<
-  UpdateLabelGroupRequest,
-  UpdateLabelGroupResponse,
+export type UpdateLabelGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the label group.
+ */
+export const updateLabelGroup: API.OperationMethod<
+  UpdateLabelGroupRequest,
+  UpdateLabelGroupResponse,
+  UpdateLabelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLabelGroupRequest,
@@ -4077,19 +4075,21 @@ export const updateLabelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a model in the account.
- */
-export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
-  UpdateModelResponse,
+export type UpdateModelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a model in the account.
+ */
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
+  UpdateModelResponse,
+  UpdateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
@@ -4103,19 +4103,21 @@ export const updateModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a retraining scheduler.
- */
-export const updateRetrainingScheduler: API.OperationMethod<
-  UpdateRetrainingSchedulerRequest,
-  UpdateRetrainingSchedulerResponse,
+export type UpdateRetrainingSchedulerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a retraining scheduler.
+ */
+export const updateRetrainingScheduler: API.OperationMethod<
+  UpdateRetrainingSchedulerRequest,
+  UpdateRetrainingSchedulerResponse,
+  UpdateRetrainingSchedulerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRetrainingSchedulerRequest,

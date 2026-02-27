@@ -1470,51 +1470,52 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * A list of tags applied to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes the tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
-/**
- * Creates a new Timestream for InfluxDB cluster.
- */
-export const createDbCluster: API.OperationMethod<
-  CreateDbClusterInput,
-  CreateDbClusterOutput,
+export type CreateDbClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1522,7 +1523,14 @@ export const createDbCluster: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Timestream for InfluxDB cluster.
+ */
+export const createDbCluster: API.OperationMethod<
+  CreateDbClusterInput,
+  CreateDbClusterOutput,
+  CreateDbClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDbClusterInput,
@@ -1537,18 +1545,20 @@ export const createDbCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDbClusterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a Timestream for InfluxDB cluster.
  */
 export const getDbCluster: API.OperationMethod<
   GetDbClusterInput,
   GetDbClusterOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDbClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbClusterInput,
@@ -1561,19 +1571,21 @@ export const getDbCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a Timestream for InfluxDB cluster.
- */
-export const updateDbCluster: API.OperationMethod<
-  UpdateDbClusterInput,
-  UpdateDbClusterOutput,
+export type UpdateDbClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Timestream for InfluxDB cluster.
+ */
+export const updateDbCluster: API.OperationMethod<
+  UpdateDbClusterInput,
+  UpdateDbClusterOutput,
+  UpdateDbClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDbClusterInput,
@@ -1587,19 +1599,21 @@ export const updateDbCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a Timestream for InfluxDB cluster.
- */
-export const deleteDbCluster: API.OperationMethod<
-  DeleteDbClusterInput,
-  DeleteDbClusterOutput,
+export type DeleteDbClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Timestream for InfluxDB cluster.
+ */
+export const deleteDbCluster: API.OperationMethod<
+  DeleteDbClusterInput,
+  DeleteDbClusterOutput,
+  DeleteDbClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDbClusterInput,
@@ -1613,42 +1627,34 @@ export const deleteDbCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDbClustersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Timestream for InfluxDB DB clusters.
  */
 export const listDbClusters: API.OperationMethod<
   ListDbClustersInput,
   ListDbClustersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDbClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDbClustersInput,
   ) => stream.Stream<
     ListDbClustersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDbClustersInput,
   ) => stream.Stream<
     DbClusterSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1668,42 +1674,34 @@ export const listDbClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDbInstancesForClusterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Timestream for InfluxDB clusters.
  */
 export const listDbInstancesForCluster: API.OperationMethod<
   ListDbInstancesForClusterInput,
   ListDbInstancesForClusterOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDbInstancesForClusterError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDbInstancesForClusterInput,
   ) => stream.Stream<
     ListDbInstancesForClusterOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbInstancesForClusterError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDbInstancesForClusterInput,
   ) => stream.Stream<
     DbInstanceForClusterSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbInstancesForClusterError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1723,19 +1721,21 @@ export const listDbInstancesForCluster: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Reboots a Timestream for InfluxDB cluster.
- */
-export const rebootDbCluster: API.OperationMethod<
-  RebootDbClusterInput,
-  RebootDbClusterOutput,
+export type RebootDbClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Reboots a Timestream for InfluxDB cluster.
+ */
+export const rebootDbCluster: API.OperationMethod<
+  RebootDbClusterInput,
+  RebootDbClusterOutput,
+  RebootDbClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDbClusterInput,
@@ -1749,12 +1749,7 @@ export const rebootDbCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Timestream for InfluxDB DB instance.
- */
-export const createDbInstance: API.OperationMethod<
-  CreateDbInstanceInput,
-  CreateDbInstanceOutput,
+export type CreateDbInstanceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1762,7 +1757,14 @@ export const createDbInstance: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Timestream for InfluxDB DB instance.
+ */
+export const createDbInstance: API.OperationMethod<
+  CreateDbInstanceInput,
+  CreateDbInstanceOutput,
+  CreateDbInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDbInstanceInput,
@@ -1777,18 +1779,20 @@ export const createDbInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDbInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a Timestream for InfluxDB DB instance.
  */
 export const getDbInstance: API.OperationMethod<
   GetDbInstanceInput,
   GetDbInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDbInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbInstanceInput,
@@ -1801,19 +1805,21 @@ export const getDbInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a Timestream for InfluxDB DB instance.
- */
-export const updateDbInstance: API.OperationMethod<
-  UpdateDbInstanceInput,
-  UpdateDbInstanceOutput,
+export type UpdateDbInstanceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Timestream for InfluxDB DB instance.
+ */
+export const updateDbInstance: API.OperationMethod<
+  UpdateDbInstanceInput,
+  UpdateDbInstanceOutput,
+  UpdateDbInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDbInstanceInput,
@@ -1827,19 +1833,21 @@ export const updateDbInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a Timestream for InfluxDB DB instance.
- */
-export const deleteDbInstance: API.OperationMethod<
-  DeleteDbInstanceInput,
-  DeleteDbInstanceOutput,
+export type DeleteDbInstanceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Timestream for InfluxDB DB instance.
+ */
+export const deleteDbInstance: API.OperationMethod<
+  DeleteDbInstanceInput,
+  DeleteDbInstanceOutput,
+  DeleteDbInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDbInstanceInput,
@@ -1853,42 +1861,34 @@ export const deleteDbInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDbInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Timestream for InfluxDB DB instances.
  */
 export const listDbInstances: API.OperationMethod<
   ListDbInstancesInput,
   ListDbInstancesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDbInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDbInstancesInput,
   ) => stream.Stream<
     ListDbInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDbInstancesInput,
   ) => stream.Stream<
     DbInstanceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1908,19 +1908,21 @@ export const listDbInstances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Reboots a Timestream for InfluxDB instance.
- */
-export const rebootDbInstance: API.OperationMethod<
-  RebootDbInstanceInput,
-  RebootDbInstanceOutput,
+export type RebootDbInstanceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Reboots a Timestream for InfluxDB instance.
+ */
+export const rebootDbInstance: API.OperationMethod<
+  RebootDbInstanceInput,
+  RebootDbInstanceOutput,
+  RebootDbInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDbInstanceInput,
@@ -1934,12 +1936,7 @@ export const rebootDbInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
- */
-export const createDbParameterGroup: API.OperationMethod<
-  CreateDbParameterGroupInput,
-  CreateDbParameterGroupOutput,
+export type CreateDbParameterGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1947,7 +1944,14 @@ export const createDbParameterGroup: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
+ */
+export const createDbParameterGroup: API.OperationMethod<
+  CreateDbParameterGroupInput,
+  CreateDbParameterGroupOutput,
+  CreateDbParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDbParameterGroupInput,
@@ -1962,18 +1966,20 @@ export const createDbParameterGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDbParameterGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a Timestream for InfluxDB DB parameter group.
  */
 export const getDbParameterGroup: API.OperationMethod<
   GetDbParameterGroupInput,
   GetDbParameterGroupOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDbParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbParameterGroupInput,
@@ -1986,42 +1992,34 @@ export const getDbParameterGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDbParameterGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Timestream for InfluxDB DB parameter groups.
  */
 export const listDbParameterGroups: API.OperationMethod<
   ListDbParameterGroupsInput,
   ListDbParameterGroupsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDbParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDbParameterGroupsInput,
   ) => stream.Stream<
     ListDbParameterGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDbParameterGroupsInput,
   ) => stream.Stream<
     DbParameterGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDbParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

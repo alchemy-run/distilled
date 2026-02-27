@@ -428,6 +428,14 @@ export class ModelStreamError extends S.TaggedErrorClass<ModelStreamError>()(
 ) {}
 
 //# Operations
+export type InvokeEndpointError =
+  | InternalDependencyException
+  | InternalFailure
+  | ModelError
+  | ModelNotReadyException
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * After you deploy a model into production using Amazon SageMaker AI hosting services,
  * your client applications use this API to get inferences from the model hosted at the
@@ -455,13 +463,7 @@ export class ModelStreamError extends S.TaggedErrorClass<ModelStreamError>()(
 export const invokeEndpoint: API.OperationMethod<
   InvokeEndpointInput,
   InvokeEndpointOutput,
-  | InternalDependencyException
-  | InternalFailure
-  | ModelError
-  | ModelNotReadyException
-  | ServiceUnavailable
-  | ValidationError
-  | CommonErrors,
+  InvokeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeEndpointInput,
@@ -475,6 +477,11 @@ export const invokeEndpoint: API.OperationMethod<
     ValidationError,
   ],
 }));
+export type InvokeEndpointAsyncError =
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * After you deploy a model into production using Amazon SageMaker AI hosting services,
  * your client applications use this API to get inferences from the model hosted at the
@@ -495,13 +502,21 @@ export const invokeEndpoint: API.OperationMethod<
 export const invokeEndpointAsync: API.OperationMethod<
   InvokeEndpointAsyncInput,
   InvokeEndpointAsyncOutput,
-  InternalFailure | ServiceUnavailable | ValidationError | CommonErrors,
+  InvokeEndpointAsyncError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeEndpointAsyncInput,
   output: InvokeEndpointAsyncOutput,
   errors: [InternalFailure, ServiceUnavailable, ValidationError],
 }));
+export type InvokeEndpointWithResponseStreamError =
+  | InternalFailure
+  | InternalStreamFailure
+  | ModelError
+  | ModelStreamError
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * Invokes a model at the specified endpoint to return the inference response as a
  * stream. The inference stream provides the response payload incrementally as a series of
@@ -531,13 +546,7 @@ export const invokeEndpointAsync: API.OperationMethod<
 export const invokeEndpointWithResponseStream: API.OperationMethod<
   InvokeEndpointWithResponseStreamInput,
   InvokeEndpointWithResponseStreamOutput,
-  | InternalFailure
-  | InternalStreamFailure
-  | ModelError
-  | ModelStreamError
-  | ServiceUnavailable
-  | ValidationError
-  | CommonErrors,
+  InvokeEndpointWithResponseStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeEndpointWithResponseStreamInput,

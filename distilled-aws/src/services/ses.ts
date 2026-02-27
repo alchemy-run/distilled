@@ -3120,6 +3120,11 @@ export class MissingRenderingAttributeException extends S.TaggedErrorClass<Missi
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CloneReceiptRuleSetError =
+  | AlreadyExistsException
+  | LimitExceededException
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Creates a receipt rule set by cloning an existing one. All receipt rules and
  * configurations are copied to the new receipt rule set and are completely independent of
@@ -3132,10 +3137,7 @@ export class MissingRenderingAttributeException extends S.TaggedErrorClass<Missi
 export const cloneReceiptRuleSet: API.OperationMethod<
   CloneReceiptRuleSetRequest,
   CloneReceiptRuleSetResponse,
-  | AlreadyExistsException
-  | LimitExceededException
-  | RuleSetDoesNotExistException
-  | CommonErrors,
+  CloneReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloneReceiptRuleSetRequest,
@@ -3146,6 +3148,11 @@ export const cloneReceiptRuleSet: API.OperationMethod<
     RuleSetDoesNotExistException,
   ],
 }));
+export type CreateConfigurationSetError =
+  | ConfigurationSetAlreadyExistsException
+  | InvalidConfigurationSetException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a configuration set.
  *
@@ -3158,10 +3165,7 @@ export const cloneReceiptRuleSet: API.OperationMethod<
 export const createConfigurationSet: API.OperationMethod<
   CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
-  | ConfigurationSetAlreadyExistsException
-  | InvalidConfigurationSetException
-  | LimitExceededException
-  | CommonErrors,
+  CreateConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetRequest,
@@ -3172,6 +3176,14 @@ export const createConfigurationSet: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type CreateConfigurationSetEventDestinationError =
+  | ConfigurationSetDoesNotExistException
+  | EventDestinationAlreadyExistsException
+  | InvalidCloudWatchDestinationException
+  | InvalidFirehoseDestinationException
+  | InvalidSNSDestinationException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a configuration set event destination.
  *
@@ -3188,13 +3200,7 @@ export const createConfigurationSet: API.OperationMethod<
 export const createConfigurationSetEventDestination: API.OperationMethod<
   CreateConfigurationSetEventDestinationRequest,
   CreateConfigurationSetEventDestinationResponse,
-  | ConfigurationSetDoesNotExistException
-  | EventDestinationAlreadyExistsException
-  | InvalidCloudWatchDestinationException
-  | InvalidFirehoseDestinationException
-  | InvalidSNSDestinationException
-  | LimitExceededException
-  | CommonErrors,
+  CreateConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetEventDestinationRequest,
@@ -3208,6 +3214,11 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type CreateConfigurationSetTrackingOptionsError =
+  | ConfigurationSetDoesNotExistException
+  | InvalidTrackingOptionsException
+  | TrackingOptionsAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates an association between a configuration set and a custom domain for open and
  * click event tracking.
@@ -3219,10 +3230,7 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
 export const createConfigurationSetTrackingOptions: API.OperationMethod<
   CreateConfigurationSetTrackingOptionsRequest,
   CreateConfigurationSetTrackingOptionsResponse,
-  | ConfigurationSetDoesNotExistException
-  | InvalidTrackingOptionsException
-  | TrackingOptionsAlreadyExistsException
-  | CommonErrors,
+  CreateConfigurationSetTrackingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetTrackingOptionsRequest,
@@ -3233,6 +3241,12 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
     TrackingOptionsAlreadyExistsException,
   ],
 }));
+export type CreateCustomVerificationEmailTemplateError =
+  | CustomVerificationEmailInvalidContentException
+  | CustomVerificationEmailTemplateAlreadyExistsException
+  | FromEmailAddressNotVerifiedException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a new custom verification email template.
  *
@@ -3245,11 +3259,7 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
 export const createCustomVerificationEmailTemplate: API.OperationMethod<
   CreateCustomVerificationEmailTemplateRequest,
   CreateCustomVerificationEmailTemplateResponse,
-  | CustomVerificationEmailInvalidContentException
-  | CustomVerificationEmailTemplateAlreadyExistsException
-  | FromEmailAddressNotVerifiedException
-  | LimitExceededException
-  | CommonErrors,
+  CreateCustomVerificationEmailTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomVerificationEmailTemplateRequest,
@@ -3261,6 +3271,10 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type CreateReceiptFilterError =
+  | AlreadyExistsException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a new IP address filter.
  *
@@ -3272,13 +3286,22 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
 export const createReceiptFilter: API.OperationMethod<
   CreateReceiptFilterRequest,
   CreateReceiptFilterResponse,
-  AlreadyExistsException | LimitExceededException | CommonErrors,
+  CreateReceiptFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReceiptFilterRequest,
   output: CreateReceiptFilterResponse,
   errors: [AlreadyExistsException, LimitExceededException],
 }));
+export type CreateReceiptRuleError =
+  | AlreadyExistsException
+  | InvalidLambdaFunctionException
+  | InvalidS3ConfigurationException
+  | InvalidSnsTopicException
+  | LimitExceededException
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Creates a receipt rule.
  *
@@ -3290,14 +3313,7 @@ export const createReceiptFilter: API.OperationMethod<
 export const createReceiptRule: API.OperationMethod<
   CreateReceiptRuleRequest,
   CreateReceiptRuleResponse,
-  | AlreadyExistsException
-  | InvalidLambdaFunctionException
-  | InvalidS3ConfigurationException
-  | InvalidSnsTopicException
-  | LimitExceededException
-  | RuleDoesNotExistException
-  | RuleSetDoesNotExistException
-  | CommonErrors,
+  CreateReceiptRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReceiptRuleRequest,
@@ -3312,6 +3328,10 @@ export const createReceiptRule: API.OperationMethod<
     RuleSetDoesNotExistException,
   ],
 }));
+export type CreateReceiptRuleSetError =
+  | AlreadyExistsException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates an empty receipt rule set.
  *
@@ -3322,13 +3342,18 @@ export const createReceiptRule: API.OperationMethod<
 export const createReceiptRuleSet: API.OperationMethod<
   CreateReceiptRuleSetRequest,
   CreateReceiptRuleSetResponse,
-  AlreadyExistsException | LimitExceededException | CommonErrors,
+  CreateReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReceiptRuleSetRequest,
   output: CreateReceiptRuleSetResponse,
   errors: [AlreadyExistsException, LimitExceededException],
 }));
+export type CreateTemplateError =
+  | AlreadyExistsException
+  | InvalidTemplateException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates an email template. Email templates enable you to send personalized email to
  * one or more destinations in a single operation. For more information, see the Amazon SES
@@ -3339,10 +3364,7 @@ export const createReceiptRuleSet: API.OperationMethod<
 export const createTemplate: API.OperationMethod<
   CreateTemplateRequest,
   CreateTemplateResponse,
-  | AlreadyExistsException
-  | InvalidTemplateException
-  | LimitExceededException
-  | CommonErrors,
+  CreateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
@@ -3353,6 +3375,9 @@ export const createTemplate: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type DeleteConfigurationSetError =
+  | ConfigurationSetDoesNotExistException
+  | CommonErrors;
 /**
  * Deletes a configuration set. Configuration sets enable you to publish email sending
  * events. For information about using configuration sets, see the Amazon SES
@@ -3363,13 +3388,17 @@ export const createTemplate: API.OperationMethod<
 export const deleteConfigurationSet: API.OperationMethod<
   DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
-  ConfigurationSetDoesNotExistException | CommonErrors,
+  DeleteConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetRequest,
   output: DeleteConfigurationSetResponse,
   errors: [ConfigurationSetDoesNotExistException],
 }));
+export type DeleteConfigurationSetEventDestinationError =
+  | ConfigurationSetDoesNotExistException
+  | EventDestinationDoesNotExistException
+  | CommonErrors;
 /**
  * Deletes a configuration set event destination. Configuration set event destinations
  * are associated with configuration sets, which enable you to publish email sending
@@ -3381,9 +3410,7 @@ export const deleteConfigurationSet: API.OperationMethod<
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
   DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
-  | ConfigurationSetDoesNotExistException
-  | EventDestinationDoesNotExistException
-  | CommonErrors,
+  DeleteConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetEventDestinationRequest,
@@ -3393,6 +3420,10 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
     EventDestinationDoesNotExistException,
   ],
 }));
+export type DeleteConfigurationSetTrackingOptionsError =
+  | ConfigurationSetDoesNotExistException
+  | TrackingOptionsDoesNotExistException
+  | CommonErrors;
 /**
  * Deletes an association between a configuration set and a custom domain for open and
  * click event tracking.
@@ -3408,9 +3439,7 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
 export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
   DeleteConfigurationSetTrackingOptionsRequest,
   DeleteConfigurationSetTrackingOptionsResponse,
-  | ConfigurationSetDoesNotExistException
-  | TrackingOptionsDoesNotExistException
-  | CommonErrors,
+  DeleteConfigurationSetTrackingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetTrackingOptionsRequest,
@@ -3420,6 +3449,7 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
     TrackingOptionsDoesNotExistException,
   ],
 }));
+export type DeleteCustomVerificationEmailTemplateError = CommonErrors;
 /**
  * Deletes an existing custom verification email template.
  *
@@ -3432,13 +3462,14 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
 export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   DeleteCustomVerificationEmailTemplateRequest,
   DeleteCustomVerificationEmailTemplateResponse,
-  CommonErrors,
+  DeleteCustomVerificationEmailTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomVerificationEmailTemplateRequest,
   output: DeleteCustomVerificationEmailTemplateResponse,
   errors: [],
 }));
+export type DeleteIdentityError = CommonErrors;
 /**
  * Deletes the specified identity (an email address or a domain) from the list of
  * verified identities.
@@ -3448,13 +3479,14 @@ export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
 export const deleteIdentity: API.OperationMethod<
   DeleteIdentityRequest,
   DeleteIdentityResponse,
-  CommonErrors,
+  DeleteIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityRequest,
   output: DeleteIdentityResponse,
   errors: [],
 }));
+export type DeleteIdentityPolicyError = CommonErrors;
 /**
  * Deletes the specified sending authorization policy for the given identity (an email
  * address or a domain). This operation returns successfully even if a policy with the
@@ -3473,13 +3505,14 @@ export const deleteIdentity: API.OperationMethod<
 export const deleteIdentityPolicy: API.OperationMethod<
   DeleteIdentityPolicyRequest,
   DeleteIdentityPolicyResponse,
-  CommonErrors,
+  DeleteIdentityPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityPolicyRequest,
   output: DeleteIdentityPolicyResponse,
   errors: [],
 }));
+export type DeleteReceiptFilterError = CommonErrors;
 /**
  * Deletes the specified IP address filter.
  *
@@ -3491,13 +3524,16 @@ export const deleteIdentityPolicy: API.OperationMethod<
 export const deleteReceiptFilter: API.OperationMethod<
   DeleteReceiptFilterRequest,
   DeleteReceiptFilterResponse,
-  CommonErrors,
+  DeleteReceiptFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReceiptFilterRequest,
   output: DeleteReceiptFilterResponse,
   errors: [],
 }));
+export type DeleteReceiptRuleError =
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Deletes the specified receipt rule.
  *
@@ -3509,13 +3545,14 @@ export const deleteReceiptFilter: API.OperationMethod<
 export const deleteReceiptRule: API.OperationMethod<
   DeleteReceiptRuleRequest,
   DeleteReceiptRuleResponse,
-  RuleSetDoesNotExistException | CommonErrors,
+  DeleteReceiptRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReceiptRuleRequest,
   output: DeleteReceiptRuleResponse,
   errors: [RuleSetDoesNotExistException],
 }));
+export type DeleteReceiptRuleSetError = CannotDeleteException | CommonErrors;
 /**
  * Deletes the specified receipt rule set and all of the receipt rules it
  * contains.
@@ -3530,13 +3567,14 @@ export const deleteReceiptRule: API.OperationMethod<
 export const deleteReceiptRuleSet: API.OperationMethod<
   DeleteReceiptRuleSetRequest,
   DeleteReceiptRuleSetResponse,
-  CannotDeleteException | CommonErrors,
+  DeleteReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReceiptRuleSetRequest,
   output: DeleteReceiptRuleSetResponse,
   errors: [CannotDeleteException],
 }));
+export type DeleteTemplateError = CommonErrors;
 /**
  * Deletes an email template.
  *
@@ -3545,13 +3583,14 @@ export const deleteReceiptRuleSet: API.OperationMethod<
 export const deleteTemplate: API.OperationMethod<
   DeleteTemplateRequest,
   DeleteTemplateResponse,
-  CommonErrors,
+  DeleteTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
   output: DeleteTemplateResponse,
   errors: [],
 }));
+export type DeleteVerifiedEmailAddressError = CommonErrors;
 /**
  * Deprecated. Use the `DeleteIdentity` operation to delete email addresses
  * and domains.
@@ -3559,13 +3598,14 @@ export const deleteTemplate: API.OperationMethod<
 export const deleteVerifiedEmailAddress: API.OperationMethod<
   DeleteVerifiedEmailAddressRequest,
   DeleteVerifiedEmailAddressResponse,
-  CommonErrors,
+  DeleteVerifiedEmailAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVerifiedEmailAddressRequest,
   output: DeleteVerifiedEmailAddressResponse,
   errors: [],
 }));
+export type DescribeActiveReceiptRuleSetError = CommonErrors;
 /**
  * Returns the metadata and receipt rules for the receipt rule set that is currently
  * active.
@@ -3577,13 +3617,16 @@ export const deleteVerifiedEmailAddress: API.OperationMethod<
 export const describeActiveReceiptRuleSet: API.OperationMethod<
   DescribeActiveReceiptRuleSetRequest,
   DescribeActiveReceiptRuleSetResponse,
-  CommonErrors,
+  DescribeActiveReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeActiveReceiptRuleSetRequest,
   output: DescribeActiveReceiptRuleSetResponse,
   errors: [],
 }));
+export type DescribeConfigurationSetError =
+  | ConfigurationSetDoesNotExistException
+  | CommonErrors;
 /**
  * Returns the details of the specified configuration set. For information about using
  * configuration sets, see the Amazon SES Developer
@@ -3594,13 +3637,17 @@ export const describeActiveReceiptRuleSet: API.OperationMethod<
 export const describeConfigurationSet: API.OperationMethod<
   DescribeConfigurationSetRequest,
   DescribeConfigurationSetResponse,
-  ConfigurationSetDoesNotExistException | CommonErrors,
+  DescribeConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConfigurationSetRequest,
   output: DescribeConfigurationSetResponse,
   errors: [ConfigurationSetDoesNotExistException],
 }));
+export type DescribeReceiptRuleError =
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Returns the details of the specified receipt rule.
  *
@@ -3612,13 +3659,16 @@ export const describeConfigurationSet: API.OperationMethod<
 export const describeReceiptRule: API.OperationMethod<
   DescribeReceiptRuleRequest,
   DescribeReceiptRuleResponse,
-  RuleDoesNotExistException | RuleSetDoesNotExistException | CommonErrors,
+  DescribeReceiptRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReceiptRuleRequest,
   output: DescribeReceiptRuleResponse,
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
 }));
+export type DescribeReceiptRuleSetError =
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Returns the details of the specified receipt rule set.
  *
@@ -3630,13 +3680,14 @@ export const describeReceiptRule: API.OperationMethod<
 export const describeReceiptRuleSet: API.OperationMethod<
   DescribeReceiptRuleSetRequest,
   DescribeReceiptRuleSetResponse,
-  RuleSetDoesNotExistException | CommonErrors,
+  DescribeReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReceiptRuleSetRequest,
   output: DescribeReceiptRuleSetResponse,
   errors: [RuleSetDoesNotExistException],
 }));
+export type GetAccountSendingEnabledError = CommonErrors;
 /**
  * Returns the email sending status of the Amazon SES account for the current Region.
  *
@@ -3645,13 +3696,16 @@ export const describeReceiptRuleSet: API.OperationMethod<
 export const getAccountSendingEnabled: API.OperationMethod<
   GetAccountSendingEnabledRequest,
   GetAccountSendingEnabledResponse,
-  CommonErrors,
+  GetAccountSendingEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSendingEnabledRequest,
   output: GetAccountSendingEnabledResponse,
   errors: [],
 }));
+export type GetCustomVerificationEmailTemplateError =
+  | CustomVerificationEmailTemplateDoesNotExistException
+  | CommonErrors;
 /**
  * Returns the custom email verification template for the template name you
  * specify.
@@ -3665,13 +3719,14 @@ export const getAccountSendingEnabled: API.OperationMethod<
 export const getCustomVerificationEmailTemplate: API.OperationMethod<
   GetCustomVerificationEmailTemplateRequest,
   GetCustomVerificationEmailTemplateResponse,
-  CustomVerificationEmailTemplateDoesNotExistException | CommonErrors,
+  GetCustomVerificationEmailTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomVerificationEmailTemplateRequest,
   output: GetCustomVerificationEmailTemplateResponse,
   errors: [CustomVerificationEmailTemplateDoesNotExistException],
 }));
+export type GetIdentityDkimAttributesError = CommonErrors;
 /**
  * Returns the current status of Easy DKIM signing for an entity. For domain name
  * identities, this operation also returns the DKIM tokens that are required for Easy DKIM
@@ -3699,13 +3754,14 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
 export const getIdentityDkimAttributes: API.OperationMethod<
   GetIdentityDkimAttributesRequest,
   GetIdentityDkimAttributesResponse,
-  CommonErrors,
+  GetIdentityDkimAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityDkimAttributesRequest,
   output: GetIdentityDkimAttributesResponse,
   errors: [],
 }));
+export type GetIdentityMailFromDomainAttributesError = CommonErrors;
 /**
  * Returns the custom MAIL FROM attributes for a list of identities (email addresses :
  * domains).
@@ -3716,13 +3772,14 @@ export const getIdentityDkimAttributes: API.OperationMethod<
 export const getIdentityMailFromDomainAttributes: API.OperationMethod<
   GetIdentityMailFromDomainAttributesRequest,
   GetIdentityMailFromDomainAttributesResponse,
-  CommonErrors,
+  GetIdentityMailFromDomainAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityMailFromDomainAttributesRequest,
   output: GetIdentityMailFromDomainAttributesResponse,
   errors: [],
 }));
+export type GetIdentityNotificationAttributesError = CommonErrors;
 /**
  * Given a list of verified identities (email addresses and/or domains), returns a
  * structure describing identity notification attributes.
@@ -3736,13 +3793,14 @@ export const getIdentityMailFromDomainAttributes: API.OperationMethod<
 export const getIdentityNotificationAttributes: API.OperationMethod<
   GetIdentityNotificationAttributesRequest,
   GetIdentityNotificationAttributesResponse,
-  CommonErrors,
+  GetIdentityNotificationAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityNotificationAttributesRequest,
   output: GetIdentityNotificationAttributesResponse,
   errors: [],
 }));
+export type GetIdentityPoliciesError = CommonErrors;
 /**
  * Returns the requested sending authorization policies for the given identity (an email
  * address or a domain). The policies are returned as a map of policy names to policy
@@ -3761,13 +3819,14 @@ export const getIdentityNotificationAttributes: API.OperationMethod<
 export const getIdentityPolicies: API.OperationMethod<
   GetIdentityPoliciesRequest,
   GetIdentityPoliciesResponse,
-  CommonErrors,
+  GetIdentityPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityPoliciesRequest,
   output: GetIdentityPoliciesResponse,
   errors: [],
 }));
+export type GetIdentityVerificationAttributesError = CommonErrors;
 /**
  * Given a list of identities (email addresses and/or domains), returns the verification
  * status and (for domain identities) the verification token for each identity.
@@ -3792,13 +3851,14 @@ export const getIdentityPolicies: API.OperationMethod<
 export const getIdentityVerificationAttributes: API.OperationMethod<
   GetIdentityVerificationAttributesRequest,
   GetIdentityVerificationAttributesResponse,
-  CommonErrors,
+  GetIdentityVerificationAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityVerificationAttributesRequest,
   output: GetIdentityVerificationAttributesResponse,
   errors: [],
 }));
+export type GetSendQuotaError = CommonErrors;
 /**
  * Provides the sending limits for the Amazon SES account.
  *
@@ -3807,13 +3867,14 @@ export const getIdentityVerificationAttributes: API.OperationMethod<
 export const getSendQuota: API.OperationMethod<
   GetSendQuotaRequest,
   GetSendQuotaResponse,
-  CommonErrors,
+  GetSendQuotaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSendQuotaRequest,
   output: GetSendQuotaResponse,
   errors: [],
 }));
+export type GetSendStatisticsError = CommonErrors;
 /**
  * Provides sending statistics for the current Amazon Web Services Region. The result is a list of data
  * points, representing the last two weeks of sending activity. Each data point in the list
@@ -3824,13 +3885,14 @@ export const getSendQuota: API.OperationMethod<
 export const getSendStatistics: API.OperationMethod<
   GetSendStatisticsRequest,
   GetSendStatisticsResponse,
-  CommonErrors,
+  GetSendStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSendStatisticsRequest,
   output: GetSendStatisticsResponse,
   errors: [],
 }));
+export type GetTemplateError = TemplateDoesNotExistException | CommonErrors;
 /**
  * Displays the template object (which includes the Subject line, HTML part and text
  * part) for the template you specify.
@@ -3840,13 +3902,14 @@ export const getSendStatistics: API.OperationMethod<
 export const getTemplate: API.OperationMethod<
   GetTemplateRequest,
   GetTemplateResponse,
-  TemplateDoesNotExistException | CommonErrors,
+  GetTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
   output: GetTemplateResponse,
   errors: [TemplateDoesNotExistException],
 }));
+export type ListConfigurationSetsError = CommonErrors;
 /**
  * Provides a list of the configuration sets associated with your Amazon SES account in the
  * current Amazon Web Services Region. For information about using configuration sets, see Monitoring
@@ -3863,13 +3926,14 @@ export const getTemplate: API.OperationMethod<
 export const listConfigurationSets: API.OperationMethod<
   ListConfigurationSetsRequest,
   ListConfigurationSetsResponse,
-  CommonErrors,
+  ListConfigurationSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConfigurationSetsRequest,
   output: ListConfigurationSetsResponse,
   errors: [],
 }));
+export type ListCustomVerificationEmailTemplatesError = CommonErrors;
 /**
  * Lists the existing custom verification email templates for your account in the current
  * Amazon Web Services Region.
@@ -3883,21 +3947,21 @@ export const listConfigurationSets: API.OperationMethod<
 export const listCustomVerificationEmailTemplates: API.OperationMethod<
   ListCustomVerificationEmailTemplatesRequest,
   ListCustomVerificationEmailTemplatesResponse,
-  CommonErrors,
+  ListCustomVerificationEmailTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomVerificationEmailTemplatesRequest,
   ) => stream.Stream<
     ListCustomVerificationEmailTemplatesResponse,
-    CommonErrors,
+    ListCustomVerificationEmailTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomVerificationEmailTemplatesRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListCustomVerificationEmailTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3910,6 +3974,7 @@ export const listCustomVerificationEmailTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListIdentitiesError = CommonErrors;
 /**
  * Returns a list containing all of the identities (email addresses and domains) for your
  * Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status.
@@ -3928,21 +3993,21 @@ export const listCustomVerificationEmailTemplates: API.OperationMethod<
 export const listIdentities: API.OperationMethod<
   ListIdentitiesRequest,
   ListIdentitiesResponse,
-  CommonErrors,
+  ListIdentitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdentitiesRequest,
   ) => stream.Stream<
     ListIdentitiesResponse,
-    CommonErrors,
+    ListIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentitiesRequest,
   ) => stream.Stream<
     Identity,
-    CommonErrors,
+    ListIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3956,6 +4021,7 @@ export const listIdentities: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListIdentityPoliciesError = CommonErrors;
 /**
  * Returns a list of sending authorization policies that are attached to the given
  * identity (an email address or a domain). This operation returns only a list. To get the
@@ -3974,13 +4040,14 @@ export const listIdentities: API.OperationMethod<
 export const listIdentityPolicies: API.OperationMethod<
   ListIdentityPoliciesRequest,
   ListIdentityPoliciesResponse,
-  CommonErrors,
+  ListIdentityPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIdentityPoliciesRequest,
   output: ListIdentityPoliciesResponse,
   errors: [],
 }));
+export type ListReceiptFiltersError = CommonErrors;
 /**
  * Lists the IP address filters associated with your Amazon Web Services account in the current
  * Amazon Web Services Region.
@@ -3993,13 +4060,14 @@ export const listIdentityPolicies: API.OperationMethod<
 export const listReceiptFilters: API.OperationMethod<
   ListReceiptFiltersRequest,
   ListReceiptFiltersResponse,
-  CommonErrors,
+  ListReceiptFiltersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceiptFiltersRequest,
   output: ListReceiptFiltersResponse,
   errors: [],
 }));
+export type ListReceiptRuleSetsError = CommonErrors;
 /**
  * Lists the receipt rule sets that exist under your Amazon Web Services account in the current
  * Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a
@@ -4014,13 +4082,14 @@ export const listReceiptFilters: API.OperationMethod<
 export const listReceiptRuleSets: API.OperationMethod<
   ListReceiptRuleSetsRequest,
   ListReceiptRuleSetsResponse,
-  CommonErrors,
+  ListReceiptRuleSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceiptRuleSetsRequest,
   output: ListReceiptRuleSetsResponse,
   errors: [],
 }));
+export type ListTemplatesError = CommonErrors;
 /**
  * Lists the email templates present in your Amazon SES account in the current
  * Amazon Web Services Region.
@@ -4030,13 +4099,14 @@ export const listReceiptRuleSets: API.OperationMethod<
 export const listTemplates: API.OperationMethod<
   ListTemplatesRequest,
   ListTemplatesResponse,
-  CommonErrors,
+  ListTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTemplatesRequest,
   output: ListTemplatesResponse,
   errors: [],
 }));
+export type ListVerifiedEmailAddressesError = CommonErrors;
 /**
  * Deprecated. Use the `ListIdentities` operation to list the email addresses
  * and domains associated with your account.
@@ -4044,22 +4114,24 @@ export const listTemplates: API.OperationMethod<
 export const listVerifiedEmailAddresses: API.OperationMethod<
   ListVerifiedEmailAddressesRequest,
   ListVerifiedEmailAddressesResponse,
-  CommonErrors,
+  ListVerifiedEmailAddressesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVerifiedEmailAddressesRequest,
   output: ListVerifiedEmailAddressesResponse,
   errors: [],
 }));
+export type PutConfigurationSetDeliveryOptionsError =
+  | ConfigurationSetDoesNotExistException
+  | InvalidDeliveryOptionsException
+  | CommonErrors;
 /**
  * Adds or updates the delivery options for a configuration set.
  */
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   PutConfigurationSetDeliveryOptionsRequest,
   PutConfigurationSetDeliveryOptionsResponse,
-  | ConfigurationSetDoesNotExistException
-  | InvalidDeliveryOptionsException
-  | CommonErrors,
+  PutConfigurationSetDeliveryOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetDeliveryOptionsRequest,
@@ -4069,6 +4141,7 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
     InvalidDeliveryOptionsException,
   ],
 }));
+export type PutIdentityPolicyError = InvalidPolicyException | CommonErrors;
 /**
  * Adds or updates a sending authorization policy for the specified identity (an email
  * address or a domain).
@@ -4086,13 +4159,17 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
 export const putIdentityPolicy: API.OperationMethod<
   PutIdentityPolicyRequest,
   PutIdentityPolicyResponse,
-  InvalidPolicyException | CommonErrors,
+  PutIdentityPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIdentityPolicyRequest,
   output: PutIdentityPolicyResponse,
   errors: [InvalidPolicyException],
 }));
+export type ReorderReceiptRuleSetError =
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Reorders the receipt rules within a receipt rule set.
  *
@@ -4107,13 +4184,14 @@ export const putIdentityPolicy: API.OperationMethod<
 export const reorderReceiptRuleSet: API.OperationMethod<
   ReorderReceiptRuleSetRequest,
   ReorderReceiptRuleSetResponse,
-  RuleDoesNotExistException | RuleSetDoesNotExistException | CommonErrors,
+  ReorderReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReorderReceiptRuleSetRequest,
   output: ReorderReceiptRuleSetResponse,
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
 }));
+export type SendBounceError = MessageRejected | CommonErrors;
 /**
  * Generates and sends a bounce message to the sender of an email you received through
  * Amazon SES. You can only use this operation on an email up to 24 hours after you receive
@@ -4130,13 +4208,21 @@ export const reorderReceiptRuleSet: API.OperationMethod<
 export const sendBounce: API.OperationMethod<
   SendBounceRequest,
   SendBounceResponse,
-  MessageRejected | CommonErrors,
+  SendBounceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendBounceRequest,
   output: SendBounceResponse,
   errors: [MessageRejected],
 }));
+export type SendBulkTemplatedEmailError =
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | TemplateDoesNotExistException
+  | CommonErrors;
 /**
  * Composes an email message to multiple destinations. The message body is created using
  * an email template.
@@ -4176,13 +4262,7 @@ export const sendBounce: API.OperationMethod<
 export const sendBulkTemplatedEmail: API.OperationMethod<
   SendBulkTemplatedEmailRequest,
   SendBulkTemplatedEmailResponse,
-  | AccountSendingPausedException
-  | ConfigurationSetDoesNotExistException
-  | ConfigurationSetSendingPausedException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | TemplateDoesNotExistException
-  | CommonErrors,
+  SendBulkTemplatedEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendBulkTemplatedEmailRequest,
@@ -4196,6 +4276,13 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
     TemplateDoesNotExistException,
   ],
 }));
+export type SendCustomVerificationEmailError =
+  | ConfigurationSetDoesNotExistException
+  | CustomVerificationEmailTemplateDoesNotExistException
+  | FromEmailAddressNotVerifiedException
+  | MessageRejected
+  | ProductionAccessNotGrantedException
+  | CommonErrors;
 /**
  * Adds an email address to the list of identities for your Amazon SES account in the current
  * Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a
@@ -4212,12 +4299,7 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
 export const sendCustomVerificationEmail: API.OperationMethod<
   SendCustomVerificationEmailRequest,
   SendCustomVerificationEmailResponse,
-  | ConfigurationSetDoesNotExistException
-  | CustomVerificationEmailTemplateDoesNotExistException
-  | FromEmailAddressNotVerifiedException
-  | MessageRejected
-  | ProductionAccessNotGrantedException
-  | CommonErrors,
+  SendCustomVerificationEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendCustomVerificationEmailRequest,
@@ -4230,6 +4312,13 @@ export const sendCustomVerificationEmail: API.OperationMethod<
     ProductionAccessNotGrantedException,
   ],
 }));
+export type SendEmailError =
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | CommonErrors;
 /**
  * Composes an email message and immediately queues it for sending. To send email using
  * this operation, your message must meet the following requirements:
@@ -4268,12 +4357,7 @@ export const sendCustomVerificationEmail: API.OperationMethod<
 export const sendEmail: API.OperationMethod<
   SendEmailRequest,
   SendEmailResponse,
-  | AccountSendingPausedException
-  | ConfigurationSetDoesNotExistException
-  | ConfigurationSetSendingPausedException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | CommonErrors,
+  SendEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEmailRequest,
@@ -4286,6 +4370,13 @@ export const sendEmail: API.OperationMethod<
     MessageRejected,
   ],
 }));
+export type SendRawEmailError =
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | CommonErrors;
 /**
  * Composes an email message and immediately queues it for sending.
  *
@@ -4369,12 +4460,7 @@ export const sendEmail: API.OperationMethod<
 export const sendRawEmail: API.OperationMethod<
   SendRawEmailRequest,
   SendRawEmailResponse,
-  | AccountSendingPausedException
-  | ConfigurationSetDoesNotExistException
-  | ConfigurationSetSendingPausedException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | CommonErrors,
+  SendRawEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendRawEmailRequest,
@@ -4387,6 +4473,14 @@ export const sendRawEmail: API.OperationMethod<
     MessageRejected,
   ],
 }));
+export type SendTemplatedEmailError =
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | TemplateDoesNotExistException
+  | CommonErrors;
 /**
  * Composes an email message using an email template and immediately queues it for
  * sending.
@@ -4433,13 +4527,7 @@ export const sendRawEmail: API.OperationMethod<
 export const sendTemplatedEmail: API.OperationMethod<
   SendTemplatedEmailRequest,
   SendTemplatedEmailResponse,
-  | AccountSendingPausedException
-  | ConfigurationSetDoesNotExistException
-  | ConfigurationSetSendingPausedException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | TemplateDoesNotExistException
-  | CommonErrors,
+  SendTemplatedEmailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTemplatedEmailRequest,
@@ -4453,6 +4541,9 @@ export const sendTemplatedEmail: API.OperationMethod<
     TemplateDoesNotExistException,
   ],
 }));
+export type SetActiveReceiptRuleSetError =
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Sets the specified receipt rule set as the active receipt rule set.
  *
@@ -4467,13 +4558,14 @@ export const sendTemplatedEmail: API.OperationMethod<
 export const setActiveReceiptRuleSet: API.OperationMethod<
   SetActiveReceiptRuleSetRequest,
   SetActiveReceiptRuleSetResponse,
-  RuleSetDoesNotExistException | CommonErrors,
+  SetActiveReceiptRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetActiveReceiptRuleSetRequest,
   output: SetActiveReceiptRuleSetResponse,
   errors: [RuleSetDoesNotExistException],
 }));
+export type SetIdentityDkimEnabledError = CommonErrors;
 /**
  * Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM
  * signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends
@@ -4495,13 +4587,14 @@ export const setActiveReceiptRuleSet: API.OperationMethod<
 export const setIdentityDkimEnabled: API.OperationMethod<
   SetIdentityDkimEnabledRequest,
   SetIdentityDkimEnabledResponse,
-  CommonErrors,
+  SetIdentityDkimEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityDkimEnabledRequest,
   output: SetIdentityDkimEnabledResponse,
   errors: [],
 }));
+export type SetIdentityFeedbackForwardingEnabledError = CommonErrors;
 /**
  * Given an identity (an email address or a domain), enables or disables whether Amazon SES
  * forwards bounce and complaint notifications as email. Feedback forwarding can only be
@@ -4519,13 +4612,14 @@ export const setIdentityDkimEnabled: API.OperationMethod<
 export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
   SetIdentityFeedbackForwardingEnabledRequest,
   SetIdentityFeedbackForwardingEnabledResponse,
-  CommonErrors,
+  SetIdentityFeedbackForwardingEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityFeedbackForwardingEnabledRequest,
   output: SetIdentityFeedbackForwardingEnabledResponse,
   errors: [],
 }));
+export type SetIdentityHeadersInNotificationsEnabledError = CommonErrors;
 /**
  * Given an identity (an email address or a domain), sets whether Amazon SES includes the
  * original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified
@@ -4539,13 +4633,14 @@ export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
 export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
   SetIdentityHeadersInNotificationsEnabledRequest,
   SetIdentityHeadersInNotificationsEnabledResponse,
-  CommonErrors,
+  SetIdentityHeadersInNotificationsEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityHeadersInNotificationsEnabledRequest,
   output: SetIdentityHeadersInNotificationsEnabledResponse,
   errors: [],
 }));
+export type SetIdentityMailFromDomainError = CommonErrors;
 /**
  * Enables or disables the custom MAIL FROM domain setup for a verified identity (an
  * email address or a domain).
@@ -4560,13 +4655,14 @@ export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
 export const setIdentityMailFromDomain: API.OperationMethod<
   SetIdentityMailFromDomainRequest,
   SetIdentityMailFromDomainResponse,
-  CommonErrors,
+  SetIdentityMailFromDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityMailFromDomainRequest,
   output: SetIdentityMailFromDomainResponse,
   errors: [],
 }));
+export type SetIdentityNotificationTopicError = CommonErrors;
 /**
  * Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use
  * this operation, you specify a verified identity, such as an email address or domain.
@@ -4583,13 +4679,17 @@ export const setIdentityMailFromDomain: API.OperationMethod<
 export const setIdentityNotificationTopic: API.OperationMethod<
   SetIdentityNotificationTopicRequest,
   SetIdentityNotificationTopicResponse,
-  CommonErrors,
+  SetIdentityNotificationTopicError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityNotificationTopicRequest,
   output: SetIdentityNotificationTopicResponse,
   errors: [],
 }));
+export type SetReceiptRulePositionError =
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Sets the position of the specified receipt rule in the receipt rule set.
  *
@@ -4601,13 +4701,18 @@ export const setIdentityNotificationTopic: API.OperationMethod<
 export const setReceiptRulePosition: API.OperationMethod<
   SetReceiptRulePositionRequest,
   SetReceiptRulePositionResponse,
-  RuleDoesNotExistException | RuleSetDoesNotExistException | CommonErrors,
+  SetReceiptRulePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetReceiptRulePositionRequest,
   output: SetReceiptRulePositionResponse,
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
 }));
+export type TestRenderTemplateError =
+  | InvalidRenderingParameterException
+  | MissingRenderingAttributeException
+  | TemplateDoesNotExistException
+  | CommonErrors;
 /**
  * Creates a preview of the MIME content of an email when provided with a template and a
  * set of replacement data.
@@ -4617,10 +4722,7 @@ export const setReceiptRulePosition: API.OperationMethod<
 export const testRenderTemplate: API.OperationMethod<
   TestRenderTemplateRequest,
   TestRenderTemplateResponse,
-  | InvalidRenderingParameterException
-  | MissingRenderingAttributeException
-  | TemplateDoesNotExistException
-  | CommonErrors,
+  TestRenderTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestRenderTemplateRequest,
@@ -4631,6 +4733,7 @@ export const testRenderTemplate: API.OperationMethod<
     TemplateDoesNotExistException,
   ],
 }));
+export type UpdateAccountSendingEnabledError = CommonErrors;
 /**
  * Enables or disables email sending across your entire Amazon SES account in the current
  * Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to
@@ -4643,13 +4746,20 @@ export const testRenderTemplate: API.OperationMethod<
 export const updateAccountSendingEnabled: API.OperationMethod<
   UpdateAccountSendingEnabledRequest,
   UpdateAccountSendingEnabledResponse,
-  CommonErrors,
+  UpdateAccountSendingEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountSendingEnabledRequest,
   output: UpdateAccountSendingEnabledResponse,
   errors: [],
 }));
+export type UpdateConfigurationSetEventDestinationError =
+  | ConfigurationSetDoesNotExistException
+  | EventDestinationDoesNotExistException
+  | InvalidCloudWatchDestinationException
+  | InvalidFirehoseDestinationException
+  | InvalidSNSDestinationException
+  | CommonErrors;
 /**
  * Updates the event destination of a configuration set. Event destinations are
  * associated with configuration sets, which enable you to publish email sending events to
@@ -4666,12 +4776,7 @@ export const updateAccountSendingEnabled: API.OperationMethod<
 export const updateConfigurationSetEventDestination: API.OperationMethod<
   UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
-  | ConfigurationSetDoesNotExistException
-  | EventDestinationDoesNotExistException
-  | InvalidCloudWatchDestinationException
-  | InvalidFirehoseDestinationException
-  | InvalidSNSDestinationException
-  | CommonErrors,
+  UpdateConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetEventDestinationRequest,
@@ -4684,6 +4789,9 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
     InvalidSNSDestinationException,
   ],
 }));
+export type UpdateConfigurationSetReputationMetricsEnabledError =
+  | ConfigurationSetDoesNotExistException
+  | CommonErrors;
 /**
  * Enables or disables the publishing of reputation metrics for emails sent using a
  * specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce
@@ -4695,13 +4803,16 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
 export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod<
   UpdateConfigurationSetReputationMetricsEnabledRequest,
   UpdateConfigurationSetReputationMetricsEnabledResponse,
-  ConfigurationSetDoesNotExistException | CommonErrors,
+  UpdateConfigurationSetReputationMetricsEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetReputationMetricsEnabledRequest,
   output: UpdateConfigurationSetReputationMetricsEnabledResponse,
   errors: [ConfigurationSetDoesNotExistException],
 }));
+export type UpdateConfigurationSetSendingEnabledError =
+  | ConfigurationSetDoesNotExistException
+  | CommonErrors;
 /**
  * Enables or disables email sending for messages sent using a specific configuration set
  * in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms
@@ -4714,13 +4825,18 @@ export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod
 export const updateConfigurationSetSendingEnabled: API.OperationMethod<
   UpdateConfigurationSetSendingEnabledRequest,
   UpdateConfigurationSetSendingEnabledResponse,
-  ConfigurationSetDoesNotExistException | CommonErrors,
+  UpdateConfigurationSetSendingEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetSendingEnabledRequest,
   output: UpdateConfigurationSetSendingEnabledResponse,
   errors: [ConfigurationSetDoesNotExistException],
 }));
+export type UpdateConfigurationSetTrackingOptionsError =
+  | ConfigurationSetDoesNotExistException
+  | InvalidTrackingOptionsException
+  | TrackingOptionsDoesNotExistException
+  | CommonErrors;
 /**
  * Modifies an association between a configuration set and a custom domain for open and
  * click event tracking.
@@ -4732,10 +4848,7 @@ export const updateConfigurationSetSendingEnabled: API.OperationMethod<
 export const updateConfigurationSetTrackingOptions: API.OperationMethod<
   UpdateConfigurationSetTrackingOptionsRequest,
   UpdateConfigurationSetTrackingOptionsResponse,
-  | ConfigurationSetDoesNotExistException
-  | InvalidTrackingOptionsException
-  | TrackingOptionsDoesNotExistException
-  | CommonErrors,
+  UpdateConfigurationSetTrackingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetTrackingOptionsRequest,
@@ -4746,6 +4859,11 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
     TrackingOptionsDoesNotExistException,
   ],
 }));
+export type UpdateCustomVerificationEmailTemplateError =
+  | CustomVerificationEmailInvalidContentException
+  | CustomVerificationEmailTemplateDoesNotExistException
+  | FromEmailAddressNotVerifiedException
+  | CommonErrors;
 /**
  * Updates an existing custom verification email template.
  *
@@ -4758,10 +4876,7 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
 export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   UpdateCustomVerificationEmailTemplateRequest,
   UpdateCustomVerificationEmailTemplateResponse,
-  | CustomVerificationEmailInvalidContentException
-  | CustomVerificationEmailTemplateDoesNotExistException
-  | FromEmailAddressNotVerifiedException
-  | CommonErrors,
+  UpdateCustomVerificationEmailTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomVerificationEmailTemplateRequest,
@@ -4772,6 +4887,14 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
     FromEmailAddressNotVerifiedException,
   ],
 }));
+export type UpdateReceiptRuleError =
+  | InvalidLambdaFunctionException
+  | InvalidS3ConfigurationException
+  | InvalidSnsTopicException
+  | LimitExceededException
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | CommonErrors;
 /**
  * Updates a receipt rule.
  *
@@ -4783,13 +4906,7 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
 export const updateReceiptRule: API.OperationMethod<
   UpdateReceiptRuleRequest,
   UpdateReceiptRuleResponse,
-  | InvalidLambdaFunctionException
-  | InvalidS3ConfigurationException
-  | InvalidSnsTopicException
-  | LimitExceededException
-  | RuleDoesNotExistException
-  | RuleSetDoesNotExistException
-  | CommonErrors,
+  UpdateReceiptRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReceiptRuleRequest,
@@ -4803,6 +4920,10 @@ export const updateReceiptRule: API.OperationMethod<
     RuleSetDoesNotExistException,
   ],
 }));
+export type UpdateTemplateError =
+  | InvalidTemplateException
+  | TemplateDoesNotExistException
+  | CommonErrors;
 /**
  * Updates an email template. Email templates enable you to send personalized email to
  * one or more destinations in a single operation. For more information, see the Amazon SES
@@ -4813,13 +4934,14 @@ export const updateReceiptRule: API.OperationMethod<
 export const updateTemplate: API.OperationMethod<
   UpdateTemplateRequest,
   UpdateTemplateResponse,
-  InvalidTemplateException | TemplateDoesNotExistException | CommonErrors,
+  UpdateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
   output: UpdateTemplateResponse,
   errors: [InvalidTemplateException, TemplateDoesNotExistException],
 }));
+export type VerifyDomainDkimError = CommonErrors;
 /**
  * Returns a set of DKIM tokens for a domain identity.
  *
@@ -4858,13 +4980,14 @@ export const updateTemplate: API.OperationMethod<
 export const verifyDomainDkim: API.OperationMethod<
   VerifyDomainDkimRequest,
   VerifyDomainDkimResponse,
-  CommonErrors,
+  VerifyDomainDkimError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyDomainDkimRequest,
   output: VerifyDomainDkimResponse,
   errors: [],
 }));
+export type VerifyDomainIdentityError = CommonErrors;
 /**
  * Adds a domain to the list of identities for your Amazon SES account in the current
  * Amazon Web Services Region and attempts to verify it. For more information about verifying domains,
@@ -4876,13 +4999,14 @@ export const verifyDomainDkim: API.OperationMethod<
 export const verifyDomainIdentity: API.OperationMethod<
   VerifyDomainIdentityRequest,
   VerifyDomainIdentityResponse,
-  CommonErrors,
+  VerifyDomainIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyDomainIdentityRequest,
   output: VerifyDomainIdentityResponse,
   errors: [],
 }));
+export type VerifyEmailAddressError = CommonErrors;
 /**
  * Deprecated. Use the `VerifyEmailIdentity` operation to verify a new email
  * address.
@@ -4890,13 +5014,14 @@ export const verifyDomainIdentity: API.OperationMethod<
 export const verifyEmailAddress: API.OperationMethod<
   VerifyEmailAddressRequest,
   VerifyEmailAddressResponse,
-  CommonErrors,
+  VerifyEmailAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyEmailAddressRequest,
   output: VerifyEmailAddressResponse,
   errors: [],
 }));
+export type VerifyEmailIdentityError = CommonErrors;
 /**
  * Adds an email address to the list of identities for your Amazon SES account in the current
  * Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a
@@ -4907,7 +5032,7 @@ export const verifyEmailAddress: API.OperationMethod<
 export const verifyEmailIdentity: API.OperationMethod<
   VerifyEmailIdentityRequest,
   VerifyEmailIdentityResponse,
-  CommonErrors,
+  VerifyEmailIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyEmailIdentityRequest,

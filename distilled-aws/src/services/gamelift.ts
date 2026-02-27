@@ -7455,6 +7455,12 @@ export class InvalidGameSessionStatusException extends S.TaggedErrorClass<Invali
 ) {}
 
 //# Operations
+export type AcceptMatchError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7492,11 +7498,7 @@ export class InvalidGameSessionStatusException extends S.TaggedErrorClass<Invali
 export const acceptMatch: API.OperationMethod<
   AcceptMatchInput,
   AcceptMatchOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnsupportedRegionException
-  | CommonErrors,
+  AcceptMatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptMatchInput,
@@ -7508,6 +7510,14 @@ export const acceptMatch: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type ClaimGameServerError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | OutOfCapacityException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -7551,13 +7561,7 @@ export const acceptMatch: API.OperationMethod<
 export const claimGameServer: API.OperationMethod<
   ClaimGameServerInput,
   ClaimGameServerOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | OutOfCapacityException
-  | UnauthorizedException
-  | CommonErrors,
+  ClaimGameServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimGameServerInput,
@@ -7571,6 +7575,14 @@ export const claimGameServer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateAliasError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7598,13 +7610,7 @@ export const claimGameServer: API.OperationMethod<
 export const createAlias: API.OperationMethod<
   CreateAliasInput,
   CreateAliasOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasInput,
@@ -7618,6 +7624,13 @@ export const createAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateBuildError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere
  *
@@ -7661,12 +7674,7 @@ export const createAlias: API.OperationMethod<
 export const createBuild: API.OperationMethod<
   CreateBuildInput,
   CreateBuildOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuildInput,
@@ -7679,6 +7687,15 @@ export const createBuild: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateContainerFleetError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -7759,14 +7776,7 @@ export const createBuild: API.OperationMethod<
 export const createContainerFleet: API.OperationMethod<
   CreateContainerFleetInput,
   CreateContainerFleetOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaggingFailedException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateContainerFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerFleetInput,
@@ -7781,6 +7791,15 @@ export const createContainerFleet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreateContainerGroupDefinitionError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -7879,14 +7898,7 @@ export const createContainerFleet: API.OperationMethod<
 export const createContainerGroupDefinition: API.OperationMethod<
   CreateContainerGroupDefinitionInput,
   CreateContainerGroupDefinitionOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaggingFailedException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateContainerGroupDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerGroupDefinitionInput,
@@ -7901,6 +7913,17 @@ export const createContainerGroupDefinition: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreateFleetError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | NotReadyException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7980,16 +8003,7 @@ export const createContainerGroupDefinition: API.OperationMethod<
 export const createFleet: API.OperationMethod<
   CreateFleetInput,
   CreateFleetOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | NotReadyException
-  | TaggingFailedException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetInput,
@@ -8006,6 +8020,17 @@ export const createFleet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreateFleetLocationsError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -8037,16 +8062,7 @@ export const createFleet: API.OperationMethod<
 export const createFleetLocations: API.OperationMethod<
   CreateFleetLocationsInput,
   CreateFleetLocationsOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | NotReadyException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateFleetLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetLocationsInput,
@@ -8063,6 +8079,13 @@ export const createFleetLocations: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreateGameServerGroupError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -8106,12 +8129,7 @@ export const createFleetLocations: API.OperationMethod<
 export const createGameServerGroup: API.OperationMethod<
   CreateGameServerGroupInput,
   CreateGameServerGroupOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateGameServerGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGameServerGroupInput,
@@ -8124,6 +8142,19 @@ export const createGameServerGroup: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateGameSessionError =
+  | ConflictException
+  | FleetCapacityExceededException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8170,18 +8201,7 @@ export const createGameServerGroup: API.OperationMethod<
 export const createGameSession: API.OperationMethod<
   CreateGameSessionInput,
   CreateGameSessionOutput,
-  | ConflictException
-  | FleetCapacityExceededException
-  | IdempotentParameterMismatchException
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateGameSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGameSessionInput,
@@ -8200,6 +8220,14 @@ export const createGameSession: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreateGameSessionQueueError =
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8280,13 +8308,7 @@ export const createGameSession: API.OperationMethod<
 export const createGameSessionQueue: API.OperationMethod<
   CreateGameSessionQueueInput,
   CreateGameSessionQueueOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateGameSessionQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGameSessionQueueInput,
@@ -8300,6 +8322,14 @@ export const createGameSessionQueue: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateLocationError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -8308,13 +8338,7 @@ export const createGameSessionQueue: API.OperationMethod<
 export const createLocation: API.OperationMethod<
   CreateLocationInput,
   CreateLocationOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationInput,
@@ -8328,6 +8352,14 @@ export const createLocation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateMatchmakingConfigurationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8360,13 +8392,7 @@ export const createLocation: API.OperationMethod<
 export const createMatchmakingConfiguration: API.OperationMethod<
   CreateMatchmakingConfigurationInput,
   CreateMatchmakingConfigurationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateMatchmakingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMatchmakingConfigurationInput,
@@ -8380,6 +8406,13 @@ export const createMatchmakingConfiguration: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreateMatchmakingRuleSetError =
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8408,12 +8441,7 @@ export const createMatchmakingConfiguration: API.OperationMethod<
 export const createMatchmakingRuleSet: API.OperationMethod<
   CreateMatchmakingRuleSetInput,
   CreateMatchmakingRuleSetOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  CreateMatchmakingRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMatchmakingRuleSetInput,
@@ -8426,6 +8454,15 @@ export const createMatchmakingRuleSet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type CreatePlayerSessionError =
+  | GameSessionFullException
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8452,14 +8489,7 @@ export const createMatchmakingRuleSet: API.OperationMethod<
 export const createPlayerSession: API.OperationMethod<
   CreatePlayerSessionInput,
   CreatePlayerSessionOutput,
-  | GameSessionFullException
-  | InternalServiceException
-  | InvalidGameSessionStatusException
-  | InvalidRequestException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | CommonErrors,
+  CreatePlayerSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlayerSessionInput,
@@ -8474,6 +8504,15 @@ export const createPlayerSession: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreatePlayerSessionsError =
+  | GameSessionFullException
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8500,14 +8539,7 @@ export const createPlayerSession: API.OperationMethod<
 export const createPlayerSessions: API.OperationMethod<
   CreatePlayerSessionsInput,
   CreatePlayerSessionsOutput,
-  | GameSessionFullException
-  | InternalServiceException
-  | InvalidGameSessionStatusException
-  | InvalidRequestException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | CommonErrors,
+  CreatePlayerSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlayerSessionsInput,
@@ -8522,6 +8554,13 @@ export const createPlayerSessions: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateScriptError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere
  *
@@ -8561,12 +8600,7 @@ export const createPlayerSessions: API.OperationMethod<
 export const createScript: API.OperationMethod<
   CreateScriptInput,
   CreateScriptOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateScriptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScriptInput,
@@ -8579,6 +8613,12 @@ export const createScript: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateVpcPeeringAuthorizationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -8615,11 +8655,7 @@ export const createScript: API.OperationMethod<
 export const createVpcPeeringAuthorization: API.OperationMethod<
   CreateVpcPeeringAuthorizationInput,
   CreateVpcPeeringAuthorizationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateVpcPeeringAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcPeeringAuthorizationInput,
@@ -8631,6 +8667,12 @@ export const createVpcPeeringAuthorization: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateVpcPeeringConnectionError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -8662,11 +8704,7 @@ export const createVpcPeeringAuthorization: API.OperationMethod<
 export const createVpcPeeringConnection: API.OperationMethod<
   CreateVpcPeeringConnectionInput,
   CreateVpcPeeringConnectionOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateVpcPeeringConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcPeeringConnectionInput,
@@ -8678,6 +8716,13 @@ export const createVpcPeeringConnection: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteAliasError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8692,12 +8737,7 @@ export const createVpcPeeringConnection: API.OperationMethod<
 export const deleteAlias: API.OperationMethod<
   DeleteAliasInput,
   DeleteAliasResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasInput,
@@ -8710,6 +8750,13 @@ export const deleteAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteBuildError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -8729,12 +8776,7 @@ export const deleteAlias: API.OperationMethod<
 export const deleteBuild: API.OperationMethod<
   DeleteBuildInput,
   DeleteBuildResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBuildInput,
@@ -8747,6 +8789,14 @@ export const deleteBuild: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteContainerFleetError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -8765,13 +8815,7 @@ export const deleteBuild: API.OperationMethod<
 export const deleteContainerFleet: API.OperationMethod<
   DeleteContainerFleetInput,
   DeleteContainerFleetOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DeleteContainerFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerFleetInput,
@@ -8785,6 +8829,14 @@ export const deleteContainerFleet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DeleteContainerGroupDefinitionError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -8821,13 +8873,7 @@ export const deleteContainerFleet: API.OperationMethod<
 export const deleteContainerGroupDefinition: API.OperationMethod<
   DeleteContainerGroupDefinitionInput,
   DeleteContainerGroupDefinitionOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DeleteContainerGroupDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerGroupDefinitionInput,
@@ -8841,6 +8887,14 @@ export const deleteContainerGroupDefinition: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DeleteFleetError =
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8864,13 +8918,7 @@ export const deleteContainerGroupDefinition: API.OperationMethod<
 export const deleteFleet: API.OperationMethod<
   DeleteFleetInput,
   DeleteFleetResponse,
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetInput,
@@ -8884,6 +8932,13 @@ export const deleteFleet: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteFleetLocationsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -8905,12 +8960,7 @@ export const deleteFleet: API.OperationMethod<
 export const deleteFleetLocations: API.OperationMethod<
   DeleteFleetLocationsInput,
   DeleteFleetLocationsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DeleteFleetLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetLocationsInput,
@@ -8923,6 +8973,12 @@ export const deleteFleetLocations: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DeleteGameServerGroupError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -8958,11 +9014,7 @@ export const deleteFleetLocations: API.OperationMethod<
 export const deleteGameServerGroup: API.OperationMethod<
   DeleteGameServerGroupInput,
   DeleteGameServerGroupOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteGameServerGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGameServerGroupInput,
@@ -8974,6 +9026,13 @@ export const deleteGameServerGroup: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteGameSessionQueueError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8983,12 +9042,7 @@ export const deleteGameServerGroup: API.OperationMethod<
 export const deleteGameSessionQueue: API.OperationMethod<
   DeleteGameSessionQueueInput,
   DeleteGameSessionQueueOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteGameSessionQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGameSessionQueueInput,
@@ -9001,6 +9055,12 @@ export const deleteGameSessionQueue: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteLocationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -9012,11 +9072,7 @@ export const deleteGameSessionQueue: API.OperationMethod<
 export const deleteLocation: API.OperationMethod<
   DeleteLocationInput,
   DeleteLocationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLocationInput,
@@ -9028,6 +9084,13 @@ export const deleteLocation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteMatchmakingConfigurationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9038,12 +9101,7 @@ export const deleteLocation: API.OperationMethod<
 export const deleteMatchmakingConfiguration: API.OperationMethod<
   DeleteMatchmakingConfigurationInput,
   DeleteMatchmakingConfigurationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DeleteMatchmakingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMatchmakingConfigurationInput,
@@ -9056,6 +9114,13 @@ export const deleteMatchmakingConfiguration: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DeleteMatchmakingRuleSetError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9071,12 +9136,7 @@ export const deleteMatchmakingConfiguration: API.OperationMethod<
 export const deleteMatchmakingRuleSet: API.OperationMethod<
   DeleteMatchmakingRuleSetInput,
   DeleteMatchmakingRuleSetOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DeleteMatchmakingRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMatchmakingRuleSetInput,
@@ -9089,6 +9149,13 @@ export const deleteMatchmakingRuleSet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DeleteScalingPolicyError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9102,12 +9169,7 @@ export const deleteMatchmakingRuleSet: API.OperationMethod<
 export const deleteScalingPolicy: API.OperationMethod<
   DeleteScalingPolicyInput,
   DeleteScalingPolicyResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DeleteScalingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScalingPolicyInput,
@@ -9120,6 +9182,13 @@ export const deleteScalingPolicy: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DeleteScriptError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9143,12 +9212,7 @@ export const deleteScalingPolicy: API.OperationMethod<
 export const deleteScript: API.OperationMethod<
   DeleteScriptInput,
   DeleteScriptResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteScriptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScriptInput,
@@ -9161,6 +9225,12 @@ export const deleteScript: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteVpcPeeringAuthorizationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9174,11 +9244,7 @@ export const deleteScript: API.OperationMethod<
 export const deleteVpcPeeringAuthorization: API.OperationMethod<
   DeleteVpcPeeringAuthorizationInput,
   DeleteVpcPeeringAuthorizationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteVpcPeeringAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcPeeringAuthorizationInput,
@@ -9190,6 +9256,12 @@ export const deleteVpcPeeringAuthorization: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteVpcPeeringConnectionError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9207,11 +9279,7 @@ export const deleteVpcPeeringAuthorization: API.OperationMethod<
 export const deleteVpcPeeringConnection: API.OperationMethod<
   DeleteVpcPeeringConnectionInput,
   DeleteVpcPeeringConnectionOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteVpcPeeringConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcPeeringConnectionInput,
@@ -9223,6 +9291,12 @@ export const deleteVpcPeeringConnection: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeregisterComputeError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -9237,11 +9311,7 @@ export const deleteVpcPeeringConnection: API.OperationMethod<
 export const deregisterCompute: API.OperationMethod<
   DeregisterComputeInput,
   DeregisterComputeOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeregisterComputeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterComputeInput,
@@ -9253,6 +9323,12 @@ export const deregisterCompute: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeregisterGameServerError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -9272,11 +9348,7 @@ export const deregisterCompute: API.OperationMethod<
 export const deregisterGameServer: API.OperationMethod<
   DeregisterGameServerInput,
   DeregisterGameServerResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeregisterGameServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterGameServerInput,
@@ -9288,6 +9360,12 @@ export const deregisterGameServer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeAliasError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9304,11 +9382,7 @@ export const deregisterGameServer: API.OperationMethod<
 export const describeAlias: API.OperationMethod<
   DescribeAliasInput,
   DescribeAliasOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAliasInput,
@@ -9320,6 +9394,12 @@ export const describeAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeBuildError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9336,11 +9416,7 @@ export const describeAlias: API.OperationMethod<
 export const describeBuild: API.OperationMethod<
   DescribeBuildInput,
   DescribeBuildOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBuildInput,
@@ -9352,6 +9428,13 @@ export const describeBuild: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeComputeError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9388,12 +9471,7 @@ export const describeBuild: API.OperationMethod<
 export const describeCompute: API.OperationMethod<
   DescribeComputeInput,
   DescribeComputeOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeComputeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComputeInput,
@@ -9406,6 +9484,13 @@ export const describeCompute: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeContainerFleetError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -9429,12 +9514,7 @@ export const describeCompute: API.OperationMethod<
 export const describeContainerFleet: API.OperationMethod<
   DescribeContainerFleetInput,
   DescribeContainerFleetOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeContainerFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContainerFleetInput,
@@ -9447,6 +9527,13 @@ export const describeContainerFleet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeContainerGroupDefinitionError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -9473,12 +9560,7 @@ export const describeContainerFleet: API.OperationMethod<
 export const describeContainerGroupDefinition: API.OperationMethod<
   DescribeContainerGroupDefinitionInput,
   DescribeContainerGroupDefinitionOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeContainerGroupDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContainerGroupDefinitionInput,
@@ -9491,6 +9573,12 @@ export const describeContainerGroupDefinition: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeEC2InstanceLimitsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9545,11 +9633,7 @@ export const describeContainerGroupDefinition: API.OperationMethod<
 export const describeEC2InstanceLimits: API.OperationMethod<
   DescribeEC2InstanceLimitsInput,
   DescribeEC2InstanceLimitsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeEC2InstanceLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEC2InstanceLimitsInput,
@@ -9561,6 +9645,12 @@ export const describeEC2InstanceLimits: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeFleetAttributesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9591,33 +9681,21 @@ export const describeEC2InstanceLimits: API.OperationMethod<
 export const describeFleetAttributes: API.OperationMethod<
   DescribeFleetAttributesInput,
   DescribeFleetAttributesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeFleetAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetAttributesInput,
   ) => stream.Stream<
     DescribeFleetAttributesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeFleetAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAttributesInput,
   ) => stream.Stream<
     FleetAttributes,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeFleetAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9636,6 +9714,13 @@ export const describeFleetAttributes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeFleetCapacityError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -9675,36 +9760,21 @@ export const describeFleetAttributes: API.OperationMethod<
 export const describeFleetCapacity: API.OperationMethod<
   DescribeFleetCapacityInput,
   DescribeFleetCapacityOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetCapacityInput,
   ) => stream.Stream<
     DescribeFleetCapacityOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeFleetCapacityError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetCapacityInput,
   ) => stream.Stream<
     FleetCapacity,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeFleetCapacityError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9724,6 +9794,13 @@ export const describeFleetCapacity: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeFleetDeploymentError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -9744,12 +9821,7 @@ export const describeFleetCapacity: API.OperationMethod<
 export const describeFleetDeployment: API.OperationMethod<
   DescribeFleetDeploymentInput,
   DescribeFleetDeploymentOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetDeploymentInput,
@@ -9762,6 +9834,13 @@ export const describeFleetDeployment: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeFleetEventsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9783,36 +9862,21 @@ export const describeFleetDeployment: API.OperationMethod<
 export const describeFleetEvents: API.OperationMethod<
   DescribeFleetEventsInput,
   DescribeFleetEventsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetEventsInput,
   ) => stream.Stream<
     DescribeFleetEventsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeFleetEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetEventsInput,
   ) => stream.Stream<
     Event,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeFleetEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9832,6 +9896,13 @@ export const describeFleetEvents: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeFleetLocationAttributesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -9864,36 +9935,21 @@ export const describeFleetEvents: API.OperationMethod<
 export const describeFleetLocationAttributes: API.OperationMethod<
   DescribeFleetLocationAttributesInput,
   DescribeFleetLocationAttributesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetLocationAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetLocationAttributesInput,
   ) => stream.Stream<
     DescribeFleetLocationAttributesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeFleetLocationAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetLocationAttributesInput,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeFleetLocationAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9912,6 +9968,13 @@ export const describeFleetLocationAttributes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeFleetLocationCapacityError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -9941,12 +10004,7 @@ export const describeFleetLocationAttributes: API.OperationMethod<
 export const describeFleetLocationCapacity: API.OperationMethod<
   DescribeFleetLocationCapacityInput,
   DescribeFleetLocationCapacityOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetLocationCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetLocationCapacityInput,
@@ -9959,6 +10017,13 @@ export const describeFleetLocationCapacity: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeFleetLocationUtilizationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9985,12 +10050,7 @@ export const describeFleetLocationCapacity: API.OperationMethod<
 export const describeFleetLocationUtilization: API.OperationMethod<
   DescribeFleetLocationUtilizationInput,
   DescribeFleetLocationUtilizationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetLocationUtilizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetLocationUtilizationInput,
@@ -10003,6 +10063,13 @@ export const describeFleetLocationUtilization: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeFleetPortSettingsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -10032,12 +10099,7 @@ export const describeFleetLocationUtilization: API.OperationMethod<
 export const describeFleetPortSettings: API.OperationMethod<
   DescribeFleetPortSettingsInput,
   DescribeFleetPortSettingsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeFleetPortSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetPortSettingsInput,
@@ -10050,6 +10112,12 @@ export const describeFleetPortSettings: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeFleetUtilizationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -10087,33 +10155,21 @@ export const describeFleetPortSettings: API.OperationMethod<
 export const describeFleetUtilization: API.OperationMethod<
   DescribeFleetUtilizationInput,
   DescribeFleetUtilizationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeFleetUtilizationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFleetUtilizationInput,
   ) => stream.Stream<
     DescribeFleetUtilizationOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeFleetUtilizationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetUtilizationInput,
   ) => stream.Stream<
     FleetUtilization,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeFleetUtilizationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10132,6 +10188,12 @@ export const describeFleetUtilization: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeGameServerError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -10150,11 +10212,7 @@ export const describeFleetUtilization: API.OperationMethod<
 export const describeGameServer: API.OperationMethod<
   DescribeGameServerInput,
   DescribeGameServerOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeGameServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGameServerInput,
@@ -10166,6 +10224,12 @@ export const describeGameServer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeGameServerGroupError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -10186,11 +10250,7 @@ export const describeGameServer: API.OperationMethod<
 export const describeGameServerGroup: API.OperationMethod<
   DescribeGameServerGroupInput,
   DescribeGameServerGroupOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeGameServerGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGameServerGroupInput,
@@ -10202,6 +10262,12 @@ export const describeGameServerGroup: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeGameServerInstancesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -10229,33 +10295,21 @@ export const describeGameServerGroup: API.OperationMethod<
 export const describeGameServerInstances: API.OperationMethod<
   DescribeGameServerInstancesInput,
   DescribeGameServerInstancesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeGameServerInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeGameServerInstancesInput,
   ) => stream.Stream<
     DescribeGameServerInstancesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeGameServerInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGameServerInstancesInput,
   ) => stream.Stream<
     GameServerInstance,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeGameServerInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10274,6 +10328,14 @@ export const describeGameServerInstances: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeGameSessionDetailsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10311,39 +10373,21 @@ export const describeGameServerInstances: API.OperationMethod<
 export const describeGameSessionDetails: API.OperationMethod<
   DescribeGameSessionDetailsInput,
   DescribeGameSessionDetailsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeGameSessionDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeGameSessionDetailsInput,
   ) => stream.Stream<
     DescribeGameSessionDetailsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeGameSessionDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGameSessionDetailsInput,
   ) => stream.Stream<
     GameSessionDetail,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeGameSessionDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10364,6 +10408,12 @@ export const describeGameSessionDetails: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeGameSessionPlacementError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10381,11 +10431,7 @@ export const describeGameSessionDetails: API.OperationMethod<
 export const describeGameSessionPlacement: API.OperationMethod<
   DescribeGameSessionPlacementInput,
   DescribeGameSessionPlacementOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeGameSessionPlacementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGameSessionPlacementInput,
@@ -10397,6 +10443,12 @@ export const describeGameSessionPlacement: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeGameSessionQueuesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10412,33 +10464,21 @@ export const describeGameSessionPlacement: API.OperationMethod<
 export const describeGameSessionQueues: API.OperationMethod<
   DescribeGameSessionQueuesInput,
   DescribeGameSessionQueuesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeGameSessionQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeGameSessionQueuesInput,
   ) => stream.Stream<
     DescribeGameSessionQueuesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeGameSessionQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGameSessionQueuesInput,
   ) => stream.Stream<
     GameSessionQueue,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribeGameSessionQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10457,6 +10497,14 @@ export const describeGameSessionQueues: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeGameSessionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10501,39 +10549,21 @@ export const describeGameSessionQueues: API.OperationMethod<
 export const describeGameSessions: API.OperationMethod<
   DescribeGameSessionsInput,
   DescribeGameSessionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeGameSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeGameSessionsInput,
   ) => stream.Stream<
     DescribeGameSessionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeGameSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGameSessionsInput,
   ) => stream.Stream<
     GameSession,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeGameSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10554,6 +10584,13 @@ export const describeGameSessions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeInstancesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -10595,36 +10632,21 @@ export const describeGameSessions: API.OperationMethod<
 export const describeInstances: API.OperationMethod<
   DescribeInstancesInput,
   DescribeInstancesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstancesInput,
   ) => stream.Stream<
     DescribeInstancesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstancesInput,
   ) => stream.Stream<
     Instance,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10644,6 +10666,11 @@ export const describeInstances: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeMatchmakingError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10670,10 +10697,7 @@ export const describeInstances: API.OperationMethod<
 export const describeMatchmaking: API.OperationMethod<
   DescribeMatchmakingInput,
   DescribeMatchmakingOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeMatchmakingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMatchmakingInput,
@@ -10684,6 +10708,11 @@ export const describeMatchmaking: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type DescribeMatchmakingConfigurationsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10704,30 +10733,21 @@ export const describeMatchmaking: API.OperationMethod<
 export const describeMatchmakingConfigurations: API.OperationMethod<
   DescribeMatchmakingConfigurationsInput,
   DescribeMatchmakingConfigurationsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeMatchmakingConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMatchmakingConfigurationsInput,
   ) => stream.Stream<
     DescribeMatchmakingConfigurationsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeMatchmakingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMatchmakingConfigurationsInput,
   ) => stream.Stream<
     MatchmakingConfiguration,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeMatchmakingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10745,6 +10765,12 @@ export const describeMatchmakingConfigurations: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeMatchmakingRuleSetsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10761,33 +10787,21 @@ export const describeMatchmakingConfigurations: API.OperationMethod<
 export const describeMatchmakingRuleSets: API.OperationMethod<
   DescribeMatchmakingRuleSetsInput,
   DescribeMatchmakingRuleSetsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeMatchmakingRuleSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMatchmakingRuleSetsInput,
   ) => stream.Stream<
     DescribeMatchmakingRuleSetsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeMatchmakingRuleSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMatchmakingRuleSetsInput,
   ) => stream.Stream<
     MatchmakingRuleSet,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeMatchmakingRuleSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10806,6 +10820,12 @@ export const describeMatchmakingRuleSets: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribePlayerSessionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10837,33 +10857,21 @@ export const describeMatchmakingRuleSets: API.OperationMethod<
 export const describePlayerSessions: API.OperationMethod<
   DescribePlayerSessionsInput,
   DescribePlayerSessionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribePlayerSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePlayerSessionsInput,
   ) => stream.Stream<
     DescribePlayerSessionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribePlayerSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePlayerSessionsInput,
   ) => stream.Stream<
     PlayerSession,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    DescribePlayerSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10882,6 +10890,12 @@ export const describePlayerSessions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeRuntimeConfigurationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -10908,11 +10922,7 @@ export const describePlayerSessions: API.OperationMethod<
 export const describeRuntimeConfiguration: API.OperationMethod<
   DescribeRuntimeConfigurationInput,
   DescribeRuntimeConfigurationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeRuntimeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRuntimeConfigurationInput,
@@ -10924,6 +10934,13 @@ export const describeRuntimeConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeScalingPoliciesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -10940,36 +10957,21 @@ export const describeRuntimeConfiguration: API.OperationMethod<
 export const describeScalingPolicies: API.OperationMethod<
   DescribeScalingPoliciesInput,
   DescribeScalingPoliciesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  DescribeScalingPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScalingPoliciesInput,
   ) => stream.Stream<
     DescribeScalingPoliciesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeScalingPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScalingPoliciesInput,
   ) => stream.Stream<
     ScalingPolicy,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    DescribeScalingPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10989,6 +10991,12 @@ export const describeScalingPolicies: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeScriptError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -11008,11 +11016,7 @@ export const describeScalingPolicies: API.OperationMethod<
 export const describeScript: API.OperationMethod<
   DescribeScriptInput,
   DescribeScriptOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeScriptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScriptInput,
@@ -11024,6 +11028,11 @@ export const describeScript: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeVpcPeeringAuthorizationsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -11038,10 +11047,7 @@ export const describeScript: API.OperationMethod<
 export const describeVpcPeeringAuthorizations: API.OperationMethod<
   DescribeVpcPeeringAuthorizationsInput,
   DescribeVpcPeeringAuthorizationsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeVpcPeeringAuthorizationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVpcPeeringAuthorizationsInput,
@@ -11052,6 +11058,12 @@ export const describeVpcPeeringAuthorizations: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DescribeVpcPeeringConnectionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -11071,11 +11083,7 @@ export const describeVpcPeeringAuthorizations: API.OperationMethod<
 export const describeVpcPeeringConnections: API.OperationMethod<
   DescribeVpcPeeringConnectionsInput,
   DescribeVpcPeeringConnectionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DescribeVpcPeeringConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVpcPeeringConnectionsInput,
@@ -11087,6 +11095,13 @@ export const describeVpcPeeringConnections: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetComputeAccessError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -11118,12 +11133,7 @@ export const describeVpcPeeringConnections: API.OperationMethod<
 export const getComputeAccess: API.OperationMethod<
   GetComputeAccessInput,
   GetComputeAccessOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  GetComputeAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComputeAccessInput,
@@ -11136,6 +11146,13 @@ export const getComputeAccess: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type GetComputeAuthTokenError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -11171,12 +11188,7 @@ export const getComputeAccess: API.OperationMethod<
 export const getComputeAuthToken: API.OperationMethod<
   GetComputeAuthTokenInput,
   GetComputeAuthTokenOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  GetComputeAuthTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComputeAuthTokenInput,
@@ -11189,6 +11201,12 @@ export const getComputeAuthToken: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type GetGameSessionLogUrlError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -11205,11 +11223,7 @@ export const getComputeAuthToken: API.OperationMethod<
 export const getGameSessionLogUrl: API.OperationMethod<
   GetGameSessionLogUrlInput,
   GetGameSessionLogUrlOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetGameSessionLogUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGameSessionLogUrlInput,
@@ -11221,6 +11235,12 @@ export const getGameSessionLogUrl: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetInstanceAccessError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -11258,11 +11278,7 @@ export const getGameSessionLogUrl: API.OperationMethod<
 export const getInstanceAccess: API.OperationMethod<
   GetInstanceAccessInput,
   GetInstanceAccessOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetInstanceAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceAccessInput,
@@ -11274,6 +11290,11 @@ export const getInstanceAccess: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListAliasesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -11290,30 +11311,21 @@ export const getInstanceAccess: API.OperationMethod<
 export const listAliases: API.OperationMethod<
   ListAliasesInput,
   ListAliasesOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  ListAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAliasesInput,
   ) => stream.Stream<
     ListAliasesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAliasesInput,
   ) => stream.Stream<
     Alias,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11331,6 +11343,11 @@ export const listAliases: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListBuildsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -11350,30 +11367,21 @@ export const listAliases: API.OperationMethod<
 export const listBuilds: API.OperationMethod<
   ListBuildsInput,
   ListBuildsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  ListBuildsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuildsInput,
   ) => stream.Stream<
     ListBuildsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListBuildsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildsInput,
   ) => stream.Stream<
     Build,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListBuildsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11391,6 +11399,12 @@ export const listBuilds: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListComputeError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -11422,33 +11436,21 @@ export const listBuilds: API.OperationMethod<
 export const listCompute: API.OperationMethod<
   ListComputeInput,
   ListComputeOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ListComputeError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComputeInput,
   ) => stream.Stream<
     ListComputeOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListComputeError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComputeInput,
   ) => stream.Stream<
     Compute,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListComputeError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11467,6 +11469,12 @@ export const listCompute: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListContainerFleetsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -11496,33 +11504,21 @@ export const listCompute: API.OperationMethod<
 export const listContainerFleets: API.OperationMethod<
   ListContainerFleetsInput,
   ListContainerFleetsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ListContainerFleetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContainerFleetsInput,
   ) => stream.Stream<
     ListContainerFleetsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListContainerFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContainerFleetsInput,
   ) => stream.Stream<
     ContainerFleet,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListContainerFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11541,6 +11537,12 @@ export const listContainerFleets: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListContainerGroupDefinitionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -11567,33 +11569,21 @@ export const listContainerFleets: API.OperationMethod<
 export const listContainerGroupDefinitions: API.OperationMethod<
   ListContainerGroupDefinitionsInput,
   ListContainerGroupDefinitionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ListContainerGroupDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContainerGroupDefinitionsInput,
   ) => stream.Stream<
     ListContainerGroupDefinitionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListContainerGroupDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContainerGroupDefinitionsInput,
   ) => stream.Stream<
     ContainerGroupDefinition,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListContainerGroupDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11612,6 +11602,13 @@ export const listContainerGroupDefinitions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListContainerGroupDefinitionVersionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -11639,36 +11636,21 @@ export const listContainerGroupDefinitions: API.OperationMethod<
 export const listContainerGroupDefinitionVersions: API.OperationMethod<
   ListContainerGroupDefinitionVersionsInput,
   ListContainerGroupDefinitionVersionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ListContainerGroupDefinitionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContainerGroupDefinitionVersionsInput,
   ) => stream.Stream<
     ListContainerGroupDefinitionVersionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListContainerGroupDefinitionVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContainerGroupDefinitionVersionsInput,
   ) => stream.Stream<
     ContainerGroupDefinition,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListContainerGroupDefinitionVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11688,6 +11670,13 @@ export const listContainerGroupDefinitionVersions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListFleetDeploymentsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -11711,36 +11700,21 @@ export const listContainerGroupDefinitionVersions: API.OperationMethod<
 export const listFleetDeployments: API.OperationMethod<
   ListFleetDeploymentsInput,
   ListFleetDeploymentsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ListFleetDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetDeploymentsInput,
   ) => stream.Stream<
     ListFleetDeploymentsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListFleetDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetDeploymentsInput,
   ) => stream.Stream<
     FleetDeployment,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    ListFleetDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11760,6 +11734,12 @@ export const listFleetDeployments: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListFleetsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -11790,33 +11770,21 @@ export const listFleetDeployments: API.OperationMethod<
 export const listFleets: API.OperationMethod<
   ListFleetsInput,
   ListFleetsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListFleetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetsInput,
   ) => stream.Stream<
     ListFleetsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetsInput,
   ) => stream.Stream<
     FleetId,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11835,6 +11803,11 @@ export const listFleets: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListGameServerGroupsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -11843,30 +11816,21 @@ export const listFleets: API.OperationMethod<
 export const listGameServerGroups: API.OperationMethod<
   ListGameServerGroupsInput,
   ListGameServerGroupsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  ListGameServerGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGameServerGroupsInput,
   ) => stream.Stream<
     ListGameServerGroupsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGameServerGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGameServerGroupsInput,
   ) => stream.Stream<
     GameServerGroup,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGameServerGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11884,6 +11848,11 @@ export const listGameServerGroups: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListGameServersError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -11900,30 +11869,21 @@ export const listGameServerGroups: API.OperationMethod<
 export const listGameServers: API.OperationMethod<
   ListGameServersInput,
   ListGameServersOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  ListGameServersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGameServersInput,
   ) => stream.Stream<
     ListGameServersOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGameServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGameServersInput,
   ) => stream.Stream<
     GameServer,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGameServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11941,6 +11901,11 @@ export const listGameServers: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListLocationsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -11961,30 +11926,21 @@ export const listGameServers: API.OperationMethod<
 export const listLocations: API.OperationMethod<
   ListLocationsInput,
   ListLocationsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  ListLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLocationsInput,
   ) => stream.Stream<
     ListLocationsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLocationsInput,
   ) => stream.Stream<
     LocationModel,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12002,6 +11958,11 @@ export const listLocations: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListScriptsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -12019,30 +11980,21 @@ export const listLocations: API.OperationMethod<
 export const listScripts: API.OperationMethod<
   ListScriptsInput,
   ListScriptsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnauthorizedException
-  | CommonErrors,
+  ListScriptsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScriptsInput,
   ) => stream.Stream<
     ListScriptsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListScriptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScriptsInput,
   ) => stream.Stream<
     Script,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
+    ListScriptsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12060,6 +12012,13 @@ export const listScripts: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12083,12 +12042,7 @@ export const listScripts: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -12101,6 +12055,13 @@ export const listTagsForResource: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type PutScalingPolicyError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -12176,12 +12137,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putScalingPolicy: API.OperationMethod<
   PutScalingPolicyInput,
   PutScalingPolicyOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  PutScalingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScalingPolicyInput,
@@ -12194,6 +12150,14 @@ export const putScalingPolicy: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type RegisterComputeError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotReadyException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Anywhere, Container
  *
@@ -12229,13 +12193,7 @@ export const putScalingPolicy: API.OperationMethod<
 export const registerCompute: API.OperationMethod<
   RegisterComputeInput,
   RegisterComputeOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotReadyException
-  | UnauthorizedException
-  | CommonErrors,
+  RegisterComputeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterComputeInput,
@@ -12249,6 +12207,13 @@ export const registerCompute: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RegisterGameServerError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -12276,12 +12241,7 @@ export const registerCompute: API.OperationMethod<
 export const registerGameServer: API.OperationMethod<
   RegisterGameServerInput,
   RegisterGameServerOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | UnauthorizedException
-  | CommonErrors,
+  RegisterGameServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterGameServerInput,
@@ -12294,6 +12254,12 @@ export const registerGameServer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type RequestUploadCredentialsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -12314,11 +12280,7 @@ export const registerGameServer: API.OperationMethod<
 export const requestUploadCredentials: API.OperationMethod<
   RequestUploadCredentialsInput,
   RequestUploadCredentialsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  RequestUploadCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestUploadCredentialsInput,
@@ -12330,6 +12292,13 @@ export const requestUploadCredentials: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ResolveAliasError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12347,12 +12316,7 @@ export const requestUploadCredentials: API.OperationMethod<
 export const resolveAlias: API.OperationMethod<
   ResolveAliasInput,
   ResolveAliasOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | CommonErrors,
+  ResolveAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveAliasInput,
@@ -12365,6 +12329,12 @@ export const resolveAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ResumeGameServerGroupError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -12388,11 +12358,7 @@ export const resolveAlias: API.OperationMethod<
 export const resumeGameServerGroup: API.OperationMethod<
   ResumeGameServerGroupInput,
   ResumeGameServerGroupOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ResumeGameServerGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeGameServerGroupInput,
@@ -12404,6 +12370,14 @@ export const resumeGameServerGroup: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type SearchGameSessionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12478,39 +12452,21 @@ export const resumeGameServerGroup: API.OperationMethod<
 export const searchGameSessions: API.OperationMethod<
   SearchGameSessionsInput,
   SearchGameSessionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TerminalRoutingStrategyException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  SearchGameSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchGameSessionsInput,
   ) => stream.Stream<
     SearchGameSessionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    SearchGameSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchGameSessionsInput,
   ) => stream.Stream<
     GameSession,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
+    SearchGameSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12531,6 +12487,13 @@ export const searchGameSessions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type StartFleetActionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -12558,12 +12521,7 @@ export const searchGameSessions: API.OperationMethod<
 export const startFleetActions: API.OperationMethod<
   StartFleetActionsInput,
   StartFleetActionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  StartFleetActionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFleetActionsInput,
@@ -12576,6 +12534,13 @@ export const startFleetActions: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type StartGameSessionPlacementError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12659,12 +12624,7 @@ export const startFleetActions: API.OperationMethod<
 export const startGameSessionPlacement: API.OperationMethod<
   StartGameSessionPlacementInput,
   StartGameSessionPlacementOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  StartGameSessionPlacementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartGameSessionPlacementInput,
@@ -12677,6 +12637,12 @@ export const startGameSessionPlacement: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type StartMatchBackfillError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12720,11 +12686,7 @@ export const startGameSessionPlacement: API.OperationMethod<
 export const startMatchBackfill: API.OperationMethod<
   StartMatchBackfillInput,
   StartMatchBackfillOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnsupportedRegionException
-  | CommonErrors,
+  StartMatchBackfillError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMatchBackfillInput,
@@ -12736,6 +12698,12 @@ export const startMatchBackfill: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type StartMatchmakingError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12769,11 +12737,7 @@ export const startMatchBackfill: API.OperationMethod<
 export const startMatchmaking: API.OperationMethod<
   StartMatchmakingInput,
   StartMatchmakingOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnsupportedRegionException
-  | CommonErrors,
+  StartMatchmakingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMatchmakingInput,
@@ -12785,6 +12749,13 @@ export const startMatchmaking: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type StopFleetActionsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -12817,12 +12788,7 @@ export const startMatchmaking: API.OperationMethod<
 export const stopFleetActions: API.OperationMethod<
   StopFleetActionsInput,
   StopFleetActionsOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  StopFleetActionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFleetActionsInput,
@@ -12835,6 +12801,12 @@ export const stopFleetActions: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type StopGameSessionPlacementError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12853,11 +12825,7 @@ export const stopFleetActions: API.OperationMethod<
 export const stopGameSessionPlacement: API.OperationMethod<
   StopGameSessionPlacementInput,
   StopGameSessionPlacementOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  StopGameSessionPlacementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopGameSessionPlacementInput,
@@ -12869,6 +12837,12 @@ export const stopGameSessionPlacement: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type StopMatchmakingError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12892,11 +12866,7 @@ export const stopGameSessionPlacement: API.OperationMethod<
 export const stopMatchmaking: API.OperationMethod<
   StopMatchmakingInput,
   StopMatchmakingOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnsupportedRegionException
-  | CommonErrors,
+  StopMatchmakingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMatchmakingInput,
@@ -12908,6 +12878,12 @@ export const stopMatchmaking: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type SuspendGameServerGroupError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -12937,11 +12913,7 @@ export const stopMatchmaking: API.OperationMethod<
 export const suspendGameServerGroup: API.OperationMethod<
   SuspendGameServerGroupInput,
   SuspendGameServerGroupOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  SuspendGameServerGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuspendGameServerGroupInput,
@@ -12953,6 +12925,13 @@ export const suspendGameServerGroup: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -12979,12 +12958,7 @@ export const suspendGameServerGroup: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -12997,6 +12971,14 @@ export const tagResource: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type TerminateGameSessionError =
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13047,13 +13029,7 @@ export const tagResource: API.OperationMethod<
 export const terminateGameSession: API.OperationMethod<
   TerminateGameSessionInput,
   TerminateGameSessionOutput,
-  | InternalServiceException
-  | InvalidGameSessionStatusException
-  | InvalidRequestException
-  | NotFoundException
-  | NotReadyException
-  | UnauthorizedException
-  | CommonErrors,
+  TerminateGameSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateGameSessionInput,
@@ -13067,6 +13043,13 @@ export const terminateGameSession: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13092,12 +13075,7 @@ export const terminateGameSession: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | TaggingFailedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -13110,6 +13088,12 @@ export const untagResource: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type UpdateAliasError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13126,11 +13110,7 @@ export const untagResource: API.OperationMethod<
 export const updateAlias: API.OperationMethod<
   UpdateAliasInput,
   UpdateAliasOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasInput,
@@ -13142,6 +13122,12 @@ export const updateAlias: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateBuildError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -13159,11 +13145,7 @@ export const updateAlias: API.OperationMethod<
 export const updateBuild: API.OperationMethod<
   UpdateBuildInput,
   UpdateBuildOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBuildInput,
@@ -13175,6 +13157,15 @@ export const updateBuild: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateContainerFleetError =
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -13230,14 +13221,7 @@ export const updateBuild: API.OperationMethod<
 export const updateContainerFleet: API.OperationMethod<
   UpdateContainerFleetInput,
   UpdateContainerFleetOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | NotReadyException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  UpdateContainerFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContainerFleetInput,
@@ -13252,6 +13236,14 @@ export const updateContainerFleet: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type UpdateContainerGroupDefinitionError =
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -13295,13 +13287,7 @@ export const updateContainerFleet: API.OperationMethod<
 export const updateContainerGroupDefinition: API.OperationMethod<
   UpdateContainerGroupDefinitionInput,
   UpdateContainerGroupDefinitionOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  UpdateContainerGroupDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContainerGroupDefinitionInput,
@@ -13315,6 +13301,15 @@ export const updateContainerGroupDefinition: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type UpdateFleetAttributesError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13339,14 +13334,7 @@ export const updateContainerGroupDefinition: API.OperationMethod<
 export const updateFleetAttributes: API.OperationMethod<
   UpdateFleetAttributesInput,
   UpdateFleetAttributesOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateFleetAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetAttributesInput,
@@ -13361,6 +13349,16 @@ export const updateFleetAttributes: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateFleetCapacityError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -13417,15 +13415,7 @@ export const updateFleetAttributes: API.OperationMethod<
 export const updateFleetCapacity: API.OperationMethod<
   UpdateFleetCapacityInput,
   UpdateFleetCapacityOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | UnsupportedRegionException
-  | CommonErrors,
+  UpdateFleetCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetCapacityInput,
@@ -13441,6 +13431,15 @@ export const updateFleetCapacity: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type UpdateFleetPortSettingsError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -13466,14 +13465,7 @@ export const updateFleetCapacity: API.OperationMethod<
 export const updateFleetPortSettings: API.OperationMethod<
   UpdateFleetPortSettingsInput,
   UpdateFleetPortSettingsOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateFleetPortSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetPortSettingsInput,
@@ -13488,6 +13480,12 @@ export const updateFleetPortSettings: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateGameServerError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -13524,11 +13522,7 @@ export const updateFleetPortSettings: API.OperationMethod<
 export const updateGameServer: API.OperationMethod<
   UpdateGameServerInput,
   UpdateGameServerOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateGameServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGameServerInput,
@@ -13540,6 +13534,12 @@ export const updateGameServer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateGameServerGroupError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -13561,11 +13561,7 @@ export const updateGameServer: API.OperationMethod<
 export const updateGameServerGroup: API.OperationMethod<
   UpdateGameServerGroupInput,
   UpdateGameServerGroupOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateGameServerGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGameServerGroupInput,
@@ -13577,6 +13573,15 @@ export const updateGameServerGroup: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateGameSessionError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13592,14 +13597,7 @@ export const updateGameServerGroup: API.OperationMethod<
 export const updateGameSession: API.OperationMethod<
   UpdateGameSessionInput,
   UpdateGameSessionOutput,
-  | ConflictException
-  | InternalServiceException
-  | InvalidGameSessionStatusException
-  | InvalidRequestException
-  | NotFoundException
-  | NotReadyException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateGameSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGameSessionInput,
@@ -13614,6 +13612,12 @@ export const updateGameSession: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateGameSessionQueueError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13629,11 +13633,7 @@ export const updateGameSession: API.OperationMethod<
 export const updateGameSessionQueue: API.OperationMethod<
   UpdateGameSessionQueueInput,
   UpdateGameSessionQueueOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateGameSessionQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGameSessionQueueInput,
@@ -13645,6 +13645,12 @@ export const updateGameSessionQueue: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateMatchmakingConfigurationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13660,11 +13666,7 @@ export const updateGameSessionQueue: API.OperationMethod<
 export const updateMatchmakingConfiguration: API.OperationMethod<
   UpdateMatchmakingConfigurationInput,
   UpdateMatchmakingConfigurationOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnsupportedRegionException
-  | CommonErrors,
+  UpdateMatchmakingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMatchmakingConfigurationInput,
@@ -13676,6 +13678,14 @@ export const updateMatchmakingConfiguration: API.OperationMethod<
     UnsupportedRegionException,
   ],
 }));
+export type UpdateRuntimeConfigurationError =
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -13703,13 +13713,7 @@ export const updateMatchmakingConfiguration: API.OperationMethod<
 export const updateRuntimeConfiguration: API.OperationMethod<
   UpdateRuntimeConfigurationInput,
   UpdateRuntimeConfigurationOutput,
-  | InternalServiceException
-  | InvalidFleetStatusException
-  | InvalidRequestException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateRuntimeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuntimeConfigurationInput,
@@ -13723,6 +13727,12 @@ export const updateRuntimeConfiguration: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateScriptError =
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -13751,11 +13761,7 @@ export const updateRuntimeConfiguration: API.OperationMethod<
 export const updateScript: API.OperationMethod<
   UpdateScriptInput,
   UpdateScriptOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateScriptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScriptInput,
@@ -13767,6 +13773,11 @@ export const updateScript: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ValidateMatchmakingRuleSetError =
+  | InternalServiceException
+  | InvalidRequestException
+  | UnsupportedRegionException
+  | CommonErrors;
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -13782,10 +13793,7 @@ export const updateScript: API.OperationMethod<
 export const validateMatchmakingRuleSet: API.OperationMethod<
   ValidateMatchmakingRuleSetInput,
   ValidateMatchmakingRuleSetOutput,
-  | InternalServiceException
-  | InvalidRequestException
-  | UnsupportedRegionException
-  | CommonErrors,
+  ValidateMatchmakingRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateMatchmakingRuleSetInput,

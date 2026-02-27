@@ -686,12 +686,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
- */
-export const associateSourceViews: API.OperationMethod<
-  AssociateSourceViewsRequest,
-  AssociateSourceViewsResponse,
+export type AssociateSourceViewsError =
   | AccessDeniedException
   | BillingViewHealthStatusException
   | ConflictException
@@ -700,7 +695,14 @@ export const associateSourceViews: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
+ */
+export const associateSourceViews: API.OperationMethod<
+  AssociateSourceViewsRequest,
+  AssociateSourceViewsResponse,
+  AssociateSourceViewsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSourceViewsRequest,
@@ -716,12 +718,7 @@ export const associateSourceViews: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a billing view with the specified billing view attributes.
- */
-export const createBillingView: API.OperationMethod<
-  CreateBillingViewRequest,
-  CreateBillingViewResponse,
+export type CreateBillingViewError =
   | AccessDeniedException
   | BillingViewHealthStatusException
   | ConflictException
@@ -730,7 +727,14 @@ export const createBillingView: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a billing view with the specified billing view attributes.
+ */
+export const createBillingView: API.OperationMethod<
+  CreateBillingViewRequest,
+  CreateBillingViewResponse,
+  CreateBillingViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingViewRequest,
@@ -746,18 +750,20 @@ export const createBillingView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBillingViewError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified billing view.
  */
 export const deleteBillingView: API.OperationMethod<
   DeleteBillingViewRequest,
   DeleteBillingViewResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBillingViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillingViewRequest,
@@ -770,12 +776,7 @@ export const deleteBillingView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
- */
-export const disassociateSourceViews: API.OperationMethod<
-  DisassociateSourceViewsRequest,
-  DisassociateSourceViewsResponse,
+export type DisassociateSourceViewsError =
   | AccessDeniedException
   | BillingViewHealthStatusException
   | ConflictException
@@ -783,7 +784,14 @@ export const disassociateSourceViews: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
+ */
+export const disassociateSourceViews: API.OperationMethod<
+  DisassociateSourceViewsRequest,
+  DisassociateSourceViewsResponse,
+  DisassociateSourceViewsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSourceViewsRequest,
@@ -798,18 +806,20 @@ export const disassociateSourceViews: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBillingViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the metadata associated to the specified billing view ARN.
  */
 export const getBillingView: API.OperationMethod<
   GetBillingViewRequest,
   GetBillingViewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBillingViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingViewRequest,
@@ -822,18 +832,20 @@ export const getBillingView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resource-based policy document attached to the resource in `JSON` format.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -846,6 +858,12 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBillingViewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the billing views available for a given time period.
  *
@@ -854,33 +872,21 @@ export const getResourcePolicy: API.OperationMethod<
 export const listBillingViews: API.OperationMethod<
   ListBillingViewsRequest,
   ListBillingViewsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBillingViewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillingViewsRequest,
   ) => stream.Stream<
     ListBillingViewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBillingViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillingViewsRequest,
   ) => stream.Stream<
     BillingViewListElement,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBillingViewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -899,42 +905,34 @@ export const listBillingViews: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSourceViewsForBillingViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
  */
 export const listSourceViewsForBillingView: API.OperationMethod<
   ListSourceViewsForBillingViewRequest,
   ListSourceViewsForBillingViewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSourceViewsForBillingViewError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceViewsForBillingViewRequest,
   ) => stream.Stream<
     ListSourceViewsForBillingViewResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSourceViewsForBillingViewError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceViewsForBillingViewRequest,
   ) => stream.Stream<
     BillingViewArn,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSourceViewsForBillingViewError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -954,18 +952,20 @@ export const listSourceViewsForBillingView: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags associated with the billing view resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -978,18 +978,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * An API operation for adding one or more tags (key-value pairs) to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1002,18 +1004,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1026,12 +1030,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * An API to update the attributes of the billing view.
- */
-export const updateBillingView: API.OperationMethod<
-  UpdateBillingViewRequest,
-  UpdateBillingViewResponse,
+export type UpdateBillingViewError =
   | AccessDeniedException
   | BillingViewHealthStatusException
   | ConflictException
@@ -1040,7 +1039,14 @@ export const updateBillingView: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * An API to update the attributes of the billing view.
+ */
+export const updateBillingView: API.OperationMethod<
+  UpdateBillingViewRequest,
+  UpdateBillingViewResponse,
+  UpdateBillingViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillingViewRequest,

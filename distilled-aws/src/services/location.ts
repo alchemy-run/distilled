@@ -751,19 +751,19 @@ export interface BatchItemError {
 export const BatchItemError = S.suspend(() =>
   S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
 ).annotate({ identifier: "BatchItemError" }) as any as S.Schema<BatchItemError>;
-export interface BatchDeleteGeofenceError {
+export interface BatchDeleteGeofenceError_ {
   GeofenceId: string;
   Error: BatchItemError;
 }
-export const BatchDeleteGeofenceError = S.suspend(() =>
+export const BatchDeleteGeofenceError_ = S.suspend(() =>
   S.Struct({ GeofenceId: S.String, Error: BatchItemError }),
 ).annotate({
   identifier: "BatchDeleteGeofenceError",
-}) as any as S.Schema<BatchDeleteGeofenceError>;
-export type BatchDeleteGeofenceErrorList = BatchDeleteGeofenceError[];
-export const BatchDeleteGeofenceErrorList = S.Array(BatchDeleteGeofenceError);
+}) as any as S.Schema<BatchDeleteGeofenceError_>;
+export type BatchDeleteGeofenceErrorList = BatchDeleteGeofenceError_[];
+export const BatchDeleteGeofenceErrorList = S.Array(BatchDeleteGeofenceError_);
 export interface BatchDeleteGeofenceResponse {
-  Errors: BatchDeleteGeofenceError[];
+  Errors: BatchDeleteGeofenceError_[];
 }
 export const BatchDeleteGeofenceResponse = S.suspend(() =>
   S.Struct({ Errors: BatchDeleteGeofenceErrorList }),
@@ -829,12 +829,12 @@ export const BatchEvaluateGeofencesRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchEvaluateGeofencesRequest",
 }) as any as S.Schema<BatchEvaluateGeofencesRequest>;
-export interface BatchEvaluateGeofencesError {
+export interface BatchEvaluateGeofencesError_ {
   DeviceId: string;
   SampleTime: Date;
   Error: BatchItemError;
 }
-export const BatchEvaluateGeofencesError = S.suspend(() =>
+export const BatchEvaluateGeofencesError_ = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
     SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -842,13 +842,13 @@ export const BatchEvaluateGeofencesError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchEvaluateGeofencesError",
-}) as any as S.Schema<BatchEvaluateGeofencesError>;
-export type BatchEvaluateGeofencesErrorList = BatchEvaluateGeofencesError[];
+}) as any as S.Schema<BatchEvaluateGeofencesError_>;
+export type BatchEvaluateGeofencesErrorList = BatchEvaluateGeofencesError_[];
 export const BatchEvaluateGeofencesErrorList = S.Array(
-  BatchEvaluateGeofencesError,
+  BatchEvaluateGeofencesError_,
 );
 export interface BatchEvaluateGeofencesResponse {
-  Errors: BatchEvaluateGeofencesError[];
+  Errors: BatchEvaluateGeofencesError_[];
 }
 export const BatchEvaluateGeofencesResponse = S.suspend(() =>
   S.Struct({ Errors: BatchEvaluateGeofencesErrorList }),
@@ -944,20 +944,20 @@ export const BatchPutGeofenceSuccess = S.suspend(() =>
 }) as any as S.Schema<BatchPutGeofenceSuccess>;
 export type BatchPutGeofenceSuccessList = BatchPutGeofenceSuccess[];
 export const BatchPutGeofenceSuccessList = S.Array(BatchPutGeofenceSuccess);
-export interface BatchPutGeofenceError {
+export interface BatchPutGeofenceError_ {
   GeofenceId: string;
   Error: BatchItemError;
 }
-export const BatchPutGeofenceError = S.suspend(() =>
+export const BatchPutGeofenceError_ = S.suspend(() =>
   S.Struct({ GeofenceId: S.String, Error: BatchItemError }),
 ).annotate({
   identifier: "BatchPutGeofenceError",
-}) as any as S.Schema<BatchPutGeofenceError>;
-export type BatchPutGeofenceErrorList = BatchPutGeofenceError[];
-export const BatchPutGeofenceErrorList = S.Array(BatchPutGeofenceError);
+}) as any as S.Schema<BatchPutGeofenceError_>;
+export type BatchPutGeofenceErrorList = BatchPutGeofenceError_[];
+export const BatchPutGeofenceErrorList = S.Array(BatchPutGeofenceError_);
 export interface BatchPutGeofenceResponse {
   Successes: BatchPutGeofenceSuccess[];
-  Errors: BatchPutGeofenceError[];
+  Errors: BatchPutGeofenceError_[];
 }
 export const BatchPutGeofenceResponse = S.suspend(() =>
   S.Struct({
@@ -2929,22 +2929,22 @@ export const BatchDeleteDevicePositionHistoryRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchDeleteDevicePositionHistoryRequest",
 }) as any as S.Schema<BatchDeleteDevicePositionHistoryRequest>;
-export interface BatchDeleteDevicePositionHistoryError {
+export interface BatchDeleteDevicePositionHistoryError_ {
   DeviceId: string;
   Error: BatchItemError;
 }
-export const BatchDeleteDevicePositionHistoryError = S.suspend(() =>
+export const BatchDeleteDevicePositionHistoryError_ = S.suspend(() =>
   S.Struct({ DeviceId: S.String, Error: BatchItemError }),
 ).annotate({
   identifier: "BatchDeleteDevicePositionHistoryError",
-}) as any as S.Schema<BatchDeleteDevicePositionHistoryError>;
+}) as any as S.Schema<BatchDeleteDevicePositionHistoryError_>;
 export type BatchDeleteDevicePositionHistoryErrorList =
-  BatchDeleteDevicePositionHistoryError[];
+  BatchDeleteDevicePositionHistoryError_[];
 export const BatchDeleteDevicePositionHistoryErrorList = S.Array(
-  BatchDeleteDevicePositionHistoryError,
+  BatchDeleteDevicePositionHistoryError_,
 );
 export interface BatchDeleteDevicePositionHistoryResponse {
-  Errors: BatchDeleteDevicePositionHistoryError[];
+  Errors: BatchDeleteDevicePositionHistoryError_[];
 }
 export const BatchDeleteDevicePositionHistoryResponse = S.suspend(() =>
   S.Struct({ Errors: BatchDeleteDevicePositionHistoryErrorList }),
@@ -2975,18 +2975,18 @@ export const BatchGetDevicePositionRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchGetDevicePositionRequest",
 }) as any as S.Schema<BatchGetDevicePositionRequest>;
-export interface BatchGetDevicePositionError {
+export interface BatchGetDevicePositionError_ {
   DeviceId: string;
   Error: BatchItemError;
 }
-export const BatchGetDevicePositionError = S.suspend(() =>
+export const BatchGetDevicePositionError_ = S.suspend(() =>
   S.Struct({ DeviceId: S.String, Error: BatchItemError }),
 ).annotate({
   identifier: "BatchGetDevicePositionError",
-}) as any as S.Schema<BatchGetDevicePositionError>;
-export type BatchGetDevicePositionErrorList = BatchGetDevicePositionError[];
+}) as any as S.Schema<BatchGetDevicePositionError_>;
+export type BatchGetDevicePositionErrorList = BatchGetDevicePositionError_[];
 export const BatchGetDevicePositionErrorList = S.Array(
-  BatchGetDevicePositionError,
+  BatchGetDevicePositionError_,
 );
 export interface DevicePosition {
   DeviceId?: string;
@@ -3009,7 +3009,7 @@ export const DevicePosition = S.suspend(() =>
 export type DevicePositionList = DevicePosition[];
 export const DevicePositionList = S.Array(DevicePosition);
 export interface BatchGetDevicePositionResponse {
-  Errors: BatchGetDevicePositionError[];
+  Errors: BatchGetDevicePositionError_[];
   DevicePositions: DevicePosition[];
 }
 export const BatchGetDevicePositionResponse = S.suspend(() =>
@@ -3044,12 +3044,12 @@ export const BatchUpdateDevicePositionRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchUpdateDevicePositionRequest",
 }) as any as S.Schema<BatchUpdateDevicePositionRequest>;
-export interface BatchUpdateDevicePositionError {
+export interface BatchUpdateDevicePositionError_ {
   DeviceId: string;
   SampleTime: Date;
   Error: BatchItemError;
 }
-export const BatchUpdateDevicePositionError = S.suspend(() =>
+export const BatchUpdateDevicePositionError_ = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
     SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -3057,14 +3057,14 @@ export const BatchUpdateDevicePositionError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchUpdateDevicePositionError",
-}) as any as S.Schema<BatchUpdateDevicePositionError>;
+}) as any as S.Schema<BatchUpdateDevicePositionError_>;
 export type BatchUpdateDevicePositionErrorList =
-  BatchUpdateDevicePositionError[];
+  BatchUpdateDevicePositionError_[];
 export const BatchUpdateDevicePositionErrorList = S.Array(
-  BatchUpdateDevicePositionError,
+  BatchUpdateDevicePositionError_,
 );
 export interface BatchUpdateDevicePositionResponse {
-  Errors: BatchUpdateDevicePositionError[];
+  Errors: BatchUpdateDevicePositionError_[];
 }
 export const BatchUpdateDevicePositionResponse = S.suspend(() =>
   S.Struct({ Errors: BatchUpdateDevicePositionErrorList }),
@@ -3489,6 +3489,14 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer.
  *
@@ -3497,13 +3505,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const createKey: API.OperationMethod<
   CreateKeyRequest,
   CreateKeyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyRequest,
@@ -3517,6 +3519,13 @@ export const createKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the API key resource details.
  *
@@ -3525,12 +3534,7 @@ export const createKey: API.OperationMethod<
 export const describeKey: API.OperationMethod<
   DescribeKeyRequest,
   DescribeKeyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeKeyRequest,
@@ -3543,18 +3547,20 @@ export const describeKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified properties of a given API key resource.
  */
 export const updateKey: API.OperationMethod<
   UpdateKeyRequest,
   UpdateKeyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeyRequest,
@@ -3567,6 +3573,13 @@ export const updateKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
  *
@@ -3575,12 +3588,7 @@ export const updateKey: API.OperationMethod<
 export const deleteKey: API.OperationMethod<
   DeleteKeyRequest,
   DeleteKeyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyRequest,
@@ -3593,6 +3601,12 @@ export const deleteKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListKeysError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists API key resources in your Amazon Web Services account.
  *
@@ -3601,33 +3615,21 @@ export const deleteKey: API.OperationMethod<
 export const listKeys: API.OperationMethod<
   ListKeysRequest,
   ListKeysResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeysRequest,
   ) => stream.Stream<
     ListKeysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeysRequest,
   ) => stream.Stream<
     ListKeysResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3646,18 +3648,20 @@ export const listKeys: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags that are applied to the specified Amazon Location resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3670,6 +3674,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource.
  *
@@ -3682,12 +3693,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3700,18 +3706,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified Amazon Location resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3724,19 +3732,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a geofence collection, which manages and stores geofences.
- */
-export const createGeofenceCollection: API.OperationMethod<
-  CreateGeofenceCollectionRequest,
-  CreateGeofenceCollectionResponse,
+export type CreateGeofenceCollectionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a geofence collection, which manages and stores geofences.
+ */
+export const createGeofenceCollection: API.OperationMethod<
+  CreateGeofenceCollectionRequest,
+  CreateGeofenceCollectionResponse,
+  CreateGeofenceCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGeofenceCollectionRequest,
@@ -3750,18 +3760,20 @@ export const createGeofenceCollection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeGeofenceCollectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the geofence collection details.
  */
 export const describeGeofenceCollection: API.OperationMethod<
   DescribeGeofenceCollectionRequest,
   DescribeGeofenceCollectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeGeofenceCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGeofenceCollectionRequest,
@@ -3774,18 +3786,20 @@ export const describeGeofenceCollection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGeofenceCollectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified properties of a given geofence collection.
  */
 export const updateGeofenceCollection: API.OperationMethod<
   UpdateGeofenceCollectionRequest,
   UpdateGeofenceCollectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateGeofenceCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGeofenceCollectionRequest,
@@ -3798,6 +3812,13 @@ export const updateGeofenceCollection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGeofenceCollectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a geofence collection from your Amazon Web Services account.
  *
@@ -3806,12 +3827,7 @@ export const updateGeofenceCollection: API.OperationMethod<
 export const deleteGeofenceCollection: API.OperationMethod<
   DeleteGeofenceCollectionRequest,
   DeleteGeofenceCollectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteGeofenceCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGeofenceCollectionRequest,
@@ -3824,39 +3840,33 @@ export const deleteGeofenceCollection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGeofenceCollectionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists geofence collections in your Amazon Web Services account.
  */
 export const listGeofenceCollections: API.OperationMethod<
   ListGeofenceCollectionsRequest,
   ListGeofenceCollectionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGeofenceCollectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGeofenceCollectionsRequest,
   ) => stream.Stream<
     ListGeofenceCollectionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGeofenceCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGeofenceCollectionsRequest,
   ) => stream.Stream<
     ListGeofenceCollectionsResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGeofenceCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3875,6 +3885,13 @@ export const listGeofenceCollections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type BatchDeleteGeofenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a batch of geofences from a geofence collection.
  *
@@ -3883,12 +3900,7 @@ export const listGeofenceCollections: API.OperationMethod<
 export const batchDeleteGeofence: API.OperationMethod<
   BatchDeleteGeofenceRequest,
   BatchDeleteGeofenceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteGeofenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteGeofenceRequest,
@@ -3901,6 +3913,13 @@ export const batchDeleteGeofence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchEvaluateGeofencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Evaluates device positions against the geofence geometries from a given geofence collection.
  *
@@ -3919,12 +3938,7 @@ export const batchDeleteGeofence: API.OperationMethod<
 export const batchEvaluateGeofences: API.OperationMethod<
   BatchEvaluateGeofencesRequest,
   BatchEvaluateGeofencesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchEvaluateGeofencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchEvaluateGeofencesRequest,
@@ -3937,18 +3951,20 @@ export const batchEvaluateGeofences: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchPutGeofenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const batchPutGeofence: API.OperationMethod<
   BatchPutGeofenceRequest,
   BatchPutGeofenceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchPutGeofenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutGeofenceRequest,
@@ -3961,6 +3977,13 @@ export const batchPutGeofence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ForecastGeofenceEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states:
  *
@@ -3975,36 +3998,21 @@ export const batchPutGeofence: API.OperationMethod<
 export const forecastGeofenceEvents: API.OperationMethod<
   ForecastGeofenceEventsRequest,
   ForecastGeofenceEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ForecastGeofenceEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ForecastGeofenceEventsRequest,
   ) => stream.Stream<
     ForecastGeofenceEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ForecastGeofenceEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ForecastGeofenceEventsRequest,
   ) => stream.Stream<
     ForecastedEvent,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ForecastGeofenceEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4024,6 +4032,13 @@ export const forecastGeofenceEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetGeofenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the geofence details from a geofence collection.
  *
@@ -4032,12 +4047,7 @@ export const forecastGeofenceEvents: API.OperationMethod<
 export const getGeofence: API.OperationMethod<
   GetGeofenceRequest,
   GetGeofenceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGeofenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeofenceRequest,
@@ -4050,42 +4060,34 @@ export const getGeofence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGeofencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists geofences stored in a given geofence collection.
  */
 export const listGeofences: API.OperationMethod<
   ListGeofencesRequest,
   ListGeofencesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGeofencesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGeofencesRequest,
   ) => stream.Stream<
     ListGeofencesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGeofencesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGeofencesRequest,
   ) => stream.Stream<
     ListGeofenceResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGeofencesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4105,19 +4107,21 @@ export const listGeofences: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
- */
-export const putGeofence: API.OperationMethod<
-  PutGeofenceRequest,
-  PutGeofenceResponse,
+export type PutGeofenceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
+ */
+export const putGeofence: API.OperationMethod<
+  PutGeofenceRequest,
+  PutGeofenceResponse,
+  PutGeofenceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGeofenceRequest,
@@ -4131,6 +4135,14 @@ export const putGeofence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateMapError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require `Grab` data.
  *
@@ -4151,13 +4163,7 @@ export const putGeofence: API.OperationMethod<
 export const createMap: API.OperationMethod<
   CreateMapRequest,
   CreateMapResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMapRequest,
@@ -4171,6 +4177,13 @@ export const createMap: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeMapError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require `Grab` data.
  *
@@ -4189,12 +4202,7 @@ export const createMap: API.OperationMethod<
 export const describeMap: API.OperationMethod<
   DescribeMapRequest,
   DescribeMapResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMapRequest,
@@ -4207,6 +4215,13 @@ export const describeMap: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMapError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require `Grab` data.
  *
@@ -4225,12 +4240,7 @@ export const describeMap: API.OperationMethod<
 export const updateMap: API.OperationMethod<
   UpdateMapRequest,
   UpdateMapResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMapRequest,
@@ -4243,6 +4253,13 @@ export const updateMap: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMapError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require `Grab` data.
  *
@@ -4263,12 +4280,7 @@ export const updateMap: API.OperationMethod<
 export const deleteMap: API.OperationMethod<
   DeleteMapRequest,
   DeleteMapResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMapRequest,
@@ -4281,6 +4293,12 @@ export const deleteMap: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMapsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require `Grab` data.
  *
@@ -4299,33 +4317,21 @@ export const deleteMap: API.OperationMethod<
 export const listMaps: API.OperationMethod<
   ListMapsRequest,
   ListMapsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMapsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMapsRequest,
   ) => stream.Stream<
     ListMapsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMapsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMapsRequest,
   ) => stream.Stream<
     ListMapsResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMapsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4344,6 +4350,13 @@ export const listMaps: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetMapGlyphsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to `GetGlyphs` unless you require `Grab` data.
  *
@@ -4362,12 +4375,7 @@ export const listMaps: API.OperationMethod<
 export const getMapGlyphs: API.OperationMethod<
   GetMapGlyphsRequest,
   GetMapGlyphsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMapGlyphsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMapGlyphsRequest,
@@ -4380,6 +4388,13 @@ export const getMapGlyphs: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMapSpritesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to `GetSprites` unless you require `Grab` data.
  *
@@ -4398,12 +4413,7 @@ export const getMapGlyphs: API.OperationMethod<
 export const getMapSprites: API.OperationMethod<
   GetMapSpritesRequest,
   GetMapSpritesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMapSpritesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMapSpritesRequest,
@@ -4416,6 +4426,13 @@ export const getMapSprites: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMapStyleDescriptorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to `GetStyleDescriptor` unless you require `Grab` data.
  *
@@ -4436,12 +4453,7 @@ export const getMapSprites: API.OperationMethod<
 export const getMapStyleDescriptor: API.OperationMethod<
   GetMapStyleDescriptorRequest,
   GetMapStyleDescriptorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMapStyleDescriptorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMapStyleDescriptorRequest,
@@ -4454,6 +4466,13 @@ export const getMapStyleDescriptor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMapTileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend upgrading to `GetTile` unless you require `Grab` data.
  *
@@ -4474,12 +4493,7 @@ export const getMapStyleDescriptor: API.OperationMethod<
 export const getMapTile: API.OperationMethod<
   GetMapTileRequest,
   GetMapTileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMapTileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMapTileRequest,
@@ -4492,6 +4506,14 @@ export const getMapTile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePlaceIndexError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
  *
@@ -4512,13 +4534,7 @@ export const getMapTile: API.OperationMethod<
 export const createPlaceIndex: API.OperationMethod<
   CreatePlaceIndexRequest,
   CreatePlaceIndexResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePlaceIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlaceIndexRequest,
@@ -4532,6 +4548,13 @@ export const createPlaceIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePlaceIndexError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
  *
@@ -4550,12 +4573,7 @@ export const createPlaceIndex: API.OperationMethod<
 export const describePlaceIndex: API.OperationMethod<
   DescribePlaceIndexRequest,
   DescribePlaceIndexResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePlaceIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePlaceIndexRequest,
@@ -4568,6 +4586,13 @@ export const describePlaceIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePlaceIndexError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
  *
@@ -4586,12 +4611,7 @@ export const describePlaceIndex: API.OperationMethod<
 export const updatePlaceIndex: API.OperationMethod<
   UpdatePlaceIndexRequest,
   UpdatePlaceIndexResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePlaceIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlaceIndexRequest,
@@ -4604,6 +4624,13 @@ export const updatePlaceIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePlaceIndexError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
  *
@@ -4624,12 +4651,7 @@ export const updatePlaceIndex: API.OperationMethod<
 export const deletePlaceIndex: API.OperationMethod<
   DeletePlaceIndexRequest,
   DeletePlaceIndexResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePlaceIndexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePlaceIndexRequest,
@@ -4642,6 +4664,12 @@ export const deletePlaceIndex: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPlaceIndexesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
  *
@@ -4660,33 +4688,21 @@ export const deletePlaceIndex: API.OperationMethod<
 export const listPlaceIndexes: API.OperationMethod<
   ListPlaceIndexesRequest,
   ListPlaceIndexesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPlaceIndexesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlaceIndexesRequest,
   ) => stream.Stream<
     ListPlaceIndexesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPlaceIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPlaceIndexesRequest,
   ) => stream.Stream<
     ListPlaceIndexesResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPlaceIndexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4705,6 +4721,13 @@ export const listPlaceIndexes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetPlaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 `GetPlace` operation unless you require Grab data.
  *
@@ -4733,12 +4756,7 @@ export const listPlaceIndexes: API.OperationMethod<
 export const getPlace: API.OperationMethod<
   GetPlaceRequest,
   GetPlaceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPlaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlaceRequest,
@@ -4751,6 +4769,13 @@ export const getPlace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchPlaceIndexForPositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to `ReverseGeocode` or `SearchNearby` unless you require Grab data.
  *
@@ -4767,12 +4792,7 @@ export const getPlace: API.OperationMethod<
 export const searchPlaceIndexForPosition: API.OperationMethod<
   SearchPlaceIndexForPositionRequest,
   SearchPlaceIndexForPositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchPlaceIndexForPositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchPlaceIndexForPositionRequest,
@@ -4785,6 +4805,13 @@ export const searchPlaceIndexForPosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchPlaceIndexForSuggestionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to `Suggest` or `Autocomplete` unless you require Grab data.
  *
@@ -4805,12 +4832,7 @@ export const searchPlaceIndexForPosition: API.OperationMethod<
 export const searchPlaceIndexForSuggestions: API.OperationMethod<
   SearchPlaceIndexForSuggestionsRequest,
   SearchPlaceIndexForSuggestionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchPlaceIndexForSuggestionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchPlaceIndexForSuggestionsRequest,
@@ -4823,6 +4845,13 @@ export const searchPlaceIndexForSuggestions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchPlaceIndexForTextError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to `Geocode` or `SearchText` unless you require Grab data.
  *
@@ -4845,12 +4874,7 @@ export const searchPlaceIndexForSuggestions: API.OperationMethod<
 export const searchPlaceIndexForText: API.OperationMethod<
   SearchPlaceIndexForTextRequest,
   SearchPlaceIndexForTextResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchPlaceIndexForTextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchPlaceIndexForTextRequest,
@@ -4863,6 +4887,14 @@ export const searchPlaceIndexForText: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRouteCalculatorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
  *
@@ -4885,13 +4917,7 @@ export const searchPlaceIndexForText: API.OperationMethod<
 export const createRouteCalculator: API.OperationMethod<
   CreateRouteCalculatorRequest,
   CreateRouteCalculatorResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRouteCalculatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteCalculatorRequest,
@@ -4905,6 +4931,13 @@ export const createRouteCalculator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRouteCalculatorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
  *
@@ -4923,12 +4956,7 @@ export const createRouteCalculator: API.OperationMethod<
 export const describeRouteCalculator: API.OperationMethod<
   DescribeRouteCalculatorRequest,
   DescribeRouteCalculatorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRouteCalculatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRouteCalculatorRequest,
@@ -4941,6 +4969,13 @@ export const describeRouteCalculator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateRouteCalculatorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
  *
@@ -4959,12 +4994,7 @@ export const describeRouteCalculator: API.OperationMethod<
 export const updateRouteCalculator: API.OperationMethod<
   UpdateRouteCalculatorRequest,
   UpdateRouteCalculatorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateRouteCalculatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteCalculatorRequest,
@@ -4977,6 +5007,13 @@ export const updateRouteCalculator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRouteCalculatorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
  *
@@ -4997,12 +5034,7 @@ export const updateRouteCalculator: API.OperationMethod<
 export const deleteRouteCalculator: API.OperationMethod<
   DeleteRouteCalculatorRequest,
   DeleteRouteCalculatorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRouteCalculatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteCalculatorRequest,
@@ -5015,6 +5047,12 @@ export const deleteRouteCalculator: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRouteCalculatorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
  *
@@ -5033,33 +5071,21 @@ export const deleteRouteCalculator: API.OperationMethod<
 export const listRouteCalculators: API.OperationMethod<
   ListRouteCalculatorsRequest,
   ListRouteCalculatorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRouteCalculatorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRouteCalculatorsRequest,
   ) => stream.Stream<
     ListRouteCalculatorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRouteCalculatorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRouteCalculatorsRequest,
   ) => stream.Stream<
     ListRouteCalculatorsResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRouteCalculatorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5078,6 +5104,13 @@ export const listRouteCalculators: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CalculateRouteError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to `CalculateRoutes` or `CalculateIsolines` unless you require Grab data.
  *
@@ -5106,12 +5139,7 @@ export const listRouteCalculators: API.OperationMethod<
 export const calculateRoute: API.OperationMethod<
   CalculateRouteRequest,
   CalculateRouteResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CalculateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateRouteRequest,
@@ -5124,6 +5152,13 @@ export const calculateRoute: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CalculateRouteMatrixError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 `CalculateRouteMatrix` unless you require Grab data.
  *
@@ -5156,12 +5191,7 @@ export const calculateRoute: API.OperationMethod<
 export const calculateRouteMatrix: API.OperationMethod<
   CalculateRouteMatrixRequest,
   CalculateRouteMatrixResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CalculateRouteMatrixError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateRouteMatrixRequest,
@@ -5174,19 +5204,21 @@ export const calculateRouteMatrix: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
- */
-export const createTracker: API.OperationMethod<
-  CreateTrackerRequest,
-  CreateTrackerResponse,
+export type CreateTrackerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
+ */
+export const createTracker: API.OperationMethod<
+  CreateTrackerRequest,
+  CreateTrackerResponse,
+  CreateTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrackerRequest,
@@ -5200,18 +5232,20 @@ export const createTracker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTrackerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the tracker resource details.
  */
 export const describeTracker: API.OperationMethod<
   DescribeTrackerRequest,
   DescribeTrackerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrackerRequest,
@@ -5224,18 +5258,20 @@ export const describeTracker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTrackerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified properties of a given tracker resource.
  */
 export const updateTracker: API.OperationMethod<
   UpdateTrackerRequest,
   UpdateTrackerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrackerRequest,
@@ -5248,6 +5284,13 @@ export const updateTracker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTrackerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a tracker resource from your Amazon Web Services account.
  *
@@ -5256,12 +5299,7 @@ export const updateTracker: API.OperationMethod<
 export const deleteTracker: API.OperationMethod<
   DeleteTrackerRequest,
   DeleteTrackerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrackerRequest,
@@ -5274,39 +5312,33 @@ export const deleteTracker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTrackersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tracker resources in your Amazon Web Services account.
  */
 export const listTrackers: API.OperationMethod<
   ListTrackersRequest,
   ListTrackersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTrackersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrackersRequest,
   ) => stream.Stream<
     ListTrackersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrackersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrackersRequest,
   ) => stream.Stream<
     ListTrackersResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrackersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5325,6 +5357,15 @@ export const listTrackers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type AssociateTrackerConsumerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection.
  *
@@ -5335,14 +5376,7 @@ export const listTrackers: API.OperationMethod<
 export const associateTrackerConsumer: API.OperationMethod<
   AssociateTrackerConsumerRequest,
   AssociateTrackerConsumerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateTrackerConsumerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateTrackerConsumerRequest,
@@ -5357,18 +5391,20 @@ export const associateTrackerConsumer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDeleteDevicePositionHistoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the position history of one or more devices from a tracker resource.
  */
 export const batchDeleteDevicePositionHistory: API.OperationMethod<
   BatchDeleteDevicePositionHistoryRequest,
   BatchDeleteDevicePositionHistoryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteDevicePositionHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDevicePositionHistoryRequest,
@@ -5381,18 +5417,20 @@ export const batchDeleteDevicePositionHistory: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetDevicePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the latest device positions for requested devices.
  */
 export const batchGetDevicePosition: API.OperationMethod<
   BatchGetDevicePositionRequest,
   BatchGetDevicePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetDevicePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDevicePositionRequest,
@@ -5405,6 +5443,13 @@ export const batchGetDevicePosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchUpdateDevicePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Uploads position update data for one or more devices to a tracker resource (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days.
  *
@@ -5417,12 +5462,7 @@ export const batchGetDevicePosition: API.OperationMethod<
 export const batchUpdateDevicePosition: API.OperationMethod<
   BatchUpdateDevicePositionRequest,
   BatchUpdateDevicePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateDevicePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateDevicePositionRequest,
@@ -5435,6 +5475,13 @@ export const batchUpdateDevicePosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateTrackerConsumerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association between a tracker resource and a geofence collection.
  *
@@ -5443,12 +5490,7 @@ export const batchUpdateDevicePosition: API.OperationMethod<
 export const disassociateTrackerConsumer: API.OperationMethod<
   DisassociateTrackerConsumerRequest,
   DisassociateTrackerConsumerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateTrackerConsumerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateTrackerConsumerRequest,
@@ -5461,6 +5503,13 @@ export const disassociateTrackerConsumer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDevicePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a device's most recent position according to its sample time.
  *
@@ -5469,12 +5518,7 @@ export const disassociateTrackerConsumer: API.OperationMethod<
 export const getDevicePosition: API.OperationMethod<
   GetDevicePositionRequest,
   GetDevicePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDevicePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicePositionRequest,
@@ -5487,6 +5531,13 @@ export const getDevicePosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDevicePositionHistoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the device position history from a tracker resource within a specified range of time.
  *
@@ -5495,36 +5546,21 @@ export const getDevicePosition: API.OperationMethod<
 export const getDevicePositionHistory: API.OperationMethod<
   GetDevicePositionHistoryRequest,
   GetDevicePositionHistoryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDevicePositionHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDevicePositionHistoryRequest,
   ) => stream.Stream<
     GetDevicePositionHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetDevicePositionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDevicePositionHistoryRequest,
   ) => stream.Stream<
     DevicePosition,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetDevicePositionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5544,39 +5580,33 @@ export const getDevicePositionHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDevicePositionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A batch request to retrieve all device positions.
  */
 export const listDevicePositions: API.OperationMethod<
   ListDevicePositionsRequest,
   ListDevicePositionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDevicePositionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicePositionsRequest,
   ) => stream.Stream<
     ListDevicePositionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDevicePositionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicePositionsRequest,
   ) => stream.Stream<
     ListDevicePositionsResponseEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDevicePositionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5595,42 +5625,34 @@ export const listDevicePositions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTrackerConsumersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists geofence collections currently associated to the given tracker resource.
  */
 export const listTrackerConsumers: API.OperationMethod<
   ListTrackerConsumersRequest,
   ListTrackerConsumersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTrackerConsumersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrackerConsumersRequest,
   ) => stream.Stream<
     ListTrackerConsumersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrackerConsumersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrackerConsumersRequest,
   ) => stream.Stream<
     Arn,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrackerConsumersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5650,6 +5672,13 @@ export const listTrackerConsumers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type VerifyDevicePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.
  *
@@ -5658,12 +5687,7 @@ export const listTrackerConsumers: API.OperationMethod<
 export const verifyDevicePosition: API.OperationMethod<
   VerifyDevicePositionRequest,
   VerifyDevicePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  VerifyDevicePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyDevicePositionRequest,

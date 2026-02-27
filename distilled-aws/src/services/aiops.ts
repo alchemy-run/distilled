@@ -544,19 +544,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceOutput,
+export type ListTagsForResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceOutput,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -570,6 +572,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  *
@@ -582,13 +592,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -602,19 +606,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes one or more tags from the specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes one or more tags from the specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -628,6 +634,15 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateInvestigationGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an *investigation group* in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations.
  *
@@ -650,14 +665,7 @@ export const untagResource: API.OperationMethod<
 export const createInvestigationGroup: API.OperationMethod<
   CreateInvestigationGroupInput,
   CreateInvestigationGroupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateInvestigationGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvestigationGroupInput,
@@ -672,17 +680,19 @@ export const createInvestigationGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInvestigationGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the configuration information for the specified investigation group.
  */
 export const getInvestigationGroup: API.OperationMethod<
   GetInvestigationGroupRequest,
   GetInvestigationGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetInvestigationGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvestigationGroupRequest,
@@ -694,19 +704,21 @@ export const getInvestigationGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the configuration of the specified investigation group.
- */
-export const updateInvestigationGroup: API.OperationMethod<
-  UpdateInvestigationGroupRequest,
-  UpdateInvestigationGroupOutput,
+export type UpdateInvestigationGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of the specified investigation group.
+ */
+export const updateInvestigationGroup: API.OperationMethod<
+  UpdateInvestigationGroupRequest,
+  UpdateInvestigationGroupOutput,
+  UpdateInvestigationGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInvestigationGroupRequest,
@@ -720,17 +732,19 @@ export const updateInvestigationGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInvestigationGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
  */
 export const deleteInvestigationGroup: API.OperationMethod<
   DeleteInvestigationGroupRequest,
   DeleteInvestigationGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteInvestigationGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvestigationGroupRequest,
@@ -742,36 +756,32 @@ export const deleteInvestigationGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListInvestigationGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the ARN and name of each investigation group in the account.
  */
 export const listInvestigationGroups: API.OperationMethod<
   ListInvestigationGroupsInput,
   ListInvestigationGroupsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  ListInvestigationGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInvestigationGroupsInput,
   ) => stream.Stream<
     ListInvestigationGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
+    ListInvestigationGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvestigationGroupsInput,
   ) => stream.Stream<
     ListInvestigationGroupsModel,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
+    ListInvestigationGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -785,6 +795,14 @@ export const listInvestigationGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutInvestigationGroupPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an IAM resource policy and assigns it to the specified investigation group.
  *
@@ -795,13 +813,7 @@ export const listInvestigationGroups: API.OperationMethod<
 export const putInvestigationGroupPolicy: API.OperationMethod<
   PutInvestigationGroupPolicyRequest,
   PutInvestigationGroupPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutInvestigationGroupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInvestigationGroupPolicyRequest,
@@ -815,18 +827,20 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInvestigationGroupPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
  */
 export const getInvestigationGroupPolicy: API.OperationMethod<
   GetInvestigationGroupPolicyRequest,
   GetInvestigationGroupPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInvestigationGroupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvestigationGroupPolicyRequest,
@@ -839,18 +853,20 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInvestigationGroupPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the IAM resource policy from being associated with the investigation group that you specify.
  */
 export const deleteInvestigationGroupPolicy: API.OperationMethod<
   DeleteInvestigationGroupPolicyRequest,
   DeleteInvestigationGroupPolicyOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteInvestigationGroupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvestigationGroupPolicyRequest,

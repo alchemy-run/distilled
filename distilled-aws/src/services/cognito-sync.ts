@@ -962,6 +962,14 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BulkPublishError =
+  | AlreadyStreamedException
+  | DuplicateRequestException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation.
  *
@@ -970,13 +978,7 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 export const bulkPublish: API.OperationMethod<
   BulkPublishRequest,
   BulkPublishResponse,
-  | AlreadyStreamedException
-  | DuplicateRequestException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  BulkPublishError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkPublishRequest,
@@ -990,6 +992,14 @@ export const bulkPublish: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDatasetError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the specific dataset. The dataset will be deleted permanently, and the action can't
  * be undone. Datasets that this dataset was merged with will no longer report the merge. Any
@@ -1001,13 +1011,7 @@ export const bulkPublish: API.OperationMethod<
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
@@ -1021,6 +1025,13 @@ export const deleteDataset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeDatasetError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each
  * identity has access only to its own data. Thus, the credentials used to make this API call
@@ -1031,12 +1042,7 @@ export const deleteDataset: API.OperationMethod<
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
@@ -1049,6 +1055,13 @@ export const describeDataset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeIdentityPoolUsageError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets usage details (for example, data storage) about a particular identity pool.
  *
@@ -1098,12 +1111,7 @@ export const describeDataset: API.OperationMethod<
 export const describeIdentityPoolUsage: API.OperationMethod<
   DescribeIdentityPoolUsageRequest,
   DescribeIdentityPoolUsageResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeIdentityPoolUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityPoolUsageRequest,
@@ -1116,6 +1124,13 @@ export const describeIdentityPoolUsage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeIdentityUsageError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets usage information for an identity, including number of datasets and data usage.
  *
@@ -1167,12 +1182,7 @@ export const describeIdentityPoolUsage: API.OperationMethod<
 export const describeIdentityUsage: API.OperationMethod<
   DescribeIdentityUsageRequest,
   DescribeIdentityUsageResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeIdentityUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityUsageRequest,
@@ -1185,6 +1195,12 @@ export const describeIdentityUsage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetBulkPublishDetailsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Get the status of the last BulkPublish operation for an identity pool.
  *
@@ -1193,11 +1209,7 @@ export const describeIdentityUsage: API.OperationMethod<
 export const getBulkPublishDetails: API.OperationMethod<
   GetBulkPublishDetailsRequest,
   GetBulkPublishDetailsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetBulkPublishDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBulkPublishDetailsRequest,
@@ -1209,6 +1221,13 @@ export const getBulkPublishDetails: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetCognitoEventsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the events and the corresponding Lambda functions associated with an identity pool.
  *
@@ -1217,12 +1236,7 @@ export const getBulkPublishDetails: API.OperationMethod<
 export const getCognitoEvents: API.OperationMethod<
   GetCognitoEventsRequest,
   GetCognitoEventsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCognitoEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCognitoEventsRequest,
@@ -1235,6 +1249,13 @@ export const getCognitoEvents: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetIdentityPoolConfigurationError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the configuration settings of an identity pool.
  *
@@ -1283,12 +1304,7 @@ export const getCognitoEvents: API.OperationMethod<
 export const getIdentityPoolConfiguration: API.OperationMethod<
   GetIdentityPoolConfigurationRequest,
   GetIdentityPoolConfigurationResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetIdentityPoolConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityPoolConfigurationRequest,
@@ -1301,6 +1317,12 @@ export const getIdentityPoolConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListDatasetsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to
  * its own data. Thus, the credentials used to make this API call need to have access to the
@@ -1361,11 +1383,7 @@ export const getIdentityPoolConfiguration: API.OperationMethod<
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDatasetsRequest,
@@ -1377,6 +1395,12 @@ export const listDatasets: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListIdentityPoolUsageError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of identity pools registered with Cognito.
  *
@@ -1437,11 +1461,7 @@ export const listDatasets: API.OperationMethod<
 export const listIdentityPoolUsage: API.OperationMethod<
   ListIdentityPoolUsageRequest,
   ListIdentityPoolUsageResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListIdentityPoolUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIdentityPoolUsageRequest,
@@ -1453,6 +1473,12 @@ export const listIdentityPoolUsage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListRecordsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets paginated records, optionally changed after a particular sync count for a dataset and
  * identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus,
@@ -1510,11 +1536,7 @@ export const listIdentityPoolUsage: API.OperationMethod<
 export const listRecords: API.OperationMethod<
   ListRecordsRequest,
   ListRecordsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRecordsRequest,
@@ -1526,6 +1548,14 @@ export const listRecords: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type RegisterDeviceError =
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Registers a device to receive push sync notifications.
  *
@@ -1573,13 +1603,7 @@ export const listRecords: API.OperationMethod<
 export const registerDevice: API.OperationMethod<
   RegisterDeviceRequest,
   RegisterDeviceResponse,
-  | InternalErrorException
-  | InvalidConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  RegisterDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDeviceRequest,
@@ -1593,6 +1617,13 @@ export const registerDevice: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetCognitoEventsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
  *
@@ -1601,12 +1632,7 @@ export const registerDevice: API.OperationMethod<
 export const setCognitoEvents: API.OperationMethod<
   SetCognitoEventsRequest,
   SetCognitoEventsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetCognitoEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetCognitoEventsRequest,
@@ -1619,6 +1645,14 @@ export const setCognitoEvents: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SetIdentityPoolConfigurationError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the necessary configuration for push sync.
  *
@@ -1672,13 +1706,7 @@ export const setCognitoEvents: API.OperationMethod<
 export const setIdentityPoolConfiguration: API.OperationMethod<
   SetIdentityPoolConfigurationRequest,
   SetIdentityPoolConfigurationResponse,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SetIdentityPoolConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIdentityPoolConfigurationRequest,
@@ -1692,6 +1720,14 @@ export const setIdentityPoolConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SubscribeToDatasetError =
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Subscribes to receive notifications when a dataset is modified by another device.
  *
@@ -1738,13 +1774,7 @@ export const setIdentityPoolConfiguration: API.OperationMethod<
 export const subscribeToDataset: API.OperationMethod<
   SubscribeToDatasetRequest,
   SubscribeToDatasetResponse,
-  | InternalErrorException
-  | InvalidConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  SubscribeToDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeToDatasetRequest,
@@ -1758,6 +1788,14 @@ export const subscribeToDataset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UnsubscribeFromDatasetError =
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Unsubscribes from receiving notifications when a dataset is modified by another device.
  *
@@ -1805,13 +1843,7 @@ export const subscribeToDataset: API.OperationMethod<
 export const unsubscribeFromDataset: API.OperationMethod<
   UnsubscribeFromDatasetRequest,
   UnsubscribeFromDatasetResponse,
-  | InternalErrorException
-  | InvalidConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UnsubscribeFromDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeFromDatasetRequest,
@@ -1825,6 +1857,17 @@ export const unsubscribeFromDataset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateRecordsError =
+  | InternalErrorException
+  | InvalidLambdaFunctionOutputException
+  | InvalidParameterException
+  | LambdaThrottledException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Posts updates to records and adds and deletes records for a dataset and user.
  *
@@ -1837,16 +1880,7 @@ export const unsubscribeFromDataset: API.OperationMethod<
 export const updateRecords: API.OperationMethod<
   UpdateRecordsRequest,
   UpdateRecordsResponse,
-  | InternalErrorException
-  | InvalidLambdaFunctionOutputException
-  | InvalidParameterException
-  | LambdaThrottledException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecordsRequest,

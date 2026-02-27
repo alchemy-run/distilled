@@ -1136,6 +1136,13 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateRepositoryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use to associate an Amazon Web Services CodeCommit repository or a repository managed by Amazon Web Services
  * CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews
@@ -1159,12 +1166,7 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 export const associateRepository: API.OperationMethod<
   AssociateRepositoryRequest,
   AssociateRepositoryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateRepositoryRequest,
@@ -1177,6 +1179,14 @@ export const associateRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCodeReviewError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use to create a code review with a CodeReviewType of
  * `RepositoryAnalysis`. This type of code review analyzes all code under a
@@ -1186,13 +1196,7 @@ export const associateRepository: API.OperationMethod<
 export const createCodeReview: API.OperationMethod<
   CreateCodeReviewRequest,
   CreateCodeReviewResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCodeReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCodeReviewRequest,
@@ -1206,18 +1210,20 @@ export const createCodeReview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeCodeReviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the metadata associated with the code review along with its status.
  */
 export const describeCodeReview: API.OperationMethod<
   DescribeCodeReviewRequest,
   DescribeCodeReviewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeCodeReviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCodeReviewRequest,
@@ -1230,18 +1236,20 @@ export const describeCodeReview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRecommendationFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
 export const describeRecommendationFeedback: API.OperationMethod<
   DescribeRecommendationFeedbackRequest,
   DescribeRecommendationFeedbackResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRecommendationFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecommendationFeedbackRequest,
@@ -1254,6 +1262,13 @@ export const describeRecommendationFeedback: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRepositoryAssociationError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a RepositoryAssociation object that contains information about the requested
  * repository association.
@@ -1261,12 +1276,7 @@ export const describeRecommendationFeedback: API.OperationMethod<
 export const describeRepositoryAssociation: API.OperationMethod<
   DescribeRepositoryAssociationRequest,
   DescribeRepositoryAssociationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | NotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRepositoryAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRepositoryAssociationRequest,
@@ -1279,19 +1289,21 @@ export const describeRepositoryAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the association between Amazon CodeGuru Reviewer and a repository.
- */
-export const disassociateRepository: API.OperationMethod<
-  DisassociateRepositoryRequest,
-  DisassociateRepositoryResponse,
+export type DisassociateRepositoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | NotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between Amazon CodeGuru Reviewer and a repository.
+ */
+export const disassociateRepository: API.OperationMethod<
+  DisassociateRepositoryRequest,
+  DisassociateRepositoryResponse,
+  DisassociateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateRepositoryRequest,
@@ -1305,39 +1317,33 @@ export const disassociateRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCodeReviewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
 export const listCodeReviews: API.OperationMethod<
   ListCodeReviewsRequest,
   ListCodeReviewsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCodeReviewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCodeReviewsRequest,
   ) => stream.Stream<
     ListCodeReviewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCodeReviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCodeReviewsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCodeReviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1355,6 +1361,13 @@ export const listCodeReviews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRecommendationFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of RecommendationFeedbackSummary objects that contain customer recommendation
  * feedback for all CodeGuru Reviewer users.
@@ -1362,36 +1375,21 @@ export const listCodeReviews: API.OperationMethod<
 export const listRecommendationFeedback: API.OperationMethod<
   ListRecommendationFeedbackRequest,
   ListRecommendationFeedbackResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationFeedbackRequest,
   ) => stream.Stream<
     ListRecommendationFeedbackResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationFeedbackError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationFeedbackRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationFeedbackError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1410,42 +1408,34 @@ export const listRecommendationFeedback: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of all recommendations for a completed code review.
  */
 export const listRecommendations: API.OperationMethod<
   ListRecommendationsRequest,
   ListRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1464,6 +1454,11 @@ export const listRecommendations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRepositoryAssociationsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of RepositoryAssociationSummary objects that contain summary information about a
  * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
@@ -1471,30 +1466,21 @@ export const listRecommendations: API.OperationMethod<
 export const listRepositoryAssociations: API.OperationMethod<
   ListRepositoryAssociationsRequest,
   ListRepositoryAssociationsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRepositoryAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoryAssociationsRequest,
   ) => stream.Stream<
     ListRepositoryAssociationsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoryAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoryAssociationsRequest,
   ) => stream.Stream<
     RepositoryAssociationSummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoryAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1508,16 +1494,18 @@ export const listRepositoryAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of tags associated with an associated repository resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1528,6 +1516,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRecommendationFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with
  * different reactions the previous feedback is overwritten.
@@ -1535,12 +1530,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putRecommendationFeedback: API.OperationMethod<
   PutRecommendationFeedbackRequest,
   PutRecommendationFeedbackResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutRecommendationFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecommendationFeedbackRequest,
@@ -1553,16 +1543,18 @@ export const putRecommendationFeedback: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds one or more tags to an associated repository.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1573,16 +1565,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from an associated repository.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

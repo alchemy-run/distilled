@@ -2487,6 +2487,15 @@ export class ValidationError extends S.TaggedErrorClass<ValidationError>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchCreateUserError =
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors;
 /**
  * Creates multiple users in a specified Wickr network. This operation allows you to provision multiple user accounts simultaneously, optionally specifying security groups, and validation requirements for each user.
  *
@@ -2495,14 +2504,7 @@ export class ValidationError extends S.TaggedErrorClass<ValidationError>()(
 export const batchCreateUser: API.OperationMethod<
   BatchCreateUserRequest,
   BatchCreateUserResponse,
-  | BadRequestError
-  | ForbiddenError
-  | InternalServerError
-  | RateLimitError
-  | ResourceNotFoundError
-  | UnauthorizedError
-  | ValidationError
-  | CommonErrors,
+  BatchCreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateUserRequest,
@@ -2517,12 +2519,7 @@ export const batchCreateUser: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network.
- */
-export const batchDeleteUser: API.OperationMethod<
-  BatchDeleteUserRequest,
-  BatchDeleteUserResponse,
+export type BatchDeleteUserError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2530,7 +2527,14 @@ export const batchDeleteUser: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network.
+ */
+export const batchDeleteUser: API.OperationMethod<
+  BatchDeleteUserRequest,
+  BatchDeleteUserResponse,
+  BatchDeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteUserRequest,
@@ -2545,12 +2549,7 @@ export const batchDeleteUser: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes.
- */
-export const batchLookupUserUname: API.OperationMethod<
-  BatchLookupUserUnameRequest,
-  BatchLookupUserUnameResponse,
+export type BatchLookupUserUnameError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2558,7 +2557,14 @@ export const batchLookupUserUname: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes.
+ */
+export const batchLookupUserUname: API.OperationMethod<
+  BatchLookupUserUnameRequest,
+  BatchLookupUserUnameResponse,
+  BatchLookupUserUnameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchLookupUserUnameRequest,
@@ -2573,12 +2579,7 @@ export const batchLookupUserUname: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired.
- */
-export const batchReinviteUser: API.OperationMethod<
-  BatchReinviteUserRequest,
-  BatchReinviteUserResponse,
+export type BatchReinviteUserError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2586,7 +2587,14 @@ export const batchReinviteUser: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired.
+ */
+export const batchReinviteUser: API.OperationMethod<
+  BatchReinviteUserRequest,
+  BatchReinviteUserResponse,
+  BatchReinviteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchReinviteUserRequest,
@@ -2601,12 +2609,7 @@ export const batchReinviteUser: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
- */
-export const batchResetDevicesForUser: API.OperationMethod<
-  BatchResetDevicesForUserRequest,
-  BatchResetDevicesForUserResponse,
+export type BatchResetDevicesForUserError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2614,7 +2617,14 @@ export const batchResetDevicesForUser: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
+ */
+export const batchResetDevicesForUser: API.OperationMethod<
+  BatchResetDevicesForUserRequest,
+  BatchResetDevicesForUserResponse,
+  BatchResetDevicesForUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchResetDevicesForUserRequest,
@@ -2629,12 +2639,7 @@ export const batchResetDevicesForUser: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
- */
-export const batchToggleUserSuspendStatus: API.OperationMethod<
-  BatchToggleUserSuspendStatusRequest,
-  BatchToggleUserSuspendStatusResponse,
+export type BatchToggleUserSuspendStatusError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2642,7 +2647,14 @@ export const batchToggleUserSuspendStatus: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
+ */
+export const batchToggleUserSuspendStatus: API.OperationMethod<
+  BatchToggleUserSuspendStatusRequest,
+  BatchToggleUserSuspendStatusResponse,
+  BatchToggleUserSuspendStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchToggleUserSuspendStatusRequest,
@@ -2657,12 +2669,7 @@ export const batchToggleUserSuspendStatus: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
- */
-export const createBot: API.OperationMethod<
-  CreateBotRequest,
-  CreateBotResponse,
+export type CreateBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2670,7 +2677,14 @@ export const createBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
+ */
+export const createBot: API.OperationMethod<
+  CreateBotRequest,
+  CreateBotResponse,
+  CreateBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotRequest,
@@ -2685,12 +2699,7 @@ export const createBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
- */
-export const createDataRetentionBot: API.OperationMethod<
-  CreateDataRetentionBotRequest,
-  CreateDataRetentionBotResponse,
+export type CreateDataRetentionBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2698,7 +2707,14 @@ export const createDataRetentionBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
+ */
+export const createDataRetentionBot: API.OperationMethod<
+  CreateDataRetentionBotRequest,
+  CreateDataRetentionBotResponse,
+  CreateDataRetentionBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataRetentionBotRequest,
@@ -2713,12 +2729,7 @@ export const createDataRetentionBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
- */
-export const createDataRetentionBotChallenge: API.OperationMethod<
-  CreateDataRetentionBotChallengeRequest,
-  CreateDataRetentionBotChallengeResponse,
+export type CreateDataRetentionBotChallengeError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2726,7 +2737,14 @@ export const createDataRetentionBotChallenge: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
+ */
+export const createDataRetentionBotChallenge: API.OperationMethod<
+  CreateDataRetentionBotChallengeRequest,
+  CreateDataRetentionBotChallengeResponse,
+  CreateDataRetentionBotChallengeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataRetentionBotChallengeRequest,
@@ -2741,12 +2759,7 @@ export const createDataRetentionBotChallenge: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
- */
-export const createNetwork: API.OperationMethod<
-  CreateNetworkRequest,
-  CreateNetworkResponse,
+export type CreateNetworkError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2754,7 +2767,14 @@ export const createNetwork: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
+ */
+export const createNetwork: API.OperationMethod<
+  CreateNetworkRequest,
+  CreateNetworkResponse,
+  CreateNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkRequest,
@@ -2769,12 +2789,7 @@ export const createNetwork: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
- */
-export const createSecurityGroup: API.OperationMethod<
-  CreateSecurityGroupRequest,
-  CreateSecurityGroupResponse,
+export type CreateSecurityGroupError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2782,7 +2797,14 @@ export const createSecurityGroup: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
+ */
+export const createSecurityGroup: API.OperationMethod<
+  CreateSecurityGroupRequest,
+  CreateSecurityGroupResponse,
+  CreateSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityGroupRequest,
@@ -2797,12 +2819,7 @@ export const createSecurityGroup: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
- */
-export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
-  DeleteBotResponse,
+export type DeleteBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2810,7 +2827,14 @@ export const deleteBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
+ */
+export const deleteBot: API.OperationMethod<
+  DeleteBotRequest,
+  DeleteBotResponse,
+  DeleteBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotRequest,
@@ -2825,12 +2849,7 @@ export const deleteBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
- */
-export const deleteDataRetentionBot: API.OperationMethod<
-  DeleteDataRetentionBotRequest,
-  DeleteDataRetentionBotResponse,
+export type DeleteDataRetentionBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2838,7 +2857,14 @@ export const deleteDataRetentionBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
+ */
+export const deleteDataRetentionBot: API.OperationMethod<
+  DeleteDataRetentionBotRequest,
+  DeleteDataRetentionBotResponse,
+  DeleteDataRetentionBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataRetentionBotRequest,
@@ -2853,12 +2879,7 @@ export const deleteDataRetentionBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Deletes a Wickr network and all its associated resources, including users, bots, security groups, and settings. This operation is permanent and cannot be undone.
- */
-export const deleteNetwork: API.OperationMethod<
-  DeleteNetworkRequest,
-  DeleteNetworkResponse,
+export type DeleteNetworkError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2866,7 +2887,14 @@ export const deleteNetwork: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Wickr network and all its associated resources, including users, bots, security groups, and settings. This operation is permanent and cannot be undone.
+ */
+export const deleteNetwork: API.OperationMethod<
+  DeleteNetworkRequest,
+  DeleteNetworkResponse,
+  DeleteNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNetworkRequest,
@@ -2881,12 +2909,7 @@ export const deleteNetwork: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Deletes a security group from a Wickr network. This operation cannot be performed on the default security group.
- */
-export const deleteSecurityGroup: API.OperationMethod<
-  DeleteSecurityGroupRequest,
-  DeleteSecurityGroupResponse,
+export type DeleteSecurityGroupError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2894,7 +2917,14 @@ export const deleteSecurityGroup: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a security group from a Wickr network. This operation cannot be performed on the default security group.
+ */
+export const deleteSecurityGroup: API.OperationMethod<
+  DeleteSecurityGroupRequest,
+  DeleteSecurityGroupResponse,
+  DeleteSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecurityGroupRequest,
@@ -2909,12 +2939,7 @@ export const deleteSecurityGroup: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves detailed information about a specific bot in a Wickr network, including its status, group membership, and authentication details.
- */
-export const getBot: API.OperationMethod<
-  GetBotRequest,
-  GetBotResponse,
+export type GetBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2922,7 +2947,14 @@ export const getBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific bot in a Wickr network, including its status, group membership, and authentication details.
+ */
+export const getBot: API.OperationMethod<
+  GetBotRequest,
+  GetBotResponse,
+  GetBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotRequest,
@@ -2937,12 +2969,7 @@ export const getBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total).
- */
-export const getBotsCount: API.OperationMethod<
-  GetBotsCountRequest,
-  GetBotsCountResponse,
+export type GetBotsCountError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2950,7 +2977,14 @@ export const getBotsCount: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total).
+ */
+export const getBotsCount: API.OperationMethod<
+  GetBotsCountRequest,
+  GetBotsCountResponse,
+  GetBotsCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotsCountRequest,
@@ -2965,12 +2999,7 @@ export const getBotsCount: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled.
- */
-export const getDataRetentionBot: API.OperationMethod<
-  GetDataRetentionBotRequest,
-  GetDataRetentionBotResponse,
+export type GetDataRetentionBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -2978,7 +3007,14 @@ export const getDataRetentionBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled.
+ */
+export const getDataRetentionBot: API.OperationMethod<
+  GetDataRetentionBotRequest,
+  GetDataRetentionBotResponse,
+  GetDataRetentionBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataRetentionBotRequest,
@@ -2993,12 +3029,7 @@ export const getDataRetentionBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
- */
-export const getGuestUserHistoryCount: API.OperationMethod<
-  GetGuestUserHistoryCountRequest,
-  GetGuestUserHistoryCountResponse,
+export type GetGuestUserHistoryCountError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3006,7 +3037,14 @@ export const getGuestUserHistoryCount: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
+ */
+export const getGuestUserHistoryCount: API.OperationMethod<
+  GetGuestUserHistoryCountRequest,
+  GetGuestUserHistoryCountResponse,
+  GetGuestUserHistoryCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGuestUserHistoryCountRequest,
@@ -3021,12 +3059,7 @@ export const getGuestUserHistoryCount: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status.
- */
-export const getNetwork: API.OperationMethod<
-  GetNetworkRequest,
-  GetNetworkResponse,
+export type GetNetworkError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3034,7 +3067,14 @@ export const getNetwork: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status.
+ */
+export const getNetwork: API.OperationMethod<
+  GetNetworkRequest,
+  GetNetworkResponse,
+  GetNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkRequest,
@@ -3049,12 +3089,7 @@ export const getNetwork: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
- */
-export const getNetworkSettings: API.OperationMethod<
-  GetNetworkSettingsRequest,
-  GetNetworkSettingsResponse,
+export type GetNetworkSettingsError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3062,7 +3097,14 @@ export const getNetworkSettings: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
+ */
+export const getNetworkSettings: API.OperationMethod<
+  GetNetworkSettingsRequest,
+  GetNetworkSettingsResponse,
+  GetNetworkSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkSettingsRequest,
@@ -3077,12 +3119,7 @@ export const getNetworkSettings: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
- */
-export const getOidcInfo: API.OperationMethod<
-  GetOidcInfoRequest,
-  GetOidcInfoResponse,
+export type GetOidcInfoError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3090,7 +3127,14 @@ export const getOidcInfo: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
+ */
+export const getOidcInfo: API.OperationMethod<
+  GetOidcInfoRequest,
+  GetOidcInfoResponse,
+  GetOidcInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOidcInfoRequest,
@@ -3105,12 +3149,7 @@ export const getOidcInfo: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves the OpenTDF integration configuration for a Wickr network.
- */
-export const getOpentdfConfig: API.OperationMethod<
-  GetOpentdfConfigRequest,
-  GetOpentdfConfigResponse,
+export type GetOpentdfConfigError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3118,7 +3157,14 @@ export const getOpentdfConfig: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the OpenTDF integration configuration for a Wickr network.
+ */
+export const getOpentdfConfig: API.OperationMethod<
+  GetOpentdfConfigRequest,
+  GetOpentdfConfigResponse,
+  GetOpentdfConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpentdfConfigRequest,
@@ -3133,12 +3179,7 @@ export const getOpentdfConfig: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
- */
-export const getSecurityGroup: API.OperationMethod<
-  GetSecurityGroupRequest,
-  GetSecurityGroupResponse,
+export type GetSecurityGroupError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3146,7 +3187,14 @@ export const getSecurityGroup: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
+ */
+export const getSecurityGroup: API.OperationMethod<
+  GetSecurityGroupRequest,
+  GetSecurityGroupResponse,
+  GetSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecurityGroupRequest,
@@ -3161,12 +3209,7 @@ export const getSecurityGroup: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history.
- */
-export const getUser: API.OperationMethod<
-  GetUserRequest,
-  GetUserResponse,
+export type GetUserError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3174,7 +3217,14 @@ export const getUser: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history.
+ */
+export const getUser: API.OperationMethod<
+  GetUserRequest,
+  GetUserResponse,
+  GetUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
@@ -3189,12 +3239,7 @@ export const getUser: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves the count of users in a Wickr network, categorized by their status (pending, active, rejected) and showing how many users can still be added.
- */
-export const getUsersCount: API.OperationMethod<
-  GetUsersCountRequest,
-  GetUsersCountResponse,
+export type GetUsersCountError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3202,7 +3247,14 @@ export const getUsersCount: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the count of users in a Wickr network, categorized by their status (pending, active, rejected) and showing how many users can still be added.
+ */
+export const getUsersCount: API.OperationMethod<
+  GetUsersCountRequest,
+  GetUsersCountResponse,
+  GetUsersCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersCountRequest,
@@ -3217,12 +3269,7 @@ export const getUsersCount: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
- */
-export const listBlockedGuestUsers: API.OperationMethod<
-  ListBlockedGuestUsersRequest,
-  ListBlockedGuestUsersResponse,
+export type ListBlockedGuestUsersError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3230,35 +3277,28 @@ export const listBlockedGuestUsers: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
+ */
+export const listBlockedGuestUsers: API.OperationMethod<
+  ListBlockedGuestUsersRequest,
+  ListBlockedGuestUsersResponse,
+  ListBlockedGuestUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBlockedGuestUsersRequest,
   ) => stream.Stream<
     ListBlockedGuestUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListBlockedGuestUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBlockedGuestUsersRequest,
   ) => stream.Stream<
     BlockedGuestUser,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListBlockedGuestUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3280,12 +3320,7 @@ export const listBlockedGuestUsers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
- */
-export const listBots: API.OperationMethod<
-  ListBotsRequest,
-  ListBotsResponse,
+export type ListBotsError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3293,35 +3328,28 @@ export const listBots: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
+ */
+export const listBots: API.OperationMethod<
+  ListBotsRequest,
+  ListBotsResponse,
+  ListBotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
     ListBotsResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotsRequest,
   ) => stream.Stream<
     Bot,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3343,12 +3371,7 @@ export const listBots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
- */
-export const listDevicesForUser: API.OperationMethod<
-  ListDevicesForUserRequest,
-  ListDevicesForUserResponse,
+export type ListDevicesForUserError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3356,35 +3379,28 @@ export const listDevicesForUser: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
+ */
+export const listDevicesForUser: API.OperationMethod<
+  ListDevicesForUserRequest,
+  ListDevicesForUserResponse,
+  ListDevicesForUserError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicesForUserRequest,
   ) => stream.Stream<
     ListDevicesForUserResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListDevicesForUserError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicesForUserRequest,
   ) => stream.Stream<
     BasicDeviceObject,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListDevicesForUserError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3406,12 +3422,7 @@ export const listDevicesForUser: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
- */
-export const listGuestUsers: API.OperationMethod<
-  ListGuestUsersRequest,
-  ListGuestUsersResponse,
+export type ListGuestUsersError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3419,35 +3430,28 @@ export const listGuestUsers: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
+ */
+export const listGuestUsers: API.OperationMethod<
+  ListGuestUsersRequest,
+  ListGuestUsersResponse,
+  ListGuestUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGuestUsersRequest,
   ) => stream.Stream<
     ListGuestUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListGuestUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGuestUsersRequest,
   ) => stream.Stream<
     GuestUser,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListGuestUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3469,45 +3473,35 @@ export const listGuestUsers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
- */
-export const listNetworks: API.OperationMethod<
-  ListNetworksRequest,
-  ListNetworksResponse,
+export type ListNetworksError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
   | RateLimitError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
+ */
+export const listNetworks: API.OperationMethod<
+  ListNetworksRequest,
+  ListNetworksResponse,
+  ListNetworksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNetworksRequest,
   ) => stream.Stream<
     ListNetworksResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListNetworksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNetworksRequest,
   ) => stream.Stream<
     Network,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListNetworksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3528,12 +3522,7 @@ export const listNetworks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria.
- */
-export const listSecurityGroups: API.OperationMethod<
-  ListSecurityGroupsRequest,
-  ListSecurityGroupsResponse,
+export type ListSecurityGroupsError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3541,35 +3530,28 @@ export const listSecurityGroups: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria.
+ */
+export const listSecurityGroups: API.OperationMethod<
+  ListSecurityGroupsRequest,
+  ListSecurityGroupsResponse,
+  ListSecurityGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityGroupsRequest,
   ) => stream.Stream<
     ListSecurityGroupsResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListSecurityGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityGroupsRequest,
   ) => stream.Stream<
     SecurityGroup,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListSecurityGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3591,12 +3573,7 @@ export const listSecurityGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
- */
-export const listSecurityGroupUsers: API.OperationMethod<
-  ListSecurityGroupUsersRequest,
-  ListSecurityGroupUsersResponse,
+export type ListSecurityGroupUsersError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3604,35 +3581,28 @@ export const listSecurityGroupUsers: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
+ */
+export const listSecurityGroupUsers: API.OperationMethod<
+  ListSecurityGroupUsersRequest,
+  ListSecurityGroupUsersResponse,
+  ListSecurityGroupUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityGroupUsersRequest,
   ) => stream.Stream<
     ListSecurityGroupUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListSecurityGroupUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityGroupUsersRequest,
   ) => stream.Stream<
     User,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListSecurityGroupUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3654,12 +3624,7 @@ export const listSecurityGroupUsers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership.
- */
-export const listUsers: API.OperationMethod<
-  ListUsersRequest,
-  ListUsersResponse,
+export type ListUsersError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3667,35 +3632,28 @@ export const listUsers: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership.
+ */
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     User,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3717,12 +3675,7 @@ export const listUsers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider.
- */
-export const registerOidcConfig: API.OperationMethod<
-  RegisterOidcConfigRequest,
-  RegisterOidcConfigResponse,
+export type RegisterOidcConfigError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3730,7 +3683,14 @@ export const registerOidcConfig: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider.
+ */
+export const registerOidcConfig: API.OperationMethod<
+  RegisterOidcConfigRequest,
+  RegisterOidcConfigResponse,
+  RegisterOidcConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOidcConfigRequest,
@@ -3745,12 +3705,7 @@ export const registerOidcConfig: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities.
- */
-export const registerOidcConfigTest: API.OperationMethod<
-  RegisterOidcConfigTestRequest,
-  RegisterOidcConfigTestResponse,
+export type RegisterOidcConfigTestError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3758,7 +3713,14 @@ export const registerOidcConfigTest: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities.
+ */
+export const registerOidcConfigTest: API.OperationMethod<
+  RegisterOidcConfigTestRequest,
+  RegisterOidcConfigTestResponse,
+  RegisterOidcConfigTestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOidcConfigTestRequest,
@@ -3773,12 +3735,7 @@ export const registerOidcConfigTest: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider.
- */
-export const registerOpentdfConfig: API.OperationMethod<
-  RegisterOpentdfConfigRequest,
-  RegisterOpentdfConfigResponse,
+export type RegisterOpentdfConfigError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3786,7 +3743,14 @@ export const registerOpentdfConfig: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider.
+ */
+export const registerOpentdfConfig: API.OperationMethod<
+  RegisterOpentdfConfigRequest,
+  RegisterOpentdfConfigResponse,
+  RegisterOpentdfConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOpentdfConfigRequest,
@@ -3801,12 +3765,7 @@ export const registerOpentdfConfig: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status.
- */
-export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
-  UpdateBotResponse,
+export type UpdateBotError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3814,7 +3773,14 @@ export const updateBot: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status.
+ */
+export const updateBot: API.OperationMethod<
+  UpdateBotRequest,
+  UpdateBotResponse,
+  UpdateBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotRequest,
@@ -3829,12 +3795,7 @@ export const updateBot: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message.
- */
-export const updateDataRetention: API.OperationMethod<
-  UpdateDataRetentionRequest,
-  UpdateDataRetentionResponse,
+export type UpdateDataRetentionError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3842,7 +3803,14 @@ export const updateDataRetention: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message.
+ */
+export const updateDataRetention: API.OperationMethod<
+  UpdateDataRetentionRequest,
+  UpdateDataRetentionResponse,
+  UpdateDataRetentionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataRetentionRequest,
@@ -3857,12 +3825,7 @@ export const updateDataRetention: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network.
- */
-export const updateGuestUser: API.OperationMethod<
-  UpdateGuestUserRequest,
-  UpdateGuestUserResponse,
+export type UpdateGuestUserError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3870,7 +3833,14 @@ export const updateGuestUser: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network.
+ */
+export const updateGuestUser: API.OperationMethod<
+  UpdateGuestUserRequest,
+  UpdateGuestUserResponse,
+  UpdateGuestUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGuestUserRequest,
@@ -3885,12 +3855,7 @@ export const updateGuestUser: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Updates the properties of an existing Wickr network, such as its name or encryption key configuration.
- */
-export const updateNetwork: API.OperationMethod<
-  UpdateNetworkRequest,
-  UpdateNetworkResponse,
+export type UpdateNetworkError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3898,7 +3863,14 @@ export const updateNetwork: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of an existing Wickr network, such as its name or encryption key configuration.
+ */
+export const updateNetwork: API.OperationMethod<
+  UpdateNetworkRequest,
+  UpdateNetworkResponse,
+  UpdateNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNetworkRequest,
@@ -3913,12 +3885,7 @@ export const updateNetwork: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
- */
-export const updateNetworkSettings: API.OperationMethod<
-  UpdateNetworkSettingsRequest,
-  UpdateNetworkSettingsResponse,
+export type UpdateNetworkSettingsError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3926,7 +3893,14 @@ export const updateNetworkSettings: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
+ */
+export const updateNetworkSettings: API.OperationMethod<
+  UpdateNetworkSettingsRequest,
+  UpdateNetworkSettingsResponse,
+  UpdateNetworkSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNetworkSettingsRequest,
@@ -3941,12 +3915,7 @@ export const updateNetworkSettings: API.OperationMethod<
     ValidationError,
   ],
 }));
-/**
- * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
- */
-export const updateSecurityGroup: API.OperationMethod<
-  UpdateSecurityGroupRequest,
-  UpdateSecurityGroupResponse,
+export type UpdateSecurityGroupError =
   | BadRequestError
   | ForbiddenError
   | InternalServerError
@@ -3954,7 +3923,14 @@ export const updateSecurityGroup: API.OperationMethod<
   | ResourceNotFoundError
   | UnauthorizedError
   | ValidationError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
+ */
+export const updateSecurityGroup: API.OperationMethod<
+  UpdateSecurityGroupRequest,
+  UpdateSecurityGroupResponse,
+  UpdateSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityGroupRequest,
@@ -3969,6 +3945,15 @@ export const updateSecurityGroup: API.OperationMethod<
     ValidationError,
   ],
 }));
+export type UpdateUserError =
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors;
 /**
  * Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings.
  *
@@ -3977,14 +3962,7 @@ export const updateSecurityGroup: API.OperationMethod<
 export const updateUser: API.OperationMethod<
   UpdateUserRequest,
   UpdateUserResponse,
-  | BadRequestError
-  | ForbiddenError
-  | InternalServerError
-  | RateLimitError
-  | ResourceNotFoundError
-  | UnauthorizedError
-  | ValidationError
-  | CommonErrors,
+  UpdateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,

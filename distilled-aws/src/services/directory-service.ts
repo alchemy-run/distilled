@@ -4012,18 +4012,20 @@ export class UnsupportedSettingsException extends S.TaggedErrorClass<Unsupported
 ) {}
 
 //# Operations
+export type AcceptSharedDirectoryError =
+  | ClientException
+  | DirectoryAlreadySharedException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Accepts a directory sharing request that was sent from the directory owner account.
  */
 export const acceptSharedDirectory: API.OperationMethod<
   AcceptSharedDirectoryRequest,
   AcceptSharedDirectoryResult,
-  | ClientException
-  | DirectoryAlreadySharedException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  AcceptSharedDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptSharedDirectoryRequest,
@@ -4036,6 +4038,15 @@ export const acceptSharedDirectory: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type AddIpRoutesError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | IpRouteLimitExceededException
+  | ServiceException
+  | CommonErrors;
 /**
  * If the DNS server for your self-managed domain uses a publicly addressable IP address,
  * you must add a CIDR address block to correctly route traffic to and from your Microsoft AD
@@ -4050,14 +4061,7 @@ export const acceptSharedDirectory: API.OperationMethod<
 export const addIpRoutes: API.OperationMethod<
   AddIpRoutesRequest,
   AddIpRoutesResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | IpRouteLimitExceededException
-  | ServiceException
-  | CommonErrors,
+  AddIpRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddIpRoutesRequest,
@@ -4072,12 +4076,7 @@ export const addIpRoutes: API.OperationMethod<
     ServiceException,
   ],
 }));
-/**
- * Adds two domain controllers in the specified Region for the specified directory.
- */
-export const addRegion: API.OperationMethod<
-  AddRegionRequest,
-  AddRegionResult,
+export type AddRegionError =
   | AccessDeniedException
   | ClientException
   | DirectoryAlreadyInRegionException
@@ -4088,7 +4087,14 @@ export const addRegion: API.OperationMethod<
   | RegionLimitExceededException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds two domain controllers in the specified Region for the specified directory.
+ */
+export const addRegion: API.OperationMethod<
+  AddRegionRequest,
+  AddRegionResult,
+  AddRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddRegionRequest,
@@ -4106,6 +4112,13 @@ export const addRegion: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type AddTagsToResourceError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | TagLimitExceededException
+  | CommonErrors;
 /**
  * Adds or overwrites one or more tags for the specified directory. Each directory can
  * have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be
@@ -4114,12 +4127,7 @@ export const addRegion: API.OperationMethod<
 export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceRequest,
   AddTagsToResourceResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | TagLimitExceededException
-  | CommonErrors,
+  AddTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
@@ -4132,6 +4140,11 @@ export const addTagsToResource: API.OperationMethod<
     TagLimitExceededException,
   ],
 }));
+export type CancelSchemaExtensionError =
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | CommonErrors;
 /**
  * Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema
  * extension has started replicating to all domain controllers, the task can no longer be
@@ -4142,16 +4155,19 @@ export const addTagsToResource: API.OperationMethod<
 export const cancelSchemaExtension: API.OperationMethod<
   CancelSchemaExtensionRequest,
   CancelSchemaExtensionResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | ServiceException
-  | CommonErrors,
+  CancelSchemaExtensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSchemaExtensionRequest,
   output: CancelSchemaExtensionResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
 }));
+export type ConnectDirectoryError =
+  | ClientException
+  | DirectoryLimitExceededException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Creates an AD Connector to connect to a self-managed directory.
  *
@@ -4162,11 +4178,7 @@ export const cancelSchemaExtension: API.OperationMethod<
 export const connectDirectory: API.OperationMethod<
   ConnectDirectoryRequest,
   ConnectDirectoryResult,
-  | ClientException
-  | DirectoryLimitExceededException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  ConnectDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConnectDirectoryRequest,
@@ -4178,6 +4190,13 @@ export const connectDirectory: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type CreateAliasError =
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Creates an alias for a directory and assigns the alias to the directory. The alias is used
  * to construct the access URL for the directory, such as
@@ -4188,12 +4207,7 @@ export const connectDirectory: API.OperationMethod<
 export const createAlias: API.OperationMethod<
   CreateAliasRequest,
   CreateAliasResult,
-  | ClientException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  CreateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasRequest,
@@ -4206,12 +4220,7 @@ export const createAlias: API.OperationMethod<
     ServiceException,
   ],
 }));
-/**
- * Creates an Active Directory computer object in the specified directory.
- */
-export const createComputer: API.OperationMethod<
-  CreateComputerRequest,
-  CreateComputerResult,
+export type CreateComputerError =
   | AuthenticationFailedException
   | ClientException
   | DirectoryUnavailableException
@@ -4220,7 +4229,14 @@ export const createComputer: API.OperationMethod<
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Active Directory computer object in the specified directory.
+ */
+export const createComputer: API.OperationMethod<
+  CreateComputerRequest,
+  CreateComputerResult,
+  CreateComputerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComputerRequest,
@@ -4236,6 +4252,15 @@ export const createComputer: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateConditionalForwarderError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional
  * forwarders are required in order to set up a trust relationship with another domain. The
@@ -4244,14 +4269,7 @@ export const createComputer: API.OperationMethod<
 export const createConditionalForwarder: API.OperationMethod<
   CreateConditionalForwarderRequest,
   CreateConditionalForwarderResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CreateConditionalForwarderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConditionalForwarderRequest,
@@ -4266,6 +4284,12 @@ export const createConditionalForwarder: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateDirectoryError =
+  | ClientException
+  | DirectoryLimitExceededException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Creates a Simple AD directory. For more information, see Simple Active Directory in the *Directory Service Admin Guide*.
  *
@@ -4276,11 +4300,7 @@ export const createConditionalForwarder: API.OperationMethod<
 export const createDirectory: API.OperationMethod<
   CreateDirectoryRequest,
   CreateDirectoryResult,
-  | ClientException
-  | DirectoryLimitExceededException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  CreateDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDirectoryRequest,
@@ -4292,6 +4312,15 @@ export const createDirectory: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type CreateHybridADError =
+  | ADAssessmentLimitExceededException
+  | ClientException
+  | DirectoryLimitExceededException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Creates a hybrid directory that connects your self-managed Active Directory (AD)
  * infrastructure and Amazon Web Services.
@@ -4305,14 +4334,7 @@ export const createDirectory: API.OperationMethod<
 export const createHybridAD: API.OperationMethod<
   CreateHybridADRequest,
   CreateHybridADResult,
-  | ADAssessmentLimitExceededException
-  | ClientException
-  | DirectoryLimitExceededException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CreateHybridADError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHybridADRequest,
@@ -4327,6 +4349,14 @@ export const createHybridAD: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateLogSubscriptionError =
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InsufficientPermissionsException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Creates a subscription to forward real-time Directory Service domain controller security
  * logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
@@ -4334,13 +4364,7 @@ export const createHybridAD: API.OperationMethod<
 export const createLogSubscription: API.OperationMethod<
   CreateLogSubscriptionRequest,
   CreateLogSubscriptionResult,
-  | ClientException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InsufficientPermissionsException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CreateLogSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLogSubscriptionRequest,
@@ -4354,6 +4378,13 @@ export const createLogSubscription: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateMicrosoftADError =
+  | ClientException
+  | DirectoryLimitExceededException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see Managed Microsoft AD in the *Directory Service Admin Guide*.
  *
@@ -4364,12 +4395,7 @@ export const createLogSubscription: API.OperationMethod<
 export const createMicrosoftAD: API.OperationMethod<
   CreateMicrosoftADRequest,
   CreateMicrosoftADResult,
-  | ClientException
-  | DirectoryLimitExceededException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CreateMicrosoftADError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMicrosoftADRequest,
@@ -4382,6 +4408,13 @@ export const createMicrosoftAD: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateSnapshotError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | SnapshotLimitExceededException
+  | CommonErrors;
 /**
  * Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud.
  *
@@ -4390,12 +4423,7 @@ export const createMicrosoftAD: API.OperationMethod<
 export const createSnapshot: API.OperationMethod<
   CreateSnapshotRequest,
   CreateSnapshotResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | SnapshotLimitExceededException
-  | CommonErrors,
+  CreateSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
@@ -4408,6 +4436,14 @@ export const createSnapshot: API.OperationMethod<
     SnapshotLimitExceededException,
   ],
 }));
+export type CreateTrustError =
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Directory Service for Microsoft Active Directory allows you to configure trust relationships. For
  * example, you can establish a trust between your Managed Microsoft AD directory, and your existing
@@ -4421,13 +4457,7 @@ export const createSnapshot: API.OperationMethod<
 export const createTrust: API.OperationMethod<
   CreateTrustRequest,
   CreateTrustResult,
-  | ClientException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  CreateTrustError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustRequest,
@@ -4441,6 +4471,13 @@ export const createTrust: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteADAssessmentError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes a directory assessment and all associated data. This operation permanently
  * removes the assessment results, validation reports, and configuration
@@ -4452,12 +4489,7 @@ export const createTrust: API.OperationMethod<
 export const deleteADAssessment: API.OperationMethod<
   DeleteADAssessmentRequest,
   DeleteADAssessmentResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteADAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteADAssessmentRequest,
@@ -4470,6 +4502,14 @@ export const deleteADAssessment: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteConditionalForwarderError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes a conditional forwarder that has been set up for your Amazon Web Services
  * directory.
@@ -4477,13 +4517,7 @@ export const deleteADAssessment: API.OperationMethod<
 export const deleteConditionalForwarder: API.OperationMethod<
   DeleteConditionalForwarderRequest,
   DeleteConditionalForwarderResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteConditionalForwarderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConditionalForwarderRequest,
@@ -4497,6 +4531,11 @@ export const deleteConditionalForwarder: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteDirectoryError =
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | CommonErrors;
 /**
  * Deletes an Directory Service directory.
  *
@@ -4507,27 +4546,26 @@ export const deleteConditionalForwarder: API.OperationMethod<
 export const deleteDirectory: API.OperationMethod<
   DeleteDirectoryRequest,
   DeleteDirectoryResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | ServiceException
-  | CommonErrors,
+  DeleteDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDirectoryRequest,
   output: DeleteDirectoryResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
 }));
+export type DeleteLogSubscriptionError =
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes the specified log subscription.
  */
 export const deleteLogSubscription: API.OperationMethod<
   DeleteLogSubscriptionRequest,
   DeleteLogSubscriptionResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteLogSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogSubscriptionRequest,
@@ -4539,17 +4577,19 @@ export const deleteLogSubscription: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteSnapshotError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Deletes a directory snapshot.
  */
 export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotRequest,
   DeleteSnapshotResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  DeleteSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
@@ -4561,6 +4601,13 @@ export const deleteSnapshot: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type DeleteTrustError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes an existing trust relationship between your Managed Microsoft AD directory and an external
  * domain.
@@ -4568,12 +4615,7 @@ export const deleteSnapshot: API.OperationMethod<
 export const deleteTrust: API.OperationMethod<
   DeleteTrustRequest,
   DeleteTrustResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteTrustError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustRequest,
@@ -4586,13 +4628,7 @@ export const deleteTrust: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Deletes from the system the certificate that was registered for secure LDAP or client
- * certificate authentication.
- */
-export const deregisterCertificate: API.OperationMethod<
-  DeregisterCertificateRequest,
-  DeregisterCertificateResult,
+export type DeregisterCertificateError =
   | CertificateDoesNotExistException
   | CertificateInUseException
   | ClientException
@@ -4601,7 +4637,15 @@ export const deregisterCertificate: API.OperationMethod<
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes from the system the certificate that was registered for secure LDAP or client
+ * certificate authentication.
+ */
+export const deregisterCertificate: API.OperationMethod<
+  DeregisterCertificateRequest,
+  DeregisterCertificateResult,
+  DeregisterCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterCertificateRequest,
@@ -4617,17 +4661,19 @@ export const deregisterCertificate: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeregisterEventTopicError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Removes the specified directory as a publisher to the specified Amazon SNS topic.
  */
 export const deregisterEventTopic: API.OperationMethod<
   DeregisterEventTopicRequest,
   DeregisterEventTopicResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  DeregisterEventTopicError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterEventTopicRequest,
@@ -4639,6 +4685,13 @@ export const deregisterEventTopic: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type DescribeADAssessmentError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a directory assessment, including its current
  * status, validation results, and configuration details. Use this operation to monitor
@@ -4647,12 +4700,7 @@ export const deregisterEventTopic: API.OperationMethod<
 export const describeADAssessment: API.OperationMethod<
   DescribeADAssessmentRequest,
   DescribeADAssessmentResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeADAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeADAssessmentRequest,
@@ -4665,6 +4713,12 @@ export const describeADAssessment: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeCAEnrollmentPolicyError =
+  | ClientException
+  | DirectoryDoesNotExistException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about the certificate authority (CA) enrollment policy for
  * the specified directory. This policy determines how client certificates are automatically enrolled and
@@ -4673,11 +4727,7 @@ export const describeADAssessment: API.OperationMethod<
 export const describeCAEnrollmentPolicy: API.OperationMethod<
   DescribeCAEnrollmentPolicyRequest,
   DescribeCAEnrollmentPolicyResult,
-  | ClientException
-  | DirectoryDoesNotExistException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeCAEnrollmentPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCAEnrollmentPolicyRequest,
@@ -4689,6 +4739,14 @@ export const describeCAEnrollmentPolicy: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeCertificateError =
+  | CertificateDoesNotExistException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Displays information about the certificate registered for secure LDAP or client
  * certificate authentication.
@@ -4696,13 +4754,7 @@ export const describeCAEnrollmentPolicy: API.OperationMethod<
 export const describeCertificate: API.OperationMethod<
   DescribeCertificateRequest,
   DescribeCertificateResult,
-  | CertificateDoesNotExistException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateRequest,
@@ -4716,6 +4768,14 @@ export const describeCertificate: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeClientAuthenticationSettingsError =
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Retrieves information about the type of client authentication for the specified directory,
  * if the type is specified. If no type is specified, information about all client authentication
@@ -4725,39 +4785,21 @@ export const describeCertificate: API.OperationMethod<
 export const describeClientAuthenticationSettings: API.OperationMethod<
   DescribeClientAuthenticationSettingsRequest,
   DescribeClientAuthenticationSettingsResult,
-  | AccessDeniedException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeClientAuthenticationSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeClientAuthenticationSettingsRequest,
   ) => stream.Stream<
     DescribeClientAuthenticationSettingsResult,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeClientAuthenticationSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClientAuthenticationSettingsRequest,
   ) => stream.Stream<
     ClientAuthenticationSettingInfo,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeClientAuthenticationSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4778,6 +4820,14 @@ export const describeClientAuthenticationSettings: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConditionalForwardersError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Obtains information about the conditional forwarders for this account.
  *
@@ -4787,13 +4837,7 @@ export const describeClientAuthenticationSettings: API.OperationMethod<
 export const describeConditionalForwarders: API.OperationMethod<
   DescribeConditionalForwardersRequest,
   DescribeConditionalForwardersResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeConditionalForwardersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConditionalForwardersRequest,
@@ -4807,6 +4851,13 @@ export const describeConditionalForwarders: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeDirectoriesError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Obtains information about the directories that belong to this account.
  *
@@ -4826,36 +4877,21 @@ export const describeConditionalForwarders: API.OperationMethod<
 export const describeDirectories: API.OperationMethod<
   DescribeDirectoriesRequest,
   DescribeDirectoriesResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  DescribeDirectoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDirectoriesRequest,
   ) => stream.Stream<
     DescribeDirectoriesResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    DescribeDirectoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDirectoriesRequest,
   ) => stream.Stream<
     DirectoryDescription,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    DescribeDirectoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4875,6 +4911,13 @@ export const describeDirectories: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeDirectoryDataAccessError =
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Obtains status of directory data access enablement through the Directory Service Data API for the
  * specified directory.
@@ -4882,12 +4925,7 @@ export const describeDirectories: API.OperationMethod<
 export const describeDirectoryDataAccess: API.OperationMethod<
   DescribeDirectoryDataAccessRequest,
   DescribeDirectoryDataAccessResult,
-  | AccessDeniedException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeDirectoryDataAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDirectoryDataAccessRequest,
@@ -4900,45 +4938,35 @@ export const describeDirectoryDataAccess: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Provides information about any domain controllers in your directory.
- */
-export const describeDomainControllers: API.OperationMethod<
-  DescribeDomainControllersRequest,
-  DescribeDomainControllersResult,
+export type DescribeDomainControllersError =
   | ClientException
   | EntityDoesNotExistException
   | InvalidNextTokenException
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides information about any domain controllers in your directory.
+ */
+export const describeDomainControllers: API.OperationMethod<
+  DescribeDomainControllersRequest,
+  DescribeDomainControllersResult,
+  DescribeDomainControllersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDomainControllersRequest,
   ) => stream.Stream<
     DescribeDomainControllersResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeDomainControllersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDomainControllersRequest,
   ) => stream.Stream<
     unknown,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeDomainControllersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4958,6 +4986,12 @@ export const describeDomainControllers: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeEventTopicsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Obtains information about which Amazon SNS topics receive status messages from the specified
  * directory.
@@ -4968,11 +5002,7 @@ export const describeDomainControllers: API.OperationMethod<
 export const describeEventTopics: API.OperationMethod<
   DescribeEventTopicsRequest,
   DescribeEventTopicsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  DescribeEventTopicsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventTopicsRequest,
@@ -4984,6 +5014,14 @@ export const describeEventTopics: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type DescribeHybridADUpdateError =
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Retrieves information about update activities for a hybrid directory. This operation
  * provides details about configuration changes, administrator account updates, and
@@ -4992,13 +5030,7 @@ export const describeEventTopics: API.OperationMethod<
 export const describeHybridADUpdate: API.OperationMethod<
   DescribeHybridADUpdateRequest,
   DescribeHybridADUpdateResult,
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeHybridADUpdateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHybridADUpdateRequest,
@@ -5012,45 +5044,35 @@ export const describeHybridADUpdate: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Describes the status of LDAP security for the specified directory.
- */
-export const describeLDAPSSettings: API.OperationMethod<
-  DescribeLDAPSSettingsRequest,
-  DescribeLDAPSSettingsResult,
+export type DescribeLDAPSSettingsError =
   | ClientException
   | DirectoryDoesNotExistException
   | InvalidNextTokenException
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the status of LDAP security for the specified directory.
+ */
+export const describeLDAPSSettings: API.OperationMethod<
+  DescribeLDAPSSettingsRequest,
+  DescribeLDAPSSettingsResult,
+  DescribeLDAPSSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeLDAPSSettingsRequest,
   ) => stream.Stream<
     DescribeLDAPSSettingsResult,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeLDAPSSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLDAPSSettingsRequest,
   ) => stream.Stream<
     LDAPSSettingInfo,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeLDAPSSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5071,13 +5093,7 @@ export const describeLDAPSSettings: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
-/**
- * Provides information about the Regions that are configured for multi-Region
- * replication.
- */
-export const describeRegions: API.OperationMethod<
-  DescribeRegionsRequest,
-  DescribeRegionsResult,
+export type DescribeRegionsError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
@@ -5085,35 +5101,29 @@ export const describeRegions: API.OperationMethod<
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides information about the Regions that are configured for multi-Region
+ * replication.
+ */
+export const describeRegions: API.OperationMethod<
+  DescribeRegionsRequest,
+  DescribeRegionsResult,
+  DescribeRegionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegionsRequest,
   ) => stream.Stream<
     DescribeRegionsResult,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeRegionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegionsRequest,
   ) => stream.Stream<
     RegionDescription,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeRegionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5134,19 +5144,21 @@ export const describeRegions: API.OperationMethod<
     items: "RegionsDescription",
   } as const,
 }));
-/**
- * Retrieves information about the configurable settings for the specified directory.
- */
-export const describeSettings: API.OperationMethod<
-  DescribeSettingsRequest,
-  DescribeSettingsResult,
+export type DescribeSettingsError =
   | ClientException
   | DirectoryDoesNotExistException
   | InvalidNextTokenException
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the configurable settings for the specified directory.
+ */
+export const describeSettings: API.OperationMethod<
+  DescribeSettingsRequest,
+  DescribeSettingsResult,
+  DescribeSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSettingsRequest,
@@ -5160,45 +5172,35 @@ export const describeSettings: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Returns the shared directories in your account.
- */
-export const describeSharedDirectories: API.OperationMethod<
-  DescribeSharedDirectoriesRequest,
-  DescribeSharedDirectoriesResult,
+export type DescribeSharedDirectoriesError =
   | ClientException
   | EntityDoesNotExistException
   | InvalidNextTokenException
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the shared directories in your account.
+ */
+export const describeSharedDirectories: API.OperationMethod<
+  DescribeSharedDirectoriesRequest,
+  DescribeSharedDirectoriesResult,
+  DescribeSharedDirectoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSharedDirectoriesRequest,
   ) => stream.Stream<
     DescribeSharedDirectoriesResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeSharedDirectoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSharedDirectoriesRequest,
   ) => stream.Stream<
     SharedDirectory,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeSharedDirectoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5219,6 +5221,13 @@ export const describeSharedDirectories: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeSnapshotsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Obtains information about the directory snapshots that belong to this account.
  *
@@ -5233,36 +5242,21 @@ export const describeSharedDirectories: API.OperationMethod<
 export const describeSnapshots: API.OperationMethod<
   DescribeSnapshotsRequest,
   DescribeSnapshotsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  DescribeSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
     DescribeSnapshotsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    DescribeSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
     Snapshot,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    DescribeSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5282,6 +5276,14 @@ export const describeSnapshots: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeTrustsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Obtains information about the trust relationships for this account.
  *
@@ -5291,39 +5293,21 @@ export const describeSnapshots: API.OperationMethod<
 export const describeTrusts: API.OperationMethod<
   DescribeTrustsRequest,
   DescribeTrustsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DescribeTrustsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTrustsRequest,
   ) => stream.Stream<
     DescribeTrustsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeTrustsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTrustsRequest,
   ) => stream.Stream<
     Trust,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    DescribeTrustsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5344,45 +5328,35 @@ export const describeTrusts: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
-/**
- * Describes the updates of a directory for a particular update type.
- */
-export const describeUpdateDirectory: API.OperationMethod<
-  DescribeUpdateDirectoryRequest,
-  DescribeUpdateDirectoryResult,
+export type DescribeUpdateDirectoryError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
   | InvalidNextTokenException
   | InvalidParameterException
   | ServiceException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the updates of a directory for a particular update type.
+ */
+export const describeUpdateDirectory: API.OperationMethod<
+  DescribeUpdateDirectoryRequest,
+  DescribeUpdateDirectoryResult,
+  DescribeUpdateDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeUpdateDirectoryRequest,
   ) => stream.Stream<
     DescribeUpdateDirectoryResult,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    DescribeUpdateDirectoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeUpdateDirectoryRequest,
   ) => stream.Stream<
     UpdateInfoEntry,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    DescribeUpdateDirectoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5402,6 +5376,16 @@ export const describeUpdateDirectory: API.OperationMethod<
     items: "UpdateActivities",
   } as const,
 }));
+export type DisableCAEnrollmentPolicyError =
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | DisableAlreadyInProgressException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Disables the certificate authority (CA) enrollment policy for the specified directory. This stops
  * automatic certificate enrollment and management for domain-joined clients, but does not affect
@@ -5413,15 +5397,7 @@ export const describeUpdateDirectory: API.OperationMethod<
 export const disableCAEnrollmentPolicy: API.OperationMethod<
   DisableCAEnrollmentPolicyRequest,
   DisableCAEnrollmentPolicyResult,
-  | AccessDeniedException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | DirectoryUnavailableException
-  | DisableAlreadyInProgressException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  DisableCAEnrollmentPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableCAEnrollmentPolicyRequest,
@@ -5437,19 +5413,21 @@ export const disableCAEnrollmentPolicy: API.OperationMethod<
     ServiceException,
   ],
 }));
-/**
- * Disables alternative client authentication methods for the specified directory.
- */
-export const disableClientAuthentication: API.OperationMethod<
-  DisableClientAuthenticationRequest,
-  DisableClientAuthenticationResult,
+export type DisableClientAuthenticationError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
   | InvalidClientAuthStatusException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables alternative client authentication methods for the specified directory.
+ */
+export const disableClientAuthentication: API.OperationMethod<
+  DisableClientAuthenticationRequest,
+  DisableClientAuthenticationResult,
+  DisableClientAuthenticationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableClientAuthenticationRequest,
@@ -5463,13 +5441,7 @@ export const disableClientAuthentication: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Deactivates access to directory data via the Directory Service Data API for the specified directory. For
- * more information, see Directory Service Data API Reference.
- */
-export const disableDirectoryDataAccess: API.OperationMethod<
-  DisableDirectoryDataAccessRequest,
-  DisableDirectoryDataAccessResult,
+export type DisableDirectoryDataAccessError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
@@ -5477,7 +5449,15 @@ export const disableDirectoryDataAccess: API.OperationMethod<
   | DirectoryUnavailableException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deactivates access to directory data via the Directory Service Data API for the specified directory. For
+ * more information, see Directory Service Data API Reference.
+ */
+export const disableDirectoryDataAccess: API.OperationMethod<
+  DisableDirectoryDataAccessRequest,
+  DisableDirectoryDataAccessResult,
+  DisableDirectoryDataAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDirectoryDataAccessRequest,
@@ -5492,12 +5472,7 @@ export const disableDirectoryDataAccess: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Deactivates LDAP secure calls for the specified directory.
- */
-export const disableLDAPS: API.OperationMethod<
-  DisableLDAPSRequest,
-  DisableLDAPSResult,
+export type DisableLDAPSError =
   | ClientException
   | DirectoryDoesNotExistException
   | DirectoryUnavailableException
@@ -5505,7 +5480,14 @@ export const disableLDAPS: API.OperationMethod<
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deactivates LDAP secure calls for the specified directory.
+ */
+export const disableLDAPS: API.OperationMethod<
+  DisableLDAPSRequest,
+  DisableLDAPSResult,
+  DisableLDAPSError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableLDAPSRequest,
@@ -5520,6 +5502,11 @@ export const disableLDAPS: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DisableRadiusError =
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | CommonErrors;
 /**
  * Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
@@ -5527,28 +5514,27 @@ export const disableLDAPS: API.OperationMethod<
 export const disableRadius: API.OperationMethod<
   DisableRadiusRequest,
   DisableRadiusResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | ServiceException
-  | CommonErrors,
+  DisableRadiusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRadiusRequest,
   output: DisableRadiusResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
 }));
+export type DisableSsoError =
+  | AuthenticationFailedException
+  | ClientException
+  | EntityDoesNotExistException
+  | InsufficientPermissionsException
+  | ServiceException
+  | CommonErrors;
 /**
  * Disables single-sign on for a directory.
  */
 export const disableSso: API.OperationMethod<
   DisableSsoRequest,
   DisableSsoResult,
-  | AuthenticationFailedException
-  | ClientException
-  | EntityDoesNotExistException
-  | InsufficientPermissionsException
-  | ServiceException
-  | CommonErrors,
+  DisableSsoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableSsoRequest,
@@ -5561,6 +5547,17 @@ export const disableSso: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type EnableCAEnrollmentPolicyError =
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | EnableAlreadyInProgressException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Enables certificate authority (CA) enrollment policy for the specified directory. This allows
  * domain-joined clients to automatically request and receive certificates from the specified
@@ -5573,16 +5570,7 @@ export const disableSso: API.OperationMethod<
 export const enableCAEnrollmentPolicy: API.OperationMethod<
   EnableCAEnrollmentPolicyRequest,
   EnableCAEnrollmentPolicyResult,
-  | AccessDeniedException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | DirectoryUnavailableException
-  | EnableAlreadyInProgressException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  EnableCAEnrollmentPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableCAEnrollmentPolicyRequest,
@@ -5599,12 +5587,7 @@ export const enableCAEnrollmentPolicy: API.OperationMethod<
     ServiceException,
   ],
 }));
-/**
- * Enables alternative client authentication methods for the specified directory.
- */
-export const enableClientAuthentication: API.OperationMethod<
-  EnableClientAuthenticationRequest,
-  EnableClientAuthenticationResult,
+export type EnableClientAuthenticationError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
@@ -5612,7 +5595,14 @@ export const enableClientAuthentication: API.OperationMethod<
   | NoAvailableCertificateException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables alternative client authentication methods for the specified directory.
+ */
+export const enableClientAuthentication: API.OperationMethod<
+  EnableClientAuthenticationRequest,
+  EnableClientAuthenticationResult,
+  EnableClientAuthenticationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableClientAuthenticationRequest,
@@ -5627,13 +5617,7 @@ export const enableClientAuthentication: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Enables access to directory data via the Directory Service Data API for the specified directory. For
- * more information, see Directory Service Data API Reference.
- */
-export const enableDirectoryDataAccess: API.OperationMethod<
-  EnableDirectoryDataAccessRequest,
-  EnableDirectoryDataAccessResult,
+export type EnableDirectoryDataAccessError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
@@ -5641,7 +5625,15 @@ export const enableDirectoryDataAccess: API.OperationMethod<
   | DirectoryUnavailableException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables access to directory data via the Directory Service Data API for the specified directory. For
+ * more information, see Directory Service Data API Reference.
+ */
+export const enableDirectoryDataAccess: API.OperationMethod<
+  EnableDirectoryDataAccessRequest,
+  EnableDirectoryDataAccessResult,
+  EnableDirectoryDataAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDirectoryDataAccessRequest,
@@ -5656,12 +5648,7 @@ export const enableDirectoryDataAccess: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Activates the switch for the specific directory to always use LDAP secure calls.
- */
-export const enableLDAPS: API.OperationMethod<
-  EnableLDAPSRequest,
-  EnableLDAPSResult,
+export type EnableLDAPSError =
   | ClientException
   | DirectoryDoesNotExistException
   | DirectoryUnavailableException
@@ -5670,7 +5657,14 @@ export const enableLDAPS: API.OperationMethod<
   | NoAvailableCertificateException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Activates the switch for the specific directory to always use LDAP secure calls.
+ */
+export const enableLDAPS: API.OperationMethod<
+  EnableLDAPSRequest,
+  EnableLDAPSResult,
+  EnableLDAPSError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableLDAPSRequest,
@@ -5686,6 +5680,13 @@ export const enableLDAPS: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type EnableRadiusError =
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
@@ -5693,12 +5694,7 @@ export const enableLDAPS: API.OperationMethod<
 export const enableRadius: API.OperationMethod<
   EnableRadiusRequest,
   EnableRadiusResult,
-  | ClientException
-  | EntityAlreadyExistsException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  EnableRadiusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRadiusRequest,
@@ -5711,6 +5707,13 @@ export const enableRadius: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type EnableSsoError =
+  | AuthenticationFailedException
+  | ClientException
+  | EntityDoesNotExistException
+  | InsufficientPermissionsException
+  | ServiceException
+  | CommonErrors;
 /**
  * Enables single sign-on for a directory. Single sign-on allows users in your directory to
  * access certain Amazon Web Services services from a computer joined to the directory without having to enter
@@ -5719,12 +5722,7 @@ export const enableRadius: API.OperationMethod<
 export const enableSso: API.OperationMethod<
   EnableSsoRequest,
   EnableSsoResult,
-  | AuthenticationFailedException
-  | ClientException
-  | EntityDoesNotExistException
-  | InsufficientPermissionsException
-  | ServiceException
-  | CommonErrors,
+  EnableSsoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSsoRequest,
@@ -5737,38 +5735,49 @@ export const enableSso: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type GetDirectoryLimitsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | CommonErrors;
 /**
  * Obtains directory limit information for the current Region.
  */
 export const getDirectoryLimits: API.OperationMethod<
   GetDirectoryLimitsRequest,
   GetDirectoryLimitsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | ServiceException
-  | CommonErrors,
+  GetDirectoryLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDirectoryLimitsRequest,
   output: GetDirectoryLimitsResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
 }));
+export type GetSnapshotLimitsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | CommonErrors;
 /**
  * Obtains the manual snapshot limits for a directory.
  */
 export const getSnapshotLimits: API.OperationMethod<
   GetSnapshotLimitsRequest,
   GetSnapshotLimitsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | ServiceException
-  | CommonErrors,
+  GetSnapshotLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnapshotLimitsRequest,
   output: GetSnapshotLimitsResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
 }));
+export type ListADAssessmentsError =
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Retrieves a list of directory assessments for the specified directory or all
  * assessments in your account. Use this operation to monitor assessment status and manage
@@ -5777,36 +5786,21 @@ export const getSnapshotLimits: API.OperationMethod<
 export const listADAssessments: API.OperationMethod<
   ListADAssessmentsRequest,
   ListADAssessmentsResult,
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListADAssessmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListADAssessmentsRequest,
   ) => stream.Stream<
     ListADAssessmentsResult,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListADAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListADAssessmentsRequest,
   ) => stream.Stream<
     AssessmentSummary,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListADAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5826,6 +5820,14 @@ export const listADAssessments: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListCertificatesError =
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * For the specified directory, lists all the certificates registered for a secure LDAP or
  * client certificate authentication.
@@ -5833,39 +5835,21 @@ export const listADAssessments: API.OperationMethod<
 export const listCertificates: API.OperationMethod<
   ListCertificatesRequest,
   ListCertificatesResult,
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
     ListCertificatesResult,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
     CertificateInfo,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5886,42 +5870,34 @@ export const listCertificates: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListIpRoutesError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Lists the address blocks that you have added to a directory.
  */
 export const listIpRoutes: API.OperationMethod<
   ListIpRoutesRequest,
   ListIpRoutesResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  ListIpRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIpRoutesRequest,
   ) => stream.Stream<
     ListIpRoutesResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    ListIpRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIpRoutesRequest,
   ) => stream.Stream<
     IpRouteInfo,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    ListIpRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5941,39 +5917,33 @@ export const listIpRoutes: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListLogSubscriptionsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | ServiceException
+  | CommonErrors;
 /**
  * Lists the active log subscriptions for the Amazon Web Services account.
  */
 export const listLogSubscriptions: API.OperationMethod<
   ListLogSubscriptionsRequest,
   ListLogSubscriptionsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | ServiceException
-  | CommonErrors,
+  ListLogSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLogSubscriptionsRequest,
   ) => stream.Stream<
     ListLogSubscriptionsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | ServiceException
-    | CommonErrors,
+    ListLogSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLogSubscriptionsRequest,
   ) => stream.Stream<
     LogSubscription,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | ServiceException
-    | CommonErrors,
+    ListLogSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5992,39 +5962,33 @@ export const listLogSubscriptions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListSchemaExtensionsError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | ServiceException
+  | CommonErrors;
 /**
  * Lists all schema extensions applied to a Microsoft AD Directory.
  */
 export const listSchemaExtensions: API.OperationMethod<
   ListSchemaExtensionsRequest,
   ListSchemaExtensionsResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | ServiceException
-  | CommonErrors,
+  ListSchemaExtensionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemaExtensionsRequest,
   ) => stream.Stream<
     ListSchemaExtensionsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | ServiceException
-    | CommonErrors,
+    ListSchemaExtensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemaExtensionsRequest,
   ) => stream.Stream<
     SchemaExtensionInfo,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | ServiceException
-    | CommonErrors,
+    ListSchemaExtensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6043,42 +6007,34 @@ export const listSchemaExtensions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Lists all tags on a directory.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6098,12 +6054,7 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
-/**
- * Registers a certificate for a secure LDAP or client certificate authentication.
- */
-export const registerCertificate: API.OperationMethod<
-  RegisterCertificateRequest,
-  RegisterCertificateResult,
+export type RegisterCertificateError =
   | CertificateAlreadyExistsException
   | CertificateLimitExceededException
   | ClientException
@@ -6113,7 +6064,14 @@ export const registerCertificate: API.OperationMethod<
   | InvalidParameterException
   | ServiceException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers a certificate for a secure LDAP or client certificate authentication.
+ */
+export const registerCertificate: API.OperationMethod<
+  RegisterCertificateRequest,
+  RegisterCertificateResult,
+  RegisterCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCertificateRequest,
@@ -6130,6 +6088,12 @@ export const registerCertificate: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type RegisterEventTopicError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Associates a directory with an Amazon SNS topic. This establishes the directory as a
  * publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when
@@ -6140,11 +6104,7 @@ export const registerCertificate: API.OperationMethod<
 export const registerEventTopic: API.OperationMethod<
   RegisterEventTopicRequest,
   RegisterEventTopicResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  RegisterEventTopicError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterEventTopicRequest,
@@ -6156,18 +6116,20 @@ export const registerEventTopic: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type RejectSharedDirectoryError =
+  | ClientException
+  | DirectoryAlreadySharedException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Rejects a directory sharing request that was sent from the directory owner account.
  */
 export const rejectSharedDirectory: API.OperationMethod<
   RejectSharedDirectoryRequest,
   RejectSharedDirectoryResult,
-  | ClientException
-  | DirectoryAlreadySharedException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  RejectSharedDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectSharedDirectoryRequest,
@@ -6180,18 +6142,20 @@ export const rejectSharedDirectory: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type RemoveIpRoutesError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Removes IP address blocks from a directory.
  */
 export const removeIpRoutes: API.OperationMethod<
   RemoveIpRoutesRequest,
   RemoveIpRoutesResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  RemoveIpRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveIpRoutesRequest,
@@ -6204,6 +6168,14 @@ export const removeIpRoutes: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type RemoveRegionError =
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Stops all replication and removes the domain controllers from the specified Region. You
  * cannot remove the primary Region with this operation. Instead, use the
@@ -6212,13 +6184,7 @@ export const removeIpRoutes: API.OperationMethod<
 export const removeRegion: API.OperationMethod<
   RemoveRegionRequest,
   RemoveRegionResult,
-  | AccessDeniedException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | DirectoryUnavailableException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  RemoveRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRegionRequest,
@@ -6232,17 +6198,19 @@ export const removeRegion: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type RemoveTagsFromResourceError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Removes tags from a directory.
  */
 export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceRequest,
   RemoveTagsFromResourceResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  RemoveTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceRequest,
@@ -6254,6 +6222,15 @@ export const removeTagsFromResource: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type ResetUserPasswordError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidPasswordException
+  | ServiceException
+  | UnsupportedOperationException
+  | UserDoesNotExistException
+  | CommonErrors;
 /**
  * Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled
  * users will become enabled and can be authenticated following the API call.
@@ -6275,14 +6252,7 @@ export const removeTagsFromResource: API.OperationMethod<
 export const resetUserPassword: API.OperationMethod<
   ResetUserPasswordRequest,
   ResetUserPasswordResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityDoesNotExistException
-  | InvalidPasswordException
-  | ServiceException
-  | UnsupportedOperationException
-  | UserDoesNotExistException
-  | CommonErrors,
+  ResetUserPasswordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetUserPasswordRequest,
@@ -6297,6 +6267,12 @@ export const resetUserPassword: API.OperationMethod<
     UserDoesNotExistException,
   ],
 }));
+export type RestoreFromSnapshotError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Restores a directory using an existing directory snapshot.
  *
@@ -6310,11 +6286,7 @@ export const resetUserPassword: API.OperationMethod<
 export const restoreFromSnapshot: API.OperationMethod<
   RestoreFromSnapshotRequest,
   RestoreFromSnapshotResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  RestoreFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreFromSnapshotRequest,
@@ -6326,6 +6298,18 @@ export const restoreFromSnapshot: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type ShareDirectoryError =
+  | AccessDeniedException
+  | ClientException
+  | DirectoryAlreadySharedException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | InvalidTargetException
+  | OrganizationsException
+  | ServiceException
+  | ShareLimitExceededException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Shares a specified directory (`DirectoryId`) in your Amazon Web Services account (directory
  * owner) with another Amazon Web Services account (directory consumer). With this operation you can use your
@@ -6347,17 +6331,7 @@ export const restoreFromSnapshot: API.OperationMethod<
 export const shareDirectory: API.OperationMethod<
   ShareDirectoryRequest,
   ShareDirectoryResult,
-  | AccessDeniedException
-  | ClientException
-  | DirectoryAlreadySharedException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | InvalidTargetException
-  | OrganizationsException
-  | ServiceException
-  | ShareLimitExceededException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ShareDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ShareDirectoryRequest,
@@ -6375,6 +6349,14 @@ export const shareDirectory: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StartADAssessmentError =
+  | ADAssessmentLimitExceededException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Initiates a directory assessment to validate your self-managed AD environment for
  * hybrid domain join. The assessment checks compatibility and connectivity of the
@@ -6401,13 +6383,7 @@ export const shareDirectory: API.OperationMethod<
 export const startADAssessment: API.OperationMethod<
   StartADAssessmentRequest,
   StartADAssessmentResult,
-  | ADAssessmentLimitExceededException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StartADAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartADAssessmentRequest,
@@ -6421,19 +6397,21 @@ export const startADAssessment: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Applies a schema extension to a Microsoft AD directory.
- */
-export const startSchemaExtension: API.OperationMethod<
-  StartSchemaExtensionRequest,
-  StartSchemaExtensionResult,
+export type StartSchemaExtensionError =
   | ClientException
   | DirectoryUnavailableException
   | EntityDoesNotExistException
   | InvalidParameterException
   | ServiceException
   | SnapshotLimitExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Applies a schema extension to a Microsoft AD directory.
+ */
+export const startSchemaExtension: API.OperationMethod<
+  StartSchemaExtensionRequest,
+  StartSchemaExtensionResult,
+  StartSchemaExtensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSchemaExtensionRequest,
@@ -6447,18 +6425,20 @@ export const startSchemaExtension: API.OperationMethod<
     SnapshotLimitExceededException,
   ],
 }));
+export type UnshareDirectoryError =
+  | ClientException
+  | DirectoryNotSharedException
+  | EntityDoesNotExistException
+  | InvalidTargetException
+  | ServiceException
+  | CommonErrors;
 /**
  * Stops the directory sharing between the directory owner and consumer accounts.
  */
 export const unshareDirectory: API.OperationMethod<
   UnshareDirectoryRequest,
   UnshareDirectoryResult,
-  | ClientException
-  | DirectoryNotSharedException
-  | EntityDoesNotExistException
-  | InvalidTargetException
-  | ServiceException
-  | CommonErrors,
+  UnshareDirectoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnshareDirectoryRequest,
@@ -6471,6 +6451,14 @@ export const unshareDirectory: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type UpdateConditionalForwarderError =
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Updates a conditional forwarder that has been set up for your Amazon Web Services
  * directory.
@@ -6478,13 +6466,7 @@ export const unshareDirectory: API.OperationMethod<
 export const updateConditionalForwarder: API.OperationMethod<
   UpdateConditionalForwarderRequest,
   UpdateConditionalForwarderResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdateConditionalForwarderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConditionalForwarderRequest,
@@ -6498,12 +6480,7 @@ export const updateConditionalForwarder: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
-/**
- * Updates directory configuration for the specified update type.
- */
-export const updateDirectorySetup: API.OperationMethod<
-  UpdateDirectorySetupRequest,
-  UpdateDirectorySetupResult,
+export type UpdateDirectorySetupError =
   | AccessDeniedException
   | ClientException
   | DirectoryDoesNotExistException
@@ -6513,7 +6490,14 @@ export const updateDirectorySetup: API.OperationMethod<
   | ServiceException
   | SnapshotLimitExceededException
   | UnsupportedOperationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates directory configuration for the specified update type.
+ */
+export const updateDirectorySetup: API.OperationMethod<
+  UpdateDirectorySetupRequest,
+  UpdateDirectorySetupResult,
+  UpdateDirectorySetupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDirectorySetupRequest,
@@ -6530,6 +6514,14 @@ export const updateDirectorySetup: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type UpdateHybridADError =
+  | ADAssessmentLimitExceededException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing hybrid directory. You can recover hybrid
  * directory administrator account or modify self-managed instance settings.
@@ -6549,13 +6541,7 @@ export const updateDirectorySetup: API.OperationMethod<
 export const updateHybridAD: API.OperationMethod<
   UpdateHybridADRequest,
   UpdateHybridADResult,
-  | ADAssessmentLimitExceededException
-  | ClientException
-  | DirectoryDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdateHybridADError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHybridADRequest,
@@ -6569,6 +6555,15 @@ export const updateHybridAD: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type UpdateNumberOfDomainControllersError =
+  | ClientException
+  | DirectoryUnavailableException
+  | DomainControllerLimitExceededException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Adds or removes domain controllers to or from the directory. Based on the difference
  * between current value and new value (provided through this API call), domain controllers will
@@ -6579,14 +6574,7 @@ export const updateHybridAD: API.OperationMethod<
 export const updateNumberOfDomainControllers: API.OperationMethod<
   UpdateNumberOfDomainControllersRequest,
   UpdateNumberOfDomainControllersResult,
-  | ClientException
-  | DirectoryUnavailableException
-  | DomainControllerLimitExceededException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdateNumberOfDomainControllersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNumberOfDomainControllersRequest,
@@ -6601,6 +6589,12 @@ export const updateNumberOfDomainControllers: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type UpdateRadiusError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Updates the Remote Authentication Dial In User Service (RADIUS) server information for
  * an AD Connector or Microsoft AD directory.
@@ -6608,11 +6602,7 @@ export const updateNumberOfDomainControllers: API.OperationMethod<
 export const updateRadius: API.OperationMethod<
   UpdateRadiusRequest,
   UpdateRadiusResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  UpdateRadiusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRadiusRequest,
@@ -6624,12 +6614,7 @@ export const updateRadius: API.OperationMethod<
     ServiceException,
   ],
 }));
-/**
- * Updates the configurable settings for the specified directory.
- */
-export const updateSettings: API.OperationMethod<
-  UpdateSettingsRequest,
-  UpdateSettingsResult,
+export type UpdateSettingsError =
   | ClientException
   | DirectoryDoesNotExistException
   | DirectoryUnavailableException
@@ -6638,7 +6623,14 @@ export const updateSettings: API.OperationMethod<
   | ServiceException
   | UnsupportedOperationException
   | UnsupportedSettingsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configurable settings for the specified directory.
+ */
+export const updateSettings: API.OperationMethod<
+  UpdateSettingsRequest,
+  UpdateSettingsResult,
+  UpdateSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsRequest,
@@ -6654,6 +6646,12 @@ export const updateSettings: API.OperationMethod<
     UnsupportedSettingsException,
   ],
 }));
+export type UpdateTrustError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors;
 /**
  * Updates the trust that has been set up between your Managed Microsoft AD directory and an
  * self-managed Active Directory.
@@ -6661,11 +6659,7 @@ export const updateSettings: API.OperationMethod<
 export const updateTrust: API.OperationMethod<
   UpdateTrustRequest,
   UpdateTrustResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | CommonErrors,
+  UpdateTrustError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustRequest,
@@ -6677,6 +6671,13 @@ export const updateTrust: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type VerifyTrustError =
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Directory Service for Microsoft Active Directory allows you to configure and verify trust
  * relationships.
@@ -6687,12 +6688,7 @@ export const updateTrust: API.OperationMethod<
 export const verifyTrust: API.OperationMethod<
   VerifyTrustRequest,
   VerifyTrustResult,
-  | ClientException
-  | EntityDoesNotExistException
-  | InvalidParameterException
-  | ServiceException
-  | UnsupportedOperationException
-  | CommonErrors,
+  VerifyTrustError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyTrustRequest,

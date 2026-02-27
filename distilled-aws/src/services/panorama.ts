@@ -2138,17 +2138,19 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateApplicationInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an application instance and deploys it to a device.
  */
 export const createApplicationInstance: API.OperationMethod<
   CreateApplicationInstanceRequest,
   CreateApplicationInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationInstanceRequest,
@@ -2160,18 +2162,20 @@ export const createApplicationInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateJobForDevicesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a job to run on a device. A job can update a device's software or reboot it.
  */
 export const createJobForDevices: API.OperationMethod<
   CreateJobForDevicesRequest,
   CreateJobForDevicesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateJobForDevicesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobForDevicesRequest,
@@ -2184,17 +2188,19 @@ export const createJobForDevices: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateNodeFromTemplateJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a camera stream node.
  */
 export const createNodeFromTemplateJob: API.OperationMethod<
   CreateNodeFromTemplateJobRequest,
   CreateNodeFromTemplateJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  CreateNodeFromTemplateJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodeFromTemplateJobRequest,
@@ -2206,17 +2212,19 @@ export const createNodeFromTemplateJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePackageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a package and storage location in an Amazon S3 access point.
  */
 export const createPackage: API.OperationMethod<
   CreatePackageRequest,
   CreatePackageResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  CreatePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
@@ -2228,17 +2236,19 @@ export const createPackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePackageImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports a node package.
  */
 export const createPackageImportJob: API.OperationMethod<
   CreatePackageImportJobRequest,
   CreatePackageImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  CreatePackageImportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageImportJobRequest,
@@ -2250,18 +2260,20 @@ export const createPackageImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeviceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a device.
  */
 export const deleteDevice: API.OperationMethod<
   DeleteDeviceRequest,
   DeleteDeviceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeviceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceRequest,
@@ -2274,6 +2286,13 @@ export const deleteDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePackageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a package.
  *
@@ -2283,12 +2302,7 @@ export const deleteDevice: API.OperationMethod<
 export const deletePackage: API.OperationMethod<
   DeletePackageRequest,
   DeletePackageResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeletePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
@@ -2301,18 +2315,20 @@ export const deletePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeregisterPackageVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deregisters a package version.
  */
 export const deregisterPackageVersion: API.OperationMethod<
   DeregisterPackageVersionRequest,
   DeregisterPackageVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeregisterPackageVersionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterPackageVersionRequest,
@@ -2325,18 +2341,20 @@ export const deregisterPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeApplicationInstanceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an application instance on a device.
  */
 export const describeApplicationInstance: API.OperationMethod<
   DescribeApplicationInstanceRequest,
   DescribeApplicationInstanceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeApplicationInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationInstanceRequest,
@@ -2349,18 +2367,20 @@ export const describeApplicationInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeApplicationInstanceDetailsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an application instance's configuration manifest.
  */
 export const describeApplicationInstanceDetails: API.OperationMethod<
   DescribeApplicationInstanceDetailsRequest,
   DescribeApplicationInstanceDetailsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeApplicationInstanceDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationInstanceDetailsRequest,
@@ -2373,17 +2393,19 @@ export const describeApplicationInstanceDetails: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a device.
  */
 export const describeDevice: API.OperationMethod<
   DescribeDeviceRequest,
   DescribeDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeviceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceRequest,
@@ -2395,18 +2417,20 @@ export const describeDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDeviceJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a device job.
  */
 export const describeDeviceJob: API.OperationMethod<
   DescribeDeviceJobRequest,
   DescribeDeviceJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeviceJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceJobRequest,
@@ -2419,18 +2443,20 @@ export const describeDeviceJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeNodeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a node.
  */
 export const describeNode: API.OperationMethod<
   DescribeNodeRequest,
   DescribeNodeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeNodeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNodeRequest,
@@ -2443,17 +2469,19 @@ export const describeNode: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeNodeFromTemplateJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a job to create a camera stream node.
  */
 export const describeNodeFromTemplateJob: API.OperationMethod<
   DescribeNodeFromTemplateJobRequest,
   DescribeNodeFromTemplateJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  DescribeNodeFromTemplateJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNodeFromTemplateJobRequest,
@@ -2465,18 +2493,20 @@ export const describeNodeFromTemplateJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePackageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a package.
  */
 export const describePackage: API.OperationMethod<
   DescribePackageRequest,
   DescribePackageResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribePackageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageRequest,
@@ -2489,17 +2519,19 @@ export const describePackage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePackageImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a package import job.
  */
 export const describePackageImportJob: API.OperationMethod<
   DescribePackageImportJobRequest,
   DescribePackageImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  DescribePackageImportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageImportJobRequest,
@@ -2511,18 +2543,20 @@ export const describePackageImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePackageVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a package version.
  */
 export const describePackageVersion: API.OperationMethod<
   DescribePackageVersionRequest,
   DescribePackageVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribePackageVersionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageVersionRequest,
@@ -2535,27 +2569,31 @@ export const describePackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationInstanceDependenciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Returns a list of application instance dependencies.
  */
 export const listApplicationInstanceDependencies: API.OperationMethod<
   ListApplicationInstanceDependenciesRequest,
   ListApplicationInstanceDependenciesResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  ListApplicationInstanceDependenciesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationInstanceDependenciesRequest,
   ) => stream.Stream<
     ListApplicationInstanceDependenciesResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListApplicationInstanceDependenciesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationInstanceDependenciesRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListApplicationInstanceDependenciesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2568,27 +2606,31 @@ export const listApplicationInstanceDependencies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListApplicationInstanceNodeInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Returns a list of application node instances.
  */
 export const listApplicationInstanceNodeInstances: API.OperationMethod<
   ListApplicationInstanceNodeInstancesRequest,
   ListApplicationInstanceNodeInstancesResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  ListApplicationInstanceNodeInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationInstanceNodeInstancesRequest,
   ) => stream.Stream<
     ListApplicationInstanceNodeInstancesResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListApplicationInstanceNodeInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationInstanceNodeInstancesRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListApplicationInstanceNodeInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2601,27 +2643,31 @@ export const listApplicationInstanceNodeInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListApplicationInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Returns a list of application instances.
  */
 export const listApplicationInstances: API.OperationMethod<
   ListApplicationInstancesRequest,
   ListApplicationInstancesResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  ListApplicationInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationInstancesRequest,
   ) => stream.Stream<
     ListApplicationInstancesResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListApplicationInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationInstancesRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListApplicationInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2634,39 +2680,33 @@ export const listApplicationInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDevicesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of devices.
  */
 export const listDevices: API.OperationMethod<
   ListDevicesRequest,
   ListDevicesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListDevicesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicesRequest,
   ) => stream.Stream<
     ListDevicesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListDevicesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListDevicesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2684,42 +2724,34 @@ export const listDevices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDevicesJobsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of jobs.
  */
 export const listDevicesJobs: API.OperationMethod<
   ListDevicesJobsRequest,
   ListDevicesJobsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDevicesJobsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicesJobsRequest,
   ) => stream.Stream<
     ListDevicesJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDevicesJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicesJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDevicesJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2738,39 +2770,33 @@ export const listDevicesJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNodeFromTemplateJobsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of camera stream node jobs.
  */
 export const listNodeFromTemplateJobs: API.OperationMethod<
   ListNodeFromTemplateJobsRequest,
   ListNodeFromTemplateJobsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListNodeFromTemplateJobsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodeFromTemplateJobsRequest,
   ) => stream.Stream<
     ListNodeFromTemplateJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListNodeFromTemplateJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNodeFromTemplateJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListNodeFromTemplateJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2788,36 +2814,32 @@ export const listNodeFromTemplateJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNodesError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of nodes.
  */
 export const listNodes: API.OperationMethod<
   ListNodesRequest,
   ListNodesResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListNodesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
     ListNodesResponse,
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListNodesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNodesRequest,
   ) => stream.Stream<
     unknown,
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListNodesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2830,39 +2852,33 @@ export const listNodes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPackageImportJobsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of package import jobs.
  */
 export const listPackageImportJobs: API.OperationMethod<
   ListPackageImportJobsRequest,
   ListPackageImportJobsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListPackageImportJobsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackageImportJobsRequest,
   ) => stream.Stream<
     ListPackageImportJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListPackageImportJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPackageImportJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListPackageImportJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2880,42 +2896,34 @@ export const listPackageImportJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPackagesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of packages.
  */
 export const listPackages: API.OperationMethod<
   ListPackagesRequest,
   ListPackagesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListPackagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagesRequest,
   ) => stream.Stream<
     ListPackagesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPackagesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2934,16 +2942,18 @@ export const listPackages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2954,6 +2964,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ProvisionDeviceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a
  * provisioning certificate that is valid for 5 minutes. Name the configuration archive
@@ -2963,12 +2980,7 @@ export const listTagsForResource: API.OperationMethod<
 export const provisionDevice: API.OperationMethod<
   ProvisionDeviceRequest,
   ProvisionDeviceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ProvisionDeviceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionDeviceRequest,
@@ -2981,17 +2993,19 @@ export const provisionDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterPackageVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Registers a package version.
  */
 export const registerPackageVersion: API.OperationMethod<
   RegisterPackageVersionRequest,
   RegisterPackageVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  RegisterPackageVersionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterPackageVersionRequest,
@@ -3003,18 +3017,20 @@ export const registerPackageVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveApplicationInstanceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes an application instance.
  */
 export const removeApplicationInstance: API.OperationMethod<
   RemoveApplicationInstanceRequest,
   RemoveApplicationInstanceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RemoveApplicationInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveApplicationInstanceRequest,
@@ -3027,17 +3043,19 @@ export const removeApplicationInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SignalApplicationInstanceNodeInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Signal camera nodes to stop or resume.
  */
 export const signalApplicationInstanceNodeInstances: API.OperationMethod<
   SignalApplicationInstanceNodeInstancesRequest,
   SignalApplicationInstanceNodeInstancesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  SignalApplicationInstanceNodeInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignalApplicationInstanceNodeInstancesRequest,
@@ -3049,16 +3067,18 @@ export const signalApplicationInstanceNodeInstances: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3069,16 +3089,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3089,18 +3111,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDeviceMetadataError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a device's metadata.
  */
 export const updateDeviceMetadata: API.OperationMethod<
   UpdateDeviceMetadataRequest,
   UpdateDeviceMetadataResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateDeviceMetadataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceMetadataRequest,

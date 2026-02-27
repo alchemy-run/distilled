@@ -807,6 +807,10 @@ export class TextLengthExceededException extends S.TaggedErrorClass<TextLengthEx
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DeleteLexiconError =
+  | LexiconNotFoundException
+  | ServiceFailureException
+  | CommonErrors;
 /**
  * Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for
  * speech synthesis, nor is it possible to retrieve it using either the
@@ -817,13 +821,17 @@ export class TextLengthExceededException extends S.TaggedErrorClass<TextLengthEx
 export const deleteLexicon: API.OperationMethod<
   DeleteLexiconInput,
   DeleteLexiconOutput,
-  LexiconNotFoundException | ServiceFailureException | CommonErrors,
+  DeleteLexiconError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLexiconInput,
   output: DeleteLexiconOutput,
   errors: [LexiconNotFoundException, ServiceFailureException],
 }));
+export type DescribeVoicesError =
+  | InvalidNextTokenException
+  | ServiceFailureException
+  | CommonErrors;
 /**
  * Returns the list of voices that are available for use when
  * requesting speech synthesis. Each voice speaks a specified language, is
@@ -849,13 +857,17 @@ export const deleteLexicon: API.OperationMethod<
 export const describeVoices: API.OperationMethod<
   DescribeVoicesInput,
   DescribeVoicesOutput,
-  InvalidNextTokenException | ServiceFailureException | CommonErrors,
+  DescribeVoicesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVoicesInput,
   output: DescribeVoicesOutput,
   errors: [InvalidNextTokenException, ServiceFailureException],
 }));
+export type GetLexiconError =
+  | LexiconNotFoundException
+  | ServiceFailureException
+  | CommonErrors;
 /**
  * Returns the content of the specified pronunciation lexicon stored
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
@@ -863,13 +875,18 @@ export const describeVoices: API.OperationMethod<
 export const getLexicon: API.OperationMethod<
   GetLexiconInput,
   GetLexiconOutput,
-  LexiconNotFoundException | ServiceFailureException | CommonErrors,
+  GetLexiconError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLexiconInput,
   output: GetLexiconOutput,
   errors: [LexiconNotFoundException, ServiceFailureException],
 }));
+export type GetSpeechSynthesisTaskError =
+  | InvalidTaskIdException
+  | ServiceFailureException
+  | SynthesisTaskNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a specific SpeechSynthesisTask object based on its TaskID.
  * This object contains information about the given speech synthesis task,
@@ -879,10 +896,7 @@ export const getLexicon: API.OperationMethod<
 export const getSpeechSynthesisTask: API.OperationMethod<
   GetSpeechSynthesisTaskInput,
   GetSpeechSynthesisTaskOutput,
-  | InvalidTaskIdException
-  | ServiceFailureException
-  | SynthesisTaskNotFoundException
-  | CommonErrors,
+  GetSpeechSynthesisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpeechSynthesisTaskInput,
@@ -893,19 +907,27 @@ export const getSpeechSynthesisTask: API.OperationMethod<
     SynthesisTaskNotFoundException,
   ],
 }));
+export type ListLexiconsError =
+  | InvalidNextTokenException
+  | ServiceFailureException
+  | CommonErrors;
 /**
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
 export const listLexicons: API.OperationMethod<
   ListLexiconsInput,
   ListLexiconsOutput,
-  InvalidNextTokenException | ServiceFailureException | CommonErrors,
+  ListLexiconsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLexiconsInput,
   output: ListLexiconsOutput,
   errors: [InvalidNextTokenException, ServiceFailureException],
 }));
+export type ListSpeechSynthesisTasksError =
+  | InvalidNextTokenException
+  | ServiceFailureException
+  | CommonErrors;
 /**
  * Returns a list of SpeechSynthesisTask objects ordered by their
  * creation date. This operation can filter the tasks by their status, for
@@ -914,21 +936,21 @@ export const listLexicons: API.OperationMethod<
 export const listSpeechSynthesisTasks: API.OperationMethod<
   ListSpeechSynthesisTasksInput,
   ListSpeechSynthesisTasksOutput,
-  InvalidNextTokenException | ServiceFailureException | CommonErrors,
+  ListSpeechSynthesisTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSpeechSynthesisTasksInput,
   ) => stream.Stream<
     ListSpeechSynthesisTasksOutput,
-    InvalidNextTokenException | ServiceFailureException | CommonErrors,
+    ListSpeechSynthesisTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpeechSynthesisTasksInput,
   ) => stream.Stream<
     unknown,
-    InvalidNextTokenException | ServiceFailureException | CommonErrors,
+    ListSpeechSynthesisTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -941,6 +963,15 @@ export const listSpeechSynthesisTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutLexiconError =
+  | InvalidLexiconException
+  | LexiconSizeExceededException
+  | MaxLexemeLengthExceededException
+  | MaxLexiconsNumberExceededException
+  | ServiceFailureException
+  | UnsupportedPlsAlphabetException
+  | UnsupportedPlsLanguageException
+  | CommonErrors;
 /**
  * Stores a pronunciation lexicon in an Amazon Web Services Region. If
  * a lexicon with the same name already exists in the region, it is
@@ -953,14 +984,7 @@ export const listSpeechSynthesisTasks: API.OperationMethod<
 export const putLexicon: API.OperationMethod<
   PutLexiconInput,
   PutLexiconOutput,
-  | InvalidLexiconException
-  | LexiconSizeExceededException
-  | MaxLexemeLengthExceededException
-  | MaxLexiconsNumberExceededException
-  | ServiceFailureException
-  | UnsupportedPlsAlphabetException
-  | UnsupportedPlsLanguageException
-  | CommonErrors,
+  PutLexiconError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLexiconInput,
@@ -975,6 +999,20 @@ export const putLexicon: API.OperationMethod<
     UnsupportedPlsLanguageException,
   ],
 }));
+export type StartSpeechSynthesisTaskError =
+  | EngineNotSupportedException
+  | InvalidS3BucketException
+  | InvalidS3KeyException
+  | InvalidSampleRateException
+  | InvalidSnsTopicArnException
+  | InvalidSsmlException
+  | LanguageNotSupportedException
+  | LexiconNotFoundException
+  | MarksNotSupportedForFormatException
+  | ServiceFailureException
+  | SsmlMarksNotSupportedForTextTypeException
+  | TextLengthExceededException
+  | CommonErrors;
 /**
  * Allows the creation of an asynchronous synthesis task, by starting a
  * new `SpeechSynthesisTask`. This operation requires all the
@@ -990,19 +1028,7 @@ export const putLexicon: API.OperationMethod<
 export const startSpeechSynthesisTask: API.OperationMethod<
   StartSpeechSynthesisTaskInput,
   StartSpeechSynthesisTaskOutput,
-  | EngineNotSupportedException
-  | InvalidS3BucketException
-  | InvalidS3KeyException
-  | InvalidSampleRateException
-  | InvalidSnsTopicArnException
-  | InvalidSsmlException
-  | LanguageNotSupportedException
-  | LexiconNotFoundException
-  | MarksNotSupportedForFormatException
-  | ServiceFailureException
-  | SsmlMarksNotSupportedForTextTypeException
-  | TextLengthExceededException
-  | CommonErrors,
+  StartSpeechSynthesisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSpeechSynthesisTaskInput,
@@ -1022,6 +1048,17 @@ export const startSpeechSynthesisTask: API.OperationMethod<
     TextLengthExceededException,
   ],
 }));
+export type SynthesizeSpeechError =
+  | EngineNotSupportedException
+  | InvalidSampleRateException
+  | InvalidSsmlException
+  | LanguageNotSupportedException
+  | LexiconNotFoundException
+  | MarksNotSupportedForFormatException
+  | ServiceFailureException
+  | SsmlMarksNotSupportedForTextTypeException
+  | TextLengthExceededException
+  | CommonErrors;
 /**
  * Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes.
  * SSML input must be valid, well-formed SSML. Some alphabets might not be
@@ -1032,16 +1069,7 @@ export const startSpeechSynthesisTask: API.OperationMethod<
 export const synthesizeSpeech: API.OperationMethod<
   SynthesizeSpeechInput,
   SynthesizeSpeechOutput,
-  | EngineNotSupportedException
-  | InvalidSampleRateException
-  | InvalidSsmlException
-  | LanguageNotSupportedException
-  | LexiconNotFoundException
-  | MarksNotSupportedForFormatException
-  | ServiceFailureException
-  | SsmlMarksNotSupportedForTextTypeException
-  | TextLengthExceededException
-  | CommonErrors,
+  SynthesizeSpeechError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SynthesizeSpeechInput,

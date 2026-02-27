@@ -2854,19 +2854,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.
- */
-export const disassociateHostedZone: API.OperationMethod<
-  DisassociateHostedZoneInput,
-  DisassociateHostedZoneOutput,
+export type DisassociateHostedZoneError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.
+ */
+export const disassociateHostedZone: API.OperationMethod<
+  DisassociateHostedZoneInput,
+  DisassociateHostedZoneOutput,
+  DisassociateHostedZoneError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateHostedZoneInput,
@@ -2880,29 +2882,32 @@ export const disassociateHostedZone: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags associated with a Route 53 Global Resolver resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2913,25 +2918,24 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a Route 53 Global Resolver resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
-/**
- * Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.
- */
-export const createAccessSource: API.OperationMethod<
-  CreateAccessSourceInput,
-  CreateAccessSourceOutput,
+export type CreateAccessSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2939,7 +2943,14 @@ export const createAccessSource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.
+ */
+export const createAccessSource: API.OperationMethod<
+  CreateAccessSourceInput,
+  CreateAccessSourceOutput,
+  CreateAccessSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessSourceInput,
@@ -2954,18 +2965,20 @@ export const createAccessSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccessSourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an access source.
  */
 export const getAccessSource: API.OperationMethod<
   GetAccessSourceInput,
   GetAccessSourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccessSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessSourceInput,
@@ -2978,12 +2991,7 @@ export const getAccessSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an access source.
- */
-export const updateAccessSource: API.OperationMethod<
-  UpdateAccessSourceInput,
-  UpdateAccessSourceOutput,
+export type UpdateAccessSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2991,7 +2999,14 @@ export const updateAccessSource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an access source.
+ */
+export const updateAccessSource: API.OperationMethod<
+  UpdateAccessSourceInput,
+  UpdateAccessSourceOutput,
+  UpdateAccessSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessSourceInput,
@@ -3006,19 +3021,21 @@ export const updateAccessSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an access source. This operation cannot be undone.
- */
-export const deleteAccessSource: API.OperationMethod<
-  DeleteAccessSourceInput,
-  DeleteAccessSourceOutput,
+export type DeleteAccessSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an access source. This operation cannot be undone.
+ */
+export const deleteAccessSource: API.OperationMethod<
+  DeleteAccessSourceInput,
+  DeleteAccessSourceOutput,
+  DeleteAccessSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessSourceInput,
@@ -3032,39 +3049,33 @@ export const deleteAccessSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAccessSourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all access sources with pagination support.
  */
 export const listAccessSources: API.OperationMethod<
   ListAccessSourcesInput,
   ListAccessSourcesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccessSourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessSourcesInput,
   ) => stream.Stream<
     ListAccessSourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessSourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessSourcesInput,
   ) => stream.Stream<
     AccessSourcesItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessSourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3083,12 +3094,7 @@ export const listAccessSources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.
- */
-export const createAccessToken: API.OperationMethod<
-  CreateAccessTokenInput,
-  CreateAccessTokenOutput,
+export type CreateAccessTokenError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3096,7 +3102,14 @@ export const createAccessToken: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.
+ */
+export const createAccessToken: API.OperationMethod<
+  CreateAccessTokenInput,
+  CreateAccessTokenOutput,
+  CreateAccessTokenError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessTokenInput,
@@ -3111,18 +3124,20 @@ export const createAccessToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccessTokenError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an access token.
  */
 export const getAccessToken: API.OperationMethod<
   GetAccessTokenInput,
   GetAccessTokenOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccessTokenError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessTokenInput,
@@ -3135,19 +3150,21 @@ export const getAccessToken: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an access token.
- */
-export const updateAccessToken: API.OperationMethod<
-  UpdateAccessTokenInput,
-  UpdateAccessTokenOutput,
+export type UpdateAccessTokenError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an access token.
+ */
+export const updateAccessToken: API.OperationMethod<
+  UpdateAccessTokenInput,
+  UpdateAccessTokenOutput,
+  UpdateAccessTokenError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessTokenInput,
@@ -3161,18 +3178,20 @@ export const updateAccessToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAccessTokenError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an access token. This operation cannot be undone.
  */
 export const deleteAccessToken: API.OperationMethod<
   DeleteAccessTokenInput,
   DeleteAccessTokenOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAccessTokenError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessTokenInput,
@@ -3185,42 +3204,34 @@ export const deleteAccessToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAccessTokensError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all access tokens for a DNS view with pagination support.
  */
 export const listAccessTokens: API.OperationMethod<
   ListAccessTokensInput,
   ListAccessTokensOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccessTokensError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessTokensInput,
   ) => stream.Stream<
     ListAccessTokensOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessTokensError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessTokensInput,
   ) => stream.Stream<
     AccessTokenItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessTokensError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3240,12 +3251,7 @@ export const listAccessTokens: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.
- */
-export const createDNSView: API.OperationMethod<
-  CreateDNSViewInput,
-  CreateDNSViewOutput,
+export type CreateDNSViewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3253,7 +3259,14 @@ export const createDNSView: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.
+ */
+export const createDNSView: API.OperationMethod<
+  CreateDNSViewInput,
+  CreateDNSViewOutput,
+  CreateDNSViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDNSViewInput,
@@ -3268,18 +3281,20 @@ export const createDNSView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDNSViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a DNS view.
  */
 export const getDNSView: API.OperationMethod<
   GetDNSViewInput,
   GetDNSViewOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDNSViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDNSViewInput,
@@ -3292,19 +3307,21 @@ export const getDNSView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of a DNS view.
- */
-export const updateDNSView: API.OperationMethod<
-  UpdateDNSViewInput,
-  UpdateDNSViewOutput,
+export type UpdateDNSViewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of a DNS view.
+ */
+export const updateDNSView: API.OperationMethod<
+  UpdateDNSViewInput,
+  UpdateDNSViewOutput,
+  UpdateDNSViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDNSViewInput,
@@ -3318,19 +3335,21 @@ export const updateDNSView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a DNS view. This operation cannot be undone.
- */
-export const deleteDNSView: API.OperationMethod<
-  DeleteDNSViewInput,
-  DeleteDNSViewOutput,
+export type DeleteDNSViewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a DNS view. This operation cannot be undone.
+ */
+export const deleteDNSView: API.OperationMethod<
+  DeleteDNSViewInput,
+  DeleteDNSViewOutput,
+  DeleteDNSViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDNSViewInput,
@@ -3344,42 +3363,34 @@ export const deleteDNSView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDNSViewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all DNS views for a Route 53 Global Resolver with pagination support.
  */
 export const listDNSViews: API.OperationMethod<
   ListDNSViewsInput,
   ListDNSViewsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDNSViewsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDNSViewsInput,
   ) => stream.Stream<
     ListDNSViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDNSViewsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDNSViewsInput,
   ) => stream.Stream<
     DNSViewSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDNSViewsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3399,19 +3410,21 @@ export const listDNSViews: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Disables a DNS view, preventing it from serving DNS queries.
- */
-export const disableDNSView: API.OperationMethod<
-  DisableDNSViewInput,
-  DisableDNSViewOutput,
+export type DisableDNSViewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables a DNS view, preventing it from serving DNS queries.
+ */
+export const disableDNSView: API.OperationMethod<
+  DisableDNSViewInput,
+  DisableDNSViewOutput,
+  DisableDNSViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDNSViewInput,
@@ -3425,19 +3438,21 @@ export const disableDNSView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Enables a disabled DNS view, allowing it to serve DNS queries again.
- */
-export const enableDNSView: API.OperationMethod<
-  EnableDNSViewInput,
-  EnableDNSViewOutput,
+export type EnableDNSViewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables a disabled DNS view, allowing it to serve DNS queries again.
+ */
+export const enableDNSView: API.OperationMethod<
+  EnableDNSViewInput,
+  EnableDNSViewOutput,
+  EnableDNSViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDNSViewInput,
@@ -3451,12 +3466,7 @@ export const enableDNSView: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.
- */
-export const createFirewallDomainList: API.OperationMethod<
-  CreateFirewallDomainListInput,
-  CreateFirewallDomainListOutput,
+export type CreateFirewallDomainListError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3464,7 +3474,14 @@ export const createFirewallDomainList: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.
+ */
+export const createFirewallDomainList: API.OperationMethod<
+  CreateFirewallDomainListInput,
+  CreateFirewallDomainListOutput,
+  CreateFirewallDomainListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirewallDomainListInput,
@@ -3479,18 +3496,20 @@ export const createFirewallDomainList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFirewallDomainListError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a firewall domain list.
  */
 export const getFirewallDomainList: API.OperationMethod<
   GetFirewallDomainListInput,
   GetFirewallDomainListOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFirewallDomainListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallDomainListInput,
@@ -3503,19 +3522,21 @@ export const getFirewallDomainList: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a firewall domain list. This operation cannot be undone.
- */
-export const deleteFirewallDomainList: API.OperationMethod<
-  DeleteFirewallDomainListInput,
-  DeleteFirewallDomainListOutput,
+export type DeleteFirewallDomainListError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a firewall domain list. This operation cannot be undone.
+ */
+export const deleteFirewallDomainList: API.OperationMethod<
+  DeleteFirewallDomainListInput,
+  DeleteFirewallDomainListOutput,
+  DeleteFirewallDomainListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFirewallDomainListInput,
@@ -3529,42 +3550,34 @@ export const deleteFirewallDomainList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFirewallDomainListsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all firewall domain lists for a Route 53 Global Resolver with pagination support.
  */
 export const listFirewallDomainLists: API.OperationMethod<
   ListFirewallDomainListsInput,
   ListFirewallDomainListsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallDomainListsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallDomainListsInput,
   ) => stream.Stream<
     ListFirewallDomainListsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainListsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallDomainListsInput,
   ) => stream.Stream<
     FirewallDomainListsItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainListsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3584,19 +3597,21 @@ export const listFirewallDomainLists: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.
- */
-export const importFirewallDomains: API.OperationMethod<
-  ImportFirewallDomainsInput,
-  ImportFirewallDomainsOutput,
+export type ImportFirewallDomainsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.
+ */
+export const importFirewallDomains: API.OperationMethod<
+  ImportFirewallDomainsInput,
+  ImportFirewallDomainsOutput,
+  ImportFirewallDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportFirewallDomainsInput,
@@ -3610,42 +3625,34 @@ export const importFirewallDomains: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFirewallDomainsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the domains in DNS Firewall domain list you have created.
  */
 export const listFirewallDomains: API.OperationMethod<
   ListFirewallDomainsInput,
   ListFirewallDomainsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallDomainsInput,
   ) => stream.Stream<
     ListFirewallDomainsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallDomainsInput,
   ) => stream.Stream<
     Domain,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3665,19 +3672,21 @@ export const listFirewallDomains: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Updates a DNS Firewall domain list from an array of specified domains.
- */
-export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsInput,
-  UpdateFirewallDomainsOutput,
+export type UpdateFirewallDomainsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a DNS Firewall domain list from an array of specified domains.
+ */
+export const updateFirewallDomains: API.OperationMethod<
+  UpdateFirewallDomainsInput,
+  UpdateFirewallDomainsOutput,
+  UpdateFirewallDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFirewallDomainsInput,
@@ -3691,12 +3700,7 @@ export const updateFirewallDomains: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.
- */
-export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleInput,
-  CreateFirewallRuleOutput,
+export type CreateFirewallRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3704,7 +3708,14 @@ export const createFirewallRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.
+ */
+export const createFirewallRule: API.OperationMethod<
+  CreateFirewallRuleInput,
+  CreateFirewallRuleOutput,
+  CreateFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirewallRuleInput,
@@ -3719,18 +3730,20 @@ export const createFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFirewallRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a DNS firewall rule.
  */
 export const getFirewallRule: API.OperationMethod<
   GetFirewallRuleInput,
   GetFirewallRuleOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallRuleInput,
@@ -3743,19 +3756,21 @@ export const getFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of a DNS firewall rule.
- */
-export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleInput,
-  UpdateFirewallRuleOutput,
+export type UpdateFirewallRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of a DNS firewall rule.
+ */
+export const updateFirewallRule: API.OperationMethod<
+  UpdateFirewallRuleInput,
+  UpdateFirewallRuleOutput,
+  UpdateFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFirewallRuleInput,
@@ -3769,19 +3784,21 @@ export const updateFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a DNS firewall rule. This operation cannot be undone.
- */
-export const deleteFirewallRule: API.OperationMethod<
-  DeleteFirewallRuleInput,
-  DeleteFirewallRuleOutput,
+export type DeleteFirewallRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a DNS firewall rule. This operation cannot be undone.
+ */
+export const deleteFirewallRule: API.OperationMethod<
+  DeleteFirewallRuleInput,
+  DeleteFirewallRuleOutput,
+  DeleteFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFirewallRuleInput,
@@ -3795,42 +3812,34 @@ export const deleteFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFirewallRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all DNS firewall rules for a DNS view with pagination support.
  */
 export const listFirewallRules: API.OperationMethod<
   ListFirewallRulesInput,
   ListFirewallRulesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallRulesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallRulesInput,
   ) => stream.Stream<
     ListFirewallRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallRulesInput,
   ) => stream.Stream<
     FirewallRulesItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3850,17 +3859,19 @@ export const listFirewallRules: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchCreateFirewallRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once.
  */
 export const batchCreateFirewallRule: API.OperationMethod<
   BatchCreateFirewallRuleInput,
   BatchCreateFirewallRuleOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchCreateFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateFirewallRuleInput,
@@ -3872,17 +3883,19 @@ export const batchCreateFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDeleteFirewallRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually.
  */
 export const batchDeleteFirewallRule: API.OperationMethod<
   BatchDeleteFirewallRuleInput,
   BatchDeleteFirewallRuleOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteFirewallRuleInput,
@@ -3894,17 +3907,19 @@ export const batchDeleteFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchUpdateFirewallRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates multiple DNS firewall rules in a single operation. This is more efficient than updating rules individually.
  */
 export const batchUpdateFirewallRule: API.OperationMethod<
   BatchUpdateFirewallRuleInput,
   BatchUpdateFirewallRuleOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateFirewallRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateFirewallRuleInput,
@@ -3916,19 +3931,21 @@ export const batchUpdateFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.
- */
-export const createGlobalResolver: API.OperationMethod<
-  CreateGlobalResolverInput,
-  CreateGlobalResolverOutput,
+export type CreateGlobalResolverError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.
+ */
+export const createGlobalResolver: API.OperationMethod<
+  CreateGlobalResolverInput,
+  CreateGlobalResolverOutput,
+  CreateGlobalResolverError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlobalResolverInput,
@@ -3942,18 +3959,20 @@ export const createGlobalResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGlobalResolverError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a Route 53 Global Resolver instance.
  */
 export const getGlobalResolver: API.OperationMethod<
   GetGlobalResolverInput,
   GetGlobalResolverOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGlobalResolverError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlobalResolverInput,
@@ -3966,19 +3985,21 @@ export const getGlobalResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability region.
- */
-export const updateGlobalResolver: API.OperationMethod<
-  UpdateGlobalResolverInput,
-  UpdateGlobalResolverOutput,
+export type UpdateGlobalResolverError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability region.
+ */
+export const updateGlobalResolver: API.OperationMethod<
+  UpdateGlobalResolverInput,
+  UpdateGlobalResolverOutput,
+  UpdateGlobalResolverError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlobalResolverInput,
@@ -3992,19 +4013,21 @@ export const updateGlobalResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.
- */
-export const deleteGlobalResolver: API.OperationMethod<
-  DeleteGlobalResolverInput,
-  DeleteGlobalResolverOutput,
+export type DeleteGlobalResolverError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.
+ */
+export const deleteGlobalResolver: API.OperationMethod<
+  DeleteGlobalResolverInput,
+  DeleteGlobalResolverOutput,
+  DeleteGlobalResolverError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlobalResolverInput,
@@ -4018,39 +4041,33 @@ export const deleteGlobalResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGlobalResolversError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Route 53 Global Resolver instances in your account with pagination support.
  */
 export const listGlobalResolvers: API.OperationMethod<
   ListGlobalResolversInput,
   ListGlobalResolversOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGlobalResolversError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGlobalResolversInput,
   ) => stream.Stream<
     ListGlobalResolversOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGlobalResolversError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListGlobalResolversInput,
   ) => stream.Stream<
     GlobalResolversItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGlobalResolversError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4069,12 +4086,7 @@ export const listGlobalResolvers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.
- */
-export const associateHostedZone: API.OperationMethod<
-  AssociateHostedZoneInput,
-  AssociateHostedZoneOutput,
+export type AssociateHostedZoneError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4082,7 +4094,14 @@ export const associateHostedZone: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.
+ */
+export const associateHostedZone: API.OperationMethod<
+  AssociateHostedZoneInput,
+  AssociateHostedZoneOutput,
+  AssociateHostedZoneError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateHostedZoneInput,
@@ -4097,18 +4116,20 @@ export const associateHostedZone: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetHostedZoneAssociationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a hosted zone association.
  */
 export const getHostedZoneAssociation: API.OperationMethod<
   GetHostedZoneAssociationInput,
   GetHostedZoneAssociationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetHostedZoneAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneAssociationInput,
@@ -4121,19 +4142,21 @@ export const getHostedZoneAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of a hosted zone association.
- */
-export const updateHostedZoneAssociation: API.OperationMethod<
-  UpdateHostedZoneAssociationInput,
-  UpdateHostedZoneAssociationOutput,
+export type UpdateHostedZoneAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of a hosted zone association.
+ */
+export const updateHostedZoneAssociation: API.OperationMethod<
+  UpdateHostedZoneAssociationInput,
+  UpdateHostedZoneAssociationOutput,
+  UpdateHostedZoneAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHostedZoneAssociationInput,
@@ -4147,42 +4170,34 @@ export const updateHostedZoneAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListHostedZoneAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.
  */
 export const listHostedZoneAssociations: API.OperationMethod<
   ListHostedZoneAssociationsInput,
   ListHostedZoneAssociationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListHostedZoneAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHostedZoneAssociationsInput,
   ) => stream.Stream<
     ListHostedZoneAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHostedZoneAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListHostedZoneAssociationsInput,
   ) => stream.Stream<
     HostedZoneAssociationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHostedZoneAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4202,18 +4217,20 @@ export const listHostedZoneAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetManagedFirewallDomainListError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an AWS-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats.
  */
 export const getManagedFirewallDomainList: API.OperationMethod<
   GetManagedFirewallDomainListInput,
   GetManagedFirewallDomainListOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetManagedFirewallDomainListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedFirewallDomainListInput,
@@ -4226,39 +4243,33 @@ export const getManagedFirewallDomainList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListManagedFirewallDomainListsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of the AWS Managed DNS Lists and the categories for DNS Firewall. The categories are either `THREAT` or `CONTENT`.
  */
 export const listManagedFirewallDomainLists: API.OperationMethod<
   ListManagedFirewallDomainListsInput,
   ListManagedFirewallDomainListsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedFirewallDomainListsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedFirewallDomainListsInput,
   ) => stream.Stream<
     ListManagedFirewallDomainListsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedFirewallDomainListsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedFirewallDomainListsInput,
   ) => stream.Stream<
     ManagedFirewallDomainListsItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedFirewallDomainListsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

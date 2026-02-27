@@ -1548,27 +1548,31 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListRequesterGatewaysError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists requester gateways.
  */
 export const listRequesterGateways: API.OperationMethod<
   ListRequesterGatewaysRequest,
   ListRequesterGatewaysResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListRequesterGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequesterGatewaysRequest,
   ) => stream.Stream<
     ListRequesterGatewaysResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListRequesterGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequesterGatewaysRequest,
   ) => stream.Stream<
     GatewayId,
-    InternalServerException | ValidationException | CommonErrors,
+    ListRequesterGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1582,27 +1586,31 @@ export const listRequesterGateways: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResponderGatewaysError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists reponder gateways.
  */
 export const listResponderGateways: API.OperationMethod<
   ListResponderGatewaysRequest,
   ListResponderGatewaysResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListResponderGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResponderGatewaysRequest,
   ) => stream.Stream<
     ListResponderGatewaysResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListResponderGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResponderGatewaysRequest,
   ) => stream.Stream<
     GatewayId,
-    InternalServerException | ValidationException | CommonErrors,
+    ListResponderGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1616,18 +1624,20 @@ export const listResponderGateways: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1640,18 +1650,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1664,18 +1676,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1688,6 +1702,15 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLinkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new link between gateways.
  *
@@ -1696,14 +1719,7 @@ export const untagResource: API.OperationMethod<
 export const createLink: API.OperationMethod<
   CreateLinkRequest,
   CreateLinkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLinkRequest,
@@ -1718,6 +1734,14 @@ export const createLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLinkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a link between gateways.
  *
@@ -1726,13 +1750,7 @@ export const createLink: API.OperationMethod<
 export const getLink: API.OperationMethod<
   GetLinkRequest,
   GetLinkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLinkRequest,
@@ -1746,6 +1764,14 @@ export const getLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLinkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a link between gateways.
  *
@@ -1754,13 +1780,7 @@ export const getLink: API.OperationMethod<
 export const deleteLink: API.OperationMethod<
   DeleteLinkRequest,
   DeleteLinkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLinkRequest,
@@ -1774,6 +1794,13 @@ export const deleteLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListLinksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists links associated with gateways.
  *
@@ -1782,36 +1809,21 @@ export const deleteLink: API.OperationMethod<
 export const listLinks: API.OperationMethod<
   ListLinksRequest,
   ListLinksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLinksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLinksRequest,
   ) => stream.Stream<
     ListLinksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLinksRequest,
   ) => stream.Stream<
     ListLinksResponseStructure,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1831,6 +1843,14 @@ export const listLinks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type AcceptLinkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Accepts a link request between gateways.
  *
@@ -1839,13 +1859,7 @@ export const listLinks: API.OperationMethod<
 export const acceptLink: API.OperationMethod<
   AcceptLinkRequest,
   AcceptLinkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AcceptLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptLinkRequest,
@@ -1859,6 +1873,14 @@ export const acceptLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RejectLinkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Rejects a link request between gateways.
  *
@@ -1867,13 +1889,7 @@ export const acceptLink: API.OperationMethod<
 export const rejectLink: API.OperationMethod<
   RejectLinkRequest,
   RejectLinkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RejectLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectLinkRequest,
@@ -1887,6 +1903,14 @@ export const rejectLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLinkError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of a link between gateways.
  *
@@ -1895,13 +1919,7 @@ export const rejectLink: API.OperationMethod<
 export const updateLink: API.OperationMethod<
   UpdateLinkRequest,
   UpdateLinkResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLinkRequest,
@@ -1915,12 +1933,7 @@ export const updateLink: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a link module flow.
- */
-export const updateLinkModuleFlow: API.OperationMethod<
-  UpdateLinkModuleFlowRequest,
-  UpdateLinkModuleFlowResponse,
+export type UpdateLinkModuleFlowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1928,7 +1941,14 @@ export const updateLinkModuleFlow: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a link module flow.
+ */
+export const updateLinkModuleFlow: API.OperationMethod<
+  UpdateLinkModuleFlowRequest,
+  UpdateLinkModuleFlowResponse,
+  UpdateLinkModuleFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLinkModuleFlowRequest,
@@ -1943,19 +1963,21 @@ export const updateLinkModuleFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a requester gateway.
- */
-export const createRequesterGateway: API.OperationMethod<
-  CreateRequesterGatewayRequest,
-  CreateRequesterGatewayResponse,
+export type CreateRequesterGatewayError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a requester gateway.
+ */
+export const createRequesterGateway: API.OperationMethod<
+  CreateRequesterGatewayRequest,
+  CreateRequesterGatewayResponse,
+  CreateRequesterGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRequesterGatewayRequest,
@@ -1969,18 +1991,20 @@ export const createRequesterGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRequesterGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a requester gateway.
  */
 export const getRequesterGateway: API.OperationMethod<
   GetRequesterGatewayRequest,
   GetRequesterGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRequesterGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRequesterGatewayRequest,
@@ -1993,18 +2017,20 @@ export const getRequesterGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRequesterGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a requester gateway.
  */
 export const deleteRequesterGateway: API.OperationMethod<
   DeleteRequesterGatewayRequest,
   DeleteRequesterGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRequesterGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRequesterGatewayRequest,
@@ -2017,19 +2043,21 @@ export const deleteRequesterGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a requester gateway.
- */
-export const updateRequesterGateway: API.OperationMethod<
-  UpdateRequesterGatewayRequest,
-  UpdateRequesterGatewayResponse,
+export type UpdateRequesterGatewayError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a requester gateway.
+ */
+export const updateRequesterGateway: API.OperationMethod<
+  UpdateRequesterGatewayRequest,
+  UpdateRequesterGatewayResponse,
+  UpdateRequesterGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRequesterGatewayRequest,
@@ -2043,19 +2071,21 @@ export const updateRequesterGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an outbound external link.
- */
-export const createOutboundExternalLink: API.OperationMethod<
-  CreateOutboundExternalLinkRequest,
-  CreateOutboundExternalLinkResponse,
+export type CreateOutboundExternalLinkError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an outbound external link.
+ */
+export const createOutboundExternalLink: API.OperationMethod<
+  CreateOutboundExternalLinkRequest,
+  CreateOutboundExternalLinkResponse,
+  CreateOutboundExternalLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOutboundExternalLinkRequest,
@@ -2069,19 +2099,21 @@ export const createOutboundExternalLink: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an outbound external link.
- */
-export const deleteOutboundExternalLink: API.OperationMethod<
-  DeleteOutboundExternalLinkRequest,
-  DeleteOutboundExternalLinkResponse,
+export type DeleteOutboundExternalLinkError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an outbound external link.
+ */
+export const deleteOutboundExternalLink: API.OperationMethod<
+  DeleteOutboundExternalLinkRequest,
+  DeleteOutboundExternalLinkResponse,
+  DeleteOutboundExternalLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutboundExternalLinkRequest,
@@ -2095,18 +2127,20 @@ export const deleteOutboundExternalLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOutboundExternalLinkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an outbound external link.
  */
 export const getOutboundExternalLink: API.OperationMethod<
   GetOutboundExternalLinkRequest,
   GetOutboundExternalLinkResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOutboundExternalLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOutboundExternalLinkRequest,
@@ -2119,6 +2153,14 @@ export const getOutboundExternalLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResponderGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a responder gateway.
  *
@@ -2127,13 +2169,7 @@ export const getOutboundExternalLink: API.OperationMethod<
 export const createResponderGateway: API.OperationMethod<
   CreateResponderGatewayRequest,
   CreateResponderGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateResponderGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResponderGatewayRequest,
@@ -2147,18 +2183,20 @@ export const createResponderGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResponderGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a responder gateway.
  */
 export const getResponderGateway: API.OperationMethod<
   GetResponderGatewayRequest,
   GetResponderGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResponderGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResponderGatewayRequest,
@@ -2171,18 +2209,20 @@ export const getResponderGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResponderGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a responder gateway.
  */
 export const deleteResponderGateway: API.OperationMethod<
   DeleteResponderGatewayRequest,
   DeleteResponderGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResponderGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResponderGatewayRequest,
@@ -2195,19 +2235,21 @@ export const deleteResponderGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a responder gateway.
- */
-export const updateResponderGateway: API.OperationMethod<
-  UpdateResponderGatewayRequest,
-  UpdateResponderGatewayResponse,
+export type UpdateResponderGatewayError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a responder gateway.
+ */
+export const updateResponderGateway: API.OperationMethod<
+  UpdateResponderGatewayRequest,
+  UpdateResponderGatewayResponse,
+  UpdateResponderGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResponderGatewayRequest,
@@ -2221,12 +2263,7 @@ export const updateResponderGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an inbound external link.
- */
-export const createInboundExternalLink: API.OperationMethod<
-  CreateInboundExternalLinkRequest,
-  CreateInboundExternalLinkResponse,
+export type CreateInboundExternalLinkError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2234,7 +2271,14 @@ export const createInboundExternalLink: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an inbound external link.
+ */
+export const createInboundExternalLink: API.OperationMethod<
+  CreateInboundExternalLinkRequest,
+  CreateInboundExternalLinkResponse,
+  CreateInboundExternalLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInboundExternalLinkRequest,
@@ -2249,19 +2293,21 @@ export const createInboundExternalLink: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an inbound external link.
- */
-export const deleteInboundExternalLink: API.OperationMethod<
-  DeleteInboundExternalLinkRequest,
-  DeleteInboundExternalLinkResponse,
+export type DeleteInboundExternalLinkError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an inbound external link.
+ */
+export const deleteInboundExternalLink: API.OperationMethod<
+  DeleteInboundExternalLinkRequest,
+  DeleteInboundExternalLinkResponse,
+  DeleteInboundExternalLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundExternalLinkRequest,
@@ -2275,18 +2321,20 @@ export const deleteInboundExternalLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInboundExternalLinkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an inbound external link.
  */
 export const getInboundExternalLink: API.OperationMethod<
   GetInboundExternalLinkRequest,
   GetInboundExternalLinkResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInboundExternalLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInboundExternalLinkRequest,

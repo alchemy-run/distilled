@@ -486,18 +486,20 @@ export class RequestEntityTooLargeException extends S.TaggedErrorClass<RequestEn
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DeleteConnectionError =
+  | ForbiddenException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
  */
 export const deleteConnection: API.OperationMethod<
   DeleteConnectionRequest,
   DeleteConnectionResponse,
-  | ForbiddenException
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
@@ -510,6 +512,16 @@ export const deleteConnection: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteThingShadowError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | CommonErrors;
 /**
  * Deletes the shadow for the specified thing.
  *
@@ -520,15 +532,7 @@ export const deleteConnection: API.OperationMethod<
 export const deleteThingShadow: API.OperationMethod<
   DeleteThingShadowRequest,
   DeleteThingShadowResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | UnsupportedDocumentEncodingException
-  | CommonErrors,
+  DeleteThingShadowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingShadowRequest,
@@ -544,6 +548,15 @@ export const deleteThingShadow: API.OperationMethod<
     UnsupportedDocumentEncodingException,
   ],
 }));
+export type GetRetainedMessageError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Gets the details of a single retained message for the specified topic.
  *
@@ -559,14 +572,7 @@ export const deleteThingShadow: API.OperationMethod<
 export const getRetainedMessage: API.OperationMethod<
   GetRetainedMessageRequest,
   GetRetainedMessageResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  GetRetainedMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRetainedMessageRequest,
@@ -581,6 +587,16 @@ export const getRetainedMessage: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetThingShadowError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | CommonErrors;
 /**
  * Gets the shadow for the specified thing.
  *
@@ -592,15 +608,7 @@ export const getRetainedMessage: API.OperationMethod<
 export const getThingShadow: API.OperationMethod<
   GetThingShadowRequest,
   GetThingShadowResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | UnsupportedDocumentEncodingException
-  | CommonErrors,
+  GetThingShadowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThingShadowRequest,
@@ -616,6 +624,15 @@ export const getThingShadow: API.OperationMethod<
     UnsupportedDocumentEncodingException,
   ],
 }));
+export type ListNamedShadowsForThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the shadows for the specified thing.
  *
@@ -624,14 +641,7 @@ export const getThingShadow: API.OperationMethod<
 export const listNamedShadowsForThing: API.OperationMethod<
   ListNamedShadowsForThingRequest,
   ListNamedShadowsForThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListNamedShadowsForThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListNamedShadowsForThingRequest,
@@ -646,6 +656,14 @@ export const listNamedShadowsForThing: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListRetainedMessagesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists summary information about the retained messages stored for the account.
  *
@@ -665,39 +683,21 @@ export const listNamedShadowsForThing: API.OperationMethod<
 export const listRetainedMessages: API.OperationMethod<
   ListRetainedMessagesRequest,
   ListRetainedMessagesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListRetainedMessagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRetainedMessagesRequest,
   ) => stream.Stream<
     ListRetainedMessagesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | MethodNotAllowedException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListRetainedMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRetainedMessagesRequest,
   ) => stream.Stream<
     RetainedMessageSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | MethodNotAllowedException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
+    ListRetainedMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -718,6 +718,13 @@ export const listRetainedMessages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PublishError =
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Publishes an MQTT message.
  *
@@ -733,12 +740,7 @@ export const listRetainedMessages: API.OperationMethod<
 export const publish: API.OperationMethod<
   PublishRequest,
   PublishResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  PublishError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishRequest,
@@ -751,6 +753,17 @@ export const publish: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateThingShadowError =
+  | ConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | RequestEntityTooLargeException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | CommonErrors;
 /**
  * Updates the shadow for the specified thing.
  *
@@ -762,16 +775,7 @@ export const publish: API.OperationMethod<
 export const updateThingShadow: API.OperationMethod<
   UpdateThingShadowRequest,
   UpdateThingShadowResponse,
-  | ConflictException
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | RequestEntityTooLargeException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | UnsupportedDocumentEncodingException
-  | CommonErrors,
+  UpdateThingShadowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingShadowRequest,

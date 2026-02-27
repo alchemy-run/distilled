@@ -5596,6 +5596,11 @@ export class ProvisionedConcurrencyConfigNotFoundException extends S.TaggedError
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CheckpointDurableExecutionError =
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Saves the progress of a durable function execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically.
  *
@@ -5604,10 +5609,7 @@ export class ProvisionedConcurrencyConfigNotFoundException extends S.TaggedError
 export const checkpointDurableExecution: API.OperationMethod<
   CheckpointDurableExecutionRequest,
   CheckpointDurableExecutionResponse,
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  CheckpointDurableExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckpointDurableExecutionRequest,
@@ -5618,6 +5620,13 @@ export const checkpointDurableExecution: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteFunctionError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a Lambda function. To delete a specific function version, use the `Qualifier` parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias.
  *
@@ -5628,12 +5637,7 @@ export const checkpointDurableExecution: API.OperationMethod<
 export const deleteFunction: API.OperationMethod<
   DeleteFunctionRequest,
   DeleteFunctionResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionRequest,
@@ -5646,6 +5650,15 @@ export const deleteFunction: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteFunctionEventInvokeConfigError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Deletes the configuration for asynchronous invocation for a function, version, or alias.
  *
@@ -5654,14 +5667,7 @@ export const deleteFunction: API.OperationMethod<
 export const deleteFunctionEventInvokeConfig: API.OperationMethod<
   DeleteFunctionEventInvokeConfigRequest,
   DeleteFunctionEventInvokeConfigResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  DeleteFunctionEventInvokeConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionEventInvokeConfigRequest,
@@ -5676,30 +5682,36 @@ export const deleteFunctionEventInvokeConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type GetAccountSettingsError =
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves details about your account's limits and usage in an Amazon Web Services Region.
  */
 export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsRequest,
   GetAccountSettingsResponse,
-  ServiceException | TooManyRequestsException | CommonErrors,
+  GetAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: GetAccountSettingsResponse,
   errors: [ServiceException, TooManyRequestsException],
 }));
+export type GetDurableExecutionError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific durable execution, including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics.
  */
 export const getDurableExecution: API.OperationMethod<
   GetDurableExecutionRequest,
   GetDurableExecutionResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDurableExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDurableExecutionRequest,
@@ -5711,6 +5723,12 @@ export const getDurableExecution: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetDurableExecutionHistoryError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the execution history for a durable execution, showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time.
  *
@@ -5719,33 +5737,21 @@ export const getDurableExecution: API.OperationMethod<
 export const getDurableExecutionHistory: API.OperationMethod<
   GetDurableExecutionHistoryRequest,
   GetDurableExecutionHistoryResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDurableExecutionHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDurableExecutionHistoryRequest,
   ) => stream.Stream<
     GetDurableExecutionHistoryResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDurableExecutionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDurableExecutionHistoryRequest,
   ) => stream.Stream<
     Event,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDurableExecutionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5764,6 +5770,11 @@ export const getDurableExecutionHistory: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type GetDurableExecutionStateError =
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the current execution state required for the replay process during durable function execution. This API is used by the Lambda durable functions SDK to get state information needed for replay. You typically don't need to call this API directly as the SDK handles state management automatically.
  *
@@ -5772,30 +5783,21 @@ export const getDurableExecutionHistory: API.OperationMethod<
 export const getDurableExecutionState: API.OperationMethod<
   GetDurableExecutionStateRequest,
   GetDurableExecutionStateResponse,
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDurableExecutionStateError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDurableExecutionStateRequest,
   ) => stream.Stream<
     GetDurableExecutionStateResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDurableExecutionStateError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDurableExecutionStateRequest,
   ) => stream.Stream<
     Operation,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDurableExecutionStateError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5813,6 +5815,14 @@ export const getDurableExecutionState: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type GetFunctionEventInvokeConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Retrieves the configuration for asynchronous invocation for a function, version, or alias.
  *
@@ -5821,13 +5831,7 @@ export const getDurableExecutionState: API.OperationMethod<
 export const getFunctionEventInvokeConfig: API.OperationMethod<
   GetFunctionEventInvokeConfigRequest,
   FunctionEventInvokeConfig,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  GetFunctionEventInvokeConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionEventInvokeConfigRequest,
@@ -5841,39 +5845,33 @@ export const getFunctionEventInvokeConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type ListDurableExecutionsByFunctionError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
  */
 export const listDurableExecutionsByFunction: API.OperationMethod<
   ListDurableExecutionsByFunctionRequest,
   ListDurableExecutionsByFunctionResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDurableExecutionsByFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDurableExecutionsByFunctionRequest,
   ) => stream.Stream<
     ListDurableExecutionsByFunctionResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDurableExecutionsByFunctionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDurableExecutionsByFunctionRequest,
   ) => stream.Stream<
     Execution,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDurableExecutionsByFunctionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5892,6 +5890,14 @@ export const listDurableExecutionsByFunction: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListFunctionEventInvokeConfigsError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Retrieves a list of configurations for asynchronous invocation for a function.
  *
@@ -5900,39 +5906,21 @@ export const listDurableExecutionsByFunction: API.OperationMethod<
 export const listFunctionEventInvokeConfigs: API.OperationMethod<
   ListFunctionEventInvokeConfigsRequest,
   ListFunctionEventInvokeConfigsResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  ListFunctionEventInvokeConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFunctionEventInvokeConfigsRequest,
   ) => stream.Stream<
     ListFunctionEventInvokeConfigsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
+    ListFunctionEventInvokeConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFunctionEventInvokeConfigsRequest,
   ) => stream.Stream<
     FunctionEventInvokeConfig,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
+    ListFunctionEventInvokeConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5953,19 +5941,21 @@ export const listFunctionEventInvokeConfigs: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Returns a function, event source mapping, or code signing configuration's tags. You can also view function tags with GetFunction.
- */
-export const listTags: API.OperationMethod<
-  ListTagsRequest,
-  ListTagsResponse,
+export type ListTagsError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a function, event source mapping, or code signing configuration's tags. You can also view function tags with GetFunction.
+ */
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
+  ListTagsResponse,
+  ListTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
@@ -5979,6 +5969,15 @@ export const listTags: API.OperationMethod<
     ParseError,
   ],
 }));
+export type PutFunctionEventInvokeConfigError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Configures options for asynchronous invocation on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use UpdateFunctionEventInvokeConfig.
  *
@@ -5991,14 +5990,7 @@ export const listTags: API.OperationMethod<
 export const putFunctionEventInvokeConfig: API.OperationMethod<
   PutFunctionEventInvokeConfigRequest,
   FunctionEventInvokeConfig,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  PutFunctionEventInvokeConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFunctionEventInvokeConfigRequest,
@@ -6013,17 +6005,19 @@ export const putFunctionEventInvokeConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type SendDurableExecutionCallbackFailureError =
+  | CallbackTimeoutException
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully.
  */
 export const sendDurableExecutionCallbackFailure: API.OperationMethod<
   SendDurableExecutionCallbackFailureRequest,
   SendDurableExecutionCallbackFailureResponse,
-  | CallbackTimeoutException
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendDurableExecutionCallbackFailureError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDurableExecutionCallbackFailureRequest,
@@ -6035,17 +6029,19 @@ export const sendDurableExecutionCallbackFailure: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SendDurableExecutionCallbackHeartbeatError =
+  | CallbackTimeoutException
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress.
  */
 export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
   SendDurableExecutionCallbackHeartbeatRequest,
   SendDurableExecutionCallbackHeartbeatResponse,
-  | CallbackTimeoutException
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendDurableExecutionCallbackHeartbeatError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDurableExecutionCallbackHeartbeatRequest,
@@ -6057,17 +6053,19 @@ export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SendDurableExecutionCallbackSuccessError =
+  | CallbackTimeoutException
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation.
  */
 export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
   SendDurableExecutionCallbackSuccessRequest,
   SendDurableExecutionCallbackSuccessResponse,
-  | CallbackTimeoutException
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendDurableExecutionCallbackSuccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDurableExecutionCallbackSuccessRequest,
@@ -6079,17 +6077,19 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StopDurableExecutionError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Stops a running durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
  */
 export const stopDurableExecution: API.OperationMethod<
   StopDurableExecutionRequest,
   StopDurableExecutionResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopDurableExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDurableExecutionRequest,
@@ -6101,12 +6101,7 @@ export const stopDurableExecution: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds tags to a function, event source mapping, or code signing configuration.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -6114,7 +6109,14 @@ export const tagResource: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds tags to a function, event source mapping, or code signing configuration.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -6129,12 +6131,7 @@ export const tagResource: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Removes tags from a function, event source mapping, or code signing configuration.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -6142,7 +6139,14 @@ export const untagResource: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags from a function, event source mapping, or code signing configuration.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -6157,6 +6161,13 @@ export const untagResource: API.OperationMethod<
     ParseError,
   ],
 }));
+export type UpdateFunctionEventInvokeConfigError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the configuration for asynchronous invocation for a function, version, or alias.
  *
@@ -6165,12 +6176,7 @@ export const untagResource: API.OperationMethod<
 export const updateFunctionEventInvokeConfig: API.OperationMethod<
   UpdateFunctionEventInvokeConfigRequest,
   FunctionEventInvokeConfig,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateFunctionEventInvokeConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionEventInvokeConfigRequest,
@@ -6183,18 +6189,20 @@ export const updateFunctionEventInvokeConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateCapacityProviderError =
+  | CapacityProviderLimitExceededException
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a capacity provider that manages compute resources for Lambda functions
  */
 export const createCapacityProvider: API.OperationMethod<
   CreateCapacityProviderRequest,
   CreateCapacityProviderResponse,
-  | CapacityProviderLimitExceededException
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapacityProviderRequest,
@@ -6207,17 +6215,19 @@ export const createCapacityProvider: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetCapacityProviderError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about a specific capacity provider, including its configuration, state, and associated resources.
  */
 export const getCapacityProvider: API.OperationMethod<
   GetCapacityProviderRequest,
   GetCapacityProviderResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCapacityProviderRequest,
@@ -6229,18 +6239,20 @@ export const getCapacityProvider: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateCapacityProviderError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing capacity provider.
  */
 export const updateCapacityProvider: API.OperationMethod<
   UpdateCapacityProviderRequest,
   UpdateCapacityProviderResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapacityProviderRequest,
@@ -6253,18 +6265,20 @@ export const updateCapacityProvider: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteCapacityProviderError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a capacity provider. You cannot delete a capacity provider that is currently being used by Lambda functions.
  */
 export const deleteCapacityProvider: API.OperationMethod<
   DeleteCapacityProviderRequest,
   DeleteCapacityProviderResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCapacityProviderRequest,
@@ -6277,36 +6291,32 @@ export const deleteCapacityProvider: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListCapacityProvidersError =
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of capacity providers in your account.
  */
 export const listCapacityProviders: API.OperationMethod<
   ListCapacityProvidersRequest,
   ListCapacityProvidersResponse,
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListCapacityProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCapacityProvidersRequest,
   ) => stream.Stream<
     ListCapacityProvidersResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListCapacityProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCapacityProvidersRequest,
   ) => stream.Stream<
     CapacityProvider,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListCapacityProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6324,39 +6334,33 @@ export const listCapacityProviders: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListFunctionVersionsByCapacityProviderError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of function versions that are configured to use a specific capacity provider.
  */
 export const listFunctionVersionsByCapacityProvider: API.OperationMethod<
   ListFunctionVersionsByCapacityProviderRequest,
   ListFunctionVersionsByCapacityProviderResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListFunctionVersionsByCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFunctionVersionsByCapacityProviderRequest,
   ) => stream.Stream<
     ListFunctionVersionsByCapacityProviderResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFunctionVersionsByCapacityProviderError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFunctionVersionsByCapacityProviderRequest,
   ) => stream.Stream<
     FunctionVersionsByCapacityProviderListItem,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFunctionVersionsByCapacityProviderError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6375,40 +6379,48 @@ export const listFunctionVersionsByCapacityProvider: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type CreateCodeSigningConfigError =
+  | InvalidParameterValueException
+  | ServiceException
+  | CommonErrors;
 /**
  * Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
  */
 export const createCodeSigningConfig: API.OperationMethod<
   CreateCodeSigningConfigRequest,
   CreateCodeSigningConfigResponse,
-  InvalidParameterValueException | ServiceException | CommonErrors,
+  CreateCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCodeSigningConfigRequest,
   output: CreateCodeSigningConfigResponse,
   errors: [InvalidParameterValueException, ServiceException],
 }));
+export type ListCodeSigningConfigsError =
+  | InvalidParameterValueException
+  | ServiceException
+  | CommonErrors;
 /**
  * Returns a list of code signing configurations. A request returns up to 10,000 configurations per call. You can use the `MaxItems` parameter to return fewer configurations per call.
  */
 export const listCodeSigningConfigs: API.OperationMethod<
   ListCodeSigningConfigsRequest,
   ListCodeSigningConfigsResponse,
-  InvalidParameterValueException | ServiceException | CommonErrors,
+  ListCodeSigningConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCodeSigningConfigsRequest,
   ) => stream.Stream<
     ListCodeSigningConfigsResponse,
-    InvalidParameterValueException | ServiceException | CommonErrors,
+    ListCodeSigningConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCodeSigningConfigsRequest,
   ) => stream.Stream<
     CodeSigningConfig,
-    InvalidParameterValueException | ServiceException | CommonErrors,
+    ListCodeSigningConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6422,19 +6434,21 @@ export const listCodeSigningConfigs: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
- */
-export const deleteCodeSigningConfig: API.OperationMethod<
-  DeleteCodeSigningConfigRequest,
-  DeleteCodeSigningConfigResponse,
+export type DeleteCodeSigningConfigError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
   | ServiceException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
+ */
+export const deleteCodeSigningConfig: API.OperationMethod<
+  DeleteCodeSigningConfigRequest,
+  DeleteCodeSigningConfigResponse,
+  DeleteCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCodeSigningConfigRequest,
@@ -6448,18 +6462,20 @@ export const deleteCodeSigningConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type GetCodeSigningConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Returns information about the specified code signing configuration.
  */
 export const getCodeSigningConfig: API.OperationMethod<
   GetCodeSigningConfigRequest,
   GetCodeSigningConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  GetCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeSigningConfigRequest,
@@ -6472,36 +6488,32 @@ export const getCodeSigningConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type ListFunctionsByCodeSigningConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | CommonErrors;
 /**
  * List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
  */
 export const listFunctionsByCodeSigningConfig: API.OperationMethod<
   ListFunctionsByCodeSigningConfigRequest,
   ListFunctionsByCodeSigningConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | CommonErrors,
+  ListFunctionsByCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFunctionsByCodeSigningConfigRequest,
   ) => stream.Stream<
     ListFunctionsByCodeSigningConfigResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | CommonErrors,
+    ListFunctionsByCodeSigningConfigError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFunctionsByCodeSigningConfigRequest,
   ) => stream.Stream<
     FunctionArn,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | CommonErrors,
+    ListFunctionsByCodeSigningConfigError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6519,16 +6531,18 @@ export const listFunctionsByCodeSigningConfig: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type UpdateCodeSigningConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | CommonErrors;
 /**
  * Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
  */
 export const updateCodeSigningConfig: API.OperationMethod<
   UpdateCodeSigningConfigRequest,
   UpdateCodeSigningConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | CommonErrors,
+  UpdateCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCodeSigningConfigRequest,
@@ -6539,6 +6553,15 @@ export const updateCodeSigningConfig: API.OperationMethod<
     ServiceException,
   ],
 }));
+export type CreateEventSourceMappingError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function.
  *
@@ -6591,14 +6614,7 @@ export const updateCodeSigningConfig: API.OperationMethod<
 export const createEventSourceMapping: API.OperationMethod<
   CreateEventSourceMappingRequest,
   EventSourceMappingConfiguration,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ResourceInUseException
-  | CommonErrors,
+  CreateEventSourceMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventSourceMappingRequest,
@@ -6613,17 +6629,19 @@ export const createEventSourceMapping: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type GetEventSourceMappingError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
  */
 export const getEventSourceMapping: API.OperationMethod<
   GetEventSourceMappingRequest,
   EventSourceMappingConfiguration,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEventSourceMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventSourceMappingRequest,
@@ -6635,6 +6653,16 @@ export const getEventSourceMapping: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateEventSourceMappingError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location.
  *
@@ -6687,15 +6715,7 @@ export const getEventSourceMapping: API.OperationMethod<
 export const updateEventSourceMapping: API.OperationMethod<
   UpdateEventSourceMappingRequest,
   EventSourceMappingConfiguration,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  UpdateEventSourceMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventSourceMappingRequest,
@@ -6711,6 +6731,14 @@ export const updateEventSourceMapping: API.OperationMethod<
     ParseError,
   ],
 }));
+export type DeleteEventSourceMappingError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
  *
@@ -6719,13 +6747,7 @@ export const updateEventSourceMapping: API.OperationMethod<
 export const deleteEventSourceMapping: API.OperationMethod<
   DeleteEventSourceMappingRequest,
   EventSourceMappingConfiguration,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEventSourceMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventSourceMappingRequest,
@@ -6739,39 +6761,33 @@ export const deleteEventSourceMapping: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListEventSourceMappingsError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists event source mappings. Specify an `EventSourceArn` to show only event source mappings for a single event source.
  */
 export const listEventSourceMappings: API.OperationMethod<
   ListEventSourceMappingsRequest,
   ListEventSourceMappingsResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEventSourceMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventSourceMappingsRequest,
   ) => stream.Stream<
     ListEventSourceMappingsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventSourceMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventSourceMappingsRequest,
   ) => stream.Stream<
     EventSourceMappingConfiguration,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventSourceMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6790,6 +6806,18 @@ export const listEventSourceMappings: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type CreateFunctionError =
+  | CodeSigningConfigNotFoundException
+  | CodeStorageExceededException
+  | CodeVerificationFailedException
+  | FunctionVersionsPerCapacityProviderLimitExceededException
+  | InvalidCodeSignatureException
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
  *
@@ -6812,17 +6840,7 @@ export const listEventSourceMappings: API.OperationMethod<
 export const createFunction: API.OperationMethod<
   CreateFunctionRequest,
   FunctionConfiguration,
-  | CodeSigningConfigNotFoundException
-  | CodeStorageExceededException
-  | CodeVerificationFailedException
-  | FunctionVersionsPerCapacityProviderLimitExceededException
-  | InvalidCodeSignatureException
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionRequest,
@@ -6840,6 +6858,11 @@ export const createFunction: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListFunctionsError =
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call.
  *
@@ -6850,30 +6873,21 @@ export const createFunction: API.OperationMethod<
 export const listFunctions: API.OperationMethod<
   ListFunctionsRequest,
   ListFunctionsResponse,
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListFunctionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFunctionsRequest,
   ) => stream.Stream<
     ListFunctionsResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFunctionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFunctionsRequest,
   ) => stream.Stream<
     FunctionConfiguration,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFunctionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6891,12 +6905,7 @@ export const listFunctions: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
- */
-export const createFunctionUrlConfig: API.OperationMethod<
-  CreateFunctionUrlConfigRequest,
-  CreateFunctionUrlConfigResponse,
+export type CreateFunctionUrlConfigError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -6904,7 +6913,14 @@ export const createFunctionUrlConfig: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
+ */
+export const createFunctionUrlConfig: API.OperationMethod<
+  CreateFunctionUrlConfigRequest,
+  CreateFunctionUrlConfigResponse,
+  CreateFunctionUrlConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionUrlConfigRequest,
@@ -6919,12 +6935,7 @@ export const createFunctionUrlConfig: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Removes a concurrent execution limit from a function.
- */
-export const deleteFunctionConcurrency: API.OperationMethod<
-  DeleteFunctionConcurrencyRequest,
-  DeleteFunctionConcurrencyResponse,
+export type DeleteFunctionConcurrencyError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -6932,7 +6943,14 @@ export const deleteFunctionConcurrency: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a concurrent execution limit from a function.
+ */
+export const deleteFunctionConcurrency: API.OperationMethod<
+  DeleteFunctionConcurrencyRequest,
+  DeleteFunctionConcurrencyResponse,
+  DeleteFunctionConcurrencyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionConcurrencyRequest,
@@ -6947,19 +6965,21 @@ export const deleteFunctionConcurrency: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
- */
-export const deleteFunctionUrlConfig: API.OperationMethod<
-  DeleteFunctionUrlConfigRequest,
-  DeleteFunctionUrlConfigResponse,
+export type DeleteFunctionUrlConfigError =
   | ResourceConflictException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
+ */
+export const deleteFunctionUrlConfig: API.OperationMethod<
+  DeleteFunctionUrlConfigRequest,
+  DeleteFunctionUrlConfigResponse,
+  DeleteFunctionUrlConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionUrlConfigRequest,
@@ -6973,19 +6993,21 @@ export const deleteFunctionUrlConfig: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
- */
-export const getFunctionConcurrency: API.OperationMethod<
-  GetFunctionConcurrencyRequest,
-  GetFunctionConcurrencyResponse,
+export type GetFunctionConcurrencyError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
+ */
+export const getFunctionConcurrency: API.OperationMethod<
+  GetFunctionConcurrencyRequest,
+  GetFunctionConcurrencyResponse,
+  GetFunctionConcurrencyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionConcurrencyRequest,
@@ -6999,17 +7021,19 @@ export const getFunctionConcurrency: API.OperationMethod<
     ParseError,
   ],
 }));
+export type GetFunctionUrlConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns details about a Lambda function URL.
  */
 export const getFunctionUrlConfig: API.OperationMethod<
   GetFunctionUrlConfigRequest,
   GetFunctionUrlConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetFunctionUrlConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionUrlConfigRequest,
@@ -7021,39 +7045,33 @@ export const getFunctionUrlConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListFunctionUrlConfigsError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of Lambda function URLs for the specified function.
  */
 export const listFunctionUrlConfigs: API.OperationMethod<
   ListFunctionUrlConfigsRequest,
   ListFunctionUrlConfigsResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListFunctionUrlConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFunctionUrlConfigsRequest,
   ) => stream.Stream<
     ListFunctionUrlConfigsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFunctionUrlConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFunctionUrlConfigsRequest,
   ) => stream.Stream<
     FunctionUrlConfig,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFunctionUrlConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7072,45 +7090,35 @@ export const listFunctionUrlConfigs: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Retrieves a list of provisioned concurrency configurations for a function.
- */
-export const listProvisionedConcurrencyConfigs: API.OperationMethod<
-  ListProvisionedConcurrencyConfigsRequest,
-  ListProvisionedConcurrencyConfigsResponse,
+export type ListProvisionedConcurrencyConfigsError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a list of provisioned concurrency configurations for a function.
+ */
+export const listProvisionedConcurrencyConfigs: API.OperationMethod<
+  ListProvisionedConcurrencyConfigsRequest,
+  ListProvisionedConcurrencyConfigsResponse,
+  ListProvisionedConcurrencyConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProvisionedConcurrencyConfigsRequest,
   ) => stream.Stream<
     ListProvisionedConcurrencyConfigsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
+    ListProvisionedConcurrencyConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisionedConcurrencyConfigsRequest,
   ) => stream.Stream<
     ProvisionedConcurrencyConfigListItem,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
+    ListProvisionedConcurrencyConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7131,6 +7139,15 @@ export const listProvisionedConcurrencyConfigs: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type PutFunctionConcurrencyError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level.
  *
@@ -7141,14 +7158,7 @@ export const listProvisionedConcurrencyConfigs: API.OperationMethod<
 export const putFunctionConcurrency: API.OperationMethod<
   PutFunctionConcurrencyRequest,
   Concurrency,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  PutFunctionConcurrencyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFunctionConcurrencyRequest,
@@ -7163,6 +7173,20 @@ export const putFunctionConcurrency: API.OperationMethod<
     ParseError,
   ],
 }));
+export type UpdateFunctionCodeError =
+  | CodeSigningConfigNotFoundException
+  | CodeStorageExceededException
+  | CodeVerificationFailedException
+  | InvalidCodeSignatureException
+  | InvalidParameterValueException
+  | PreconditionFailedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda.
  *
@@ -7179,19 +7203,7 @@ export const putFunctionConcurrency: API.OperationMethod<
 export const updateFunctionCode: API.OperationMethod<
   UpdateFunctionCodeRequest,
   FunctionConfiguration,
-  | CodeSigningConfigNotFoundException
-  | CodeStorageExceededException
-  | CodeVerificationFailedException
-  | InvalidCodeSignatureException
-  | InvalidParameterValueException
-  | PreconditionFailedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  UpdateFunctionCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionCodeRequest,
@@ -7211,6 +7223,19 @@ export const updateFunctionCode: API.OperationMethod<
     ParseError,
   ],
 }));
+export type UpdateFunctionConfigurationError =
+  | CodeSigningConfigNotFoundException
+  | CodeVerificationFailedException
+  | InvalidCodeSignatureException
+  | InvalidParameterValueException
+  | PreconditionFailedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Modify the version-specific settings of a Lambda function.
  *
@@ -7223,18 +7248,7 @@ export const updateFunctionCode: API.OperationMethod<
 export const updateFunctionConfiguration: API.OperationMethod<
   UpdateFunctionConfigurationRequest,
   FunctionConfiguration,
-  | CodeSigningConfigNotFoundException
-  | CodeVerificationFailedException
-  | InvalidCodeSignatureException
-  | InvalidParameterValueException
-  | PreconditionFailedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  UpdateFunctionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionConfigurationRequest,
@@ -7253,12 +7267,7 @@ export const updateFunctionConfiguration: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Updates the configuration for a Lambda function URL.
- */
-export const updateFunctionUrlConfig: API.OperationMethod<
-  UpdateFunctionUrlConfigRequest,
-  UpdateFunctionUrlConfigResponse,
+export type UpdateFunctionUrlConfigError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -7266,7 +7275,14 @@ export const updateFunctionUrlConfig: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration for a Lambda function URL.
+ */
+export const updateFunctionUrlConfig: API.OperationMethod<
+  UpdateFunctionUrlConfigRequest,
+  UpdateFunctionUrlConfigResponse,
+  UpdateFunctionUrlConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionUrlConfigRequest,
@@ -7281,19 +7297,21 @@ export const updateFunctionUrlConfig: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Removes the code signing configuration from the function.
- */
-export const deleteFunctionCodeSigningConfig: API.OperationMethod<
-  DeleteFunctionCodeSigningConfigRequest,
-  DeleteFunctionCodeSigningConfigResponse,
+export type DeleteFunctionCodeSigningConfigError =
   | CodeSigningConfigNotFoundException
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the code signing configuration from the function.
+ */
+export const deleteFunctionCodeSigningConfig: API.OperationMethod<
+  DeleteFunctionCodeSigningConfigRequest,
+  DeleteFunctionCodeSigningConfigResponse,
+  DeleteFunctionCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionCodeSigningConfigRequest,
@@ -7307,17 +7325,19 @@ export const deleteFunctionCodeSigningConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetFunctionError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
  */
 export const getFunction: API.OperationMethod<
   GetFunctionRequest,
   GetFunctionResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionRequest,
@@ -7329,17 +7349,19 @@ export const getFunction: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetFunctionCodeSigningConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the code signing configuration for the specified function.
  */
 export const getFunctionCodeSigningConfig: API.OperationMethod<
   GetFunctionCodeSigningConfigRequest,
   GetFunctionCodeSigningConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetFunctionCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionCodeSigningConfigRequest,
@@ -7351,6 +7373,12 @@ export const getFunctionCodeSigningConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetFunctionConfigurationError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use UpdateFunctionConfiguration.
  *
@@ -7359,11 +7387,7 @@ export const getFunctionCodeSigningConfig: API.OperationMethod<
 export const getFunctionConfiguration: API.OperationMethod<
   GetFunctionConfigurationRequest,
   FunctionConfiguration,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetFunctionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionConfigurationRequest,
@@ -7375,19 +7399,21 @@ export const getFunctionConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns your function's recursive loop detection configuration.
- */
-export const getFunctionRecursionConfig: API.OperationMethod<
-  GetFunctionRecursionConfigRequest,
-  GetFunctionRecursionConfigResponse,
+export type GetFunctionRecursionConfigError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns your function's recursive loop detection configuration.
+ */
+export const getFunctionRecursionConfig: API.OperationMethod<
+  GetFunctionRecursionConfigRequest,
+  GetFunctionRecursionConfigResponse,
+  GetFunctionRecursionConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionRecursionConfigRequest,
@@ -7401,17 +7427,19 @@ export const getFunctionRecursionConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type GetFunctionScalingConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the scaling configuration for a Lambda Managed Instances function.
  */
 export const getFunctionScalingConfig: API.OperationMethod<
   GetFunctionScalingConfigRequest,
   GetFunctionScalingConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetFunctionScalingConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionScalingConfigRequest,
@@ -7423,17 +7451,19 @@ export const getFunctionScalingConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetPolicyError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the resource-based IAM policy for a function, version, or alias.
  */
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
@@ -7445,17 +7475,19 @@ export const getPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetRuntimeManagementConfigError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the runtime management configuration for a function's version. If the runtime update mode is **Manual**, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is **Auto** or **Function update**, this includes the runtime update mode and `null` is returned for the ARN. For more information, see Runtime updates.
  */
 export const getRuntimeManagementConfig: API.OperationMethod<
   GetRuntimeManagementConfigRequest,
   GetRuntimeManagementConfigResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetRuntimeManagementConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuntimeManagementConfigRequest,
@@ -7467,26 +7499,7 @@ export const getRuntimeManagementConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the`InvocationType` is `RequestResponse`). To invoke a function asynchronously, set `InvocationType` to `Event`. Lambda passes the `ClientContext` object to your function for synchronous invocations only.
- *
- * For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is 1 MB.
- *
- * For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace.
- *
- * When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda.
- *
- * For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue.
- *
- * The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns `TooManyRequestsException` if running the function would cause you to exceed a concurrency limit at either the account level (`ConcurrentInvocationLimitExceeded`) or function level (`ReservedFunctionConcurrentInvocationLimitExceeded`).
- *
- * For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings.
- *
- * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
- */
-export const invoke: API.OperationMethod<
-  InvocationRequest,
-  InvocationResponse,
+export type InvokeError =
   | DurableExecutionAlreadyStartedException
   | EC2AccessDeniedException
   | EC2ThrottledException
@@ -7522,7 +7535,28 @@ export const invoke: API.OperationMethod<
   | UnsupportedMediaTypeException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the`InvocationType` is `RequestResponse`). To invoke a function asynchronously, set `InvocationType` to `Event`. Lambda passes the `ClientContext` object to your function for synchronous invocations only.
+ *
+ * For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is 1 MB.
+ *
+ * For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace.
+ *
+ * When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda.
+ *
+ * For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue.
+ *
+ * The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns `TooManyRequestsException` if running the function would cause you to exceed a concurrency limit at either the account level (`ConcurrentInvocationLimitExceeded`) or function level (`ReservedFunctionConcurrentInvocationLimitExceeded`).
+ *
+ * For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings.
+ *
+ * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
+ */
+export const invoke: API.OperationMethod<
+  InvocationRequest,
+  InvocationResponse,
+  InvokeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvocationRequest,
@@ -7565,6 +7599,13 @@ export const invoke: API.OperationMethod<
     ParseError,
   ],
 }));
+export type InvokeAsyncError =
+  | InvalidRequestContentException
+  | InvalidRuntimeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | CommonErrors;
 /**
  * For asynchronous function invocation, use Invoke.
  *
@@ -7577,12 +7618,7 @@ export const invoke: API.OperationMethod<
 export const invokeAsync: API.OperationMethod<
   InvokeAsyncRequest,
   InvokeAsyncResponse,
-  | InvalidRequestContentException
-  | InvalidRuntimeException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | CommonErrors,
+  InvokeAsyncError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeAsyncRequest,
@@ -7595,14 +7631,7 @@ export const invokeAsync: API.OperationMethod<
     ServiceException,
   ],
 }));
-/**
- * Configure your Lambda functions to stream response payloads back to clients. For more information, see Configuring a Lambda function to stream responses.
- *
- * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
- */
-export const invokeWithResponseStream: API.OperationMethod<
-  InvokeWithResponseStreamRequest,
-  InvokeWithResponseStreamResponse,
+export type InvokeWithResponseStreamError =
   | EC2AccessDeniedException
   | EC2ThrottledException
   | EC2UnexpectedException
@@ -7635,7 +7664,16 @@ export const invokeWithResponseStream: API.OperationMethod<
   | SubnetIPAddressLimitReachedException
   | TooManyRequestsException
   | UnsupportedMediaTypeException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configure your Lambda functions to stream response payloads back to clients. For more information, see Configuring a Lambda function to stream responses.
+ *
+ * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
+ */
+export const invokeWithResponseStream: API.OperationMethod<
+  InvokeWithResponseStreamRequest,
+  InvokeWithResponseStreamResponse,
+  InvokeWithResponseStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeWithResponseStreamRequest,
@@ -7675,12 +7713,7 @@ export const invokeWithResponseStream: API.OperationMethod<
     UnsupportedMediaTypeException,
   ],
 }));
-/**
- * Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
- */
-export const putFunctionCodeSigningConfig: API.OperationMethod<
-  PutFunctionCodeSigningConfigRequest,
-  PutFunctionCodeSigningConfigResponse,
+export type PutFunctionCodeSigningConfigError =
   | CodeSigningConfigNotFoundException
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7689,7 +7722,14 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
+ */
+export const putFunctionCodeSigningConfig: API.OperationMethod<
+  PutFunctionCodeSigningConfigRequest,
+  PutFunctionCodeSigningConfigResponse,
+  PutFunctionCodeSigningConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFunctionCodeSigningConfigRequest,
@@ -7705,6 +7745,15 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type PutFunctionRecursionConfigError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Sets your function's recursive loop detection configuration.
  *
@@ -7715,14 +7764,7 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
 export const putFunctionRecursionConfig: API.OperationMethod<
   PutFunctionRecursionConfigRequest,
   PutFunctionRecursionConfigResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  PutFunctionRecursionConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFunctionRecursionConfigRequest,
@@ -7737,18 +7779,20 @@ export const putFunctionRecursionConfig: API.OperationMethod<
     ParseError,
   ],
 }));
+export type PutFunctionScalingConfigError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation.
  */
 export const putFunctionScalingConfig: API.OperationMethod<
   PutFunctionScalingConfigRequest,
   PutFunctionScalingConfigResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutFunctionScalingConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFunctionScalingConfigRequest,
@@ -7761,18 +7805,20 @@ export const putFunctionScalingConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutRuntimeManagementConfigError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the runtime management configuration for a function's version. For more information, see Runtime updates.
  */
 export const putRuntimeManagementConfig: API.OperationMethod<
   PutRuntimeManagementConfigRequest,
   PutRuntimeManagementConfigResponse,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutRuntimeManagementConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRuntimeManagementConfigRequest,
@@ -7785,6 +7831,15 @@ export const putRuntimeManagementConfig: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateAliasError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a different version.
  *
@@ -7793,14 +7848,7 @@ export const putRuntimeManagementConfig: API.OperationMethod<
 export const createAlias: API.OperationMethod<
   CreateAliasRequest,
   AliasConfiguration,
-  | InvalidParameterValueException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  CreateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasRequest,
@@ -7815,17 +7863,19 @@ export const createAlias: API.OperationMethod<
     ParseError,
   ],
 }));
+export type GetAliasError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns details about a Lambda function alias.
  */
 export const getAlias: API.OperationMethod<
   GetAliasRequest,
   AliasConfiguration,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAliasRequest,
@@ -7837,12 +7887,7 @@ export const getAlias: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the configuration of a Lambda function alias.
- */
-export const updateAlias: API.OperationMethod<
-  UpdateAliasRequest,
-  AliasConfiguration,
+export type UpdateAliasError =
   | InvalidParameterValueException
   | PreconditionFailedException
   | ResourceConflictException
@@ -7851,7 +7896,14 @@ export const updateAlias: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of a Lambda function alias.
+ */
+export const updateAlias: API.OperationMethod<
+  UpdateAliasRequest,
+  AliasConfiguration,
+  UpdateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasRequest,
@@ -7867,19 +7919,21 @@ export const updateAlias: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Deletes a Lambda function alias.
- */
-export const deleteAlias: API.OperationMethod<
-  DeleteAliasRequest,
-  DeleteAliasResponse,
+export type DeleteAliasError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Lambda function alias.
+ */
+export const deleteAlias: API.OperationMethod<
+  DeleteAliasRequest,
+  DeleteAliasResponse,
+  DeleteAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasRequest,
@@ -7893,39 +7947,33 @@ export const deleteAlias: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListAliasesError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of aliases for a Lambda function.
  */
 export const listAliases: API.OperationMethod<
   ListAliasesRequest,
   ListAliasesResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
     ListAliasesResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAliasesRequest,
   ) => stream.Stream<
     AliasConfiguration,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7944,16 +7992,7 @@ export const listAliases: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Creates a version from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change.
- *
- * Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the function before publishing a version.
- *
- * Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias.
- */
-export const publishVersion: API.OperationMethod<
-  PublishVersionRequest,
-  FunctionConfiguration,
+export type PublishVersionError =
   | CodeStorageExceededException
   | FunctionVersionsPerCapacityProviderLimitExceededException
   | InvalidParameterValueException
@@ -7964,7 +8003,18 @@ export const publishVersion: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a version from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change.
+ *
+ * Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the function before publishing a version.
+ *
+ * Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias.
+ */
+export const publishVersion: API.OperationMethod<
+  PublishVersionRequest,
+  FunctionConfiguration,
+  PublishVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishVersionRequest,
@@ -7982,39 +8032,33 @@ export const publishVersion: API.OperationMethod<
     ParseError,
   ],
 }));
+export type ListVersionsByFunctionError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
  */
 export const listVersionsByFunction: API.OperationMethod<
   ListVersionsByFunctionRequest,
   ListVersionsByFunctionResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListVersionsByFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVersionsByFunctionRequest,
   ) => stream.Stream<
     ListVersionsByFunctionResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVersionsByFunctionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVersionsByFunctionRequest,
   ) => stream.Stream<
     FunctionConfiguration,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListVersionsByFunctionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8033,36 +8077,32 @@ export const listVersionsByFunction: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListLayersError =
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
  */
 export const listLayers: API.OperationMethod<
   ListLayersRequest,
   ListLayersResponse,
-  | InvalidParameterValueException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListLayersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLayersRequest,
   ) => stream.Stream<
     ListLayersResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListLayersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLayersRequest,
   ) => stream.Stream<
     LayersListItem,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListLayersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8080,45 +8120,35 @@ export const listLayers: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
- */
-export const listLayerVersions: API.OperationMethod<
-  ListLayerVersionsRequest,
-  ListLayerVersionsResponse,
+export type ListLayerVersionsError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
+ */
+export const listLayerVersions: API.OperationMethod<
+  ListLayerVersionsRequest,
+  ListLayerVersionsResponse,
+  ListLayerVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLayerVersionsRequest,
   ) => stream.Stream<
     ListLayerVersionsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
+    ListLayerVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLayerVersionsRequest,
   ) => stream.Stream<
     LayerVersionsListItem,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
+    ListLayerVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8139,14 +8169,7 @@ export const listLayerVersions: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
-/**
- * Adds permissions to the resource-based policy of a version of an Lambda layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts.
- *
- * To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
- */
-export const addLayerVersionPermission: API.OperationMethod<
-  AddLayerVersionPermissionRequest,
-  AddLayerVersionPermissionResponse,
+export type AddLayerVersionPermissionError =
   | InvalidParameterValueException
   | PolicyLengthExceededException
   | PreconditionFailedException
@@ -8156,7 +8179,16 @@ export const addLayerVersionPermission: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds permissions to the resource-based policy of a version of an Lambda layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts.
+ *
+ * To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
+ */
+export const addLayerVersionPermission: API.OperationMethod<
+  AddLayerVersionPermissionRequest,
+  AddLayerVersionPermissionResponse,
+  AddLayerVersionPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddLayerVersionPermissionRequest,
@@ -8173,17 +8205,19 @@ export const addLayerVersionPermission: API.OperationMethod<
     ParseError,
   ],
 }));
+export type DeleteLayerVersionError =
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
  */
 export const deleteLayerVersion: API.OperationMethod<
   DeleteLayerVersionRequest,
   DeleteLayerVersionResponse,
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  DeleteLayerVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLayerVersionRequest,
@@ -8195,19 +8229,21 @@ export const deleteLayerVersion: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
- */
-export const getLayerVersion: API.OperationMethod<
-  GetLayerVersionRequest,
-  GetLayerVersionResponse,
+export type GetLayerVersionError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
+ */
+export const getLayerVersion: API.OperationMethod<
+  GetLayerVersionRequest,
+  GetLayerVersionResponse,
+  GetLayerVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayerVersionRequest,
@@ -8221,17 +8257,19 @@ export const getLayerVersion: API.OperationMethod<
     ParseError,
   ],
 }));
+export type GetLayerVersionByArnError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
  */
 export const getLayerVersionByArn: API.OperationMethod<
   GetLayerVersionByArnRequest,
   GetLayerVersionResponse,
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetLayerVersionByArnError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayerVersionByArnRequest,
@@ -8243,19 +8281,21 @@ export const getLayerVersionByArn: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Returns the permission policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
- */
-export const getLayerVersionPolicy: API.OperationMethod<
-  GetLayerVersionPolicyRequest,
-  GetLayerVersionPolicyResponse,
+export type GetLayerVersionPolicyError =
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the permission policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
+ */
+export const getLayerVersionPolicy: API.OperationMethod<
+  GetLayerVersionPolicyRequest,
+  GetLayerVersionPolicyResponse,
+  GetLayerVersionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayerVersionPolicyRequest,
@@ -8269,6 +8309,15 @@ export const getLayerVersionPolicy: API.OperationMethod<
     ParseError,
   ],
 }));
+export type PublishLayerVersionError =
+  | CodeStorageExceededException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Creates an Lambda layer from a ZIP archive. Each time you call `PublishLayerVersion` with the same layer name, a new version is created.
  *
@@ -8277,14 +8326,7 @@ export const getLayerVersionPolicy: API.OperationMethod<
 export const publishLayerVersion: API.OperationMethod<
   PublishLayerVersionRequest,
   PublishLayerVersionResponse,
-  | CodeStorageExceededException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  PublishLayerVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishLayerVersionRequest,
@@ -8299,12 +8341,7 @@ export const publishLayerVersion: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Removes a statement from the permissions policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
- */
-export const removeLayerVersionPermission: API.OperationMethod<
-  RemoveLayerVersionPermissionRequest,
-  RemoveLayerVersionPermissionResponse,
+export type RemoveLayerVersionPermissionError =
   | InvalidParameterValueException
   | PreconditionFailedException
   | ResourceNotFoundException
@@ -8312,7 +8349,14 @@ export const removeLayerVersionPermission: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a statement from the permissions policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
+ */
+export const removeLayerVersionPermission: API.OperationMethod<
+  RemoveLayerVersionPermissionRequest,
+  RemoveLayerVersionPermissionResponse,
+  RemoveLayerVersionPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveLayerVersionPermissionRequest,
@@ -8327,6 +8371,17 @@ export const removeLayerVersionPermission: API.OperationMethod<
     ParseError,
   ],
 }));
+export type AddPermissionError =
+  | InvalidParameterValueException
+  | PolicyLengthExceededException
+  | PreconditionFailedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors;
 /**
  * Grants a principal permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST.
  *
@@ -8337,16 +8392,7 @@ export const removeLayerVersionPermission: API.OperationMethod<
 export const addPermission: API.OperationMethod<
   AddPermissionRequest,
   AddPermissionResponse,
-  | InvalidParameterValueException
-  | PolicyLengthExceededException
-  | PreconditionFailedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | RequestLimitExceeded
-  | ParseError
-  | CommonErrors,
+  AddPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPermissionRequest,
@@ -8363,18 +8409,20 @@ export const addPermission: API.OperationMethod<
     ParseError,
   ],
 }));
+export type RemovePermissionError =
+  | InvalidParameterValueException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the statement from the output of GetPolicy.
  */
 export const removePermission: API.OperationMethod<
   RemovePermissionRequest,
   RemovePermissionResponse,
-  | InvalidParameterValueException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  RemovePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionRequest,
@@ -8387,12 +8435,7 @@ export const removePermission: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Adds a provisioned concurrency configuration to a function's alias or version.
- */
-export const putProvisionedConcurrencyConfig: API.OperationMethod<
-  PutProvisionedConcurrencyConfigRequest,
-  PutProvisionedConcurrencyConfigResponse,
+export type PutProvisionedConcurrencyConfigError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -8400,7 +8443,14 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a provisioned concurrency configuration to a function's alias or version.
+ */
+export const putProvisionedConcurrencyConfig: API.OperationMethod<
+  PutProvisionedConcurrencyConfigRequest,
+  PutProvisionedConcurrencyConfigResponse,
+  PutProvisionedConcurrencyConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProvisionedConcurrencyConfigRequest,
@@ -8415,12 +8465,7 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Retrieves the provisioned concurrency configuration for a function's alias or version.
- */
-export const getProvisionedConcurrencyConfig: API.OperationMethod<
-  GetProvisionedConcurrencyConfigRequest,
-  GetProvisionedConcurrencyConfigResponse,
+export type GetProvisionedConcurrencyConfigError =
   | InvalidParameterValueException
   | ProvisionedConcurrencyConfigNotFoundException
   | ResourceNotFoundException
@@ -8428,7 +8473,14 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the provisioned concurrency configuration for a function's alias or version.
+ */
+export const getProvisionedConcurrencyConfig: API.OperationMethod<
+  GetProvisionedConcurrencyConfigRequest,
+  GetProvisionedConcurrencyConfigResponse,
+  GetProvisionedConcurrencyConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProvisionedConcurrencyConfigRequest,
@@ -8443,12 +8495,7 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
     ParseError,
   ],
 }));
-/**
- * Deletes the provisioned concurrency configuration for a function.
- */
-export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
-  DeleteProvisionedConcurrencyConfigRequest,
-  DeleteProvisionedConcurrencyConfigResponse,
+export type DeleteProvisionedConcurrencyConfigError =
   | InvalidParameterValueException
   | ResourceConflictException
   | ResourceNotFoundException
@@ -8456,7 +8503,14 @@ export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
   | TooManyRequestsException
   | RequestLimitExceeded
   | ParseError
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the provisioned concurrency configuration for a function.
+ */
+export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
+  DeleteProvisionedConcurrencyConfigRequest,
+  DeleteProvisionedConcurrencyConfigResponse,
+  DeleteProvisionedConcurrencyConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisionedConcurrencyConfigRequest,

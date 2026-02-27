@@ -209,6 +209,9 @@ export class MarketplaceCommerceAnalyticsException extends S.TaggedErrorClass<Ma
 ) {}
 
 //# Operations
+export type GenerateDataSetError =
+  | MarketplaceCommerceAnalyticsException
+  | CommonErrors;
 /**
  * Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified
  * S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that
@@ -222,13 +225,16 @@ export class MarketplaceCommerceAnalyticsException extends S.TaggedErrorClass<Ma
 export const generateDataSet: API.OperationMethod<
   GenerateDataSetRequest,
   GenerateDataSetResult,
-  MarketplaceCommerceAnalyticsException | CommonErrors,
+  GenerateDataSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataSetRequest,
   output: GenerateDataSetResult,
   errors: [MarketplaceCommerceAnalyticsException],
 }));
+export type StartSupportDataExportError =
+  | MarketplaceCommerceAnalyticsException
+  | CommonErrors;
 /**
  * *This target has been deprecated.* Given a data set type and a from date, asynchronously publishes the requested customer support data
  * to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request
@@ -242,7 +248,7 @@ export const generateDataSet: API.OperationMethod<
 export const startSupportDataExport: API.OperationMethod<
   StartSupportDataExportRequest,
   StartSupportDataExportResult,
-  MarketplaceCommerceAnalyticsException | CommonErrors,
+  StartSupportDataExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSupportDataExportRequest,

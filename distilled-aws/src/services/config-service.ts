@@ -6434,6 +6434,11 @@ export class IdempotentParameterMismatch extends S.TaggedErrorClass<IdempotentPa
 ).pipe(C.withBadRequestError, C.withConflictError) {}
 
 //# Operations
+export type AssociateResourceTypesError =
+  | ConflictException
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds all resource types specified in the `ResourceTypes` list to the RecordingGroup of specified configuration recorder and includes those resource types when recording.
  *
@@ -6442,10 +6447,7 @@ export class IdempotentParameterMismatch extends S.TaggedErrorClass<IdempotentPa
 export const associateResourceTypes: API.OperationMethod<
   AssociateResourceTypesRequest,
   AssociateResourceTypesResponse,
-  | ConflictException
-  | NoSuchConfigurationRecorderException
-  | ValidationException
-  | CommonErrors,
+  AssociateResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceTypesRequest,
@@ -6456,6 +6458,10 @@ export const associateResourceTypes: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetAggregateResourceConfigError =
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request.
  * If there are no unprocessed resources, the operation returns an empty `unprocessedResourceIdentifiers` list.
@@ -6467,13 +6473,17 @@ export const associateResourceTypes: API.OperationMethod<
 export const batchGetAggregateResourceConfig: API.OperationMethod<
   BatchGetAggregateResourceConfigRequest,
   BatchGetAggregateResourceConfigResponse,
-  NoSuchConfigurationAggregatorException | ValidationException | CommonErrors,
+  BatchGetAggregateResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAggregateResourceConfigRequest,
   output: BatchGetAggregateResourceConfigResponse,
   errors: [NoSuchConfigurationAggregatorException, ValidationException],
 }));
+export type BatchGetResourceConfigError =
+  | NoAvailableConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the `BaseConfigurationItem` for one or more requested resources.
  * The operation also returns a list of resources that are
@@ -6492,15 +6502,16 @@ export const batchGetAggregateResourceConfig: API.OperationMethod<
 export const batchGetResourceConfig: API.OperationMethod<
   BatchGetResourceConfigRequest,
   BatchGetResourceConfigResponse,
-  | NoAvailableConfigurationRecorderException
-  | ValidationException
-  | CommonErrors,
+  BatchGetResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetResourceConfigRequest,
   output: BatchGetResourceConfigResponse,
   errors: [NoAvailableConfigurationRecorderException, ValidationException],
 }));
+export type DeleteAggregationAuthorizationError =
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Deletes the authorization granted to the specified
  * configuration aggregator account in a specified region.
@@ -6508,13 +6519,17 @@ export const batchGetResourceConfig: API.OperationMethod<
 export const deleteAggregationAuthorization: API.OperationMethod<
   DeleteAggregationAuthorizationRequest,
   DeleteAggregationAuthorizationResponse,
-  InvalidParameterValueException | CommonErrors,
+  DeleteAggregationAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAggregationAuthorizationRequest,
   output: DeleteAggregationAuthorizationResponse,
   errors: [InvalidParameterValueException],
 }));
+export type DeleteConfigRuleError =
+  | NoSuchConfigRuleException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes the specified Config rule and all of its evaluation
  * results.
@@ -6543,13 +6558,16 @@ export const deleteAggregationAuthorization: API.OperationMethod<
 export const deleteConfigRule: API.OperationMethod<
   DeleteConfigRuleRequest,
   DeleteConfigRuleResponse,
-  NoSuchConfigRuleException | ResourceInUseException | CommonErrors,
+  DeleteConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigRuleRequest,
   output: DeleteConfigRuleResponse,
   errors: [NoSuchConfigRuleException, ResourceInUseException],
 }));
+export type DeleteConfigurationAggregatorError =
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors;
 /**
  * Deletes the specified configuration aggregator and the
  * aggregated data associated with the aggregator.
@@ -6557,13 +6575,17 @@ export const deleteConfigRule: API.OperationMethod<
 export const deleteConfigurationAggregator: API.OperationMethod<
   DeleteConfigurationAggregatorRequest,
   DeleteConfigurationAggregatorResponse,
-  NoSuchConfigurationAggregatorException | CommonErrors,
+  DeleteConfigurationAggregatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationAggregatorRequest,
   output: DeleteConfigurationAggregatorResponse,
   errors: [NoSuchConfigurationAggregatorException],
 }));
+export type DeleteConfigurationRecorderError =
+  | NoSuchConfigurationRecorderException
+  | UnmodifiableEntityException
+  | CommonErrors;
 /**
  * Deletes the customer managed configuration recorder.
  *
@@ -6577,15 +6599,17 @@ export const deleteConfigurationAggregator: API.OperationMethod<
 export const deleteConfigurationRecorder: API.OperationMethod<
   DeleteConfigurationRecorderRequest,
   DeleteConfigurationRecorderResponse,
-  | NoSuchConfigurationRecorderException
-  | UnmodifiableEntityException
-  | CommonErrors,
+  DeleteConfigurationRecorderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationRecorderRequest,
   output: DeleteConfigurationRecorderResponse,
   errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
 }));
+export type DeleteConformancePackError =
+  | NoSuchConformancePackException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
  * conformance pack.
@@ -6608,13 +6632,17 @@ export const deleteConfigurationRecorder: API.OperationMethod<
 export const deleteConformancePack: API.OperationMethod<
   DeleteConformancePackRequest,
   DeleteConformancePackResponse,
-  NoSuchConformancePackException | ResourceInUseException | CommonErrors,
+  DeleteConformancePackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConformancePackRequest,
   output: DeleteConformancePackResponse,
   errors: [NoSuchConformancePackException, ResourceInUseException],
 }));
+export type DeleteDeliveryChannelError =
+  | LastDeliveryChannelDeleteFailedException
+  | NoSuchDeliveryChannelException
+  | CommonErrors;
 /**
  * Deletes the delivery channel.
  *
@@ -6623,9 +6651,7 @@ export const deleteConformancePack: API.OperationMethod<
 export const deleteDeliveryChannel: API.OperationMethod<
   DeleteDeliveryChannelRequest,
   DeleteDeliveryChannelResponse,
-  | LastDeliveryChannelDeleteFailedException
-  | NoSuchDeliveryChannelException
-  | CommonErrors,
+  DeleteDeliveryChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeliveryChannelRequest,
@@ -6635,6 +6661,10 @@ export const deleteDeliveryChannel: API.OperationMethod<
     NoSuchDeliveryChannelException,
   ],
 }));
+export type DeleteEvaluationResultsError =
+  | NoSuchConfigRuleException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes the evaluation results for the specified Config
  * rule. You can specify one Config rule per request. After you
@@ -6644,13 +6674,18 @@ export const deleteDeliveryChannel: API.OperationMethod<
 export const deleteEvaluationResults: API.OperationMethod<
   DeleteEvaluationResultsRequest,
   DeleteEvaluationResultsResponse,
-  NoSuchConfigRuleException | ResourceInUseException | CommonErrors,
+  DeleteEvaluationResultsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEvaluationResultsRequest,
   output: DeleteEvaluationResultsResponse,
   errors: [NoSuchConfigRuleException, ResourceInUseException],
 }));
+export type DeleteOrganizationConfigRuleError =
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.
  *
@@ -6676,10 +6711,7 @@ export const deleteEvaluationResults: API.OperationMethod<
 export const deleteOrganizationConfigRule: API.OperationMethod<
   DeleteOrganizationConfigRuleRequest,
   DeleteOrganizationConfigRuleResponse,
-  | NoSuchOrganizationConfigRuleException
-  | OrganizationAccessDeniedException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteOrganizationConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationConfigRuleRequest,
@@ -6690,6 +6722,11 @@ export const deleteOrganizationConfigRule: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeleteOrganizationConformancePackError =
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
  * all member accounts in that organization.
@@ -6716,10 +6753,7 @@ export const deleteOrganizationConfigRule: API.OperationMethod<
 export const deleteOrganizationConformancePack: API.OperationMethod<
   DeleteOrganizationConformancePackRequest,
   DeleteOrganizationConformancePackResponse,
-  | NoSuchOrganizationConformancePackException
-  | OrganizationAccessDeniedException
-  | ResourceInUseException
-  | CommonErrors,
+  DeleteOrganizationConformancePackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationConformancePackRequest,
@@ -6730,6 +6764,9 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type DeletePendingAggregationRequestError =
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Deletes pending authorization requests for a specified
  * aggregator account in a specified region.
@@ -6737,24 +6774,26 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
 export const deletePendingAggregationRequest: API.OperationMethod<
   DeletePendingAggregationRequestRequest,
   DeletePendingAggregationRequestResponse,
-  InvalidParameterValueException | CommonErrors,
+  DeletePendingAggregationRequestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePendingAggregationRequestRequest,
   output: DeletePendingAggregationRequestResponse,
   errors: [InvalidParameterValueException],
 }));
+export type DeleteRemediationConfigurationError =
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | NoSuchRemediationConfigurationException
+  | RemediationInProgressException
+  | CommonErrors;
 /**
  * Deletes the remediation configuration.
  */
 export const deleteRemediationConfiguration: API.OperationMethod<
   DeleteRemediationConfigurationRequest,
   DeleteRemediationConfigurationResponse,
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | NoSuchRemediationConfigurationException
-  | RemediationInProgressException
-  | CommonErrors,
+  DeleteRemediationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRemediationConfigurationRequest,
@@ -6766,6 +6805,9 @@ export const deleteRemediationConfiguration: API.OperationMethod<
     RemediationInProgressException,
   ],
 }));
+export type DeleteRemediationExceptionsError =
+  | NoSuchRemediationExceptionException
+  | CommonErrors;
 /**
  * Deletes one or more remediation exceptions mentioned in the resource keys.
  *
@@ -6775,35 +6817,41 @@ export const deleteRemediationConfiguration: API.OperationMethod<
 export const deleteRemediationExceptions: API.OperationMethod<
   DeleteRemediationExceptionsRequest,
   DeleteRemediationExceptionsResponse,
-  NoSuchRemediationExceptionException | CommonErrors,
+  DeleteRemediationExceptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRemediationExceptionsRequest,
   output: DeleteRemediationExceptionsResponse,
   errors: [NoSuchRemediationExceptionException],
 }));
+export type DeleteResourceConfigError =
+  | NoRunningConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
  */
 export const deleteResourceConfig: API.OperationMethod<
   DeleteResourceConfigRequest,
   DeleteResourceConfigResponse,
-  NoRunningConfigurationRecorderException | ValidationException | CommonErrors,
+  DeleteResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceConfigRequest,
   output: DeleteResourceConfigResponse,
   errors: [NoRunningConfigurationRecorderException, ValidationException],
 }));
+export type DeleteRetentionConfigurationError =
+  | InvalidParameterValueException
+  | NoSuchRetentionConfigurationException
+  | CommonErrors;
 /**
  * Deletes the retention configuration.
  */
 export const deleteRetentionConfiguration: API.OperationMethod<
   DeleteRetentionConfigurationRequest,
   DeleteRetentionConfigurationResponse,
-  | InvalidParameterValueException
-  | NoSuchRetentionConfigurationException
-  | CommonErrors,
+  DeleteRetentionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRetentionConfigurationRequest,
@@ -6813,6 +6861,11 @@ export const deleteRetentionConfiguration: API.OperationMethod<
     NoSuchRetentionConfigurationException,
   ],
 }));
+export type DeleteServiceLinkedConfigurationRecorderError =
+  | ConflictException
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing service-linked configuration recorder.
  *
@@ -6829,10 +6882,7 @@ export const deleteRetentionConfiguration: API.OperationMethod<
 export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
   DeleteServiceLinkedConfigurationRecorderRequest,
   DeleteServiceLinkedConfigurationRecorderResponse,
-  | ConflictException
-  | NoSuchConfigurationRecorderException
-  | ValidationException
-  | CommonErrors,
+  DeleteServiceLinkedConfigurationRecorderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceLinkedConfigurationRecorderRequest,
@@ -6843,19 +6893,28 @@ export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteStoredQueryError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
  */
 export const deleteStoredQuery: API.OperationMethod<
   DeleteStoredQueryRequest,
   DeleteStoredQueryResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DeleteStoredQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStoredQueryRequest,
   output: DeleteStoredQueryResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DeliverConfigSnapshotError =
+  | NoAvailableConfigurationRecorderException
+  | NoRunningConfigurationRecorderException
+  | NoSuchDeliveryChannelException
+  | CommonErrors;
 /**
  * Schedules delivery of a configuration snapshot to the Amazon S3
  * bucket in the specified delivery channel. After the delivery has
@@ -6873,10 +6932,7 @@ export const deleteStoredQuery: API.OperationMethod<
 export const deliverConfigSnapshot: API.OperationMethod<
   DeliverConfigSnapshotRequest,
   DeliverConfigSnapshotResponse,
-  | NoAvailableConfigurationRecorderException
-  | NoRunningConfigurationRecorderException
-  | NoSuchDeliveryChannelException
-  | CommonErrors,
+  DeliverConfigSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeliverConfigSnapshotRequest,
@@ -6887,6 +6943,12 @@ export const deliverConfigSnapshot: API.OperationMethod<
     NoSuchDeliveryChannelException,
   ],
 }));
+export type DescribeAggregateComplianceByConfigRulesError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of compliant and noncompliant rules with the
  * number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results.
@@ -6898,33 +6960,21 @@ export const deliverConfigSnapshot: API.OperationMethod<
 export const describeAggregateComplianceByConfigRules: API.OperationMethod<
   DescribeAggregateComplianceByConfigRulesRequest,
   DescribeAggregateComplianceByConfigRulesResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  DescribeAggregateComplianceByConfigRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAggregateComplianceByConfigRulesRequest,
   ) => stream.Stream<
     DescribeAggregateComplianceByConfigRulesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    DescribeAggregateComplianceByConfigRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAggregateComplianceByConfigRulesRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    DescribeAggregateComplianceByConfigRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6942,6 +6992,12 @@ export const describeAggregateComplianceByConfigRules: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeAggregateComplianceByConformancePacksError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
  * conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.
@@ -6951,33 +7007,21 @@ export const describeAggregateComplianceByConfigRules: API.OperationMethod<
 export const describeAggregateComplianceByConformancePacks: API.OperationMethod<
   DescribeAggregateComplianceByConformancePacksRequest,
   DescribeAggregateComplianceByConformancePacksResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  DescribeAggregateComplianceByConformancePacksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAggregateComplianceByConformancePacksRequest,
   ) => stream.Stream<
     DescribeAggregateComplianceByConformancePacksResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    DescribeAggregateComplianceByConformancePacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAggregateComplianceByConformancePacksRequest,
   ) => stream.Stream<
     AggregateComplianceByConformancePack,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    DescribeAggregateComplianceByConformancePacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6996,6 +7040,11 @@ export const describeAggregateComplianceByConformancePacks: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeAggregationAuthorizationsError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns a list of authorizations granted to various aggregator
  * accounts and regions.
@@ -7003,30 +7052,21 @@ export const describeAggregateComplianceByConformancePacks: API.OperationMethod<
 export const describeAggregationAuthorizations: API.OperationMethod<
   DescribeAggregationAuthorizationsRequest,
   DescribeAggregationAuthorizationsResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | CommonErrors,
+  DescribeAggregationAuthorizationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAggregationAuthorizationsRequest,
   ) => stream.Stream<
     DescribeAggregationAuthorizationsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeAggregationAuthorizationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAggregationAuthorizationsRequest,
   ) => stream.Stream<
     AggregationAuthorization,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeAggregationAuthorizationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7044,6 +7084,11 @@ export const describeAggregationAuthorizations: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeComplianceByConfigRuleError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors;
 /**
  * Indicates whether the specified Config rules are compliant.
  * If a rule is noncompliant, this operation returns the number of Amazon Web Services
@@ -7079,30 +7124,21 @@ export const describeAggregationAuthorizations: API.OperationMethod<
 export const describeComplianceByConfigRule: API.OperationMethod<
   DescribeComplianceByConfigRuleRequest,
   DescribeComplianceByConfigRuleResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigRuleException
-  | CommonErrors,
+  DescribeComplianceByConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeComplianceByConfigRuleRequest,
   ) => stream.Stream<
     DescribeComplianceByConfigRuleResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    DescribeComplianceByConfigRuleError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeComplianceByConfigRuleRequest,
   ) => stream.Stream<
     ComplianceByConfigRule,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    DescribeComplianceByConfigRuleError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7119,6 +7155,10 @@ export const describeComplianceByConfigRule: API.OperationMethod<
     items: "ComplianceByConfigRules",
   } as const,
 }));
+export type DescribeComplianceByResourceError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Indicates whether the specified Amazon Web Services resources are compliant. If
  * a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with.
@@ -7154,21 +7194,21 @@ export const describeComplianceByConfigRule: API.OperationMethod<
 export const describeComplianceByResource: API.OperationMethod<
   DescribeComplianceByResourceRequest,
   DescribeComplianceByResourceResponse,
-  InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+  DescribeComplianceByResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeComplianceByResourceRequest,
   ) => stream.Stream<
     DescribeComplianceByResourceResponse,
-    InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+    DescribeComplianceByResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeComplianceByResourceRequest,
   ) => stream.Stream<
     ComplianceByResource,
-    InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+    DescribeComplianceByResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7182,6 +7222,11 @@ export const describeComplianceByResource: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConfigRuleEvaluationStatusError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors;
 /**
  * Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
  * the rule, and the related error for the last failure.
@@ -7189,30 +7234,21 @@ export const describeComplianceByResource: API.OperationMethod<
 export const describeConfigRuleEvaluationStatus: API.OperationMethod<
   DescribeConfigRuleEvaluationStatusRequest,
   DescribeConfigRuleEvaluationStatusResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigRuleException
-  | CommonErrors,
+  DescribeConfigRuleEvaluationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConfigRuleEvaluationStatusRequest,
   ) => stream.Stream<
     DescribeConfigRuleEvaluationStatusResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    DescribeConfigRuleEvaluationStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConfigRuleEvaluationStatusRequest,
   ) => stream.Stream<
     ConfigRuleEvaluationStatus,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    DescribeConfigRuleEvaluationStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7230,36 +7266,32 @@ export const describeConfigRuleEvaluationStatus: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConfigRulesError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors;
 /**
  * Returns details about your Config rules.
  */
 export const describeConfigRules: API.OperationMethod<
   DescribeConfigRulesRequest,
   DescribeConfigRulesResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigRuleException
-  | CommonErrors,
+  DescribeConfigRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConfigRulesRequest,
   ) => stream.Stream<
     DescribeConfigRulesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    DescribeConfigRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConfigRulesRequest,
   ) => stream.Stream<
     ConfigRule,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    DescribeConfigRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7276,6 +7308,12 @@ export const describeConfigRules: API.OperationMethod<
     items: "ConfigRules",
   } as const,
 }));
+export type DescribeConfigurationAggregatorsError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors;
 /**
  * Returns the details of one or more configuration aggregators.
  * If the configuration aggregator is not specified, this operation
@@ -7285,33 +7323,21 @@ export const describeConfigRules: API.OperationMethod<
 export const describeConfigurationAggregators: API.OperationMethod<
   DescribeConfigurationAggregatorsRequest,
   DescribeConfigurationAggregatorsResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigurationAggregatorException
-  | CommonErrors,
+  DescribeConfigurationAggregatorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConfigurationAggregatorsRequest,
   ) => stream.Stream<
     DescribeConfigurationAggregatorsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
+    DescribeConfigurationAggregatorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConfigurationAggregatorsRequest,
   ) => stream.Stream<
     ConfigurationAggregator,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
+    DescribeConfigurationAggregatorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7330,6 +7356,12 @@ export const describeConfigurationAggregators: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConfigurationAggregatorSourcesStatusError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors;
 /**
  * Returns status information for sources within an aggregator.
  * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
@@ -7337,33 +7369,21 @@ export const describeConfigurationAggregators: API.OperationMethod<
 export const describeConfigurationAggregatorSourcesStatus: API.OperationMethod<
   DescribeConfigurationAggregatorSourcesStatusRequest,
   DescribeConfigurationAggregatorSourcesStatusResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigurationAggregatorException
-  | CommonErrors,
+  DescribeConfigurationAggregatorSourcesStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
   ) => stream.Stream<
     DescribeConfigurationAggregatorSourcesStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
+    DescribeConfigurationAggregatorSourcesStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
   ) => stream.Stream<
     AggregatedSourceStatus,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
+    DescribeConfigurationAggregatorSourcesStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7382,6 +7402,10 @@ export const describeConfigurationAggregatorSourcesStatus: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConfigurationRecordersError =
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for the configuration recorder you specify.
  *
@@ -7393,13 +7417,17 @@ export const describeConfigurationAggregatorSourcesStatus: API.OperationMethod<
 export const describeConfigurationRecorders: API.OperationMethod<
   DescribeConfigurationRecordersRequest,
   DescribeConfigurationRecordersResponse,
-  NoSuchConfigurationRecorderException | ValidationException | CommonErrors,
+  DescribeConfigurationRecordersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConfigurationRecordersRequest,
   output: DescribeConfigurationRecordersResponse,
   errors: [NoSuchConfigurationRecorderException, ValidationException],
 }));
+export type DescribeConfigurationRecorderStatusError =
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the current status of the configuration
  * recorder you specify as well as the status of the last recording event for the configuration recorders.
@@ -7414,13 +7442,20 @@ export const describeConfigurationRecorders: API.OperationMethod<
 export const describeConfigurationRecorderStatus: API.OperationMethod<
   DescribeConfigurationRecorderStatusRequest,
   DescribeConfigurationRecorderStatusResponse,
-  NoSuchConfigurationRecorderException | ValidationException | CommonErrors,
+  DescribeConfigurationRecorderStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConfigurationRecorderStatusRequest,
   output: DescribeConfigurationRecorderStatusResponse,
   errors: [NoSuchConfigurationRecorderException, ValidationException],
 }));
+export type DescribeConformancePackComplianceError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleInConformancePackException
+  | NoSuchConformancePackException
+  | CommonErrors;
 /**
  * Returns compliance details for each rule in that conformance pack.
  *
@@ -7429,36 +7464,21 @@ export const describeConfigurationRecorderStatus: API.OperationMethod<
 export const describeConformancePackCompliance: API.OperationMethod<
   DescribeConformancePackComplianceRequest,
   DescribeConformancePackComplianceResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigRuleInConformancePackException
-  | NoSuchConformancePackException
-  | CommonErrors,
+  DescribeConformancePackComplianceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConformancePackComplianceRequest,
   ) => stream.Stream<
     DescribeConformancePackComplianceResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleInConformancePackException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    DescribeConformancePackComplianceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConformancePackComplianceRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleInConformancePackException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    DescribeConformancePackComplianceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7477,39 +7497,33 @@ export const describeConformancePackCompliance: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConformancePacksError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConformancePackException
+  | CommonErrors;
 /**
  * Returns a list of one or more conformance packs.
  */
 export const describeConformancePacks: API.OperationMethod<
   DescribeConformancePacksRequest,
   DescribeConformancePacksResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConformancePackException
-  | CommonErrors,
+  DescribeConformancePacksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConformancePacksRequest,
   ) => stream.Stream<
     DescribeConformancePacksResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    DescribeConformancePacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConformancePacksRequest,
   ) => stream.Stream<
     ConformancePackDetail,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    DescribeConformancePacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7528,6 +7542,11 @@ export const describeConformancePacks: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeConformancePackStatusError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Provides one or more conformance packs deployment status.
  *
@@ -7536,30 +7555,21 @@ export const describeConformancePacks: API.OperationMethod<
 export const describeConformancePackStatus: API.OperationMethod<
   DescribeConformancePackStatusRequest,
   DescribeConformancePackStatusResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | CommonErrors,
+  DescribeConformancePackStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConformancePackStatusRequest,
   ) => stream.Stream<
     DescribeConformancePackStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeConformancePackStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConformancePackStatusRequest,
   ) => stream.Stream<
     ConformancePackStatusDetail,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeConformancePackStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7577,6 +7587,9 @@ export const describeConformancePackStatus: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeDeliveryChannelsError =
+  | NoSuchDeliveryChannelException
+  | CommonErrors;
 /**
  * Returns details about the specified delivery channel. If a
  * delivery channel is not specified, this operation returns the details
@@ -7588,13 +7601,16 @@ export const describeConformancePackStatus: API.OperationMethod<
 export const describeDeliveryChannels: API.OperationMethod<
   DescribeDeliveryChannelsRequest,
   DescribeDeliveryChannelsResponse,
-  NoSuchDeliveryChannelException | CommonErrors,
+  DescribeDeliveryChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeliveryChannelsRequest,
   output: DescribeDeliveryChannelsResponse,
   errors: [NoSuchDeliveryChannelException],
 }));
+export type DescribeDeliveryChannelStatusError =
+  | NoSuchDeliveryChannelException
+  | CommonErrors;
 /**
  * Returns the current status of the specified delivery channel.
  * If a delivery channel is not specified, this operation returns the
@@ -7607,13 +7623,19 @@ export const describeDeliveryChannels: API.OperationMethod<
 export const describeDeliveryChannelStatus: API.OperationMethod<
   DescribeDeliveryChannelStatusRequest,
   DescribeDeliveryChannelStatusResponse,
-  NoSuchDeliveryChannelException | CommonErrors,
+  DescribeDeliveryChannelStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeliveryChannelStatusRequest,
   output: DescribeDeliveryChannelStatusResponse,
   errors: [NoSuchDeliveryChannelException],
 }));
+export type DescribeOrganizationConfigRulesError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Returns a list of organization Config rules.
  *
@@ -7638,33 +7660,21 @@ export const describeDeliveryChannelStatus: API.OperationMethod<
 export const describeOrganizationConfigRules: API.OperationMethod<
   DescribeOrganizationConfigRulesRequest,
   DescribeOrganizationConfigRulesResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchOrganizationConfigRuleException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  DescribeOrganizationConfigRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrganizationConfigRulesRequest,
   ) => stream.Stream<
     DescribeOrganizationConfigRulesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConfigRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrganizationConfigRulesRequest,
   ) => stream.Stream<
     OrganizationConfigRule,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConfigRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7683,6 +7693,12 @@ export const describeOrganizationConfigRules: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeOrganizationConfigRuleStatusesError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Provides organization Config rule deployment status for an organization.
  *
@@ -7696,33 +7712,21 @@ export const describeOrganizationConfigRules: API.OperationMethod<
 export const describeOrganizationConfigRuleStatuses: API.OperationMethod<
   DescribeOrganizationConfigRuleStatusesRequest,
   DescribeOrganizationConfigRuleStatusesResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchOrganizationConfigRuleException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  DescribeOrganizationConfigRuleStatusesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrganizationConfigRuleStatusesRequest,
   ) => stream.Stream<
     DescribeOrganizationConfigRuleStatusesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConfigRuleStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrganizationConfigRuleStatusesRequest,
   ) => stream.Stream<
     OrganizationConfigRuleStatus,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConfigRuleStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7741,6 +7745,12 @@ export const describeOrganizationConfigRuleStatuses: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeOrganizationConformancePacksError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Returns a list of organization conformance packs.
  *
@@ -7765,33 +7775,21 @@ export const describeOrganizationConfigRuleStatuses: API.OperationMethod<
 export const describeOrganizationConformancePacks: API.OperationMethod<
   DescribeOrganizationConformancePacksRequest,
   DescribeOrganizationConformancePacksResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchOrganizationConformancePackException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  DescribeOrganizationConformancePacksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrganizationConformancePacksRequest,
   ) => stream.Stream<
     DescribeOrganizationConformancePacksResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConformancePacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrganizationConformancePacksRequest,
   ) => stream.Stream<
     OrganizationConformancePack,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConformancePacksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7810,6 +7808,12 @@ export const describeOrganizationConformancePacks: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeOrganizationConformancePackStatusesError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Provides organization conformance pack deployment status for an organization.
  *
@@ -7823,33 +7827,21 @@ export const describeOrganizationConformancePacks: API.OperationMethod<
 export const describeOrganizationConformancePackStatuses: API.OperationMethod<
   DescribeOrganizationConformancePackStatusesRequest,
   DescribeOrganizationConformancePackStatusesResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchOrganizationConformancePackException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  DescribeOrganizationConformancePackStatusesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrganizationConformancePackStatusesRequest,
   ) => stream.Stream<
     DescribeOrganizationConformancePackStatusesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConformancePackStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrganizationConformancePackStatusesRequest,
   ) => stream.Stream<
     OrganizationConformancePackStatus,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    DescribeOrganizationConformancePackStatusesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7868,36 +7860,32 @@ export const describeOrganizationConformancePackStatuses: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribePendingAggregationRequestsError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns a list of all pending aggregation requests.
  */
 export const describePendingAggregationRequests: API.OperationMethod<
   DescribePendingAggregationRequestsRequest,
   DescribePendingAggregationRequestsResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | CommonErrors,
+  DescribePendingAggregationRequestsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePendingAggregationRequestsRequest,
   ) => stream.Stream<
     DescribePendingAggregationRequestsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribePendingAggregationRequestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePendingAggregationRequestsRequest,
   ) => stream.Stream<
     PendingAggregationRequest,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribePendingAggregationRequestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7915,19 +7903,24 @@ export const describePendingAggregationRequests: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeRemediationConfigurationsError = CommonErrors;
 /**
  * Returns the details of one or more remediation configurations.
  */
 export const describeRemediationConfigurations: API.OperationMethod<
   DescribeRemediationConfigurationsRequest,
   DescribeRemediationConfigurationsResponse,
-  CommonErrors,
+  DescribeRemediationConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRemediationConfigurationsRequest,
   output: DescribeRemediationConfigurationsResponse,
   errors: [],
 }));
+export type DescribeRemediationExceptionsError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
  * When you specify the limit and the next token, you receive a paginated response.
@@ -7942,21 +7935,21 @@ export const describeRemediationConfigurations: API.OperationMethod<
 export const describeRemediationExceptions: API.OperationMethod<
   DescribeRemediationExceptionsRequest,
   DescribeRemediationExceptionsResponse,
-  InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+  DescribeRemediationExceptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRemediationExceptionsRequest,
   ) => stream.Stream<
     DescribeRemediationExceptionsResponse,
-    InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+    DescribeRemediationExceptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRemediationExceptionsRequest,
   ) => stream.Stream<
     unknown,
-    InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+    DescribeRemediationExceptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7969,6 +7962,11 @@ export const describeRemediationExceptions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeRemediationExecutionStatusError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchRemediationConfigurationException
+  | CommonErrors;
 /**
  * Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed.
  * When you specify the limit and the next token, you receive a paginated response.
@@ -7976,30 +7974,21 @@ export const describeRemediationExceptions: API.OperationMethod<
 export const describeRemediationExecutionStatus: API.OperationMethod<
   DescribeRemediationExecutionStatusRequest,
   DescribeRemediationExecutionStatusResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchRemediationConfigurationException
-  | CommonErrors,
+  DescribeRemediationExecutionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRemediationExecutionStatusRequest,
   ) => stream.Stream<
     DescribeRemediationExecutionStatusResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchRemediationConfigurationException
-    | CommonErrors,
+    DescribeRemediationExecutionStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRemediationExecutionStatusRequest,
   ) => stream.Stream<
     RemediationExecutionStatus,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchRemediationConfigurationException
-    | CommonErrors,
+    DescribeRemediationExecutionStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8017,6 +8006,11 @@ export const describeRemediationExecutionStatus: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeRetentionConfigurationsError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchRetentionConfigurationException
+  | CommonErrors;
 /**
  * Returns the details of one or more retention configurations. If
  * the retention configuration name is not specified, this operation
@@ -8029,30 +8023,21 @@ export const describeRemediationExecutionStatus: API.OperationMethod<
 export const describeRetentionConfigurations: API.OperationMethod<
   DescribeRetentionConfigurationsRequest,
   DescribeRetentionConfigurationsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchRetentionConfigurationException
-  | CommonErrors,
+  DescribeRetentionConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRetentionConfigurationsRequest,
   ) => stream.Stream<
     DescribeRetentionConfigurationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchRetentionConfigurationException
-    | CommonErrors,
+    DescribeRetentionConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRetentionConfigurationsRequest,
   ) => stream.Stream<
     RetentionConfiguration,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchRetentionConfigurationException
-    | CommonErrors,
+    DescribeRetentionConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8069,6 +8054,11 @@ export const describeRetentionConfigurations: API.OperationMethod<
     items: "RetentionConfigurations",
   } as const,
 }));
+export type DisassociateResourceTypesError =
+  | ConflictException
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes all resource types specified in the `ResourceTypes` list from the RecordingGroup of configuration recorder and excludes these resource types when recording.
  *
@@ -8077,10 +8067,7 @@ export const describeRetentionConfigurations: API.OperationMethod<
 export const disassociateResourceTypes: API.OperationMethod<
   DisassociateResourceTypesRequest,
   DisassociateResourceTypesResponse,
-  | ConflictException
-  | NoSuchConfigurationRecorderException
-  | ValidationException
-  | CommonErrors,
+  DisassociateResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResourceTypesRequest,
@@ -8091,6 +8078,12 @@ export const disassociateResourceTypes: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAggregateComplianceDetailsByConfigRuleError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the evaluation results for the specified Config
  * rule for a specific resource in a rule. The results indicate which
@@ -8104,33 +8097,21 @@ export const disassociateResourceTypes: API.OperationMethod<
 export const getAggregateComplianceDetailsByConfigRule: API.OperationMethod<
   GetAggregateComplianceDetailsByConfigRuleRequest,
   GetAggregateComplianceDetailsByConfigRuleResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  GetAggregateComplianceDetailsByConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
   ) => stream.Stream<
     GetAggregateComplianceDetailsByConfigRuleResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateComplianceDetailsByConfigRuleError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
   ) => stream.Stream<
     AggregateEvaluationResult,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateComplianceDetailsByConfigRuleError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8149,6 +8130,12 @@ export const getAggregateComplianceDetailsByConfigRule: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetAggregateConfigRuleComplianceSummaryError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the number of compliant and noncompliant rules for one
  * or more accounts and regions in an aggregator.
@@ -8160,33 +8147,21 @@ export const getAggregateComplianceDetailsByConfigRule: API.OperationMethod<
 export const getAggregateConfigRuleComplianceSummary: API.OperationMethod<
   GetAggregateConfigRuleComplianceSummaryRequest,
   GetAggregateConfigRuleComplianceSummaryResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  GetAggregateConfigRuleComplianceSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
   ) => stream.Stream<
     GetAggregateConfigRuleComplianceSummaryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateConfigRuleComplianceSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateConfigRuleComplianceSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8204,6 +8179,12 @@ export const getAggregateConfigRuleComplianceSummary: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetAggregateConformancePackComplianceSummaryError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region.
  *
@@ -8212,33 +8193,21 @@ export const getAggregateConfigRuleComplianceSummary: API.OperationMethod<
 export const getAggregateConformancePackComplianceSummary: API.OperationMethod<
   GetAggregateConformancePackComplianceSummaryRequest,
   GetAggregateConformancePackComplianceSummaryResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  GetAggregateConformancePackComplianceSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAggregateConformancePackComplianceSummaryRequest,
   ) => stream.Stream<
     GetAggregateConformancePackComplianceSummaryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateConformancePackComplianceSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAggregateConformancePackComplianceSummaryRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateConformancePackComplianceSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8256,6 +8225,12 @@ export const getAggregateConformancePackComplianceSummary: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetAggregateDiscoveredResourceCountsError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey.
  *
@@ -8265,33 +8240,21 @@ export const getAggregateConformancePackComplianceSummary: API.OperationMethod<
 export const getAggregateDiscoveredResourceCounts: API.OperationMethod<
   GetAggregateDiscoveredResourceCountsRequest,
   GetAggregateDiscoveredResourceCountsResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  GetAggregateDiscoveredResourceCountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAggregateDiscoveredResourceCountsRequest,
   ) => stream.Stream<
     GetAggregateDiscoveredResourceCountsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateDiscoveredResourceCountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAggregateDiscoveredResourceCountsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    GetAggregateDiscoveredResourceCountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8309,6 +8272,12 @@ export const getAggregateDiscoveredResourceCounts: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetAggregateResourceConfigError =
+  | NoSuchConfigurationAggregatorException
+  | OversizedConfigurationItemException
+  | ResourceNotDiscoveredException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns configuration item that is aggregated for your specific resource in a specific source account and region.
  *
@@ -8317,11 +8286,7 @@ export const getAggregateDiscoveredResourceCounts: API.OperationMethod<
 export const getAggregateResourceConfig: API.OperationMethod<
   GetAggregateResourceConfigRequest,
   GetAggregateResourceConfigResponse,
-  | NoSuchConfigurationAggregatorException
-  | OversizedConfigurationItemException
-  | ResourceNotDiscoveredException
-  | ValidationException
-  | CommonErrors,
+  GetAggregateResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAggregateResourceConfigRequest,
@@ -8333,6 +8298,11 @@ export const getAggregateResourceConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetComplianceDetailsByConfigRuleError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors;
 /**
  * Returns the evaluation results for the specified Config
  * rule. The results indicate which Amazon Web Services resources were evaluated by the
@@ -8342,30 +8312,21 @@ export const getAggregateResourceConfig: API.OperationMethod<
 export const getComplianceDetailsByConfigRule: API.OperationMethod<
   GetComplianceDetailsByConfigRuleRequest,
   GetComplianceDetailsByConfigRuleResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigRuleException
-  | CommonErrors,
+  GetComplianceDetailsByConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetComplianceDetailsByConfigRuleRequest,
   ) => stream.Stream<
     GetComplianceDetailsByConfigRuleResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    GetComplianceDetailsByConfigRuleError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetComplianceDetailsByConfigRuleRequest,
   ) => stream.Stream<
     EvaluationResult,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
+    GetComplianceDetailsByConfigRuleError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8383,6 +8344,9 @@ export const getComplianceDetailsByConfigRule: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetComplianceDetailsByResourceError =
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns the evaluation results for the specified Amazon Web Services resource.
  * The results indicate which Config rules were used to evaluate
@@ -8392,21 +8356,21 @@ export const getComplianceDetailsByConfigRule: API.OperationMethod<
 export const getComplianceDetailsByResource: API.OperationMethod<
   GetComplianceDetailsByResourceRequest,
   GetComplianceDetailsByResourceResponse,
-  InvalidParameterValueException | CommonErrors,
+  GetComplianceDetailsByResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetComplianceDetailsByResourceRequest,
   ) => stream.Stream<
     GetComplianceDetailsByResourceResponse,
-    InvalidParameterValueException | CommonErrors,
+    GetComplianceDetailsByResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetComplianceDetailsByResourceRequest,
   ) => stream.Stream<
     EvaluationResult,
-    InvalidParameterValueException | CommonErrors,
+    GetComplianceDetailsByResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8419,6 +8383,7 @@ export const getComplianceDetailsByResource: API.OperationMethod<
     items: "EvaluationResults",
   } as const,
 }));
+export type GetComplianceSummaryByConfigRuleError = CommonErrors;
 /**
  * Returns the number of Config rules that are compliant and
  * noncompliant, up to a maximum of 25 for each.
@@ -8426,13 +8391,16 @@ export const getComplianceDetailsByResource: API.OperationMethod<
 export const getComplianceSummaryByConfigRule: API.OperationMethod<
   GetComplianceSummaryByConfigRuleRequest,
   GetComplianceSummaryByConfigRuleResponse,
-  CommonErrors,
+  GetComplianceSummaryByConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComplianceSummaryByConfigRuleRequest,
   output: GetComplianceSummaryByConfigRuleResponse,
   errors: [],
 }));
+export type GetComplianceSummaryByResourceTypeError =
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns the number of resources that are compliant and the
  * number that are noncompliant. You can specify one or more resource
@@ -8442,49 +8410,41 @@ export const getComplianceSummaryByConfigRule: API.OperationMethod<
 export const getComplianceSummaryByResourceType: API.OperationMethod<
   GetComplianceSummaryByResourceTypeRequest,
   GetComplianceSummaryByResourceTypeResponse,
-  InvalidParameterValueException | CommonErrors,
+  GetComplianceSummaryByResourceTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComplianceSummaryByResourceTypeRequest,
   output: GetComplianceSummaryByResourceTypeResponse,
   errors: [InvalidParameterValueException],
 }));
+export type GetConformancePackComplianceDetailsError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleInConformancePackException
+  | NoSuchConformancePackException
+  | CommonErrors;
 /**
  * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
  */
 export const getConformancePackComplianceDetails: API.OperationMethod<
   GetConformancePackComplianceDetailsRequest,
   GetConformancePackComplianceDetailsResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | NoSuchConfigRuleInConformancePackException
-  | NoSuchConformancePackException
-  | CommonErrors,
+  GetConformancePackComplianceDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetConformancePackComplianceDetailsRequest,
   ) => stream.Stream<
     GetConformancePackComplianceDetailsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleInConformancePackException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    GetConformancePackComplianceDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetConformancePackComplianceDetailsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleInConformancePackException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    GetConformancePackComplianceDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8503,36 +8463,32 @@ export const getConformancePackComplianceDetails: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetConformancePackComplianceSummaryError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConformancePackException
+  | CommonErrors;
 /**
  * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
  */
 export const getConformancePackComplianceSummary: API.OperationMethod<
   GetConformancePackComplianceSummaryRequest,
   GetConformancePackComplianceSummaryResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConformancePackException
-  | CommonErrors,
+  GetConformancePackComplianceSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetConformancePackComplianceSummaryRequest,
   ) => stream.Stream<
     GetConformancePackComplianceSummaryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    GetConformancePackComplianceSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetConformancePackComplianceSummaryRequest,
   ) => stream.Stream<
     ConformancePackComplianceSummary,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConformancePackException
-    | CommonErrors,
+    GetConformancePackComplianceSummaryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8550,19 +8506,25 @@ export const getConformancePackComplianceSummary: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetCustomRulePolicyError = NoSuchConfigRuleException | CommonErrors;
 /**
  * Returns the policy definition containing the logic for your Config Custom Policy rule.
  */
 export const getCustomRulePolicy: API.OperationMethod<
   GetCustomRulePolicyRequest,
   GetCustomRulePolicyResponse,
-  NoSuchConfigRuleException | CommonErrors,
+  GetCustomRulePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomRulePolicyRequest,
   output: GetCustomRulePolicyResponse,
   errors: [NoSuchConfigRuleException],
 }));
+export type GetDiscoveredResourceCountsError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resource types, the number of each resource type,
  * and the total number of resources that Config is recording in
@@ -8611,30 +8573,21 @@ export const getCustomRulePolicy: API.OperationMethod<
 export const getDiscoveredResourceCounts: API.OperationMethod<
   GetDiscoveredResourceCountsRequest,
   GetDiscoveredResourceCountsResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  GetDiscoveredResourceCountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDiscoveredResourceCountsRequest,
   ) => stream.Stream<
     GetDiscoveredResourceCountsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    GetDiscoveredResourceCountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDiscoveredResourceCountsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
+    GetDiscoveredResourceCountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8651,39 +8604,33 @@ export const getDiscoveredResourceCounts: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetOrganizationConfigRuleDetailedStatusError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Returns detailed status for each member account within an organization for a given organization Config rule.
  */
 export const getOrganizationConfigRuleDetailedStatus: API.OperationMethod<
   GetOrganizationConfigRuleDetailedStatusRequest,
   GetOrganizationConfigRuleDetailedStatusResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchOrganizationConfigRuleException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  GetOrganizationConfigRuleDetailedStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
   ) => stream.Stream<
     GetOrganizationConfigRuleDetailedStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    GetOrganizationConfigRuleDetailedStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
   ) => stream.Stream<
     MemberAccountStatus,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    GetOrganizationConfigRuleDetailedStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8702,39 +8649,33 @@ export const getOrganizationConfigRuleDetailedStatus: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetOrganizationConformancePackDetailedStatusError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Returns detailed status for each member account within an organization for a given organization conformance pack.
  */
 export const getOrganizationConformancePackDetailedStatus: API.OperationMethod<
   GetOrganizationConformancePackDetailedStatusRequest,
   GetOrganizationConformancePackDetailedStatusResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchOrganizationConformancePackException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  GetOrganizationConformancePackDetailedStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOrganizationConformancePackDetailedStatusRequest,
   ) => stream.Stream<
     GetOrganizationConformancePackDetailedStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    GetOrganizationConformancePackDetailedStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOrganizationConformancePackDetailedStatusRequest,
   ) => stream.Stream<
     OrganizationConformancePackDetailedStatus,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
+    GetOrganizationConformancePackDetailedStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8753,15 +8694,17 @@ export const getOrganizationConformancePackDetailedStatus: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type GetOrganizationCustomRulePolicyError =
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors;
 /**
  * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
  */
 export const getOrganizationCustomRulePolicy: API.OperationMethod<
   GetOrganizationCustomRulePolicyRequest,
   GetOrganizationCustomRulePolicyResponse,
-  | NoSuchOrganizationConfigRuleException
-  | OrganizationAccessDeniedException
-  | CommonErrors,
+  GetOrganizationCustomRulePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationCustomRulePolicyRequest,
@@ -8771,6 +8714,14 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
     OrganizationAccessDeniedException,
   ],
 }));
+export type GetResourceConfigHistoryError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidTimeRangeException
+  | NoAvailableConfigurationRecorderException
+  | ResourceNotDiscoveredException
+  | ValidationException
+  | CommonErrors;
 /**
  * For accurate reporting on the compliance status, you must record the `AWS::Config::ResourceCompliance` resource type.
  *
@@ -8805,39 +8756,21 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
 export const getResourceConfigHistory: API.OperationMethod<
   GetResourceConfigHistoryRequest,
   GetResourceConfigHistoryResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidTimeRangeException
-  | NoAvailableConfigurationRecorderException
-  | ResourceNotDiscoveredException
-  | ValidationException
-  | CommonErrors,
+  GetResourceConfigHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceConfigHistoryRequest,
   ) => stream.Stream<
     GetResourceConfigHistoryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | NoAvailableConfigurationRecorderException
-    | ResourceNotDiscoveredException
-    | ValidationException
-    | CommonErrors,
+    GetResourceConfigHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceConfigHistoryRequest,
   ) => stream.Stream<
     ConfigurationItem,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | NoAvailableConfigurationRecorderException
-    | ResourceNotDiscoveredException
-    | ValidationException
-    | CommonErrors,
+    GetResourceConfigHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8858,6 +8791,9 @@ export const getResourceConfigHistory: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetResourceEvaluationSummaryError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
  * The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated,
@@ -8869,26 +8805,36 @@ export const getResourceConfigHistory: API.OperationMethod<
 export const getResourceEvaluationSummary: API.OperationMethod<
   GetResourceEvaluationSummaryRequest,
   GetResourceEvaluationSummaryResponse,
-  ResourceNotFoundException | CommonErrors,
+  GetResourceEvaluationSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceEvaluationSummaryRequest,
   output: GetResourceEvaluationSummaryResponse,
   errors: [ResourceNotFoundException],
 }));
+export type GetStoredQueryError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the details of a specific stored query.
  */
 export const getStoredQuery: API.OperationMethod<
   GetStoredQueryRequest,
   GetStoredQueryResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetStoredQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStoredQueryRequest,
   output: GetStoredQueryResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListAggregateDiscoveredResourcesError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
  * A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region.
@@ -8899,33 +8845,21 @@ export const getStoredQuery: API.OperationMethod<
 export const listAggregateDiscoveredResources: API.OperationMethod<
   ListAggregateDiscoveredResourcesRequest,
   ListAggregateDiscoveredResourcesResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | ValidationException
-  | CommonErrors,
+  ListAggregateDiscoveredResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAggregateDiscoveredResourcesRequest,
   ) => stream.Stream<
     ListAggregateDiscoveredResourcesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    ListAggregateDiscoveredResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAggregateDiscoveredResourcesRequest,
   ) => stream.Stream<
     AggregateResourceIdentifier,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
+    ListAggregateDiscoveredResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8944,27 +8878,30 @@ export const listAggregateDiscoveredResources: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListConfigurationRecordersError =
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of configuration recorders depending on the filters you specify.
  */
 export const listConfigurationRecorders: API.OperationMethod<
   ListConfigurationRecordersRequest,
   ListConfigurationRecordersResponse,
-  ValidationException | CommonErrors,
+  ListConfigurationRecordersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationRecordersRequest,
   ) => stream.Stream<
     ListConfigurationRecordersResponse,
-    ValidationException | CommonErrors,
+    ListConfigurationRecordersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationRecordersRequest,
   ) => stream.Stream<
     ConfigurationRecorderSummary,
-    ValidationException | CommonErrors,
+    ListConfigurationRecordersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8978,6 +8915,11 @@ export const listConfigurationRecorders: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListConformancePackComplianceScoresError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns a list of conformance pack compliance scores.
  * A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
@@ -8989,30 +8931,21 @@ export const listConfigurationRecorders: API.OperationMethod<
 export const listConformancePackComplianceScores: API.OperationMethod<
   ListConformancePackComplianceScoresRequest,
   ListConformancePackComplianceScoresResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | CommonErrors,
+  ListConformancePackComplianceScoresError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConformancePackComplianceScoresRequest,
   ) => stream.Stream<
     ListConformancePackComplianceScoresResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    ListConformancePackComplianceScoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConformancePackComplianceScoresRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
+    ListConformancePackComplianceScoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9029,6 +8962,12 @@ export const listConformancePackComplianceScores: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListDiscoveredResourcesError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoAvailableConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of resource
  * resource identifiers for the specified resource types for the resources of that type. A *resource identifier*
@@ -9068,33 +9007,21 @@ export const listConformancePackComplianceScores: API.OperationMethod<
 export const listDiscoveredResources: API.OperationMethod<
   ListDiscoveredResourcesRequest,
   ListDiscoveredResourcesResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoAvailableConfigurationRecorderException
-  | ValidationException
-  | CommonErrors,
+  ListDiscoveredResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDiscoveredResourcesRequest,
   ) => stream.Stream<
     ListDiscoveredResourcesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoAvailableConfigurationRecorderException
-    | ValidationException
-    | CommonErrors,
+    ListDiscoveredResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDiscoveredResourcesRequest,
   ) => stream.Stream<
     ResourceIdentifier,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoAvailableConfigurationRecorderException
-    | ValidationException
-    | CommonErrors,
+    ListDiscoveredResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9113,36 +9040,32 @@ export const listDiscoveredResources: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListResourceEvaluationsError =
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | InvalidTimeRangeException
+  | CommonErrors;
 /**
  * Returns a list of proactive resource evaluations.
  */
 export const listResourceEvaluations: API.OperationMethod<
   ListResourceEvaluationsRequest,
   ListResourceEvaluationsResponse,
-  | InvalidNextTokenException
-  | InvalidParameterValueException
-  | InvalidTimeRangeException
-  | CommonErrors,
+  ListResourceEvaluationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceEvaluationsRequest,
   ) => stream.Stream<
     ListResourceEvaluationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | InvalidTimeRangeException
-    | CommonErrors,
+    ListResourceEvaluationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceEvaluationsRequest,
   ) => stream.Stream<
     ResourceEvaluation,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | InvalidTimeRangeException
-    | CommonErrors,
+    ListResourceEvaluationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9160,27 +9083,31 @@ export const listResourceEvaluations: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListStoredQueriesError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
  */
 export const listStoredQueries: API.OperationMethod<
   ListStoredQueriesRequest,
   ListStoredQueriesResponse,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListStoredQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStoredQueriesRequest,
   ) => stream.Stream<
     ListStoredQueriesResponse,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListStoredQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStoredQueriesRequest,
   ) => stream.Stream<
     unknown,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListStoredQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9193,39 +9120,33 @@ export const listStoredQueries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the tags for Config resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9244,6 +9165,9 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type PutAggregationAuthorizationError =
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Authorizes the aggregator account and region to collect data
  * from the source account and region.
@@ -9258,13 +9182,20 @@ export const listTagsForResource: API.OperationMethod<
 export const putAggregationAuthorization: API.OperationMethod<
   PutAggregationAuthorizationRequest,
   PutAggregationAuthorizationResponse,
-  InvalidParameterValueException | CommonErrors,
+  PutAggregationAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAggregationAuthorizationRequest,
   output: PutAggregationAuthorizationResponse,
   errors: [InvalidParameterValueException],
 }));
+export type PutConfigRuleError =
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | MaxNumberOfConfigRulesExceededException
+  | NoAvailableConfigurationRecorderException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Adds or updates an Config rule to evaluate if your
  * Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account,
@@ -9322,12 +9253,7 @@ export const putAggregationAuthorization: API.OperationMethod<
 export const putConfigRule: API.OperationMethod<
   PutConfigRuleRequest,
   PutConfigRuleResponse,
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | MaxNumberOfConfigRulesExceededException
-  | NoAvailableConfigurationRecorderException
-  | ResourceInUseException
-  | CommonErrors,
+  PutConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigRuleRequest,
@@ -9340,6 +9266,14 @@ export const putConfigRule: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type PutConfigurationAggregatorError =
+  | InvalidParameterValueException
+  | InvalidRoleException
+  | LimitExceededException
+  | NoAvailableOrganizationException
+  | OrganizationAccessDeniedException
+  | OrganizationAllFeaturesNotEnabledException
+  | CommonErrors;
 /**
  * Creates and updates the configuration aggregator with the
  * selected source accounts and regions. The source account can be
@@ -9367,13 +9301,7 @@ export const putConfigRule: API.OperationMethod<
 export const putConfigurationAggregator: API.OperationMethod<
   PutConfigurationAggregatorRequest,
   PutConfigurationAggregatorResponse,
-  | InvalidParameterValueException
-  | InvalidRoleException
-  | LimitExceededException
-  | NoAvailableOrganizationException
-  | OrganizationAccessDeniedException
-  | OrganizationAllFeaturesNotEnabledException
-  | CommonErrors,
+  PutConfigurationAggregatorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationAggregatorRequest,
@@ -9387,6 +9315,14 @@ export const putConfigurationAggregator: API.OperationMethod<
     OrganizationAllFeaturesNotEnabledException,
   ],
 }));
+export type PutConfigurationRecorderError =
+  | InvalidConfigurationRecorderNameException
+  | InvalidRecordingGroupException
+  | InvalidRoleException
+  | MaxNumberOfConfigurationRecordersExceededException
+  | UnmodifiableEntityException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates the customer managed configuration recorder.
  *
@@ -9418,13 +9354,7 @@ export const putConfigurationAggregator: API.OperationMethod<
 export const putConfigurationRecorder: API.OperationMethod<
   PutConfigurationRecorderRequest,
   PutConfigurationRecorderResponse,
-  | InvalidConfigurationRecorderNameException
-  | InvalidRecordingGroupException
-  | InvalidRoleException
-  | MaxNumberOfConfigurationRecordersExceededException
-  | UnmodifiableEntityException
-  | ValidationException
-  | CommonErrors,
+  PutConfigurationRecorderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationRecorderRequest,
@@ -9438,6 +9368,13 @@ export const putConfigurationRecorder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutConformancePackError =
+  | ConformancePackTemplateValidationException
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | MaxNumberOfConformancePacksExceededException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
  * For information on how many conformance packs you can have per account,
@@ -9471,12 +9408,7 @@ export const putConfigurationRecorder: API.OperationMethod<
 export const putConformancePack: API.OperationMethod<
   PutConformancePackRequest,
   PutConformancePackResponse,
-  | ConformancePackTemplateValidationException
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | MaxNumberOfConformancePacksExceededException
-  | ResourceInUseException
-  | CommonErrors,
+  PutConformancePackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConformancePackRequest,
@@ -9489,6 +9421,16 @@ export const putConformancePack: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type PutDeliveryChannelError =
+  | InsufficientDeliveryPolicyException
+  | InvalidDeliveryChannelNameException
+  | InvalidS3KeyPrefixException
+  | InvalidS3KmsKeyArnException
+  | InvalidSNSTopicARNException
+  | MaxNumberOfDeliveryChannelsExceededException
+  | NoAvailableConfigurationRecorderException
+  | NoSuchBucketException
+  | CommonErrors;
 /**
  * Creates or updates a delivery channel to deliver configuration
  * information and other compliance information.
@@ -9507,15 +9449,7 @@ export const putConformancePack: API.OperationMethod<
 export const putDeliveryChannel: API.OperationMethod<
   PutDeliveryChannelRequest,
   PutDeliveryChannelResponse,
-  | InsufficientDeliveryPolicyException
-  | InvalidDeliveryChannelNameException
-  | InvalidS3KeyPrefixException
-  | InvalidS3KmsKeyArnException
-  | InvalidSNSTopicARNException
-  | MaxNumberOfDeliveryChannelsExceededException
-  | NoAvailableConfigurationRecorderException
-  | NoSuchBucketException
-  | CommonErrors,
+  PutDeliveryChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliveryChannelRequest,
@@ -9531,6 +9465,11 @@ export const putDeliveryChannel: API.OperationMethod<
     NoSuchBucketException,
   ],
 }));
+export type PutEvaluationsError =
+  | InvalidParameterValueException
+  | InvalidResultTokenException
+  | NoSuchConfigRuleException
+  | CommonErrors;
 /**
  * Used by an Lambda function to deliver evaluation results to
  * Config. This operation is required in every Lambda function
@@ -9539,10 +9478,7 @@ export const putDeliveryChannel: API.OperationMethod<
 export const putEvaluations: API.OperationMethod<
   PutEvaluationsRequest,
   PutEvaluationsResponse,
-  | InvalidParameterValueException
-  | InvalidResultTokenException
-  | NoSuchConfigRuleException
-  | CommonErrors,
+  PutEvaluationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEvaluationsRequest,
@@ -9553,6 +9489,10 @@ export const putEvaluations: API.OperationMethod<
     NoSuchConfigRuleException,
   ],
 }));
+export type PutExternalEvaluationError =
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors;
 /**
  * Add or updates the evaluations for process checks.
  * This API checks if the rule is a process check when the name of the Config rule is provided.
@@ -9560,13 +9500,23 @@ export const putEvaluations: API.OperationMethod<
 export const putExternalEvaluation: API.OperationMethod<
   PutExternalEvaluationRequest,
   PutExternalEvaluationResponse,
-  InvalidParameterValueException | NoSuchConfigRuleException | CommonErrors,
+  PutExternalEvaluationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutExternalEvaluationRequest,
   output: PutExternalEvaluationResponse,
   errors: [InvalidParameterValueException, NoSuchConfigRuleException],
 }));
+export type PutOrganizationConfigRuleError =
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | MaxNumberOfOrganizationConfigRulesExceededException
+  | NoAvailableOrganizationException
+  | OrganizationAccessDeniedException
+  | OrganizationAllFeaturesNotEnabledException
+  | ResourceInUseException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
  * desired configurations. For information on how many organization Config rules you can have per account,
@@ -9614,15 +9564,7 @@ export const putExternalEvaluation: API.OperationMethod<
 export const putOrganizationConfigRule: API.OperationMethod<
   PutOrganizationConfigRuleRequest,
   PutOrganizationConfigRuleResponse,
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | MaxNumberOfOrganizationConfigRulesExceededException
-  | NoAvailableOrganizationException
-  | OrganizationAccessDeniedException
-  | OrganizationAllFeaturesNotEnabledException
-  | ResourceInUseException
-  | ValidationException
-  | CommonErrors,
+  PutOrganizationConfigRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutOrganizationConfigRuleRequest,
@@ -9638,6 +9580,16 @@ export const putOrganizationConfigRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutOrganizationConformancePackError =
+  | InsufficientPermissionsException
+  | MaxNumberOfOrganizationConformancePacksExceededException
+  | NoAvailableOrganizationException
+  | OrganizationAccessDeniedException
+  | OrganizationAllFeaturesNotEnabledException
+  | OrganizationConformancePackTemplateValidationException
+  | ResourceInUseException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
  * see
@@ -9678,15 +9630,7 @@ export const putOrganizationConfigRule: API.OperationMethod<
 export const putOrganizationConformancePack: API.OperationMethod<
   PutOrganizationConformancePackRequest,
   PutOrganizationConformancePackResponse,
-  | InsufficientPermissionsException
-  | MaxNumberOfOrganizationConformancePacksExceededException
-  | NoAvailableOrganizationException
-  | OrganizationAccessDeniedException
-  | OrganizationAllFeaturesNotEnabledException
-  | OrganizationConformancePackTemplateValidationException
-  | ResourceInUseException
-  | ValidationException
-  | CommonErrors,
+  PutOrganizationConformancePackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutOrganizationConformancePackRequest,
@@ -9702,6 +9646,10 @@ export const putOrganizationConformancePack: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRemediationConfigurationsError =
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Adds or updates the remediation configuration with a specific Config rule with the
  * selected target or action.
@@ -9735,15 +9683,17 @@ export const putOrganizationConformancePack: API.OperationMethod<
 export const putRemediationConfigurations: API.OperationMethod<
   PutRemediationConfigurationsRequest,
   PutRemediationConfigurationsResponse,
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | CommonErrors,
+  PutRemediationConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRemediationConfigurationsRequest,
   output: PutRemediationConfigurationsResponse,
   errors: [InsufficientPermissionsException, InvalidParameterValueException],
 }));
+export type PutRemediationExceptionsError =
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * A remediation exception is when a specified resource is no longer considered for auto-remediation.
  * This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule.
@@ -9783,15 +9733,19 @@ export const putRemediationConfigurations: API.OperationMethod<
 export const putRemediationExceptions: API.OperationMethod<
   PutRemediationExceptionsRequest,
   PutRemediationExceptionsResponse,
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | CommonErrors,
+  PutRemediationExceptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRemediationExceptionsRequest,
   output: PutRemediationExceptionsResponse,
   errors: [InsufficientPermissionsException, InvalidParameterValueException],
 }));
+export type PutResourceConfigError =
+  | InsufficientPermissionsException
+  | MaxActiveResourcesExceededException
+  | NoRunningConfigurationRecorderException
+  | ValidationException
+  | CommonErrors;
 /**
  * Records the configuration state for the resource provided in the request.
  *
@@ -9807,11 +9761,7 @@ export const putRemediationExceptions: API.OperationMethod<
 export const putResourceConfig: API.OperationMethod<
   PutResourceConfigRequest,
   PutResourceConfigResponse,
-  | InsufficientPermissionsException
-  | MaxActiveResourcesExceededException
-  | NoRunningConfigurationRecorderException
-  | ValidationException
-  | CommonErrors,
+  PutResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourceConfigRequest,
@@ -9823,6 +9773,10 @@ export const putResourceConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRetentionConfigurationError =
+  | InvalidParameterValueException
+  | MaxNumberOfRetentionConfigurationsExceededException
+  | CommonErrors;
 /**
  * Creates and updates the retention configuration with details
  * about retention period (number of days) that Config stores your
@@ -9838,9 +9792,7 @@ export const putResourceConfig: API.OperationMethod<
 export const putRetentionConfiguration: API.OperationMethod<
   PutRetentionConfigurationRequest,
   PutRetentionConfigurationResponse,
-  | InvalidParameterValueException
-  | MaxNumberOfRetentionConfigurationsExceededException
-  | CommonErrors,
+  PutRetentionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRetentionConfigurationRequest,
@@ -9850,6 +9802,12 @@ export const putRetentionConfiguration: API.OperationMethod<
     MaxNumberOfRetentionConfigurationsExceededException,
   ],
 }));
+export type PutServiceLinkedConfigurationRecorderError =
+  | ConflictException
+  | InsufficientPermissionsException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the `ServicePrincipal` you specify.
  *
@@ -9872,11 +9830,7 @@ export const putRetentionConfiguration: API.OperationMethod<
 export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
   PutServiceLinkedConfigurationRecorderRequest,
   PutServiceLinkedConfigurationRecorderResponse,
-  | ConflictException
-  | InsufficientPermissionsException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  PutServiceLinkedConfigurationRecorderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutServiceLinkedConfigurationRecorderRequest,
@@ -9888,6 +9842,11 @@ export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutStoredQueryError =
+  | ResourceConcurrentModificationException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Saves a new query or updates an existing saved query. The `QueryName` must be unique for a single Amazon Web Services account and a single Amazon Web Services Region.
  * You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region.
@@ -9900,10 +9859,7 @@ export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
 export const putStoredQuery: API.OperationMethod<
   PutStoredQueryRequest,
   PutStoredQueryResponse,
-  | ResourceConcurrentModificationException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  PutStoredQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutStoredQueryRequest,
@@ -9914,6 +9870,12 @@ export const putStoredQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SelectAggregateResourceConfigError =
+  | InvalidExpressionException
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors;
 /**
  * Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions,
  * performs the corresponding search, and returns resource configurations matching the properties.
@@ -9932,33 +9894,21 @@ export const putStoredQuery: API.OperationMethod<
 export const selectAggregateResourceConfig: API.OperationMethod<
   SelectAggregateResourceConfigRequest,
   SelectAggregateResourceConfigResponse,
-  | InvalidExpressionException
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | NoSuchConfigurationAggregatorException
-  | CommonErrors,
+  SelectAggregateResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SelectAggregateResourceConfigRequest,
   ) => stream.Stream<
     SelectAggregateResourceConfigResponse,
-    | InvalidExpressionException
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
+    SelectAggregateResourceConfigError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SelectAggregateResourceConfigRequest,
   ) => stream.Stream<
     string,
-    | InvalidExpressionException
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
+    SelectAggregateResourceConfigError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9977,6 +9927,11 @@ export const selectAggregateResourceConfig: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type SelectResourceConfigError =
+  | InvalidExpressionException
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Accepts a structured query language (SQL) `SELECT` command, performs the corresponding search, and returns resource configurations matching the properties.
  *
@@ -9988,30 +9943,21 @@ export const selectAggregateResourceConfig: API.OperationMethod<
 export const selectResourceConfig: API.OperationMethod<
   SelectResourceConfigRequest,
   SelectResourceConfigResponse,
-  | InvalidExpressionException
-  | InvalidLimitException
-  | InvalidNextTokenException
-  | CommonErrors,
+  SelectResourceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SelectResourceConfigRequest,
   ) => stream.Stream<
     SelectResourceConfigResponse,
-    | InvalidExpressionException
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | CommonErrors,
+    SelectResourceConfigError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SelectResourceConfigRequest,
   ) => stream.Stream<
     string,
-    | InvalidExpressionException
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | CommonErrors,
+    SelectResourceConfigError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10029,6 +9975,12 @@ export const selectResourceConfig: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type StartConfigRulesEvaluationError =
+  | InvalidParameterValueException
+  | LimitExceededException
+  | NoSuchConfigRuleException
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Runs an on-demand evaluation for the specified Config rules
  * against the last known configuration state of the resources. Use
@@ -10074,11 +10026,7 @@ export const selectResourceConfig: API.OperationMethod<
 export const startConfigRulesEvaluation: API.OperationMethod<
   StartConfigRulesEvaluationRequest,
   StartConfigRulesEvaluationResponse,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | NoSuchConfigRuleException
-  | ResourceInUseException
-  | CommonErrors,
+  StartConfigRulesEvaluationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConfigRulesEvaluationRequest,
@@ -10090,6 +10038,11 @@ export const startConfigRulesEvaluation: API.OperationMethod<
     ResourceInUseException,
   ],
 }));
+export type StartConfigurationRecorderError =
+  | NoAvailableDeliveryChannelException
+  | NoSuchConfigurationRecorderException
+  | UnmodifiableEntityException
+  | CommonErrors;
 /**
  * Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify.
  *
@@ -10099,10 +10052,7 @@ export const startConfigRulesEvaluation: API.OperationMethod<
 export const startConfigurationRecorder: API.OperationMethod<
   StartConfigurationRecorderRequest,
   StartConfigurationRecorderResponse,
-  | NoAvailableDeliveryChannelException
-  | NoSuchConfigurationRecorderException
-  | UnmodifiableEntityException
-  | CommonErrors,
+  StartConfigurationRecorderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConfigurationRecorderRequest,
@@ -10113,6 +10063,11 @@ export const startConfigurationRecorder: API.OperationMethod<
     UnmodifiableEntityException,
   ],
 }));
+export type StartRemediationExecutionError =
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | NoSuchRemediationConfigurationException
+  | CommonErrors;
 /**
  * Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous.
  *
@@ -10121,10 +10076,7 @@ export const startConfigurationRecorder: API.OperationMethod<
 export const startRemediationExecution: API.OperationMethod<
   StartRemediationExecutionRequest,
   StartRemediationExecutionResponse,
-  | InsufficientPermissionsException
-  | InvalidParameterValueException
-  | NoSuchRemediationConfigurationException
-  | CommonErrors,
+  StartRemediationExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRemediationExecutionRequest,
@@ -10135,6 +10087,10 @@ export const startRemediationExecution: API.OperationMethod<
     NoSuchRemediationConfigurationException,
   ],
 }));
+export type StartResourceEvaluationError =
+  | IdempotentParameterMismatch
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules.
  * You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all
@@ -10152,28 +10108,35 @@ export const startRemediationExecution: API.OperationMethod<
 export const startResourceEvaluation: API.OperationMethod<
   StartResourceEvaluationRequest,
   StartResourceEvaluationResponse,
-  IdempotentParameterMismatch | InvalidParameterValueException | CommonErrors,
+  StartResourceEvaluationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartResourceEvaluationRequest,
   output: StartResourceEvaluationResponse,
   errors: [IdempotentParameterMismatch, InvalidParameterValueException],
 }));
+export type StopConfigurationRecorderError =
+  | NoSuchConfigurationRecorderException
+  | UnmodifiableEntityException
+  | CommonErrors;
 /**
  * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
  */
 export const stopConfigurationRecorder: API.OperationMethod<
   StopConfigurationRecorderRequest,
   StopConfigurationRecorderResponse,
-  | NoSuchConfigurationRecorderException
-  | UnmodifiableEntityException
-  | CommonErrors,
+  StopConfigurationRecorderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopConfigurationRecorderRequest,
   output: StopConfigurationRecorderResponse,
   errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `ResourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
@@ -10181,10 +10144,7 @@ export const stopConfigurationRecorder: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -10195,13 +10155,17 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

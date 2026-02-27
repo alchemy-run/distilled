@@ -3199,17 +3199,19 @@ export class ModelStreamErrorException extends S.TaggedErrorClass<ModelStreamErr
 ) {}
 
 //# Operations
+export type GetAsyncInvokeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve information about an asynchronous invocation.
  */
 export const getAsyncInvoke: API.OperationMethod<
   GetAsyncInvokeRequest,
   GetAsyncInvokeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAsyncInvokeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAsyncInvokeRequest,
@@ -3221,39 +3223,33 @@ export const getAsyncInvoke: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAsyncInvokesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists asynchronous invocations.
  */
 export const listAsyncInvokes: API.OperationMethod<
   ListAsyncInvokesRequest,
   ListAsyncInvokesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAsyncInvokesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAsyncInvokesRequest,
   ) => stream.Stream<
     ListAsyncInvokesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAsyncInvokesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAsyncInvokesRequest,
   ) => stream.Stream<
     AsyncInvokeSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAsyncInvokesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3272,6 +3268,16 @@ export const listAsyncInvokes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartAsyncInvokeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts an asynchronous invocation.
  *
@@ -3282,15 +3288,7 @@ export const listAsyncInvokes: API.OperationMethod<
 export const startAsyncInvoke: API.OperationMethod<
   StartAsyncInvokeRequest,
   StartAsyncInvokeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartAsyncInvokeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAsyncInvokeRequest,
@@ -3306,6 +3304,15 @@ export const startAsyncInvoke: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ApplyGuardrailError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The action to apply a guardrail.
  *
@@ -3314,14 +3321,7 @@ export const startAsyncInvoke: API.OperationMethod<
 export const applyGuardrail: API.OperationMethod<
   ApplyGuardrailRequest,
   ApplyGuardrailResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ApplyGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyGuardrailRequest,
@@ -3336,6 +3336,17 @@ export const applyGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ConverseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends messages to the specified Amazon Bedrock model. `Converse` provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model.
  *
@@ -3358,16 +3369,7 @@ export const applyGuardrail: API.OperationMethod<
 export const converse: API.OperationMethod<
   ConverseRequest,
   ConverseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ModelErrorException
-  | ModelNotReadyException
-  | ModelTimeoutException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ConverseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseRequest,
@@ -3384,6 +3386,17 @@ export const converse: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ConverseStreamError =
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends messages to the specified Amazon Bedrock model and returns the response in a stream. `ConverseStream` provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model.
  *
@@ -3410,16 +3423,7 @@ export const converse: API.OperationMethod<
 export const converseStream: API.OperationMethod<
   ConverseStreamRequest,
   ConverseStreamResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ModelErrorException
-  | ModelNotReadyException
-  | ModelTimeoutException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ConverseStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseStreamRequest,
@@ -3436,6 +3440,18 @@ export const converseStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type InvokeModelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. You use model inference to generate text, images, and embeddings.
  *
@@ -3450,17 +3466,7 @@ export const converseStream: API.OperationMethod<
 export const invokeModel: API.OperationMethod<
   InvokeModelRequest,
   InvokeModelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ModelErrorException
-  | ModelNotReadyException
-  | ModelTimeoutException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  InvokeModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeModelRequest,
@@ -3478,14 +3484,7 @@ export const invokeModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Invoke the specified Amazon Bedrock model to run inference using the bidirectional stream. The response is returned in a stream that remains open for 8 minutes. A single session can contain multiple prompts and responses from the model. The prompts to the model are provided as audio files and the model's responses are spoken back to the user and transcribed.
- *
- * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
- */
-export const invokeModelWithBidirectionalStream: API.OperationMethod<
-  InvokeModelWithBidirectionalStreamRequest,
-  InvokeModelWithBidirectionalStreamResponse,
+export type InvokeModelWithBidirectionalStreamError =
   | AccessDeniedException
   | InternalServerException
   | ModelErrorException
@@ -3497,7 +3496,16 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Invoke the specified Amazon Bedrock model to run inference using the bidirectional stream. The response is returned in a stream that remains open for 8 minutes. A single session can contain multiple prompts and responses from the model. The prompts to the model are provided as audio files and the model's responses are spoken back to the user and transcribed.
+ *
+ * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
+ */
+export const invokeModelWithBidirectionalStream: API.OperationMethod<
+  InvokeModelWithBidirectionalStreamRequest,
+  InvokeModelWithBidirectionalStreamResponse,
+  InvokeModelWithBidirectionalStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeModelWithBidirectionalStreamRequest,
@@ -3516,6 +3524,19 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type InvokeModelWithResponseStreamError =
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelStreamErrorException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream.
  *
@@ -3534,18 +3555,7 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
 export const invokeModelWithResponseStream: API.OperationMethod<
   InvokeModelWithResponseStreamRequest,
   InvokeModelWithResponseStreamResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ModelErrorException
-  | ModelNotReadyException
-  | ModelStreamErrorException
-  | ModelTimeoutException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  InvokeModelWithResponseStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeModelWithResponseStreamRequest,
@@ -3564,6 +3574,14 @@ export const invokeModelWithResponseStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CountTokensError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request.
  *
@@ -3588,13 +3606,7 @@ export const invokeModelWithResponseStream: API.OperationMethod<
 export const countTokens: API.OperationMethod<
   CountTokensRequest,
   CountTokensResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CountTokensError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountTokensRequest,

@@ -7456,6 +7456,7 @@ export class JobStatusException extends S.TaggedErrorClass<JobStatusException>()
 ) {}
 
 //# Operations
+export type AssociateAccessGrantsIdentityCenterError = CommonErrors;
 /**
  * Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance.
  *
@@ -7470,13 +7471,14 @@ export class JobStatusException extends S.TaggedErrorClass<JobStatusException>()
 export const associateAccessGrantsIdentityCenter: API.OperationMethod<
   AssociateAccessGrantsIdentityCenterRequest,
   AssociateAccessGrantsIdentityCenterResponse,
-  CommonErrors,
+  AssociateAccessGrantsIdentityCenterError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAccessGrantsIdentityCenterRequest,
   output: AssociateAccessGrantsIdentityCenterResponse,
   errors: [],
 }));
+export type CreateAccessGrantError = CommonErrors;
 /**
  * Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance. You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation.
  *
@@ -7495,13 +7497,14 @@ export const associateAccessGrantsIdentityCenter: API.OperationMethod<
 export const createAccessGrant: API.OperationMethod<
   CreateAccessGrantRequest,
   CreateAccessGrantResult,
-  CommonErrors,
+  CreateAccessGrantError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessGrantRequest,
   output: CreateAccessGrantResult,
   errors: [],
 }));
+export type CreateAccessGrantsInstanceError = CommonErrors;
 /**
  * Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account.
  *
@@ -7516,13 +7519,14 @@ export const createAccessGrant: API.OperationMethod<
 export const createAccessGrantsInstance: API.OperationMethod<
   CreateAccessGrantsInstanceRequest,
   CreateAccessGrantsInstanceResult,
-  CommonErrors,
+  CreateAccessGrantsInstanceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessGrantsInstanceRequest,
   output: CreateAccessGrantsInstanceResult,
   errors: [],
 }));
+export type CreateAccessGrantsLocationError = CommonErrors;
 /**
  * The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following:
  *
@@ -7545,13 +7549,14 @@ export const createAccessGrantsInstance: API.OperationMethod<
 export const createAccessGrantsLocation: API.OperationMethod<
   CreateAccessGrantsLocationRequest,
   CreateAccessGrantsLocationResult,
-  CommonErrors,
+  CreateAccessGrantsLocationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessGrantsLocationRequest,
   output: CreateAccessGrantsLocationResult,
   errors: [],
 }));
+export type CreateAccessPointError = CommonErrors;
 /**
  * Creates an access point and associates it to a specified bucket. For more information, see
  * Managing
@@ -7583,13 +7588,14 @@ export const createAccessGrantsLocation: API.OperationMethod<
 export const createAccessPoint: API.OperationMethod<
   CreateAccessPointRequest,
   CreateAccessPointResult,
-  CommonErrors,
+  CreateAccessPointError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPointRequest,
   output: CreateAccessPointResult,
   errors: [],
 }));
+export type CreateAccessPointForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -7608,13 +7614,17 @@ export const createAccessPoint: API.OperationMethod<
 export const createAccessPointForObjectLambda: API.OperationMethod<
   CreateAccessPointForObjectLambdaRequest,
   CreateAccessPointForObjectLambdaResult,
-  CommonErrors,
+  CreateAccessPointForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPointForObjectLambdaRequest,
   output: CreateAccessPointForObjectLambdaResult,
   errors: [],
 }));
+export type CreateBucketError =
+  | BucketAlreadyExists
+  | BucketAlreadyOwnedByYou
+  | CommonErrors;
 /**
  * This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see Create
  * Bucket in the *Amazon S3 API Reference*.
@@ -7657,13 +7667,19 @@ export const createAccessPointForObjectLambda: API.OperationMethod<
 export const createBucket: API.OperationMethod<
   CreateBucketRequest,
   CreateBucketResult,
-  BucketAlreadyExists | BucketAlreadyOwnedByYou | CommonErrors,
+  CreateBucketError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResult,
   errors: [BucketAlreadyExists, BucketAlreadyOwnedByYou],
 }));
+export type CreateJobError =
+  | BadRequestException
+  | IdempotencyException
+  | InternalServiceException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * This operation creates an S3 Batch Operations job.
  *
@@ -7691,11 +7707,7 @@ export const createBucket: API.OperationMethod<
 export const createJob: API.OperationMethod<
   CreateJobRequest,
   CreateJobResult,
-  | BadRequestException
-  | IdempotencyException
-  | InternalServiceException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateJobError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -7707,6 +7719,7 @@ export const createJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateMultiRegionAccessPointError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -7735,13 +7748,14 @@ export const createJob: API.OperationMethod<
 export const createMultiRegionAccessPoint: API.OperationMethod<
   CreateMultiRegionAccessPointRequest,
   CreateMultiRegionAccessPointResult,
-  CommonErrors,
+  CreateMultiRegionAccessPointError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMultiRegionAccessPointRequest,
   output: CreateMultiRegionAccessPointResult,
   errors: [],
 }));
+export type CreateStorageLensGroupError = CommonErrors;
 /**
  * Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An
  * S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags,
@@ -7762,13 +7776,14 @@ export const createMultiRegionAccessPoint: API.OperationMethod<
 export const createStorageLensGroup: API.OperationMethod<
   CreateStorageLensGroupRequest,
   CreateStorageLensGroupResponse,
-  CommonErrors,
+  CreateStorageLensGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStorageLensGroupRequest,
   output: CreateStorageLensGroupResponse,
   errors: [],
 }));
+export type DeleteAccessGrantError = CommonErrors;
 /**
  * Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data.
  *
@@ -7779,13 +7794,14 @@ export const createStorageLensGroup: API.OperationMethod<
 export const deleteAccessGrant: API.OperationMethod<
   DeleteAccessGrantRequest,
   DeleteAccessGrantResponse,
-  CommonErrors,
+  DeleteAccessGrantError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessGrantRequest,
   output: DeleteAccessGrantResponse,
   errors: [],
 }));
+export type DeleteAccessGrantsInstanceError = CommonErrors;
 /**
  * Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation. If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.
  *
@@ -7796,13 +7812,14 @@ export const deleteAccessGrant: API.OperationMethod<
 export const deleteAccessGrantsInstance: API.OperationMethod<
   DeleteAccessGrantsInstanceRequest,
   DeleteAccessGrantsInstanceResponse,
-  CommonErrors,
+  DeleteAccessGrantsInstanceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessGrantsInstanceRequest,
   output: DeleteAccessGrantsInstanceResponse,
   errors: [],
 }));
+export type DeleteAccessGrantsInstanceResourcePolicyError = CommonErrors;
 /**
  * Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance.
  *
@@ -7813,13 +7830,14 @@ export const deleteAccessGrantsInstance: API.OperationMethod<
 export const deleteAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   DeleteAccessGrantsInstanceResourcePolicyRequest,
   DeleteAccessGrantsInstanceResourcePolicyResponse,
-  CommonErrors,
+  DeleteAccessGrantsInstanceResourcePolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessGrantsInstanceResourcePolicyRequest,
   output: DeleteAccessGrantsInstanceResourcePolicyResponse,
   errors: [],
 }));
+export type DeleteAccessGrantsLocationError = CommonErrors;
 /**
  * Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See Delete a grant for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants.
  *
@@ -7830,13 +7848,14 @@ export const deleteAccessGrantsInstanceResourcePolicy: API.OperationMethod<
 export const deleteAccessGrantsLocation: API.OperationMethod<
   DeleteAccessGrantsLocationRequest,
   DeleteAccessGrantsLocationResponse,
-  CommonErrors,
+  DeleteAccessGrantsLocationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessGrantsLocationRequest,
   output: DeleteAccessGrantsLocationResponse,
   errors: [],
 }));
+export type DeleteAccessPointError = CommonErrors;
 /**
  * Deletes the specified access point.
  *
@@ -7853,13 +7872,14 @@ export const deleteAccessGrantsLocation: API.OperationMethod<
 export const deleteAccessPoint: API.OperationMethod<
   DeleteAccessPointRequest,
   DeleteAccessPointResponse,
-  CommonErrors,
+  DeleteAccessPointError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointRequest,
   output: DeleteAccessPointResponse,
   errors: [],
 }));
+export type DeleteAccessPointForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -7877,13 +7897,14 @@ export const deleteAccessPoint: API.OperationMethod<
 export const deleteAccessPointForObjectLambda: API.OperationMethod<
   DeleteAccessPointForObjectLambdaRequest,
   DeleteAccessPointForObjectLambdaResponse,
-  CommonErrors,
+  DeleteAccessPointForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointForObjectLambdaRequest,
   output: DeleteAccessPointForObjectLambdaResponse,
   errors: [],
 }));
+export type DeleteAccessPointPolicyError = CommonErrors;
 /**
  * Deletes the access point policy for the specified access point.
  *
@@ -7898,13 +7919,14 @@ export const deleteAccessPointForObjectLambda: API.OperationMethod<
 export const deleteAccessPointPolicy: API.OperationMethod<
   DeleteAccessPointPolicyRequest,
   DeleteAccessPointPolicyResponse,
-  CommonErrors,
+  DeleteAccessPointPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointPolicyRequest,
   output: DeleteAccessPointPolicyResponse,
   errors: [],
 }));
+export type DeleteAccessPointPolicyForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -7920,13 +7942,14 @@ export const deleteAccessPointPolicy: API.OperationMethod<
 export const deleteAccessPointPolicyForObjectLambda: API.OperationMethod<
   DeleteAccessPointPolicyForObjectLambdaRequest,
   DeleteAccessPointPolicyForObjectLambdaResponse,
-  CommonErrors,
+  DeleteAccessPointPolicyForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointPolicyForObjectLambdaRequest,
   output: DeleteAccessPointPolicyForObjectLambdaResponse,
   errors: [],
 }));
+export type DeleteAccessPointScopeError = CommonErrors;
 /**
  * Deletes an existing access point scope for a directory bucket.
  *
@@ -7940,13 +7963,14 @@ export const deleteAccessPointPolicyForObjectLambda: API.OperationMethod<
 export const deleteAccessPointScope: API.OperationMethod<
   DeleteAccessPointScopeRequest,
   DeleteAccessPointScopeResponse,
-  CommonErrors,
+  DeleteAccessPointScopeError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointScopeRequest,
   output: DeleteAccessPointScopeResponse,
   errors: [],
 }));
+export type DeleteBucketError = CommonErrors;
 /**
  * This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see DeleteBucket in the *Amazon S3 API Reference*.
  *
@@ -7968,13 +7992,14 @@ export const deleteAccessPointScope: API.OperationMethod<
 export const deleteBucket: API.OperationMethod<
   DeleteBucketRequest,
   DeleteBucketResponse,
-  CommonErrors,
+  DeleteBucketError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketRequest,
   output: DeleteBucketResponse,
   errors: [],
 }));
+export type DeleteBucketLifecycleConfigurationError = CommonErrors;
 /**
  * This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete
  * an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the *Amazon S3 API Reference*.
@@ -8004,13 +8029,14 @@ export const deleteBucket: API.OperationMethod<
 export const deleteBucketLifecycleConfiguration: API.OperationMethod<
   DeleteBucketLifecycleConfigurationRequest,
   DeleteBucketLifecycleConfigurationResponse,
-  CommonErrors,
+  DeleteBucketLifecycleConfigurationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketLifecycleConfigurationRequest,
   output: DeleteBucketLifecycleConfigurationResponse,
   errors: [],
 }));
+export type DeleteBucketPolicyError = CommonErrors;
 /**
  * This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy,
  * see DeleteBucketPolicy in the *Amazon S3 API Reference*.
@@ -8046,13 +8072,14 @@ export const deleteBucketLifecycleConfiguration: API.OperationMethod<
 export const deleteBucketPolicy: API.OperationMethod<
   DeleteBucketPolicyRequest,
   DeleteBucketPolicyResponse,
-  CommonErrors,
+  DeleteBucketPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketPolicyRequest,
   output: DeleteBucketPolicyResponse,
   errors: [],
 }));
+export type DeleteBucketReplicationError = CommonErrors;
 /**
  * This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To
  * delete an S3 bucket's replication configuration, see DeleteBucketReplication in the *Amazon S3 API Reference*.
@@ -8087,13 +8114,14 @@ export const deleteBucketPolicy: API.OperationMethod<
 export const deleteBucketReplication: API.OperationMethod<
   DeleteBucketReplicationRequest,
   DeleteBucketReplicationResponse,
-  CommonErrors,
+  DeleteBucketReplicationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketReplicationRequest,
   output: DeleteBucketReplicationResponse,
   errors: [],
 }));
+export type DeleteBucketTaggingError = CommonErrors;
 /**
  * This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags,
  * see DeleteBucketTagging in the *Amazon S3 API Reference*.
@@ -8116,13 +8144,18 @@ export const deleteBucketReplication: API.OperationMethod<
 export const deleteBucketTagging: API.OperationMethod<
   DeleteBucketTaggingRequest,
   DeleteBucketTaggingResponse,
-  CommonErrors,
+  DeleteBucketTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketTaggingRequest,
   output: DeleteBucketTaggingResponse,
   errors: [],
 }));
+export type DeleteJobTaggingError =
+  | InternalServiceException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes the entire tag set from the specified S3 Batch Operations job.
  *
@@ -8145,10 +8178,7 @@ export const deleteBucketTagging: API.OperationMethod<
 export const deleteJobTagging: API.OperationMethod<
   DeleteJobTaggingRequest,
   DeleteJobTaggingResult,
-  | InternalServiceException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteJobTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTaggingRequest,
@@ -8159,6 +8189,7 @@ export const deleteJobTagging: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteMultiRegionAccessPointError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8187,13 +8218,14 @@ export const deleteJobTagging: API.OperationMethod<
 export const deleteMultiRegionAccessPoint: API.OperationMethod<
   DeleteMultiRegionAccessPointRequest,
   DeleteMultiRegionAccessPointResult,
-  CommonErrors,
+  DeleteMultiRegionAccessPointError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMultiRegionAccessPointRequest,
   output: DeleteMultiRegionAccessPointResult,
   errors: [],
 }));
+export type DeletePublicAccessBlockError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8214,13 +8246,14 @@ export const deleteMultiRegionAccessPoint: API.OperationMethod<
 export const deletePublicAccessBlock: API.OperationMethod<
   DeletePublicAccessBlockRequest,
   DeletePublicAccessBlockResponse,
-  CommonErrors,
+  DeletePublicAccessBlockError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePublicAccessBlockRequest,
   output: DeletePublicAccessBlockResponse,
   errors: [],
 }));
+export type DeleteStorageLensConfigurationError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8236,13 +8269,14 @@ export const deletePublicAccessBlock: API.OperationMethod<
 export const deleteStorageLensConfiguration: API.OperationMethod<
   DeleteStorageLensConfigurationRequest,
   DeleteStorageLensConfigurationResponse,
-  CommonErrors,
+  DeleteStorageLensConfigurationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStorageLensConfigurationRequest,
   output: DeleteStorageLensConfigurationResponse,
   errors: [],
 }));
+export type DeleteStorageLensConfigurationTaggingError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8259,13 +8293,14 @@ export const deleteStorageLensConfiguration: API.OperationMethod<
 export const deleteStorageLensConfigurationTagging: API.OperationMethod<
   DeleteStorageLensConfigurationTaggingRequest,
   DeleteStorageLensConfigurationTaggingResult,
-  CommonErrors,
+  DeleteStorageLensConfigurationTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStorageLensConfigurationTaggingRequest,
   output: DeleteStorageLensConfigurationTaggingResult,
   errors: [],
 }));
+export type DeleteStorageLensGroupError = CommonErrors;
 /**
  * Deletes an existing S3 Storage Lens group.
  *
@@ -8279,13 +8314,19 @@ export const deleteStorageLensConfigurationTagging: API.OperationMethod<
 export const deleteStorageLensGroup: API.OperationMethod<
   DeleteStorageLensGroupRequest,
   DeleteStorageLensGroupResponse,
-  CommonErrors,
+  DeleteStorageLensGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStorageLensGroupRequest,
   output: DeleteStorageLensGroupResponse,
   errors: [],
 }));
+export type DescribeJobError =
+  | BadRequestException
+  | InternalServiceException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the configuration parameters and status for a Batch Operations job. For more
  * information, see S3 Batch Operations in the *Amazon S3 User Guide*.
@@ -8307,11 +8348,7 @@ export const deleteStorageLensGroup: API.OperationMethod<
 export const describeJob: API.OperationMethod<
   DescribeJobRequest,
   DescribeJobResult,
-  | BadRequestException
-  | InternalServiceException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeJobError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
@@ -8323,6 +8360,7 @@ export const describeJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeMultiRegionAccessPointOperationError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8342,13 +8380,14 @@ export const describeJob: API.OperationMethod<
 export const describeMultiRegionAccessPointOperation: API.OperationMethod<
   DescribeMultiRegionAccessPointOperationRequest,
   DescribeMultiRegionAccessPointOperationResult,
-  CommonErrors,
+  DescribeMultiRegionAccessPointOperationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMultiRegionAccessPointOperationRequest,
   output: DescribeMultiRegionAccessPointOperationResult,
   errors: [],
 }));
+export type DissociateAccessGrantsIdentityCenterError = CommonErrors;
 /**
  * Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance.
  *
@@ -8363,13 +8402,14 @@ export const describeMultiRegionAccessPointOperation: API.OperationMethod<
 export const dissociateAccessGrantsIdentityCenter: API.OperationMethod<
   DissociateAccessGrantsIdentityCenterRequest,
   DissociateAccessGrantsIdentityCenterResponse,
-  CommonErrors,
+  DissociateAccessGrantsIdentityCenterError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociateAccessGrantsIdentityCenterRequest,
   output: DissociateAccessGrantsIdentityCenterResponse,
   errors: [],
 }));
+export type GetAccessGrantError = CommonErrors;
 /**
  * Get the details of an access grant from your S3 Access Grants instance.
  *
@@ -8380,13 +8420,14 @@ export const dissociateAccessGrantsIdentityCenter: API.OperationMethod<
 export const getAccessGrant: API.OperationMethod<
   GetAccessGrantRequest,
   GetAccessGrantResult,
-  CommonErrors,
+  GetAccessGrantError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessGrantRequest,
   output: GetAccessGrantResult,
   errors: [],
 }));
+export type GetAccessGrantsInstanceError = CommonErrors;
 /**
  * Retrieves the S3 Access Grants instance for a Region in your account.
  *
@@ -8399,13 +8440,14 @@ export const getAccessGrant: API.OperationMethod<
 export const getAccessGrantsInstance: API.OperationMethod<
   GetAccessGrantsInstanceRequest,
   GetAccessGrantsInstanceResult,
-  CommonErrors,
+  GetAccessGrantsInstanceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessGrantsInstanceRequest,
   output: GetAccessGrantsInstanceResult,
   errors: [],
 }));
+export type GetAccessGrantsInstanceForPrefixError = CommonErrors;
 /**
  * Retrieve the S3 Access Grants instance that contains a particular prefix.
  *
@@ -8420,13 +8462,14 @@ export const getAccessGrantsInstance: API.OperationMethod<
 export const getAccessGrantsInstanceForPrefix: API.OperationMethod<
   GetAccessGrantsInstanceForPrefixRequest,
   GetAccessGrantsInstanceForPrefixResult,
-  CommonErrors,
+  GetAccessGrantsInstanceForPrefixError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessGrantsInstanceForPrefixRequest,
   output: GetAccessGrantsInstanceForPrefixResult,
   errors: [],
 }));
+export type GetAccessGrantsInstanceResourcePolicyError = CommonErrors;
 /**
  * Returns the resource policy of the S3 Access Grants instance.
  *
@@ -8437,13 +8480,14 @@ export const getAccessGrantsInstanceForPrefix: API.OperationMethod<
 export const getAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   GetAccessGrantsInstanceResourcePolicyRequest,
   GetAccessGrantsInstanceResourcePolicyResult,
-  CommonErrors,
+  GetAccessGrantsInstanceResourcePolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessGrantsInstanceResourcePolicyRequest,
   output: GetAccessGrantsInstanceResourcePolicyResult,
   errors: [],
 }));
+export type GetAccessGrantsLocationError = CommonErrors;
 /**
  * Retrieves the details of a particular location registered in your S3 Access Grants instance.
  *
@@ -8454,13 +8498,14 @@ export const getAccessGrantsInstanceResourcePolicy: API.OperationMethod<
 export const getAccessGrantsLocation: API.OperationMethod<
   GetAccessGrantsLocationRequest,
   GetAccessGrantsLocationResult,
-  CommonErrors,
+  GetAccessGrantsLocationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessGrantsLocationRequest,
   output: GetAccessGrantsLocationResult,
   errors: [],
 }));
+export type GetAccessPointError = CommonErrors;
 /**
  * Returns configuration information about the specified access point.
  *
@@ -8477,13 +8522,14 @@ export const getAccessGrantsLocation: API.OperationMethod<
 export const getAccessPoint: API.OperationMethod<
   GetAccessPointRequest,
   GetAccessPointResult,
-  CommonErrors,
+  GetAccessPointError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointRequest,
   output: GetAccessPointResult,
   errors: [],
 }));
+export type GetAccessPointConfigurationForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8497,13 +8543,14 @@ export const getAccessPoint: API.OperationMethod<
 export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
   GetAccessPointConfigurationForObjectLambdaRequest,
   GetAccessPointConfigurationForObjectLambdaResult,
-  CommonErrors,
+  GetAccessPointConfigurationForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointConfigurationForObjectLambdaRequest,
   output: GetAccessPointConfigurationForObjectLambdaResult,
   errors: [],
 }));
+export type GetAccessPointForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8520,13 +8567,14 @@ export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
 export const getAccessPointForObjectLambda: API.OperationMethod<
   GetAccessPointForObjectLambdaRequest,
   GetAccessPointForObjectLambdaResult,
-  CommonErrors,
+  GetAccessPointForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointForObjectLambdaRequest,
   output: GetAccessPointForObjectLambdaResult,
   errors: [],
 }));
+export type GetAccessPointPolicyError = CommonErrors;
 /**
  * Returns the access point policy associated with the specified access point.
  *
@@ -8539,13 +8587,14 @@ export const getAccessPointForObjectLambda: API.OperationMethod<
 export const getAccessPointPolicy: API.OperationMethod<
   GetAccessPointPolicyRequest,
   GetAccessPointPolicyResult,
-  CommonErrors,
+  GetAccessPointPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointPolicyRequest,
   output: GetAccessPointPolicyResult,
   errors: [],
 }));
+export type GetAccessPointPolicyForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8561,13 +8610,14 @@ export const getAccessPointPolicy: API.OperationMethod<
 export const getAccessPointPolicyForObjectLambda: API.OperationMethod<
   GetAccessPointPolicyForObjectLambdaRequest,
   GetAccessPointPolicyForObjectLambdaResult,
-  CommonErrors,
+  GetAccessPointPolicyForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointPolicyForObjectLambdaRequest,
   output: GetAccessPointPolicyForObjectLambdaResult,
   errors: [],
 }));
+export type GetAccessPointPolicyStatusError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8578,13 +8628,14 @@ export const getAccessPointPolicyForObjectLambda: API.OperationMethod<
 export const getAccessPointPolicyStatus: API.OperationMethod<
   GetAccessPointPolicyStatusRequest,
   GetAccessPointPolicyStatusResult,
-  CommonErrors,
+  GetAccessPointPolicyStatusError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointPolicyStatusRequest,
   output: GetAccessPointPolicyStatusResult,
   errors: [],
 }));
+export type GetAccessPointPolicyStatusForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8593,13 +8644,14 @@ export const getAccessPointPolicyStatus: API.OperationMethod<
 export const getAccessPointPolicyStatusForObjectLambda: API.OperationMethod<
   GetAccessPointPolicyStatusForObjectLambdaRequest,
   GetAccessPointPolicyStatusForObjectLambdaResult,
-  CommonErrors,
+  GetAccessPointPolicyStatusForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointPolicyStatusForObjectLambdaRequest,
   output: GetAccessPointPolicyStatusForObjectLambdaResult,
   errors: [],
 }));
+export type GetAccessPointScopeError = CommonErrors;
 /**
  * Returns the access point scope for a directory bucket.
  *
@@ -8611,13 +8663,14 @@ export const getAccessPointPolicyStatusForObjectLambda: API.OperationMethod<
 export const getAccessPointScope: API.OperationMethod<
   GetAccessPointScopeRequest,
   GetAccessPointScopeResult,
-  CommonErrors,
+  GetAccessPointScopeError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPointScopeRequest,
   output: GetAccessPointScopeResult,
   errors: [],
 }));
+export type GetBucketError = CommonErrors;
 /**
  * Gets an Amazon S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the
  * *Amazon S3 User Guide*.
@@ -8645,13 +8698,14 @@ export const getAccessPointScope: API.OperationMethod<
 export const getBucket: API.OperationMethod<
   GetBucketRequest,
   GetBucketResult,
-  CommonErrors,
+  GetBucketError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketRequest,
   output: GetBucketResult,
   errors: [],
 }));
+export type GetBucketLifecycleConfigurationError = CommonErrors;
 /**
  * This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3
  * bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the *Amazon S3 API Reference*.
@@ -8689,13 +8743,14 @@ export const getBucket: API.OperationMethod<
 export const getBucketLifecycleConfiguration: API.OperationMethod<
   GetBucketLifecycleConfigurationRequest,
   GetBucketLifecycleConfigurationResult,
-  CommonErrors,
+  GetBucketLifecycleConfigurationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketLifecycleConfigurationRequest,
   output: GetBucketLifecycleConfigurationResult,
   errors: [],
 }));
+export type GetBucketPolicyError = CommonErrors;
 /**
  * This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for
  * an S3 bucket, see GetBucketPolicy in the
@@ -8734,13 +8789,14 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
 export const getBucketPolicy: API.OperationMethod<
   GetBucketPolicyRequest,
   GetBucketPolicyResult,
-  CommonErrors,
+  GetBucketPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketPolicyRequest,
   output: GetBucketPolicyResult,
   errors: [],
 }));
+export type GetBucketReplicationError = CommonErrors;
 /**
  * This operation gets an Amazon S3 on Outposts bucket's replication configuration. To get an
  * S3 bucket's replication configuration, see GetBucketReplication
@@ -8783,13 +8839,14 @@ export const getBucketPolicy: API.OperationMethod<
 export const getBucketReplication: API.OperationMethod<
   GetBucketReplicationRequest,
   GetBucketReplicationResult,
-  CommonErrors,
+  GetBucketReplicationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketReplicationRequest,
   output: GetBucketReplicationResult,
   errors: [],
 }));
+export type GetBucketTaggingError = CommonErrors;
 /**
  * This action gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see
  * GetBucketTagging in the *Amazon S3 API Reference*.
@@ -8819,13 +8876,14 @@ export const getBucketReplication: API.OperationMethod<
 export const getBucketTagging: API.OperationMethod<
   GetBucketTaggingRequest,
   GetBucketTaggingResult,
-  CommonErrors,
+  GetBucketTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketTaggingRequest,
   output: GetBucketTaggingResult,
   errors: [],
 }));
+export type GetBucketVersioningError = CommonErrors;
 /**
  * This operation returns the versioning state
  * for
@@ -8861,13 +8919,14 @@ export const getBucketTagging: API.OperationMethod<
 export const getBucketVersioning: API.OperationMethod<
   GetBucketVersioningRequest,
   GetBucketVersioningResult,
-  CommonErrors,
+  GetBucketVersioningError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketVersioningRequest,
   output: GetBucketVersioningResult,
   errors: [],
 }));
+export type GetDataAccessError = CommonErrors;
 /**
  * Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.
  *
@@ -8882,13 +8941,18 @@ export const getBucketVersioning: API.OperationMethod<
 export const getDataAccess: API.OperationMethod<
   GetDataAccessRequest,
   GetDataAccessResult,
-  CommonErrors,
+  GetDataAccessError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataAccessRequest,
   output: GetDataAccessResult,
   errors: [],
 }));
+export type GetJobTaggingError =
+  | InternalServiceException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the tags on an S3 Batch Operations job.
  *
@@ -8911,10 +8975,7 @@ export const getDataAccess: API.OperationMethod<
 export const getJobTagging: API.OperationMethod<
   GetJobTaggingRequest,
   GetJobTaggingResult,
-  | InternalServiceException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetJobTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobTaggingRequest,
@@ -8925,6 +8986,7 @@ export const getJobTagging: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetMultiRegionAccessPointError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8947,13 +9009,14 @@ export const getJobTagging: API.OperationMethod<
 export const getMultiRegionAccessPoint: API.OperationMethod<
   GetMultiRegionAccessPointRequest,
   GetMultiRegionAccessPointResult,
-  CommonErrors,
+  GetMultiRegionAccessPointError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMultiRegionAccessPointRequest,
   output: GetMultiRegionAccessPointResult,
   errors: [],
 }));
+export type GetMultiRegionAccessPointPolicyError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8973,13 +9036,14 @@ export const getMultiRegionAccessPoint: API.OperationMethod<
 export const getMultiRegionAccessPointPolicy: API.OperationMethod<
   GetMultiRegionAccessPointPolicyRequest,
   GetMultiRegionAccessPointPolicyResult,
-  CommonErrors,
+  GetMultiRegionAccessPointPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMultiRegionAccessPointPolicyRequest,
   output: GetMultiRegionAccessPointPolicyResult,
   errors: [],
 }));
+export type GetMultiRegionAccessPointPolicyStatusError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9000,13 +9064,14 @@ export const getMultiRegionAccessPointPolicy: API.OperationMethod<
 export const getMultiRegionAccessPointPolicyStatus: API.OperationMethod<
   GetMultiRegionAccessPointPolicyStatusRequest,
   GetMultiRegionAccessPointPolicyStatusResult,
-  CommonErrors,
+  GetMultiRegionAccessPointPolicyStatusError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMultiRegionAccessPointPolicyStatusRequest,
   output: GetMultiRegionAccessPointPolicyStatusResult,
   errors: [],
 }));
+export type GetMultiRegionAccessPointRoutesError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9029,13 +9094,16 @@ export const getMultiRegionAccessPointPolicyStatus: API.OperationMethod<
 export const getMultiRegionAccessPointRoutes: API.OperationMethod<
   GetMultiRegionAccessPointRoutesRequest,
   GetMultiRegionAccessPointRoutesResult,
-  CommonErrors,
+  GetMultiRegionAccessPointRoutesError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMultiRegionAccessPointRoutesRequest,
   output: GetMultiRegionAccessPointRoutesResult,
   errors: [],
 }));
+export type GetPublicAccessBlockError =
+  | NoSuchPublicAccessBlockConfiguration
+  | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9053,13 +9121,14 @@ export const getMultiRegionAccessPointRoutes: API.OperationMethod<
 export const getPublicAccessBlock: API.OperationMethod<
   GetPublicAccessBlockRequest,
   GetPublicAccessBlockOutput,
-  NoSuchPublicAccessBlockConfiguration | CommonErrors,
+  GetPublicAccessBlockError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicAccessBlockRequest,
   output: GetPublicAccessBlockOutput,
   errors: [NoSuchPublicAccessBlockConfiguration],
 }));
+export type GetStorageLensConfigurationError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9074,13 +9143,14 @@ export const getPublicAccessBlock: API.OperationMethod<
 export const getStorageLensConfiguration: API.OperationMethod<
   GetStorageLensConfigurationRequest,
   GetStorageLensConfigurationResult,
-  CommonErrors,
+  GetStorageLensConfigurationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStorageLensConfigurationRequest,
   output: GetStorageLensConfigurationResult,
   errors: [],
 }));
+export type GetStorageLensConfigurationTaggingError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9097,13 +9167,14 @@ export const getStorageLensConfiguration: API.OperationMethod<
 export const getStorageLensConfigurationTagging: API.OperationMethod<
   GetStorageLensConfigurationTaggingRequest,
   GetStorageLensConfigurationTaggingResult,
-  CommonErrors,
+  GetStorageLensConfigurationTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStorageLensConfigurationTaggingRequest,
   output: GetStorageLensConfigurationTaggingResult,
   errors: [],
 }));
+export type GetStorageLensGroupError = CommonErrors;
 /**
  * Retrieves the Storage Lens group configuration details.
  *
@@ -9117,13 +9188,14 @@ export const getStorageLensConfigurationTagging: API.OperationMethod<
 export const getStorageLensGroup: API.OperationMethod<
   GetStorageLensGroupRequest,
   GetStorageLensGroupResult,
-  CommonErrors,
+  GetStorageLensGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStorageLensGroupRequest,
   output: GetStorageLensGroupResult,
   errors: [],
 }));
+export type ListAccessGrantsError = CommonErrors;
 /**
  * Returns the list of access grants in your S3 Access Grants instance.
  *
@@ -9134,21 +9206,21 @@ export const getStorageLensGroup: API.OperationMethod<
 export const listAccessGrants: API.OperationMethod<
   ListAccessGrantsRequest,
   ListAccessGrantsResult,
-  CommonErrors,
+  ListAccessGrantsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessGrantsRequest,
   ) => stream.Stream<
     ListAccessGrantsResult,
-    CommonErrors,
+    ListAccessGrantsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessGrantsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListAccessGrantsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9161,6 +9233,7 @@ export const listAccessGrants: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccessGrantsInstancesError = CommonErrors;
 /**
  * Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account.
  *
@@ -9171,21 +9244,21 @@ export const listAccessGrants: API.OperationMethod<
 export const listAccessGrantsInstances: API.OperationMethod<
   ListAccessGrantsInstancesRequest,
   ListAccessGrantsInstancesResult,
-  CommonErrors,
+  ListAccessGrantsInstancesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessGrantsInstancesRequest,
   ) => stream.Stream<
     ListAccessGrantsInstancesResult,
-    CommonErrors,
+    ListAccessGrantsInstancesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessGrantsInstancesRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListAccessGrantsInstancesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9198,6 +9271,7 @@ export const listAccessGrantsInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccessGrantsLocationsError = CommonErrors;
 /**
  * Returns a list of the locations registered in your S3 Access Grants instance.
  *
@@ -9208,21 +9282,21 @@ export const listAccessGrantsInstances: API.OperationMethod<
 export const listAccessGrantsLocations: API.OperationMethod<
   ListAccessGrantsLocationsRequest,
   ListAccessGrantsLocationsResult,
-  CommonErrors,
+  ListAccessGrantsLocationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessGrantsLocationsRequest,
   ) => stream.Stream<
     ListAccessGrantsLocationsResult,
-    CommonErrors,
+    ListAccessGrantsLocationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessGrantsLocationsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListAccessGrantsLocationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9235,6 +9309,7 @@ export const listAccessGrantsLocations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccessPointsError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9259,21 +9334,21 @@ export const listAccessGrantsLocations: API.OperationMethod<
 export const listAccessPoints: API.OperationMethod<
   ListAccessPointsRequest,
   ListAccessPointsResult,
-  CommonErrors,
+  ListAccessPointsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPointsRequest,
   ) => stream.Stream<
     ListAccessPointsResult,
-    CommonErrors,
+    ListAccessPointsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPointsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListAccessPointsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9286,6 +9361,7 @@ export const listAccessPoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccessPointsForDirectoryBucketsError = CommonErrors;
 /**
  * Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket.
  *
@@ -9299,21 +9375,21 @@ export const listAccessPoints: API.OperationMethod<
 export const listAccessPointsForDirectoryBuckets: API.OperationMethod<
   ListAccessPointsForDirectoryBucketsRequest,
   ListAccessPointsForDirectoryBucketsResult,
-  CommonErrors,
+  ListAccessPointsForDirectoryBucketsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPointsForDirectoryBucketsRequest,
   ) => stream.Stream<
     ListAccessPointsForDirectoryBucketsResult,
-    CommonErrors,
+    ListAccessPointsForDirectoryBucketsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPointsForDirectoryBucketsRequest,
   ) => stream.Stream<
     AccessPoint,
-    CommonErrors,
+    ListAccessPointsForDirectoryBucketsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9327,6 +9403,7 @@ export const listAccessPointsForDirectoryBuckets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccessPointsForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9346,21 +9423,21 @@ export const listAccessPointsForDirectoryBuckets: API.OperationMethod<
 export const listAccessPointsForObjectLambda: API.OperationMethod<
   ListAccessPointsForObjectLambdaRequest,
   ListAccessPointsForObjectLambdaResult,
-  CommonErrors,
+  ListAccessPointsForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPointsForObjectLambdaRequest,
   ) => stream.Stream<
     ListAccessPointsForObjectLambdaResult,
-    CommonErrors,
+    ListAccessPointsForObjectLambdaError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPointsForObjectLambdaRequest,
   ) => stream.Stream<
     ObjectLambdaAccessPoint,
-    CommonErrors,
+    ListAccessPointsForObjectLambdaError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9374,6 +9451,7 @@ export const listAccessPointsForObjectLambda: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCallerAccessGrantsError = CommonErrors;
 /**
  * Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by `GrantScope`, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the `AllowedByApplication` filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (`ALL`). For more information, see List the caller's access grants in the *Amazon S3 User Guide*.
  *
@@ -9384,21 +9462,21 @@ export const listAccessPointsForObjectLambda: API.OperationMethod<
 export const listCallerAccessGrants: API.OperationMethod<
   ListCallerAccessGrantsRequest,
   ListCallerAccessGrantsResult,
-  CommonErrors,
+  ListCallerAccessGrantsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCallerAccessGrantsRequest,
   ) => stream.Stream<
     ListCallerAccessGrantsResult,
-    CommonErrors,
+    ListCallerAccessGrantsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCallerAccessGrantsRequest,
   ) => stream.Stream<
     ListCallerAccessGrantsEntry,
-    CommonErrors,
+    ListCallerAccessGrantsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9412,6 +9490,11 @@ export const listCallerAccessGrants: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListJobsError =
+  | InternalServiceException
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90
  * days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
@@ -9435,30 +9518,21 @@ export const listCallerAccessGrants: API.OperationMethod<
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResult,
-  | InternalServiceException
-  | InvalidNextTokenException
-  | InvalidRequestException
-  | CommonErrors,
+  ListJobsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResult,
-    | InternalServiceException
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | CommonErrors,
+    ListJobsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | CommonErrors,
+    ListJobsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9475,6 +9549,7 @@ export const listJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMultiRegionAccessPointsError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9499,21 +9574,21 @@ export const listJobs: API.OperationMethod<
 export const listMultiRegionAccessPoints: API.OperationMethod<
   ListMultiRegionAccessPointsRequest,
   ListMultiRegionAccessPointsResult,
-  CommonErrors,
+  ListMultiRegionAccessPointsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMultiRegionAccessPointsRequest,
   ) => stream.Stream<
     ListMultiRegionAccessPointsResult,
-    CommonErrors,
+    ListMultiRegionAccessPointsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiRegionAccessPointsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListMultiRegionAccessPointsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9526,6 +9601,7 @@ export const listMultiRegionAccessPoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRegionalBucketsError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9539,21 +9615,21 @@ export const listMultiRegionAccessPoints: API.OperationMethod<
 export const listRegionalBuckets: API.OperationMethod<
   ListRegionalBucketsRequest,
   ListRegionalBucketsResult,
-  CommonErrors,
+  ListRegionalBucketsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRegionalBucketsRequest,
   ) => stream.Stream<
     ListRegionalBucketsResult,
-    CommonErrors,
+    ListRegionalBucketsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRegionalBucketsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListRegionalBucketsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9566,6 +9642,7 @@ export const listRegionalBuckets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStorageLensConfigurationsError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9582,21 +9659,21 @@ export const listRegionalBuckets: API.OperationMethod<
 export const listStorageLensConfigurations: API.OperationMethod<
   ListStorageLensConfigurationsRequest,
   ListStorageLensConfigurationsResult,
-  CommonErrors,
+  ListStorageLensConfigurationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStorageLensConfigurationsRequest,
   ) => stream.Stream<
     ListStorageLensConfigurationsResult,
-    CommonErrors,
+    ListStorageLensConfigurationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStorageLensConfigurationsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListStorageLensConfigurationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9605,6 +9682,7 @@ export const listStorageLensConfigurations: API.OperationMethod<
   errors: [],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type ListStorageLensGroupsError = CommonErrors;
 /**
  * Lists all the Storage Lens groups in the specified home Region.
  *
@@ -9618,21 +9696,21 @@ export const listStorageLensConfigurations: API.OperationMethod<
 export const listStorageLensGroups: API.OperationMethod<
   ListStorageLensGroupsRequest,
   ListStorageLensGroupsResult,
-  CommonErrors,
+  ListStorageLensGroupsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStorageLensGroupsRequest,
   ) => stream.Stream<
     ListStorageLensGroupsResult,
-    CommonErrors,
+    ListStorageLensGroupsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStorageLensGroupsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListStorageLensGroupsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9641,6 +9719,7 @@ export const listStorageLensGroups: API.OperationMethod<
   errors: [],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type ListTagsForResourceError = CommonErrors;
 /**
  * This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.
  *
@@ -9675,13 +9754,14 @@ export const listStorageLensGroups: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  CommonErrors,
+  ListTagsForResourceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResult,
   errors: [],
 }));
+export type PutAccessGrantsInstanceResourcePolicyError = CommonErrors;
 /**
  * Updates the resource policy of the S3 Access Grants instance.
  *
@@ -9692,13 +9772,14 @@ export const listTagsForResource: API.OperationMethod<
 export const putAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   PutAccessGrantsInstanceResourcePolicyRequest,
   PutAccessGrantsInstanceResourcePolicyResult,
-  CommonErrors,
+  PutAccessGrantsInstanceResourcePolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccessGrantsInstanceResourcePolicyRequest,
   output: PutAccessGrantsInstanceResourcePolicyResult,
   errors: [],
 }));
+export type PutAccessPointConfigurationForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9712,13 +9793,14 @@ export const putAccessGrantsInstanceResourcePolicy: API.OperationMethod<
 export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
   PutAccessPointConfigurationForObjectLambdaRequest,
   PutAccessPointConfigurationForObjectLambdaResponse,
-  CommonErrors,
+  PutAccessPointConfigurationForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccessPointConfigurationForObjectLambdaRequest,
   output: PutAccessPointConfigurationForObjectLambdaResponse,
   errors: [],
 }));
+export type PutAccessPointPolicyError = CommonErrors;
 /**
  * Associates an access policy with the specified access point. Each access point can have only one policy,
  * so a request made to this API replaces any existing policy associated with the specified
@@ -9735,13 +9817,14 @@ export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
 export const putAccessPointPolicy: API.OperationMethod<
   PutAccessPointPolicyRequest,
   PutAccessPointPolicyResponse,
-  CommonErrors,
+  PutAccessPointPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccessPointPolicyRequest,
   output: PutAccessPointPolicyResponse,
   errors: [],
 }));
+export type PutAccessPointPolicyForObjectLambdaError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9757,13 +9840,14 @@ export const putAccessPointPolicy: API.OperationMethod<
 export const putAccessPointPolicyForObjectLambda: API.OperationMethod<
   PutAccessPointPolicyForObjectLambdaRequest,
   PutAccessPointPolicyForObjectLambdaResponse,
-  CommonErrors,
+  PutAccessPointPolicyForObjectLambdaError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccessPointPolicyForObjectLambdaRequest,
   output: PutAccessPointPolicyForObjectLambdaResponse,
   errors: [],
 }));
+export type PutAccessPointScopeError = CommonErrors;
 /**
  * Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.
  *
@@ -9777,13 +9861,14 @@ export const putAccessPointPolicyForObjectLambda: API.OperationMethod<
 export const putAccessPointScope: API.OperationMethod<
   PutAccessPointScopeRequest,
   PutAccessPointScopeResponse,
-  CommonErrors,
+  PutAccessPointScopeError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccessPointScopeRequest,
   output: PutAccessPointScopeResponse,
   errors: [],
 }));
+export type PutBucketLifecycleConfigurationError = CommonErrors;
 /**
  * This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a
  * lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the *Amazon S3 API Reference*.
@@ -9805,13 +9890,14 @@ export const putAccessPointScope: API.OperationMethod<
 export const putBucketLifecycleConfiguration: API.OperationMethod<
   PutBucketLifecycleConfigurationRequest,
   PutBucketLifecycleConfigurationResponse,
-  CommonErrors,
+  PutBucketLifecycleConfigurationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketLifecycleConfigurationRequest,
   output: PutBucketLifecycleConfigurationResponse,
   errors: [],
 }));
+export type PutBucketPolicyError = CommonErrors;
 /**
  * This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an
  * S3 bucket, see PutBucketPolicy in the
@@ -9848,13 +9934,14 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
 export const putBucketPolicy: API.OperationMethod<
   PutBucketPolicyRequest,
   PutBucketPolicyResponse,
-  CommonErrors,
+  PutBucketPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketPolicyRequest,
   output: PutBucketPolicyResponse,
   errors: [],
 }));
+export type PutBucketReplicationError = CommonErrors;
 /**
  * This action creates an Amazon S3 on Outposts bucket's replication configuration. To create
  * an S3 bucket's replication configuration, see PutBucketReplication
@@ -9933,13 +10020,14 @@ export const putBucketPolicy: API.OperationMethod<
 export const putBucketReplication: API.OperationMethod<
   PutBucketReplicationRequest,
   PutBucketReplicationResponse,
-  CommonErrors,
+  PutBucketReplicationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketReplicationRequest,
   output: PutBucketReplicationResponse,
   errors: [],
 }));
+export type PutBucketTaggingError = CommonErrors;
 /**
  * This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see
  * PutBucketTagging in the *Amazon S3 API Reference*.
@@ -10000,13 +10088,14 @@ export const putBucketReplication: API.OperationMethod<
 export const putBucketTagging: API.OperationMethod<
   PutBucketTaggingRequest,
   PutBucketTaggingResponse,
-  CommonErrors,
+  PutBucketTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketTaggingRequest,
   output: PutBucketTaggingResponse,
   errors: [],
 }));
+export type PutBucketVersioningError = CommonErrors;
 /**
  * This operation sets the versioning state
  * for
@@ -10062,13 +10151,19 @@ export const putBucketTagging: API.OperationMethod<
 export const putBucketVersioning: API.OperationMethod<
   PutBucketVersioningRequest,
   PutBucketVersioningResponse,
-  CommonErrors,
+  PutBucketVersioningError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketVersioningRequest,
   output: PutBucketVersioningResponse,
   errors: [],
 }));
+export type PutJobTaggingError =
+  | InternalServiceException
+  | NotFoundException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Sets the supplied tag-set on an S3 Batch Operations job.
  *
@@ -10118,11 +10213,7 @@ export const putBucketVersioning: API.OperationMethod<
 export const putJobTagging: API.OperationMethod<
   PutJobTaggingRequest,
   PutJobTaggingResult,
-  | InternalServiceException
-  | NotFoundException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  PutJobTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutJobTaggingRequest,
@@ -10134,6 +10225,7 @@ export const putJobTagging: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type PutMultiRegionAccessPointPolicyError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -10155,13 +10247,14 @@ export const putJobTagging: API.OperationMethod<
 export const putMultiRegionAccessPointPolicy: API.OperationMethod<
   PutMultiRegionAccessPointPolicyRequest,
   PutMultiRegionAccessPointPolicyResult,
-  CommonErrors,
+  PutMultiRegionAccessPointPolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMultiRegionAccessPointPolicyRequest,
   output: PutMultiRegionAccessPointPolicyResult,
   errors: [],
 }));
+export type PutPublicAccessBlockError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -10183,13 +10276,14 @@ export const putMultiRegionAccessPointPolicy: API.OperationMethod<
 export const putPublicAccessBlock: API.OperationMethod<
   PutPublicAccessBlockRequest,
   PutPublicAccessBlockResponse,
-  CommonErrors,
+  PutPublicAccessBlockError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPublicAccessBlockRequest,
   output: PutPublicAccessBlockResponse,
   errors: [],
 }));
+export type PutStorageLensConfigurationError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -10203,13 +10297,14 @@ export const putPublicAccessBlock: API.OperationMethod<
 export const putStorageLensConfiguration: API.OperationMethod<
   PutStorageLensConfigurationRequest,
   PutStorageLensConfigurationResponse,
-  CommonErrors,
+  PutStorageLensConfigurationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutStorageLensConfigurationRequest,
   output: PutStorageLensConfigurationResponse,
   errors: [],
 }));
+export type PutStorageLensConfigurationTaggingError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -10225,13 +10320,14 @@ export const putStorageLensConfiguration: API.OperationMethod<
 export const putStorageLensConfigurationTagging: API.OperationMethod<
   PutStorageLensConfigurationTaggingRequest,
   PutStorageLensConfigurationTaggingResult,
-  CommonErrors,
+  PutStorageLensConfigurationTaggingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutStorageLensConfigurationTaggingRequest,
   output: PutStorageLensConfigurationTaggingResult,
   errors: [],
 }));
+export type SubmitMultiRegionAccessPointRoutesError = CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -10266,13 +10362,14 @@ export const putStorageLensConfigurationTagging: API.OperationMethod<
 export const submitMultiRegionAccessPointRoutes: API.OperationMethod<
   SubmitMultiRegionAccessPointRoutesRequest,
   SubmitMultiRegionAccessPointRoutesResult,
-  CommonErrors,
+  SubmitMultiRegionAccessPointRoutesError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitMultiRegionAccessPointRoutesRequest,
   output: SubmitMultiRegionAccessPointRoutesResult,
   errors: [],
 }));
+export type TagResourceError = CommonErrors;
 /**
  * Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.
  *
@@ -10307,13 +10404,14 @@ export const submitMultiRegionAccessPointRoutes: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResult,
-  CommonErrors,
+  TagResourceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResult,
   errors: [],
 }));
+export type UntagResourceError = CommonErrors;
 /**
  * This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.
  *
@@ -10349,13 +10447,14 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  CommonErrors,
+  UntagResourceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResult,
   errors: [],
 }));
+export type UpdateAccessGrantsLocationError = CommonErrors;
 /**
  * Updates the IAM role of a registered location in your S3 Access Grants instance.
  *
@@ -10370,13 +10469,19 @@ export const untagResource: API.OperationMethod<
 export const updateAccessGrantsLocation: API.OperationMethod<
   UpdateAccessGrantsLocationRequest,
   UpdateAccessGrantsLocationResult,
-  CommonErrors,
+  UpdateAccessGrantsLocationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessGrantsLocationRequest,
   output: UpdateAccessGrantsLocationResult,
   errors: [],
 }));
+export type UpdateJobPriorityError =
+  | BadRequestException
+  | InternalServiceException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
  *
@@ -10399,11 +10504,7 @@ export const updateAccessGrantsLocation: API.OperationMethod<
 export const updateJobPriority: API.OperationMethod<
   UpdateJobPriorityRequest,
   UpdateJobPriorityResult,
-  | BadRequestException
-  | InternalServiceException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateJobPriorityError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobPriorityRequest,
@@ -10415,6 +10516,13 @@ export const updateJobPriority: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateJobStatusError =
+  | BadRequestException
+  | InternalServiceException
+  | JobStatusException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the status for the specified job. Use this operation to confirm that you want to
  * run a job or to cancel an existing job. For more information, see S3 Batch Operations in the *Amazon S3 User Guide*.
@@ -10438,12 +10546,7 @@ export const updateJobPriority: API.OperationMethod<
 export const updateJobStatus: API.OperationMethod<
   UpdateJobStatusRequest,
   UpdateJobStatusResult,
-  | BadRequestException
-  | InternalServiceException
-  | JobStatusException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateJobStatusError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobStatusRequest,
@@ -10456,6 +10559,7 @@ export const updateJobStatus: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateStorageLensGroupError = CommonErrors;
 /**
  * Updates the existing Storage Lens group.
  *
@@ -10469,7 +10573,7 @@ export const updateJobStatus: API.OperationMethod<
 export const updateStorageLensGroup: API.OperationMethod<
   UpdateStorageLensGroupRequest,
   UpdateStorageLensGroupResponse,
-  CommonErrors,
+  UpdateStorageLensGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStorageLensGroupRequest,

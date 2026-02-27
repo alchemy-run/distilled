@@ -569,6 +569,12 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 ) {}
 
 //# Operations
+export type DescribeReportCreationError =
+  | ConstraintViolationException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Describes the status of the `StartReportCreation` operation.
  *
@@ -578,11 +584,7 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 export const describeReportCreation: API.OperationMethod<
   DescribeReportCreationInput,
   DescribeReportCreationOutput,
-  | ConstraintViolationException
-  | InternalServiceException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
+  DescribeReportCreationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReportCreationInput,
@@ -594,6 +596,12 @@ export const describeReportCreation: API.OperationMethod<
     ThrottledException,
   ],
 }));
+export type GetComplianceSummaryError =
+  | ConstraintViolationException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Returns a table that shows counts of resources that are noncompliant with their tag
  * policies.
@@ -614,33 +622,21 @@ export const describeReportCreation: API.OperationMethod<
 export const getComplianceSummary: API.OperationMethod<
   GetComplianceSummaryInput,
   GetComplianceSummaryOutput,
-  | ConstraintViolationException
-  | InternalServiceException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
+  GetComplianceSummaryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetComplianceSummaryInput,
   ) => stream.Stream<
     GetComplianceSummaryOutput,
-    | ConstraintViolationException
-    | InternalServiceException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
+    GetComplianceSummaryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetComplianceSummaryInput,
   ) => stream.Stream<
     Summary,
-    | ConstraintViolationException
-    | InternalServiceException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
+    GetComplianceSummaryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -659,6 +655,12 @@ export const getComplianceSummary: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetResourcesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Returns all the tagged or previously tagged resources that are located in the
  * specified Amazon Web Services Region for the account.
@@ -689,33 +691,21 @@ export const getComplianceSummary: API.OperationMethod<
 export const getResources: API.OperationMethod<
   GetResourcesInput,
   GetResourcesOutput,
-  | InternalServiceException
-  | InvalidParameterException
-  | PaginationTokenExpiredException
-  | ThrottledException
-  | CommonErrors,
+  GetResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourcesInput,
   ) => stream.Stream<
     GetResourcesOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    GetResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetResourcesInput,
   ) => stream.Stream<
     ResourceTagMapping,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    GetResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -734,6 +724,12 @@ export const getResources: API.OperationMethod<
     pageSize: "ResourcesPerPage",
   } as const,
 }));
+export type GetTagKeysError =
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling
  * account.
@@ -748,33 +744,21 @@ export const getResources: API.OperationMethod<
 export const getTagKeys: API.OperationMethod<
   GetTagKeysInput,
   GetTagKeysOutput,
-  | InternalServiceException
-  | InvalidParameterException
-  | PaginationTokenExpiredException
-  | ThrottledException
-  | CommonErrors,
+  GetTagKeysError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetTagKeysInput,
   ) => stream.Stream<
     GetTagKeysOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    GetTagKeysError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetTagKeysInput,
   ) => stream.Stream<
     TagKey,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    GetTagKeysError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -792,6 +776,12 @@ export const getTagKeys: API.OperationMethod<
     items: "TagKeys",
   } as const,
 }));
+export type GetTagValuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Returns all tag values for the specified key that are used in the specified Amazon Web Services
  * Region for the calling account.
@@ -806,33 +796,21 @@ export const getTagKeys: API.OperationMethod<
 export const getTagValues: API.OperationMethod<
   GetTagValuesInput,
   GetTagValuesOutput,
-  | InternalServiceException
-  | InvalidParameterException
-  | PaginationTokenExpiredException
-  | ThrottledException
-  | CommonErrors,
+  GetTagValuesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetTagValuesInput,
   ) => stream.Stream<
     GetTagValuesOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    GetTagValuesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetTagValuesInput,
   ) => stream.Stream<
     TagValue,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    GetTagValuesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -850,39 +828,33 @@ export const getTagValues: API.OperationMethod<
     items: "TagValues",
   } as const,
 }));
+export type ListRequiredTagsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Lists the required tags for supported resource types in an Amazon Web Services account.
  */
 export const listRequiredTags: API.OperationMethod<
   ListRequiredTagsInput,
   ListRequiredTagsOutput,
-  | InternalServiceException
-  | InvalidParameterException
-  | PaginationTokenExpiredException
-  | ThrottledException
-  | CommonErrors,
+  ListRequiredTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRequiredTagsInput,
   ) => stream.Stream<
     ListRequiredTagsOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    ListRequiredTagsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRequiredTagsInput,
   ) => stream.Stream<
     RequiredTag,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
+    ListRequiredTagsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -901,6 +873,13 @@ export const listRequiredTags: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartReportCreationError =
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Generates a report that lists all tagged resources in the accounts across your
  * organization and tells whether each resource is compliant with the effective tag policy.
@@ -927,12 +906,7 @@ export const listRequiredTags: API.OperationMethod<
 export const startReportCreation: API.OperationMethod<
   StartReportCreationInput,
   StartReportCreationOutput,
-  | ConcurrentModificationException
-  | ConstraintViolationException
-  | InternalServiceException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
+  StartReportCreationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReportCreationInput,
@@ -945,6 +919,11 @@ export const startReportCreation: API.OperationMethod<
     ThrottledException,
   ],
 }));
+export type TagResourcesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Applies one or more tags to the specified resources. Note the following:
  *
@@ -1000,10 +979,7 @@ export const startReportCreation: API.OperationMethod<
 export const tagResources: API.OperationMethod<
   TagResourcesInput,
   TagResourcesOutput,
-  | InternalServiceException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
+  TagResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourcesInput,
@@ -1014,6 +990,11 @@ export const tagResources: API.OperationMethod<
     ThrottledException,
   ],
 }));
+export type UntagResourcesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified resources. When you specify a tag key,
  * the action removes both that key and its associated value. The operation succeeds even
@@ -1049,10 +1030,7 @@ export const tagResources: API.OperationMethod<
 export const untagResources: API.OperationMethod<
   UntagResourcesInput,
   UntagResourcesOutput,
-  | InternalServiceException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
+  UntagResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourcesInput,

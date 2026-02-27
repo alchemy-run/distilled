@@ -1836,18 +1836,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags, if any, that are associated with your resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1860,18 +1862,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds one or more tags to your resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1884,18 +1888,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from your resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1908,13 +1914,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA,
- * directory ID, and security groups.
- */
-export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
-  CreateConnectorResponse,
+export type CreateConnectorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1922,7 +1922,15 @@ export const createConnector: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA,
+ * directory ID, and security groups.
+ */
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
+  CreateConnectorResponse,
+  CreateConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
@@ -1937,6 +1945,13 @@ export const createConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about your connector. You specify the connector on input by its ARN
  * (Amazon Resource Name).
@@ -1944,12 +1959,7 @@ export const createConnector: API.OperationMethod<
 export const getConnector: API.OperationMethod<
   GetConnectorRequest,
   GetConnectorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorRequest,
@@ -1962,6 +1972,14 @@ export const getConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN) of the
  * connector that you want to delete. You can find the ARN by calling the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors
@@ -1972,13 +1990,7 @@ export const getConnector: API.OperationMethod<
 export const deleteConnector: API.OperationMethod<
   DeleteConnectorRequest,
   DeleteConnectorResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
@@ -1992,39 +2004,33 @@ export const deleteConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConnectorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action.
  */
 export const listConnectors: API.OperationMethod<
   ListConnectorsRequest,
   ListConnectorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConnectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     ListConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     ConnectorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2043,6 +2049,14 @@ export const listConnectors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateDirectoryRegistrationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an
  * Active Directory
@@ -2050,13 +2064,7 @@ export const listConnectors: API.OperationMethod<
 export const createDirectoryRegistration: API.OperationMethod<
   CreateDirectoryRegistrationRequest,
   CreateDirectoryRegistrationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDirectoryRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDirectoryRegistrationRequest,
@@ -2070,18 +2078,20 @@ export const createDirectoryRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDirectoryRegistrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A structure that contains information about your directory registration.
  */
 export const getDirectoryRegistration: API.OperationMethod<
   GetDirectoryRegistrationRequest,
   GetDirectoryRegistrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDirectoryRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDirectoryRegistrationRequest,
@@ -2094,6 +2104,13 @@ export const getDirectoryRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDirectoryRegistrationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a directory registration. Deleting a directory registration deauthorizes
  * Amazon Web Services Private CA with the directory.
@@ -2101,12 +2118,7 @@ export const getDirectoryRegistration: API.OperationMethod<
 export const deleteDirectoryRegistration: API.OperationMethod<
   DeleteDirectoryRegistrationRequest,
   DeleteDirectoryRegistrationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDirectoryRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDirectoryRegistrationRequest,
@@ -2119,6 +2131,12 @@ export const deleteDirectoryRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDirectoryRegistrationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the directory registrations that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration
  * action.
@@ -2126,33 +2144,21 @@ export const deleteDirectoryRegistration: API.OperationMethod<
 export const listDirectoryRegistrations: API.OperationMethod<
   ListDirectoryRegistrationsRequest,
   ListDirectoryRegistrationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDirectoryRegistrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDirectoryRegistrationsRequest,
   ) => stream.Stream<
     ListDirectoryRegistrationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDirectoryRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDirectoryRegistrationsRequest,
   ) => stream.Stream<
     DirectoryRegistrationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDirectoryRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2171,6 +2177,14 @@ export const listDirectoryRegistrations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateServicePrincipalNameError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a service principal name (SPN) for the service account in Active Directory. Kerberos
  * authentication uses SPNs to associate a service instance with a service sign-in
@@ -2179,13 +2193,7 @@ export const listDirectoryRegistrations: API.OperationMethod<
 export const createServicePrincipalName: API.OperationMethod<
   CreateServicePrincipalNameRequest,
   CreateServicePrincipalNameResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateServicePrincipalNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServicePrincipalNameRequest,
@@ -2199,6 +2207,13 @@ export const createServicePrincipalName: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServicePrincipalNameError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the service principal name that the connector uses to authenticate with
  * Active Directory.
@@ -2206,12 +2221,7 @@ export const createServicePrincipalName: API.OperationMethod<
 export const getServicePrincipalName: API.OperationMethod<
   GetServicePrincipalNameRequest,
   GetServicePrincipalNameResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServicePrincipalNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServicePrincipalNameRequest,
@@ -2224,6 +2234,13 @@ export const getServicePrincipalName: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteServicePrincipalNameError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the service principal name (SPN) used by a connector to authenticate with your
  * Active Directory.
@@ -2231,12 +2248,7 @@ export const getServicePrincipalName: API.OperationMethod<
 export const deleteServicePrincipalName: API.OperationMethod<
   DeleteServicePrincipalNameRequest,
   DeleteServicePrincipalNameResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteServicePrincipalNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServicePrincipalNameRequest,
@@ -2249,6 +2261,13 @@ export const deleteServicePrincipalName: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListServicePrincipalNamesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the service principal names that the connector uses to authenticate with
  * Active Directory.
@@ -2256,36 +2275,21 @@ export const deleteServicePrincipalName: API.OperationMethod<
 export const listServicePrincipalNames: API.OperationMethod<
   ListServicePrincipalNamesRequest,
   ListServicePrincipalNamesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServicePrincipalNamesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicePrincipalNamesRequest,
   ) => stream.Stream<
     ListServicePrincipalNamesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicePrincipalNamesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicePrincipalNamesRequest,
   ) => stream.Stream<
     ServicePrincipalNameSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicePrincipalNamesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2305,13 +2309,7 @@ export const listServicePrincipalNames: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or
- * autoenrolling with the template based on the group security identifiers (SIDs).
- */
-export const createTemplateGroupAccessControlEntry: API.OperationMethod<
-  CreateTemplateGroupAccessControlEntryRequest,
-  CreateTemplateGroupAccessControlEntryResponse,
+export type CreateTemplateGroupAccessControlEntryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2319,7 +2317,15 @@ export const createTemplateGroupAccessControlEntry: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or
+ * autoenrolling with the template based on the group security identifiers (SIDs).
+ */
+export const createTemplateGroupAccessControlEntry: API.OperationMethod<
+  CreateTemplateGroupAccessControlEntryRequest,
+  CreateTemplateGroupAccessControlEntryResponse,
+  CreateTemplateGroupAccessControlEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateGroupAccessControlEntryRequest,
@@ -2334,18 +2340,20 @@ export const createTemplateGroupAccessControlEntry: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTemplateGroupAccessControlEntryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the group access control entries for a template.
  */
 export const getTemplateGroupAccessControlEntry: API.OperationMethod<
   GetTemplateGroupAccessControlEntryRequest,
   GetTemplateGroupAccessControlEntryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateGroupAccessControlEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateGroupAccessControlEntryRequest,
@@ -2358,19 +2366,21 @@ export const getTemplateGroupAccessControlEntry: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a group access control entry you created using CreateTemplateGroupAccessControlEntry.
- */
-export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
-  UpdateTemplateGroupAccessControlEntryRequest,
-  UpdateTemplateGroupAccessControlEntryResponse,
+export type UpdateTemplateGroupAccessControlEntryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a group access control entry you created using CreateTemplateGroupAccessControlEntry.
+ */
+export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
+  UpdateTemplateGroupAccessControlEntryRequest,
+  UpdateTemplateGroupAccessControlEntryResponse,
+  UpdateTemplateGroupAccessControlEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateGroupAccessControlEntryRequest,
@@ -2384,19 +2394,21 @@ export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a group access control entry.
- */
-export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
-  DeleteTemplateGroupAccessControlEntryRequest,
-  DeleteTemplateGroupAccessControlEntryResponse,
+export type DeleteTemplateGroupAccessControlEntryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a group access control entry.
+ */
+export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
+  DeleteTemplateGroupAccessControlEntryRequest,
+  DeleteTemplateGroupAccessControlEntryResponse,
+  DeleteTemplateGroupAccessControlEntryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateGroupAccessControlEntryRequest,
@@ -2410,42 +2422,34 @@ export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTemplateGroupAccessControlEntriesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists group access control entries you created.
  */
 export const listTemplateGroupAccessControlEntries: API.OperationMethod<
   ListTemplateGroupAccessControlEntriesRequest,
   ListTemplateGroupAccessControlEntriesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTemplateGroupAccessControlEntriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplateGroupAccessControlEntriesRequest,
   ) => stream.Stream<
     ListTemplateGroupAccessControlEntriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplateGroupAccessControlEntriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplateGroupAccessControlEntriesRequest,
   ) => stream.Stream<
     AccessControlEntrySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplateGroupAccessControlEntriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2465,13 +2469,7 @@ export const listTemplateGroupAccessControlEntries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Creates an Active Directory compatible certificate template. The connectors issues certificates
- * using these templates based on the requester’s Active Directory group membership.
- */
-export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
-  CreateTemplateResponse,
+export type CreateTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2479,7 +2477,15 @@ export const createTemplate: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Active Directory compatible certificate template. The connectors issues certificates
+ * using these templates based on the requester’s Active Directory group membership.
+ */
+export const createTemplate: API.OperationMethod<
+  CreateTemplateRequest,
+  CreateTemplateResponse,
+  CreateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
@@ -2494,6 +2500,13 @@ export const createTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a certificate template that the connector uses to issue certificates from a
  * private CA.
@@ -2501,12 +2514,7 @@ export const createTemplate: API.OperationMethod<
 export const getTemplate: API.OperationMethod<
   GetTemplateRequest,
   GetTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
@@ -2519,19 +2527,21 @@ export const getTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update template configuration to define the information included in certificates.
- */
-export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
-  UpdateTemplateResponse,
+export type UpdateTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update template configuration to define the information included in certificates.
+ */
+export const updateTemplate: API.OperationMethod<
+  UpdateTemplateRequest,
+  UpdateTemplateResponse,
+  UpdateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
@@ -2545,6 +2555,14 @@ export const updateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a template. Certificates issued using the template are still valid until they
  * are revoked or expired.
@@ -2552,13 +2570,7 @@ export const updateTemplate: API.OperationMethod<
 export const deleteTemplate: API.OperationMethod<
   DeleteTemplateRequest,
   DeleteTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
@@ -2572,42 +2584,34 @@ export const deleteTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the templates, if any, that are associated with a connector.
  */
 export const listTemplates: API.OperationMethod<
   ListTemplatesRequest,
   ListTemplatesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplatesRequest,
   ) => stream.Stream<
     ListTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplatesRequest,
   ) => stream.Stream<
     TemplateSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -2075,6 +2075,10 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type AssociateServiceRoleToAccountError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass
  * uses this role to verify the identity of client devices and manage core device connectivity
@@ -2085,13 +2089,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const associateServiceRoleToAccount: API.OperationMethod<
   AssociateServiceRoleToAccountRequest,
   AssociateServiceRoleToAccountResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  AssociateServiceRoleToAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateServiceRoleToAccountRequest,
   output: AssociateServiceRoleToAccountResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type BatchAssociateClientDeviceWithCoreDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a list of client devices with a core device. Use this API operation to specify
  * which client devices can discover a core device through cloud discovery. With cloud discovery,
@@ -2108,12 +2119,7 @@ export const associateServiceRoleToAccount: API.OperationMethod<
 export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
   BatchAssociateClientDeviceWithCoreDeviceRequest,
   BatchAssociateClientDeviceWithCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchAssociateClientDeviceWithCoreDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateClientDeviceWithCoreDeviceRequest,
@@ -2126,6 +2132,13 @@ export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDisassociateClientDeviceFromCoreDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a list of client devices from a core device. After you disassociate a client
  * device from a core device, the client device won't be able to use cloud discovery to retrieve
@@ -2134,12 +2147,7 @@ export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
 export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
   BatchDisassociateClientDeviceFromCoreDeviceRequest,
   BatchDisassociateClientDeviceFromCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDisassociateClientDeviceFromCoreDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
@@ -2152,6 +2160,14 @@ export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a deployment. This operation cancels the deployment for devices that haven't yet
  * received it. If a device already received the deployment, this operation doesn't change
@@ -2160,13 +2176,7 @@ export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
 export const cancelDeployment: API.OperationMethod<
   CancelDeploymentRequest,
   CancelDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDeploymentRequest,
@@ -2180,6 +2190,15 @@ export const cancelDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateComponentVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestAlreadyInProgressException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a component. Components are software that run on Greengrass core devices. After you
  * develop and test a component on your core device, you can use this operation to upload your
@@ -2215,14 +2234,7 @@ export const cancelDeployment: API.OperationMethod<
 export const createComponentVersion: API.OperationMethod<
   CreateComponentVersionRequest,
   CreateComponentVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | RequestAlreadyInProgressException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateComponentVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentVersionRequest,
@@ -2237,6 +2249,15 @@ export const createComponentVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestAlreadyInProgressException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a continuous deployment for a target, which is a Greengrass core device or group of core
  * devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass
@@ -2256,14 +2277,7 @@ export const createComponentVersion: API.OperationMethod<
 export const createDeployment: API.OperationMethod<
   CreateDeploymentRequest,
   CreateDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | RequestAlreadyInProgressException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
@@ -2278,6 +2292,14 @@ export const createDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a version of a component from IoT Greengrass.
  *
@@ -2289,13 +2311,7 @@ export const createDeployment: API.OperationMethod<
 export const deleteComponent: API.OperationMethod<
   DeleteComponentRequest,
   DeleteComponentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
@@ -2309,6 +2325,14 @@ export const deleteComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCoreDeviceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a Greengrass core device, which is an IoT thing. This operation removes the core
  * device from the list of core devices. This operation doesn't delete the IoT thing. For more
@@ -2318,13 +2342,7 @@ export const deleteComponent: API.OperationMethod<
 export const deleteCoreDevice: API.OperationMethod<
   DeleteCoreDeviceRequest,
   DeleteCoreDeviceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCoreDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoreDeviceRequest,
@@ -2338,6 +2356,14 @@ export const deleteCoreDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a deployment. To delete an active deployment, you must first cancel it. For more
  * information, see CancelDeployment.
@@ -2349,13 +2375,7 @@ export const deleteCoreDevice: API.OperationMethod<
 export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentRequest,
   DeleteDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentRequest,
@@ -2369,18 +2389,20 @@ export const deleteDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeComponentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves metadata for a version of a component.
  */
 export const describeComponent: API.OperationMethod<
   DescribeComponentRequest,
   DescribeComponentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComponentRequest,
@@ -2393,6 +2415,9 @@ export const describeComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateServiceRoleFromAccountError =
+  | InternalServerException
+  | CommonErrors;
 /**
  * Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
  * Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device
@@ -2402,25 +2427,27 @@ export const describeComponent: API.OperationMethod<
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
   DisassociateServiceRoleFromAccountRequest,
   DisassociateServiceRoleFromAccountResponse,
-  InternalServerException | CommonErrors,
+  DisassociateServiceRoleFromAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateServiceRoleFromAccountRequest,
   output: DisassociateServiceRoleFromAccountResponse,
   errors: [InternalServerException],
 }));
+export type GetComponentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the recipe for a version of a component.
  */
 export const getComponent: API.OperationMethod<
   GetComponentRequest,
   GetComponentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
@@ -2433,6 +2460,13 @@ export const getComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetComponentVersionArtifactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices
  * call this operation to identify the URL that they can use to download an artifact to
@@ -2441,12 +2475,7 @@ export const getComponent: API.OperationMethod<
 export const getComponentVersionArtifact: API.OperationMethod<
   GetComponentVersionArtifactRequest,
   GetComponentVersionArtifactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetComponentVersionArtifactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentVersionArtifactRequest,
@@ -2459,6 +2488,10 @@ export const getComponentVersionArtifact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectivityInfoError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves connectivity information for a Greengrass core device.
  *
@@ -2472,13 +2505,20 @@ export const getComponentVersionArtifact: API.OperationMethod<
 export const getConnectivityInfo: API.OperationMethod<
   GetConnectivityInfoRequest,
   GetConnectivityInfoResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  GetConnectivityInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectivityInfoRequest,
   output: GetConnectivityInfoResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type GetCoreDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves metadata for a Greengrass core device.
  *
@@ -2504,12 +2544,7 @@ export const getConnectivityInfo: API.OperationMethod<
 export const getCoreDevice: API.OperationMethod<
   GetCoreDeviceRequest,
   GetCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCoreDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoreDeviceRequest,
@@ -2522,18 +2557,20 @@ export const getCoreDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
   GetDeploymentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
@@ -2546,6 +2583,9 @@ export const getDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceRoleForAccountError =
+  | InternalServerException
+  | CommonErrors;
 /**
  * Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
  * IoT Greengrass uses this role to verify the identity of client devices and manage core device
@@ -2555,13 +2595,20 @@ export const getDeployment: API.OperationMethod<
 export const getServiceRoleForAccount: API.OperationMethod<
   GetServiceRoleForAccountRequest,
   GetServiceRoleForAccountResponse,
-  InternalServerException | CommonErrors,
+  GetServiceRoleForAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRoleForAccountRequest,
   output: GetServiceRoleForAccountResponse,
   errors: [InternalServerException],
 }));
+export type ListClientDevicesAssociatedWithCoreDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of client devices that are associated with a core
  * device.
@@ -2569,36 +2616,21 @@ export const getServiceRoleForAccount: API.OperationMethod<
 export const listClientDevicesAssociatedWithCoreDevice: API.OperationMethod<
   ListClientDevicesAssociatedWithCoreDeviceRequest,
   ListClientDevicesAssociatedWithCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListClientDevicesAssociatedWithCoreDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
   ) => stream.Stream<
     ListClientDevicesAssociatedWithCoreDeviceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClientDevicesAssociatedWithCoreDeviceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
   ) => stream.Stream<
     AssociatedClientDevice,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClientDevicesAssociatedWithCoreDeviceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2618,6 +2650,13 @@ export const listClientDevicesAssociatedWithCoreDevice: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListComponentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of component summaries. This list includes components that you
  * have permission to view.
@@ -2625,36 +2664,21 @@ export const listClientDevicesAssociatedWithCoreDevice: API.OperationMethod<
 export const listComponents: API.OperationMethod<
   ListComponentsRequest,
   ListComponentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     ListComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     Component,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2674,6 +2698,13 @@ export const listComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListComponentVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of all versions for a component. Greater versions are listed
  * first.
@@ -2681,36 +2712,21 @@ export const listComponents: API.OperationMethod<
 export const listComponentVersions: API.OperationMethod<
   ListComponentVersionsRequest,
   ListComponentVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentVersionsRequest,
   ) => stream.Stream<
     ListComponentVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentVersionsRequest,
   ) => stream.Stream<
     ComponentVersionListItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2730,6 +2746,12 @@ export const listComponentVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCoreDevicesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of Greengrass core devices.
  *
@@ -2760,33 +2782,21 @@ export const listComponentVersions: API.OperationMethod<
 export const listCoreDevices: API.OperationMethod<
   ListCoreDevicesRequest,
   ListCoreDevicesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCoreDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCoreDevicesRequest,
   ) => stream.Stream<
     ListCoreDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCoreDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCoreDevicesRequest,
   ) => stream.Stream<
     CoreDevice,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCoreDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2805,39 +2815,33 @@ export const listCoreDevices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDeploymentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of deployments.
  */
 export const listDeployments: API.OperationMethod<
   ListDeploymentsRequest,
   ListDeploymentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
     ListDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
     Deployment,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2856,42 +2860,34 @@ export const listDeployments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEffectiveDeploymentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
 export const listEffectiveDeployments: API.OperationMethod<
   ListEffectiveDeploymentsRequest,
   ListEffectiveDeploymentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEffectiveDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEffectiveDeploymentsRequest,
   ) => stream.Stream<
     ListEffectiveDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEffectiveDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEffectiveDeploymentsRequest,
   ) => stream.Stream<
     EffectiveDeployment,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEffectiveDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2911,6 +2907,13 @@ export const listEffectiveDeployments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListInstalledComponentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a paginated list of the components that a Greengrass core device runs. By default,
  * this list doesn't include components that are deployed as dependencies of other components. To
@@ -2939,36 +2942,21 @@ export const listEffectiveDeployments: API.OperationMethod<
 export const listInstalledComponents: API.OperationMethod<
   ListInstalledComponentsRequest,
   ListInstalledComponentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInstalledComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstalledComponentsRequest,
   ) => stream.Stream<
     ListInstalledComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInstalledComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstalledComponentsRequest,
   ) => stream.Stream<
     InstalledComponent,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInstalledComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2988,16 +2976,18 @@ export const listInstalledComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3008,6 +2998,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResolveComponentCandidatesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of components that meet the component, version, and platform requirements
  * of a deployment. Greengrass core devices call this operation when they receive a deployment to
@@ -3029,13 +3027,7 @@ export const listTagsForResource: API.OperationMethod<
 export const resolveComponentCandidates: API.OperationMethod<
   ResolveComponentCandidatesRequest,
   ResolveComponentCandidatesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResolveComponentCandidatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveComponentCandidatesRequest,
@@ -3049,6 +3041,11 @@ export const resolveComponentCandidates: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation
  * updates the tag's value.
@@ -3056,10 +3053,7 @@ export const resolveComponentCandidates: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3070,16 +3064,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from an IoT Greengrass resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3090,6 +3086,10 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConnectivityInfoError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates connectivity information for a Greengrass core device.
  *
@@ -3103,7 +3103,7 @@ export const untagResource: API.OperationMethod<
 export const updateConnectivityInfo: API.OperationMethod<
   UpdateConnectivityInfoRequest,
   UpdateConnectivityInfoResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  UpdateConnectivityInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectivityInfoRequest,

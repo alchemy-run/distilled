@@ -4226,6 +4226,15 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ) {}
 
 //# Operations
+export type AssociateOriginationIdentityError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates the specified origination identity with a pool.
  *
@@ -4236,14 +4245,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const associateOriginationIdentity: API.OperationMethod<
   AssociateOriginationIdentityRequest,
   AssociateOriginationIdentityResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateOriginationIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateOriginationIdentityRequest,
@@ -4258,19 +4260,21 @@ export const associateOriginationIdentity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
- */
-export const associateProtectConfiguration: API.OperationMethod<
-  AssociateProtectConfigurationRequest,
-  AssociateProtectConfigurationResult,
+export type AssociateProtectConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
+ */
+export const associateProtectConfiguration: API.OperationMethod<
+  AssociateProtectConfigurationRequest,
+  AssociateProtectConfigurationResult,
+  AssociateProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateProtectConfigurationRequest,
@@ -4284,18 +4288,20 @@ export const associateProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CarrierLookupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
  */
 export const carrierLookup: API.OperationMethod<
   CarrierLookupRequest,
   CarrierLookupResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CarrierLookupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CarrierLookupRequest,
@@ -4308,6 +4314,14 @@ export const carrierLookup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateConfigurationSetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  *
@@ -4318,13 +4332,7 @@ export const carrierLookup: API.OperationMethod<
 export const createConfigurationSet: API.OperationMethod<
   CreateConfigurationSetRequest,
   CreateConfigurationSetResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetRequest,
@@ -4338,6 +4346,15 @@ export const createConfigurationSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateEventDestinationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new event destination in a configuration set.
  *
@@ -4350,14 +4367,7 @@ export const createConfigurationSet: API.OperationMethod<
 export const createEventDestination: API.OperationMethod<
   CreateEventDestinationRequest,
   CreateEventDestinationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventDestinationRequest,
@@ -4372,6 +4382,14 @@ export const createEventDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateOptOutListError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new opt-out list.
  *
@@ -4382,13 +4400,7 @@ export const createEventDestination: API.OperationMethod<
 export const createOptOutList: API.OperationMethod<
   CreateOptOutListRequest,
   CreateOptOutListResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateOptOutListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOptOutListRequest,
@@ -4402,6 +4414,15 @@ export const createOptOutList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePoolError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
  *
@@ -4412,14 +4433,7 @@ export const createOptOutList: API.OperationMethod<
 export const createPool: API.OperationMethod<
   CreatePoolRequest,
   CreatePoolResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePoolRequest,
@@ -4434,19 +4448,21 @@ export const createPool: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a new protect configuration. By default all country rule sets for each capability are set to `ALLOW`. Update the country rule sets using `UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag with the key set to `Name` and value as the name of the protect configuration.
- */
-export const createProtectConfiguration: API.OperationMethod<
-  CreateProtectConfigurationRequest,
-  CreateProtectConfigurationResult,
+export type CreateProtectConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new protect configuration. By default all country rule sets for each capability are set to `ALLOW`. Update the country rule sets using `UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag with the key set to `Name` and value as the name of the protect configuration.
+ */
+export const createProtectConfiguration: API.OperationMethod<
+  CreateProtectConfigurationRequest,
+  CreateProtectConfigurationResult,
+  CreateProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProtectConfigurationRequest,
@@ -4460,19 +4476,21 @@ export const createProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new registration based on the **RegistrationType** field.
- */
-export const createRegistration: API.OperationMethod<
-  CreateRegistrationRequest,
-  CreateRegistrationResult,
+export type CreateRegistrationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new registration based on the **RegistrationType** field.
+ */
+export const createRegistration: API.OperationMethod<
+  CreateRegistrationRequest,
+  CreateRegistrationResult,
+  CreateRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistrationRequest,
@@ -4486,12 +4504,7 @@ export const createRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate the registration with an origination identity such as a phone number or sender ID.
- */
-export const createRegistrationAssociation: API.OperationMethod<
-  CreateRegistrationAssociationRequest,
-  CreateRegistrationAssociationResult,
+export type CreateRegistrationAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4499,7 +4512,14 @@ export const createRegistrationAssociation: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate the registration with an origination identity such as a phone number or sender ID.
+ */
+export const createRegistrationAssociation: API.OperationMethod<
+  CreateRegistrationAssociationRequest,
+  CreateRegistrationAssociationResult,
+  CreateRegistrationAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistrationAssociationRequest,
@@ -4514,6 +4534,14 @@ export const createRegistrationAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRegistrationAttachmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
  *
@@ -4522,13 +4550,7 @@ export const createRegistrationAssociation: API.OperationMethod<
 export const createRegistrationAttachment: API.OperationMethod<
   CreateRegistrationAttachmentRequest,
   CreateRegistrationAttachmentResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRegistrationAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistrationAttachmentRequest,
@@ -4542,12 +4564,7 @@ export const createRegistrationAttachment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a new version of the registration and increase the **VersionNumber**. The previous version of the registration becomes read-only.
- */
-export const createRegistrationVersion: API.OperationMethod<
-  CreateRegistrationVersionRequest,
-  CreateRegistrationVersionResult,
+export type CreateRegistrationVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4555,7 +4572,14 @@ export const createRegistrationVersion: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new version of the registration and increase the **VersionNumber**. The previous version of the registration becomes read-only.
+ */
+export const createRegistrationVersion: API.OperationMethod<
+  CreateRegistrationVersionRequest,
+  CreateRegistrationVersionResult,
+  CreateRegistrationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistrationVersionRequest,
@@ -4570,19 +4594,21 @@ export const createRegistrationVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
- */
-export const createVerifiedDestinationNumber: API.OperationMethod<
-  CreateVerifiedDestinationNumberRequest,
-  CreateVerifiedDestinationNumberResult,
+export type CreateVerifiedDestinationNumberError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
+ */
+export const createVerifiedDestinationNumber: API.OperationMethod<
+  CreateVerifiedDestinationNumberRequest,
+  CreateVerifiedDestinationNumberResult,
+  CreateVerifiedDestinationNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVerifiedDestinationNumberRequest,
@@ -4596,18 +4622,20 @@ export const createVerifiedDestinationNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAccountDefaultProtectConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the current account default protect configuration.
  */
 export const deleteAccountDefaultProtectConfiguration: API.OperationMethod<
   DeleteAccountDefaultProtectConfigurationRequest,
   DeleteAccountDefaultProtectConfigurationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAccountDefaultProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountDefaultProtectConfigurationRequest,
@@ -4620,6 +4648,13 @@ export const deleteAccountDefaultProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConfigurationSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing configuration set.
  *
@@ -4628,12 +4663,7 @@ export const deleteAccountDefaultProtectConfiguration: API.OperationMethod<
 export const deleteConfigurationSet: API.OperationMethod<
   DeleteConfigurationSetRequest,
   DeleteConfigurationSetResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetRequest,
@@ -4646,6 +4676,13 @@ export const deleteConfigurationSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDefaultMessageTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing default message type on a configuration set.
  *
@@ -4654,12 +4691,7 @@ export const deleteConfigurationSet: API.OperationMethod<
 export const deleteDefaultMessageType: API.OperationMethod<
   DeleteDefaultMessageTypeRequest,
   DeleteDefaultMessageTypeResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDefaultMessageTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDefaultMessageTypeRequest,
@@ -4672,6 +4704,13 @@ export const deleteDefaultMessageType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDefaultSenderIdError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing default sender ID on a configuration set.
  *
@@ -4680,12 +4719,7 @@ export const deleteDefaultMessageType: API.OperationMethod<
 export const deleteDefaultSenderId: API.OperationMethod<
   DeleteDefaultSenderIdRequest,
   DeleteDefaultSenderIdResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDefaultSenderIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDefaultSenderIdRequest,
@@ -4698,6 +4732,13 @@ export const deleteDefaultSenderId: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEventDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing event destination.
  *
@@ -4706,12 +4747,7 @@ export const deleteDefaultSenderId: API.OperationMethod<
 export const deleteEventDestination: API.OperationMethod<
   DeleteEventDestinationRequest,
   DeleteEventDestinationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventDestinationRequest,
@@ -4724,6 +4760,14 @@ export const deleteEventDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteKeywordError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing keyword from an origination phone number or pool.
  *
@@ -4734,13 +4778,7 @@ export const deleteEventDestination: API.OperationMethod<
 export const deleteKeyword: API.OperationMethod<
   DeleteKeywordRequest,
   DeleteKeywordResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteKeywordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeywordRequest,
@@ -4754,17 +4792,19 @@ export const deleteKeyword: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMediaMessageSpendLimitOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the *Server Migration Service User Guide*.
  */
 export const deleteMediaMessageSpendLimitOverride: API.OperationMethod<
   DeleteMediaMessageSpendLimitOverrideRequest,
   DeleteMediaMessageSpendLimitOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMediaMessageSpendLimitOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMediaMessageSpendLimitOverrideRequest,
@@ -4776,6 +4816,14 @@ export const deleteMediaMessageSpendLimitOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOptedOutNumberError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing opted out destination phone number from the specified opt-out list.
  *
@@ -4786,13 +4834,7 @@ export const deleteMediaMessageSpendLimitOverride: API.OperationMethod<
 export const deleteOptedOutNumber: API.OperationMethod<
   DeleteOptedOutNumberRequest,
   DeleteOptedOutNumberResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteOptedOutNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOptedOutNumberRequest,
@@ -4806,6 +4848,14 @@ export const deleteOptedOutNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOptOutListError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted.
  *
@@ -4814,13 +4864,7 @@ export const deleteOptedOutNumber: API.OperationMethod<
 export const deleteOptOutList: API.OperationMethod<
   DeleteOptOutListRequest,
   DeleteOptOutListResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteOptOutListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOptOutListRequest,
@@ -4834,6 +4878,14 @@ export const deleteOptOutList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePoolError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool.
  *
@@ -4844,13 +4896,7 @@ export const deleteOptOutList: API.OperationMethod<
 export const deletePool: API.OperationMethod<
   DeletePoolRequest,
   DeletePoolResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePoolRequest,
@@ -4864,19 +4910,21 @@ export const deletePool: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
- */
-export const deleteProtectConfiguration: API.OperationMethod<
-  DeleteProtectConfigurationRequest,
-  DeleteProtectConfigurationResult,
+export type DeleteProtectConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
+ */
+export const deleteProtectConfiguration: API.OperationMethod<
+  DeleteProtectConfigurationRequest,
+  DeleteProtectConfigurationResult,
+  DeleteProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProtectConfigurationRequest,
@@ -4890,18 +4938,20 @@ export const deleteProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProtectConfigurationRuleSetNumberOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Permanently delete the protect configuration rule set number override.
  */
 export const deleteProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
   DeleteProtectConfigurationRuleSetNumberOverrideRequest,
   DeleteProtectConfigurationRuleSetNumberOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteProtectConfigurationRuleSetNumberOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProtectConfigurationRuleSetNumberOverrideRequest,
@@ -4914,19 +4964,21 @@ export const deleteProtectConfigurationRuleSetNumberOverride: API.OperationMetho
     ValidationException,
   ],
 }));
-/**
- * Permanently delete an existing registration from your account.
- */
-export const deleteRegistration: API.OperationMethod<
-  DeleteRegistrationRequest,
-  DeleteRegistrationResult,
+export type DeleteRegistrationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete an existing registration from your account.
+ */
+export const deleteRegistration: API.OperationMethod<
+  DeleteRegistrationRequest,
+  DeleteRegistrationResult,
+  DeleteRegistrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistrationRequest,
@@ -4940,19 +4992,21 @@ export const deleteRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Permanently delete the specified registration attachment.
- */
-export const deleteRegistrationAttachment: API.OperationMethod<
-  DeleteRegistrationAttachmentRequest,
-  DeleteRegistrationAttachmentResult,
+export type DeleteRegistrationAttachmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently delete the specified registration attachment.
+ */
+export const deleteRegistrationAttachment: API.OperationMethod<
+  DeleteRegistrationAttachmentRequest,
+  DeleteRegistrationAttachmentResult,
+  DeleteRegistrationAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistrationAttachmentRequest,
@@ -4966,19 +5020,21 @@ export const deleteRegistrationAttachment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete the value in a registration form field.
- */
-export const deleteRegistrationFieldValue: API.OperationMethod<
-  DeleteRegistrationFieldValueRequest,
-  DeleteRegistrationFieldValueResult,
+export type DeleteRegistrationFieldValueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the value in a registration form field.
+ */
+export const deleteRegistrationFieldValue: API.OperationMethod<
+  DeleteRegistrationFieldValueRequest,
+  DeleteRegistrationFieldValueResult,
+  DeleteRegistrationFieldValueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistrationFieldValueRequest,
@@ -4992,18 +5048,20 @@ export const deleteRegistrationFieldValue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
  */
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -5016,17 +5074,19 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTextMessageSpendLimitOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
 export const deleteTextMessageSpendLimitOverride: API.OperationMethod<
   DeleteTextMessageSpendLimitOverrideRequest,
   DeleteTextMessageSpendLimitOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTextMessageSpendLimitOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTextMessageSpendLimitOverrideRequest,
@@ -5038,19 +5098,21 @@ export const deleteTextMessageSpendLimitOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a verified destination phone number.
- */
-export const deleteVerifiedDestinationNumber: API.OperationMethod<
-  DeleteVerifiedDestinationNumberRequest,
-  DeleteVerifiedDestinationNumberResult,
+export type DeleteVerifiedDestinationNumberError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a verified destination phone number.
+ */
+export const deleteVerifiedDestinationNumber: API.OperationMethod<
+  DeleteVerifiedDestinationNumberRequest,
+  DeleteVerifiedDestinationNumberResult,
+  DeleteVerifiedDestinationNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVerifiedDestinationNumberRequest,
@@ -5064,17 +5126,19 @@ export const deleteVerifiedDestinationNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteVoiceMessageSpendLimitOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
 export const deleteVoiceMessageSpendLimitOverride: API.OperationMethod<
   DeleteVoiceMessageSpendLimitOverrideRequest,
   DeleteVoiceMessageSpendLimitOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteVoiceMessageSpendLimitOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceMessageSpendLimitOverrideRequest,
@@ -5086,6 +5150,12 @@ export const deleteVoiceMessageSpendLimitOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAccountAttributesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request.
  *
@@ -5094,33 +5164,21 @@ export const deleteVoiceMessageSpendLimitOverride: API.OperationMethod<
 export const describeAccountAttributes: API.OperationMethod<
   DescribeAccountAttributesRequest,
   DescribeAccountAttributesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAccountAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAccountAttributesRequest,
   ) => stream.Stream<
     DescribeAccountAttributesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeAccountAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAccountAttributesRequest,
   ) => stream.Stream<
     AccountAttribute,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeAccountAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5139,6 +5197,12 @@ export const describeAccountAttributes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAccountLimitsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the current End User Messaging SMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value.
  *
@@ -5147,33 +5211,21 @@ export const describeAccountAttributes: API.OperationMethod<
 export const describeAccountLimits: API.OperationMethod<
   DescribeAccountLimitsRequest,
   DescribeAccountLimitsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAccountLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAccountLimitsRequest,
   ) => stream.Stream<
     DescribeAccountLimitsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeAccountLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAccountLimitsRequest,
   ) => stream.Stream<
     AccountLimit,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeAccountLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5192,6 +5244,13 @@ export const describeAccountLimits: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeConfigurationSetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified configuration sets or all in your account.
  *
@@ -5202,36 +5261,21 @@ export const describeAccountLimits: API.OperationMethod<
 export const describeConfigurationSets: API.OperationMethod<
   DescribeConfigurationSetsRequest,
   DescribeConfigurationSetsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeConfigurationSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConfigurationSetsRequest,
   ) => stream.Stream<
     DescribeConfigurationSetsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeConfigurationSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConfigurationSetsRequest,
   ) => stream.Stream<
     ConfigurationSetInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeConfigurationSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5251,6 +5295,13 @@ export const describeConfigurationSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeKeywordsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified keywords or all keywords on your origination phone number or pool.
  *
@@ -5261,36 +5312,21 @@ export const describeConfigurationSets: API.OperationMethod<
 export const describeKeywords: API.OperationMethod<
   DescribeKeywordsRequest,
   DescribeKeywordsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeKeywordsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeKeywordsRequest,
   ) => stream.Stream<
     DescribeKeywordsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeKeywordsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeKeywordsRequest,
   ) => stream.Stream<
     KeywordInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeKeywordsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5310,6 +5346,13 @@ export const describeKeywords: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeOptedOutNumbersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list.
  *
@@ -5320,36 +5363,21 @@ export const describeKeywords: API.OperationMethod<
 export const describeOptedOutNumbers: API.OperationMethod<
   DescribeOptedOutNumbersRequest,
   DescribeOptedOutNumbersResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeOptedOutNumbersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOptedOutNumbersRequest,
   ) => stream.Stream<
     DescribeOptedOutNumbersResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeOptedOutNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOptedOutNumbersRequest,
   ) => stream.Stream<
     OptedOutNumberInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeOptedOutNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5369,6 +5397,13 @@ export const describeOptedOutNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeOptOutListsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified opt-out list or all opt-out lists in your account.
  *
@@ -5379,36 +5414,21 @@ export const describeOptedOutNumbers: API.OperationMethod<
 export const describeOptOutLists: API.OperationMethod<
   DescribeOptOutListsRequest,
   DescribeOptOutListsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeOptOutListsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOptOutListsRequest,
   ) => stream.Stream<
     DescribeOptOutListsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeOptOutListsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOptOutListsRequest,
   ) => stream.Stream<
     OptOutListInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeOptOutListsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5428,6 +5448,13 @@ export const describeOptOutLists: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePhoneNumbersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified origination phone number, or all the phone numbers in your account.
  *
@@ -5438,36 +5465,21 @@ export const describeOptOutLists: API.OperationMethod<
 export const describePhoneNumbers: API.OperationMethod<
   DescribePhoneNumbersRequest,
   DescribePhoneNumbersResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePhoneNumbersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePhoneNumbersRequest,
   ) => stream.Stream<
     DescribePhoneNumbersResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribePhoneNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePhoneNumbersRequest,
   ) => stream.Stream<
     PhoneNumberInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribePhoneNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5487,6 +5499,13 @@ export const describePhoneNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePoolsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified pools or all pools associated with your Amazon Web Services account.
  *
@@ -5499,36 +5518,21 @@ export const describePhoneNumbers: API.OperationMethod<
 export const describePools: API.OperationMethod<
   DescribePoolsRequest,
   DescribePoolsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePoolsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePoolsRequest,
   ) => stream.Stream<
     DescribePoolsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribePoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePoolsRequest,
   ) => stream.Stream<
     PoolInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribePoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5548,42 +5552,34 @@ export const describePools: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeProtectConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the protect configurations that match any of filters. If a filter isn’t provided then all protect configurations are returned.
  */
 export const describeProtectConfigurations: API.OperationMethod<
   DescribeProtectConfigurationsRequest,
   DescribeProtectConfigurationsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeProtectConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeProtectConfigurationsRequest,
   ) => stream.Stream<
     DescribeProtectConfigurationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeProtectConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeProtectConfigurationsRequest,
   ) => stream.Stream<
     ProtectConfigurationInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeProtectConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5603,42 +5599,34 @@ export const describeProtectConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationAttachmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
  */
 export const describeRegistrationAttachments: API.OperationMethod<
   DescribeRegistrationAttachmentsRequest,
   DescribeRegistrationAttachmentsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationAttachmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationAttachmentsRequest,
   ) => stream.Stream<
     DescribeRegistrationAttachmentsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationAttachmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationAttachmentsRequest,
   ) => stream.Stream<
     RegistrationAttachmentsInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationAttachmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5658,39 +5646,33 @@ export const describeRegistrationAttachments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationFieldDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
 export const describeRegistrationFieldDefinitions: API.OperationMethod<
   DescribeRegistrationFieldDefinitionsRequest,
   DescribeRegistrationFieldDefinitionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationFieldDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationFieldDefinitionsRequest,
   ) => stream.Stream<
     DescribeRegistrationFieldDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationFieldDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationFieldDefinitionsRequest,
   ) => stream.Stream<
     RegistrationFieldDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationFieldDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5709,42 +5691,34 @@ export const describeRegistrationFieldDefinitions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationFieldValuesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registration field values.
  */
 export const describeRegistrationFieldValues: API.OperationMethod<
   DescribeRegistrationFieldValuesRequest,
   DescribeRegistrationFieldValuesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationFieldValuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationFieldValuesRequest,
   ) => stream.Stream<
     DescribeRegistrationFieldValuesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationFieldValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationFieldValuesRequest,
   ) => stream.Stream<
     RegistrationFieldValueInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationFieldValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5764,42 +5738,34 @@ export const describeRegistrationFieldValues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registrations.
  */
 export const describeRegistrations: API.OperationMethod<
   DescribeRegistrationsRequest,
   DescribeRegistrationsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationsRequest,
   ) => stream.Stream<
     DescribeRegistrationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationsRequest,
   ) => stream.Stream<
     RegistrationInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5819,39 +5785,33 @@ export const describeRegistrations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationSectionDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registration section definitions. You can use DescribeRegistrationSectionDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
 export const describeRegistrationSectionDefinitions: API.OperationMethod<
   DescribeRegistrationSectionDefinitionsRequest,
   DescribeRegistrationSectionDefinitionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationSectionDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationSectionDefinitionsRequest,
   ) => stream.Stream<
     DescribeRegistrationSectionDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationSectionDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationSectionDefinitionsRequest,
   ) => stream.Stream<
     RegistrationSectionDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationSectionDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5870,39 +5830,33 @@ export const describeRegistrationSectionDefinitions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationTypeDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registration type definitions. You can use DescribeRegistrationTypeDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
 export const describeRegistrationTypeDefinitions: API.OperationMethod<
   DescribeRegistrationTypeDefinitionsRequest,
   DescribeRegistrationTypeDefinitionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationTypeDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationTypeDefinitionsRequest,
   ) => stream.Stream<
     DescribeRegistrationTypeDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationTypeDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationTypeDefinitionsRequest,
   ) => stream.Stream<
     RegistrationTypeDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationTypeDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5921,42 +5875,34 @@ export const describeRegistrationTypeDefinitions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRegistrationVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified registration version.
  */
 export const describeRegistrationVersions: API.OperationMethod<
   DescribeRegistrationVersionsRequest,
   DescribeRegistrationVersionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegistrationVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRegistrationVersionsRequest,
   ) => stream.Stream<
     DescribeRegistrationVersionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRegistrationVersionsRequest,
   ) => stream.Stream<
     RegistrationVersionInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeRegistrationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5976,6 +5922,13 @@ export const describeRegistrationVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeSenderIdsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified SenderIds or all SenderIds associated with your Amazon Web Services account.
  *
@@ -5986,36 +5939,21 @@ export const describeRegistrationVersions: API.OperationMethod<
 export const describeSenderIds: API.OperationMethod<
   DescribeSenderIdsRequest,
   DescribeSenderIdsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeSenderIdsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSenderIdsRequest,
   ) => stream.Stream<
     DescribeSenderIdsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeSenderIdsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSenderIdsRequest,
   ) => stream.Stream<
     SenderIdInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeSenderIdsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6035,6 +5973,12 @@ export const describeSenderIds: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeSpendLimitsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the current monthly spend limits for sending voice and text messages.
  *
@@ -6043,33 +5987,21 @@ export const describeSenderIds: API.OperationMethod<
 export const describeSpendLimits: API.OperationMethod<
   DescribeSpendLimitsRequest,
   DescribeSpendLimitsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeSpendLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSpendLimitsRequest,
   ) => stream.Stream<
     DescribeSpendLimitsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeSpendLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSpendLimitsRequest,
   ) => stream.Stream<
     SpendLimit,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeSpendLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6088,42 +6020,34 @@ export const describeSpendLimits: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeVerifiedDestinationNumbersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified verified destination numbers.
  */
 export const describeVerifiedDestinationNumbers: API.OperationMethod<
   DescribeVerifiedDestinationNumbersRequest,
   DescribeVerifiedDestinationNumbersResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeVerifiedDestinationNumbersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeVerifiedDestinationNumbersRequest,
   ) => stream.Stream<
     DescribeVerifiedDestinationNumbersResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeVerifiedDestinationNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeVerifiedDestinationNumbersRequest,
   ) => stream.Stream<
     VerifiedDestinationNumberInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeVerifiedDestinationNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6143,6 +6067,14 @@ export const describeVerifiedDestinationNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DisassociateOriginationIdentityError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified origination identity from an existing pool.
  *
@@ -6151,13 +6083,7 @@ export const describeVerifiedDestinationNumbers: API.OperationMethod<
 export const disassociateOriginationIdentity: API.OperationMethod<
   DisassociateOriginationIdentityRequest,
   DisassociateOriginationIdentityResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateOriginationIdentityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateOriginationIdentityRequest,
@@ -6171,19 +6097,21 @@ export const disassociateOriginationIdentity: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociate a protect configuration from a configuration set.
- */
-export const disassociateProtectConfiguration: API.OperationMethod<
-  DisassociateProtectConfigurationRequest,
-  DisassociateProtectConfigurationResult,
+export type DisassociateProtectConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociate a protect configuration from a configuration set.
+ */
+export const disassociateProtectConfiguration: API.OperationMethod<
+  DisassociateProtectConfigurationRequest,
+  DisassociateProtectConfigurationResult,
+  DisassociateProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateProtectConfigurationRequest,
@@ -6197,19 +6125,21 @@ export const disassociateProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Discard the current version of the registration.
- */
-export const discardRegistrationVersion: API.OperationMethod<
-  DiscardRegistrationVersionRequest,
-  DiscardRegistrationVersionResult,
+export type DiscardRegistrationVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Discard the current version of the registration.
+ */
+export const discardRegistrationVersion: API.OperationMethod<
+  DiscardRegistrationVersionRequest,
+  DiscardRegistrationVersionResult,
+  DiscardRegistrationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscardRegistrationVersionRequest,
@@ -6223,18 +6153,20 @@ export const discardRegistrationVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProtectConfigurationCountryRuleSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
  */
 export const getProtectConfigurationCountryRuleSet: API.OperationMethod<
   GetProtectConfigurationCountryRuleSetRequest,
   GetProtectConfigurationCountryRuleSetResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProtectConfigurationCountryRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProtectConfigurationCountryRuleSetRequest,
@@ -6247,18 +6179,20 @@ export const getProtectConfigurationCountryRuleSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the JSON text of the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -6271,6 +6205,13 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPoolOriginationIdentitiesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all associated origination identities in your pool.
  *
@@ -6279,36 +6220,21 @@ export const getResourcePolicy: API.OperationMethod<
 export const listPoolOriginationIdentities: API.OperationMethod<
   ListPoolOriginationIdentitiesRequest,
   ListPoolOriginationIdentitiesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPoolOriginationIdentitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPoolOriginationIdentitiesRequest,
   ) => stream.Stream<
     ListPoolOriginationIdentitiesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPoolOriginationIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPoolOriginationIdentitiesRequest,
   ) => stream.Stream<
     OriginationIdentityMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPoolOriginationIdentitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6328,42 +6254,34 @@ export const listPoolOriginationIdentities: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProtectConfigurationRuleSetNumberOverridesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve all of the protect configuration rule set number overrides that match the filters.
  */
 export const listProtectConfigurationRuleSetNumberOverrides: API.OperationMethod<
   ListProtectConfigurationRuleSetNumberOverridesRequest,
   ListProtectConfigurationRuleSetNumberOverridesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProtectConfigurationRuleSetNumberOverridesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProtectConfigurationRuleSetNumberOverridesRequest,
   ) => stream.Stream<
     ListProtectConfigurationRuleSetNumberOverridesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProtectConfigurationRuleSetNumberOverridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProtectConfigurationRuleSetNumberOverridesRequest,
   ) => stream.Stream<
     ProtectConfigurationRuleSetNumberOverride,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProtectConfigurationRuleSetNumberOverridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6383,42 +6301,34 @@ export const listProtectConfigurationRuleSetNumberOverrides: API.OperationMethod
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRegistrationAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve all of the origination identities that are associated with a registration.
  */
 export const listRegistrationAssociations: API.OperationMethod<
   ListRegistrationAssociationsRequest,
   ListRegistrationAssociationsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRegistrationAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRegistrationAssociationsRequest,
   ) => stream.Stream<
     ListRegistrationAssociationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRegistrationAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRegistrationAssociationsRequest,
   ) => stream.Stream<
     RegistrationAssociationMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRegistrationAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6438,18 +6348,20 @@ export const listRegistrationAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all tags associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -6462,6 +6374,15 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutKeywordError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a keyword configuration on an origination phone number or pool.
  *
@@ -6472,14 +6393,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putKeyword: API.OperationMethod<
   PutKeywordRequest,
   PutKeywordResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutKeywordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKeywordRequest,
@@ -6494,6 +6408,13 @@ export const putKeyword: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutMessageFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set the MessageFeedbackStatus as `RECEIVED` or `FAILED` for the passed in MessageId.
  *
@@ -6502,12 +6423,7 @@ export const putKeyword: API.OperationMethod<
 export const putMessageFeedback: API.OperationMethod<
   PutMessageFeedbackRequest,
   PutMessageFeedbackResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutMessageFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMessageFeedbackRequest,
@@ -6520,6 +6436,13 @@ export const putMessageFeedback: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutOptedOutNumberError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an opted out destination phone number in the opt-out list.
  *
@@ -6528,12 +6451,7 @@ export const putMessageFeedback: API.OperationMethod<
 export const putOptedOutNumber: API.OperationMethod<
   PutOptedOutNumberRequest,
   PutOptedOutNumberResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutOptedOutNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutOptedOutNumberRequest,
@@ -6546,19 +6464,21 @@ export const putOptedOutNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create or update a phone number rule override and associate it with a protect configuration.
- */
-export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
-  PutProtectConfigurationRuleSetNumberOverrideRequest,
-  PutProtectConfigurationRuleSetNumberOverrideResult,
+export type PutProtectConfigurationRuleSetNumberOverrideError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create or update a phone number rule override and associate it with a protect configuration.
+ */
+export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
+  PutProtectConfigurationRuleSetNumberOverrideRequest,
+  PutProtectConfigurationRuleSetNumberOverrideResult,
+  PutProtectConfigurationRuleSetNumberOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProtectConfigurationRuleSetNumberOverrideRequest,
@@ -6572,19 +6492,21 @@ export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates or updates a field value for a registration.
- */
-export const putRegistrationFieldValue: API.OperationMethod<
-  PutRegistrationFieldValueRequest,
-  PutRegistrationFieldValueResult,
+export type PutRegistrationFieldValueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates or updates a field value for a registration.
+ */
+export const putRegistrationFieldValue: API.OperationMethod<
+  PutRegistrationFieldValueRequest,
+  PutRegistrationFieldValueResult,
+  PutRegistrationFieldValueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRegistrationFieldValueRequest,
@@ -6598,18 +6520,20 @@ export const putRegistrationFieldValue: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the *End User Messaging SMS User Guide*.
  */
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -6622,6 +6546,14 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ReleasePhoneNumberError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages.
  *
@@ -6630,13 +6562,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const releasePhoneNumber: API.OperationMethod<
   ReleasePhoneNumberRequest,
   ReleasePhoneNumberResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ReleasePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleasePhoneNumberRequest,
@@ -6650,19 +6576,21 @@ export const releasePhoneNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Releases an existing sender ID in your account.
- */
-export const releaseSenderId: API.OperationMethod<
-  ReleaseSenderIdRequest,
-  ReleaseSenderIdResult,
+export type ReleaseSenderIdError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Releases an existing sender ID in your account.
+ */
+export const releaseSenderId: API.OperationMethod<
+  ReleaseSenderIdRequest,
+  ReleaseSenderIdResult,
+  ReleaseSenderIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseSenderIdRequest,
@@ -6676,12 +6604,7 @@ export const releaseSenderId: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the *End User Messaging SMS User Guide*.
- */
-export const requestPhoneNumber: API.OperationMethod<
-  RequestPhoneNumberRequest,
-  RequestPhoneNumberResult,
+export type RequestPhoneNumberError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6689,7 +6612,14 @@ export const requestPhoneNumber: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the *End User Messaging SMS User Guide*.
+ */
+export const requestPhoneNumber: API.OperationMethod<
+  RequestPhoneNumberRequest,
+  RequestPhoneNumberResult,
+  RequestPhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestPhoneNumberRequest,
@@ -6704,19 +6634,21 @@ export const requestPhoneNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Request a new sender ID that doesn't require registration.
- */
-export const requestSenderId: API.OperationMethod<
-  RequestSenderIdRequest,
-  RequestSenderIdResult,
+export type RequestSenderIdError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Request a new sender ID that doesn't require registration.
+ */
+export const requestSenderId: API.OperationMethod<
+  RequestSenderIdRequest,
+  RequestSenderIdResult,
+  RequestSenderIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestSenderIdRequest,
@@ -6730,12 +6662,7 @@ export const requestSenderId: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
- */
-export const sendDestinationNumberVerificationCode: API.OperationMethod<
-  SendDestinationNumberVerificationCodeRequest,
-  SendDestinationNumberVerificationCodeResult,
+export type SendDestinationNumberVerificationCodeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6743,7 +6670,14 @@ export const sendDestinationNumberVerificationCode: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
+ */
+export const sendDestinationNumberVerificationCode: API.OperationMethod<
+  SendDestinationNumberVerificationCodeRequest,
+  SendDestinationNumberVerificationCodeResult,
+  SendDestinationNumberVerificationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDestinationNumberVerificationCodeRequest,
@@ -6758,12 +6692,7 @@ export const sendDestinationNumberVerificationCode: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
- */
-export const sendMediaMessage: API.OperationMethod<
-  SendMediaMessageRequest,
-  SendMediaMessageResult,
+export type SendMediaMessageError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6771,7 +6700,14 @@ export const sendMediaMessage: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
+ */
+export const sendMediaMessage: API.OperationMethod<
+  SendMediaMessageRequest,
+  SendMediaMessageResult,
+  SendMediaMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMediaMessageRequest,
@@ -6786,6 +6722,15 @@ export const sendMediaMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendTextMessageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked.
  *
@@ -6794,14 +6739,7 @@ export const sendMediaMessage: API.OperationMethod<
 export const sendTextMessage: API.OperationMethod<
   SendTextMessageRequest,
   SendTextMessageResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendTextMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTextMessageRequest,
@@ -6816,12 +6754,7 @@ export const sendTextMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
- */
-export const sendVoiceMessage: API.OperationMethod<
-  SendVoiceMessageRequest,
-  SendVoiceMessageResult,
+export type SendVoiceMessageError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6829,7 +6762,14 @@ export const sendVoiceMessage: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
+ */
+export const sendVoiceMessage: API.OperationMethod<
+  SendVoiceMessageRequest,
+  SendVoiceMessageResult,
+  SendVoiceMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendVoiceMessageRequest,
@@ -6844,18 +6784,20 @@ export const sendVoiceMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetAccountDefaultProtectConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
  */
 export const setAccountDefaultProtectConfiguration: API.OperationMethod<
   SetAccountDefaultProtectConfigurationRequest,
   SetAccountDefaultProtectConfigurationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetAccountDefaultProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetAccountDefaultProtectConfigurationRequest,
@@ -6868,18 +6810,20 @@ export const setAccountDefaultProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetDefaultMessageFeedbackEnabledError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets a configuration set's default for message feedback.
  */
 export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
   SetDefaultMessageFeedbackEnabledRequest,
   SetDefaultMessageFeedbackEnabledResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetDefaultMessageFeedbackEnabledError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultMessageFeedbackEnabledRequest,
@@ -6892,6 +6836,13 @@ export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetDefaultMessageTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the default message type on a configuration set.
  *
@@ -6900,12 +6851,7 @@ export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
 export const setDefaultMessageType: API.OperationMethod<
   SetDefaultMessageTypeRequest,
   SetDefaultMessageTypeResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetDefaultMessageTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultMessageTypeRequest,
@@ -6918,6 +6864,13 @@ export const setDefaultMessageType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetDefaultSenderIdError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets default sender ID on a configuration set.
  *
@@ -6926,12 +6879,7 @@ export const setDefaultMessageType: API.OperationMethod<
 export const setDefaultSenderId: API.OperationMethod<
   SetDefaultSenderIdRequest,
   SetDefaultSenderIdResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetDefaultSenderIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultSenderIdRequest,
@@ -6944,17 +6892,19 @@ export const setDefaultSenderId: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetMediaMessageSpendLimitOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setMediaMessageSpendLimitOverride: API.OperationMethod<
   SetMediaMessageSpendLimitOverrideRequest,
   SetMediaMessageSpendLimitOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetMediaMessageSpendLimitOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetMediaMessageSpendLimitOverrideRequest,
@@ -6966,17 +6916,19 @@ export const setMediaMessageSpendLimitOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetTextMessageSpendLimitOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setTextMessageSpendLimitOverride: API.OperationMethod<
   SetTextMessageSpendLimitOverrideRequest,
   SetTextMessageSpendLimitOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetTextMessageSpendLimitOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTextMessageSpendLimitOverrideRequest,
@@ -6988,17 +6940,19 @@ export const setTextMessageSpendLimitOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SetVoiceMessageSpendLimitOverrideError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets an account level monthly spend limit override for sending voice messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setVoiceMessageSpendLimitOverride: API.OperationMethod<
   SetVoiceMessageSpendLimitOverrideRequest,
   SetVoiceMessageSpendLimitOverrideResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SetVoiceMessageSpendLimitOverrideError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetVoiceMessageSpendLimitOverrideRequest,
@@ -7010,19 +6964,21 @@ export const setVoiceMessageSpendLimitOverride: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Submit the specified registration for review and approval.
- */
-export const submitRegistrationVersion: API.OperationMethod<
-  SubmitRegistrationVersionRequest,
-  SubmitRegistrationVersionResult,
+export type SubmitRegistrationVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Submit the specified registration for review and approval.
+ */
+export const submitRegistrationVersion: API.OperationMethod<
+  SubmitRegistrationVersionRequest,
+  SubmitRegistrationVersionResult,
+  SubmitRegistrationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitRegistrationVersionRequest,
@@ -7036,19 +6992,21 @@ export const submitRegistrationVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags in the *End User Messaging SMS User Guide*.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResult,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags in the *End User Messaging SMS User Guide*.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResult,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7062,18 +7020,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association of the specified tags from a resource. For more information on tags see Tags in the *End User Messaging SMS User Guide*.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -7086,6 +7046,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEventDestinationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination.
  *
@@ -7094,13 +7062,7 @@ export const untagResource: API.OperationMethod<
 export const updateEventDestination: API.OperationMethod<
   UpdateEventDestinationRequest,
   UpdateEventDestinationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventDestinationRequest,
@@ -7114,6 +7076,14 @@ export const updateEventDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePhoneNumberError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection.
  *
@@ -7122,13 +7092,7 @@ export const updateEventDestination: API.OperationMethod<
 export const updatePhoneNumber: API.OperationMethod<
   UpdatePhoneNumberRequest,
   UpdatePhoneNumberResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberRequest,
@@ -7142,19 +7106,21 @@ export const updatePhoneNumber: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
- */
-export const updatePool: API.OperationMethod<
-  UpdatePoolRequest,
-  UpdatePoolResult,
+export type UpdatePoolError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
+ */
+export const updatePool: API.OperationMethod<
+  UpdatePoolRequest,
+  UpdatePoolResult,
+  UpdatePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePoolRequest,
@@ -7168,18 +7134,20 @@ export const updatePool: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProtectConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the setting for an existing protect configuration.
  */
 export const updateProtectConfiguration: API.OperationMethod<
   UpdateProtectConfigurationRequest,
   UpdateProtectConfigurationResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateProtectConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProtectConfigurationRequest,
@@ -7192,18 +7160,20 @@ export const updateProtectConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProtectConfigurationCountryRuleSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a country rule set to `ALLOW`, `BLOCK`, `MONITOR`, or `FILTER` messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
  */
 export const updateProtectConfigurationCountryRuleSet: API.OperationMethod<
   UpdateProtectConfigurationCountryRuleSetRequest,
   UpdateProtectConfigurationCountryRuleSetResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateProtectConfigurationCountryRuleSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProtectConfigurationCountryRuleSetRequest,
@@ -7216,18 +7186,20 @@ export const updateProtectConfigurationCountryRuleSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSenderIdError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing sender ID.
  */
 export const updateSenderId: API.OperationMethod<
   UpdateSenderIdRequest,
   UpdateSenderIdResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSenderIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSenderIdRequest,
@@ -7240,19 +7212,21 @@ export const updateSenderId: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
- */
-export const verifyDestinationNumber: API.OperationMethod<
-  VerifyDestinationNumberRequest,
-  VerifyDestinationNumberResult,
+export type VerifyDestinationNumberError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
+ */
+export const verifyDestinationNumber: API.OperationMethod<
+  VerifyDestinationNumberRequest,
+  VerifyDestinationNumberResult,
+  VerifyDestinationNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyDestinationNumberRequest,

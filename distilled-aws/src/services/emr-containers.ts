@@ -1622,6 +1622,10 @@ export class RequestThrottledException extends S.TaggedErrorClass<RequestThrottl
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelJobRunError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
  * SparkSQL query, that you submit to Amazon EMR on EKS.
@@ -1629,13 +1633,18 @@ export class RequestThrottledException extends S.TaggedErrorClass<RequestThrottl
 export const cancelJobRun: API.OperationMethod<
   CancelJobRunRequest,
   CancelJobRunResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  CancelJobRunError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRunRequest,
   output: CancelJobRunResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type CreateJobTemplateError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a job template. Job template stores values of StartJobRun API request in a
  * template and can be used to start a job run. Job template allows two use cases: avoid
@@ -1645,10 +1654,7 @@ export const cancelJobRun: API.OperationMethod<
 export const createJobTemplate: API.OperationMethod<
   CreateJobTemplateRequest,
   CreateJobTemplateResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateJobTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
@@ -1659,6 +1665,11 @@ export const createJobTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateManagedEndpointError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
  * communicate with your virtual cluster.
@@ -1666,10 +1677,7 @@ export const createJobTemplate: API.OperationMethod<
 export const createManagedEndpoint: API.OperationMethod<
   CreateManagedEndpointRequest,
   CreateManagedEndpointResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateManagedEndpointError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateManagedEndpointRequest,
@@ -1680,6 +1688,10 @@ export const createManagedEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSecurityConfigurationError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a security configuration. Security configurations in Amazon EMR on EKS are
  * templates for different security setups. You can use security configurations to configure
@@ -1689,13 +1701,19 @@ export const createManagedEndpoint: API.OperationMethod<
 export const createSecurityConfiguration: API.OperationMethod<
   CreateSecurityConfigurationRequest,
   CreateSecurityConfigurationResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  CreateSecurityConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityConfigurationRequest,
   output: CreateSecurityConfigurationResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type CreateVirtualClusterError =
+  | EKSRequestThrottledException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
  * additional resource in your system. A single virtual cluster maps to a single Kubernetes
@@ -1705,11 +1723,7 @@ export const createSecurityConfiguration: API.OperationMethod<
 export const createVirtualCluster: API.OperationMethod<
   CreateVirtualClusterRequest,
   CreateVirtualClusterResponse,
-  | EKSRequestThrottledException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateVirtualClusterError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualClusterRequest,
@@ -1721,6 +1735,10 @@ export const createVirtualCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteJobTemplateError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a job template. Job template stores values of StartJobRun API request in a
  * template and can be used to start a job run. Job template allows two use cases: avoid
@@ -1730,13 +1748,17 @@ export const createVirtualCluster: API.OperationMethod<
 export const deleteJobTemplate: API.OperationMethod<
   DeleteJobTemplateRequest,
   DeleteJobTemplateResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DeleteJobTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
   output: DeleteJobTemplateResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type DeleteManagedEndpointError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
  * communicate with your virtual cluster.
@@ -1744,13 +1766,17 @@ export const deleteJobTemplate: API.OperationMethod<
 export const deleteManagedEndpoint: API.OperationMethod<
   DeleteManagedEndpointRequest,
   DeleteManagedEndpointResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DeleteManagedEndpointError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteManagedEndpointRequest,
   output: DeleteManagedEndpointResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type DeleteVirtualClusterError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
  * additional resource in your system. A single virtual cluster maps to a single Kubernetes
@@ -1760,13 +1786,18 @@ export const deleteManagedEndpoint: API.OperationMethod<
 export const deleteVirtualCluster: API.OperationMethod<
   DeleteVirtualClusterRequest,
   DeleteVirtualClusterResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DeleteVirtualClusterError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualClusterRequest,
   output: DeleteVirtualClusterResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type DescribeJobRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a job run. A job run is a unit of work, such as a
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
@@ -1774,10 +1805,7 @@ export const deleteVirtualCluster: API.OperationMethod<
 export const describeJobRun: API.OperationMethod<
   DescribeJobRunRequest,
   DescribeJobRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeJobRunError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRunRequest,
@@ -1788,6 +1816,11 @@ export const describeJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeJobTemplateError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a specified job template. Job template stores values
  * of StartJobRun API request in a template and can be used to start a job run. Job template
@@ -1797,10 +1830,7 @@ export const describeJobRun: API.OperationMethod<
 export const describeJobTemplate: API.OperationMethod<
   DescribeJobTemplateRequest,
   DescribeJobTemplateResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeJobTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobTemplateRequest,
@@ -1811,6 +1841,11 @@ export const describeJobTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeManagedEndpointError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a managed endpoint. A managed endpoint is a gateway
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
@@ -1818,10 +1853,7 @@ export const describeJobTemplate: API.OperationMethod<
 export const describeManagedEndpoint: API.OperationMethod<
   DescribeManagedEndpointRequest,
   DescribeManagedEndpointResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeManagedEndpointError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeManagedEndpointRequest,
@@ -1832,6 +1864,11 @@ export const describeManagedEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSecurityConfigurationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a specified security configuration. Security
  * configurations in Amazon EMR on EKS are templates for different security setups. You
@@ -1842,10 +1879,7 @@ export const describeManagedEndpoint: API.OperationMethod<
 export const describeSecurityConfiguration: API.OperationMethod<
   DescribeSecurityConfigurationRequest,
   DescribeSecurityConfigurationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeSecurityConfigurationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSecurityConfigurationRequest,
@@ -1856,6 +1890,11 @@ export const describeSecurityConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeVirtualClusterError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays detailed information about a specified virtual cluster. Virtual cluster is a
  * managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
@@ -1867,10 +1906,7 @@ export const describeSecurityConfiguration: API.OperationMethod<
 export const describeVirtualCluster: API.OperationMethod<
   DescribeVirtualClusterRequest,
   DescribeVirtualClusterResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeVirtualClusterError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVirtualClusterRequest,
@@ -1881,17 +1917,19 @@ export const describeVirtualCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetManagedEndpointSessionCredentialsError =
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generate a session token to connect to a managed endpoint.
  */
 export const getManagedEndpointSessionCredentials: API.OperationMethod<
   GetManagedEndpointSessionCredentialsRequest,
   GetManagedEndpointSessionCredentialsResponse,
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetManagedEndpointSessionCredentialsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedEndpointSessionCredentialsRequest,
@@ -1903,6 +1941,10 @@ export const getManagedEndpointSessionCredentials: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListJobRunsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists job runs based on a set of parameters. A job run is a unit of work, such as a
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
@@ -1910,21 +1952,21 @@ export const getManagedEndpointSessionCredentials: API.OperationMethod<
 export const listJobRuns: API.OperationMethod<
   ListJobRunsRequest,
   ListJobRunsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListJobRunsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
     ListJobRunsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListJobRunsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
     JobRun,
-    InternalServerException | ValidationException | CommonErrors,
+    ListJobRunsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1938,6 +1980,10 @@ export const listJobRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobTemplatesError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists job templates based on a set of parameters. Job template stores values of
  * StartJobRun API request in a template and can be used to start a job run. Job template
@@ -1947,21 +1993,21 @@ export const listJobRuns: API.OperationMethod<
 export const listJobTemplates: API.OperationMethod<
   ListJobTemplatesRequest,
   ListJobTemplatesResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListJobTemplatesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
     ListJobTemplatesResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListJobTemplatesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
     JobTemplate,
-    InternalServerException | ValidationException | CommonErrors,
+    ListJobTemplatesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1975,6 +2021,10 @@ export const listJobTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListManagedEndpointsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
@@ -1982,21 +2032,21 @@ export const listJobTemplates: API.OperationMethod<
 export const listManagedEndpoints: API.OperationMethod<
   ListManagedEndpointsRequest,
   ListManagedEndpointsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListManagedEndpointsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedEndpointsRequest,
   ) => stream.Stream<
     ListManagedEndpointsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListManagedEndpointsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedEndpointsRequest,
   ) => stream.Stream<
     Endpoint,
-    InternalServerException | ValidationException | CommonErrors,
+    ListManagedEndpointsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2010,6 +2060,10 @@ export const listManagedEndpoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSecurityConfigurationsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists security configurations based on a set of parameters. Security configurations in
  * Amazon EMR on EKS are templates for different security setups. You can use security
@@ -2020,21 +2074,21 @@ export const listManagedEndpoints: API.OperationMethod<
 export const listSecurityConfigurations: API.OperationMethod<
   ListSecurityConfigurationsRequest,
   ListSecurityConfigurationsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListSecurityConfigurationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityConfigurationsRequest,
   ) => stream.Stream<
     ListSecurityConfigurationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListSecurityConfigurationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityConfigurationsRequest,
   ) => stream.Stream<
     SecurityConfiguration,
-    InternalServerException | ValidationException | CommonErrors,
+    ListSecurityConfigurationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2048,16 +2102,18 @@ export const listSecurityConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags assigned to the resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2068,6 +2124,10 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListVirtualClustersError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about the specified virtual cluster. Virtual cluster is a managed
  * entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
@@ -2079,21 +2139,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listVirtualClusters: API.OperationMethod<
   ListVirtualClustersRequest,
   ListVirtualClustersResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListVirtualClustersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVirtualClustersRequest,
   ) => stream.Stream<
     ListVirtualClustersResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListVirtualClustersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualClustersRequest,
   ) => stream.Stream<
     VirtualCluster,
-    InternalServerException | ValidationException | CommonErrors,
+    ListVirtualClustersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2107,6 +2167,11 @@ export const listVirtualClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartJobRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
  * SparkSQL query, that you submit to Amazon EMR on EKS.
@@ -2114,10 +2179,7 @@ export const listVirtualClusters: API.OperationMethod<
 export const startJobRun: API.OperationMethod<
   StartJobRunRequest,
   StartJobRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartJobRunError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRunRequest,
@@ -2128,6 +2190,11 @@ export const startJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services
  * resource. Each tag consists of a key and an optional value, both of which you define. Tags
@@ -2142,10 +2209,7 @@ export const startJobRun: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2156,16 +2220,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

@@ -905,6 +905,12 @@ export class TaskNotFoundException extends S.TaggedErrorClass<TaskNotFoundExcept
 ) {}
 
 //# Operations
+export type ActivatePipelineError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Validates the specified pipeline and starts processing pipeline tasks. If the pipeline does not pass validation,
  * activation fails.
@@ -935,11 +941,7 @@ export class TaskNotFoundException extends S.TaggedErrorClass<TaskNotFoundExcept
 export const activatePipeline: API.OperationMethod<
   ActivatePipelineInput,
   ActivatePipelineOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  ActivatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivatePipelineInput,
@@ -951,17 +953,19 @@ export const activatePipeline: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type AddTagsError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Adds or modifies tags for the specified pipeline.
  */
 export const addTags: API.OperationMethod<
   AddTagsInput,
   AddTagsOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  AddTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
@@ -973,6 +977,10 @@ export const addTags: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type CreatePipelineError =
+  | InternalServiceError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipeline.
  *
@@ -999,13 +1007,19 @@ export const addTags: API.OperationMethod<
 export const createPipeline: API.OperationMethod<
   CreatePipelineInput,
   CreatePipelineOutput,
-  InternalServiceError | InvalidRequestException | CommonErrors,
+  CreatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineInput,
   output: CreatePipelineOutput,
   errors: [InternalServiceError, InvalidRequestException],
 }));
+export type DeactivatePipelineError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Deactivates the specified running pipeline. The pipeline is set to the `DEACTIVATING`
  * state until the deactivation process completes.
@@ -1016,11 +1030,7 @@ export const createPipeline: API.OperationMethod<
 export const deactivatePipeline: API.OperationMethod<
   DeactivatePipelineInput,
   DeactivatePipelineOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  DeactivatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivatePipelineInput,
@@ -1032,6 +1042,11 @@ export const deactivatePipeline: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type DeletePipelineError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Deletes a pipeline, its pipeline definition, and its run history.
  * AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners.
@@ -1060,10 +1075,7 @@ export const deactivatePipeline: API.OperationMethod<
 export const deletePipeline: API.OperationMethod<
   DeletePipelineInput,
   DeletePipelineResponse,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineNotFoundException
-  | CommonErrors,
+  DeletePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineInput,
@@ -1074,6 +1086,12 @@ export const deletePipeline: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type DescribeObjectsError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of
  * a set of fields that define the properties of the object.
@@ -1128,33 +1146,21 @@ export const deletePipeline: API.OperationMethod<
 export const describeObjects: API.OperationMethod<
   DescribeObjectsInput,
   DescribeObjectsOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  DescribeObjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeObjectsInput,
   ) => stream.Stream<
     DescribeObjectsOutput,
-    | InternalServiceError
-    | InvalidRequestException
-    | PipelineDeletedException
-    | PipelineNotFoundException
-    | CommonErrors,
+    DescribeObjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeObjectsInput,
   ) => stream.Stream<
     PipelineObject,
-    | InternalServiceError
-    | InvalidRequestException
-    | PipelineDeletedException
-    | PipelineNotFoundException
-    | CommonErrors,
+    DescribeObjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1172,6 +1178,12 @@ export const describeObjects: API.OperationMethod<
     items: "pipelineObjects",
   } as const,
 }));
+export type DescribePipelinesError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Retrieves metadata about one or more pipelines. The information retrieved includes the name of the pipeline, the pipeline identifier,
  * its current state, and the user account that owns the pipeline. Using account credentials, you can retrieve metadata about pipelines
@@ -1231,11 +1243,7 @@ export const describeObjects: API.OperationMethod<
 export const describePipelines: API.OperationMethod<
   DescribePipelinesInput,
   DescribePipelinesOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  DescribePipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePipelinesInput,
@@ -1247,6 +1255,13 @@ export const describePipelines: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type EvaluateExpressionError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | TaskNotFoundException
+  | CommonErrors;
 /**
  * Task runners call `EvaluateExpression` to evaluate a string in the context of the specified object.
  * For example, a task runner can evaluate SQL queries stored in Amazon S3.
@@ -1273,12 +1288,7 @@ export const describePipelines: API.OperationMethod<
 export const evaluateExpression: API.OperationMethod<
   EvaluateExpressionInput,
   EvaluateExpressionOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | TaskNotFoundException
-  | CommonErrors,
+  EvaluateExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateExpressionInput,
@@ -1291,6 +1301,12 @@ export const evaluateExpression: API.OperationMethod<
     TaskNotFoundException,
   ],
 }));
+export type GetPipelineDefinitionError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Gets the definition of the specified pipeline. You can call `GetPipelineDefinition` to retrieve
  * the pipeline definition that you provided using PutPipelineDefinition.
@@ -1351,11 +1367,7 @@ export const evaluateExpression: API.OperationMethod<
 export const getPipelineDefinition: API.OperationMethod<
   GetPipelineDefinitionInput,
   GetPipelineDefinitionOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  GetPipelineDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineDefinitionInput,
@@ -1367,6 +1379,10 @@ export const getPipelineDefinition: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type ListPipelinesError =
+  | InternalServiceError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists the pipeline identifiers for all active pipelines that you have permission to access.
  *
@@ -1398,21 +1414,21 @@ export const getPipelineDefinition: API.OperationMethod<
 export const listPipelines: API.OperationMethod<
   ListPipelinesInput,
   ListPipelinesOutput,
-  InternalServiceError | InvalidRequestException | CommonErrors,
+  ListPipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipelinesInput,
   ) => stream.Stream<
     ListPipelinesOutput,
-    InternalServiceError | InvalidRequestException | CommonErrors,
+    ListPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelinesInput,
   ) => stream.Stream<
     PipelineIdName,
-    InternalServiceError | InvalidRequestException | CommonErrors,
+    ListPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1425,6 +1441,11 @@ export const listPipelines: API.OperationMethod<
     items: "pipelineIdList",
   } as const,
 }));
+export type PollForTaskError =
+  | InternalServiceError
+  | InvalidRequestException
+  | TaskNotFoundException
+  | CommonErrors;
 /**
  * Task runners call `PollForTask` to receive a task to perform from AWS Data Pipeline. The task runner specifies which tasks it can perform
  * by setting a value for the `workerGroup` parameter. The task returned can come from any of the pipelines that
@@ -1499,10 +1520,7 @@ export const listPipelines: API.OperationMethod<
 export const pollForTask: API.OperationMethod<
   PollForTaskInput,
   PollForTaskOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | TaskNotFoundException
-  | CommonErrors,
+  PollForTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForTaskInput,
@@ -1513,6 +1531,12 @@ export const pollForTask: API.OperationMethod<
     TaskNotFoundException,
   ],
 }));
+export type PutPipelineDefinitionError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Adds tasks, schedules, and preconditions to the specified pipeline. You can use `PutPipelineDefinition` to populate a new pipeline.
  *
@@ -1658,11 +1682,7 @@ export const pollForTask: API.OperationMethod<
 export const putPipelineDefinition: API.OperationMethod<
   PutPipelineDefinitionInput,
   PutPipelineDefinitionOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  PutPipelineDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPipelineDefinitionInput,
@@ -1674,6 +1694,12 @@ export const putPipelineDefinition: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type QueryObjectsError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Queries the specified pipeline for the names of objects that match the specified set of conditions.
  *
@@ -1708,33 +1734,21 @@ export const putPipelineDefinition: API.OperationMethod<
 export const queryObjects: API.OperationMethod<
   QueryObjectsInput,
   QueryObjectsOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  QueryObjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: QueryObjectsInput,
   ) => stream.Stream<
     QueryObjectsOutput,
-    | InternalServiceError
-    | InvalidRequestException
-    | PipelineDeletedException
-    | PipelineNotFoundException
-    | CommonErrors,
+    QueryObjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: QueryObjectsInput,
   ) => stream.Stream<
     Id,
-    | InternalServiceError
-    | InvalidRequestException
-    | PipelineDeletedException
-    | PipelineNotFoundException
-    | CommonErrors,
+    QueryObjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1753,17 +1767,19 @@ export const queryObjects: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type RemoveTagsError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Removes existing tags from the specified pipeline.
  */
 export const removeTags: API.OperationMethod<
   RemoveTagsInput,
   RemoveTagsOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  RemoveTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsInput,
@@ -1775,6 +1791,13 @@ export const removeTags: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type ReportTaskProgressError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | TaskNotFoundException
+  | CommonErrors;
 /**
  * Task runners call `ReportTaskProgress` when assigned a task to acknowledge that it has the task. If the web service does not
  * receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement,
@@ -1810,12 +1833,7 @@ export const removeTags: API.OperationMethod<
 export const reportTaskProgress: API.OperationMethod<
   ReportTaskProgressInput,
   ReportTaskProgressOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | TaskNotFoundException
-  | CommonErrors,
+  ReportTaskProgressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportTaskProgressInput,
@@ -1828,6 +1846,10 @@ export const reportTaskProgress: API.OperationMethod<
     TaskNotFoundException,
   ],
 }));
+export type ReportTaskRunnerHeartbeatError =
+  | InternalServiceError
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Task runners call `ReportTaskRunnerHeartbeat` every 15 minutes to indicate that they are operational.
  * If the AWS Data Pipeline Task Runner is launched on a resource managed by AWS Data Pipeline, the web service can use
@@ -1856,13 +1878,19 @@ export const reportTaskProgress: API.OperationMethod<
 export const reportTaskRunnerHeartbeat: API.OperationMethod<
   ReportTaskRunnerHeartbeatInput,
   ReportTaskRunnerHeartbeatOutput,
-  InternalServiceError | InvalidRequestException | CommonErrors,
+  ReportTaskRunnerHeartbeatError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportTaskRunnerHeartbeatInput,
   output: ReportTaskRunnerHeartbeatOutput,
   errors: [InternalServiceError, InvalidRequestException],
 }));
+export type SetStatusError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline.
  * This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity).
@@ -1891,11 +1919,7 @@ export const reportTaskRunnerHeartbeat: API.OperationMethod<
 export const setStatus: API.OperationMethod<
   SetStatusInput,
   SetStatusResponse,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  SetStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetStatusInput,
@@ -1907,6 +1931,13 @@ export const setStatus: API.OperationMethod<
     PipelineNotFoundException,
   ],
 }));
+export type SetTaskStatusError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | TaskNotFoundException
+  | CommonErrors;
 /**
  * Task runners call `SetTaskStatus` to notify AWS Data Pipeline that a task is completed and provide information about the final status.
  * A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call `SetTaskStatus` for
@@ -1933,12 +1964,7 @@ export const setStatus: API.OperationMethod<
 export const setTaskStatus: API.OperationMethod<
   SetTaskStatusInput,
   SetTaskStatusOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | TaskNotFoundException
-  | CommonErrors,
+  SetTaskStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTaskStatusInput,
@@ -1951,6 +1977,12 @@ export const setTaskStatus: API.OperationMethod<
     TaskNotFoundException,
   ],
 }));
+export type ValidatePipelineDefinitionError =
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors;
 /**
  * Validates the specified pipeline definition to ensure that it is well formed and can be run without error.
  *
@@ -2088,11 +2120,7 @@ export const setTaskStatus: API.OperationMethod<
 export const validatePipelineDefinition: API.OperationMethod<
   ValidatePipelineDefinitionInput,
   ValidatePipelineDefinitionOutput,
-  | InternalServiceError
-  | InvalidRequestException
-  | PipelineDeletedException
-  | PipelineNotFoundException
-  | CommonErrors,
+  ValidatePipelineDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidatePipelineDefinitionInput,

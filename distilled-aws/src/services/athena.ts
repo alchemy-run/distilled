@@ -3159,6 +3159,10 @@ export class SessionAlreadyExistsException extends S.TaggedErrorClass<SessionAlr
 ).pipe(C.withAlreadyExistsError) {}
 
 //# Operations
+export type BatchGetNamedQueryError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns the details of a single named query or a list of up to 50 queries, which you
  * provide as an array of query ID strings. Requires you to have access to the workgroup in
@@ -3173,13 +3177,17 @@ export class SessionAlreadyExistsException extends S.TaggedErrorClass<SessionAlr
 export const batchGetNamedQuery: API.OperationMethod<
   BatchGetNamedQueryInput,
   BatchGetNamedQueryOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  BatchGetNamedQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetNamedQueryInput,
   output: BatchGetNamedQueryOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type BatchGetPreparedStatementError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns the details of a single prepared statement or a list of up to 256 prepared
  * statements for the array of prepared statement names that you provide. Requires you to
@@ -3190,13 +3198,17 @@ export const batchGetNamedQuery: API.OperationMethod<
 export const batchGetPreparedStatement: API.OperationMethod<
   BatchGetPreparedStatementInput,
   BatchGetPreparedStatementOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  BatchGetPreparedStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetPreparedStatementInput,
   output: BatchGetPreparedStatementOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type BatchGetQueryExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns the details of a single query execution or a list of up to 50 query
  * executions, which you provide as an array of query execution ID strings. Requires you to
@@ -3208,13 +3220,17 @@ export const batchGetPreparedStatement: API.OperationMethod<
 export const batchGetQueryExecution: API.OperationMethod<
   BatchGetQueryExecutionInput,
   BatchGetQueryExecutionOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  BatchGetQueryExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetQueryExecutionInput,
   output: BatchGetQueryExecutionOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CancelCapacityReservationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Cancels the capacity reservation with the specified name. Cancelled reservations
  * remain in your account and will be deleted 45 days after cancellation. During the 45
@@ -3224,13 +3240,17 @@ export const batchGetQueryExecution: API.OperationMethod<
 export const cancelCapacityReservation: API.OperationMethod<
   CancelCapacityReservationInput,
   CancelCapacityReservationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CancelCapacityReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCapacityReservationInput,
   output: CancelCapacityReservationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateCapacityReservationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a capacity reservation with the specified name and number of requested data
  * processing units.
@@ -3238,13 +3258,17 @@ export const cancelCapacityReservation: API.OperationMethod<
 export const createCapacityReservation: API.OperationMethod<
   CreateCapacityReservationInput,
   CreateCapacityReservationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreateCapacityReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapacityReservationInput,
   output: CreateCapacityReservationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateDataCatalogError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates (registers) a data catalog with the specified name and properties. Catalogs
  * created are visible to all users of the same Amazon Web Services account.
@@ -3267,13 +3291,17 @@ export const createCapacityReservation: API.OperationMethod<
 export const createDataCatalog: API.OperationMethod<
   CreateDataCatalogInput,
   CreateDataCatalogOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreateDataCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataCatalogInput,
   output: CreateDataCatalogOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateNamedQueryError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a named query in the specified workgroup. Requires that you have access to the
  * workgroup.
@@ -3281,13 +3309,18 @@ export const createDataCatalog: API.OperationMethod<
 export const createNamedQuery: API.OperationMethod<
   CreateNamedQueryInput,
   CreateNamedQueryOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreateNamedQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamedQueryInput,
   output: CreateNamedQueryOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreateNotebookError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an empty `ipynb` file in the specified Apache Spark enabled
  * workgroup. Throws an error if a file in the workgroup with the same name already
@@ -3296,10 +3329,7 @@ export const createNamedQuery: API.OperationMethod<
 export const createNotebook: API.OperationMethod<
   CreateNotebookInput,
   CreateNotebookOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateNotebookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotebookInput,
@@ -3310,19 +3340,28 @@ export const createNotebook: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreatePreparedStatementError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a prepared statement for use with SQL queries in Athena.
  */
 export const createPreparedStatement: API.OperationMethod<
   CreatePreparedStatementInput,
   CreatePreparedStatementOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreatePreparedStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePreparedStatementInput,
   output: CreatePreparedStatementOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type CreatePresignedNotebookUrlError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets an authentication token and the URL at which the notebook can be accessed. During
  * programmatic access, `CreatePresignedNotebookUrl` must be called every 10
@@ -3333,10 +3372,7 @@ export const createPreparedStatement: API.OperationMethod<
 export const createPresignedNotebookUrl: API.OperationMethod<
   CreatePresignedNotebookUrlRequest,
   CreatePresignedNotebookUrlResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreatePresignedNotebookUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePresignedNotebookUrlRequest,
@@ -3347,6 +3383,10 @@ export const createPresignedNotebookUrl: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateWorkGroupError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Creates a workgroup with the specified name. A workgroup can be an Apache Spark
  * enabled workgroup or an Athena SQL workgroup.
@@ -3354,13 +3394,17 @@ export const createPresignedNotebookUrl: API.OperationMethod<
 export const createWorkGroup: API.OperationMethod<
   CreateWorkGroupInput,
   CreateWorkGroupOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  CreateWorkGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkGroupInput,
   output: CreateWorkGroupOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DeleteCapacityReservationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Deletes a cancelled capacity reservation. A reservation must be cancelled before it
  * can be deleted. A deleted reservation is immediately removed from your account and can
@@ -3371,26 +3415,34 @@ export const createWorkGroup: API.OperationMethod<
 export const deleteCapacityReservation: API.OperationMethod<
   DeleteCapacityReservationInput,
   DeleteCapacityReservationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DeleteCapacityReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCapacityReservationInput,
   output: DeleteCapacityReservationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DeleteDataCatalogError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Deletes a data catalog.
  */
 export const deleteDataCatalog: API.OperationMethod<
   DeleteDataCatalogInput,
   DeleteDataCatalogOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DeleteDataCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataCatalogInput,
   output: DeleteDataCatalogOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DeleteNamedQueryError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Deletes the named query if you have access to the workgroup in which the query was
  * saved.
@@ -3398,23 +3450,25 @@ export const deleteDataCatalog: API.OperationMethod<
 export const deleteNamedQuery: API.OperationMethod<
   DeleteNamedQueryInput,
   DeleteNamedQueryOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DeleteNamedQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamedQueryInput,
   output: DeleteNamedQueryOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type DeleteNotebookError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the specified notebook.
  */
 export const deleteNotebook: API.OperationMethod<
   DeleteNotebookInput,
   DeleteNotebookOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteNotebookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotebookInput,
@@ -3425,6 +3479,11 @@ export const deleteNotebook: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeletePreparedStatementError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the prepared statement with the specified name from the specified
  * workgroup.
@@ -3432,10 +3491,7 @@ export const deleteNotebook: API.OperationMethod<
 export const deletePreparedStatement: API.OperationMethod<
   DeletePreparedStatementInput,
   DeletePreparedStatementOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeletePreparedStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePreparedStatementInput,
@@ -3446,6 +3502,10 @@ export const deletePreparedStatement: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWorkGroupError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Deletes the workgroup with the specified name. The primary workgroup cannot be
  * deleted.
@@ -3453,23 +3513,25 @@ export const deletePreparedStatement: API.OperationMethod<
 export const deleteWorkGroup: API.OperationMethod<
   DeleteWorkGroupInput,
   DeleteWorkGroupOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  DeleteWorkGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkGroupInput,
   output: DeleteWorkGroupOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type ExportNotebookError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Exports the specified notebook and its metadata.
  */
 export const exportNotebook: API.OperationMethod<
   ExportNotebookInput,
   ExportNotebookOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ExportNotebookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportNotebookInput,
@@ -3480,16 +3542,18 @@ export const exportNotebook: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetCalculationExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a previously submitted calculation execution.
  */
 export const getCalculationExecution: API.OperationMethod<
   GetCalculationExecutionRequest,
   GetCalculationExecutionResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetCalculationExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCalculationExecutionRequest,
@@ -3500,16 +3564,18 @@ export const getCalculationExecution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetCalculationExecutionCodeError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the unencrypted code that was executed for the calculation.
  */
 export const getCalculationExecutionCode: API.OperationMethod<
   GetCalculationExecutionCodeRequest,
   GetCalculationExecutionCodeResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetCalculationExecutionCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCalculationExecutionCodeRequest,
@@ -3520,16 +3586,18 @@ export const getCalculationExecutionCode: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetCalculationExecutionStatusError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the status of a current calculation.
  */
 export const getCalculationExecutionStatus: API.OperationMethod<
   GetCalculationExecutionStatusRequest,
   GetCalculationExecutionStatusResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetCalculationExecutionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCalculationExecutionStatusRequest,
@@ -3540,6 +3608,10 @@ export const getCalculationExecutionStatus: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetCapacityAssignmentConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Gets the capacity assignment configuration for a capacity reservation, if one
  * exists.
@@ -3547,55 +3619,69 @@ export const getCalculationExecutionStatus: API.OperationMethod<
 export const getCapacityAssignmentConfiguration: API.OperationMethod<
   GetCapacityAssignmentConfigurationInput,
   GetCapacityAssignmentConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetCapacityAssignmentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCapacityAssignmentConfigurationInput,
   output: GetCapacityAssignmentConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetCapacityReservationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns information about the capacity reservation with the specified name.
  */
 export const getCapacityReservation: API.OperationMethod<
   GetCapacityReservationInput,
   GetCapacityReservationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetCapacityReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCapacityReservationInput,
   output: GetCapacityReservationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetDatabaseError =
+  | InternalServerException
+  | InvalidRequestException
+  | MetadataException
+  | CommonErrors;
 /**
  * Returns a database object for the specified database and data catalog.
  */
 export const getDatabase: API.OperationMethod<
   GetDatabaseInput,
   GetDatabaseOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | MetadataException
-  | CommonErrors,
+  GetDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatabaseInput,
   output: GetDatabaseOutput,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
 }));
+export type GetDataCatalogError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns the specified data catalog.
  */
 export const getDataCatalog: API.OperationMethod<
   GetDataCatalogInput,
   GetDataCatalogOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetDataCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataCatalogInput,
   output: GetDataCatalogOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetNamedQueryError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns information about a single query. Requires that you have access to the
  * workgroup in which the query was saved.
@@ -3603,23 +3689,25 @@ export const getDataCatalog: API.OperationMethod<
 export const getNamedQuery: API.OperationMethod<
   GetNamedQueryInput,
   GetNamedQueryOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetNamedQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamedQueryInput,
   output: GetNamedQueryOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetNotebookMetadataError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves notebook metadata for the specified notebook ID.
  */
 export const getNotebookMetadata: API.OperationMethod<
   GetNotebookMetadataInput,
   GetNotebookMetadataOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetNotebookMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotebookMetadataInput,
@@ -3630,6 +3718,11 @@ export const getNotebookMetadata: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetPreparedStatementError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the prepared statement with the specified name from the specified
  * workgroup.
@@ -3637,10 +3730,7 @@ export const getNotebookMetadata: API.OperationMethod<
 export const getPreparedStatement: API.OperationMethod<
   GetPreparedStatementInput,
   GetPreparedStatementOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetPreparedStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPreparedStatementInput,
@@ -3651,6 +3741,10 @@ export const getPreparedStatement: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetQueryExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns information about a single execution of a query if you have access to the
  * workgroup in which the query ran. Each time a query executes, information about the
@@ -3659,13 +3753,18 @@ export const getPreparedStatement: API.OperationMethod<
 export const getQueryExecution: API.OperationMethod<
   GetQueryExecutionInput,
   GetQueryExecutionOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetQueryExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryExecutionInput,
   output: GetQueryExecutionOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetQueryResultsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Streams the results of a single query execution specified by
  * `QueryExecutionId` from the Athena query results location in
@@ -3687,30 +3786,21 @@ export const getQueryExecution: API.OperationMethod<
 export const getQueryResults: API.OperationMethod<
   GetQueryResultsInput,
   GetQueryResultsOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetQueryResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetQueryResultsInput,
   ) => stream.Stream<
     GetQueryResultsOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetQueryResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetQueryResultsInput,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetQueryResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3727,6 +3817,10 @@ export const getQueryResults: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetQueryRuntimeStatisticsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns query execution runtime statistics related to a single execution of a query if
  * you have access to the workgroup in which the query ran. Statistics from the
@@ -3739,23 +3833,25 @@ export const getQueryResults: API.OperationMethod<
 export const getQueryRuntimeStatistics: API.OperationMethod<
   GetQueryRuntimeStatisticsInput,
   GetQueryRuntimeStatisticsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetQueryRuntimeStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryRuntimeStatisticsInput,
   output: GetQueryRuntimeStatisticsOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type GetResourceDashboardError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the Live UI/Persistence UI for a session.
  */
 export const getResourceDashboard: API.OperationMethod<
   GetResourceDashboardRequest,
   GetResourceDashboardResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetResourceDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceDashboardRequest,
@@ -3766,6 +3862,11 @@ export const getResourceDashboard: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSessionError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the full details of a previously created session, including the session status
  * and configuration.
@@ -3773,10 +3874,7 @@ export const getResourceDashboard: API.OperationMethod<
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -3787,16 +3885,18 @@ export const getSession: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSessionEndpointError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a connection endpoint and authentication token for a given session Id.
  */
 export const getSessionEndpoint: API.OperationMethod<
   GetSessionEndpointRequest,
   GetSessionEndpointResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSessionEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionEndpointRequest,
@@ -3807,16 +3907,18 @@ export const getSessionEndpoint: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSessionStatusError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the current status of a session.
  */
 export const getSessionStatus: API.OperationMethod<
   GetSessionStatusRequest,
   GetSessionStatusResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSessionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionStatusRequest,
@@ -3827,35 +3929,46 @@ export const getSessionStatus: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetTableMetadataError =
+  | InternalServerException
+  | InvalidRequestException
+  | MetadataException
+  | CommonErrors;
 /**
  * Returns table metadata for the specified catalog, database, and table.
  */
 export const getTableMetadata: API.OperationMethod<
   GetTableMetadataInput,
   GetTableMetadataOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | MetadataException
-  | CommonErrors,
+  GetTableMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableMetadataInput,
   output: GetTableMetadataOutput,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
 }));
+export type GetWorkGroupError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns information about the workgroup with the specified name.
  */
 export const getWorkGroup: API.OperationMethod<
   GetWorkGroupInput,
   GetWorkGroupOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  GetWorkGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkGroupInput,
   output: GetWorkGroupOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type ImportNotebookError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Imports a single `ipynb` file to a Spark enabled workgroup. To import the
  * notebook, the request must specify a value for either `Payload` or
@@ -3867,10 +3980,7 @@ export const getWorkGroup: API.OperationMethod<
 export const importNotebook: API.OperationMethod<
   ImportNotebookInput,
   ImportNotebookOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ImportNotebookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportNotebookInput,
@@ -3881,6 +3991,11 @@ export const importNotebook: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListApplicationDPUSizesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the supported DPU sizes for the supported application runtimes (for example,
  * `Athena notebook version 1`).
@@ -3888,30 +4003,21 @@ export const importNotebook: API.OperationMethod<
 export const listApplicationDPUSizes: API.OperationMethod<
   ListApplicationDPUSizesInput,
   ListApplicationDPUSizesOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListApplicationDPUSizesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationDPUSizesInput,
   ) => stream.Stream<
     ListApplicationDPUSizesOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListApplicationDPUSizesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationDPUSizesInput,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListApplicationDPUSizesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3928,6 +4034,11 @@ export const listApplicationDPUSizes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCalculationExecutionsError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the calculations that have been submitted to a session in descending order.
  * Newer calculations are listed first; older calculations are listed later.
@@ -3935,30 +4046,21 @@ export const listApplicationDPUSizes: API.OperationMethod<
 export const listCalculationExecutions: API.OperationMethod<
   ListCalculationExecutionsRequest,
   ListCalculationExecutionsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListCalculationExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCalculationExecutionsRequest,
   ) => stream.Stream<
     ListCalculationExecutionsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListCalculationExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCalculationExecutionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListCalculationExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3975,27 +4077,31 @@ export const listCalculationExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCapacityReservationsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists the capacity reservations for the current account.
  */
 export const listCapacityReservations: API.OperationMethod<
   ListCapacityReservationsInput,
   ListCapacityReservationsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListCapacityReservationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCapacityReservationsInput,
   ) => stream.Stream<
     ListCapacityReservationsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListCapacityReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCapacityReservationsInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListCapacityReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4008,36 +4114,32 @@ export const listCapacityReservations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatabasesError =
+  | InternalServerException
+  | InvalidRequestException
+  | MetadataException
+  | CommonErrors;
 /**
  * Lists the databases in the specified data catalog.
  */
 export const listDatabases: API.OperationMethod<
   ListDatabasesInput,
   ListDatabasesOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | MetadataException
-  | CommonErrors,
+  ListDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatabasesInput,
   ) => stream.Stream<
     ListDatabasesOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | MetadataException
-    | CommonErrors,
+    ListDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatabasesInput,
   ) => stream.Stream<
     Database,
-    | InternalServerException
-    | InvalidRequestException
-    | MetadataException
-    | CommonErrors,
+    ListDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4051,6 +4153,10 @@ export const listDatabases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDataCatalogsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists the data catalogs in the current Amazon Web Services account.
  *
@@ -4060,21 +4166,21 @@ export const listDatabases: API.OperationMethod<
 export const listDataCatalogs: API.OperationMethod<
   ListDataCatalogsInput,
   ListDataCatalogsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListDataCatalogsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataCatalogsInput,
   ) => stream.Stream<
     ListDataCatalogsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListDataCatalogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataCatalogsInput,
   ) => stream.Stream<
     DataCatalogSummary,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListDataCatalogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4088,6 +4194,10 @@ export const listDataCatalogs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEngineVersionsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Returns a list of engine versions that are available to choose from, including the
  * Auto option.
@@ -4095,21 +4205,21 @@ export const listDataCatalogs: API.OperationMethod<
 export const listEngineVersions: API.OperationMethod<
   ListEngineVersionsInput,
   ListEngineVersionsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEngineVersionsInput,
   ) => stream.Stream<
     ListEngineVersionsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEngineVersionsInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4122,6 +4232,11 @@ export const listEngineVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListExecutorsError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists, in descending order, the executors that joined a session. Newer executors are
  * listed first; older executors are listed later. The result can be optionally filtered by
@@ -4130,30 +4245,21 @@ export const listEngineVersions: API.OperationMethod<
 export const listExecutors: API.OperationMethod<
   ListExecutorsRequest,
   ListExecutorsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListExecutorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExecutorsRequest,
   ) => stream.Stream<
     ListExecutorsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListExecutorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExecutorsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListExecutorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4170,6 +4276,10 @@ export const listExecutors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNamedQueriesError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides a list of available query IDs only for queries saved in the specified
  * workgroup. Requires that you have access to the specified workgroup. If a workgroup is
@@ -4178,21 +4288,21 @@ export const listExecutors: API.OperationMethod<
 export const listNamedQueries: API.OperationMethod<
   ListNamedQueriesInput,
   ListNamedQueriesOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListNamedQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNamedQueriesInput,
   ) => stream.Stream<
     ListNamedQueriesOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListNamedQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamedQueriesInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListNamedQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4205,16 +4315,18 @@ export const listNamedQueries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNotebookMetadataError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays the notebook files for the specified workgroup in paginated format.
  */
 export const listNotebookMetadata: API.OperationMethod<
   ListNotebookMetadataInput,
   ListNotebookMetadataOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListNotebookMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListNotebookMetadataInput,
@@ -4225,6 +4337,11 @@ export const listNotebookMetadata: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListNotebookSessionsError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists, in descending order, the sessions that have been created in a notebook that are
  * in an active state like `CREATING`, `CREATED`, `IDLE`
@@ -4234,10 +4351,7 @@ export const listNotebookMetadata: API.OperationMethod<
 export const listNotebookSessions: API.OperationMethod<
   ListNotebookSessionsRequest,
   ListNotebookSessionsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListNotebookSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListNotebookSessionsRequest,
@@ -4248,27 +4362,31 @@ export const listNotebookSessions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListPreparedStatementsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists the prepared statements in the specified workgroup.
  */
 export const listPreparedStatements: API.OperationMethod<
   ListPreparedStatementsInput,
   ListPreparedStatementsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListPreparedStatementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPreparedStatementsInput,
   ) => stream.Stream<
     ListPreparedStatementsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListPreparedStatementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPreparedStatementsInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListPreparedStatementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4281,6 +4399,10 @@ export const listPreparedStatements: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListQueryExecutionsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Provides a list of available query execution IDs for the queries in the specified
  * workgroup. Athena keeps a query history for 45 days. If a workgroup is not
@@ -4290,21 +4412,21 @@ export const listPreparedStatements: API.OperationMethod<
 export const listQueryExecutions: API.OperationMethod<
   ListQueryExecutionsInput,
   ListQueryExecutionsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListQueryExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueryExecutionsInput,
   ) => stream.Stream<
     ListQueryExecutionsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListQueryExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueryExecutionsInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListQueryExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4317,6 +4439,11 @@ export const listQueryExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSessionsError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the sessions in a workgroup that are in an active state like
  * `CREATING`, `CREATED`, `IDLE`, or
@@ -4326,30 +4453,21 @@ export const listQueryExecutions: API.OperationMethod<
 export const listSessions: API.OperationMethod<
   ListSessionsRequest,
   ListSessionsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     ListSessionsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4366,36 +4484,32 @@ export const listSessions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTableMetadataError =
+  | InternalServerException
+  | InvalidRequestException
+  | MetadataException
+  | CommonErrors;
 /**
  * Lists the metadata for the tables in the specified data catalog database.
  */
 export const listTableMetadata: API.OperationMethod<
   ListTableMetadataInput,
   ListTableMetadataOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | MetadataException
-  | CommonErrors,
+  ListTableMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTableMetadataInput,
   ) => stream.Stream<
     ListTableMetadataOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | MetadataException
-    | CommonErrors,
+    ListTableMetadataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTableMetadataInput,
   ) => stream.Stream<
     TableMetadata,
-    | InternalServerException
-    | InvalidRequestException
-    | MetadataException
-    | CommonErrors,
+    ListTableMetadataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4409,36 +4523,32 @@ export const listTableMetadata: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the tags associated with an Athena resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     ListTagsForResourceOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     Tag,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4456,27 +4566,31 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWorkGroupsError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Lists available workgroups for the account.
  */
 export const listWorkGroups: API.OperationMethod<
   ListWorkGroupsInput,
   ListWorkGroupsOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  ListWorkGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkGroupsInput,
   ) => stream.Stream<
     ListWorkGroupsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListWorkGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkGroupsInput,
   ) => stream.Stream<
     unknown,
-    InternalServerException | InvalidRequestException | CommonErrors,
+    ListWorkGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4489,6 +4603,10 @@ export const listWorkGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutCapacityAssignmentConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Puts a new capacity assignment configuration for a specified capacity reservation. If
  * a capacity assignment configuration already exists for the capacity reservation,
@@ -4497,13 +4615,18 @@ export const listWorkGroups: API.OperationMethod<
 export const putCapacityAssignmentConfiguration: API.OperationMethod<
   PutCapacityAssignmentConfigurationInput,
   PutCapacityAssignmentConfigurationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  PutCapacityAssignmentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCapacityAssignmentConfigurationInput,
   output: PutCapacityAssignmentConfigurationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type StartCalculationExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Submits calculations for execution within a session. You can supply the code to run as
  * an inline code block within the request.
@@ -4516,10 +4639,7 @@ export const putCapacityAssignmentConfiguration: API.OperationMethod<
 export const startCalculationExecution: API.OperationMethod<
   StartCalculationExecutionRequest,
   StartCalculationExecutionResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartCalculationExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCalculationExecutionRequest,
@@ -4530,6 +4650,11 @@ export const startCalculationExecution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartQueryExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Runs the SQL query statements contained in the `Query`. Requires you to
  * have access to the workgroup in which the query ran. Running queries against an external
@@ -4541,10 +4666,7 @@ export const startCalculationExecution: API.OperationMethod<
 export const startQueryExecution: API.OperationMethod<
   StartQueryExecutionInput,
   StartQueryExecutionOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartQueryExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQueryExecutionInput,
@@ -4555,6 +4677,13 @@ export const startQueryExecution: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartSessionError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | SessionAlreadyExistsException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a session for running calculations within a workgroup. The session is ready
  * when it reaches an `IDLE` state.
@@ -4562,12 +4691,7 @@ export const startQueryExecution: API.OperationMethod<
 export const startSession: API.OperationMethod<
   StartSessionRequest,
   StartSessionResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | SessionAlreadyExistsException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSessionRequest,
@@ -4580,6 +4704,11 @@ export const startSession: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StopCalculationExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Requests the cancellation of a calculation. A `StopCalculationExecution`
  * call on a calculation that is already in a terminal state (for example,
@@ -4594,10 +4723,7 @@ export const startSession: API.OperationMethod<
 export const stopCalculationExecution: API.OperationMethod<
   StopCalculationExecutionRequest,
   StopCalculationExecutionResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopCalculationExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCalculationExecutionRequest,
@@ -4608,6 +4734,10 @@ export const stopCalculationExecution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopQueryExecutionError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Stops a query execution. Requires you to have access to the workgroup in which the
  * query ran.
@@ -4615,13 +4745,18 @@ export const stopCalculationExecution: API.OperationMethod<
 export const stopQueryExecution: API.OperationMethod<
   StopQueryExecutionInput,
   StopQueryExecutionOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  StopQueryExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopQueryExecutionInput,
   output: StopQueryExecutionOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more tags to an Athena resource. A tag is a label that you
  * assign to a resource. Each tag consists of a key and an optional value, both of which
@@ -4638,10 +4773,7 @@ export const stopQueryExecution: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4652,6 +4784,11 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TerminateSessionError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Terminates an active session. A `TerminateSession` call on a session that
  * is already inactive (for example, in a `FAILED`, `TERMINATED` or
@@ -4662,10 +4799,7 @@ export const tagResource: API.OperationMethod<
 export const terminateSession: API.OperationMethod<
   TerminateSessionRequest,
   TerminateSessionResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TerminateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateSessionRequest,
@@ -4676,16 +4810,18 @@ export const terminateSession: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from an Athena resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -4696,6 +4832,10 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateCapacityReservationError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Updates the number of requested data processing units for the capacity reservation
  * with the specified name.
@@ -4703,26 +4843,34 @@ export const untagResource: API.OperationMethod<
 export const updateCapacityReservation: API.OperationMethod<
   UpdateCapacityReservationInput,
   UpdateCapacityReservationOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  UpdateCapacityReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapacityReservationInput,
   output: UpdateCapacityReservationOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type UpdateDataCatalogError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Updates the data catalog that has the specified name.
  */
 export const updateDataCatalog: API.OperationMethod<
   UpdateDataCatalogInput,
   UpdateDataCatalogOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  UpdateDataCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataCatalogInput,
   output: UpdateDataCatalogOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type UpdateNamedQueryError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Updates a NamedQuery object. The database or workgroup cannot be
  * updated.
@@ -4730,23 +4878,25 @@ export const updateDataCatalog: API.OperationMethod<
 export const updateNamedQuery: API.OperationMethod<
   UpdateNamedQueryInput,
   UpdateNamedQueryOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  UpdateNamedQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNamedQueryInput,
   output: UpdateNamedQueryOutput,
   errors: [InternalServerException, InvalidRequestException],
 }));
+export type UpdateNotebookError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the contents of a Spark notebook.
  */
 export const updateNotebook: API.OperationMethod<
   UpdateNotebookInput,
   UpdateNotebookOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateNotebookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotebookInput,
@@ -4757,16 +4907,18 @@ export const updateNotebook: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateNotebookMetadataError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the metadata for a notebook.
  */
 export const updateNotebookMetadata: API.OperationMethod<
   UpdateNotebookMetadataInput,
   UpdateNotebookMetadataOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateNotebookMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotebookMetadataInput,
@@ -4777,16 +4929,18 @@ export const updateNotebookMetadata: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdatePreparedStatementError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a prepared statement.
  */
 export const updatePreparedStatement: API.OperationMethod<
   UpdatePreparedStatementInput,
   UpdatePreparedStatementOutput,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdatePreparedStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePreparedStatementInput,
@@ -4797,6 +4951,10 @@ export const updatePreparedStatement: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateWorkGroupError =
+  | InternalServerException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * Updates the workgroup with the specified name. The workgroup's name cannot be changed.
  * Only `ConfigurationUpdates` can be specified.
@@ -4804,7 +4962,7 @@ export const updatePreparedStatement: API.OperationMethod<
 export const updateWorkGroup: API.OperationMethod<
   UpdateWorkGroupInput,
   UpdateWorkGroupOutput,
-  InternalServerException | InvalidRequestException | CommonErrors,
+  UpdateWorkGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkGroupInput,

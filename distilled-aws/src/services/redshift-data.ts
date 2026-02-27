@@ -795,6 +795,14 @@ export class ExecuteStatementException extends S.TaggedErrorClass<ExecuteStateme
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type BatchExecuteStatementError =
+  | ActiveSessionsExceededException
+  | ActiveStatementsExceededException
+  | BatchExecuteStatementException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -813,13 +821,7 @@ export class ExecuteStatementException extends S.TaggedErrorClass<ExecuteStateme
 export const batchExecuteStatement: API.OperationMethod<
   BatchExecuteStatementInput,
   BatchExecuteStatementOutput,
-  | ActiveSessionsExceededException
-  | ActiveStatementsExceededException
-  | BatchExecuteStatementException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchExecuteStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchExecuteStatementInput,
@@ -833,6 +835,13 @@ export const batchExecuteStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelStatementError =
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a running query. To be canceled, a query must be running.
  *
@@ -841,12 +850,7 @@ export const batchExecuteStatement: API.OperationMethod<
 export const cancelStatement: API.OperationMethod<
   CancelStatementRequest,
   CancelStatementResponse,
-  | DatabaseConnectionException
-  | InternalServerException
-  | QueryTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CancelStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelStatementRequest,
@@ -859,6 +863,11 @@ export const cancelStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeStatementError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement.
  *
@@ -867,10 +876,7 @@ export const cancelStatement: API.OperationMethod<
 export const describeStatement: API.OperationMethod<
   DescribeStatementRequest,
   DescribeStatementResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStatementRequest,
@@ -881,6 +887,13 @@ export const describeStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTableError =
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the detailed information about a table from metadata in the cluster. The information includes its columns. A token is returned to page through the column list. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -899,36 +912,21 @@ export const describeStatement: API.OperationMethod<
 export const describeTable: API.OperationMethod<
   DescribeTableRequest,
   DescribeTableResponse,
-  | DatabaseConnectionException
-  | InternalServerException
-  | QueryTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeTableError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTableRequest,
   ) => stream.Stream<
     DescribeTableResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeTableError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTableRequest,
   ) => stream.Stream<
     ColumnMetadata,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeTableError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -948,6 +946,14 @@ export const describeTable: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ExecuteStatementError =
+  | ActiveSessionsExceededException
+  | ActiveStatementsExceededException
+  | ExecuteStatementException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -966,13 +972,7 @@ export const describeTable: API.OperationMethod<
 export const executeStatement: API.OperationMethod<
   ExecuteStatementInput,
   ExecuteStatementOutput,
-  | ActiveSessionsExceededException
-  | ActiveStatementsExceededException
-  | ExecuteStatementException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ExecuteStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteStatementInput,
@@ -986,6 +986,11 @@ export const executeStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStatementResultError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Fetches the temporarily cached result of an SQL statement in JSON format. The `ExecuteStatement` or `BatchExecuteStatement` operation that ran the SQL statement must have specified `ResultFormat` as `JSON` , or let the format default to JSON. A token is returned to page through the statement results.
  *
@@ -994,30 +999,21 @@ export const executeStatement: API.OperationMethod<
 export const getStatementResult: API.OperationMethod<
   GetStatementResultRequest,
   GetStatementResultResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetStatementResultError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetStatementResultRequest,
   ) => stream.Stream<
     GetStatementResultResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetStatementResultError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetStatementResultRequest,
   ) => stream.Stream<
     Field[],
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetStatementResultError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1034,6 +1030,11 @@ export const getStatementResult: API.OperationMethod<
     items: "Records",
   } as const,
 }));
+export type GetStatementResultV2Error =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Fetches the temporarily cached result of an SQL statement in CSV format. The `ExecuteStatement` or `BatchExecuteStatement` operation that ran the SQL statement must have specified `ResultFormat` as `CSV`. A token is returned to page through the statement results.
  *
@@ -1042,30 +1043,21 @@ export const getStatementResult: API.OperationMethod<
 export const getStatementResultV2: API.OperationMethod<
   GetStatementResultV2Request,
   GetStatementResultV2Response,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetStatementResultV2Error,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetStatementResultV2Request,
   ) => stream.Stream<
     GetStatementResultV2Response,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetStatementResultV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetStatementResultV2Request,
   ) => stream.Stream<
     QueryRecords,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetStatementResultV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1082,6 +1074,13 @@ export const getStatementResultV2: API.OperationMethod<
     items: "Records",
   } as const,
 }));
+export type ListDatabasesError =
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the databases in a cluster. A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -1100,36 +1099,21 @@ export const getStatementResultV2: API.OperationMethod<
 export const listDatabases: API.OperationMethod<
   ListDatabasesRequest,
   ListDatabasesResponse,
-  | DatabaseConnectionException
-  | InternalServerException
-  | QueryTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatabasesRequest,
   ) => stream.Stream<
     ListDatabasesResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatabasesRequest,
   ) => stream.Stream<
     string,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1149,6 +1133,13 @@ export const listDatabases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSchemasError =
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -1167,36 +1158,21 @@ export const listDatabases: API.OperationMethod<
 export const listSchemas: API.OperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
-  | DatabaseConnectionException
-  | InternalServerException
-  | QueryTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemasRequest,
   ) => stream.Stream<
     ListSchemasResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemasRequest,
   ) => stream.Stream<
     string,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1216,6 +1192,11 @@ export const listSchemas: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStatementsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list.
  *
@@ -1226,30 +1207,21 @@ export const listSchemas: API.OperationMethod<
 export const listStatements: API.OperationMethod<
   ListStatementsRequest,
   ListStatementsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListStatementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStatementsRequest,
   ) => stream.Stream<
     ListStatementsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListStatementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStatementsRequest,
   ) => stream.Stream<
     StatementData,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListStatementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1267,6 +1239,13 @@ export const listStatements: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTablesError =
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the tables in a database. If neither `SchemaPattern` nor `TablePattern` are specified, then all tables in the database are returned. A token is returned to page through the table list. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -1285,36 +1264,21 @@ export const listStatements: API.OperationMethod<
 export const listTables: API.OperationMethod<
   ListTablesRequest,
   ListTablesResponse,
-  | DatabaseConnectionException
-  | InternalServerException
-  | QueryTimeoutException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTablesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
     ListTablesResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTablesRequest,
   ) => stream.Stream<
     TableMember,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

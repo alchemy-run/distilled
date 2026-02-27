@@ -1428,6 +1428,14 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type AddStreamGroupLocationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Add locations that can host stream sessions. To add a location, the stream group must be in `ACTIVE` status. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality.
  *
@@ -1436,13 +1444,7 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 export const addStreamGroupLocations: API.OperationMethod<
   AddStreamGroupLocationsInput,
   AddStreamGroupLocationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AddStreamGroupLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddStreamGroupLocationsInput,
@@ -1456,6 +1458,14 @@ export const addStreamGroupLocations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociateApplicationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in `ACTIVE` status. You can reverse this action by using DisassociateApplications.
  *
@@ -1464,13 +1474,7 @@ export const addStreamGroupLocations: API.OperationMethod<
 export const associateApplications: API.OperationMethod<
   AssociateApplicationsInput,
   AssociateApplicationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateApplicationsInput,
@@ -1484,6 +1488,14 @@ export const associateApplications: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateStreamSessionConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either `PENDING_CLIENT_RECONNECTION` or `ACTIVE` status. The process works as follows:
  *
@@ -1516,13 +1528,7 @@ export const associateApplications: API.OperationMethod<
 export const createStreamSessionConnection: API.OperationMethod<
   CreateStreamSessionConnectionInput,
   CreateStreamSessionConnectionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateStreamSessionConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamSessionConnectionInput,
@@ -1536,6 +1542,13 @@ export const createStreamSessionConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateApplicationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams in the stream group using the disassociated application. The disassociate action does not affect the stream capacity of a stream group. To disassociate an application, the stream group must be in `ACTIVE` status.
  *
@@ -1544,12 +1557,7 @@ export const createStreamSessionConnection: API.OperationMethod<
 export const disassociateApplications: API.OperationMethod<
   DisassociateApplicationsInput,
   DisassociateApplicationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateApplicationsInput,
@@ -1562,6 +1570,13 @@ export const disassociateApplications: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExportStreamSessionFilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.
  *
@@ -1582,12 +1597,7 @@ export const disassociateApplications: API.OperationMethod<
 export const exportStreamSessionFiles: API.OperationMethod<
   ExportStreamSessionFilesInput,
   ExportStreamSessionFilesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ExportStreamSessionFilesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportStreamSessionFilesInput,
@@ -1600,18 +1610,20 @@ export const exportStreamSessionFiles: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStreamSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
  */
 export const getStreamSession: API.OperationMethod<
   GetStreamSessionInput,
   GetStreamSessionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStreamSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamSessionInput,
@@ -1624,6 +1636,13 @@ export const getStreamSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListStreamSessionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting.
  *
@@ -1634,36 +1653,21 @@ export const getStreamSession: API.OperationMethod<
 export const listStreamSessions: API.OperationMethod<
   ListStreamSessionsInput,
   ListStreamSessionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStreamSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamSessionsInput,
   ) => stream.Stream<
     ListStreamSessionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStreamSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamSessionsInput,
   ) => stream.Stream<
     StreamSessionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStreamSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1683,6 +1687,12 @@ export const listStreamSessions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStreamSessionsByAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to.
  *
@@ -1693,33 +1703,21 @@ export const listStreamSessions: API.OperationMethod<
 export const listStreamSessionsByAccount: API.OperationMethod<
   ListStreamSessionsByAccountInput,
   ListStreamSessionsByAccountOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStreamSessionsByAccountError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamSessionsByAccountInput,
   ) => stream.Stream<
     ListStreamSessionsByAccountOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStreamSessionsByAccountError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamSessionsByAccountInput,
   ) => stream.Stream<
     StreamSessionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStreamSessionsByAccountError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1738,6 +1736,12 @@ export const listStreamSessionsByAccount: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.
  *
@@ -1750,11 +1754,7 @@ export const listStreamSessionsByAccount: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1766,6 +1766,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveStreamGroupLocationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a set of remote locations from this stream group. To remove a location, the stream group must be in `ACTIVE` status. When you remove a location, Amazon GameLift Streams releases allocated compute resources in that location. Stream sessions can no longer start from removed locations in a stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal Amazon S3 bucket at this location.
  *
@@ -1774,12 +1781,7 @@ export const listTagsForResource: API.OperationMethod<
 export const removeStreamGroupLocations: API.OperationMethod<
   RemoveStreamGroupLocationsInput,
   RemoveStreamGroupLocationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveStreamGroupLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveStreamGroupLocationsInput,
@@ -1792,6 +1794,14 @@ export const removeStreamGroupLocations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartStreamSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated. The start stream session process works as follows:
  *
@@ -1854,13 +1864,7 @@ export const removeStreamGroupLocations: API.OperationMethod<
 export const startStreamSession: API.OperationMethod<
   StartStreamSessionInput,
   StartStreamSessionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartStreamSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartStreamSessionInput,
@@ -1874,6 +1878,12 @@ export const startStreamSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:
  *
@@ -1890,11 +1900,7 @@ export const startStreamSession: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1906,18 +1912,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TerminateStreamSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Permanently terminates an active stream session. When called, the stream session status changes to `TERMINATING`. You can terminate a stream session in any status except `ACTIVATING`. If the stream session is in `ACTIVATING` status, an exception is thrown.
  */
 export const terminateStreamSession: API.OperationMethod<
   TerminateStreamSessionInput,
   TerminateStreamSessionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TerminateStreamSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateStreamSessionInput,
@@ -1930,17 +1938,19 @@ export const terminateStreamSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1952,6 +1962,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it.
  *
@@ -1964,13 +1982,7 @@ export const untagResource: API.OperationMethod<
 export const createApplication: API.OperationMethod<
   CreateApplicationInput,
   CreateApplicationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationInput,
@@ -1984,18 +1996,20 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationInput,
   GetApplicationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationInput,
@@ -2008,6 +2022,13 @@ export const getApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateApplicationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the `Description`, `ApplicationLogOutputUri`, and `ApplicationLogPaths`.
  *
@@ -2016,12 +2037,7 @@ export const getApplication: API.OperationMethod<
 export const updateApplication: API.OperationMethod<
   UpdateApplicationInput,
   UpdateApplicationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationInput,
@@ -2034,6 +2050,14 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket.
  *
@@ -2052,13 +2076,7 @@ export const updateApplication: API.OperationMethod<
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationInput,
   DeleteApplicationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationInput,
@@ -2072,39 +2090,33 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsInput,
   ListApplicationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsInput,
   ) => stream.Stream<
     ListApplicationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsInput,
   ) => stream.Stream<
     ApplicationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2123,6 +2135,15 @@ export const listApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateStreamGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stream groups manage how Amazon GameLift Streams allocates resources and handles concurrent streams, allowing you to effectively manage capacity and costs. Within a stream group, you specify an application to stream, streaming locations and their capacity, and the stream class you want to use when streaming applications to your end-users. A stream class defines the hardware configuration of the compute resources that Amazon GameLift Streams will use when streaming, such as the CPU, GPU, and memory.
  *
@@ -2145,14 +2166,7 @@ export const listApplications: API.OperationMethod<
 export const createStreamGroup: API.OperationMethod<
   CreateStreamGroupInput,
   CreateStreamGroupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateStreamGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamGroupInput,
@@ -2167,18 +2181,20 @@ export const createStreamGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStreamGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
  */
 export const getStreamGroup: API.OperationMethod<
   GetStreamGroupInput,
   GetStreamGroupOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStreamGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamGroupInput,
@@ -2191,6 +2207,15 @@ export const getStreamGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateStreamGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration settings for an Amazon GameLift Streams stream group resource. To update a stream group, it must be in `ACTIVE` status. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group.
  *
@@ -2209,14 +2234,7 @@ export const getStreamGroup: API.OperationMethod<
 export const updateStreamGroup: API.OperationMethod<
   UpdateStreamGroupInput,
   UpdateStreamGroupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateStreamGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamGroupInput,
@@ -2231,19 +2249,21 @@ export const updateStreamGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is `DELETING`. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
- */
-export const deleteStreamGroup: API.OperationMethod<
-  DeleteStreamGroupInput,
-  DeleteStreamGroupResponse,
+export type DeleteStreamGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is `DELETING`. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
+ */
+export const deleteStreamGroup: API.OperationMethod<
+  DeleteStreamGroupInput,
+  DeleteStreamGroupResponse,
+  DeleteStreamGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamGroupInput,
@@ -2257,39 +2277,33 @@ export const deleteStreamGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListStreamGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all Amazon GameLift Streams stream groups that are associated with the Amazon Web Services account in use. This operation returns stream groups in all statuses, in no particular order. You can paginate the results as needed.
  */
 export const listStreamGroups: API.OperationMethod<
   ListStreamGroupsInput,
   ListStreamGroupsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStreamGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamGroupsInput,
   ) => stream.Stream<
     ListStreamGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStreamGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamGroupsInput,
   ) => stream.Stream<
     StreamGroupSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStreamGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -2849,6 +2849,15 @@ export class MissingRequiredParameter extends S.TaggedErrorClass<MissingRequired
 ) {}
 
 //# Operations
+export type CreateActivityError =
+  | ActivityAlreadyExists
+  | ActivityLimitExceeded
+  | InvalidEncryptionConfiguration
+  | InvalidName
+  | KmsAccessDeniedException
+  | KmsThrottlingException
+  | TooManyTags
+  | CommonErrors;
 /**
  * Creates an activity. An activity is a task that you write in any programming language and
  * host on any machine that has access to Step Functions. Activities must poll Step Functions using the
@@ -2868,14 +2877,7 @@ export class MissingRequiredParameter extends S.TaggedErrorClass<MissingRequired
 export const createActivity: API.OperationMethod<
   CreateActivityInput,
   CreateActivityOutput,
-  | ActivityAlreadyExists
-  | ActivityLimitExceeded
-  | InvalidEncryptionConfiguration
-  | InvalidName
-  | KmsAccessDeniedException
-  | KmsThrottlingException
-  | TooManyTags
-  | CommonErrors,
+  CreateActivityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateActivityInput,
@@ -2890,6 +2892,23 @@ export const createActivity: API.OperationMethod<
     TooManyTags,
   ],
 }));
+export type CreateStateMachineError =
+  | ConflictException
+  | InvalidArn
+  | InvalidDefinition
+  | InvalidEncryptionConfiguration
+  | InvalidLoggingConfiguration
+  | InvalidName
+  | InvalidTracingConfiguration
+  | KmsAccessDeniedException
+  | KmsThrottlingException
+  | StateMachineAlreadyExists
+  | StateMachineDeleting
+  | StateMachineLimitExceeded
+  | StateMachineTypeNotSupported
+  | TooManyTags
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a state machine. A state machine consists of a collection of states that can do
  * work (`Task` states), determine to which states to transition next
@@ -2917,22 +2936,7 @@ export const createActivity: API.OperationMethod<
 export const createStateMachine: API.OperationMethod<
   CreateStateMachineInput,
   CreateStateMachineOutput,
-  | ConflictException
-  | InvalidArn
-  | InvalidDefinition
-  | InvalidEncryptionConfiguration
-  | InvalidLoggingConfiguration
-  | InvalidName
-  | InvalidTracingConfiguration
-  | KmsAccessDeniedException
-  | KmsThrottlingException
-  | StateMachineAlreadyExists
-  | StateMachineDeleting
-  | StateMachineLimitExceeded
-  | StateMachineTypeNotSupported
-  | TooManyTags
-  | ValidationException
-  | CommonErrors,
+  CreateStateMachineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStateMachineInput,
@@ -2955,6 +2959,15 @@ export const createStateMachine: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateStateMachineAliasError =
+  | ConflictException
+  | InvalidArn
+  | InvalidName
+  | ResourceNotFound
+  | ServiceQuotaExceededException
+  | StateMachineDeleting
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call StartExecution with an alias and update the version the alias uses without changing the client's code.
  *
@@ -2989,14 +3002,7 @@ export const createStateMachine: API.OperationMethod<
 export const createStateMachineAlias: API.OperationMethod<
   CreateStateMachineAliasInput,
   CreateStateMachineAliasOutput,
-  | ConflictException
-  | InvalidArn
-  | InvalidName
-  | ResourceNotFound
-  | ServiceQuotaExceededException
-  | StateMachineDeleting
-  | ValidationException
-  | CommonErrors,
+  CreateStateMachineAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStateMachineAliasInput,
@@ -3011,19 +3017,24 @@ export const createStateMachineAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteActivityError = InvalidArn | CommonErrors;
 /**
  * Deletes an activity.
  */
 export const deleteActivity: API.OperationMethod<
   DeleteActivityInput,
   DeleteActivityOutput,
-  InvalidArn | CommonErrors,
+  DeleteActivityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActivityInput,
   output: DeleteActivityOutput,
   errors: [InvalidArn],
 }));
+export type DeleteStateMachineError =
+  | InvalidArn
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a state machine. This is an asynchronous operation. It sets the state machine's
  * status to `DELETING` and begins the deletion process. A state machine is deleted only when all its executions are completed. On the next state transition, the state machine's executions are terminated.
@@ -3051,13 +3062,19 @@ export const deleteActivity: API.OperationMethod<
 export const deleteStateMachine: API.OperationMethod<
   DeleteStateMachineInput,
   DeleteStateMachineOutput,
-  InvalidArn | ValidationException | CommonErrors,
+  DeleteStateMachineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStateMachineInput,
   output: DeleteStateMachineOutput,
   errors: [InvalidArn, ValidationException],
 }));
+export type DeleteStateMachineAliasError =
+  | ConflictException
+  | InvalidArn
+  | ResourceNotFound
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a state machine alias.
  *
@@ -3078,11 +3095,7 @@ export const deleteStateMachine: API.OperationMethod<
 export const deleteStateMachineAlias: API.OperationMethod<
   DeleteStateMachineAliasInput,
   DeleteStateMachineAliasOutput,
-  | ConflictException
-  | InvalidArn
-  | ResourceNotFound
-  | ValidationException
-  | CommonErrors,
+  DeleteStateMachineAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStateMachineAliasInput,
@@ -3094,6 +3107,11 @@ export const deleteStateMachineAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteStateMachineVersionError =
+  | ConflictException
+  | InvalidArn
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a state machine version. After
  * you delete a version, you can't call StartExecution using that version's ARN
@@ -3112,13 +3130,17 @@ export const deleteStateMachineAlias: API.OperationMethod<
 export const deleteStateMachineVersion: API.OperationMethod<
   DeleteStateMachineVersionInput,
   DeleteStateMachineVersionOutput,
-  ConflictException | InvalidArn | ValidationException | CommonErrors,
+  DeleteStateMachineVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStateMachineVersionInput,
   output: DeleteStateMachineVersionOutput,
   errors: [ConflictException, InvalidArn, ValidationException],
 }));
+export type DescribeActivityError =
+  | ActivityDoesNotExist
+  | InvalidArn
+  | CommonErrors;
 /**
  * Describes an activity.
  *
@@ -3127,13 +3149,20 @@ export const deleteStateMachineVersion: API.OperationMethod<
 export const describeActivity: API.OperationMethod<
   DescribeActivityInput,
   DescribeActivityOutput,
-  ActivityDoesNotExist | InvalidArn | CommonErrors,
+  DescribeActivityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeActivityInput,
   output: DescribeActivityOutput,
   errors: [ActivityDoesNotExist, InvalidArn],
 }));
+export type DescribeExecutionError =
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | CommonErrors;
 /**
  * Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. If you've redriven an execution, you can use this API action to return information about the redrives of that execution. In addition, you can use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run.
  *
@@ -3147,12 +3176,7 @@ export const describeActivity: API.OperationMethod<
 export const describeExecution: API.OperationMethod<
   DescribeExecutionInput,
   DescribeExecutionOutput,
-  | ExecutionDoesNotExist
-  | InvalidArn
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | CommonErrors,
+  DescribeExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExecutionInput,
@@ -3165,19 +3189,27 @@ export const describeExecution: API.OperationMethod<
     KmsThrottlingException,
   ],
 }));
+export type DescribeMapRunError = InvalidArn | ResourceNotFound | CommonErrors;
 /**
  * Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the *Step Functions Developer Guide*.
  */
 export const describeMapRun: API.OperationMethod<
   DescribeMapRunInput,
   DescribeMapRunOutput,
-  InvalidArn | ResourceNotFound | CommonErrors,
+  DescribeMapRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMapRunInput,
   output: DescribeMapRunOutput,
   errors: [InvalidArn, ResourceNotFound],
 }));
+export type DescribeStateMachineError =
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | StateMachineDoesNotExist
+  | CommonErrors;
 /**
  * Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration.
  *
@@ -3209,12 +3241,7 @@ export const describeMapRun: API.OperationMethod<
 export const describeStateMachine: API.OperationMethod<
   DescribeStateMachineInput,
   DescribeStateMachineOutput,
-  | InvalidArn
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | StateMachineDoesNotExist
-  | CommonErrors,
+  DescribeStateMachineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStateMachineInput,
@@ -3227,6 +3254,11 @@ export const describeStateMachine: API.OperationMethod<
     StateMachineDoesNotExist,
   ],
 }));
+export type DescribeStateMachineAliasError =
+  | InvalidArn
+  | ResourceNotFound
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about a state machine alias.
  *
@@ -3243,13 +3275,20 @@ export const describeStateMachine: API.OperationMethod<
 export const describeStateMachineAlias: API.OperationMethod<
   DescribeStateMachineAliasInput,
   DescribeStateMachineAliasOutput,
-  InvalidArn | ResourceNotFound | ValidationException | CommonErrors,
+  DescribeStateMachineAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStateMachineAliasInput,
   output: DescribeStateMachineAliasOutput,
   errors: [InvalidArn, ResourceNotFound, ValidationException],
 }));
+export type DescribeStateMachineForExecutionError =
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | CommonErrors;
 /**
  * Provides information about a state machine's definition, its execution role ARN, and
  * configuration. If a Map Run dispatched the execution, this action returns the Map Run
@@ -3263,12 +3302,7 @@ export const describeStateMachineAlias: API.OperationMethod<
 export const describeStateMachineForExecution: API.OperationMethod<
   DescribeStateMachineForExecutionInput,
   DescribeStateMachineForExecutionOutput,
-  | ExecutionDoesNotExist
-  | InvalidArn
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | CommonErrors,
+  DescribeStateMachineForExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStateMachineForExecutionInput,
@@ -3281,6 +3315,14 @@ export const describeStateMachineForExecution: API.OperationMethod<
     KmsThrottlingException,
   ],
 }));
+export type GetActivityTaskError =
+  | ActivityDoesNotExist
+  | ActivityWorkerLimitExceeded
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | CommonErrors;
 /**
  * Used by workers to retrieve a task (with the specified activity ARN) which has been
  * scheduled for execution by a running state machine. This initiates a long poll, where the
@@ -3301,13 +3343,7 @@ export const describeStateMachineForExecution: API.OperationMethod<
 export const getActivityTask: API.OperationMethod<
   GetActivityTaskInput,
   GetActivityTaskOutput,
-  | ActivityDoesNotExist
-  | ActivityWorkerLimitExceeded
-  | InvalidArn
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | CommonErrors,
+  GetActivityTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActivityTaskInput,
@@ -3321,6 +3357,14 @@ export const getActivityTask: API.OperationMethod<
     KmsThrottlingException,
   ],
 }));
+export type GetExecutionHistoryError =
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | InvalidToken
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | CommonErrors;
 /**
  * Returns the history of the specified execution as a list of events. By default, the
  * results are returned in ascending order of the `timeStamp` of the events. Use the
@@ -3334,39 +3378,21 @@ export const getActivityTask: API.OperationMethod<
 export const getExecutionHistory: API.OperationMethod<
   GetExecutionHistoryInput,
   GetExecutionHistoryOutput,
-  | ExecutionDoesNotExist
-  | InvalidArn
-  | InvalidToken
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | CommonErrors,
+  GetExecutionHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetExecutionHistoryInput,
   ) => stream.Stream<
     GetExecutionHistoryOutput,
-    | ExecutionDoesNotExist
-    | InvalidArn
-    | InvalidToken
-    | KmsAccessDeniedException
-    | KmsInvalidStateException
-    | KmsThrottlingException
-    | CommonErrors,
+    GetExecutionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetExecutionHistoryInput,
   ) => stream.Stream<
     HistoryEvent,
-    | ExecutionDoesNotExist
-    | InvalidArn
-    | InvalidToken
-    | KmsAccessDeniedException
-    | KmsInvalidStateException
-    | KmsThrottlingException
-    | CommonErrors,
+    GetExecutionHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3387,6 +3413,7 @@ export const getExecutionHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListActivitiesError = InvalidToken | CommonErrors;
 /**
  * Lists the existing activities.
  *
@@ -3398,21 +3425,21 @@ export const getExecutionHistory: API.OperationMethod<
 export const listActivities: API.OperationMethod<
   ListActivitiesInput,
   ListActivitiesOutput,
-  InvalidToken | CommonErrors,
+  ListActivitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListActivitiesInput,
   ) => stream.Stream<
     ListActivitiesOutput,
-    InvalidToken | CommonErrors,
+    ListActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActivitiesInput,
   ) => stream.Stream<
     ActivityListItem,
-    InvalidToken | CommonErrors,
+    ListActivitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3426,6 +3453,14 @@ export const listActivities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExecutionsError =
+  | InvalidArn
+  | InvalidToken
+  | ResourceNotFound
+  | StateMachineDoesNotExist
+  | StateMachineTypeNotSupported
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all executions of a state machine or a Map Run. You can list all executions related to a state machine by specifying a state machine Amazon Resource Name (ARN), or those related to a Map Run by specifying a Map Run ARN. Using this API action, you can also list all redriven executions.
  *
@@ -3444,39 +3479,21 @@ export const listActivities: API.OperationMethod<
 export const listExecutions: API.OperationMethod<
   ListExecutionsInput,
   ListExecutionsOutput,
-  | InvalidArn
-  | InvalidToken
-  | ResourceNotFound
-  | StateMachineDoesNotExist
-  | StateMachineTypeNotSupported
-  | ValidationException
-  | CommonErrors,
+  ListExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExecutionsInput,
   ) => stream.Stream<
     ListExecutionsOutput,
-    | InvalidArn
-    | InvalidToken
-    | ResourceNotFound
-    | StateMachineDoesNotExist
-    | StateMachineTypeNotSupported
-    | ValidationException
-    | CommonErrors,
+    ListExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExecutionsInput,
   ) => stream.Stream<
     ExecutionListItem,
-    | InvalidArn
-    | InvalidToken
-    | ResourceNotFound
-    | StateMachineDoesNotExist
-    | StateMachineTypeNotSupported
-    | ValidationException
-    | CommonErrors,
+    ListExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3497,27 +3514,32 @@ export const listExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMapRunsError =
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | InvalidToken
+  | CommonErrors;
 /**
  * Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if needed.
  */
 export const listMapRuns: API.OperationMethod<
   ListMapRunsInput,
   ListMapRunsOutput,
-  ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors,
+  ListMapRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMapRunsInput,
   ) => stream.Stream<
     ListMapRunsOutput,
-    ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors,
+    ListMapRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMapRunsInput,
   ) => stream.Stream<
     MapRunListItem,
-    ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors,
+    ListMapRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3531,6 +3553,13 @@ export const listMapRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStateMachineAliasesError =
+  | InvalidArn
+  | InvalidToken
+  | ResourceNotFound
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | CommonErrors;
 /**
  * Lists aliases for a specified state machine ARN. Results are sorted by time, with the most recently created aliases listed first.
  *
@@ -3552,12 +3581,7 @@ export const listMapRuns: API.OperationMethod<
 export const listStateMachineAliases: API.OperationMethod<
   ListStateMachineAliasesInput,
   ListStateMachineAliasesOutput,
-  | InvalidArn
-  | InvalidToken
-  | ResourceNotFound
-  | StateMachineDeleting
-  | StateMachineDoesNotExist
-  | CommonErrors,
+  ListStateMachineAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStateMachineAliasesInput,
@@ -3570,6 +3594,7 @@ export const listStateMachineAliases: API.OperationMethod<
     StateMachineDoesNotExist,
   ],
 }));
+export type ListStateMachinesError = InvalidToken | CommonErrors;
 /**
  * Lists the existing state machines.
  *
@@ -3581,21 +3606,21 @@ export const listStateMachineAliases: API.OperationMethod<
 export const listStateMachines: API.OperationMethod<
   ListStateMachinesInput,
   ListStateMachinesOutput,
-  InvalidToken | CommonErrors,
+  ListStateMachinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStateMachinesInput,
   ) => stream.Stream<
     ListStateMachinesOutput,
-    InvalidToken | CommonErrors,
+    ListStateMachinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStateMachinesInput,
   ) => stream.Stream<
     StateMachineListItem,
-    InvalidToken | CommonErrors,
+    ListStateMachinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3609,6 +3634,11 @@ export const listStateMachines: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStateMachineVersionsError =
+  | InvalidArn
+  | InvalidToken
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists versions for the specified state machine Amazon Resource Name (ARN).
  *
@@ -3626,13 +3656,17 @@ export const listStateMachines: API.OperationMethod<
 export const listStateMachineVersions: API.OperationMethod<
   ListStateMachineVersionsInput,
   ListStateMachineVersionsOutput,
-  InvalidArn | InvalidToken | ValidationException | CommonErrors,
+  ListStateMachineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStateMachineVersionsInput,
   output: ListStateMachineVersionsOutput,
   errors: [InvalidArn, InvalidToken, ValidationException],
 }));
+export type ListTagsForResourceError =
+  | InvalidArn
+  | ResourceNotFound
+  | CommonErrors;
 /**
  * List tags for a given resource.
  *
@@ -3641,13 +3675,21 @@ export const listStateMachineVersions: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  InvalidArn | ResourceNotFound | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [InvalidArn, ResourceNotFound],
 }));
+export type PublishStateMachineVersionError =
+  | ConflictException
+  | InvalidArn
+  | ServiceQuotaExceededException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a version from the
  * current revision of a state machine. Use versions to create immutable snapshots of your state
@@ -3672,13 +3714,7 @@ export const listTagsForResource: API.OperationMethod<
 export const publishStateMachineVersion: API.OperationMethod<
   PublishStateMachineVersionInput,
   PublishStateMachineVersionOutput,
-  | ConflictException
-  | InvalidArn
-  | ServiceQuotaExceededException
-  | StateMachineDeleting
-  | StateMachineDoesNotExist
-  | ValidationException
-  | CommonErrors,
+  PublishStateMachineVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishStateMachineVersionInput,
@@ -3692,6 +3728,13 @@ export const publishStateMachineVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RedriveExecutionError =
+  | ExecutionDoesNotExist
+  | ExecutionLimitExceeded
+  | ExecutionNotRedrivable
+  | InvalidArn
+  | ValidationException
+  | CommonErrors;
 /**
  * Restarts unsuccessful executions of Standard workflows that didn't complete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use the same state machine definition and execution ARN as the original execution attempt.
  *
@@ -3716,12 +3759,7 @@ export const publishStateMachineVersion: API.OperationMethod<
 export const redriveExecution: API.OperationMethod<
   RedriveExecutionInput,
   RedriveExecutionOutput,
-  | ExecutionDoesNotExist
-  | ExecutionLimitExceeded
-  | ExecutionNotRedrivable
-  | InvalidArn
-  | ValidationException
-  | CommonErrors,
+  RedriveExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RedriveExecutionInput,
@@ -3734,6 +3772,14 @@ export const redriveExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendTaskFailureError =
+  | InvalidToken
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | TaskDoesNotExist
+  | TaskTimedOut
+  | CommonErrors;
 /**
  * Used by activity workers, Task states using the callback
  * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` failed.
@@ -3745,13 +3791,7 @@ export const redriveExecution: API.OperationMethod<
 export const sendTaskFailure: API.OperationMethod<
   SendTaskFailureInput,
   SendTaskFailureOutput,
-  | InvalidToken
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | TaskDoesNotExist
-  | TaskTimedOut
-  | CommonErrors,
+  SendTaskFailureError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTaskFailureInput,
@@ -3765,6 +3805,11 @@ export const sendTaskFailure: API.OperationMethod<
     TaskTimedOut,
   ],
 }));
+export type SendTaskHeartbeatError =
+  | InvalidToken
+  | TaskDoesNotExist
+  | TaskTimedOut
+  | CommonErrors;
 /**
  * Used by activity workers and Task states using the callback
  * pattern, and optionally Task states using the job run pattern to report to Step Functions that the task represented by the specified
@@ -3784,13 +3829,22 @@ export const sendTaskFailure: API.OperationMethod<
 export const sendTaskHeartbeat: API.OperationMethod<
   SendTaskHeartbeatInput,
   SendTaskHeartbeatOutput,
-  InvalidToken | TaskDoesNotExist | TaskTimedOut | CommonErrors,
+  SendTaskHeartbeatError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTaskHeartbeatInput,
   output: SendTaskHeartbeatOutput,
   errors: [InvalidToken, TaskDoesNotExist, TaskTimedOut],
 }));
+export type SendTaskSuccessError =
+  | InvalidOutput
+  | InvalidToken
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | TaskDoesNotExist
+  | TaskTimedOut
+  | CommonErrors;
 /**
  * Used by activity workers, Task states using the callback
  * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` completed
@@ -3799,14 +3853,7 @@ export const sendTaskHeartbeat: API.OperationMethod<
 export const sendTaskSuccess: API.OperationMethod<
   SendTaskSuccessInput,
   SendTaskSuccessOutput,
-  | InvalidOutput
-  | InvalidToken
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | TaskDoesNotExist
-  | TaskTimedOut
-  | CommonErrors,
+  SendTaskSuccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTaskSuccessInput,
@@ -3821,6 +3868,19 @@ export const sendTaskSuccess: API.OperationMethod<
     TaskTimedOut,
   ],
 }));
+export type StartExecutionError =
+  | ExecutionAlreadyExists
+  | ExecutionLimitExceeded
+  | InvalidArn
+  | InvalidExecutionInput
+  | InvalidName
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a state machine execution.
  *
@@ -3860,18 +3920,7 @@ export const sendTaskSuccess: API.OperationMethod<
 export const startExecution: API.OperationMethod<
   StartExecutionInput,
   StartExecutionOutput,
-  | ExecutionAlreadyExists
-  | ExecutionLimitExceeded
-  | InvalidArn
-  | InvalidExecutionInput
-  | InvalidName
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | StateMachineDeleting
-  | StateMachineDoesNotExist
-  | ValidationException
-  | CommonErrors,
+  StartExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExecutionInput,
@@ -3890,6 +3939,17 @@ export const startExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartSyncExecutionError =
+  | InvalidArn
+  | InvalidExecutionInput
+  | InvalidName
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | StateMachineTypeNotSupported
+  | CommonErrors;
 /**
  * Starts a Synchronous Express state machine execution. `StartSyncExecution`
  * is not available for `STANDARD` workflows.
@@ -3905,16 +3965,7 @@ export const startExecution: API.OperationMethod<
 export const startSyncExecution: API.OperationMethod<
   StartSyncExecutionInput,
   StartSyncExecutionOutput,
-  | InvalidArn
-  | InvalidExecutionInput
-  | InvalidName
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | StateMachineDeleting
-  | StateMachineDoesNotExist
-  | StateMachineTypeNotSupported
-  | CommonErrors,
+  StartSyncExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSyncExecutionInput,
@@ -3931,6 +3982,14 @@ export const startSyncExecution: API.OperationMethod<
     StateMachineTypeNotSupported,
   ],
 }));
+export type StopExecutionError =
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops an execution.
  *
@@ -3943,13 +4002,7 @@ export const startSyncExecution: API.OperationMethod<
 export const stopExecution: API.OperationMethod<
   StopExecutionInput,
   StopExecutionOutput,
-  | ExecutionDoesNotExist
-  | InvalidArn
-  | KmsAccessDeniedException
-  | KmsInvalidStateException
-  | KmsThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopExecutionInput,
@@ -3963,6 +4016,11 @@ export const stopExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InvalidArn
+  | ResourceNotFound
+  | TooManyTags
+  | CommonErrors;
 /**
  * Add a tag to a Step Functions resource.
  *
@@ -3976,13 +4034,19 @@ export const stopExecution: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  InvalidArn | ResourceNotFound | TooManyTags | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [InvalidArn, ResourceNotFound, TooManyTags],
 }));
+export type TestStateError =
+  | InvalidArn
+  | InvalidDefinition
+  | InvalidExecutionInput
+  | ValidationException
+  | CommonErrors;
 /**
  * Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following:
  *
@@ -4016,11 +4080,7 @@ export const tagResource: API.OperationMethod<
 export const testState: API.OperationMethod<
   TestStateInput,
   TestStateOutput,
-  | InvalidArn
-  | InvalidDefinition
-  | InvalidExecutionInput
-  | ValidationException
-  | CommonErrors,
+  TestStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestStateInput,
@@ -4032,32 +4092,53 @@ export const testState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError = InvalidArn | ResourceNotFound | CommonErrors;
 /**
  * Remove a tag from a Step Functions resource
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  InvalidArn | ResourceNotFound | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [InvalidArn, ResourceNotFound],
 }));
+export type UpdateMapRunError =
+  | InvalidArn
+  | ResourceNotFound
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
  */
 export const updateMapRun: API.OperationMethod<
   UpdateMapRunInput,
   UpdateMapRunOutput,
-  InvalidArn | ResourceNotFound | ValidationException | CommonErrors,
+  UpdateMapRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMapRunInput,
   output: UpdateMapRunOutput,
   errors: [InvalidArn, ResourceNotFound, ValidationException],
 }));
+export type UpdateStateMachineError =
+  | ConflictException
+  | InvalidArn
+  | InvalidDefinition
+  | InvalidEncryptionConfiguration
+  | InvalidLoggingConfiguration
+  | InvalidTracingConfiguration
+  | KmsAccessDeniedException
+  | KmsThrottlingException
+  | MissingRequiredParameter
+  | ServiceQuotaExceededException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing state machine by modifying its `definition`,
  * `roleArn`, `loggingConfiguration`, or `EncryptionConfiguration`. Running executions will continue
@@ -4101,20 +4182,7 @@ export const updateMapRun: API.OperationMethod<
 export const updateStateMachine: API.OperationMethod<
   UpdateStateMachineInput,
   UpdateStateMachineOutput,
-  | ConflictException
-  | InvalidArn
-  | InvalidDefinition
-  | InvalidEncryptionConfiguration
-  | InvalidLoggingConfiguration
-  | InvalidTracingConfiguration
-  | KmsAccessDeniedException
-  | KmsThrottlingException
-  | MissingRequiredParameter
-  | ServiceQuotaExceededException
-  | StateMachineDeleting
-  | StateMachineDoesNotExist
-  | ValidationException
-  | CommonErrors,
+  UpdateStateMachineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStateMachineInput,
@@ -4135,6 +4203,13 @@ export const updateStateMachine: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateStateMachineAliasError =
+  | ConflictException
+  | InvalidArn
+  | ResourceNotFound
+  | StateMachineDeleting
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing state machine alias by modifying its `description` or `routingConfiguration`.
  *
@@ -4163,12 +4238,7 @@ export const updateStateMachine: API.OperationMethod<
 export const updateStateMachineAlias: API.OperationMethod<
   UpdateStateMachineAliasInput,
   UpdateStateMachineAliasOutput,
-  | ConflictException
-  | InvalidArn
-  | ResourceNotFound
-  | StateMachineDeleting
-  | ValidationException
-  | CommonErrors,
+  UpdateStateMachineAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStateMachineAliasInput,
@@ -4181,6 +4251,9 @@ export const updateStateMachineAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ValidateStateMachineDefinitionError =
+  | ValidationException
+  | CommonErrors;
 /**
  * Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a
  * JSON-based, structured language.
@@ -4218,7 +4291,7 @@ export const updateStateMachineAlias: API.OperationMethod<
 export const validateStateMachineDefinition: API.OperationMethod<
   ValidateStateMachineDefinitionInput,
   ValidateStateMachineDefinitionOutput,
-  ValidationException | CommonErrors,
+  ValidateStateMachineDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateStateMachineDefinitionInput,

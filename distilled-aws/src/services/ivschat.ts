@@ -961,6 +961,12 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type CreateChatTokenError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an encrypted token that is used by a chat participant to establish an individual
  * WebSocket chat connection to a room. When the token is used to connect to chat, the
@@ -981,11 +987,7 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
 export const createChatToken: API.OperationMethod<
   CreateChatTokenRequest,
   CreateChatTokenResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateChatTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChatTokenRequest,
@@ -997,6 +999,14 @@ export const createChatToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLoggingConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a logging configuration that allows clients to store and record sent
  * messages.
@@ -1004,13 +1014,7 @@ export const createChatToken: API.OperationMethod<
 export const createLoggingConfiguration: API.OperationMethod<
   CreateLoggingConfigurationRequest,
   CreateLoggingConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoggingConfigurationRequest,
@@ -1024,19 +1028,21 @@ export const createLoggingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a room that allows clients to connect and pass messages.
- */
-export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
-  CreateRoomResponse,
+export type CreateRoomError =
   | AccessDeniedException
   | ConflictException
   | PendingVerification
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a room that allows clients to connect and pass messages.
+ */
+export const createRoom: API.OperationMethod<
+  CreateRoomRequest,
+  CreateRoomResponse,
+  CreateRoomError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoomRequest,
@@ -1050,18 +1056,20 @@ export const createRoom: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLoggingConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified logging configuration.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
   DeleteLoggingConfigurationRequest,
   DeleteLoggingConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoggingConfigurationRequest,
@@ -1074,6 +1082,13 @@ export const deleteLoggingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMessageError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends an event to a specific room which directs clients to delete a specific message;
  * that is, unrender it from view and delete it from the client’s chat history. This event’s
@@ -1083,12 +1098,7 @@ export const deleteLoggingConfiguration: API.OperationMethod<
 export const deleteMessage: API.OperationMethod<
   DeleteMessageRequest,
   DeleteMessageResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageRequest,
@@ -1101,17 +1111,19 @@ export const deleteMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRoomError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified room.
  */
 export const deleteRoom: API.OperationMethod<
   DeleteRoomRequest,
   DeleteRoomResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteRoomError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoomRequest,
@@ -1123,6 +1135,13 @@ export const deleteRoom: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisconnectUserError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disconnects all connections using a specified user ID from a room. This replicates the
  *
@@ -1131,12 +1150,7 @@ export const deleteRoom: API.OperationMethod<
 export const disconnectUser: API.OperationMethod<
   DisconnectUserRequest,
   DisconnectUserResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisconnectUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisconnectUserRequest,
@@ -1149,16 +1163,18 @@ export const disconnectUser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLoggingConfigurationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the specified logging configuration.
  */
 export const getLoggingConfiguration: API.OperationMethod<
   GetLoggingConfigurationRequest,
   GetLoggingConfigurationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingConfigurationRequest,
@@ -1169,16 +1185,18 @@ export const getLoggingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRoomError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the specified room.
  */
 export const getRoom: API.OperationMethod<
   GetRoomRequest,
   GetRoomResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetRoomError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoomRequest,
@@ -1189,6 +1207,10 @@ export const getRoom: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListLoggingConfigurationsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about all your logging configurations in the AWS region where
  * the API request is processed.
@@ -1196,21 +1218,21 @@ export const getRoom: API.OperationMethod<
 export const listLoggingConfigurations: API.OperationMethod<
   ListLoggingConfigurationsRequest,
   ListLoggingConfigurationsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListLoggingConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLoggingConfigurationsRequest,
   ) => stream.Stream<
     ListLoggingConfigurationsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListLoggingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLoggingConfigurationsRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListLoggingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1223,6 +1245,11 @@ export const listLoggingConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRoomsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about all your rooms in the AWS region where the API request is
  * processed. Results are sorted in descending order of `updateTime`.
@@ -1230,30 +1257,21 @@ export const listLoggingConfigurations: API.OperationMethod<
 export const listRooms: API.OperationMethod<
   ListRoomsRequest,
   ListRoomsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListRoomsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoomsRequest,
   ) => stream.Stream<
     ListRoomsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListRoomsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoomsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListRoomsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1270,16 +1288,18 @@ export const listRooms: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about AWS tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1290,6 +1310,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendEventError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends an event to a room. Use this within your application’s business logic to send
  * events to clients of a room; e.g., to notify clients to change the way the chat UI is
@@ -1298,12 +1325,7 @@ export const listTagsForResource: API.OperationMethod<
 export const sendEvent: API.OperationMethod<
   SendEventRequest,
   SendEventResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEventRequest,
@@ -1316,16 +1338,18 @@ export const sendEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1336,16 +1360,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1356,18 +1382,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLoggingConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a specified logging configuration.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
   UpdateLoggingConfigurationRequest,
   UpdateLoggingConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoggingConfigurationRequest,
@@ -1380,17 +1408,19 @@ export const updateLoggingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateRoomError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a room’s configuration.
  */
 export const updateRoom: API.OperationMethod<
   UpdateRoomRequest,
   UpdateRoomResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateRoomError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoomRequest,

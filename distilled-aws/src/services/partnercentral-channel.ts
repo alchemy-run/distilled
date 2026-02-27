@@ -1438,18 +1438,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError, C.withRetryableError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags associated with a specific resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1462,19 +1464,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds or updates tags for a specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates tags for a specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1488,19 +1492,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes tags from a specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags from a specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1514,12 +1520,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new channel handshake request to establish a partnership with another AWS account.
- */
-export const createChannelHandshake: API.OperationMethod<
-  CreateChannelHandshakeRequest,
-  CreateChannelHandshakeResponse,
+export type CreateChannelHandshakeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1527,7 +1528,14 @@ export const createChannelHandshake: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new channel handshake request to establish a partnership with another AWS account.
+ */
+export const createChannelHandshake: API.OperationMethod<
+  CreateChannelHandshakeRequest,
+  CreateChannelHandshakeResponse,
+  CreateChannelHandshakeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelHandshakeRequest,
@@ -1542,42 +1550,34 @@ export const createChannelHandshake: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChannelHandshakesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists channel handshakes based on specified criteria.
  */
 export const listChannelHandshakes: API.OperationMethod<
   ListChannelHandshakesRequest,
   ListChannelHandshakesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListChannelHandshakesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelHandshakesRequest,
   ) => stream.Stream<
     ListChannelHandshakesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelHandshakesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelHandshakesRequest,
   ) => stream.Stream<
     ChannelHandshakeSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelHandshakesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1597,18 +1597,20 @@ export const listChannelHandshakes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type AcceptChannelHandshakeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Accepts a pending channel handshake request from another AWS account.
  */
 export const acceptChannelHandshake: API.OperationMethod<
   AcceptChannelHandshakeRequest,
   AcceptChannelHandshakeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AcceptChannelHandshakeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptChannelHandshakeRequest,
@@ -1621,18 +1623,20 @@ export const acceptChannelHandshake: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelChannelHandshakeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a pending channel handshake request.
  */
 export const cancelChannelHandshake: API.OperationMethod<
   CancelChannelHandshakeRequest,
   CancelChannelHandshakeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelChannelHandshakeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelChannelHandshakeRequest,
@@ -1645,18 +1649,20 @@ export const cancelChannelHandshake: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RejectChannelHandshakeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Rejects a pending channel handshake request.
  */
 export const rejectChannelHandshake: API.OperationMethod<
   RejectChannelHandshakeRequest,
   RejectChannelHandshakeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RejectChannelHandshakeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectChannelHandshakeRequest,
@@ -1669,12 +1675,7 @@ export const rejectChannelHandshake: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new program management account for managing partner relationships.
- */
-export const createProgramManagementAccount: API.OperationMethod<
-  CreateProgramManagementAccountRequest,
-  CreateProgramManagementAccountResponse,
+export type CreateProgramManagementAccountError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1682,7 +1683,14 @@ export const createProgramManagementAccount: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new program management account for managing partner relationships.
+ */
+export const createProgramManagementAccount: API.OperationMethod<
+  CreateProgramManagementAccountRequest,
+  CreateProgramManagementAccountResponse,
+  CreateProgramManagementAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProgramManagementAccountRequest,
@@ -1697,19 +1705,21 @@ export const createProgramManagementAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the properties of a program management account.
- */
-export const updateProgramManagementAccount: API.OperationMethod<
-  UpdateProgramManagementAccountRequest,
-  UpdateProgramManagementAccountResponse,
+export type UpdateProgramManagementAccountError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of a program management account.
+ */
+export const updateProgramManagementAccount: API.OperationMethod<
+  UpdateProgramManagementAccountRequest,
+  UpdateProgramManagementAccountResponse,
+  UpdateProgramManagementAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProgramManagementAccountRequest,
@@ -1723,19 +1733,21 @@ export const updateProgramManagementAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a program management account.
- */
-export const deleteProgramManagementAccount: API.OperationMethod<
-  DeleteProgramManagementAccountRequest,
-  DeleteProgramManagementAccountResponse,
+export type DeleteProgramManagementAccountError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a program management account.
+ */
+export const deleteProgramManagementAccount: API.OperationMethod<
+  DeleteProgramManagementAccountRequest,
+  DeleteProgramManagementAccountResponse,
+  DeleteProgramManagementAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProgramManagementAccountRequest,
@@ -1749,42 +1761,34 @@ export const deleteProgramManagementAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListProgramManagementAccountsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists program management accounts based on specified criteria.
  */
 export const listProgramManagementAccounts: API.OperationMethod<
   ListProgramManagementAccountsRequest,
   ListProgramManagementAccountsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProgramManagementAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProgramManagementAccountsRequest,
   ) => stream.Stream<
     ListProgramManagementAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProgramManagementAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProgramManagementAccountsRequest,
   ) => stream.Stream<
     ProgramManagementAccountSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProgramManagementAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1804,12 +1808,7 @@ export const listProgramManagementAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new partner relationship between accounts.
- */
-export const createRelationship: API.OperationMethod<
-  CreateRelationshipRequest,
-  CreateRelationshipResponse,
+export type CreateRelationshipError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1817,7 +1816,14 @@ export const createRelationship: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new partner relationship between accounts.
+ */
+export const createRelationship: API.OperationMethod<
+  CreateRelationshipRequest,
+  CreateRelationshipResponse,
+  CreateRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelationshipRequest,
@@ -1832,18 +1838,20 @@ export const createRelationship: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRelationshipError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details of a specific partner relationship.
  */
 export const getRelationship: API.OperationMethod<
   GetRelationshipRequest,
   GetRelationshipResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationshipRequest,
@@ -1856,19 +1864,21 @@ export const getRelationship: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the properties of a partner relationship.
- */
-export const updateRelationship: API.OperationMethod<
-  UpdateRelationshipRequest,
-  UpdateRelationshipResponse,
+export type UpdateRelationshipError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of a partner relationship.
+ */
+export const updateRelationship: API.OperationMethod<
+  UpdateRelationshipRequest,
+  UpdateRelationshipResponse,
+  UpdateRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelationshipRequest,
@@ -1882,19 +1892,21 @@ export const updateRelationship: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a partner relationship.
- */
-export const deleteRelationship: API.OperationMethod<
-  DeleteRelationshipRequest,
-  DeleteRelationshipResponse,
+export type DeleteRelationshipError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a partner relationship.
+ */
+export const deleteRelationship: API.OperationMethod<
+  DeleteRelationshipRequest,
+  DeleteRelationshipResponse,
+  DeleteRelationshipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelationshipRequest,
@@ -1908,42 +1920,34 @@ export const deleteRelationship: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRelationshipsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists partner relationships based on specified criteria.
  */
 export const listRelationships: API.OperationMethod<
   ListRelationshipsRequest,
   ListRelationshipsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRelationshipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRelationshipsRequest,
   ) => stream.Stream<
     ListRelationshipsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRelationshipsRequest,
   ) => stream.Stream<
     RelationshipSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRelationshipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

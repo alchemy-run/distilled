@@ -275,12 +275,12 @@ export const CreateVehicleResponseItem = S.suspend(() =>
 }) as any as S.Schema<CreateVehicleResponseItem>;
 export type CreateVehicleResponses = CreateVehicleResponseItem[];
 export const CreateVehicleResponses = S.Array(CreateVehicleResponseItem);
-export interface CreateVehicleError {
+export interface CreateVehicleError_ {
   vehicleName?: string;
   code?: string;
   message?: string;
 }
-export const CreateVehicleError = S.suspend(() =>
+export const CreateVehicleError_ = S.suspend(() =>
   S.Struct({
     vehicleName: S.optional(S.String),
     code: S.optional(S.String),
@@ -288,12 +288,12 @@ export const CreateVehicleError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "CreateVehicleError",
-}) as any as S.Schema<CreateVehicleError>;
-export type CreateVehicleErrors = CreateVehicleError[];
-export const CreateVehicleErrors = S.Array(CreateVehicleError);
+}) as any as S.Schema<CreateVehicleError_>;
+export type CreateVehicleErrors = CreateVehicleError_[];
+export const CreateVehicleErrors = S.Array(CreateVehicleError_);
 export interface BatchCreateVehicleResponse {
   vehicles?: CreateVehicleResponseItem[];
-  errors?: CreateVehicleError[];
+  errors?: CreateVehicleError_[];
 }
 export const BatchCreateVehicleResponse = S.suspend(() =>
   S.Struct({
@@ -379,12 +379,12 @@ export const UpdateVehicleResponseItem = S.suspend(() =>
 }) as any as S.Schema<UpdateVehicleResponseItem>;
 export type UpdateVehicleResponseItems = UpdateVehicleResponseItem[];
 export const UpdateVehicleResponseItems = S.Array(UpdateVehicleResponseItem);
-export interface UpdateVehicleError {
+export interface UpdateVehicleError_ {
   vehicleName?: string;
   code?: number;
   message?: string;
 }
-export const UpdateVehicleError = S.suspend(() =>
+export const UpdateVehicleError_ = S.suspend(() =>
   S.Struct({
     vehicleName: S.optional(S.String),
     code: S.optional(S.Number),
@@ -392,12 +392,12 @@ export const UpdateVehicleError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "UpdateVehicleError",
-}) as any as S.Schema<UpdateVehicleError>;
-export type UpdateVehicleErrors = UpdateVehicleError[];
-export const UpdateVehicleErrors = S.Array(UpdateVehicleError);
+}) as any as S.Schema<UpdateVehicleError_>;
+export type UpdateVehicleErrors = UpdateVehicleError_[];
+export const UpdateVehicleErrors = S.Array(UpdateVehicleError_);
 export interface BatchUpdateVehicleResponse {
   vehicles?: UpdateVehicleResponseItem[];
-  errors?: UpdateVehicleError[];
+  errors?: UpdateVehicleError_[];
 }
 export const BatchUpdateVehicleResponse = S.suspend(() =>
   S.Struct({
@@ -3639,6 +3639,13 @@ export class InvalidNodeException extends S.TaggedErrorClass<InvalidNodeExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchCreateVehicleError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a group, or batch, of vehicles.
  *
@@ -3651,12 +3658,7 @@ export class InvalidNodeException extends S.TaggedErrorClass<InvalidNodeExceptio
 export const batchCreateVehicle: API.OperationMethod<
   BatchCreateVehicleRequest,
   BatchCreateVehicleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchCreateVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateVehicleRequest,
@@ -3669,6 +3671,13 @@ export const batchCreateVehicle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchUpdateVehicleError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a group, or batch, of vehicles.
  *
@@ -3681,12 +3690,7 @@ export const batchCreateVehicle: API.OperationMethod<
 export const batchUpdateVehicle: API.OperationMethod<
   BatchUpdateVehicleRequest,
   BatchUpdateVehicleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateVehicleRequest,
@@ -3699,18 +3703,20 @@ export const batchUpdateVehicle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEncryptionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
  */
 export const getEncryptionConfiguration: API.OperationMethod<
   GetEncryptionConfigurationRequest,
   GetEncryptionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEncryptionConfigurationRequest,
@@ -3723,19 +3729,30 @@ export const getEncryptionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLoggingOptionsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the logging options.
  */
 export const getLoggingOptions: API.OperationMethod<
   GetLoggingOptionsRequest,
   GetLoggingOptionsResponse,
-  AccessDeniedException | ThrottlingException | CommonErrors,
+  GetLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingOptionsRequest,
   output: GetLoggingOptionsResponse,
   errors: [AccessDeniedException, ThrottlingException],
 }));
+export type GetRegisterAccountStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the status of registering your Amazon Web Services account, IAM, and
  * Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services
@@ -3748,12 +3765,7 @@ export const getLoggingOptions: API.OperationMethod<
 export const getRegisterAccountStatus: API.OperationMethod<
   GetRegisterAccountStatusRequest,
   GetRegisterAccountStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRegisterAccountStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegisterAccountStatusRequest,
@@ -3766,6 +3778,12 @@ export const getRegisterAccountStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetVehicleStatusError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the status of campaigns, decoder manifests, or state templates
  * associated with a vehicle.
@@ -3773,33 +3791,21 @@ export const getRegisterAccountStatus: API.OperationMethod<
 export const getVehicleStatus: API.OperationMethod<
   GetVehicleStatusRequest,
   GetVehicleStatusResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetVehicleStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetVehicleStatusRequest,
   ) => stream.Stream<
     GetVehicleStatusResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetVehicleStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetVehicleStatusRequest,
   ) => stream.Stream<
     VehicleStatus,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetVehicleStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3818,18 +3824,20 @@ export const getVehicleStatus: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3842,6 +3850,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutEncryptionConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and
  * resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and
@@ -3851,13 +3867,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putEncryptionConfiguration: API.OperationMethod<
   PutEncryptionConfigurationRequest,
   PutEncryptionConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEncryptionConfigurationRequest,
@@ -3871,18 +3881,20 @@ export const putEncryptionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutLoggingOptionsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates the logging option.
  */
 export const putLoggingOptions: API.OperationMethod<
   PutLoggingOptionsRequest,
   PutLoggingOptionsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutLoggingOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingOptionsRequest,
@@ -3895,6 +3907,14 @@ export const putLoggingOptions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterAccountError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This API operation contains deprecated parameters. Register your account again
  * without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream
@@ -3923,13 +3943,7 @@ export const putLoggingOptions: API.OperationMethod<
 export const registerAccount: API.OperationMethod<
   RegisterAccountRequest,
   RegisterAccountResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RegisterAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAccountRequest,
@@ -3943,6 +3957,13 @@ export const registerAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata which can be
  * used to manage a resource.
@@ -3950,12 +3971,7 @@ export const registerAccount: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3968,18 +3984,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the given tags (metadata) from the resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3992,6 +4010,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCampaignError =
+  | AccessDeniedException
+  | ConflictException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software
  * running in vehicles uses campaigns to decide how to collect and transfer data to the
@@ -4006,13 +4032,7 @@ export const untagResource: API.OperationMethod<
 export const createCampaign: API.OperationMethod<
   CreateCampaignRequest,
   CreateCampaignResponse,
-  | AccessDeniedException
-  | ConflictException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
@@ -4026,6 +4046,12 @@ export const createCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCampaignError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a campaign.
  *
@@ -4034,11 +4060,7 @@ export const createCampaign: API.OperationMethod<
 export const getCampaign: API.OperationMethod<
   GetCampaignRequest,
   GetCampaignResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignRequest,
@@ -4050,18 +4072,20 @@ export const getCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateCampaignError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a campaign.
  */
 export const updateCampaign: API.OperationMethod<
   UpdateCampaignRequest,
   UpdateCampaignResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignRequest,
@@ -4074,6 +4098,12 @@ export const updateCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCampaignError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a data collection campaign. Deleting a campaign suspends all data collection
  * and removes it from any vehicles.
@@ -4081,11 +4111,7 @@ export const updateCampaign: API.OperationMethod<
 export const deleteCampaign: API.OperationMethod<
   DeleteCampaignRequest,
   DeleteCampaignResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
@@ -4097,6 +4123,11 @@ export const deleteCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCampaignsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about created campaigns.
  *
@@ -4105,30 +4136,21 @@ export const deleteCampaign: API.OperationMethod<
 export const listCampaigns: API.OperationMethod<
   ListCampaignsRequest,
   ListCampaignsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCampaignsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
     ListCampaignsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
     CampaignSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4142,6 +4164,15 @@ export const listCampaigns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateDecoderManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | DecoderManifestValidationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates the decoder manifest associated with a model manifest. To create a decoder
  * manifest, the following must be true:
@@ -4157,14 +4188,7 @@ export const listCampaigns: API.OperationMethod<
 export const createDecoderManifest: API.OperationMethod<
   CreateDecoderManifestRequest,
   CreateDecoderManifestResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DecoderManifestValidationException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDecoderManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDecoderManifestRequest,
@@ -4179,17 +4203,19 @@ export const createDecoderManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDecoderManifestError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a created decoder manifest.
  */
 export const getDecoderManifest: API.OperationMethod<
   GetDecoderManifestRequest,
   GetDecoderManifestResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDecoderManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDecoderManifestRequest,
@@ -4201,6 +4227,15 @@ export const getDecoderManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDecoderManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | DecoderManifestValidationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a decoder manifest.
  *
@@ -4210,14 +4245,7 @@ export const getDecoderManifest: API.OperationMethod<
 export const updateDecoderManifest: API.OperationMethod<
   UpdateDecoderManifestRequest,
   UpdateDecoderManifestResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DecoderManifestValidationException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDecoderManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDecoderManifestRequest,
@@ -4232,6 +4260,13 @@ export const updateDecoderManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDecoderManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles
  * associated with it.
@@ -4239,12 +4274,7 @@ export const updateDecoderManifest: API.OperationMethod<
 export const deleteDecoderManifest: API.OperationMethod<
   DeleteDecoderManifestRequest,
   DeleteDecoderManifestResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDecoderManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDecoderManifestRequest,
@@ -4257,6 +4287,12 @@ export const deleteDecoderManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDecoderManifestsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists decoder manifests.
  *
@@ -4265,33 +4301,21 @@ export const deleteDecoderManifest: API.OperationMethod<
 export const listDecoderManifests: API.OperationMethod<
   ListDecoderManifestsRequest,
   ListDecoderManifestsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDecoderManifestsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDecoderManifestsRequest,
   ) => stream.Stream<
     ListDecoderManifestsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDecoderManifestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDecoderManifestsRequest,
   ) => stream.Stream<
     DecoderManifestSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDecoderManifestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4310,6 +4334,15 @@ export const listDecoderManifests: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ImportDecoderManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | DecoderManifestValidationException
+  | InvalidSignalsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a decoder manifest using your existing CAN DBC file from your local device.
  *
@@ -4318,14 +4351,7 @@ export const listDecoderManifests: API.OperationMethod<
 export const importDecoderManifest: API.OperationMethod<
   ImportDecoderManifestRequest,
   ImportDecoderManifestResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DecoderManifestValidationException
-  | InvalidSignalsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ImportDecoderManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDecoderManifestRequest,
@@ -4340,6 +4366,13 @@ export const importDecoderManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDecoderManifestNetworkInterfacesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the network interfaces specified in a decoder manifest.
  *
@@ -4348,36 +4381,21 @@ export const importDecoderManifest: API.OperationMethod<
 export const listDecoderManifestNetworkInterfaces: API.OperationMethod<
   ListDecoderManifestNetworkInterfacesRequest,
   ListDecoderManifestNetworkInterfacesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDecoderManifestNetworkInterfacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDecoderManifestNetworkInterfacesRequest,
   ) => stream.Stream<
     ListDecoderManifestNetworkInterfacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDecoderManifestNetworkInterfacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDecoderManifestNetworkInterfacesRequest,
   ) => stream.Stream<
     NetworkInterface,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDecoderManifestNetworkInterfacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4397,6 +4415,13 @@ export const listDecoderManifestNetworkInterfaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDecoderManifestSignalsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * A list of information about signal decoders specified in a decoder manifest.
  *
@@ -4405,36 +4430,21 @@ export const listDecoderManifestNetworkInterfaces: API.OperationMethod<
 export const listDecoderManifestSignals: API.OperationMethod<
   ListDecoderManifestSignalsRequest,
   ListDecoderManifestSignalsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDecoderManifestSignalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDecoderManifestSignalsRequest,
   ) => stream.Stream<
     ListDecoderManifestSignalsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDecoderManifestSignalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDecoderManifestSignalsRequest,
   ) => stream.Stream<
     SignalDecoder,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDecoderManifestSignalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4454,6 +4464,15 @@ export const listDecoderManifestSignals: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateFleetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a fleet that represents a group of vehicles.
  *
@@ -4465,14 +4484,7 @@ export const listDecoderManifestSignals: API.OperationMethod<
 export const createFleet: API.OperationMethod<
   CreateFleetRequest,
   CreateFleetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
@@ -4487,18 +4499,20 @@ export const createFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFleetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a fleet.
  */
 export const getFleet: API.OperationMethod<
   GetFleetRequest,
   GetFleetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFleetRequest,
@@ -4511,19 +4525,21 @@ export const getFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the description of an existing fleet.
- */
-export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
-  UpdateFleetResponse,
+export type UpdateFleetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the description of an existing fleet.
+ */
+export const updateFleet: API.OperationMethod<
+  UpdateFleetRequest,
+  UpdateFleetResponse,
+  UpdateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetRequest,
@@ -4537,6 +4553,12 @@ export const updateFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteFleetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a fleet. Before you delete a fleet, all vehicles must be
  * dissociated from the fleet. For more information, see Delete a fleet (AWS
@@ -4545,11 +4567,7 @@ export const updateFleet: API.OperationMethod<
 export const deleteFleet: API.OperationMethod<
   DeleteFleetRequest,
   DeleteFleetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetRequest,
@@ -4561,6 +4579,13 @@ export const deleteFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFleetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information for each created fleet in an Amazon Web Services account.
  *
@@ -4569,36 +4594,21 @@ export const deleteFleet: API.OperationMethod<
 export const listFleets: API.OperationMethod<
   ListFleetsRequest,
   ListFleetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFleetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetsRequest,
   ) => stream.Stream<
     ListFleetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetsRequest,
   ) => stream.Stream<
     FleetSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4618,6 +4628,13 @@ export const listFleets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListVehiclesInFleetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of summaries of all vehicles associated with a fleet.
  *
@@ -4626,36 +4643,21 @@ export const listFleets: API.OperationMethod<
 export const listVehiclesInFleet: API.OperationMethod<
   ListVehiclesInFleetRequest,
   ListVehiclesInFleetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListVehiclesInFleetError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVehiclesInFleetRequest,
   ) => stream.Stream<
     ListVehiclesInFleetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListVehiclesInFleetError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVehiclesInFleetRequest,
   ) => stream.Stream<
     VehicleName,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListVehiclesInFleetError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4675,6 +4677,15 @@ export const listVehiclesInFleet: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateModelManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a vehicle model (model manifest) that specifies signals (attributes,
  * branches, sensors, and actuators).
@@ -4685,14 +4696,7 @@ export const listVehiclesInFleet: API.OperationMethod<
 export const createModelManifest: API.OperationMethod<
   CreateModelManifestRequest,
   CreateModelManifestResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InvalidSignalsException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateModelManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelManifestRequest,
@@ -4707,17 +4711,19 @@ export const createModelManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetModelManifestError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a vehicle model (model manifest).
  */
 export const getModelManifest: API.OperationMethod<
   GetModelManifestRequest,
   GetModelManifestResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelManifestRequest,
@@ -4729,13 +4735,7 @@ export const getModelManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a vehicle model (model manifest). If created vehicles are associated with a
- * vehicle model, it can't be updated.
- */
-export const updateModelManifest: API.OperationMethod<
-  UpdateModelManifestRequest,
-  UpdateModelManifestResponse,
+export type UpdateModelManifestError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4743,7 +4743,15 @@ export const updateModelManifest: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a vehicle model (model manifest). If created vehicles are associated with a
+ * vehicle model, it can't be updated.
+ */
+export const updateModelManifest: API.OperationMethod<
+  UpdateModelManifestRequest,
+  UpdateModelManifestResponse,
+  UpdateModelManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelManifestRequest,
@@ -4758,18 +4766,20 @@ export const updateModelManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteModelManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a vehicle model (model manifest).
  */
 export const deleteModelManifest: API.OperationMethod<
   DeleteModelManifestRequest,
   DeleteModelManifestResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteModelManifestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelManifestRequest,
@@ -4782,6 +4792,12 @@ export const deleteModelManifest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListModelManifestsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of vehicle models (model manifests).
  *
@@ -4790,33 +4806,21 @@ export const deleteModelManifest: API.OperationMethod<
 export const listModelManifests: API.OperationMethod<
   ListModelManifestsRequest,
   ListModelManifestsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelManifestsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelManifestsRequest,
   ) => stream.Stream<
     ListModelManifestsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelManifestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelManifestsRequest,
   ) => stream.Stream<
     ModelManifestSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelManifestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4835,6 +4839,14 @@ export const listModelManifests: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListModelManifestNodesError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about nodes specified in a vehicle model (model manifest).
  *
@@ -4843,39 +4855,21 @@ export const listModelManifests: API.OperationMethod<
 export const listModelManifestNodes: API.OperationMethod<
   ListModelManifestNodesRequest,
   ListModelManifestNodesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelManifestNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelManifestNodesRequest,
   ) => stream.Stream<
     ListModelManifestNodesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelManifestNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelManifestNodesRequest,
   ) => stream.Stream<
     Node,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelManifestNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4896,13 +4890,7 @@ export const listModelManifestNodes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a collection of standardized signals that can be reused to create vehicle
- * models.
- */
-export const createSignalCatalog: API.OperationMethod<
-  CreateSignalCatalogRequest,
-  CreateSignalCatalogResponse,
+export type CreateSignalCatalogError =
   | AccessDeniedException
   | ConflictException
   | InvalidNodeException
@@ -4910,7 +4898,15 @@ export const createSignalCatalog: API.OperationMethod<
   | LimitExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a collection of standardized signals that can be reused to create vehicle
+ * models.
+ */
+export const createSignalCatalog: API.OperationMethod<
+  CreateSignalCatalogRequest,
+  CreateSignalCatalogResponse,
+  CreateSignalCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSignalCatalogRequest,
@@ -4925,17 +4921,19 @@ export const createSignalCatalog: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSignalCatalogError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a signal catalog.
  */
 export const getSignalCatalog: API.OperationMethod<
   GetSignalCatalogRequest,
   GetSignalCatalogResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSignalCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSignalCatalogRequest,
@@ -4947,12 +4945,7 @@ export const getSignalCatalog: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a signal catalog.
- */
-export const updateSignalCatalog: API.OperationMethod<
-  UpdateSignalCatalogRequest,
-  UpdateSignalCatalogResponse,
+export type UpdateSignalCatalogError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4962,7 +4955,14 @@ export const updateSignalCatalog: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a signal catalog.
+ */
+export const updateSignalCatalog: API.OperationMethod<
+  UpdateSignalCatalogRequest,
+  UpdateSignalCatalogResponse,
+  UpdateSignalCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSignalCatalogRequest,
@@ -4979,18 +4979,20 @@ export const updateSignalCatalog: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSignalCatalogError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a signal catalog.
  */
 export const deleteSignalCatalog: API.OperationMethod<
   DeleteSignalCatalogRequest,
   DeleteSignalCatalogResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSignalCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSignalCatalogRequest,
@@ -5003,6 +5005,12 @@ export const deleteSignalCatalog: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSignalCatalogsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the created signal catalogs in an Amazon Web Services account.
  *
@@ -5014,33 +5022,21 @@ export const deleteSignalCatalog: API.OperationMethod<
 export const listSignalCatalogs: API.OperationMethod<
   ListSignalCatalogsRequest,
   ListSignalCatalogsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSignalCatalogsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSignalCatalogsRequest,
   ) => stream.Stream<
     ListSignalCatalogsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSignalCatalogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSignalCatalogsRequest,
   ) => stream.Stream<
     SignalCatalogSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSignalCatalogsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5059,13 +5055,7 @@ export const listSignalCatalogs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a signal catalog using your existing VSS formatted content from your local
- * device.
- */
-export const importSignalCatalog: API.OperationMethod<
-  ImportSignalCatalogRequest,
-  ImportSignalCatalogResponse,
+export type ImportSignalCatalogError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -5074,7 +5064,15 @@ export const importSignalCatalog: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a signal catalog using your existing VSS formatted content from your local
+ * device.
+ */
+export const importSignalCatalog: API.OperationMethod<
+  ImportSignalCatalogRequest,
+  ImportSignalCatalogResponse,
+  ImportSignalCatalogError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSignalCatalogRequest,
@@ -5090,6 +5088,14 @@ export const importSignalCatalog: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSignalCatalogNodesError =
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists of information about the signals (nodes) specified in a signal catalog.
  *
@@ -5098,39 +5104,21 @@ export const importSignalCatalog: API.OperationMethod<
 export const listSignalCatalogNodes: API.OperationMethod<
   ListSignalCatalogNodesRequest,
   ListSignalCatalogNodesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSignalCatalogNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSignalCatalogNodesRequest,
   ) => stream.Stream<
     ListSignalCatalogNodesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSignalCatalogNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSignalCatalogNodesRequest,
   ) => stream.Stream<
     Node,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSignalCatalogNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5151,14 +5139,7 @@ export const listSignalCatalogNodes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud.
- *
- * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
- */
-export const createStateTemplate: API.OperationMethod<
-  CreateStateTemplateRequest,
-  CreateStateTemplateResponse,
+export type CreateStateTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -5167,7 +5148,16 @@ export const createStateTemplate: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud.
+ *
+ * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
+ */
+export const createStateTemplate: API.OperationMethod<
+  CreateStateTemplateRequest,
+  CreateStateTemplateResponse,
+  CreateStateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStateTemplateRequest,
@@ -5183,6 +5173,13 @@ export const createStateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStateTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a state template.
  *
@@ -5191,12 +5188,7 @@ export const createStateTemplate: API.OperationMethod<
 export const getStateTemplate: API.OperationMethod<
   GetStateTemplateRequest,
   GetStateTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStateTemplateRequest,
@@ -5209,6 +5201,15 @@ export const getStateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateStateTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a state template.
  *
@@ -5217,14 +5218,7 @@ export const getStateTemplate: API.OperationMethod<
 export const updateStateTemplate: API.OperationMethod<
   UpdateStateTemplateRequest,
   UpdateStateTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidSignalsException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateStateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStateTemplateRequest,
@@ -5239,17 +5233,19 @@ export const updateStateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteStateTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a state template.
  */
 export const deleteStateTemplate: API.OperationMethod<
   DeleteStateTemplateRequest,
   DeleteStateTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteStateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStateTemplateRequest,
@@ -5261,6 +5257,12 @@ export const deleteStateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListStateTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about created state templates.
  *
@@ -5269,33 +5271,21 @@ export const deleteStateTemplate: API.OperationMethod<
 export const listStateTemplates: API.OperationMethod<
   ListStateTemplatesRequest,
   ListStateTemplatesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListStateTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStateTemplatesRequest,
   ) => stream.Stream<
     ListStateTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStateTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStateTemplatesRequest,
   ) => stream.Stream<
     StateTemplateSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListStateTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5314,6 +5304,15 @@ export const listStateTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateVehicleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles
  * created from the same vehicle model consist of the same signals inherited from the
@@ -5328,14 +5327,7 @@ export const listStateTemplates: API.OperationMethod<
 export const createVehicle: API.OperationMethod<
   CreateVehicleRequest,
   CreateVehicleResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVehicleRequest,
@@ -5350,18 +5342,20 @@ export const createVehicle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetVehicleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a vehicle.
  */
 export const getVehicle: API.OperationMethod<
   GetVehicleRequest,
   GetVehicleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVehicleRequest,
@@ -5374,6 +5368,15 @@ export const getVehicle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateVehicleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a vehicle.
  *
@@ -5382,14 +5385,7 @@ export const getVehicle: API.OperationMethod<
 export const updateVehicle: API.OperationMethod<
   UpdateVehicleRequest,
   UpdateVehicleResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVehicleRequest,
@@ -5404,17 +5400,19 @@ export const updateVehicle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteVehicleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a vehicle and removes it from any campaigns.
  */
 export const deleteVehicle: API.OperationMethod<
   DeleteVehicleRequest,
   DeleteVehicleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVehicleRequest,
@@ -5426,6 +5424,12 @@ export const deleteVehicle: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListVehiclesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of summaries of created vehicles.
  *
@@ -5434,33 +5438,21 @@ export const deleteVehicle: API.OperationMethod<
 export const listVehicles: API.OperationMethod<
   ListVehiclesRequest,
   ListVehiclesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListVehiclesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVehiclesRequest,
   ) => stream.Stream<
     ListVehiclesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListVehiclesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVehiclesRequest,
   ) => stream.Stream<
     VehicleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListVehiclesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5479,19 +5471,21 @@ export const listVehicles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Adds, or associates, a vehicle with a fleet.
- */
-export const associateVehicleFleet: API.OperationMethod<
-  AssociateVehicleFleetRequest,
-  AssociateVehicleFleetResponse,
+export type AssociateVehicleFleetError =
   | AccessDeniedException
   | InternalServerException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds, or associates, a vehicle with a fleet.
+ */
+export const associateVehicleFleet: API.OperationMethod<
+  AssociateVehicleFleetRequest,
+  AssociateVehicleFleetResponse,
+  AssociateVehicleFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateVehicleFleetRequest,
@@ -5505,6 +5499,13 @@ export const associateVehicleFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateVehicleFleetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a
  * fleet doesn't delete the vehicle.
@@ -5512,12 +5513,7 @@ export const associateVehicleFleet: API.OperationMethod<
 export const disassociateVehicleFleet: API.OperationMethod<
   DisassociateVehicleFleetRequest,
   DisassociateVehicleFleetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateVehicleFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateVehicleFleetRequest,
@@ -5530,6 +5526,13 @@ export const disassociateVehicleFleet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFleetsForVehicleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of IDs for all fleets that the vehicle is associated with.
  *
@@ -5538,36 +5541,21 @@ export const disassociateVehicleFleet: API.OperationMethod<
 export const listFleetsForVehicle: API.OperationMethod<
   ListFleetsForVehicleRequest,
   ListFleetsForVehicleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFleetsForVehicleError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetsForVehicleRequest,
   ) => stream.Stream<
     ListFleetsForVehicleResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetsForVehicleError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetsForVehicleRequest,
   ) => stream.Stream<
     FleetId,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFleetsForVehicleError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -1365,12 +1365,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Copy an image set.
- */
-export const copyImageSet: API.OperationMethod<
-  CopyImageSetRequest,
-  CopyImageSetResponse,
+export type CopyImageSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1378,7 +1373,14 @@ export const copyImageSet: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Copy an image set.
+ */
+export const copyImageSet: API.OperationMethod<
+  CopyImageSetRequest,
+  CopyImageSetResponse,
+  CopyImageSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyImageSetRequest,
@@ -1393,19 +1395,21 @@ export const copyImageSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete an image set.
- */
-export const deleteImageSet: API.OperationMethod<
-  DeleteImageSetRequest,
-  DeleteImageSetResponse,
+export type DeleteImageSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an image set.
+ */
+export const deleteImageSet: API.OperationMethod<
+  DeleteImageSetRequest,
+  DeleteImageSetResponse,
+  DeleteImageSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageSetRequest,
@@ -1419,6 +1423,14 @@ export const deleteImageSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDICOMImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the import job properties to learn more about the job or job progress.
  *
@@ -1427,13 +1439,7 @@ export const deleteImageSet: API.OperationMethod<
 export const getDICOMImportJob: API.OperationMethod<
   GetDICOMImportJobRequest,
   GetDICOMImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDICOMImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDICOMImportJobRequest,
@@ -1447,19 +1453,21 @@ export const getDICOMImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get an image frame (pixel data) for an image set.
- */
-export const getImageFrame: API.OperationMethod<
-  GetImageFrameRequest,
-  GetImageFrameResponse,
+export type GetImageFrameError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get an image frame (pixel data) for an image set.
+ */
+export const getImageFrame: API.OperationMethod<
+  GetImageFrameRequest,
+  GetImageFrameResponse,
+  GetImageFrameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageFrameRequest,
@@ -1473,19 +1481,21 @@ export const getImageFrame: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get image set properties.
- */
-export const getImageSet: API.OperationMethod<
-  GetImageSetRequest,
-  GetImageSetResponse,
+export type GetImageSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get image set properties.
+ */
+export const getImageSet: API.OperationMethod<
+  GetImageSetRequest,
+  GetImageSetResponse,
+  GetImageSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageSetRequest,
@@ -1499,19 +1509,21 @@ export const getImageSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get metadata attributes for an image set.
- */
-export const getImageSetMetadata: API.OperationMethod<
-  GetImageSetMetadataRequest,
-  GetImageSetMetadataResponse,
+export type GetImageSetMetadataError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get metadata attributes for an image set.
+ */
+export const getImageSetMetadata: API.OperationMethod<
+  GetImageSetMetadataRequest,
+  GetImageSetMetadataResponse,
+  GetImageSetMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageSetMetadataRequest,
@@ -1525,45 +1537,35 @@ export const getImageSetMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * List import jobs created for a specific data store.
- */
-export const listDICOMImportJobs: API.OperationMethod<
-  ListDICOMImportJobsRequest,
-  ListDICOMImportJobsResponse,
+export type ListDICOMImportJobsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List import jobs created for a specific data store.
+ */
+export const listDICOMImportJobs: API.OperationMethod<
+  ListDICOMImportJobsRequest,
+  ListDICOMImportJobsResponse,
+  ListDICOMImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDICOMImportJobsRequest,
   ) => stream.Stream<
     ListDICOMImportJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDICOMImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDICOMImportJobsRequest,
   ) => stream.Stream<
     DICOMImportJobSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDICOMImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1584,45 +1586,35 @@ export const listDICOMImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * List image set versions.
- */
-export const listImageSetVersions: API.OperationMethod<
-  ListImageSetVersionsRequest,
-  ListImageSetVersionsResponse,
+export type ListImageSetVersionsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List image set versions.
+ */
+export const listImageSetVersions: API.OperationMethod<
+  ListImageSetVersionsRequest,
+  ListImageSetVersionsResponse,
+  ListImageSetVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImageSetVersionsRequest,
   ) => stream.Stream<
     ListImageSetVersionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImageSetVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImageSetVersionsRequest,
   ) => stream.Stream<
     ImageSetProperties,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImageSetVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1643,18 +1635,20 @@ export const listImageSetVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags associated with a medical imaging resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1667,6 +1661,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchImageSetsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Search image sets based on defined input attributes.
  *
@@ -1677,39 +1679,21 @@ export const listTagsForResource: API.OperationMethod<
 export const searchImageSets: API.OperationMethod<
   SearchImageSetsRequest,
   SearchImageSetsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchImageSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchImageSetsRequest,
   ) => stream.Stream<
     SearchImageSetsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchImageSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchImageSetsRequest,
   ) => stream.Stream<
     ImageSetsMetadataSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchImageSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1730,12 +1714,7 @@ export const searchImageSets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
- */
-export const startDICOMImportJob: API.OperationMethod<
-  StartDICOMImportJobRequest,
-  StartDICOMImportJobResponse,
+export type StartDICOMImportJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1743,7 +1722,14 @@ export const startDICOMImportJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
+ */
+export const startDICOMImportJob: API.OperationMethod<
+  StartDICOMImportJobRequest,
+  StartDICOMImportJobResponse,
+  StartDICOMImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDICOMImportJobRequest,
@@ -1758,18 +1744,20 @@ export const startDICOMImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a user-specifed key and value tag to a medical imaging resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1782,18 +1770,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a medical imaging resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1806,12 +1796,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update image set metadata attributes.
- */
-export const updateImageSetMetadata: API.OperationMethod<
-  UpdateImageSetMetadataRequest,
-  UpdateImageSetMetadataResponse,
+export type UpdateImageSetMetadataError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1819,7 +1804,14 @@ export const updateImageSetMetadata: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update image set metadata attributes.
+ */
+export const updateImageSetMetadata: API.OperationMethod<
+  UpdateImageSetMetadataRequest,
+  UpdateImageSetMetadataResponse,
+  UpdateImageSetMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateImageSetMetadataRequest,
@@ -1834,12 +1826,7 @@ export const updateImageSetMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a data store.
- */
-export const createDatastore: API.OperationMethod<
-  CreateDatastoreRequest,
-  CreateDatastoreResponse,
+export type CreateDatastoreError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1847,7 +1834,14 @@ export const createDatastore: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a data store.
+ */
+export const createDatastore: API.OperationMethod<
+  CreateDatastoreRequest,
+  CreateDatastoreResponse,
+  CreateDatastoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatastoreRequest,
@@ -1862,18 +1856,20 @@ export const createDatastore: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDatastoreError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get data store properties.
  */
 export const getDatastore: API.OperationMethod<
   GetDatastoreRequest,
   GetDatastoreResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDatastoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatastoreRequest,
@@ -1886,6 +1882,14 @@ export const getDatastore: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDatastoreError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a data store.
  *
@@ -1894,13 +1898,7 @@ export const getDatastore: API.OperationMethod<
 export const deleteDatastore: API.OperationMethod<
   DeleteDatastoreRequest,
   DeleteDatastoreResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDatastoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatastoreRequest,
@@ -1914,39 +1912,33 @@ export const deleteDatastore: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDatastoresError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List data stores.
  */
 export const listDatastores: API.OperationMethod<
   ListDatastoresRequest,
   ListDatastoresResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDatastoresError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatastoresRequest,
   ) => stream.Stream<
     ListDatastoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDatastoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatastoresRequest,
   ) => stream.Stream<
     DatastoreSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDatastoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

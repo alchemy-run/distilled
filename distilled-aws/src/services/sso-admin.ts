@@ -2857,6 +2857,14 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddRegionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes.
  *
@@ -2873,13 +2881,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const addRegion: API.OperationMethod<
   AddRegionRequest,
   AddRegionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AddRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddRegionRequest,
@@ -2893,12 +2895,7 @@ export const addRegion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Attaches the specified customer managed policy to the specified PermissionSet.
- */
-export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationMethod<
-  AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
-  AttachCustomerManagedPolicyReferenceToPermissionSetResponse,
+export type AttachCustomerManagedPolicyReferenceToPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2906,7 +2903,14 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationM
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches the specified customer managed policy to the specified PermissionSet.
+ */
+export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationMethod<
+  AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
+  AttachCustomerManagedPolicyReferenceToPermissionSetResponse,
+  AttachCustomerManagedPolicyReferenceToPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
@@ -2921,6 +2925,15 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationM
     ValidationException,
   ],
 }));
+export type AttachManagedPolicyToPermissionSetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches an Amazon Web Services managed policy ARN to a permission set.
  *
@@ -2929,14 +2942,7 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationM
 export const attachManagedPolicyToPermissionSet: API.OperationMethod<
   AttachManagedPolicyToPermissionSetRequest,
   AttachManagedPolicyToPermissionSetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AttachManagedPolicyToPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachManagedPolicyToPermissionSetRequest,
@@ -2951,6 +2957,15 @@ export const attachManagedPolicyToPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAccountAssignmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.
  *
@@ -2963,14 +2978,7 @@ export const attachManagedPolicyToPermissionSet: API.OperationMethod<
 export const createAccountAssignment: API.OperationMethod<
   CreateAccountAssignmentRequest,
   CreateAccountAssignmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAccountAssignmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountAssignmentRequest,
@@ -2985,6 +2993,15 @@ export const createAccountAssignment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider.
  *
@@ -2993,14 +3010,7 @@ export const createAccountAssignment: API.OperationMethod<
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -3015,12 +3025,7 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Grant application access to a user or group.
- */
-export const createApplicationAssignment: API.OperationMethod<
-  CreateApplicationAssignmentRequest,
-  CreateApplicationAssignmentResponse,
+export type CreateApplicationAssignmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3028,7 +3033,14 @@ export const createApplicationAssignment: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Grant application access to a user or group.
+ */
+export const createApplicationAssignment: API.OperationMethod<
+  CreateApplicationAssignmentRequest,
+  CreateApplicationAssignmentResponse,
+  CreateApplicationAssignmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationAssignmentRequest,
@@ -3043,6 +3055,14 @@ export const createApplicationAssignment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateInstanceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Amazon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions.
  *
@@ -3055,13 +3075,7 @@ export const createApplicationAssignment: API.OperationMethod<
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
   CreateInstanceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceRequest,
@@ -3075,6 +3089,14 @@ export const createInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateInstanceAccessControlAttributeConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  *
@@ -3083,13 +3105,7 @@ export const createInstance: API.OperationMethod<
 export const createInstanceAccessControlAttributeConfiguration: API.OperationMethod<
   CreateInstanceAccessControlAttributeConfigurationRequest,
   CreateInstanceAccessControlAttributeConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateInstanceAccessControlAttributeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceAccessControlAttributeConfigurationRequest,
@@ -3103,6 +3119,15 @@ export const createInstanceAccessControlAttributeConfiguration: API.OperationMet
     ValidationException,
   ],
 }));
+export type CreatePermissionSetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a permission set within a specified IAM Identity Center instance.
  *
@@ -3111,14 +3136,7 @@ export const createInstanceAccessControlAttributeConfiguration: API.OperationMet
 export const createPermissionSet: API.OperationMethod<
   CreatePermissionSetRequest,
   CreatePermissionSetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePermissionSetRequest,
@@ -3133,6 +3151,14 @@ export const createPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTrustedTokenIssuerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services.
  *
@@ -3141,13 +3167,7 @@ export const createPermissionSet: API.OperationMethod<
 export const createTrustedTokenIssuer: API.OperationMethod<
   CreateTrustedTokenIssuerRequest,
   CreateTrustedTokenIssuerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTrustedTokenIssuerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustedTokenIssuerRequest,
@@ -3161,6 +3181,14 @@ export const createTrustedTokenIssuer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAccountAssignmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a principal's access from a specified Amazon Web Services account using a specified permission set.
  *
@@ -3169,13 +3197,7 @@ export const createTrustedTokenIssuer: API.OperationMethod<
 export const deleteAccountAssignment: API.OperationMethod<
   DeleteAccountAssignmentRequest,
   DeleteAccountAssignmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAccountAssignmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountAssignmentRequest,
@@ -3189,19 +3211,21 @@ export const deleteAccountAssignment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the association with the application. The connected service resource still exists.
- */
-export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
-  DeleteApplicationResponse,
+export type DeleteApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the association with the application. The connected service resource still exists.
+ */
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
+  DeleteApplicationResponse,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -3215,19 +3239,21 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Revoke application access to an application by deleting application assignments for a user or group.
- */
-export const deleteApplicationAssignment: API.OperationMethod<
-  DeleteApplicationAssignmentRequest,
-  DeleteApplicationAssignmentResponse,
+export type DeleteApplicationAssignmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Revoke application access to an application by deleting application assignments for a user or group.
+ */
+export const deleteApplicationAssignment: API.OperationMethod<
+  DeleteApplicationAssignmentRequest,
+  DeleteApplicationAssignmentResponse,
+  DeleteApplicationAssignmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationAssignmentRequest,
@@ -3241,19 +3267,21 @@ export const deleteApplicationAssignment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the inline policy from a specified permission set.
- */
-export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
-  DeleteInlinePolicyFromPermissionSetRequest,
-  DeleteInlinePolicyFromPermissionSetResponse,
+export type DeleteInlinePolicyFromPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the inline policy from a specified permission set.
+ */
+export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
+  DeleteInlinePolicyFromPermissionSetRequest,
+  DeleteInlinePolicyFromPermissionSetResponse,
+  DeleteInlinePolicyFromPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInlinePolicyFromPermissionSetRequest,
@@ -3267,18 +3295,20 @@ export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInstanceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
  */
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
   DeleteInstanceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
@@ -3291,19 +3321,21 @@ export const deleteInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
- */
-export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  DeleteInstanceAccessControlAttributeConfigurationRequest,
-  DeleteInstanceAccessControlAttributeConfigurationResponse,
+export type DeleteInstanceAccessControlAttributeConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
+ */
+export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMethod<
+  DeleteInstanceAccessControlAttributeConfigurationRequest,
+  DeleteInstanceAccessControlAttributeConfigurationResponse,
+  DeleteInstanceAccessControlAttributeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceAccessControlAttributeConfigurationRequest,
@@ -3317,19 +3349,21 @@ export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMet
     ValidationException,
   ],
 }));
-/**
- * Deletes the permissions boundary from a specified PermissionSet.
- */
-export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
-  DeletePermissionsBoundaryFromPermissionSetRequest,
-  DeletePermissionsBoundaryFromPermissionSetResponse,
+export type DeletePermissionsBoundaryFromPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the permissions boundary from a specified PermissionSet.
+ */
+export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
+  DeletePermissionsBoundaryFromPermissionSetRequest,
+  DeletePermissionsBoundaryFromPermissionSetResponse,
+  DeletePermissionsBoundaryFromPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionsBoundaryFromPermissionSetRequest,
@@ -3343,19 +3377,21 @@ export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified permission set.
- */
-export const deletePermissionSet: API.OperationMethod<
-  DeletePermissionSetRequest,
-  DeletePermissionSetResponse,
+export type DeletePermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified permission set.
+ */
+export const deletePermissionSet: API.OperationMethod<
+  DeletePermissionSetRequest,
+  DeletePermissionSetResponse,
+  DeletePermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionSetRequest,
@@ -3369,6 +3405,14 @@ export const deletePermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTrustedTokenIssuerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a trusted token issuer configuration from an instance of IAM Identity Center.
  *
@@ -3377,13 +3421,7 @@ export const deletePermissionSet: API.OperationMethod<
 export const deleteTrustedTokenIssuer: API.OperationMethod<
   DeleteTrustedTokenIssuerRequest,
   DeleteTrustedTokenIssuerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTrustedTokenIssuerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustedTokenIssuerRequest,
@@ -3397,18 +3435,20 @@ export const deleteTrustedTokenIssuer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAccountAssignmentCreationStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the status of the assignment creation request.
  */
 export const describeAccountAssignmentCreationStatus: API.OperationMethod<
   DescribeAccountAssignmentCreationStatusRequest,
   DescribeAccountAssignmentCreationStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAccountAssignmentCreationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountAssignmentCreationStatusRequest,
@@ -3421,18 +3461,20 @@ export const describeAccountAssignmentCreationStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAccountAssignmentDeletionStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the status of the assignment deletion request.
  */
 export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
   DescribeAccountAssignmentDeletionStatusRequest,
   DescribeAccountAssignmentDeletionStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAccountAssignmentDeletionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountAssignmentDeletionStatusRequest,
@@ -3445,18 +3487,20 @@ export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeApplicationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of an application associated with an instance of IAM Identity Center.
  */
 export const describeApplication: API.OperationMethod<
   DescribeApplicationRequest,
   DescribeApplicationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationRequest,
@@ -3469,18 +3513,20 @@ export const describeApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeApplicationAssignmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
  */
 export const describeApplicationAssignment: API.OperationMethod<
   DescribeApplicationAssignmentRequest,
   DescribeApplicationAssignmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeApplicationAssignmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationAssignmentRequest,
@@ -3493,18 +3539,20 @@ export const describeApplicationAssignment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeApplicationProviderError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
  */
 export const describeApplicationProvider: API.OperationMethod<
   DescribeApplicationProviderRequest,
   DescribeApplicationProviderResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeApplicationProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationProviderRequest,
@@ -3517,6 +3565,12 @@ export const describeApplicationProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the details of an instance of IAM Identity Center. The status can be one of the following:
  *
@@ -3529,11 +3583,7 @@ export const describeApplicationProvider: API.OperationMethod<
 export const describeInstance: API.OperationMethod<
   DescribeInstanceRequest,
   DescribeInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceRequest,
@@ -3545,18 +3595,20 @@ export const describeInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeInstanceAccessControlAttributeConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const describeInstanceAccessControlAttributeConfiguration: API.OperationMethod<
   DescribeInstanceAccessControlAttributeConfigurationRequest,
   DescribeInstanceAccessControlAttributeConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeInstanceAccessControlAttributeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceAccessControlAttributeConfigurationRequest,
@@ -3569,18 +3621,20 @@ export const describeInstanceAccessControlAttributeConfiguration: API.OperationM
     ValidationException,
   ],
 }));
+export type DescribePermissionSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of the permission set.
  */
 export const describePermissionSet: API.OperationMethod<
   DescribePermissionSetRequest,
   DescribePermissionSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePermissionSetRequest,
@@ -3593,18 +3647,20 @@ export const describePermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribePermissionSetProvisioningStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the status for the given permission set provisioning request.
  */
 export const describePermissionSetProvisioningStatus: API.OperationMethod<
   DescribePermissionSetProvisioningStatusRequest,
   DescribePermissionSetProvisioningStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribePermissionSetProvisioningStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePermissionSetProvisioningStatusRequest,
@@ -3617,6 +3673,13 @@ export const describePermissionSetProvisioningStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRegionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance.
  *
@@ -3631,12 +3694,7 @@ export const describePermissionSetProvisioningStatus: API.OperationMethod<
 export const describeRegion: API.OperationMethod<
   DescribeRegionRequest,
   DescribeRegionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRegionRequest,
@@ -3649,18 +3707,20 @@ export const describeRegion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTrustedTokenIssuerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
  */
 export const describeTrustedTokenIssuer: API.OperationMethod<
   DescribeTrustedTokenIssuerRequest,
   DescribeTrustedTokenIssuerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTrustedTokenIssuerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrustedTokenIssuerRequest,
@@ -3673,19 +3733,21 @@ export const describeTrustedTokenIssuer: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Detaches the specified customer managed policy from the specified PermissionSet.
- */
-export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.OperationMethod<
-  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
-  DetachCustomerManagedPolicyReferenceFromPermissionSetResponse,
+export type DetachCustomerManagedPolicyReferenceFromPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Detaches the specified customer managed policy from the specified PermissionSet.
+ */
+export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.OperationMethod<
+  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
+  DetachCustomerManagedPolicyReferenceFromPermissionSetResponse,
+  DetachCustomerManagedPolicyReferenceFromPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
@@ -3699,19 +3761,21 @@ export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.Operatio
     ValidationException,
   ],
 }));
-/**
- * Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
- */
-export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
-  DetachManagedPolicyFromPermissionSetRequest,
-  DetachManagedPolicyFromPermissionSetResponse,
+export type DetachManagedPolicyFromPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
+ */
+export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
+  DetachManagedPolicyFromPermissionSetRequest,
+  DetachManagedPolicyFromPermissionSetResponse,
+  DetachManagedPolicyFromPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachManagedPolicyFromPermissionSetRequest,
@@ -3725,18 +3789,20 @@ export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationAssignmentConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the configuration of PutApplicationAssignmentConfiguration.
  */
 export const getApplicationAssignmentConfiguration: API.OperationMethod<
   GetApplicationAssignmentConfigurationRequest,
   GetApplicationAssignmentConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationAssignmentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationAssignmentConfigurationRequest,
@@ -3749,6 +3815,13 @@ export const getApplicationAssignmentConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationSessionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the session configuration for an application in IAM Identity Center.
  *
@@ -3757,12 +3830,7 @@ export const getApplicationAssignmentConfiguration: API.OperationMethod<
 export const getApplicationSessionConfiguration: API.OperationMethod<
   GetApplicationSessionConfigurationRequest,
   GetApplicationSessionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationSessionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationSessionConfigurationRequest,
@@ -3775,18 +3843,20 @@ export const getApplicationSessionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInlinePolicyForPermissionSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Obtains the inline policy assigned to the permission set.
  */
 export const getInlinePolicyForPermissionSet: API.OperationMethod<
   GetInlinePolicyForPermissionSetRequest,
   GetInlinePolicyForPermissionSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInlinePolicyForPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInlinePolicyForPermissionSetRequest,
@@ -3799,18 +3869,20 @@ export const getInlinePolicyForPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPermissionsBoundaryForPermissionSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Obtains the permissions boundary for a specified PermissionSet.
  */
 export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
   GetPermissionsBoundaryForPermissionSetRequest,
   GetPermissionsBoundaryForPermissionSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPermissionsBoundaryForPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionsBoundaryForPermissionSetRequest,
@@ -3823,42 +3895,34 @@ export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAccountAssignmentCreationStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
  */
 export const listAccountAssignmentCreationStatus: API.OperationMethod<
   ListAccountAssignmentCreationStatusRequest,
   ListAccountAssignmentCreationStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountAssignmentCreationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountAssignmentCreationStatusRequest,
   ) => stream.Stream<
     ListAccountAssignmentCreationStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentCreationStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountAssignmentCreationStatusRequest,
   ) => stream.Stream<
     AccountAssignmentOperationStatusMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentCreationStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3878,42 +3942,34 @@ export const listAccountAssignmentCreationStatus: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccountAssignmentDeletionStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
  */
 export const listAccountAssignmentDeletionStatus: API.OperationMethod<
   ListAccountAssignmentDeletionStatusRequest,
   ListAccountAssignmentDeletionStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountAssignmentDeletionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountAssignmentDeletionStatusRequest,
   ) => stream.Stream<
     ListAccountAssignmentDeletionStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentDeletionStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountAssignmentDeletionStatusRequest,
   ) => stream.Stream<
     AccountAssignmentOperationStatusMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentDeletionStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3933,42 +3989,34 @@ export const listAccountAssignmentDeletionStatus: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccountAssignmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the assignee of the specified Amazon Web Services account with the specified permission set.
  */
 export const listAccountAssignments: API.OperationMethod<
   ListAccountAssignmentsRequest,
   ListAccountAssignmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountAssignmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountAssignmentsRequest,
   ) => stream.Stream<
     ListAccountAssignmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountAssignmentsRequest,
   ) => stream.Stream<
     AccountAssignment,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3988,42 +4036,34 @@ export const listAccountAssignments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccountAssignmentsForPrincipalError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
  */
 export const listAccountAssignmentsForPrincipal: API.OperationMethod<
   ListAccountAssignmentsForPrincipalRequest,
   ListAccountAssignmentsForPrincipalResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountAssignmentsForPrincipalError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountAssignmentsForPrincipalRequest,
   ) => stream.Stream<
     ListAccountAssignmentsForPrincipalResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentsForPrincipalError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountAssignmentsForPrincipalRequest,
   ) => stream.Stream<
     AccountAssignmentForPrincipal,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssignmentsForPrincipalError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4043,42 +4083,34 @@ export const listAccountAssignmentsForPrincipal: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAccountsForProvisionedPermissionSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
  */
 export const listAccountsForProvisionedPermissionSet: API.OperationMethod<
   ListAccountsForProvisionedPermissionSetRequest,
   ListAccountsForProvisionedPermissionSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountsForProvisionedPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountsForProvisionedPermissionSetRequest,
   ) => stream.Stream<
     ListAccountsForProvisionedPermissionSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountsForProvisionedPermissionSetError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountsForProvisionedPermissionSetRequest,
   ) => stream.Stream<
     AccountId,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountsForProvisionedPermissionSetError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4098,42 +4130,34 @@ export const listAccountsForProvisionedPermissionSet: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListApplicationAssignmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon Web Services account users that are assigned to an application.
  */
 export const listApplicationAssignments: API.OperationMethod<
   ListApplicationAssignmentsRequest,
   ListApplicationAssignmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationAssignmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationAssignmentsRequest,
   ) => stream.Stream<
     ListApplicationAssignmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAssignmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationAssignmentsRequest,
   ) => stream.Stream<
     ApplicationAssignment,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAssignmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4153,42 +4177,34 @@ export const listApplicationAssignments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListApplicationAssignmentsForPrincipalError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
  */
 export const listApplicationAssignmentsForPrincipal: API.OperationMethod<
   ListApplicationAssignmentsForPrincipalRequest,
   ListApplicationAssignmentsForPrincipalResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationAssignmentsForPrincipalError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationAssignmentsForPrincipalRequest,
   ) => stream.Stream<
     ListApplicationAssignmentsForPrincipalResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAssignmentsForPrincipalError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationAssignmentsForPrincipalRequest,
   ) => stream.Stream<
     ApplicationAssignmentForPrincipal,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAssignmentsForPrincipalError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4208,39 +4224,33 @@ export const listApplicationAssignmentsForPrincipal: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListApplicationProvidersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the application providers configured in the IAM Identity Center identity store.
  */
 export const listApplicationProviders: API.OperationMethod<
   ListApplicationProvidersRequest,
   ListApplicationProvidersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationProvidersRequest,
   ) => stream.Stream<
     ListApplicationProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationProvidersRequest,
   ) => stream.Stream<
     ApplicationProvider,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4259,39 +4269,33 @@ export const listApplicationProviders: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListApplicationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the `applicationAccount` parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     Application,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4310,42 +4314,34 @@ export const listApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCustomerManagedPolicyReferencesInPermissionSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all customer managed policies attached to a specified PermissionSet.
  */
 export const listCustomerManagedPolicyReferencesInPermissionSet: API.OperationMethod<
   ListCustomerManagedPolicyReferencesInPermissionSetRequest,
   ListCustomerManagedPolicyReferencesInPermissionSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCustomerManagedPolicyReferencesInPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
   ) => stream.Stream<
     ListCustomerManagedPolicyReferencesInPermissionSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomerManagedPolicyReferencesInPermissionSetError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
   ) => stream.Stream<
     CustomerManagedPolicyReference,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomerManagedPolicyReferencesInPermissionSetError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4365,39 +4361,33 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: API.OperationMe
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
  */
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     ListInstancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     InstanceMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4416,42 +4406,34 @@ export const listInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListManagedPoliciesInPermissionSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Amazon Web Services managed policy that is attached to a specified permission set.
  */
 export const listManagedPoliciesInPermissionSet: API.OperationMethod<
   ListManagedPoliciesInPermissionSetRequest,
   ListManagedPoliciesInPermissionSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedPoliciesInPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedPoliciesInPermissionSetRequest,
   ) => stream.Stream<
     ListManagedPoliciesInPermissionSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedPoliciesInPermissionSetError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedPoliciesInPermissionSetRequest,
   ) => stream.Stream<
     AttachedManagedPolicy,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedPoliciesInPermissionSetError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4471,42 +4453,34 @@ export const listManagedPoliciesInPermissionSet: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPermissionSetProvisioningStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
  */
 export const listPermissionSetProvisioningStatus: API.OperationMethod<
   ListPermissionSetProvisioningStatusRequest,
   ListPermissionSetProvisioningStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPermissionSetProvisioningStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionSetProvisioningStatusRequest,
   ) => stream.Stream<
     ListPermissionSetProvisioningStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPermissionSetProvisioningStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionSetProvisioningStatusRequest,
   ) => stream.Stream<
     PermissionSetProvisioningStatusMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPermissionSetProvisioningStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4526,42 +4500,34 @@ export const listPermissionSetProvisioningStatus: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPermissionSetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the PermissionSets in an IAM Identity Center instance.
  */
 export const listPermissionSets: API.OperationMethod<
   ListPermissionSetsRequest,
   ListPermissionSetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPermissionSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionSetsRequest,
   ) => stream.Stream<
     ListPermissionSetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPermissionSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionSetsRequest,
   ) => stream.Stream<
     PermissionSetArn,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPermissionSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4581,42 +4547,34 @@ export const listPermissionSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPermissionSetsProvisionedToAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
  */
 export const listPermissionSetsProvisionedToAccount: API.OperationMethod<
   ListPermissionSetsProvisionedToAccountRequest,
   ListPermissionSetsProvisionedToAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPermissionSetsProvisionedToAccountError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionSetsProvisionedToAccountRequest,
   ) => stream.Stream<
     ListPermissionSetsProvisionedToAccountResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPermissionSetsProvisionedToAccountError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionSetsProvisionedToAccountRequest,
   ) => stream.Stream<
     PermissionSetArn,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPermissionSetsProvisionedToAccountError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4636,6 +4594,12 @@ export const listPermissionSetsProvisionedToAccount: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRegionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all enabled Regions of an IAM Identity Center instance, including those that are being added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status.
  *
@@ -4650,33 +4614,21 @@ export const listPermissionSetsProvisionedToAccount: API.OperationMethod<
 export const listRegions: API.OperationMethod<
   ListRegionsRequest,
   ListRegionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRegionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRegionsRequest,
   ) => stream.Stream<
     ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRegionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRegionsRequest,
   ) => stream.Stream<
     RegionMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRegionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4695,42 +4647,34 @@ export const listRegions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags that are attached to a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4749,39 +4693,33 @@ export const listTagsForResource: API.OperationMethod<
     items: "Tags",
   } as const,
 }));
+export type ListTrustedTokenIssuersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the trusted token issuers configured in an instance of IAM Identity Center.
  */
 export const listTrustedTokenIssuers: API.OperationMethod<
   ListTrustedTokenIssuersRequest,
   ListTrustedTokenIssuersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTrustedTokenIssuersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrustedTokenIssuersRequest,
   ) => stream.Stream<
     ListTrustedTokenIssuersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrustedTokenIssuersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrustedTokenIssuersRequest,
   ) => stream.Stream<
     TrustedTokenIssuerMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrustedTokenIssuersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4800,19 +4738,21 @@ export const listTrustedTokenIssuers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * The process by which a specified permission set is provisioned to the specified target.
- */
-export const provisionPermissionSet: API.OperationMethod<
-  ProvisionPermissionSetRequest,
-  ProvisionPermissionSetResponse,
+export type ProvisionPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The process by which a specified permission set is provisioned to the specified target.
+ */
+export const provisionPermissionSet: API.OperationMethod<
+  ProvisionPermissionSetRequest,
+  ProvisionPermissionSetResponse,
+  ProvisionPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionPermissionSetRequest,
@@ -4826,19 +4766,21 @@ export const provisionPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Configure how users gain access to an application. If `AssignmentsRequired` is `true` (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If `false`, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if `AssignmentsRequired` is set to `true`.
- */
-export const putApplicationAssignmentConfiguration: API.OperationMethod<
-  PutApplicationAssignmentConfigurationRequest,
-  PutApplicationAssignmentConfigurationResponse,
+export type PutApplicationAssignmentConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Configure how users gain access to an application. If `AssignmentsRequired` is `true` (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If `false`, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if `AssignmentsRequired` is set to `true`.
+ */
+export const putApplicationAssignmentConfiguration: API.OperationMethod<
+  PutApplicationAssignmentConfigurationRequest,
+  PutApplicationAssignmentConfigurationResponse,
+  PutApplicationAssignmentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApplicationAssignmentConfigurationRequest,
@@ -4852,6 +4794,14 @@ export const putApplicationAssignmentConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutApplicationSessionConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the session configuration for an application in IAM Identity Center.
  *
@@ -4860,13 +4810,7 @@ export const putApplicationAssignmentConfiguration: API.OperationMethod<
 export const putApplicationSessionConfiguration: API.OperationMethod<
   PutApplicationSessionConfigurationRequest,
   PutApplicationSessionConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutApplicationSessionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApplicationSessionConfigurationRequest,
@@ -4880,6 +4824,15 @@ export const putApplicationSessionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutInlinePolicyToPermissionSetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches an inline policy to a permission set.
  *
@@ -4888,14 +4841,7 @@ export const putApplicationSessionConfiguration: API.OperationMethod<
 export const putInlinePolicyToPermissionSet: API.OperationMethod<
   PutInlinePolicyToPermissionSetRequest,
   PutInlinePolicyToPermissionSetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutInlinePolicyToPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInlinePolicyToPermissionSetRequest,
@@ -4910,19 +4856,21 @@ export const putInlinePolicyToPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
- */
-export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
-  PutPermissionsBoundaryToPermissionSetRequest,
-  PutPermissionsBoundaryToPermissionSetResponse,
+export type PutPermissionsBoundaryToPermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
+ */
+export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
+  PutPermissionsBoundaryToPermissionSetRequest,
+  PutPermissionsBoundaryToPermissionSetResponse,
+  PutPermissionsBoundaryToPermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionsBoundaryToPermissionSetRequest,
@@ -4936,6 +4884,14 @@ export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveRegionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes an additional Region from an IAM Identity Center instance. This operation initiates an asynchronous workflow to clean up IAM Identity Center resources in the specified additional Region. The Region status is set to REMOVING and the Region record is deleted when the workflow completes. The request must be made from the primary Region. The target Region cannot be the primary Region, and no other add or remove Region workflows can be in progress.
  *
@@ -4950,13 +4906,7 @@ export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
 export const removeRegion: API.OperationMethod<
   RemoveRegionRequest,
   RemoveRegionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRegionRequest,
@@ -4970,12 +4920,7 @@ export const removeRegion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a set of tags with a specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4983,7 +4928,14 @@ export const tagResource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a set of tags with a specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4998,19 +4950,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a set of tags from a specified resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a set of tags from a specified resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5024,19 +4978,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates application properties.
- */
-export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
-  UpdateApplicationResponse,
+export type UpdateApplicationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates application properties.
+ */
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
+  UpdateApplicationResponse,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -5050,19 +5006,21 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
- */
-export const updateInstance: API.OperationMethod<
-  UpdateInstanceRequest,
-  UpdateInstanceResponse,
+export type UpdateInstanceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
+ */
+export const updateInstance: API.OperationMethod<
+  UpdateInstanceRequest,
+  UpdateInstanceResponse,
+  UpdateInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceRequest,
@@ -5076,19 +5034,21 @@ export const updateInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
- */
-export const updateInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  UpdateInstanceAccessControlAttributeConfigurationRequest,
-  UpdateInstanceAccessControlAttributeConfigurationResponse,
+export type UpdateInstanceAccessControlAttributeConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
+ */
+export const updateInstanceAccessControlAttributeConfiguration: API.OperationMethod<
+  UpdateInstanceAccessControlAttributeConfigurationRequest,
+  UpdateInstanceAccessControlAttributeConfigurationResponse,
+  UpdateInstanceAccessControlAttributeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceAccessControlAttributeConfigurationRequest,
@@ -5102,19 +5062,21 @@ export const updateInstanceAccessControlAttributeConfiguration: API.OperationMet
     ValidationException,
   ],
 }));
-/**
- * Updates an existing permission set.
- */
-export const updatePermissionSet: API.OperationMethod<
-  UpdatePermissionSetRequest,
-  UpdatePermissionSetResponse,
+export type UpdatePermissionSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing permission set.
+ */
+export const updatePermissionSet: API.OperationMethod<
+  UpdatePermissionSetRequest,
+  UpdatePermissionSetResponse,
+  UpdatePermissionSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePermissionSetRequest,
@@ -5128,6 +5090,14 @@ export const updatePermissionSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTrustedTokenIssuerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration.
  *
@@ -5136,13 +5106,7 @@ export const updatePermissionSet: API.OperationMethod<
 export const updateTrustedTokenIssuer: API.OperationMethod<
   UpdateTrustedTokenIssuerRequest,
   UpdateTrustedTokenIssuerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateTrustedTokenIssuerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustedTokenIssuerRequest,
@@ -5156,19 +5120,21 @@ export const updateTrustedTokenIssuer: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
- */
-export const putApplicationAccessScope: API.OperationMethod<
-  PutApplicationAccessScopeRequest,
-  PutApplicationAccessScopeResponse,
+export type PutApplicationAccessScopeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
+ */
+export const putApplicationAccessScope: API.OperationMethod<
+  PutApplicationAccessScopeRequest,
+  PutApplicationAccessScopeResponse,
+  PutApplicationAccessScopeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApplicationAccessScopeRequest,
@@ -5182,18 +5148,20 @@ export const putApplicationAccessScope: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationAccessScopeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the authorized targets for an IAM Identity Center access scope for an application.
  */
 export const getApplicationAccessScope: API.OperationMethod<
   GetApplicationAccessScopeRequest,
   GetApplicationAccessScopeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationAccessScopeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationAccessScopeRequest,
@@ -5206,19 +5174,21 @@ export const getApplicationAccessScope: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an IAM Identity Center access scope from an application.
- */
-export const deleteApplicationAccessScope: API.OperationMethod<
-  DeleteApplicationAccessScopeRequest,
-  DeleteApplicationAccessScopeResponse,
+export type DeleteApplicationAccessScopeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an IAM Identity Center access scope from an application.
+ */
+export const deleteApplicationAccessScope: API.OperationMethod<
+  DeleteApplicationAccessScopeRequest,
+  DeleteApplicationAccessScopeResponse,
+  DeleteApplicationAccessScopeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationAccessScopeRequest,
@@ -5232,42 +5202,34 @@ export const deleteApplicationAccessScope: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationAccessScopesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the access scopes and authorized targets associated with an application.
  */
 export const listApplicationAccessScopes: API.OperationMethod<
   ListApplicationAccessScopesRequest,
   ListApplicationAccessScopesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationAccessScopesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationAccessScopesRequest,
   ) => stream.Stream<
     ListApplicationAccessScopesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAccessScopesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationAccessScopesRequest,
   ) => stream.Stream<
     ScopeDetails,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAccessScopesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5287,19 +5249,21 @@ export const listApplicationAccessScopes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Adds or updates an authentication method for an application.
- */
-export const putApplicationAuthenticationMethod: API.OperationMethod<
-  PutApplicationAuthenticationMethodRequest,
-  PutApplicationAuthenticationMethodResponse,
+export type PutApplicationAuthenticationMethodError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates an authentication method for an application.
+ */
+export const putApplicationAuthenticationMethod: API.OperationMethod<
+  PutApplicationAuthenticationMethodRequest,
+  PutApplicationAuthenticationMethodResponse,
+  PutApplicationAuthenticationMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApplicationAuthenticationMethodRequest,
@@ -5313,18 +5277,20 @@ export const putApplicationAuthenticationMethod: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationAuthenticationMethodError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about an authentication method used by an application.
  */
 export const getApplicationAuthenticationMethod: API.OperationMethod<
   GetApplicationAuthenticationMethodRequest,
   GetApplicationAuthenticationMethodResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationAuthenticationMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationAuthenticationMethodRequest,
@@ -5337,19 +5303,21 @@ export const getApplicationAuthenticationMethod: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an authentication method from an application.
- */
-export const deleteApplicationAuthenticationMethod: API.OperationMethod<
-  DeleteApplicationAuthenticationMethodRequest,
-  DeleteApplicationAuthenticationMethodResponse,
+export type DeleteApplicationAuthenticationMethodError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an authentication method from an application.
+ */
+export const deleteApplicationAuthenticationMethod: API.OperationMethod<
+  DeleteApplicationAuthenticationMethodRequest,
+  DeleteApplicationAuthenticationMethodResponse,
+  DeleteApplicationAuthenticationMethodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationAuthenticationMethodRequest,
@@ -5363,42 +5331,34 @@ export const deleteApplicationAuthenticationMethod: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationAuthenticationMethodsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the authentication methods supported by the specified application.
  */
 export const listApplicationAuthenticationMethods: API.OperationMethod<
   ListApplicationAuthenticationMethodsRequest,
   ListApplicationAuthenticationMethodsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationAuthenticationMethodsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationAuthenticationMethodsRequest,
   ) => stream.Stream<
     ListApplicationAuthenticationMethodsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAuthenticationMethodsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationAuthenticationMethodsRequest,
   ) => stream.Stream<
     AuthenticationMethodItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationAuthenticationMethodsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5417,6 +5377,14 @@ export const listApplicationAuthenticationMethods: API.OperationMethod<
     items: "AuthenticationMethods",
   } as const,
 }));
+export type PutApplicationGrantError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more information on the IAM Identity Center supported grant workflows, see SAML 2.0 and OAuth 2.0.
  *
@@ -5448,13 +5416,7 @@ export const listApplicationAuthenticationMethods: API.OperationMethod<
 export const putApplicationGrant: API.OperationMethod<
   PutApplicationGrantRequest,
   PutApplicationGrantResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutApplicationGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApplicationGrantRequest,
@@ -5468,18 +5430,20 @@ export const putApplicationGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationGrantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about an application grant.
  */
 export const getApplicationGrant: API.OperationMethod<
   GetApplicationGrantRequest,
   GetApplicationGrantResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationGrantRequest,
@@ -5492,19 +5456,21 @@ export const getApplicationGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a grant from an application.
- */
-export const deleteApplicationGrant: API.OperationMethod<
-  DeleteApplicationGrantRequest,
-  DeleteApplicationGrantResponse,
+export type DeleteApplicationGrantError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a grant from an application.
+ */
+export const deleteApplicationGrant: API.OperationMethod<
+  DeleteApplicationGrantRequest,
+  DeleteApplicationGrantResponse,
+  DeleteApplicationGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationGrantRequest,
@@ -5518,42 +5484,34 @@ export const deleteApplicationGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationGrantsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the grants associated with an application.
  */
 export const listApplicationGrants: API.OperationMethod<
   ListApplicationGrantsRequest,
   ListApplicationGrantsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationGrantsRequest,
   ) => stream.Stream<
     ListApplicationGrantsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationGrantsRequest,
   ) => stream.Stream<
     GrantItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

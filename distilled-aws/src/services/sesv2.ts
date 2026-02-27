@@ -5843,6 +5843,12 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type BatchGetMetricDataError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves batches of metric data collected based on your sending activity.
  *
@@ -5852,11 +5858,7 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 export const batchGetMetricData: API.OperationMethod<
   BatchGetMetricDataRequest,
   BatchGetMetricDataResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  BatchGetMetricDataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetMetricDataRequest,
@@ -5868,22 +5870,32 @@ export const batchGetMetricData: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CancelExportJobError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Cancels an export job.
  */
 export const cancelExportJob: API.OperationMethod<
   CancelExportJobRequest,
   CancelExportJobResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CancelExportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelExportJobRequest,
   output: CancelExportJobResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type CreateConfigurationSetError =
+  | AlreadyExistsException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a configuration set. *Configuration sets* are groups of
  * rules that you can apply to the emails that you send. You apply a configuration set to
@@ -5894,13 +5906,7 @@ export const cancelExportJob: API.OperationMethod<
 export const createConfigurationSet: API.OperationMethod<
   CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateConfigurationSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetRequest,
@@ -5914,6 +5920,13 @@ export const createConfigurationSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateConfigurationSetEventDestinationError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create an event destination. *Events* include message sends,
  * deliveries, opens, clicks, bounces, and complaints. Event
@@ -5926,12 +5939,7 @@ export const createConfigurationSet: API.OperationMethod<
 export const createConfigurationSetEventDestination: API.OperationMethod<
   CreateConfigurationSetEventDestinationRequest,
   CreateConfigurationSetEventDestinationResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateConfigurationSetEventDestinationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetEventDestinationRequest,
@@ -5944,6 +5952,12 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateContactError =
+  | AlreadyExistsException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a contact, which is an end-user who is receiving the email, and adds them to a
  * contact list.
@@ -5951,11 +5965,7 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
 export const createContact: API.OperationMethod<
   CreateContactRequest,
   CreateContactResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactRequest,
@@ -5967,17 +5977,19 @@ export const createContact: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateContactListError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a contact list.
  */
 export const createContactList: API.OperationMethod<
   CreateContactListRequest,
   CreateContactListResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateContactListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactListRequest,
@@ -5989,6 +6001,13 @@ export const createContactList: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateCustomVerificationEmailTemplateError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new custom verification email template.
  *
@@ -6001,12 +6020,7 @@ export const createContactList: API.OperationMethod<
 export const createCustomVerificationEmailTemplate: API.OperationMethod<
   CreateCustomVerificationEmailTemplateRequest,
   CreateCustomVerificationEmailTemplateResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateCustomVerificationEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomVerificationEmailTemplateRequest,
@@ -6019,6 +6033,13 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateDedicatedIpPoolError =
+  | AlreadyExistsException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a new pool of dedicated IP addresses. A pool can include one or more dedicated
  * IP addresses that are associated with your Amazon Web Services account. You can associate a pool with
@@ -6028,12 +6049,7 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
 export const createDedicatedIpPool: API.OperationMethod<
   CreateDedicatedIpPoolRequest,
   CreateDedicatedIpPoolResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateDedicatedIpPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDedicatedIpPoolRequest,
@@ -6046,6 +6062,17 @@ export const createDedicatedIpPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateDeliverabilityTestReportError =
+  | AccountSuspendedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | NotFoundException
+  | SendingPausedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled
  * by various email providers around the world. When you perform a predictive inbox placement test, you provide a
@@ -6058,16 +6085,7 @@ export const createDedicatedIpPool: API.OperationMethod<
 export const createDeliverabilityTestReport: API.OperationMethod<
   CreateDeliverabilityTestReportRequest,
   CreateDeliverabilityTestReportResponse,
-  | AccountSuspendedException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | NotFoundException
-  | SendingPausedException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateDeliverabilityTestReportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeliverabilityTestReportRequest,
@@ -6084,6 +6102,14 @@ export const createDeliverabilityTestReport: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateEmailIdentityError =
+  | AlreadyExistsException
+  | BadRequestException
+  | ConcurrentModificationException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Starts the process of verifying an email identity. An *identity* is
  * an email address or domain that you use when you send email. Before you can use an
@@ -6118,13 +6144,7 @@ export const createDeliverabilityTestReport: API.OperationMethod<
 export const createEmailIdentity: API.OperationMethod<
   CreateEmailIdentityRequest,
   CreateEmailIdentityResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | ConcurrentModificationException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateEmailIdentityError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailIdentityRequest,
@@ -6138,6 +6158,13 @@ export const createEmailIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateEmailIdentityPolicyError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates the specified sending authorization policy for the given identity (an email
  * address or a domain).
@@ -6155,12 +6182,7 @@ export const createEmailIdentity: API.OperationMethod<
 export const createEmailIdentityPolicy: API.OperationMethod<
   CreateEmailIdentityPolicyRequest,
   CreateEmailIdentityPolicyResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateEmailIdentityPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailIdentityPolicyRequest,
@@ -6173,6 +6195,12 @@ export const createEmailIdentityPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateEmailTemplateError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an email template. Email templates enable you to send personalized email to
  * one or more destinations in a single API operation. For more information, see the Amazon SES Developer
@@ -6183,11 +6211,7 @@ export const createEmailIdentityPolicy: API.OperationMethod<
 export const createEmailTemplate: API.OperationMethod<
   CreateEmailTemplateRequest,
   CreateEmailTemplateResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailTemplateRequest,
@@ -6199,6 +6223,12 @@ export const createEmailTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateExportJobError =
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an export job for a data source and destination.
  *
@@ -6207,11 +6237,7 @@ export const createEmailTemplate: API.OperationMethod<
 export const createExportJob: API.OperationMethod<
   CreateExportJobRequest,
   CreateExportJobResponse,
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateExportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExportJobRequest,
@@ -6223,16 +6249,18 @@ export const createExportJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateImportJobError =
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an import job for a data destination.
  */
 export const createImportJob: API.OperationMethod<
   CreateImportJobRequest,
   CreateImportJobResponse,
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateImportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImportJobRequest,
@@ -6243,6 +6271,12 @@ export const createImportJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateMultiRegionEndpointError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a multi-region endpoint (global-endpoint).
  *
@@ -6255,11 +6289,7 @@ export const createImportJob: API.OperationMethod<
 export const createMultiRegionEndpoint: API.OperationMethod<
   CreateMultiRegionEndpointRequest,
   CreateMultiRegionEndpointResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateMultiRegionEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMultiRegionEndpointRequest,
@@ -6271,6 +6301,12 @@ export const createMultiRegionEndpoint: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTenantError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a tenant.
  *
@@ -6282,11 +6318,7 @@ export const createMultiRegionEndpoint: API.OperationMethod<
 export const createTenant: API.OperationMethod<
   CreateTenantRequest,
   CreateTenantResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateTenantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTenantRequest,
@@ -6298,6 +6330,12 @@ export const createTenant: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTenantResourceAssociationError =
+  | AlreadyExistsException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Associate a resource with a tenant.
  *
@@ -6311,11 +6349,7 @@ export const createTenant: API.OperationMethod<
 export const createTenantResourceAssociation: API.OperationMethod<
   CreateTenantResourceAssociationRequest,
   CreateTenantResourceAssociationResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateTenantResourceAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTenantResourceAssociationRequest,
@@ -6327,6 +6361,12 @@ export const createTenantResourceAssociation: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteConfigurationSetError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete an existing configuration set.
  *
@@ -6338,11 +6378,7 @@ export const createTenantResourceAssociation: API.OperationMethod<
 export const deleteConfigurationSet: API.OperationMethod<
   DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteConfigurationSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetRequest,
@@ -6354,6 +6390,11 @@ export const deleteConfigurationSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteConfigurationSetEventDestinationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete an event destination.
  *
@@ -6365,43 +6406,44 @@ export const deleteConfigurationSet: API.OperationMethod<
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
   DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteConfigurationSetEventDestinationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetEventDestinationRequest,
   output: DeleteConfigurationSetEventDestinationResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteContactError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes a contact from a contact list.
  */
 export const deleteContact: API.OperationMethod<
   DeleteContactRequest,
   DeleteContactResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactRequest,
   output: DeleteContactResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteContactListError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a contact list and all of the contacts on that list.
  */
 export const deleteContactList: API.OperationMethod<
   DeleteContactListRequest,
   DeleteContactListResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteContactListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactListRequest,
@@ -6413,6 +6455,11 @@ export const deleteContactList: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteCustomVerificationEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing custom verification email template.
  *
@@ -6425,27 +6472,26 @@ export const deleteContactList: API.OperationMethod<
 export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   DeleteCustomVerificationEmailTemplateRequest,
   DeleteCustomVerificationEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteCustomVerificationEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomVerificationEmailTemplateRequest,
   output: DeleteCustomVerificationEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteDedicatedIpPoolError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete a dedicated IP pool.
  */
 export const deleteDedicatedIpPool: API.OperationMethod<
   DeleteDedicatedIpPoolRequest,
   DeleteDedicatedIpPoolResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteDedicatedIpPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDedicatedIpPoolRequest,
@@ -6457,6 +6503,12 @@ export const deleteDedicatedIpPool: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEmailIdentityError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an email identity. An identity can be either an email address or a domain
  * name.
@@ -6464,11 +6516,7 @@ export const deleteDedicatedIpPool: API.OperationMethod<
 export const deleteEmailIdentity: API.OperationMethod<
   DeleteEmailIdentityRequest,
   DeleteEmailIdentityResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEmailIdentityError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailIdentityRequest,
@@ -6480,6 +6528,11 @@ export const deleteEmailIdentity: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEmailIdentityPolicyError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the specified sending authorization policy for the given identity (an email
  * address or a domain). This API returns successfully even if a policy with the specified
@@ -6498,16 +6551,18 @@ export const deleteEmailIdentity: API.OperationMethod<
 export const deleteEmailIdentityPolicy: API.OperationMethod<
   DeleteEmailIdentityPolicyRequest,
   DeleteEmailIdentityPolicyResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEmailIdentityPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailIdentityPolicyRequest,
   output: DeleteEmailIdentityPolicyResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an email template.
  *
@@ -6516,16 +6571,19 @@ export const deleteEmailIdentityPolicy: API.OperationMethod<
 export const deleteEmailTemplate: API.OperationMethod<
   DeleteEmailTemplateRequest,
   DeleteEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailTemplateRequest,
   output: DeleteEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteMultiRegionEndpointError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a multi-region endpoint (global-endpoint).
  *
@@ -6535,11 +6593,7 @@ export const deleteEmailTemplate: API.OperationMethod<
 export const deleteMultiRegionEndpoint: API.OperationMethod<
   DeleteMultiRegionEndpointRequest,
   DeleteMultiRegionEndpointResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteMultiRegionEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMultiRegionEndpointRequest,
@@ -6551,22 +6605,29 @@ export const deleteMultiRegionEndpoint: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteSuppressedDestinationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes an email address from the suppression list for your account.
  */
 export const deleteSuppressedDestination: API.OperationMethod<
   DeleteSuppressedDestinationRequest,
   DeleteSuppressedDestinationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteSuppressedDestinationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSuppressedDestinationRequest,
   output: DeleteSuppressedDestinationResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteTenantError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete an existing tenant.
  *
@@ -6576,16 +6637,18 @@ export const deleteSuppressedDestination: API.OperationMethod<
 export const deleteTenant: API.OperationMethod<
   DeleteTenantRequest,
   DeleteTenantResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTenantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTenantRequest,
   output: DeleteTenantResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteTenantResourceAssociationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Delete an association between a tenant and a resource.
  *
@@ -6596,16 +6659,17 @@ export const deleteTenant: API.OperationMethod<
 export const deleteTenantResourceAssociation: API.OperationMethod<
   DeleteTenantResourceAssociationRequest,
   DeleteTenantResourceAssociationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTenantResourceAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTenantResourceAssociationRequest,
   output: DeleteTenantResourceAssociationResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetAccountError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Obtain information about the email-sending status and capabilities of your Amazon SES
  * account in the current Amazon Web Services Region.
@@ -6613,29 +6677,36 @@ export const deleteTenantResourceAssociation: API.OperationMethod<
 export const getAccount: API.OperationMethod<
   GetAccountRequest,
   GetAccountResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  GetAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
   output: GetAccountResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type GetBlacklistReportsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
 export const getBlacklistReports: API.OperationMethod<
   GetBlacklistReportsRequest,
   GetBlacklistReportsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetBlacklistReportsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlacklistReportsRequest,
   output: GetBlacklistReportsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetConfigurationSetError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Get information about an existing configuration set, including the dedicated IP pool
  * that it's associated with, whether or not it's enabled for sending email, and
@@ -6649,16 +6720,18 @@ export const getBlacklistReports: API.OperationMethod<
 export const getConfigurationSet: API.OperationMethod<
   GetConfigurationSetRequest,
   GetConfigurationSetResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetConfigurationSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationSetRequest,
   output: GetConfigurationSetResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetConfigurationSetEventDestinationsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve a list of event destinations that are associated with a configuration
  * set.
@@ -6671,32 +6744,36 @@ export const getConfigurationSet: API.OperationMethod<
 export const getConfigurationSetEventDestinations: API.OperationMethod<
   GetConfigurationSetEventDestinationsRequest,
   GetConfigurationSetEventDestinationsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetConfigurationSetEventDestinationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationSetEventDestinationsRequest,
   output: GetConfigurationSetEventDestinationsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetContactError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a contact from a contact list.
  */
 export const getContact: API.OperationMethod<
   GetContactRequest,
   GetContactResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactRequest,
   output: GetContactResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetContactListError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns contact list metadata. It does not return any information about the contacts
  * present in the list.
@@ -6704,16 +6781,18 @@ export const getContact: API.OperationMethod<
 export const getContactList: API.OperationMethod<
   GetContactListRequest,
   GetContactListResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetContactListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactListRequest,
   output: GetContactListResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetCustomVerificationEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the custom email verification template for the template name you
  * specify.
@@ -6727,16 +6806,18 @@ export const getContactList: API.OperationMethod<
 export const getCustomVerificationEmailTemplate: API.OperationMethod<
   GetCustomVerificationEmailTemplateRequest,
   GetCustomVerificationEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCustomVerificationEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomVerificationEmailTemplateRequest,
   output: GetCustomVerificationEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDedicatedIpError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Get information about a dedicated IP address, including the name of the dedicated IP
  * pool that it's associated with, as well information about the automatic warm-up process
@@ -6745,32 +6826,36 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
 export const getDedicatedIp: API.OperationMethod<
   GetDedicatedIpRequest,
   GetDedicatedIpResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDedicatedIpError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDedicatedIpRequest,
   output: GetDedicatedIpResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDedicatedIpPoolError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve information about the dedicated pool.
  */
 export const getDedicatedIpPool: API.OperationMethod<
   GetDedicatedIpPoolRequest,
   GetDedicatedIpPoolResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDedicatedIpPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDedicatedIpPoolRequest,
   output: GetDedicatedIpPoolResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDedicatedIpsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List the dedicated IP addresses that are associated with your Amazon Web Services
  * account.
@@ -6778,30 +6863,21 @@ export const getDedicatedIpPool: API.OperationMethod<
 export const getDedicatedIps: API.OperationMethod<
   GetDedicatedIpsRequest,
   GetDedicatedIpsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDedicatedIpsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDedicatedIpsRequest,
   ) => stream.Stream<
     GetDedicatedIpsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDedicatedIpsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetDedicatedIpsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    GetDedicatedIpsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6814,6 +6890,11 @@ export const getDedicatedIps: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type GetDeliverabilityDashboardOptionsError =
+  | BadRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve information about the status of the Deliverability dashboard for your account. When
  * the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other
@@ -6827,10 +6908,7 @@ export const getDedicatedIps: API.OperationMethod<
 export const getDeliverabilityDashboardOptions: API.OperationMethod<
   GetDeliverabilityDashboardOptionsRequest,
   GetDeliverabilityDashboardOptionsResponse,
-  | BadRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDeliverabilityDashboardOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliverabilityDashboardOptionsRequest,
@@ -6841,22 +6919,29 @@ export const getDeliverabilityDashboardOptions: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetDeliverabilityTestReportError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve the results of a predictive inbox placement test.
  */
 export const getDeliverabilityTestReport: API.OperationMethod<
   GetDeliverabilityTestReportRequest,
   GetDeliverabilityTestReportResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDeliverabilityTestReportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliverabilityTestReportRequest,
   output: GetDeliverabilityTestReportResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDomainDeliverabilityCampaignError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve all the deliverability data for a specific campaign. This data is available
  * for a campaign only if the campaign sent email by using a domain that the
@@ -6865,16 +6950,18 @@ export const getDeliverabilityTestReport: API.OperationMethod<
 export const getDomainDeliverabilityCampaign: API.OperationMethod<
   GetDomainDeliverabilityCampaignRequest,
   GetDomainDeliverabilityCampaignResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDomainDeliverabilityCampaignError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainDeliverabilityCampaignRequest,
   output: GetDomainDeliverabilityCampaignResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDomainStatisticsReportError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve inbox placement and engagement rates for the domains that you use to send
  * email.
@@ -6882,29 +6969,35 @@ export const getDomainDeliverabilityCampaign: API.OperationMethod<
 export const getDomainStatisticsReport: API.OperationMethod<
   GetDomainStatisticsReportRequest,
   GetDomainStatisticsReportResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDomainStatisticsReportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainStatisticsReportRequest,
   output: GetDomainStatisticsReportResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetEmailAddressInsightsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors.
  */
 export const getEmailAddressInsights: API.OperationMethod<
   GetEmailAddressInsightsRequest,
   GetEmailAddressInsightsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  GetEmailAddressInsightsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailAddressInsightsRequest,
   output: GetEmailAddressInsightsResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type GetEmailIdentityError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides information about a specific identity, including the identity's verification
  * status, sending authorization policies, its DKIM authentication status, and its custom
@@ -6913,16 +7006,18 @@ export const getEmailAddressInsights: API.OperationMethod<
 export const getEmailIdentity: API.OperationMethod<
   GetEmailIdentityRequest,
   GetEmailIdentityResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEmailIdentityError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailIdentityRequest,
   output: GetEmailIdentityResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetEmailIdentityPoliciesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns the requested sending authorization policies for the given identity (an email
  * address or a domain). The policies are returned as a map of policy names to policy
@@ -6941,16 +7036,18 @@ export const getEmailIdentity: API.OperationMethod<
 export const getEmailIdentityPolicies: API.OperationMethod<
   GetEmailIdentityPoliciesRequest,
   GetEmailIdentityPoliciesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEmailIdentityPoliciesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailIdentityPoliciesRequest,
   output: GetEmailIdentityPoliciesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays the template object (which includes the subject line, HTML part and text
  * part) for the template you specify.
@@ -6960,48 +7057,54 @@ export const getEmailIdentityPolicies: API.OperationMethod<
 export const getEmailTemplate: API.OperationMethod<
   GetEmailTemplateRequest,
   GetEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailTemplateRequest,
   output: GetEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetExportJobError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides information about an export job.
  */
 export const getExportJob: API.OperationMethod<
   GetExportJobRequest,
   GetExportJobResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetExportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportJobRequest,
   output: GetExportJobResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetImportJobError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides information about an import job.
  */
 export const getImportJob: API.OperationMethod<
   GetImportJobRequest,
   GetImportJobResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetImportJobError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
   output: GetImportJobResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetMessageInsightsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides information about a specific message, including the from address, the
  * subject, the recipient address, email tags, as well as events associated with the message.
@@ -7011,16 +7114,18 @@ export const getImportJob: API.OperationMethod<
 export const getMessageInsights: API.OperationMethod<
   GetMessageInsightsRequest,
   GetMessageInsightsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetMessageInsightsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMessageInsightsRequest,
   output: GetMessageInsightsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetMultiRegionEndpointError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays the multi-region endpoint (global-endpoint) configuration.
  *
@@ -7030,16 +7135,18 @@ export const getMessageInsights: API.OperationMethod<
 export const getMultiRegionEndpoint: API.OperationMethod<
   GetMultiRegionEndpointRequest,
   GetMultiRegionEndpointResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetMultiRegionEndpointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMultiRegionEndpointRequest,
   output: GetMultiRegionEndpointResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetReputationEntityError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve information about a specific reputation entity, including its reputation
  * management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate
@@ -7053,16 +7160,18 @@ export const getMultiRegionEndpoint: API.OperationMethod<
 export const getReputationEntity: API.OperationMethod<
   GetReputationEntityRequest,
   GetReputationEntityResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetReputationEntityError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReputationEntityRequest,
   output: GetReputationEntityResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetSuppressedDestinationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves information about a specific email address that's on the suppression list
  * for your account.
@@ -7070,16 +7179,18 @@ export const getReputationEntity: API.OperationMethod<
 export const getSuppressedDestination: API.OperationMethod<
   GetSuppressedDestinationRequest,
   GetSuppressedDestinationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetSuppressedDestinationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuppressedDestinationRequest,
   output: GetSuppressedDestinationResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetTenantError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Get information about a specific tenant, including the tenant's name, ID, ARN,
  * creation timestamp, tags, and sending status.
@@ -7087,16 +7198,17 @@ export const getSuppressedDestination: API.OperationMethod<
 export const getTenant: API.OperationMethod<
   GetTenantRequest,
   GetTenantResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTenantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTenantRequest,
   output: GetTenantResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type ListConfigurationSetsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all of the configuration sets associated with your account in the current
  * region.
@@ -7109,21 +7221,21 @@ export const getTenant: API.OperationMethod<
 export const listConfigurationSets: API.OperationMethod<
   ListConfigurationSetsRequest,
   ListConfigurationSetsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListConfigurationSetsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationSetsRequest,
   ) => stream.Stream<
     ListConfigurationSetsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListConfigurationSetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationSetsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListConfigurationSetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7136,6 +7248,10 @@ export const listConfigurationSets: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListContactListsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists all of the contact lists available.
  *
@@ -7145,21 +7261,21 @@ export const listConfigurationSets: API.OperationMethod<
 export const listContactLists: API.OperationMethod<
   ListContactListsRequest,
   ListContactListsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListContactListsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactListsRequest,
   ) => stream.Stream<
     ListContactListsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListContactListsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListContactListsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListContactListsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7172,36 +7288,32 @@ export const listContactLists: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListContactsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the contacts present in a specific contact list.
  */
 export const listContacts: API.OperationMethod<
   ListContactsRequest,
   ListContactsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListContactsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactsRequest,
   ) => stream.Stream<
     ListContactsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListContactsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListContactsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListContactsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7214,6 +7326,10 @@ export const listContacts: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListCustomVerificationEmailTemplatesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the existing custom verification email templates for your account in the current
  * Amazon Web Services Region.
@@ -7227,21 +7343,21 @@ export const listContacts: API.OperationMethod<
 export const listCustomVerificationEmailTemplates: API.OperationMethod<
   ListCustomVerificationEmailTemplatesRequest,
   ListCustomVerificationEmailTemplatesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListCustomVerificationEmailTemplatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomVerificationEmailTemplatesRequest,
   ) => stream.Stream<
     ListCustomVerificationEmailTemplatesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListCustomVerificationEmailTemplatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomVerificationEmailTemplatesRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListCustomVerificationEmailTemplatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7254,6 +7370,10 @@ export const listCustomVerificationEmailTemplates: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListDedicatedIpPoolsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all of the dedicated IP pools that exist in your Amazon Web Services account in the current
  * Region.
@@ -7261,21 +7381,21 @@ export const listCustomVerificationEmailTemplates: API.OperationMethod<
 export const listDedicatedIpPools: API.OperationMethod<
   ListDedicatedIpPoolsRequest,
   ListDedicatedIpPoolsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListDedicatedIpPoolsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDedicatedIpPoolsRequest,
   ) => stream.Stream<
     ListDedicatedIpPoolsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListDedicatedIpPoolsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDedicatedIpPoolsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListDedicatedIpPoolsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7288,6 +7408,11 @@ export const listDedicatedIpPools: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListDeliverabilityTestReportsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For
  * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
@@ -7296,30 +7421,21 @@ export const listDedicatedIpPools: API.OperationMethod<
 export const listDeliverabilityTestReports: API.OperationMethod<
   ListDeliverabilityTestReportsRequest,
   ListDeliverabilityTestReportsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDeliverabilityTestReportsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeliverabilityTestReportsRequest,
   ) => stream.Stream<
     ListDeliverabilityTestReportsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDeliverabilityTestReportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDeliverabilityTestReportsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDeliverabilityTestReportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7332,6 +7448,11 @@ export const listDeliverabilityTestReports: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListDomainDeliverabilityCampaignsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve deliverability data for all the campaigns that used a specific domain to send
  * email during a specified time range. This data is available for a domain only if you
@@ -7340,30 +7461,21 @@ export const listDeliverabilityTestReports: API.OperationMethod<
 export const listDomainDeliverabilityCampaigns: API.OperationMethod<
   ListDomainDeliverabilityCampaignsRequest,
   ListDomainDeliverabilityCampaignsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDomainDeliverabilityCampaignsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainDeliverabilityCampaignsRequest,
   ) => stream.Stream<
     ListDomainDeliverabilityCampaignsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDomainDeliverabilityCampaignsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainDeliverabilityCampaignsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDomainDeliverabilityCampaignsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7376,6 +7488,10 @@ export const listDomainDeliverabilityCampaigns: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListEmailIdentitiesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns a list of all of the email identities that are associated with your Amazon Web Services
  * account. An identity can be either an email address or a domain. This operation returns
@@ -7385,21 +7501,21 @@ export const listDomainDeliverabilityCampaigns: API.OperationMethod<
 export const listEmailIdentities: API.OperationMethod<
   ListEmailIdentitiesRequest,
   ListEmailIdentitiesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListEmailIdentitiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEmailIdentitiesRequest,
   ) => stream.Stream<
     ListEmailIdentitiesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListEmailIdentitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEmailIdentitiesRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListEmailIdentitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7412,6 +7528,10 @@ export const listEmailIdentities: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListEmailTemplatesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the email templates present in your Amazon SES account in the current Amazon Web Services
  * Region.
@@ -7421,21 +7541,21 @@ export const listEmailIdentities: API.OperationMethod<
 export const listEmailTemplates: API.OperationMethod<
   ListEmailTemplatesRequest,
   ListEmailTemplatesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListEmailTemplatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEmailTemplatesRequest,
   ) => stream.Stream<
     ListEmailTemplatesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListEmailTemplatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEmailTemplatesRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListEmailTemplatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7448,27 +7568,31 @@ export const listEmailTemplates: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListExportJobsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists all of the export jobs.
  */
 export const listExportJobs: API.OperationMethod<
   ListExportJobsRequest,
   ListExportJobsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListExportJobsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExportJobsRequest,
   ) => stream.Stream<
     ListExportJobsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListExportJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListExportJobsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListExportJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7481,27 +7605,31 @@ export const listExportJobs: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListImportJobsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists all of the import jobs.
  */
 export const listImportJobs: API.OperationMethod<
   ListImportJobsRequest,
   ListImportJobsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListImportJobsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
     ListImportJobsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListImportJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListImportJobsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7514,6 +7642,10 @@ export const listImportJobs: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListMultiRegionEndpointsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List the multi-region endpoints (global-endpoints).
  *
@@ -7523,21 +7655,21 @@ export const listImportJobs: API.OperationMethod<
 export const listMultiRegionEndpoints: API.OperationMethod<
   ListMultiRegionEndpointsRequest,
   ListMultiRegionEndpointsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListMultiRegionEndpointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMultiRegionEndpointsRequest,
   ) => stream.Stream<
     ListMultiRegionEndpointsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListMultiRegionEndpointsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiRegionEndpointsRequest,
   ) => stream.Stream<
     MultiRegionEndpoint,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListMultiRegionEndpointsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7551,6 +7683,11 @@ export const listMultiRegionEndpoints: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListRecommendationsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region.
  *
@@ -7559,30 +7696,21 @@ export const listMultiRegionEndpoints: API.OperationMethod<
 export const listRecommendations: API.OperationMethod<
   ListRecommendationsRequest,
   ListRecommendationsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRecommendationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     ListRecommendationsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRecommendationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7595,6 +7723,10 @@ export const listRecommendations: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListReputationEntitiesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List reputation entities in your Amazon SES account in the current Amazon Web Services Region.
  * You can filter the results by entity type, reputation impact, sending status,
@@ -7607,21 +7739,21 @@ export const listRecommendations: API.OperationMethod<
 export const listReputationEntities: API.OperationMethod<
   ListReputationEntitiesRequest,
   ListReputationEntitiesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListReputationEntitiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReputationEntitiesRequest,
   ) => stream.Stream<
     ListReputationEntitiesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListReputationEntitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListReputationEntitiesRequest,
   ) => stream.Stream<
     ReputationEntity,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListReputationEntitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7635,6 +7767,11 @@ export const listReputationEntities: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListResourceTenantsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all tenants associated with a specific resource.
  *
@@ -7645,30 +7782,21 @@ export const listReputationEntities: API.OperationMethod<
 export const listResourceTenants: API.OperationMethod<
   ListResourceTenantsRequest,
   ListResourceTenantsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListResourceTenantsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceTenantsRequest,
   ) => stream.Stream<
     ListResourceTenantsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListResourceTenantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceTenantsRequest,
   ) => stream.Stream<
     ResourceTenantMetadata,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListResourceTenantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7682,6 +7810,11 @@ export const listResourceTenants: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListSuppressedDestinationsError =
+  | BadRequestException
+  | InvalidNextTokenException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves a list of email addresses that are on the suppression list for your
  * account.
@@ -7689,30 +7822,21 @@ export const listResourceTenants: API.OperationMethod<
 export const listSuppressedDestinations: API.OperationMethod<
   ListSuppressedDestinationsRequest,
   ListSuppressedDestinationsResponse,
-  | BadRequestException
-  | InvalidNextTokenException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListSuppressedDestinationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSuppressedDestinationsRequest,
   ) => stream.Stream<
     ListSuppressedDestinationsResponse,
-    | BadRequestException
-    | InvalidNextTokenException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSuppressedDestinationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListSuppressedDestinationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | InvalidNextTokenException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSuppressedDestinationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7729,6 +7853,11 @@ export const listSuppressedDestinations: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve a list of the tags (keys and values) that are associated with a specified
  * resource. A *tag* is a label that you optionally define and associate
@@ -7740,16 +7869,18 @@ export const listSuppressedDestinations: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type ListTenantResourcesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all resources associated with a specific tenant.
  *
@@ -7760,30 +7891,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listTenantResources: API.OperationMethod<
   ListTenantResourcesRequest,
   ListTenantResourcesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTenantResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTenantResourcesRequest,
   ) => stream.Stream<
     ListTenantResourcesResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTenantResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTenantResourcesRequest,
   ) => stream.Stream<
     TenantResource,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTenantResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7797,6 +7919,10 @@ export const listTenantResources: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListTenantsError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all tenants associated with your account in the current Amazon Web Services Region.
  *
@@ -7806,21 +7932,21 @@ export const listTenantResources: API.OperationMethod<
 export const listTenants: API.OperationMethod<
   ListTenantsRequest,
   ListTenantsResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  ListTenantsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTenantsRequest,
   ) => stream.Stream<
     ListTenantsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListTenantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTenantsRequest,
   ) => stream.Stream<
     TenantInfo,
-    BadRequestException | TooManyRequestsException | CommonErrors,
+    ListTenantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7834,61 +7960,79 @@ export const listTenants: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type PutAccountDedicatedIpWarmupAttributesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
 export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
   PutAccountDedicatedIpWarmupAttributesRequest,
   PutAccountDedicatedIpWarmupAttributesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutAccountDedicatedIpWarmupAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountDedicatedIpWarmupAttributesRequest,
   output: PutAccountDedicatedIpWarmupAttributesResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type PutAccountDetailsError =
+  | BadRequestException
+  | ConflictException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update your Amazon SES account details.
  */
 export const putAccountDetails: API.OperationMethod<
   PutAccountDetailsRequest,
   PutAccountDetailsResponse,
-  | BadRequestException
-  | ConflictException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutAccountDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountDetailsRequest,
   output: PutAccountDetailsResponse,
   errors: [BadRequestException, ConflictException, TooManyRequestsException],
 }));
+export type PutAccountSendingAttributesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable the ability of your account to send email.
  */
 export const putAccountSendingAttributes: API.OperationMethod<
   PutAccountSendingAttributesRequest,
   PutAccountSendingAttributesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutAccountSendingAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSendingAttributesRequest,
   output: PutAccountSendingAttributesResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type PutAccountSuppressionAttributesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Change the settings for the account-level suppression list.
  */
 export const putAccountSuppressionAttributes: API.OperationMethod<
   PutAccountSuppressionAttributesRequest,
   PutAccountSuppressionAttributesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutAccountSuppressionAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSuppressionAttributesRequest,
   output: PutAccountSuppressionAttributesResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type PutAccountVdmAttributesError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update your Amazon SES account VDM attributes.
  *
@@ -7897,13 +8041,18 @@ export const putAccountSuppressionAttributes: API.OperationMethod<
 export const putAccountVdmAttributes: API.OperationMethod<
   PutAccountVdmAttributesRequest,
   PutAccountVdmAttributesResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutAccountVdmAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountVdmAttributesRequest,
   output: PutAccountVdmAttributesResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type PutConfigurationSetArchivingOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Associate the configuration set with a MailManager archive. When you send email using the
  * `SendEmail` or `SendBulkEmail` operations the message as it will be given
@@ -7912,16 +8061,18 @@ export const putAccountVdmAttributes: API.OperationMethod<
 export const putConfigurationSetArchivingOptions: API.OperationMethod<
   PutConfigurationSetArchivingOptionsRequest,
   PutConfigurationSetArchivingOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetArchivingOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetArchivingOptionsRequest,
   output: PutConfigurationSetArchivingOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetDeliveryOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
  * to create groups of dedicated IP addresses for sending specific types of email.
@@ -7929,16 +8080,18 @@ export const putConfigurationSetArchivingOptions: API.OperationMethod<
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   PutConfigurationSetDeliveryOptionsRequest,
   PutConfigurationSetDeliveryOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetDeliveryOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetDeliveryOptionsRequest,
   output: PutConfigurationSetDeliveryOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetReputationOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable collection of reputation metrics for emails that you send using a
  * particular configuration set in a specific Amazon Web Services Region.
@@ -7946,16 +8099,18 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
 export const putConfigurationSetReputationOptions: API.OperationMethod<
   PutConfigurationSetReputationOptionsRequest,
   PutConfigurationSetReputationOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetReputationOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetReputationOptionsRequest,
   output: PutConfigurationSetReputationOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetSendingOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable email sending for messages that use a particular configuration set
  * in a specific Amazon Web Services Region.
@@ -7963,32 +8118,36 @@ export const putConfigurationSetReputationOptions: API.OperationMethod<
 export const putConfigurationSetSendingOptions: API.OperationMethod<
   PutConfigurationSetSendingOptionsRequest,
   PutConfigurationSetSendingOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetSendingOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetSendingOptionsRequest,
   output: PutConfigurationSetSendingOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetSuppressionOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Specify the account suppression list preferences for a configuration set.
  */
 export const putConfigurationSetSuppressionOptions: API.OperationMethod<
   PutConfigurationSetSuppressionOptionsRequest,
   PutConfigurationSetSuppressionOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetSuppressionOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetSuppressionOptionsRequest,
   output: PutConfigurationSetSuppressionOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetTrackingOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Specify a custom domain to use for open and click tracking elements in email that you
  * send.
@@ -7996,16 +8155,18 @@ export const putConfigurationSetSuppressionOptions: API.OperationMethod<
 export const putConfigurationSetTrackingOptions: API.OperationMethod<
   PutConfigurationSetTrackingOptionsRequest,
   PutConfigurationSetTrackingOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetTrackingOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetTrackingOptionsRequest,
   output: PutConfigurationSetTrackingOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutConfigurationSetVdmOptionsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Specify VDM preferences for email that you send using the configuration set.
  *
@@ -8014,16 +8175,18 @@ export const putConfigurationSetTrackingOptions: API.OperationMethod<
 export const putConfigurationSetVdmOptions: API.OperationMethod<
   PutConfigurationSetVdmOptionsRequest,
   PutConfigurationSetVdmOptionsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutConfigurationSetVdmOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationSetVdmOptionsRequest,
   output: PutConfigurationSetVdmOptionsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutDedicatedIpInPoolError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Move a dedicated IP address to an existing dedicated IP pool.
  *
@@ -8036,16 +8199,19 @@ export const putConfigurationSetVdmOptions: API.OperationMethod<
 export const putDedicatedIpInPool: API.OperationMethod<
   PutDedicatedIpInPoolRequest,
   PutDedicatedIpInPoolResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDedicatedIpInPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDedicatedIpInPoolRequest,
   output: PutDedicatedIpInPoolResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutDedicatedIpPoolScalingAttributesError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to convert a dedicated IP pool to a different scaling mode.
  *
@@ -8054,11 +8220,7 @@ export const putDedicatedIpInPool: API.OperationMethod<
 export const putDedicatedIpPoolScalingAttributes: API.OperationMethod<
   PutDedicatedIpPoolScalingAttributesRequest,
   PutDedicatedIpPoolScalingAttributesResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDedicatedIpPoolScalingAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDedicatedIpPoolScalingAttributesRequest,
@@ -8070,22 +8232,31 @@ export const putDedicatedIpPoolScalingAttributes: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutDedicatedIpWarmupAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  *
  */
 export const putDedicatedIpWarmupAttributes: API.OperationMethod<
   PutDedicatedIpWarmupAttributesRequest,
   PutDedicatedIpWarmupAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDedicatedIpWarmupAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDedicatedIpWarmupAttributesRequest,
   output: PutDedicatedIpWarmupAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutDeliverabilityDashboardOptionError =
+  | AlreadyExistsException
+  | BadRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain
  * access to reputation, deliverability, and other metrics for the domains that you use to
@@ -8098,12 +8269,7 @@ export const putDedicatedIpWarmupAttributes: API.OperationMethod<
 export const putDeliverabilityDashboardOption: API.OperationMethod<
   PutDeliverabilityDashboardOptionRequest,
   PutDeliverabilityDashboardOptionResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | LimitExceededException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutDeliverabilityDashboardOptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliverabilityDashboardOptionRequest,
@@ -8116,38 +8282,47 @@ export const putDeliverabilityDashboardOption: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutEmailIdentityConfigurationSetAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to associate a configuration set with an email identity.
  */
 export const putEmailIdentityConfigurationSetAttributes: API.OperationMethod<
   PutEmailIdentityConfigurationSetAttributesRequest,
   PutEmailIdentityConfigurationSetAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityConfigurationSetAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityConfigurationSetAttributesRequest,
   output: PutEmailIdentityConfigurationSetAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutEmailIdentityDkimAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to enable or disable DKIM authentication for an email identity.
  */
 export const putEmailIdentityDkimAttributes: API.OperationMethod<
   PutEmailIdentityDkimAttributesRequest,
   PutEmailIdentityDkimAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityDkimAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityDkimAttributesRequest,
   output: PutEmailIdentityDkimAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutEmailIdentityDkimSigningAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to configure or change the DKIM authentication settings for an email domain
  * identity. You can use this operation to do any of the following:
@@ -8168,16 +8343,18 @@ export const putEmailIdentityDkimAttributes: API.OperationMethod<
 export const putEmailIdentityDkimSigningAttributes: API.OperationMethod<
   PutEmailIdentityDkimSigningAttributesRequest,
   PutEmailIdentityDkimSigningAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityDkimSigningAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityDkimSigningAttributesRequest,
   output: PutEmailIdentityDkimSigningAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutEmailIdentityFeedbackAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to enable or disable feedback forwarding for an identity. This setting determines
  * what happens when an identity is used to send an email that results in a bounce or
@@ -8195,16 +8372,18 @@ export const putEmailIdentityDkimSigningAttributes: API.OperationMethod<
 export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
   PutEmailIdentityFeedbackAttributesRequest,
   PutEmailIdentityFeedbackAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityFeedbackAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityFeedbackAttributesRequest,
   output: PutEmailIdentityFeedbackAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutEmailIdentityMailFromAttributesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Used to enable or disable the custom Mail-From domain configuration for an email
  * identity.
@@ -8212,35 +8391,31 @@ export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
 export const putEmailIdentityMailFromAttributes: API.OperationMethod<
   PutEmailIdentityMailFromAttributesRequest,
   PutEmailIdentityMailFromAttributesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutEmailIdentityMailFromAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEmailIdentityMailFromAttributesRequest,
   output: PutEmailIdentityMailFromAttributesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type PutSuppressedDestinationError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds an email address to the suppression list for your account.
  */
 export const putSuppressedDestination: API.OperationMethod<
   PutSuppressedDestinationRequest,
   PutSuppressedDestinationResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  PutSuppressedDestinationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSuppressedDestinationRequest,
   output: PutSuppressedDestinationResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
-/**
- * Composes an email message to multiple destinations.
- */
-export const sendBulkEmail: API.OperationMethod<
-  SendBulkEmailRequest,
-  SendBulkEmailResponse,
+export type SendBulkEmailError =
   | AccountSuspendedException
   | BadRequestException
   | LimitExceededException
@@ -8249,7 +8424,14 @@ export const sendBulkEmail: API.OperationMethod<
   | NotFoundException
   | SendingPausedException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Composes an email message to multiple destinations.
+ */
+export const sendBulkEmail: API.OperationMethod<
+  SendBulkEmailRequest,
+  SendBulkEmailResponse,
+  SendBulkEmailError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendBulkEmailRequest,
@@ -8265,6 +8447,15 @@ export const sendBulkEmail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SendCustomVerificationEmailError =
+  | BadRequestException
+  | LimitExceededException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | NotFoundException
+  | SendingPausedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Adds an email address to the list of identities for your Amazon SES account in the current
  * Amazon Web Services Region and attempts to verify it. As a result of executing this
@@ -8281,14 +8472,7 @@ export const sendBulkEmail: API.OperationMethod<
 export const sendCustomVerificationEmail: API.OperationMethod<
   SendCustomVerificationEmailRequest,
   SendCustomVerificationEmailResponse,
-  | BadRequestException
-  | LimitExceededException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | NotFoundException
-  | SendingPausedException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendCustomVerificationEmailError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendCustomVerificationEmailRequest,
@@ -8303,6 +8487,16 @@ export const sendCustomVerificationEmail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SendEmailError =
+  | AccountSuspendedException
+  | BadRequestException
+  | LimitExceededException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | NotFoundException
+  | SendingPausedException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sends an email message. You can use the Amazon SES API v2 to send the following types of
  * messages:
@@ -8324,15 +8518,7 @@ export const sendCustomVerificationEmail: API.OperationMethod<
 export const sendEmail: API.OperationMethod<
   SendEmailRequest,
   SendEmailResponse,
-  | AccountSuspendedException
-  | BadRequestException
-  | LimitExceededException
-  | MailFromDomainNotVerifiedException
-  | MessageRejected
-  | NotFoundException
-  | SendingPausedException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendEmailError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEmailRequest,
@@ -8348,6 +8534,12 @@ export const sendEmail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Add one or more tags (keys and values) to a specified resource. A
  * *tag* is a label that you optionally define and associate with a
@@ -8363,11 +8555,7 @@ export const sendEmail: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8379,6 +8567,11 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TestRenderEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a preview of the MIME content of an email when provided with a template and a
  * set of replacement data.
@@ -8388,27 +8581,26 @@ export const tagResource: API.OperationMethod<
 export const testRenderEmailTemplate: API.OperationMethod<
   TestRenderEmailTemplateRequest,
   TestRenderEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TestRenderEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestRenderEmailTemplateRequest,
   output: TestRenderEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8420,6 +8612,11 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateConfigurationSetEventDestinationError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update the configuration of an event destination for a configuration set.
  *
@@ -8431,16 +8628,19 @@ export const untagResource: API.OperationMethod<
 export const updateConfigurationSetEventDestination: API.OperationMethod<
   UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateConfigurationSetEventDestinationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetEventDestinationRequest,
   output: UpdateConfigurationSetEventDestinationResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type UpdateContactError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a contact's preferences for a list.
  *
@@ -8451,11 +8651,7 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
 export const updateContact: API.OperationMethod<
   UpdateContactRequest,
   UpdateContactResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactRequest,
@@ -8467,17 +8663,19 @@ export const updateContact: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateContactListError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates contact list metadata. This operation does a complete replacement.
  */
 export const updateContactList: API.OperationMethod<
   UpdateContactListRequest,
   UpdateContactListResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateContactListError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactListRequest,
@@ -8489,6 +8687,11 @@ export const updateContactList: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateCustomVerificationEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an existing custom verification email template.
  *
@@ -8501,16 +8704,18 @@ export const updateContactList: API.OperationMethod<
 export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   UpdateCustomVerificationEmailTemplateRequest,
   UpdateCustomVerificationEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateCustomVerificationEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomVerificationEmailTemplateRequest,
   output: UpdateCustomVerificationEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type UpdateEmailIdentityPolicyError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the specified sending authorization policy for the given identity (an email
  * address or a domain). This API returns successfully even if a policy with the specified
@@ -8529,16 +8734,18 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
 export const updateEmailIdentityPolicy: API.OperationMethod<
   UpdateEmailIdentityPolicyRequest,
   UpdateEmailIdentityPolicyResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateEmailIdentityPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEmailIdentityPolicyRequest,
   output: UpdateEmailIdentityPolicyResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type UpdateEmailTemplateError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an email template. Email templates enable you to send personalized email to
  * one or more destinations in a single API operation. For more information, see the Amazon SES Developer
@@ -8549,16 +8756,18 @@ export const updateEmailIdentityPolicy: API.OperationMethod<
 export const updateEmailTemplate: API.OperationMethod<
   UpdateEmailTemplateRequest,
   UpdateEmailTemplateResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateEmailTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEmailTemplateRequest,
   output: UpdateEmailTemplateResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type UpdateReputationEntityCustomerManagedStatusError =
+  | BadRequestException
+  | ConflictException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update the customer-managed sending status for a reputation entity. This allows
  * you to enable, disable, or reinstate sending for the entity.
@@ -8574,16 +8783,18 @@ export const updateEmailTemplate: API.OperationMethod<
 export const updateReputationEntityCustomerManagedStatus: API.OperationMethod<
   UpdateReputationEntityCustomerManagedStatusRequest,
   UpdateReputationEntityCustomerManagedStatusResponse,
-  | BadRequestException
-  | ConflictException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateReputationEntityCustomerManagedStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReputationEntityCustomerManagedStatusRequest,
   output: UpdateReputationEntityCustomerManagedStatusResponse,
   errors: [BadRequestException, ConflictException, TooManyRequestsException],
 }));
+export type UpdateReputationEntityPolicyError =
+  | BadRequestException
+  | ConflictException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update the reputation management policy for a reputation entity. The policy
  * determines how the entity responds to reputation findings, such as automatically
@@ -8595,10 +8806,7 @@ export const updateReputationEntityCustomerManagedStatus: API.OperationMethod<
 export const updateReputationEntityPolicy: API.OperationMethod<
   UpdateReputationEntityPolicyRequest,
   UpdateReputationEntityPolicyResponse,
-  | BadRequestException
-  | ConflictException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateReputationEntityPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReputationEntityPolicyRequest,

@@ -3863,17 +3863,19 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateDevicePoolError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Creates a device pool.
  */
 export const createDevicePool: API.OperationMethod<
   CreateDevicePoolRequest,
   CreateDevicePoolResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  CreateDevicePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDevicePoolRequest,
@@ -3885,6 +3887,12 @@ export const createDevicePool: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type CreateInstanceProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Creates a profile that can be applied to one or more private fleet device
  * instances.
@@ -3892,11 +3900,7 @@ export const createDevicePool: API.OperationMethod<
 export const createInstanceProfile: API.OperationMethod<
   CreateInstanceProfileRequest,
   CreateInstanceProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  CreateInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceProfileRequest,
@@ -3908,17 +3912,19 @@ export const createInstanceProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type CreateNetworkProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Creates a network profile.
  */
 export const createNetworkProfile: API.OperationMethod<
   CreateNetworkProfileRequest,
   CreateNetworkProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  CreateNetworkProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkProfileRequest,
@@ -3930,18 +3936,20 @@ export const createNetworkProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type CreateProjectError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | TagOperationException
+  | CommonErrors;
 /**
  * Creates a project.
  */
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | TagOperationException
-  | CommonErrors,
+  CreateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
@@ -3954,17 +3962,19 @@ export const createProject: API.OperationMethod<
     TagOperationException,
   ],
 }));
+export type CreateRemoteAccessSessionError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Specifies and starts a remote access session.
  */
 export const createRemoteAccessSession: API.OperationMethod<
   CreateRemoteAccessSessionRequest,
   CreateRemoteAccessSessionResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  CreateRemoteAccessSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRemoteAccessSessionRequest,
@@ -3976,6 +3986,11 @@ export const createRemoteAccessSession: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type CreateTestGridProjectError =
+  | ArgumentException
+  | InternalServiceException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a Selenium testing project. Projects are used to track TestGridSession
  * instances.
@@ -3983,16 +3998,18 @@ export const createRemoteAccessSession: API.OperationMethod<
 export const createTestGridProject: API.OperationMethod<
   CreateTestGridProjectRequest,
   CreateTestGridProjectResult,
-  | ArgumentException
-  | InternalServiceException
-  | LimitExceededException
-  | CommonErrors,
+  CreateTestGridProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTestGridProjectRequest,
   output: CreateTestGridProjectResult,
   errors: [ArgumentException, InternalServiceException, LimitExceededException],
 }));
+export type CreateTestGridUrlError =
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Creates a signed, short-term URL that can be passed to a Selenium `RemoteWebDriver`
  * constructor.
@@ -4000,27 +4017,26 @@ export const createTestGridProject: API.OperationMethod<
 export const createTestGridUrl: API.OperationMethod<
   CreateTestGridUrlRequest,
   CreateTestGridUrlResult,
-  | ArgumentException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  CreateTestGridUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTestGridUrlRequest,
   output: CreateTestGridUrlResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
 }));
+export type CreateUploadError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Uploads an app or test scripts.
  */
 export const createUpload: API.OperationMethod<
   CreateUploadRequest,
   CreateUploadResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  CreateUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUploadRequest,
@@ -4032,6 +4048,11 @@ export const createUpload: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type CreateVPCEConfigurationError =
+  | ArgumentException
+  | LimitExceededException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud
  * (VPC) endpoint.
@@ -4039,16 +4060,19 @@ export const createUpload: API.OperationMethod<
 export const createVPCEConfiguration: API.OperationMethod<
   CreateVPCEConfigurationRequest,
   CreateVPCEConfigurationResult,
-  | ArgumentException
-  | LimitExceededException
-  | ServiceAccountException
-  | CommonErrors,
+  CreateVPCEConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVPCEConfigurationRequest,
   output: CreateVPCEConfigurationResult,
   errors: [ArgumentException, LimitExceededException, ServiceAccountException],
 }));
+export type DeleteDevicePoolError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
  * owned by the system.
@@ -4056,11 +4080,7 @@ export const createVPCEConfiguration: API.OperationMethod<
 export const deleteDevicePool: API.OperationMethod<
   DeleteDevicePoolRequest,
   DeleteDevicePoolResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteDevicePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDevicePoolRequest,
@@ -4072,17 +4092,19 @@ export const deleteDevicePool: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteInstanceProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes a profile that can be applied to one or more private device instances.
  */
 export const deleteInstanceProfile: API.OperationMethod<
   DeleteInstanceProfileRequest,
   DeleteInstanceProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceProfileRequest,
@@ -4094,17 +4116,19 @@ export const deleteInstanceProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteNetworkProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes a network profile.
  */
 export const deleteNetworkProfile: API.OperationMethod<
   DeleteNetworkProfileRequest,
   DeleteNetworkProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteNetworkProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNetworkProfileRequest,
@@ -4116,6 +4140,12 @@ export const deleteNetworkProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteProjectError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session.
  *
@@ -4124,11 +4154,7 @@ export const deleteNetworkProfile: API.OperationMethod<
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
@@ -4140,6 +4166,12 @@ export const deleteProject: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteRemoteAccessSessionError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active.
  *
@@ -4148,11 +4180,7 @@ export const deleteProject: API.OperationMethod<
 export const deleteRemoteAccessSession: API.OperationMethod<
   DeleteRemoteAccessSessionRequest,
   DeleteRemoteAccessSessionResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteRemoteAccessSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRemoteAccessSessionRequest,
@@ -4164,6 +4192,12 @@ export const deleteRemoteAccessSession: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteRunError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes the run, given the run ARN. You cannot delete a run if it is still active.
  *
@@ -4172,11 +4206,7 @@ export const deleteRemoteAccessSession: API.OperationMethod<
 export const deleteRun: API.OperationMethod<
   DeleteRunRequest,
   DeleteRunResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRunRequest,
@@ -4188,6 +4218,12 @@ export const deleteRun: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteTestGridProjectError =
+  | ArgumentException
+  | CannotDeleteException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions.
  *
@@ -4196,11 +4232,7 @@ export const deleteRun: API.OperationMethod<
 export const deleteTestGridProject: API.OperationMethod<
   DeleteTestGridProjectRequest,
   DeleteTestGridProjectResult,
-  | ArgumentException
-  | CannotDeleteException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  DeleteTestGridProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTestGridProjectRequest,
@@ -4212,17 +4244,19 @@ export const deleteTestGridProject: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteUploadError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes an upload given the upload ARN.
  */
 export const deleteUpload: API.OperationMethod<
   DeleteUploadRequest,
   DeleteUploadResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUploadRequest,
@@ -4234,17 +4268,19 @@ export const deleteUpload: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type DeleteVPCEConfigurationError =
+  | ArgumentException
+  | InvalidOperationException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
 export const deleteVPCEConfiguration: API.OperationMethod<
   DeleteVPCEConfigurationRequest,
   DeleteVPCEConfigurationResult,
-  | ArgumentException
-  | InvalidOperationException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  DeleteVPCEConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVPCEConfigurationRequest,
@@ -4256,6 +4292,12 @@ export const deleteVPCEConfiguration: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetAccountSettingsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the
  * account.
@@ -4263,11 +4305,7 @@ export const deleteVPCEConfiguration: API.OperationMethod<
 export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsRequest,
   GetAccountSettingsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
@@ -4279,17 +4317,19 @@ export const getAccountSettings: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetDeviceError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a unique device type.
  */
 export const getDevice: API.OperationMethod<
   GetDeviceRequest,
   GetDeviceResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRequest,
@@ -4301,17 +4341,19 @@ export const getDevice: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetDeviceInstanceError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about a device instance that belongs to a private device fleet.
  */
 export const getDeviceInstance: API.OperationMethod<
   GetDeviceInstanceRequest,
   GetDeviceInstanceResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetDeviceInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceInstanceRequest,
@@ -4323,17 +4365,19 @@ export const getDeviceInstance: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetDevicePoolError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a device pool.
  */
 export const getDevicePool: API.OperationMethod<
   GetDevicePoolRequest,
   GetDevicePoolResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetDevicePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicePoolRequest,
@@ -4345,17 +4389,19 @@ export const getDevicePool: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetDevicePoolCompatibilityError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about compatibility with a device pool.
  */
 export const getDevicePoolCompatibility: API.OperationMethod<
   GetDevicePoolCompatibilityRequest,
   GetDevicePoolCompatibilityResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetDevicePoolCompatibilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicePoolCompatibilityRequest,
@@ -4367,17 +4413,19 @@ export const getDevicePoolCompatibility: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetInstanceProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about the specified instance profile.
  */
 export const getInstanceProfile: API.OperationMethod<
   GetInstanceProfileRequest,
   GetInstanceProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceProfileRequest,
@@ -4389,17 +4437,19 @@ export const getInstanceProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetJobError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a job.
  */
 export const getJob: API.OperationMethod<
   GetJobRequest,
   GetJobResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
@@ -4411,17 +4461,19 @@ export const getJob: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetNetworkProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about a network profile.
  */
 export const getNetworkProfile: API.OperationMethod<
   GetNetworkProfileRequest,
   GetNetworkProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetNetworkProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkProfileRequest,
@@ -4433,6 +4485,13 @@ export const getNetworkProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetOfferingStatusError =
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets the current status and future status of all offerings purchased by an AWS account. The response
  * indicates how many offerings are currently available and the offerings that will be available in the next
@@ -4442,36 +4501,21 @@ export const getNetworkProfile: API.OperationMethod<
 export const getOfferingStatus: API.OperationMethod<
   GetOfferingStatusRequest,
   GetOfferingStatusResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotEligibleException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetOfferingStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOfferingStatusRequest,
   ) => stream.Stream<
     GetOfferingStatusResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    GetOfferingStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOfferingStatusRequest,
   ) => stream.Stream<
     unknown,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    GetOfferingStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4486,17 +4530,19 @@ export const getOfferingStatus: API.OperationMethod<
   ],
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
 }));
+export type GetProjectError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a project.
  */
 export const getProject: API.OperationMethod<
   GetProjectRequest,
   GetProjectResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectRequest,
@@ -4508,17 +4554,19 @@ export const getProject: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetRemoteAccessSessionError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns a link to a currently running remote access session.
  */
 export const getRemoteAccessSession: API.OperationMethod<
   GetRemoteAccessSessionRequest,
   GetRemoteAccessSessionResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetRemoteAccessSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRemoteAccessSessionRequest,
@@ -4530,17 +4578,19 @@ export const getRemoteAccessSession: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetRunError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a run.
  */
 export const getRun: API.OperationMethod<
   GetRunRequest,
   GetRunResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRunRequest,
@@ -4552,17 +4602,19 @@ export const getRun: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetSuiteError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a suite.
  */
 export const getSuite: API.OperationMethod<
   GetSuiteRequest,
   GetSuiteResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetSuiteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteRequest,
@@ -4574,17 +4626,19 @@ export const getSuite: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetTestError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about a test.
  */
 export const getTest: API.OperationMethod<
   GetTestRequest,
   GetTestResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetTestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestRequest,
@@ -4596,22 +4650,29 @@ export const getTest: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetTestGridProjectError =
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a Selenium testing project.
  */
 export const getTestGridProject: API.OperationMethod<
   GetTestGridProjectRequest,
   GetTestGridProjectResult,
-  | ArgumentException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  GetTestGridProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestGridProjectRequest,
   output: GetTestGridProjectResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
 }));
+export type GetTestGridSessionError =
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * A session is an instance of a browser created through a `RemoteWebDriver` with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:
  *
@@ -4622,27 +4683,26 @@ export const getTestGridProject: API.OperationMethod<
 export const getTestGridSession: API.OperationMethod<
   GetTestGridSessionRequest,
   GetTestGridSessionResult,
-  | ArgumentException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  GetTestGridSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestGridSessionRequest,
   output: GetTestGridSessionResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
 }));
+export type GetUploadError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about an upload.
  */
 export const getUpload: API.OperationMethod<
   GetUploadRequest,
   GetUploadResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUploadRequest,
@@ -4654,6 +4714,11 @@ export const getUpload: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type GetVPCEConfigurationError =
+  | ArgumentException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about the configuration settings for your Amazon Virtual Private
  * Cloud (VPC) endpoint.
@@ -4661,16 +4726,19 @@ export const getUpload: API.OperationMethod<
 export const getVPCEConfiguration: API.OperationMethod<
   GetVPCEConfigurationRequest,
   GetVPCEConfigurationResult,
-  | ArgumentException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  GetVPCEConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVPCEConfigurationRequest,
   output: GetVPCEConfigurationResult,
   errors: [ArgumentException, NotFoundException, ServiceAccountException],
 }));
+export type InstallToRemoteAccessSessionError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Installs an application to the device in a remote access session. For Android
  * applications, the file must be in .apk format. For iOS applications, the file must be in
@@ -4679,11 +4747,7 @@ export const getVPCEConfiguration: API.OperationMethod<
 export const installToRemoteAccessSession: API.OperationMethod<
   InstallToRemoteAccessSessionRequest,
   InstallToRemoteAccessSessionResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  InstallToRemoteAccessSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InstallToRemoteAccessSessionRequest,
@@ -4695,39 +4759,33 @@ export const installToRemoteAccessSession: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ListArtifactsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about artifacts.
  */
 export const listArtifacts: API.OperationMethod<
   ListArtifactsRequest,
   ListArtifactsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListArtifactsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListArtifactsRequest,
   ) => stream.Stream<
     ListArtifactsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListArtifactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListArtifactsRequest,
   ) => stream.Stream<
     Artifact,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListArtifactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4745,6 +4803,12 @@ export const listArtifacts: API.OperationMethod<
     items: "artifacts",
   } as const,
 }));
+export type ListDeviceInstancesError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about the private device instances associated with one or more AWS
  * accounts.
@@ -4752,11 +4816,7 @@ export const listArtifacts: API.OperationMethod<
 export const listDeviceInstances: API.OperationMethod<
   ListDeviceInstancesRequest,
   ListDeviceInstancesResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListDeviceInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeviceInstancesRequest,
@@ -4768,39 +4828,33 @@ export const listDeviceInstances: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ListDevicePoolsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about device pools.
  */
 export const listDevicePools: API.OperationMethod<
   ListDevicePoolsRequest,
   ListDevicePoolsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListDevicePoolsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicePoolsRequest,
   ) => stream.Stream<
     ListDevicePoolsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListDevicePoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicePoolsRequest,
   ) => stream.Stream<
     DevicePool,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListDevicePoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4818,39 +4872,33 @@ export const listDevicePools: API.OperationMethod<
     items: "devicePools",
   } as const,
 }));
+export type ListDevicesError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about unique device types.
  */
 export const listDevices: API.OperationMethod<
   ListDevicesRequest,
   ListDevicesResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicesRequest,
   ) => stream.Stream<
     ListDevicesResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicesRequest,
   ) => stream.Stream<
     Device,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4868,17 +4916,19 @@ export const listDevices: API.OperationMethod<
     items: "devices",
   } as const,
 }));
+export type ListInstanceProfilesError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about all the instance profiles in an AWS account.
  */
 export const listInstanceProfiles: API.OperationMethod<
   ListInstanceProfilesRequest,
   ListInstanceProfilesResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListInstanceProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInstanceProfilesRequest,
@@ -4890,39 +4940,33 @@ export const listInstanceProfiles: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ListJobsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about jobs for a given test run.
  */
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     Job,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4940,17 +4984,19 @@ export const listJobs: API.OperationMethod<
     items: "jobs",
   } as const,
 }));
+export type ListNetworkProfilesError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns the list of available network profiles.
  */
 export const listNetworkProfiles: API.OperationMethod<
   ListNetworkProfilesRequest,
   ListNetworkProfilesResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListNetworkProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListNetworkProfilesRequest,
@@ -4962,6 +5008,13 @@ export const listNetworkProfiles: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ListOfferingPromotionsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns a list of offering promotions. Each offering promotion record contains the ID and description
  * of the promotion. The API returns a `NotEligible` error if the caller is not permitted to invoke
@@ -4970,12 +5023,7 @@ export const listNetworkProfiles: API.OperationMethod<
 export const listOfferingPromotions: API.OperationMethod<
   ListOfferingPromotionsRequest,
   ListOfferingPromotionsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotEligibleException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListOfferingPromotionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOfferingPromotionsRequest,
@@ -4988,6 +5036,13 @@ export const listOfferingPromotions: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ListOfferingsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns a list of products or offerings that the user can manage through the API. Each offering record
  * indicates the recurring price per unit and the frequency for that offering. The API returns a
@@ -4997,36 +5052,21 @@ export const listOfferingPromotions: API.OperationMethod<
 export const listOfferings: API.OperationMethod<
   ListOfferingsRequest,
   ListOfferingsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotEligibleException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListOfferingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
     ListOfferingsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
     Offering,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5045,6 +5085,13 @@ export const listOfferings: API.OperationMethod<
     items: "offerings",
   } as const,
 }));
+export type ListOfferingTransactionsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS
  * account. The list is paginated and ordered by a descending timestamp (most recent transactions are first).
@@ -5054,36 +5101,21 @@ export const listOfferings: API.OperationMethod<
 export const listOfferingTransactions: API.OperationMethod<
   ListOfferingTransactionsRequest,
   ListOfferingTransactionsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotEligibleException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListOfferingTransactionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOfferingTransactionsRequest,
   ) => stream.Stream<
     ListOfferingTransactionsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListOfferingTransactionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOfferingTransactionsRequest,
   ) => stream.Stream<
     OfferingTransaction,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListOfferingTransactionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5102,39 +5134,33 @@ export const listOfferingTransactions: API.OperationMethod<
     items: "offeringTransactions",
   } as const,
 }));
+export type ListProjectsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about projects.
  */
 export const listProjects: API.OperationMethod<
   ListProjectsRequest,
   ListProjectsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     ListProjectsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsRequest,
   ) => stream.Stream<
     Project,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5152,17 +5178,19 @@ export const listProjects: API.OperationMethod<
     items: "projects",
   } as const,
 }));
+export type ListRemoteAccessSessionsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns a list of all currently running remote access sessions.
  */
 export const listRemoteAccessSessions: API.OperationMethod<
   ListRemoteAccessSessionsRequest,
   ListRemoteAccessSessionsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListRemoteAccessSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRemoteAccessSessionsRequest,
@@ -5174,39 +5202,33 @@ export const listRemoteAccessSessions: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ListRunsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
 export const listRuns: API.OperationMethod<
   ListRunsRequest,
   ListRunsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRunsRequest,
   ) => stream.Stream<
     ListRunsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRunsRequest,
   ) => stream.Stream<
     Run,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5224,39 +5246,33 @@ export const listRuns: API.OperationMethod<
     items: "runs",
   } as const,
 }));
+export type ListSamplesError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about samples, given an AWS Device Farm job ARN.
  */
 export const listSamples: API.OperationMethod<
   ListSamplesRequest,
   ListSamplesResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListSamplesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSamplesRequest,
   ) => stream.Stream<
     ListSamplesResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListSamplesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSamplesRequest,
   ) => stream.Stream<
     Sample,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListSamplesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5274,39 +5290,33 @@ export const listSamples: API.OperationMethod<
     items: "samples",
   } as const,
 }));
+export type ListSuitesError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about test suites for a given job.
  */
 export const listSuites: API.OperationMethod<
   ListSuitesRequest,
   ListSuitesResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListSuitesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSuitesRequest,
   ) => stream.Stream<
     ListSuitesResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListSuitesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSuitesRequest,
   ) => stream.Stream<
     Suite,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListSuitesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5324,40 +5334,49 @@ export const listSuites: API.OperationMethod<
     items: "suites",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ArgumentException
+  | NotFoundException
+  | TagOperationException
+  | CommonErrors;
 /**
  * List the tags for an AWS Device Farm resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ArgumentException | NotFoundException | TagOperationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ArgumentException, NotFoundException, TagOperationException],
 }));
+export type ListTestGridProjectsError =
+  | ArgumentException
+  | InternalServiceException
+  | CommonErrors;
 /**
  * Gets a list of all Selenium testing projects in your account.
  */
 export const listTestGridProjects: API.OperationMethod<
   ListTestGridProjectsRequest,
   ListTestGridProjectsResult,
-  ArgumentException | InternalServiceException | CommonErrors,
+  ListTestGridProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestGridProjectsRequest,
   ) => stream.Stream<
     ListTestGridProjectsResult,
-    ArgumentException | InternalServiceException | CommonErrors,
+    ListTestGridProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestGridProjectsRequest,
   ) => stream.Stream<
     unknown,
-    ArgumentException | InternalServiceException | CommonErrors,
+    ListTestGridProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5370,36 +5389,32 @@ export const listTestGridProjects: API.OperationMethod<
     pageSize: "maxResult",
   } as const,
 }));
+export type ListTestGridSessionActionsError =
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns a list of the actions taken in a TestGridSession.
  */
 export const listTestGridSessionActions: API.OperationMethod<
   ListTestGridSessionActionsRequest,
   ListTestGridSessionActionsResult,
-  | ArgumentException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  ListTestGridSessionActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestGridSessionActionsRequest,
   ) => stream.Stream<
     ListTestGridSessionActionsResult,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
+    ListTestGridSessionActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestGridSessionActionsRequest,
   ) => stream.Stream<
     unknown,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
+    ListTestGridSessionActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5412,36 +5427,32 @@ export const listTestGridSessionActions: API.OperationMethod<
     pageSize: "maxResult",
   } as const,
 }));
+export type ListTestGridSessionArtifactsError =
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Retrieves a list of artifacts created during the session.
  */
 export const listTestGridSessionArtifacts: API.OperationMethod<
   ListTestGridSessionArtifactsRequest,
   ListTestGridSessionArtifactsResult,
-  | ArgumentException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  ListTestGridSessionArtifactsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestGridSessionArtifactsRequest,
   ) => stream.Stream<
     ListTestGridSessionArtifactsResult,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
+    ListTestGridSessionArtifactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestGridSessionArtifactsRequest,
   ) => stream.Stream<
     unknown,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
+    ListTestGridSessionArtifactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5454,36 +5465,32 @@ export const listTestGridSessionArtifacts: API.OperationMethod<
     pageSize: "maxResult",
   } as const,
 }));
+export type ListTestGridSessionsError =
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Retrieves a list of sessions for a TestGridProject.
  */
 export const listTestGridSessions: API.OperationMethod<
   ListTestGridSessionsRequest,
   ListTestGridSessionsResult,
-  | ArgumentException
-  | InternalServiceException
-  | NotFoundException
-  | CommonErrors,
+  ListTestGridSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestGridSessionsRequest,
   ) => stream.Stream<
     ListTestGridSessionsResult,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
+    ListTestGridSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestGridSessionsRequest,
   ) => stream.Stream<
     unknown,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
+    ListTestGridSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5496,39 +5503,33 @@ export const listTestGridSessions: API.OperationMethod<
     pageSize: "maxResult",
   } as const,
 }));
+export type ListTestsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about tests in a given test suite.
  */
 export const listTests: API.OperationMethod<
   ListTestsRequest,
   ListTestsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListTestsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestsRequest,
   ) => stream.Stream<
     ListTestsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListTestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestsRequest,
   ) => stream.Stream<
     Test,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListTestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5546,6 +5547,12 @@ export const listTests: API.OperationMethod<
     items: "tests",
   } as const,
 }));
+export type ListUniqueProblemsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about unique problems, such as exceptions or crashes.
  *
@@ -5557,33 +5564,21 @@ export const listTests: API.OperationMethod<
 export const listUniqueProblems: API.OperationMethod<
   ListUniqueProblemsRequest,
   ListUniqueProblemsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListUniqueProblemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUniqueProblemsRequest,
   ) => stream.Stream<
     ListUniqueProblemsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListUniqueProblemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUniqueProblemsRequest,
   ) => stream.Stream<
     unknown,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListUniqueProblemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5601,39 +5596,33 @@ export const listUniqueProblems: API.OperationMethod<
     items: "uniqueProblems",
   } as const,
 }));
+export type ListUploadsError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
 export const listUploads: API.OperationMethod<
   ListUploadsRequest,
   ListUploadsResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ListUploadsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUploadsRequest,
   ) => stream.Stream<
     ListUploadsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListUploadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUploadsRequest,
   ) => stream.Stream<
     Upload,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
+    ListUploadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5651,6 +5640,10 @@ export const listUploads: API.OperationMethod<
     items: "uploads",
   } as const,
 }));
+export type ListVPCEConfigurationsError =
+  | ArgumentException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
  * configurations in the AWS account.
@@ -5658,13 +5651,20 @@ export const listUploads: API.OperationMethod<
 export const listVPCEConfigurations: API.OperationMethod<
   ListVPCEConfigurationsRequest,
   ListVPCEConfigurationsResult,
-  ArgumentException | ServiceAccountException | CommonErrors,
+  ListVPCEConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVPCEConfigurationsRequest,
   output: ListVPCEConfigurationsResult,
   errors: [ArgumentException, ServiceAccountException],
 }));
+export type PurchaseOfferingError =
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased
  * quantity for an offering, unless the renewal was overridden. The API returns a `NotEligible`
@@ -5674,12 +5674,7 @@ export const listVPCEConfigurations: API.OperationMethod<
 export const purchaseOffering: API.OperationMethod<
   PurchaseOfferingRequest,
   PurchaseOfferingResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotEligibleException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  PurchaseOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseOfferingRequest,
@@ -5692,6 +5687,13 @@ export const purchaseOffering: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type RenewOfferingError =
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Explicitly sets the quantity of devices to renew for an offering, starting from the
  * `effectiveDate` of the next period. The API returns a `NotEligible` error if the
@@ -5700,12 +5702,7 @@ export const purchaseOffering: API.OperationMethod<
 export const renewOffering: API.OperationMethod<
   RenewOfferingRequest,
   RenewOfferingResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotEligibleException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  RenewOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenewOfferingRequest,
@@ -5718,18 +5715,20 @@ export const renewOffering: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type ScheduleRunError =
+  | ArgumentException
+  | IdempotencyException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Schedules a run.
  */
 export const scheduleRun: API.OperationMethod<
   ScheduleRunRequest,
   ScheduleRunResult,
-  | ArgumentException
-  | IdempotencyException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  ScheduleRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleRunRequest,
@@ -5742,6 +5741,12 @@ export const scheduleRun: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type StopJobError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device
  * where tests have not started. You are not billed for this device. On the device where tests have started,
@@ -5751,11 +5756,7 @@ export const scheduleRun: API.OperationMethod<
 export const stopJob: API.OperationMethod<
   StopJobRequest,
   StopJobResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  StopJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopJobRequest,
@@ -5767,17 +5768,19 @@ export const stopJob: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type StopRemoteAccessSessionError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Ends a specified remote access session.
  */
 export const stopRemoteAccessSession: API.OperationMethod<
   StopRemoteAccessSessionRequest,
   StopRemoteAccessSessionResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  StopRemoteAccessSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRemoteAccessSessionRequest,
@@ -5789,6 +5792,12 @@ export const stopRemoteAccessSession: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type StopRunError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices
  * where tests have not started. You are not billed for these devices. On devices where tests have started
@@ -5798,11 +5807,7 @@ export const stopRemoteAccessSession: API.OperationMethod<
 export const stopRun: API.OperationMethod<
   StopRunRequest,
   StopRunResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  StopRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRunRequest,
@@ -5814,6 +5819,13 @@ export const stopRun: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type TagResourceError =
+  | ArgumentException
+  | NotFoundException
+  | TagOperationException
+  | TagPolicyException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags
  * on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
@@ -5822,12 +5834,7 @@ export const stopRun: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ArgumentException
-  | NotFoundException
-  | TagOperationException
-  | TagPolicyException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5840,30 +5847,37 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | ArgumentException
+  | NotFoundException
+  | TagOperationException
+  | CommonErrors;
 /**
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ArgumentException | NotFoundException | TagOperationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ArgumentException, NotFoundException, TagOperationException],
 }));
+export type UpdateDeviceInstanceError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Updates information about a private device instance.
  */
 export const updateDeviceInstance: API.OperationMethod<
   UpdateDeviceInstanceRequest,
   UpdateDeviceInstanceResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateDeviceInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceInstanceRequest,
@@ -5875,6 +5889,12 @@ export const updateDeviceInstance: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type UpdateDevicePoolError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Modifies the name, description, and rules in a device pool given the attributes and
  * the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a
@@ -5883,11 +5903,7 @@ export const updateDeviceInstance: API.OperationMethod<
 export const updateDevicePool: API.OperationMethod<
   UpdateDevicePoolRequest,
   UpdateDevicePoolResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateDevicePoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDevicePoolRequest,
@@ -5899,17 +5915,19 @@ export const updateDevicePool: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type UpdateInstanceProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Updates information about an existing private device instance profile.
  */
 export const updateInstanceProfile: API.OperationMethod<
   UpdateInstanceProfileRequest,
   UpdateInstanceProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateInstanceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceProfileRequest,
@@ -5921,17 +5939,19 @@ export const updateInstanceProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type UpdateNetworkProfileError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Updates the network profile.
  */
 export const updateNetworkProfile: API.OperationMethod<
   UpdateNetworkProfileRequest,
   UpdateNetworkProfileResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateNetworkProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNetworkProfileRequest,
@@ -5943,6 +5963,12 @@ export const updateNetworkProfile: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type UpdateProjectError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Modifies the specified project name, given the project ARN and a new
  * name.
@@ -5950,11 +5976,7 @@ export const updateNetworkProfile: API.OperationMethod<
 export const updateProject: API.OperationMethod<
   UpdateProjectRequest,
   UpdateProjectResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectRequest,
@@ -5966,17 +5988,19 @@ export const updateProject: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type UpdateTestGridProjectError =
+  | ArgumentException
+  | InternalServiceException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Change details of a project.
  */
 export const updateTestGridProject: API.OperationMethod<
   UpdateTestGridProjectRequest,
   UpdateTestGridProjectResult,
-  | ArgumentException
-  | InternalServiceException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  UpdateTestGridProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTestGridProjectRequest,
@@ -5988,17 +6012,19 @@ export const updateTestGridProject: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateUploadError =
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Updates an uploaded test spec.
  */
 export const updateUpload: API.OperationMethod<
   UpdateUploadRequest,
   UpdateUploadResult,
-  | ArgumentException
-  | LimitExceededException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUploadRequest,
@@ -6010,17 +6036,19 @@ export const updateUpload: API.OperationMethod<
     ServiceAccountException,
   ],
 }));
+export type UpdateVPCEConfigurationError =
+  | ArgumentException
+  | InvalidOperationException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors;
 /**
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
 export const updateVPCEConfiguration: API.OperationMethod<
   UpdateVPCEConfigurationRequest,
   UpdateVPCEConfigurationResult,
-  | ArgumentException
-  | InvalidOperationException
-  | NotFoundException
-  | ServiceAccountException
-  | CommonErrors,
+  UpdateVPCEConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVPCEConfigurationRequest,

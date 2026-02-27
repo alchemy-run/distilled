@@ -853,18 +853,20 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DescribeAgreementError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
  */
 export const describeAgreement: API.OperationMethod<
   DescribeAgreementInput,
   DescribeAgreementOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAgreementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAgreementInput,
@@ -877,6 +879,13 @@ export const describeAgreement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAgreementTermsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Obtains details about the terms in an agreement that you participated in as proposer or acceptor.
  *
@@ -893,36 +902,21 @@ export const describeAgreement: API.OperationMethod<
 export const getAgreementTerms: API.OperationMethod<
   GetAgreementTermsInput,
   GetAgreementTermsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAgreementTermsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAgreementTermsInput,
   ) => stream.Stream<
     GetAgreementTermsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetAgreementTermsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAgreementTermsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetAgreementTermsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -941,6 +935,12 @@ export const getAgreementTerms: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchAgreementsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches across all agreements that a proposer has in AWS Marketplace. The search returns a list of agreements with basic agreement information.
  *
@@ -1023,33 +1023,21 @@ export const getAgreementTerms: API.OperationMethod<
 export const searchAgreements: API.OperationMethod<
   SearchAgreementsInput,
   SearchAgreementsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchAgreementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchAgreementsInput,
   ) => stream.Stream<
     SearchAgreementsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchAgreementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchAgreementsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchAgreementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

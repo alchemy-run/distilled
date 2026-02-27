@@ -947,17 +947,19 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateSavingsPlanError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Savings Plan.
  */
 export const createSavingsPlan: API.OperationMethod<
   CreateSavingsPlanRequest,
   CreateSavingsPlanResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateSavingsPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSavingsPlanRequest,
@@ -969,17 +971,19 @@ export const createSavingsPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteQueuedSavingsPlanError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the queued purchase for the specified Savings Plan.
  */
 export const deleteQueuedSavingsPlan: API.OperationMethod<
   DeleteQueuedSavingsPlanRequest,
   DeleteQueuedSavingsPlanResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  DeleteQueuedSavingsPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueuedSavingsPlanRequest,
@@ -991,16 +995,18 @@ export const deleteQueuedSavingsPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSavingsPlanRatesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the rates for a specific, existing Savings Plan.
  */
 export const describeSavingsPlanRates: API.OperationMethod<
   DescribeSavingsPlanRatesRequest,
   DescribeSavingsPlanRatesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeSavingsPlanRatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSavingsPlanRatesRequest,
@@ -1011,55 +1017,69 @@ export const describeSavingsPlanRates: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSavingsPlansError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified Savings Plans.
  */
 export const describeSavingsPlans: API.OperationMethod<
   DescribeSavingsPlansRequest,
   DescribeSavingsPlansResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeSavingsPlansError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSavingsPlansRequest,
   output: DescribeSavingsPlansResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type DescribeSavingsPlansOfferingRatesError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the offering rates for Savings Plans you might want to purchase.
  */
 export const describeSavingsPlansOfferingRates: API.OperationMethod<
   DescribeSavingsPlansOfferingRatesRequest,
   DescribeSavingsPlansOfferingRatesResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeSavingsPlansOfferingRatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSavingsPlansOfferingRatesRequest,
   output: DescribeSavingsPlansOfferingRatesResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type DescribeSavingsPlansOfferingsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the offerings for the specified Savings Plans.
  */
 export const describeSavingsPlansOfferings: API.OperationMethod<
   DescribeSavingsPlansOfferingsRequest,
   DescribeSavingsPlansOfferingsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeSavingsPlansOfferingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSavingsPlansOfferingsRequest,
   output: DescribeSavingsPlansOfferingsResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1070,17 +1090,19 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ReturnSavingsPlanError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the specified Savings Plan.
  */
 export const returnSavingsPlan: API.OperationMethod<
   ReturnSavingsPlanRequest,
   ReturnSavingsPlanResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ReturnSavingsPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReturnSavingsPlanRequest,
@@ -1092,17 +1114,19 @@ export const returnSavingsPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1114,16 +1138,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

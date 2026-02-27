@@ -3881,17 +3881,19 @@ export class GraphQLSchemaException extends S.TaggedErrorClass<GraphQLSchemaExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateApiError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Maps an endpoint to your custom domain.
  */
 export const associateApi: API.OperationMethod<
   AssociateApiRequest,
   AssociateApiResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  AssociateApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateApiRequest,
@@ -3903,6 +3905,14 @@ export const associateApi: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type AssociateMergedGraphqlApiError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an association between a Merged API and source API using the source API's
  * identifier.
@@ -3910,13 +3920,7 @@ export const associateApi: API.OperationMethod<
 export const associateMergedGraphqlApi: API.OperationMethod<
   AssociateMergedGraphqlApiRequest,
   AssociateMergedGraphqlApiResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  AssociateMergedGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMergedGraphqlApiRequest,
@@ -3930,6 +3934,14 @@ export const associateMergedGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type AssociateSourceGraphqlApiError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an association between a Merged API and source API using the Merged API's
  * identifier.
@@ -3937,13 +3949,7 @@ export const associateMergedGraphqlApi: API.OperationMethod<
 export const associateSourceGraphqlApi: API.OperationMethod<
   AssociateSourceGraphqlApiRequest,
   AssociateSourceGraphqlApiResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | LimitExceededException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  AssociateSourceGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSourceGraphqlApiRequest,
@@ -3957,6 +3963,13 @@ export const associateSourceGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateApiError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates an `Api` object. Use this operation to create an AppSync
  * API with your preferred configuration, such as an Event API that provides real-time message
@@ -3965,12 +3978,7 @@ export const associateSourceGraphqlApi: API.OperationMethod<
 export const createApi: API.OperationMethod<
   CreateApiRequest,
   CreateApiResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | ServiceQuotaExceededException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiRequest,
@@ -3983,18 +3991,20 @@ export const createApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateApiCacheError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a cache for the GraphQL API.
  */
 export const createApiCache: API.OperationMethod<
   CreateApiCacheRequest,
   CreateApiCacheResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateApiCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiCacheRequest,
@@ -4007,12 +4017,7 @@ export const createApiCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a unique key that you can distribute to clients who invoke your API.
- */
-export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
-  CreateApiKeyResponse,
+export type CreateApiKeyError =
   | ApiKeyLimitExceededException
   | ApiKeyValidityOutOfBoundsException
   | BadRequestException
@@ -4020,7 +4025,14 @@ export const createApiKey: API.OperationMethod<
   | LimitExceededException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a unique key that you can distribute to clients who invoke your API.
+ */
+export const createApiKey: API.OperationMethod<
+  CreateApiKeyRequest,
+  CreateApiKeyResponse,
+  CreateApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiKeyRequest,
@@ -4035,12 +4047,7 @@ export const createApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a `ChannelNamespace` for an `Api`.
- */
-export const createChannelNamespace: API.OperationMethod<
-  CreateChannelNamespaceRequest,
-  CreateChannelNamespaceResponse,
+export type CreateChannelNamespaceError =
   | BadRequestException
   | ConcurrentModificationException
   | ConflictException
@@ -4048,7 +4055,14 @@ export const createChannelNamespace: API.OperationMethod<
   | NotFoundException
   | ServiceQuotaExceededException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a `ChannelNamespace` for an `Api`.
+ */
+export const createChannelNamespace: API.OperationMethod<
+  CreateChannelNamespaceRequest,
+  CreateChannelNamespaceResponse,
+  CreateChannelNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelNamespaceRequest,
@@ -4063,18 +4077,20 @@ export const createChannelNamespace: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateDataSourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a `DataSource` object.
  */
 export const createDataSource: API.OperationMethod<
   CreateDataSourceRequest,
   CreateDataSourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceRequest,
@@ -4087,16 +4103,18 @@ export const createDataSource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateDomainNameError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | CommonErrors;
 /**
  * Creates a custom `DomainName` object.
  */
 export const createDomainName: API.OperationMethod<
   CreateDomainNameRequest,
   CreateDomainNameResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | CommonErrors,
+  CreateDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameRequest,
@@ -4107,6 +4125,13 @@ export const createDomainName: API.OperationMethod<
     InternalFailureException,
   ],
 }));
+export type CreateFunctionError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a `Function` object.
  *
@@ -4116,12 +4141,7 @@ export const createDomainName: API.OperationMethod<
 export const createFunction: API.OperationMethod<
   CreateFunctionRequest,
   CreateFunctionResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionRequest,
@@ -4134,19 +4154,21 @@ export const createFunction: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a `GraphqlApi` object.
- */
-export const createGraphqlApi: API.OperationMethod<
-  CreateGraphqlApiRequest,
-  CreateGraphqlApiResponse,
+export type CreateGraphqlApiError =
   | ApiLimitExceededException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | LimitExceededException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a `GraphqlApi` object.
+ */
+export const createGraphqlApi: API.OperationMethod<
+  CreateGraphqlApiRequest,
+  CreateGraphqlApiResponse,
+  CreateGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphqlApiRequest,
@@ -4160,6 +4182,13 @@ export const createGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateResolverError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a `Resolver` object.
  *
@@ -4169,12 +4198,7 @@ export const createGraphqlApi: API.OperationMethod<
 export const createResolver: API.OperationMethod<
   CreateResolverRequest,
   CreateResolverResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResolverRequest,
@@ -4187,18 +4211,20 @@ export const createResolver: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateTypeError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a `Type` object.
  */
 export const createType: API.OperationMethod<
   CreateTypeRequest,
   CreateTypeResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTypeRequest,
@@ -4211,19 +4237,21 @@ export const createType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes an `Api` object
- */
-export const deleteApi: API.OperationMethod<
-  DeleteApiRequest,
-  DeleteApiResponse,
+export type DeleteApiError =
   | AccessDeniedException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an `Api` object
+ */
+export const deleteApi: API.OperationMethod<
+  DeleteApiRequest,
+  DeleteApiResponse,
+  DeleteApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiRequest,
@@ -4237,18 +4265,20 @@ export const deleteApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteApiCacheError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an `ApiCache` object.
  */
 export const deleteApiCache: API.OperationMethod<
   DeleteApiCacheRequest,
   DeleteApiCacheResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteApiCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiCacheRequest,
@@ -4261,17 +4291,19 @@ export const deleteApiCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteApiKeyError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an API key.
  */
 export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyRequest,
   DeleteApiKeyResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiKeyRequest,
@@ -4283,19 +4315,21 @@ export const deleteApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes a `ChannelNamespace`.
- */
-export const deleteChannelNamespace: API.OperationMethod<
-  DeleteChannelNamespaceRequest,
-  DeleteChannelNamespaceResponse,
+export type DeleteChannelNamespaceError =
   | AccessDeniedException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a `ChannelNamespace`.
+ */
+export const deleteChannelNamespace: API.OperationMethod<
+  DeleteChannelNamespaceRequest,
+  DeleteChannelNamespaceResponse,
+  DeleteChannelNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelNamespaceRequest,
@@ -4309,18 +4343,20 @@ export const deleteChannelNamespace: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDataSourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a `DataSource` object.
  */
 export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceRequest,
   DeleteDataSourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
@@ -4333,18 +4369,20 @@ export const deleteDataSource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteDomainNameError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes a custom `DomainName` object.
  */
 export const deleteDomainName: API.OperationMethod<
   DeleteDomainNameRequest,
   DeleteDomainNameResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  DeleteDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameRequest,
@@ -4357,18 +4395,20 @@ export const deleteDomainName: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteFunctionError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a `Function`.
  */
 export const deleteFunction: API.OperationMethod<
   DeleteFunctionRequest,
   DeleteFunctionResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionRequest,
@@ -4381,19 +4421,21 @@ export const deleteFunction: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes a `GraphqlApi` object.
- */
-export const deleteGraphqlApi: API.OperationMethod<
-  DeleteGraphqlApiRequest,
-  DeleteGraphqlApiResponse,
+export type DeleteGraphqlApiError =
   | AccessDeniedException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a `GraphqlApi` object.
+ */
+export const deleteGraphqlApi: API.OperationMethod<
+  DeleteGraphqlApiRequest,
+  DeleteGraphqlApiResponse,
+  DeleteGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphqlApiRequest,
@@ -4407,18 +4449,20 @@ export const deleteGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteResolverError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a `Resolver` object.
  */
 export const deleteResolver: API.OperationMethod<
   DeleteResolverRequest,
   DeleteResolverResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResolverRequest,
@@ -4431,18 +4475,20 @@ export const deleteResolver: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DeleteTypeError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes a `Type` object.
  */
 export const deleteType: API.OperationMethod<
   DeleteTypeRequest,
   DeleteTypeResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DeleteTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTypeRequest,
@@ -4455,18 +4501,20 @@ export const deleteType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DisassociateApiError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes an `ApiAssociation` object from a custom domain.
  */
 export const disassociateApi: API.OperationMethod<
   DisassociateApiRequest,
   DisassociateApiResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  DisassociateApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateApiRequest,
@@ -4479,6 +4527,13 @@ export const disassociateApi: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DisassociateMergedGraphqlApiError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an association between a Merged API and source API using the source API's
  * identifier and the association ID.
@@ -4486,12 +4541,7 @@ export const disassociateApi: API.OperationMethod<
 export const disassociateMergedGraphqlApi: API.OperationMethod<
   DisassociateMergedGraphqlApiRequest,
   DisassociateMergedGraphqlApiResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DisassociateMergedGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMergedGraphqlApiRequest,
@@ -4504,6 +4554,13 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type DisassociateSourceGraphqlApiError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Deletes an association between a Merged API and source API using the Merged API's
  * identifier and the association ID.
@@ -4511,12 +4568,7 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
 export const disassociateSourceGraphqlApi: API.OperationMethod<
   DisassociateSourceGraphqlApiRequest,
   DisassociateSourceGraphqlApiResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  DisassociateSourceGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSourceGraphqlApiRequest,
@@ -4529,6 +4581,11 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type EvaluateCodeError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | CommonErrors;
 /**
  * Evaluates the given code and returns the response. The code definition requirements
  * depend on the specified runtime. For `APPSYNC_JS` runtimes, the code defines the
@@ -4540,10 +4597,7 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
 export const evaluateCode: API.OperationMethod<
   EvaluateCodeRequest,
   EvaluateCodeResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | CommonErrors,
+  EvaluateCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateCodeRequest,
@@ -4554,6 +4608,11 @@ export const evaluateCode: API.OperationMethod<
     InternalFailureException,
   ],
 }));
+export type EvaluateMappingTemplateError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | CommonErrors;
 /**
  * Evaluates a given template and returns the response. The mapping template can be a
  * request or response template.
@@ -4568,10 +4627,7 @@ export const evaluateCode: API.OperationMethod<
 export const evaluateMappingTemplate: API.OperationMethod<
   EvaluateMappingTemplateRequest,
   EvaluateMappingTemplateResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | CommonErrors,
+  EvaluateMappingTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateMappingTemplateRequest,
@@ -4582,18 +4638,20 @@ export const evaluateMappingTemplate: API.OperationMethod<
     InternalFailureException,
   ],
 }));
+export type FlushApiCacheError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Flushes an `ApiCache` object.
  */
 export const flushApiCache: API.OperationMethod<
   FlushApiCacheRequest,
   FlushApiCacheResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  FlushApiCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FlushApiCacheRequest,
@@ -4606,18 +4664,20 @@ export const flushApiCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetApiError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves an `Api` object.
  */
 export const getApi: API.OperationMethod<
   GetApiRequest,
   GetApiResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiRequest,
@@ -4630,17 +4690,19 @@ export const getApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetApiAssociationError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Retrieves an `ApiAssociation` object.
  */
 export const getApiAssociation: API.OperationMethod<
   GetApiAssociationRequest,
   GetApiAssociationResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  GetApiAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiAssociationRequest,
@@ -4652,18 +4714,20 @@ export const getApiAssociation: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetApiCacheError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves an `ApiCache` object.
  */
 export const getApiCache: API.OperationMethod<
   GetApiCacheRequest,
   GetApiCacheResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetApiCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiCacheRequest,
@@ -4676,18 +4740,20 @@ export const getApiCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetChannelNamespaceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves the channel namespace for a specified `Api`.
  */
 export const getChannelNamespace: API.OperationMethod<
   GetChannelNamespaceRequest,
   GetChannelNamespaceResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetChannelNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelNamespaceRequest,
@@ -4700,18 +4766,20 @@ export const getChannelNamespace: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDataSourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves a `DataSource` object.
  */
 export const getDataSource: API.OperationMethod<
   GetDataSourceRequest,
   GetDataSourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRequest,
@@ -4724,6 +4792,11 @@ export const getDataSource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDataSourceIntrospectionError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Retrieves the record of an existing introspection. If the retrieval is successful, the
  * result of the instrospection will also be returned. If the retrieval fails the operation,
@@ -4732,27 +4805,26 @@ export const getDataSource: API.OperationMethod<
 export const getDataSourceIntrospection: API.OperationMethod<
   GetDataSourceIntrospectionRequest,
   GetDataSourceIntrospectionResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  GetDataSourceIntrospectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceIntrospectionRequest,
   output: GetDataSourceIntrospectionResponse,
   errors: [BadRequestException, InternalFailureException, NotFoundException],
 }));
+export type GetDomainNameError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Retrieves a custom `DomainName` object.
  */
 export const getDomainName: API.OperationMethod<
   GetDomainNameRequest,
   GetDomainNameResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  GetDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameRequest,
@@ -4764,16 +4836,18 @@ export const getDomainName: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetFunctionError =
+  | ConcurrentModificationException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Get a `Function`.
  */
 export const getFunction: API.OperationMethod<
   GetFunctionRequest,
   GetFunctionResponse,
-  | ConcurrentModificationException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionRequest,
@@ -4784,18 +4858,20 @@ export const getFunction: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetGraphqlApiError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves a `GraphqlApi` object.
  */
 export const getGraphqlApi: API.OperationMethod<
   GetGraphqlApiRequest,
   GetGraphqlApiResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphqlApiRequest,
@@ -4808,6 +4884,13 @@ export const getGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetGraphqlApiEnvironmentVariablesError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves the list of environmental variable key-value pairs associated with an API by
  * its ID value.
@@ -4815,12 +4898,7 @@ export const getGraphqlApi: API.OperationMethod<
 export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
   GetGraphqlApiEnvironmentVariablesRequest,
   GetGraphqlApiEnvironmentVariablesResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetGraphqlApiEnvironmentVariablesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphqlApiEnvironmentVariablesRequest,
@@ -4833,17 +4911,19 @@ export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetIntrospectionSchemaError =
+  | GraphQLSchemaException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves the introspection schema for a GraphQL API.
  */
 export const getIntrospectionSchema: API.OperationMethod<
   GetIntrospectionSchemaRequest,
   GetIntrospectionSchemaResponse,
-  | GraphQLSchemaException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetIntrospectionSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntrospectionSchemaRequest,
@@ -4855,16 +4935,18 @@ export const getIntrospectionSchema: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetResolverError =
+  | ConcurrentModificationException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves a `Resolver` object.
  */
 export const getResolver: API.OperationMethod<
   GetResolverRequest,
   GetResolverResponse,
-  | ConcurrentModificationException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverRequest,
@@ -4875,17 +4957,19 @@ export const getResolver: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetSchemaCreationStatusError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves the current status of a schema creation operation.
  */
 export const getSchemaCreationStatus: API.OperationMethod<
   GetSchemaCreationStatusRequest,
   GetSchemaCreationStatusResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetSchemaCreationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaCreationStatusRequest,
@@ -4897,17 +4981,19 @@ export const getSchemaCreationStatus: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetSourceApiAssociationError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves a `SourceApiAssociation` object.
  */
 export const getSourceApiAssociation: API.OperationMethod<
   GetSourceApiAssociationRequest,
   GetSourceApiAssociationResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetSourceApiAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSourceApiAssociationRequest,
@@ -4919,18 +5005,20 @@ export const getSourceApiAssociation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetTypeError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Retrieves a `Type` object.
  */
 export const getType: API.OperationMethod<
   GetTypeRequest,
   GetTypeResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  GetTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTypeRequest,
@@ -4943,6 +5031,12 @@ export const getType: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListApiKeysError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the API keys for a given API.
  *
@@ -4954,33 +5048,21 @@ export const getType: API.OperationMethod<
 export const listApiKeys: API.OperationMethod<
   ListApiKeysRequest,
   ListApiKeysResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListApiKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApiKeysRequest,
   ) => stream.Stream<
     ListApiKeysResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListApiKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApiKeysRequest,
   ) => stream.Stream<
     ApiKey,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListApiKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4999,6 +5081,11 @@ export const listApiKeys: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListApisError =
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the APIs in your AppSync account.
  *
@@ -5008,30 +5095,21 @@ export const listApiKeys: API.OperationMethod<
 export const listApis: API.OperationMethod<
   ListApisRequest,
   ListApisResponse,
-  | BadRequestException
-  | InternalFailureException
-  | UnauthorizedException
-  | CommonErrors,
+  ListApisError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApisRequest,
   ) => stream.Stream<
     ListApisResponse,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
+    ListApisError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApisRequest,
   ) => stream.Stream<
     Api,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
+    ListApisError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5049,6 +5127,12 @@ export const listApis: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListChannelNamespacesError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the channel namespaces for a specified `Api`.
  *
@@ -5058,33 +5142,21 @@ export const listApis: API.OperationMethod<
 export const listChannelNamespaces: API.OperationMethod<
   ListChannelNamespacesRequest,
   ListChannelNamespacesResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListChannelNamespacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelNamespacesRequest,
   ) => stream.Stream<
     ListChannelNamespacesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListChannelNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelNamespacesRequest,
   ) => stream.Stream<
     ChannelNamespace,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListChannelNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5103,39 +5175,33 @@ export const listChannelNamespaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDataSourcesError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the data sources for a given API.
  */
 export const listDataSources: API.OperationMethod<
   ListDataSourcesRequest,
   ListDataSourcesResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListDataSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
     ListDataSourcesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListDataSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
     DataSource,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListDataSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5154,36 +5220,32 @@ export const listDataSources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDomainNamesError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | CommonErrors;
 /**
  * Lists multiple custom domain names.
  */
 export const listDomainNames: API.OperationMethod<
   ListDomainNamesRequest,
   ListDomainNamesResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalFailureException
-  | CommonErrors,
+  ListDomainNamesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainNamesRequest,
   ) => stream.Stream<
     ListDomainNamesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalFailureException
-    | CommonErrors,
+    ListDomainNamesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainNamesRequest,
   ) => stream.Stream<
     DomainNameConfig,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalFailureException
-    | CommonErrors,
+    ListDomainNamesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5201,39 +5263,33 @@ export const listDomainNames: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFunctionsError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List multiple functions.
  */
 export const listFunctions: API.OperationMethod<
   ListFunctionsRequest,
   ListFunctionsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListFunctionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFunctionsRequest,
   ) => stream.Stream<
     ListFunctionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListFunctionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFunctionsRequest,
   ) => stream.Stream<
     FunctionConfiguration,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListFunctionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5252,36 +5308,32 @@ export const listFunctions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListGraphqlApisError =
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists your GraphQL APIs.
  */
 export const listGraphqlApis: API.OperationMethod<
   ListGraphqlApisRequest,
   ListGraphqlApisResponse,
-  | BadRequestException
-  | InternalFailureException
-  | UnauthorizedException
-  | CommonErrors,
+  ListGraphqlApisError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGraphqlApisRequest,
   ) => stream.Stream<
     ListGraphqlApisResponse,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGraphqlApisError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGraphqlApisRequest,
   ) => stream.Stream<
     GraphqlApi,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
+    ListGraphqlApisError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5299,39 +5351,33 @@ export const listGraphqlApis: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResolversError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the resolvers for a given API and type.
  */
 export const listResolvers: API.OperationMethod<
   ListResolversRequest,
   ListResolversResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListResolversError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolversRequest,
   ) => stream.Stream<
     ListResolversResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListResolversError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolversRequest,
   ) => stream.Stream<
     Resolver,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListResolversError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5350,39 +5396,33 @@ export const listResolvers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResolversByFunctionError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List the resolvers that are associated with a specific function.
  */
 export const listResolversByFunction: API.OperationMethod<
   ListResolversByFunctionRequest,
   ListResolversByFunctionResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListResolversByFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolversByFunctionRequest,
   ) => stream.Stream<
     ListResolversByFunctionResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListResolversByFunctionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolversByFunctionRequest,
   ) => stream.Stream<
     Resolver,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListResolversByFunctionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5401,39 +5441,33 @@ export const listResolversByFunction: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSourceApiAssociationsError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the `SourceApiAssociationSummary` data.
  */
 export const listSourceApiAssociations: API.OperationMethod<
   ListSourceApiAssociationsRequest,
   ListSourceApiAssociationsResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListSourceApiAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceApiAssociationsRequest,
   ) => stream.Stream<
     ListSourceApiAssociationsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListSourceApiAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceApiAssociationsRequest,
   ) => stream.Stream<
     SourceApiAssociationSummary,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListSourceApiAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5452,19 +5486,21 @@ export const listSourceApiAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists the tags for a resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | AccessDeniedException
   | BadRequestException
   | InternalFailureException
   | LimitExceededException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags for a resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -5478,42 +5514,34 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListTypesError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the types for a given API.
  */
 export const listTypes: API.OperationMethod<
   ListTypesRequest,
   ListTypesResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTypesRequest,
   ) => stream.Stream<
     ListTypesResponse,
-    | BadRequestException
-    | ConcurrentModificationException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTypesRequest,
   ) => stream.Stream<
     Type,
-    | BadRequestException
-    | ConcurrentModificationException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5533,42 +5561,34 @@ export const listTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTypesByAssociationError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists `Type` objects by the source API association ID.
  */
 export const listTypesByAssociation: API.OperationMethod<
   ListTypesByAssociationRequest,
   ListTypesByAssociationResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTypesByAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTypesByAssociationRequest,
   ) => stream.Stream<
     ListTypesByAssociationResponse,
-    | BadRequestException
-    | ConcurrentModificationException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTypesByAssociationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTypesByAssociationRequest,
   ) => stream.Stream<
     Type,
-    | BadRequestException
-    | ConcurrentModificationException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
+    ListTypesByAssociationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5588,6 +5608,14 @@ export const listTypesByAssociation: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutGraphqlApiEnvironmentVariablesError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a list of environmental variables in an API by its ID value.
  *
@@ -5630,13 +5658,7 @@ export const listTypesByAssociation: API.OperationMethod<
 export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
   PutGraphqlApiEnvironmentVariablesRequest,
   PutGraphqlApiEnvironmentVariablesResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  PutGraphqlApiEnvironmentVariablesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGraphqlApiEnvironmentVariablesRequest,
@@ -5650,6 +5672,12 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type StartDataSourceIntrospectionError =
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a new introspection. Returns the `introspectionId` of the new
  * introspection after its creation.
@@ -5657,11 +5685,7 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
 export const startDataSourceIntrospection: API.OperationMethod<
   StartDataSourceIntrospectionRequest,
   StartDataSourceIntrospectionResponse,
-  | BadRequestException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  StartDataSourceIntrospectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDataSourceIntrospectionRequest,
@@ -5673,6 +5697,13 @@ export const startDataSourceIntrospection: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type StartSchemaCreationError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Adds a new schema to your GraphQL API.
  *
@@ -5682,12 +5713,7 @@ export const startDataSourceIntrospection: API.OperationMethod<
 export const startSchemaCreation: API.OperationMethod<
   StartSchemaCreationRequest,
   StartSchemaCreationResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  StartSchemaCreationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSchemaCreationRequest,
@@ -5700,6 +5726,13 @@ export const startSchemaCreation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type StartSchemaMergeError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Initiates a merge operation. Returns a status that shows the result of the merge
  * operation.
@@ -5707,12 +5740,7 @@ export const startSchemaCreation: API.OperationMethod<
 export const startSchemaMerge: API.OperationMethod<
   StartSchemaMergeRequest,
   StartSchemaMergeResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  StartSchemaMergeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSchemaMergeRequest,
@@ -5725,19 +5753,21 @@ export const startSchemaMerge: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Tags a resource with user-supplied tags.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | BadRequestException
   | InternalFailureException
   | LimitExceededException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tags a resource with user-supplied tags.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5751,19 +5781,21 @@ export const tagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Untags a resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | BadRequestException
   | InternalFailureException
   | LimitExceededException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Untags a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5777,19 +5809,21 @@ export const untagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates an `Api`.
- */
-export const updateApi: API.OperationMethod<
-  UpdateApiRequest,
-  UpdateApiResponse,
+export type UpdateApiError =
   | AccessDeniedException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an `Api`.
+ */
+export const updateApi: API.OperationMethod<
+  UpdateApiRequest,
+  UpdateApiResponse,
+  UpdateApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiRequest,
@@ -5803,18 +5837,20 @@ export const updateApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateApiCacheError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates the cache for the GraphQL API.
  */
 export const updateApiCache: API.OperationMethod<
   UpdateApiCacheRequest,
   UpdateApiCacheResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateApiCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiCacheRequest,
@@ -5827,19 +5863,21 @@ export const updateApiCache: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates an API key. You can update the key as long as it's not deleted.
- */
-export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
-  UpdateApiKeyResponse,
+export type UpdateApiKeyError =
   | ApiKeyValidityOutOfBoundsException
   | BadRequestException
   | InternalFailureException
   | LimitExceededException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an API key. You can update the key as long as it's not deleted.
+ */
+export const updateApiKey: API.OperationMethod<
+  UpdateApiKeyRequest,
+  UpdateApiKeyResponse,
+  UpdateApiKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiKeyRequest,
@@ -5853,19 +5891,21 @@ export const updateApiKey: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a `ChannelNamespace` associated with an `Api`.
- */
-export const updateChannelNamespace: API.OperationMethod<
-  UpdateChannelNamespaceRequest,
-  UpdateChannelNamespaceResponse,
+export type UpdateChannelNamespaceError =
   | AccessDeniedException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a `ChannelNamespace` associated with an `Api`.
+ */
+export const updateChannelNamespace: API.OperationMethod<
+  UpdateChannelNamespaceRequest,
+  UpdateChannelNamespaceResponse,
+  UpdateChannelNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelNamespaceRequest,
@@ -5879,18 +5919,20 @@ export const updateChannelNamespace: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateDataSourceError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a `DataSource` object.
  */
 export const updateDataSource: API.OperationMethod<
   UpdateDataSourceRequest,
   UpdateDataSourceResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
@@ -5903,18 +5945,20 @@ export const updateDataSource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateDomainNameError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Updates a custom `DomainName` object.
  */
 export const updateDomainName: API.OperationMethod<
   UpdateDomainNameRequest,
   UpdateDomainNameResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | CommonErrors,
+  UpdateDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
@@ -5927,18 +5971,20 @@ export const updateDomainName: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateFunctionError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a `Function` object.
  */
 export const updateFunction: API.OperationMethod<
   UpdateFunctionRequest,
   UpdateFunctionResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateFunctionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionRequest,
@@ -5951,19 +5997,21 @@ export const updateFunction: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a `GraphqlApi` object.
- */
-export const updateGraphqlApi: API.OperationMethod<
-  UpdateGraphqlApiRequest,
-  UpdateGraphqlApiResponse,
+export type UpdateGraphqlApiError =
   | AccessDeniedException
   | BadRequestException
   | ConcurrentModificationException
   | InternalFailureException
   | NotFoundException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a `GraphqlApi` object.
+ */
+export const updateGraphqlApi: API.OperationMethod<
+  UpdateGraphqlApiRequest,
+  UpdateGraphqlApiResponse,
+  UpdateGraphqlApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGraphqlApiRequest,
@@ -5977,18 +6025,20 @@ export const updateGraphqlApi: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateResolverError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a `Resolver` object.
  */
 export const updateResolver: API.OperationMethod<
   UpdateResolverRequest,
   UpdateResolverResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverRequest,
@@ -6001,18 +6051,20 @@ export const updateResolver: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateSourceApiAssociationError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates some of the configuration choices of a particular source API association.
  */
 export const updateSourceApiAssociation: API.OperationMethod<
   UpdateSourceApiAssociationRequest,
   UpdateSourceApiAssociationResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateSourceApiAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSourceApiAssociationRequest,
@@ -6025,18 +6077,20 @@ export const updateSourceApiAssociation: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateTypeError =
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Updates a `Type` object.
  */
 export const updateType: API.OperationMethod<
   UpdateTypeRequest,
   UpdateTypeResponse,
-  | BadRequestException
-  | ConcurrentModificationException
-  | InternalFailureException
-  | NotFoundException
-  | UnauthorizedException
-  | CommonErrors,
+  UpdateTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTypeRequest,

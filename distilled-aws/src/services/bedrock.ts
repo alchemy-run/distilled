@@ -4296,12 +4296,12 @@ export const BatchDeleteEvaluationJobRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchDeleteEvaluationJobRequest",
 }) as any as S.Schema<BatchDeleteEvaluationJobRequest>;
-export interface BatchDeleteEvaluationJobError {
+export interface BatchDeleteEvaluationJobError_ {
   jobIdentifier: string | redacted.Redacted<string>;
   code: string;
   message?: string;
 }
-export const BatchDeleteEvaluationJobError = S.suspend(() =>
+export const BatchDeleteEvaluationJobError_ = S.suspend(() =>
   S.Struct({
     jobIdentifier: SensitiveString,
     code: S.String,
@@ -4309,10 +4309,10 @@ export const BatchDeleteEvaluationJobError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteEvaluationJobError",
-}) as any as S.Schema<BatchDeleteEvaluationJobError>;
-export type BatchDeleteEvaluationJobErrors = BatchDeleteEvaluationJobError[];
+}) as any as S.Schema<BatchDeleteEvaluationJobError_>;
+export type BatchDeleteEvaluationJobErrors = BatchDeleteEvaluationJobError_[];
 export const BatchDeleteEvaluationJobErrors = S.Array(
-  BatchDeleteEvaluationJobError,
+  BatchDeleteEvaluationJobError_,
 );
 export type EvaluationJobStatus =
   | "InProgress"
@@ -4337,7 +4337,7 @@ export const BatchDeleteEvaluationJobItems = S.Array(
   BatchDeleteEvaluationJobItem,
 );
 export interface BatchDeleteEvaluationJobResponse {
-  errors: BatchDeleteEvaluationJobError[];
+  errors: BatchDeleteEvaluationJobError_[];
   evaluationJobs: BatchDeleteEvaluationJobItem[];
 }
 export const BatchDeleteEvaluationJobResponse = S.suspend(() =>
@@ -8870,17 +8870,19 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type GetUseCaseForModelAccessError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get usecase for model access.
  */
 export const getUseCaseForModelAccess: API.OperationMethod<
   GetUseCaseForModelAccessRequest,
   GetUseCaseForModelAccessResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetUseCaseForModelAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUseCaseForModelAccessRequest,
@@ -8892,17 +8894,19 @@ export const getUseCaseForModelAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutUseCaseForModelAccessError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Put usecase for model access.
  */
 export const putUseCaseForModelAccess: API.OperationMethod<
   PutUseCaseForModelAccessRequest,
   PutUseCaseForModelAccessResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutUseCaseForModelAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutUseCaseForModelAccessRequest,
@@ -8914,14 +8918,7 @@ export const putUseCaseForModelAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application.
- *
- * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
- */
-export const createAutomatedReasoningPolicy: API.OperationMethod<
-  CreateAutomatedReasoningPolicyRequest,
-  CreateAutomatedReasoningPolicyResponse,
+export type CreateAutomatedReasoningPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8930,7 +8927,16 @@ export const createAutomatedReasoningPolicy: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application.
+ *
+ * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
+ */
+export const createAutomatedReasoningPolicy: API.OperationMethod<
+  CreateAutomatedReasoningPolicyRequest,
+  CreateAutomatedReasoningPolicyResponse,
+  CreateAutomatedReasoningPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutomatedReasoningPolicyRequest,
@@ -8946,18 +8952,20 @@ export const createAutomatedReasoningPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
  */
 export const getAutomatedReasoningPolicy: API.OperationMethod<
   GetAutomatedReasoningPolicyRequest,
   GetAutomatedReasoningPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyRequest,
@@ -8970,12 +8978,7 @@ export const getAutomatedReasoningPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
- */
-export const updateAutomatedReasoningPolicy: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyRequest,
-  UpdateAutomatedReasoningPolicyResponse,
+export type UpdateAutomatedReasoningPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -8983,7 +8986,14 @@ export const updateAutomatedReasoningPolicy: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
+ */
+export const updateAutomatedReasoningPolicy: API.OperationMethod<
+  UpdateAutomatedReasoningPolicyRequest,
+  UpdateAutomatedReasoningPolicyResponse,
+  UpdateAutomatedReasoningPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutomatedReasoningPolicyRequest,
@@ -8998,12 +9008,7 @@ export const updateAutomatedReasoningPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
- */
-export const deleteAutomatedReasoningPolicy: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyRequest,
-  DeleteAutomatedReasoningPolicyResponse,
+export type DeleteAutomatedReasoningPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9011,7 +9016,14 @@ export const deleteAutomatedReasoningPolicy: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
+ */
+export const deleteAutomatedReasoningPolicy: API.OperationMethod<
+  DeleteAutomatedReasoningPolicyRequest,
+  DeleteAutomatedReasoningPolicyResponse,
+  DeleteAutomatedReasoningPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutomatedReasoningPolicyRequest,
@@ -9026,42 +9038,34 @@ export const deleteAutomatedReasoningPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAutomatedReasoningPoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
  */
 export const listAutomatedReasoningPolicies: API.OperationMethod<
   ListAutomatedReasoningPoliciesRequest,
   ListAutomatedReasoningPoliciesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAutomatedReasoningPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomatedReasoningPoliciesRequest,
   ) => stream.Stream<
     ListAutomatedReasoningPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomatedReasoningPoliciesRequest,
   ) => stream.Stream<
     AutomatedReasoningPolicySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9081,18 +9085,20 @@ export const listAutomatedReasoningPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CancelAutomatedReasoningPolicyBuildWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
  */
 export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   CancelAutomatedReasoningPolicyBuildWorkflowRequest,
   CancelAutomatedReasoningPolicyBuildWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAutomatedReasoningPolicyBuildWorkflowRequest,
@@ -9105,12 +9111,7 @@ export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
- */
-export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  CreateAutomatedReasoningPolicyTestCaseRequest,
-  CreateAutomatedReasoningPolicyTestCaseResponse,
+export type CreateAutomatedReasoningPolicyTestCaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9118,7 +9119,14 @@ export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
+ */
+export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  CreateAutomatedReasoningPolicyTestCaseRequest,
+  CreateAutomatedReasoningPolicyTestCaseResponse,
+  CreateAutomatedReasoningPolicyTestCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutomatedReasoningPolicyTestCaseRequest,
@@ -9133,12 +9141,7 @@ export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
- */
-export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
-  CreateAutomatedReasoningPolicyVersionRequest,
-  CreateAutomatedReasoningPolicyVersionResponse,
+export type CreateAutomatedReasoningPolicyVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9147,7 +9150,14 @@ export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
+ */
+export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
+  CreateAutomatedReasoningPolicyVersionRequest,
+  CreateAutomatedReasoningPolicyVersionResponse,
+  CreateAutomatedReasoningPolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutomatedReasoningPolicyVersionRequest,
@@ -9163,12 +9173,7 @@ export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
- */
-export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
-  DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
+export type DeleteAutomatedReasoningPolicyBuildWorkflowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9176,7 +9181,14 @@ export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
+ */
+export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
+  DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
+  DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
+  DeleteAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
@@ -9191,12 +9203,7 @@ export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
- */
-export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyTestCaseRequest,
-  DeleteAutomatedReasoningPolicyTestCaseResponse,
+export type DeleteAutomatedReasoningPolicyTestCaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9204,7 +9211,14 @@ export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
+ */
+export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  DeleteAutomatedReasoningPolicyTestCaseRequest,
+  DeleteAutomatedReasoningPolicyTestCaseResponse,
+  DeleteAutomatedReasoningPolicyTestCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutomatedReasoningPolicyTestCaseRequest,
@@ -9219,18 +9233,20 @@ export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExportAutomatedReasoningPolicyVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
  */
 export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
   ExportAutomatedReasoningPolicyVersionRequest,
   ExportAutomatedReasoningPolicyVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ExportAutomatedReasoningPolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAutomatedReasoningPolicyVersionRequest,
@@ -9243,18 +9259,20 @@ export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyAnnotationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
  */
 export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
   GetAutomatedReasoningPolicyAnnotationsRequest,
   GetAutomatedReasoningPolicyAnnotationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyAnnotationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyAnnotationsRequest,
@@ -9267,18 +9285,20 @@ export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyBuildWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
  */
 export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   GetAutomatedReasoningPolicyBuildWorkflowRequest,
   GetAutomatedReasoningPolicyBuildWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyBuildWorkflowRequest,
@@ -9291,18 +9311,20 @@ export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
  */
 export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.OperationMethod<
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
@@ -9315,18 +9337,20 @@ export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.Operation
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyNextScenarioError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
  */
 export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
   GetAutomatedReasoningPolicyNextScenarioRequest,
   GetAutomatedReasoningPolicyNextScenarioResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyNextScenarioError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyNextScenarioRequest,
@@ -9339,18 +9363,20 @@ export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyTestCaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific Automated Reasoning policy test.
  */
 export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
   GetAutomatedReasoningPolicyTestCaseRequest,
   GetAutomatedReasoningPolicyTestCaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyTestCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyTestCaseRequest,
@@ -9363,18 +9389,20 @@ export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomatedReasoningPolicyTestResultError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
  */
 export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
   GetAutomatedReasoningPolicyTestResultRequest,
   GetAutomatedReasoningPolicyTestResultResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAutomatedReasoningPolicyTestResultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyTestResultRequest,
@@ -9387,42 +9415,34 @@ export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAutomatedReasoningPolicyBuildWorkflowsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
  */
 export const listAutomatedReasoningPolicyBuildWorkflows: API.OperationMethod<
   ListAutomatedReasoningPolicyBuildWorkflowsRequest,
   ListAutomatedReasoningPolicyBuildWorkflowsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAutomatedReasoningPolicyBuildWorkflowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomatedReasoningPolicyBuildWorkflowsRequest,
   ) => stream.Stream<
     ListAutomatedReasoningPolicyBuildWorkflowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPolicyBuildWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomatedReasoningPolicyBuildWorkflowsRequest,
   ) => stream.Stream<
     AutomatedReasoningPolicyBuildWorkflowSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPolicyBuildWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9442,42 +9462,34 @@ export const listAutomatedReasoningPolicyBuildWorkflows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAutomatedReasoningPolicyTestCasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listAutomatedReasoningPolicyTestCases: API.OperationMethod<
   ListAutomatedReasoningPolicyTestCasesRequest,
   ListAutomatedReasoningPolicyTestCasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAutomatedReasoningPolicyTestCasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomatedReasoningPolicyTestCasesRequest,
   ) => stream.Stream<
     ListAutomatedReasoningPolicyTestCasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPolicyTestCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomatedReasoningPolicyTestCasesRequest,
   ) => stream.Stream<
     AutomatedReasoningPolicyTestCase,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPolicyTestCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9497,45 +9509,35 @@ export const listAutomatedReasoningPolicyTestCases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
- */
-export const listAutomatedReasoningPolicyTestResults: API.OperationMethod<
-  ListAutomatedReasoningPolicyTestResultsRequest,
-  ListAutomatedReasoningPolicyTestResultsResponse,
+export type ListAutomatedReasoningPolicyTestResultsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
+ */
+export const listAutomatedReasoningPolicyTestResults: API.OperationMethod<
+  ListAutomatedReasoningPolicyTestResultsRequest,
+  ListAutomatedReasoningPolicyTestResultsResponse,
+  ListAutomatedReasoningPolicyTestResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAutomatedReasoningPolicyTestResultsRequest,
   ) => stream.Stream<
     ListAutomatedReasoningPolicyTestResultsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPolicyTestResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutomatedReasoningPolicyTestResultsRequest,
   ) => stream.Stream<
     AutomatedReasoningPolicyTestResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAutomatedReasoningPolicyTestResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9556,12 +9558,7 @@ export const listAutomatedReasoningPolicyTestResults: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
- */
-export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  StartAutomatedReasoningPolicyBuildWorkflowRequest,
-  StartAutomatedReasoningPolicyBuildWorkflowResponse,
+export type StartAutomatedReasoningPolicyBuildWorkflowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9570,7 +9567,14 @@ export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
+ */
+export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
+  StartAutomatedReasoningPolicyBuildWorkflowRequest,
+  StartAutomatedReasoningPolicyBuildWorkflowResponse,
+  StartAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAutomatedReasoningPolicyBuildWorkflowRequest,
@@ -9586,19 +9590,21 @@ export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
- */
-export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
-  StartAutomatedReasoningPolicyTestWorkflowRequest,
-  StartAutomatedReasoningPolicyTestWorkflowResponse,
+export type StartAutomatedReasoningPolicyTestWorkflowError =
   | AccessDeniedException
   | InternalServerException
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
+ */
+export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
+  StartAutomatedReasoningPolicyTestWorkflowRequest,
+  StartAutomatedReasoningPolicyTestWorkflowResponse,
+  StartAutomatedReasoningPolicyTestWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAutomatedReasoningPolicyTestWorkflowRequest,
@@ -9612,19 +9618,21 @@ export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
- */
-export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyAnnotationsRequest,
-  UpdateAutomatedReasoningPolicyAnnotationsResponse,
+export type UpdateAutomatedReasoningPolicyAnnotationsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
+ */
+export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
+  UpdateAutomatedReasoningPolicyAnnotationsRequest,
+  UpdateAutomatedReasoningPolicyAnnotationsResponse,
+  UpdateAutomatedReasoningPolicyAnnotationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutomatedReasoningPolicyAnnotationsRequest,
@@ -9638,12 +9646,7 @@ export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
- */
-export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyTestCaseRequest,
-  UpdateAutomatedReasoningPolicyTestCaseResponse,
+export type UpdateAutomatedReasoningPolicyTestCaseError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9651,7 +9654,14 @@ export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
+ */
+export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  UpdateAutomatedReasoningPolicyTestCaseRequest,
+  UpdateAutomatedReasoningPolicyTestCaseResponse,
+  UpdateAutomatedReasoningPolicyTestCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAutomatedReasoningPolicyTestCaseRequest,
@@ -9666,12 +9676,7 @@ export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
- */
-export const createMarketplaceModelEndpoint: API.OperationMethod<
-  CreateMarketplaceModelEndpointRequest,
-  CreateMarketplaceModelEndpointResponse,
+export type CreateMarketplaceModelEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9679,7 +9684,14 @@ export const createMarketplaceModelEndpoint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
+ */
+export const createMarketplaceModelEndpoint: API.OperationMethod<
+  CreateMarketplaceModelEndpointRequest,
+  CreateMarketplaceModelEndpointResponse,
+  CreateMarketplaceModelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMarketplaceModelEndpointRequest,
@@ -9694,18 +9706,20 @@ export const createMarketplaceModelEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMarketplaceModelEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const deleteMarketplaceModelEndpoint: API.OperationMethod<
   DeleteMarketplaceModelEndpointRequest,
   DeleteMarketplaceModelEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMarketplaceModelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMarketplaceModelEndpointRequest,
@@ -9718,19 +9732,21 @@ export const deleteMarketplaceModelEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
- */
-export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
-  DeregisterMarketplaceModelEndpointRequest,
-  DeregisterMarketplaceModelEndpointResponse,
+export type DeregisterMarketplaceModelEndpointError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
+ */
+export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
+  DeregisterMarketplaceModelEndpointRequest,
+  DeregisterMarketplaceModelEndpointResponse,
+  DeregisterMarketplaceModelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterMarketplaceModelEndpointRequest,
@@ -9744,18 +9760,20 @@ export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMarketplaceModelEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const getMarketplaceModelEndpoint: API.OperationMethod<
   GetMarketplaceModelEndpointRequest,
   GetMarketplaceModelEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMarketplaceModelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMarketplaceModelEndpointRequest,
@@ -9768,42 +9786,34 @@ export const getMarketplaceModelEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMarketplaceModelEndpointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
  */
 export const listMarketplaceModelEndpoints: API.OperationMethod<
   ListMarketplaceModelEndpointsRequest,
   ListMarketplaceModelEndpointsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMarketplaceModelEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMarketplaceModelEndpointsRequest,
   ) => stream.Stream<
     ListMarketplaceModelEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMarketplaceModelEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMarketplaceModelEndpointsRequest,
   ) => stream.Stream<
     MarketplaceModelEndpointSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMarketplaceModelEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -9823,19 +9833,21 @@ export const listMarketplaceModelEndpoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
- */
-export const registerMarketplaceModelEndpoint: API.OperationMethod<
-  RegisterMarketplaceModelEndpointRequest,
-  RegisterMarketplaceModelEndpointResponse,
+export type RegisterMarketplaceModelEndpointError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
+ */
+export const registerMarketplaceModelEndpoint: API.OperationMethod<
+  RegisterMarketplaceModelEndpointRequest,
+  RegisterMarketplaceModelEndpointResponse,
+  RegisterMarketplaceModelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterMarketplaceModelEndpointRequest,
@@ -9849,12 +9861,7 @@ export const registerMarketplaceModelEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
- */
-export const updateMarketplaceModelEndpoint: API.OperationMethod<
-  UpdateMarketplaceModelEndpointRequest,
-  UpdateMarketplaceModelEndpointResponse,
+export type UpdateMarketplaceModelEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -9862,7 +9869,14 @@ export const updateMarketplaceModelEndpoint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
+ */
+export const updateMarketplaceModelEndpoint: API.OperationMethod<
+  UpdateMarketplaceModelEndpointRequest,
+  UpdateMarketplaceModelEndpointResponse,
+  UpdateMarketplaceModelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMarketplaceModelEndpointRequest,
@@ -9877,6 +9891,15 @@ export const updateMarketplaceModelEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCustomModelDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the `modelId` parameter when you submit prompts and generate responses with model inference.
  *
@@ -9893,14 +9916,7 @@ export const updateMarketplaceModelEndpoint: API.OperationMethod<
 export const createCustomModelDeployment: API.OperationMethod<
   CreateCustomModelDeploymentRequest,
   CreateCustomModelDeploymentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateCustomModelDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomModelDeploymentRequest,
@@ -9915,6 +9931,14 @@ export const createCustomModelDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCustomModelDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests.
  *
@@ -9929,13 +9953,7 @@ export const createCustomModelDeployment: API.OperationMethod<
 export const deleteCustomModelDeployment: API.OperationMethod<
   DeleteCustomModelDeploymentRequest,
   DeleteCustomModelDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCustomModelDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomModelDeploymentRequest,
@@ -9949,6 +9967,13 @@ export const deleteCustomModelDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCustomModelDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests.
  *
@@ -9963,12 +9988,7 @@ export const deleteCustomModelDeployment: API.OperationMethod<
 export const getCustomModelDeployment: API.OperationMethod<
   GetCustomModelDeploymentRequest,
   GetCustomModelDeploymentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCustomModelDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomModelDeploymentRequest,
@@ -9981,6 +10001,12 @@ export const getCustomModelDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCustomModelDeploymentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists custom model deployments in your account. You can filter the results by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments.
  *
@@ -9997,33 +10023,21 @@ export const getCustomModelDeployment: API.OperationMethod<
 export const listCustomModelDeployments: API.OperationMethod<
   ListCustomModelDeploymentsRequest,
   ListCustomModelDeploymentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCustomModelDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomModelDeploymentsRequest,
   ) => stream.Stream<
     ListCustomModelDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomModelDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomModelDeploymentsRequest,
   ) => stream.Stream<
     CustomModelDeploymentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomModelDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10042,18 +10056,20 @@ export const listCustomModelDeployments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateCustomModelDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
  */
 export const updateCustomModelDeployment: API.OperationMethod<
   UpdateCustomModelDeploymentRequest,
   UpdateCustomModelDeploymentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateCustomModelDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomModelDeploymentRequest,
@@ -10066,6 +10082,16 @@ export const updateCustomModelDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCustomModelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference.
  *
@@ -10090,15 +10116,7 @@ export const updateCustomModelDeployment: API.OperationMethod<
 export const createCustomModel: API.OperationMethod<
   CreateCustomModelRequest,
   CreateCustomModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateCustomModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomModelRequest,
@@ -10114,19 +10132,21 @@ export const createCustomModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
- */
-export const deleteCustomModel: API.OperationMethod<
-  DeleteCustomModelRequest,
-  DeleteCustomModelResponse,
+export type DeleteCustomModelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
+ */
+export const deleteCustomModel: API.OperationMethod<
+  DeleteCustomModelRequest,
+  DeleteCustomModelResponse,
+  DeleteCustomModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomModelRequest,
@@ -10140,18 +10160,20 @@ export const deleteCustomModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCustomModelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getCustomModel: API.OperationMethod<
   GetCustomModelRequest,
   GetCustomModelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCustomModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomModelRequest,
@@ -10164,6 +10186,12 @@ export const getCustomModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCustomModelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the custom models that you have created with the `CreateModelCustomizationJob` operation.
  *
@@ -10172,33 +10200,21 @@ export const getCustomModel: API.OperationMethod<
 export const listCustomModels: API.OperationMethod<
   ListCustomModelsRequest,
   ListCustomModelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCustomModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomModelsRequest,
   ) => stream.Stream<
     ListCustomModelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomModelsRequest,
   ) => stream.Stream<
     CustomModelSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10217,18 +10233,20 @@ export const listCustomModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteEnforcedGuardrailConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the account-level enforced guardrail configuration.
  */
 export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
   DeleteEnforcedGuardrailConfigurationRequest,
   DeleteEnforcedGuardrailConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnforcedGuardrailConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnforcedGuardrailConfigurationRequest,
@@ -10241,42 +10259,34 @@ export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnforcedGuardrailsConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the account-level enforced guardrail configurations.
  */
 export const listEnforcedGuardrailsConfiguration: API.OperationMethod<
   ListEnforcedGuardrailsConfigurationRequest,
   ListEnforcedGuardrailsConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnforcedGuardrailsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnforcedGuardrailsConfigurationRequest,
   ) => stream.Stream<
     ListEnforcedGuardrailsConfigurationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnforcedGuardrailsConfigurationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnforcedGuardrailsConfigurationRequest,
   ) => stream.Stream<
     AccountEnforcedGuardrailOutputConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnforcedGuardrailsConfigurationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10295,19 +10305,21 @@ export const listEnforcedGuardrailsConfiguration: API.OperationMethod<
     items: "guardrailsConfig",
   } as const,
 }));
-/**
- * Sets the account-level enforced guardrail configuration.
- */
-export const putEnforcedGuardrailConfiguration: API.OperationMethod<
-  PutEnforcedGuardrailConfigurationRequest,
-  PutEnforcedGuardrailConfigurationResponse,
+export type PutEnforcedGuardrailConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets the account-level enforced guardrail configuration.
+ */
+export const putEnforcedGuardrailConfiguration: API.OperationMethod<
+  PutEnforcedGuardrailConfigurationRequest,
+  PutEnforcedGuardrailConfigurationResponse,
+  PutEnforcedGuardrailConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEnforcedGuardrailConfigurationRequest,
@@ -10321,19 +10333,21 @@ export const putEnforcedGuardrailConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model evaluation jobs be deleted in a single request.
- */
-export const batchDeleteEvaluationJob: API.OperationMethod<
-  BatchDeleteEvaluationJobRequest,
-  BatchDeleteEvaluationJobResponse,
+export type BatchDeleteEvaluationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model evaluation jobs be deleted in a single request.
+ */
+export const batchDeleteEvaluationJob: API.OperationMethod<
+  BatchDeleteEvaluationJobRequest,
+  BatchDeleteEvaluationJobResponse,
+  BatchDeleteEvaluationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteEvaluationJobRequest,
@@ -10347,12 +10361,7 @@ export const batchDeleteEvaluationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an evaluation job.
- */
-export const createEvaluationJob: API.OperationMethod<
-  CreateEvaluationJobRequest,
-  CreateEvaluationJobResponse,
+export type CreateEvaluationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -10360,7 +10369,14 @@ export const createEvaluationJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an evaluation job.
+ */
+export const createEvaluationJob: API.OperationMethod<
+  CreateEvaluationJobRequest,
+  CreateEvaluationJobResponse,
+  CreateEvaluationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEvaluationJobRequest,
@@ -10375,18 +10391,20 @@ export const createEvaluationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEvaluationJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an evaluation job, such as the status of the job.
  */
 export const getEvaluationJob: API.OperationMethod<
   GetEvaluationJobRequest,
   GetEvaluationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEvaluationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvaluationJobRequest,
@@ -10399,39 +10417,33 @@ export const getEvaluationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEvaluationJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all existing evaluation jobs.
  */
 export const listEvaluationJobs: API.OperationMethod<
   ListEvaluationJobsRequest,
   ListEvaluationJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEvaluationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEvaluationJobsRequest,
   ) => stream.Stream<
     ListEvaluationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEvaluationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEvaluationJobsRequest,
   ) => stream.Stream<
     EvaluationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEvaluationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10450,19 +10462,21 @@ export const listEvaluationJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Stops an evaluation job that is current being created or running.
- */
-export const stopEvaluationJob: API.OperationMethod<
-  StopEvaluationJobRequest,
-  StopEvaluationJobResponse,
+export type StopEvaluationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops an evaluation job that is current being created or running.
+ */
+export const stopEvaluationJob: API.OperationMethod<
+  StopEvaluationJobRequest,
+  StopEvaluationJobResponse,
+  StopEvaluationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEvaluationJobRequest,
@@ -10476,6 +10490,16 @@ export const stopEvaluationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGuardrailError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a guardrail to block topics and to implement safeguards for your generative AI applications.
  *
@@ -10496,15 +10520,7 @@ export const stopEvaluationJob: API.OperationMethod<
 export const createGuardrail: API.OperationMethod<
   CreateGuardrailRequest,
   CreateGuardrailResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGuardrailRequest,
@@ -10520,18 +10536,20 @@ export const createGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGuardrailError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details about a guardrail. If you don't specify a version, the response returns details for the `DRAFT` version.
  */
 export const getGuardrail: API.OperationMethod<
   GetGuardrailRequest,
   GetGuardrailResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGuardrailRequest,
@@ -10544,6 +10562,15 @@ export const getGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGuardrailError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a guardrail with the values you specify.
  *
@@ -10570,14 +10597,7 @@ export const getGuardrail: API.OperationMethod<
 export const updateGuardrail: API.OperationMethod<
   UpdateGuardrailRequest,
   UpdateGuardrailResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGuardrailRequest,
@@ -10592,6 +10612,14 @@ export const updateGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGuardrailError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a guardrail.
  *
@@ -10602,13 +10630,7 @@ export const updateGuardrail: API.OperationMethod<
 export const deleteGuardrail: API.OperationMethod<
   DeleteGuardrailRequest,
   DeleteGuardrailResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteGuardrailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGuardrailRequest,
@@ -10622,6 +10644,13 @@ export const deleteGuardrail: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGuardrailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists details about all the guardrails in an account. To list the `DRAFT` version of all your guardrails, don't specify the `guardrailIdentifier` field. To list all versions of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field.
  *
@@ -10630,36 +10659,21 @@ export const deleteGuardrail: API.OperationMethod<
 export const listGuardrails: API.OperationMethod<
   ListGuardrailsRequest,
   ListGuardrailsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGuardrailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGuardrailsRequest,
   ) => stream.Stream<
     ListGuardrailsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGuardrailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGuardrailsRequest,
   ) => stream.Stream<
     GuardrailSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGuardrailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10679,12 +10693,7 @@ export const listGuardrails: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
- */
-export const createGuardrailVersion: API.OperationMethod<
-  CreateGuardrailVersionRequest,
-  CreateGuardrailVersionResponse,
+export type CreateGuardrailVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -10692,7 +10701,14 @@ export const createGuardrailVersion: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
+ */
+export const createGuardrailVersion: API.OperationMethod<
+  CreateGuardrailVersionRequest,
+  CreateGuardrailVersionResponse,
+  CreateGuardrailVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGuardrailVersionRequest,
@@ -10707,12 +10723,7 @@ export const createGuardrailVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
- */
-export const createInferenceProfile: API.OperationMethod<
-  CreateInferenceProfileRequest,
-  CreateInferenceProfileResponse,
+export type CreateInferenceProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -10721,7 +10732,14 @@ export const createInferenceProfile: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+ */
+export const createInferenceProfile: API.OperationMethod<
+  CreateInferenceProfileRequest,
+  CreateInferenceProfileResponse,
+  CreateInferenceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInferenceProfileRequest,
@@ -10737,18 +10755,20 @@ export const createInferenceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInferenceProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const getInferenceProfile: API.OperationMethod<
   GetInferenceProfileRequest,
   GetInferenceProfileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInferenceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInferenceProfileRequest,
@@ -10761,19 +10781,21 @@ export const getInferenceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
- */
-export const deleteInferenceProfile: API.OperationMethod<
-  DeleteInferenceProfileRequest,
-  DeleteInferenceProfileResponse,
+export type DeleteInferenceProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+ */
+export const deleteInferenceProfile: API.OperationMethod<
+  DeleteInferenceProfileRequest,
+  DeleteInferenceProfileResponse,
+  DeleteInferenceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInferenceProfileRequest,
@@ -10787,39 +10809,33 @@ export const deleteInferenceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListInferenceProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const listInferenceProfiles: API.OperationMethod<
   ListInferenceProfilesRequest,
   ListInferenceProfilesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInferenceProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInferenceProfilesRequest,
   ) => stream.Stream<
     ListInferenceProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInferenceProfilesRequest,
   ) => stream.Stream<
     InferenceProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInferenceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10838,49 +10854,55 @@ export const listInferenceProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteModelInvocationLoggingConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Delete the invocation logging.
  */
 export const deleteModelInvocationLoggingConfiguration: API.OperationMethod<
   DeleteModelInvocationLoggingConfigurationRequest,
   DeleteModelInvocationLoggingConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteModelInvocationLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelInvocationLoggingConfigurationRequest,
   output: DeleteModelInvocationLoggingConfigurationResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
 }));
+export type GetModelInvocationLoggingConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get the current configuration values for model invocation logging.
  */
 export const getModelInvocationLoggingConfiguration: API.OperationMethod<
   GetModelInvocationLoggingConfigurationRequest,
   GetModelInvocationLoggingConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  GetModelInvocationLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelInvocationLoggingConfigurationRequest,
   output: GetModelInvocationLoggingConfigurationResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
 }));
+export type PutModelInvocationLoggingConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set the configuration values for model invocation logging.
  */
 export const putModelInvocationLoggingConfiguration: API.OperationMethod<
   PutModelInvocationLoggingConfigurationRequest,
   PutModelInvocationLoggingConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutModelInvocationLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutModelInvocationLoggingConfigurationRequest,
@@ -10892,17 +10914,19 @@ export const putModelInvocationLoggingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateModelCopyJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const createModelCopyJob: API.OperationMethod<
   CreateModelCopyJobRequest,
   CreateModelCopyJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateModelCopyJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelCopyJobRequest,
@@ -10914,18 +10938,20 @@ export const createModelCopyJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type GetModelCopyJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const getModelCopyJob: API.OperationMethod<
   GetModelCopyJobRequest,
   GetModelCopyJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelCopyJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelCopyJobRequest,
@@ -10938,42 +10964,34 @@ export const getModelCopyJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListModelCopyJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const listModelCopyJobs: API.OperationMethod<
   ListModelCopyJobsRequest,
   ListModelCopyJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelCopyJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelCopyJobsRequest,
   ) => stream.Stream<
     ListModelCopyJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelCopyJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelCopyJobsRequest,
   ) => stream.Stream<
     ModelCopyJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelCopyJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10993,12 +11011,7 @@ export const listModelCopyJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
- */
-export const createModelImportJob: API.OperationMethod<
-  CreateModelImportJobRequest,
-  CreateModelImportJobResponse,
+export type CreateModelImportJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -11007,7 +11020,14 @@ export const createModelImportJob: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
+ */
+export const createModelImportJob: API.OperationMethod<
+  CreateModelImportJobRequest,
+  CreateModelImportJobResponse,
+  CreateModelImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelImportJobRequest,
@@ -11023,19 +11043,21 @@ export const createModelImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
- */
-export const deleteImportedModel: API.OperationMethod<
-  DeleteImportedModelRequest,
-  DeleteImportedModelResponse,
+export type DeleteImportedModelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
+ */
+export const deleteImportedModel: API.OperationMethod<
+  DeleteImportedModelRequest,
+  DeleteImportedModelResponse,
+  DeleteImportedModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImportedModelRequest,
@@ -11049,18 +11071,20 @@ export const deleteImportedModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetImportedModelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets properties associated with a customized model you imported.
  */
 export const getImportedModel: API.OperationMethod<
   GetImportedModelRequest,
   GetImportedModelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetImportedModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportedModelRequest,
@@ -11073,18 +11097,20 @@ export const getImportedModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetModelImportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const getModelImportJob: API.OperationMethod<
   GetModelImportJobRequest,
   GetModelImportJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelImportJobRequest,
@@ -11097,39 +11123,33 @@ export const getModelImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListImportedModelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const listImportedModels: API.OperationMethod<
   ListImportedModelsRequest,
   ListImportedModelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListImportedModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportedModelsRequest,
   ) => stream.Stream<
     ListImportedModelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportedModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportedModelsRequest,
   ) => stream.Stream<
     ImportedModelSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportedModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11148,39 +11168,33 @@ export const listImportedModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListModelImportJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const listModelImportJobs: API.OperationMethod<
   ListModelImportJobsRequest,
   ListModelImportJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelImportJobsRequest,
   ) => stream.Stream<
     ListModelImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelImportJobsRequest,
   ) => stream.Stream<
     ModelImportJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11199,6 +11213,15 @@ export const listModelImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateModelInvocationJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a batch inference job to invoke a model on multiple prompts. Format your data according to Format your inference data and upload it to an Amazon S3 bucket. For more information, see Process multiple prompts with batch inference.
  *
@@ -11207,14 +11230,7 @@ export const listModelImportJobs: API.OperationMethod<
 export const createModelInvocationJob: API.OperationMethod<
   CreateModelInvocationJobRequest,
   CreateModelInvocationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateModelInvocationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelInvocationJobRequest,
@@ -11229,18 +11245,20 @@ export const createModelInvocationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetModelInvocationJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details about a batch inference job. For more information, see Monitor batch inference jobs
  */
 export const getModelInvocationJob: API.OperationMethod<
   GetModelInvocationJobRequest,
   GetModelInvocationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelInvocationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelInvocationJobRequest,
@@ -11253,39 +11271,33 @@ export const getModelInvocationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListModelInvocationJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
  */
 export const listModelInvocationJobs: API.OperationMethod<
   ListModelInvocationJobsRequest,
   ListModelInvocationJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelInvocationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelInvocationJobsRequest,
   ) => stream.Stream<
     ListModelInvocationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelInvocationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelInvocationJobsRequest,
   ) => stream.Stream<
     ModelInvocationJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelInvocationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11304,19 +11316,21 @@ export const listModelInvocationJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
- */
-export const stopModelInvocationJob: API.OperationMethod<
-  StopModelInvocationJobRequest,
-  StopModelInvocationJobResponse,
+export type StopModelInvocationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
+ */
+export const stopModelInvocationJob: API.OperationMethod<
+  StopModelInvocationJobRequest,
+  StopModelInvocationJobResponse,
+  StopModelInvocationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopModelInvocationJobRequest,
@@ -11330,18 +11344,20 @@ export const stopModelInvocationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFoundationModelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get details about a Amazon Bedrock foundation model.
  */
 export const getFoundationModel: API.OperationMethod<
   GetFoundationModelRequest,
   GetFoundationModelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFoundationModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoundationModelRequest,
@@ -11354,17 +11370,19 @@ export const getFoundationModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFoundationModelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
  */
 export const listFoundationModels: API.OperationMethod<
   ListFoundationModelsRequest,
   ListFoundationModelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFoundationModelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFoundationModelsRequest,
@@ -11376,12 +11394,7 @@ export const listFoundationModels: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
- */
-export const createPromptRouter: API.OperationMethod<
-  CreatePromptRouterRequest,
-  CreatePromptRouterResponse,
+export type CreatePromptRouterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -11390,7 +11403,14 @@ export const createPromptRouter: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
+ */
+export const createPromptRouter: API.OperationMethod<
+  CreatePromptRouterRequest,
+  CreatePromptRouterResponse,
+  CreatePromptRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePromptRouterRequest,
@@ -11406,18 +11426,20 @@ export const createPromptRouter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPromptRouterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a prompt router.
  */
 export const getPromptRouter: API.OperationMethod<
   GetPromptRouterRequest,
   GetPromptRouterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPromptRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPromptRouterRequest,
@@ -11430,18 +11452,20 @@ export const getPromptRouter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePromptRouterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specified prompt router. This action cannot be undone.
  */
 export const deletePromptRouter: API.OperationMethod<
   DeletePromptRouterRequest,
   DeletePromptRouterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePromptRouterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePromptRouterRequest,
@@ -11454,39 +11478,33 @@ export const deletePromptRouter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPromptRoutersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of prompt routers.
  */
 export const listPromptRouters: API.OperationMethod<
   ListPromptRoutersRequest,
   ListPromptRoutersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPromptRoutersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPromptRoutersRequest,
   ) => stream.Stream<
     ListPromptRoutersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPromptRoutersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPromptRoutersRequest,
   ) => stream.Stream<
     PromptRouterSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPromptRoutersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11505,12 +11523,7 @@ export const listPromptRouters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
- */
-export const createProvisionedModelThroughput: API.OperationMethod<
-  CreateProvisionedModelThroughputRequest,
-  CreateProvisionedModelThroughputResponse,
+export type CreateProvisionedModelThroughputError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -11518,7 +11531,14 @@ export const createProvisionedModelThroughput: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
+ */
+export const createProvisionedModelThroughput: API.OperationMethod<
+  CreateProvisionedModelThroughputRequest,
+  CreateProvisionedModelThroughputResponse,
+  CreateProvisionedModelThroughputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisionedModelThroughputRequest,
@@ -11533,19 +11553,21 @@ export const createProvisionedModelThroughput: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
- */
-export const deleteProvisionedModelThroughput: API.OperationMethod<
-  DeleteProvisionedModelThroughputRequest,
-  DeleteProvisionedModelThroughputResponse,
+export type DeleteProvisionedModelThroughputError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
+ */
+export const deleteProvisionedModelThroughput: API.OperationMethod<
+  DeleteProvisionedModelThroughputRequest,
+  DeleteProvisionedModelThroughputResponse,
+  DeleteProvisionedModelThroughputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisionedModelThroughputRequest,
@@ -11559,18 +11581,20 @@ export const deleteProvisionedModelThroughput: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProvisionedModelThroughputError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const getProvisionedModelThroughput: API.OperationMethod<
   GetProvisionedModelThroughputRequest,
   GetProvisionedModelThroughputResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProvisionedModelThroughputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProvisionedModelThroughputRequest,
@@ -11583,39 +11607,33 @@ export const getProvisionedModelThroughput: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListProvisionedModelThroughputsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const listProvisionedModelThroughputs: API.OperationMethod<
   ListProvisionedModelThroughputsRequest,
   ListProvisionedModelThroughputsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProvisionedModelThroughputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProvisionedModelThroughputsRequest,
   ) => stream.Stream<
     ListProvisionedModelThroughputsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProvisionedModelThroughputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisionedModelThroughputsRequest,
   ) => stream.Stream<
     ProvisionedModelSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProvisionedModelThroughputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11634,18 +11652,20 @@ export const listProvisionedModelThroughputs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateProvisionedModelThroughputError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const updateProvisionedModelThroughput: API.OperationMethod<
   UpdateProvisionedModelThroughputRequest,
   UpdateProvisionedModelThroughputResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateProvisionedModelThroughputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProvisionedModelThroughputRequest,
@@ -11658,19 +11678,21 @@ export const updateProvisionedModelThroughput: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Request a model access agreement for the specified model.
- */
-export const createFoundationModelAgreement: API.OperationMethod<
-  CreateFoundationModelAgreementRequest,
-  CreateFoundationModelAgreementResponse,
+export type CreateFoundationModelAgreementError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Request a model access agreement for the specified model.
+ */
+export const createFoundationModelAgreement: API.OperationMethod<
+  CreateFoundationModelAgreementRequest,
+  CreateFoundationModelAgreementResponse,
+  CreateFoundationModelAgreementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFoundationModelAgreementRequest,
@@ -11684,19 +11706,21 @@ export const createFoundationModelAgreement: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete the model access agreement for the specified model.
- */
-export const deleteFoundationModelAgreement: API.OperationMethod<
-  DeleteFoundationModelAgreementRequest,
-  DeleteFoundationModelAgreementResponse,
+export type DeleteFoundationModelAgreementError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the model access agreement for the specified model.
+ */
+export const deleteFoundationModelAgreement: API.OperationMethod<
+  DeleteFoundationModelAgreementRequest,
+  DeleteFoundationModelAgreementResponse,
+  DeleteFoundationModelAgreementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFoundationModelAgreementRequest,
@@ -11710,18 +11734,20 @@ export const deleteFoundationModelAgreement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFoundationModelAvailabilityError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get information about the Foundation model availability.
  */
 export const getFoundationModelAvailability: API.OperationMethod<
   GetFoundationModelAvailabilityRequest,
   GetFoundationModelAvailabilityResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFoundationModelAvailabilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoundationModelAvailabilityRequest,
@@ -11734,18 +11760,20 @@ export const getFoundationModelAvailability: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFoundationModelAgreementOffersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the offers associated with the specified model.
  */
 export const listFoundationModelAgreementOffers: API.OperationMethod<
   ListFoundationModelAgreementOffersRequest,
   ListFoundationModelAgreementOffersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFoundationModelAgreementOffersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFoundationModelAgreementOffersRequest,
@@ -11758,6 +11786,13 @@ export const listFoundationModelAgreementOffers: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the tags associated with the specified resource.
  *
@@ -11766,12 +11801,7 @@ export const listFoundationModelAgreementOffers: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -11784,19 +11814,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -11810,18 +11842,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -11834,6 +11868,16 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateModelCustomizationJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a fine-tuning job to customize a base model.
  *
@@ -11848,15 +11892,7 @@ export const untagResource: API.OperationMethod<
 export const createModelCustomizationJob: API.OperationMethod<
   CreateModelCustomizationJobRequest,
   CreateModelCustomizationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateModelCustomizationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelCustomizationJobRequest,
@@ -11872,18 +11908,20 @@ export const createModelCustomizationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetModelCustomizationJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getModelCustomizationJob: API.OperationMethod<
   GetModelCustomizationJobRequest,
   GetModelCustomizationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelCustomizationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelCustomizationJobRequest,
@@ -11896,6 +11934,12 @@ export const getModelCustomizationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListModelCustomizationJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria.
  *
@@ -11904,33 +11948,21 @@ export const getModelCustomizationJob: API.OperationMethod<
 export const listModelCustomizationJobs: API.OperationMethod<
   ListModelCustomizationJobsRequest,
   ListModelCustomizationJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListModelCustomizationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListModelCustomizationJobsRequest,
   ) => stream.Stream<
     ListModelCustomizationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelCustomizationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListModelCustomizationJobsRequest,
   ) => stream.Stream<
     ModelCustomizationJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListModelCustomizationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11949,19 +11981,21 @@ export const listModelCustomizationJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
- */
-export const stopModelCustomizationJob: API.OperationMethod<
-  StopModelCustomizationJobRequest,
-  StopModelCustomizationJobResponse,
+export type StopModelCustomizationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
+ */
+export const stopModelCustomizationJob: API.OperationMethod<
+  StopModelCustomizationJobRequest,
+  StopModelCustomizationJobResponse,
+  StopModelCustomizationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopModelCustomizationJobRequest,

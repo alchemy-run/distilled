@@ -1355,12 +1355,12 @@ export type BatchCreateBillScenarioCommitmentModificationErrorCode =
   | "INVALID_ACCOUNT"
   | (string & {});
 export const BatchCreateBillScenarioCommitmentModificationErrorCode = S.String;
-export interface BatchCreateBillScenarioCommitmentModificationError {
+export interface BatchCreateBillScenarioCommitmentModificationError_ {
   key?: string;
   errorMessage?: string;
   errorCode?: BatchCreateBillScenarioCommitmentModificationErrorCode;
 }
-export const BatchCreateBillScenarioCommitmentModificationError = S.suspend(
+export const BatchCreateBillScenarioCommitmentModificationError_ = S.suspend(
   () =>
     S.Struct({
       key: S.optional(S.String),
@@ -1371,15 +1371,15 @@ export const BatchCreateBillScenarioCommitmentModificationError = S.suspend(
     }),
 ).annotate({
   identifier: "BatchCreateBillScenarioCommitmentModificationError",
-}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationError>;
+}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationError_>;
 export type BatchCreateBillScenarioCommitmentModificationErrors =
-  BatchCreateBillScenarioCommitmentModificationError[];
+  BatchCreateBillScenarioCommitmentModificationError_[];
 export const BatchCreateBillScenarioCommitmentModificationErrors = S.Array(
-  BatchCreateBillScenarioCommitmentModificationError,
+  BatchCreateBillScenarioCommitmentModificationError_,
 );
 export interface BatchCreateBillScenarioCommitmentModificationResponse {
   items?: BatchCreateBillScenarioCommitmentModificationItem[];
-  errors?: BatchCreateBillScenarioCommitmentModificationError[];
+  errors?: BatchCreateBillScenarioCommitmentModificationError_[];
 }
 export const BatchCreateBillScenarioCommitmentModificationResponse = S.suspend(
   () =>
@@ -1415,12 +1415,12 @@ export type BatchDeleteBillScenarioCommitmentModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const BatchDeleteBillScenarioCommitmentModificationErrorCode = S.String;
-export interface BatchDeleteBillScenarioCommitmentModificationError {
+export interface BatchDeleteBillScenarioCommitmentModificationError_ {
   id?: string;
   errorCode?: BatchDeleteBillScenarioCommitmentModificationErrorCode;
   errorMessage?: string;
 }
-export const BatchDeleteBillScenarioCommitmentModificationError = S.suspend(
+export const BatchDeleteBillScenarioCommitmentModificationError_ = S.suspend(
   () =>
     S.Struct({
       id: S.optional(S.String),
@@ -1431,14 +1431,14 @@ export const BatchDeleteBillScenarioCommitmentModificationError = S.suspend(
     }),
 ).annotate({
   identifier: "BatchDeleteBillScenarioCommitmentModificationError",
-}) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationError>;
+}) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationError_>;
 export type BatchDeleteBillScenarioCommitmentModificationErrors =
-  BatchDeleteBillScenarioCommitmentModificationError[];
+  BatchDeleteBillScenarioCommitmentModificationError_[];
 export const BatchDeleteBillScenarioCommitmentModificationErrors = S.Array(
-  BatchDeleteBillScenarioCommitmentModificationError,
+  BatchDeleteBillScenarioCommitmentModificationError_,
 );
 export interface BatchDeleteBillScenarioCommitmentModificationResponse {
-  errors?: BatchDeleteBillScenarioCommitmentModificationError[];
+  errors?: BatchDeleteBillScenarioCommitmentModificationError_[];
 }
 export const BatchDeleteBillScenarioCommitmentModificationResponse = S.suspend(
   () =>
@@ -1485,12 +1485,12 @@ export type BatchUpdateBillScenarioCommitmentModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const BatchUpdateBillScenarioCommitmentModificationErrorCode = S.String;
-export interface BatchUpdateBillScenarioCommitmentModificationError {
+export interface BatchUpdateBillScenarioCommitmentModificationError_ {
   id?: string;
   errorCode?: BatchUpdateBillScenarioCommitmentModificationErrorCode;
   errorMessage?: string;
 }
-export const BatchUpdateBillScenarioCommitmentModificationError = S.suspend(
+export const BatchUpdateBillScenarioCommitmentModificationError_ = S.suspend(
   () =>
     S.Struct({
       id: S.optional(S.String),
@@ -1501,15 +1501,15 @@ export const BatchUpdateBillScenarioCommitmentModificationError = S.suspend(
     }),
 ).annotate({
   identifier: "BatchUpdateBillScenarioCommitmentModificationError",
-}) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationError>;
+}) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationError_>;
 export type BatchUpdateBillScenarioCommitmentModificationErrors =
-  BatchUpdateBillScenarioCommitmentModificationError[];
+  BatchUpdateBillScenarioCommitmentModificationError_[];
 export const BatchUpdateBillScenarioCommitmentModificationErrors = S.Array(
-  BatchUpdateBillScenarioCommitmentModificationError,
+  BatchUpdateBillScenarioCommitmentModificationError_,
 );
 export interface BatchUpdateBillScenarioCommitmentModificationResponse {
   items?: BillScenarioCommitmentModificationItem[];
-  errors?: BatchUpdateBillScenarioCommitmentModificationError[];
+  errors?: BatchUpdateBillScenarioCommitmentModificationError_[];
 }
 export const BatchUpdateBillScenarioCommitmentModificationResponse = S.suspend(
   () =>
@@ -1687,12 +1687,12 @@ export type BatchCreateBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const BatchCreateBillScenarioUsageModificationErrorCode = S.String;
-export interface BatchCreateBillScenarioUsageModificationError {
+export interface BatchCreateBillScenarioUsageModificationError_ {
   key?: string;
   errorMessage?: string;
   errorCode?: BatchCreateBillScenarioUsageModificationErrorCode;
 }
-export const BatchCreateBillScenarioUsageModificationError = S.suspend(() =>
+export const BatchCreateBillScenarioUsageModificationError_ = S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     errorMessage: S.optional(S.String),
@@ -1700,15 +1700,15 @@ export const BatchCreateBillScenarioUsageModificationError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchCreateBillScenarioUsageModificationError",
-}) as any as S.Schema<BatchCreateBillScenarioUsageModificationError>;
+}) as any as S.Schema<BatchCreateBillScenarioUsageModificationError_>;
 export type BatchCreateBillScenarioUsageModificationErrors =
-  BatchCreateBillScenarioUsageModificationError[];
+  BatchCreateBillScenarioUsageModificationError_[];
 export const BatchCreateBillScenarioUsageModificationErrors = S.Array(
-  BatchCreateBillScenarioUsageModificationError,
+  BatchCreateBillScenarioUsageModificationError_,
 );
 export interface BatchCreateBillScenarioUsageModificationResponse {
   items?: BatchCreateBillScenarioUsageModificationItem[];
-  errors?: BatchCreateBillScenarioUsageModificationError[];
+  errors?: BatchCreateBillScenarioUsageModificationError_[];
 }
 export const BatchCreateBillScenarioUsageModificationResponse = S.suspend(() =>
   S.Struct({
@@ -1742,12 +1742,12 @@ export type BatchDeleteBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const BatchDeleteBillScenarioUsageModificationErrorCode = S.String;
-export interface BatchDeleteBillScenarioUsageModificationError {
+export interface BatchDeleteBillScenarioUsageModificationError_ {
   id?: string;
   errorMessage?: string;
   errorCode?: BatchDeleteBillScenarioUsageModificationErrorCode;
 }
-export const BatchDeleteBillScenarioUsageModificationError = S.suspend(() =>
+export const BatchDeleteBillScenarioUsageModificationError_ = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     errorMessage: S.optional(S.String),
@@ -1755,14 +1755,14 @@ export const BatchDeleteBillScenarioUsageModificationError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteBillScenarioUsageModificationError",
-}) as any as S.Schema<BatchDeleteBillScenarioUsageModificationError>;
+}) as any as S.Schema<BatchDeleteBillScenarioUsageModificationError_>;
 export type BatchDeleteBillScenarioUsageModificationErrors =
-  BatchDeleteBillScenarioUsageModificationError[];
+  BatchDeleteBillScenarioUsageModificationError_[];
 export const BatchDeleteBillScenarioUsageModificationErrors = S.Array(
-  BatchDeleteBillScenarioUsageModificationError,
+  BatchDeleteBillScenarioUsageModificationError_,
 );
 export interface BatchDeleteBillScenarioUsageModificationResponse {
-  errors?: BatchDeleteBillScenarioUsageModificationError[];
+  errors?: BatchDeleteBillScenarioUsageModificationError_[];
 }
 export const BatchDeleteBillScenarioUsageModificationResponse = S.suspend(() =>
   S.Struct({
@@ -1811,12 +1811,12 @@ export type BatchUpdateBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const BatchUpdateBillScenarioUsageModificationErrorCode = S.String;
-export interface BatchUpdateBillScenarioUsageModificationError {
+export interface BatchUpdateBillScenarioUsageModificationError_ {
   id?: string;
   errorMessage?: string;
   errorCode?: BatchUpdateBillScenarioUsageModificationErrorCode;
 }
-export const BatchUpdateBillScenarioUsageModificationError = S.suspend(() =>
+export const BatchUpdateBillScenarioUsageModificationError_ = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     errorMessage: S.optional(S.String),
@@ -1824,15 +1824,15 @@ export const BatchUpdateBillScenarioUsageModificationError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchUpdateBillScenarioUsageModificationError",
-}) as any as S.Schema<BatchUpdateBillScenarioUsageModificationError>;
+}) as any as S.Schema<BatchUpdateBillScenarioUsageModificationError_>;
 export type BatchUpdateBillScenarioUsageModificationErrors =
-  BatchUpdateBillScenarioUsageModificationError[];
+  BatchUpdateBillScenarioUsageModificationError_[];
 export const BatchUpdateBillScenarioUsageModificationErrors = S.Array(
-  BatchUpdateBillScenarioUsageModificationError,
+  BatchUpdateBillScenarioUsageModificationError_,
 );
 export interface BatchUpdateBillScenarioUsageModificationResponse {
   items?: BillScenarioUsageModificationItem[];
-  errors?: BatchUpdateBillScenarioUsageModificationError[];
+  errors?: BatchUpdateBillScenarioUsageModificationError_[];
 }
 export const BatchUpdateBillScenarioUsageModificationResponse = S.suspend(() =>
   S.Struct({
@@ -2259,12 +2259,12 @@ export type BatchCreateWorkloadEstimateUsageCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const BatchCreateWorkloadEstimateUsageCode = S.String;
-export interface BatchCreateWorkloadEstimateUsageError {
+export interface BatchCreateWorkloadEstimateUsageError_ {
   key?: string;
   errorCode?: BatchCreateWorkloadEstimateUsageCode;
   errorMessage?: string;
 }
-export const BatchCreateWorkloadEstimateUsageError = S.suspend(() =>
+export const BatchCreateWorkloadEstimateUsageError_ = S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     errorCode: S.optional(BatchCreateWorkloadEstimateUsageCode),
@@ -2272,15 +2272,15 @@ export const BatchCreateWorkloadEstimateUsageError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchCreateWorkloadEstimateUsageError",
-}) as any as S.Schema<BatchCreateWorkloadEstimateUsageError>;
+}) as any as S.Schema<BatchCreateWorkloadEstimateUsageError_>;
 export type BatchCreateWorkloadEstimateUsageErrors =
-  BatchCreateWorkloadEstimateUsageError[];
+  BatchCreateWorkloadEstimateUsageError_[];
 export const BatchCreateWorkloadEstimateUsageErrors = S.Array(
-  BatchCreateWorkloadEstimateUsageError,
+  BatchCreateWorkloadEstimateUsageError_,
 );
 export interface BatchCreateWorkloadEstimateUsageResponse {
   items?: BatchCreateWorkloadEstimateUsageItem[];
-  errors?: BatchCreateWorkloadEstimateUsageError[];
+  errors?: BatchCreateWorkloadEstimateUsageError_[];
 }
 export const BatchCreateWorkloadEstimateUsageResponse = S.suspend(() =>
   S.Struct({
@@ -2313,12 +2313,12 @@ export type WorkloadEstimateUpdateUsageErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export const WorkloadEstimateUpdateUsageErrorCode = S.String;
-export interface BatchDeleteWorkloadEstimateUsageError {
+export interface BatchDeleteWorkloadEstimateUsageError_ {
   id?: string;
   errorMessage?: string;
   errorCode?: WorkloadEstimateUpdateUsageErrorCode;
 }
-export const BatchDeleteWorkloadEstimateUsageError = S.suspend(() =>
+export const BatchDeleteWorkloadEstimateUsageError_ = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     errorMessage: S.optional(S.String),
@@ -2326,14 +2326,14 @@ export const BatchDeleteWorkloadEstimateUsageError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteWorkloadEstimateUsageError",
-}) as any as S.Schema<BatchDeleteWorkloadEstimateUsageError>;
+}) as any as S.Schema<BatchDeleteWorkloadEstimateUsageError_>;
 export type BatchDeleteWorkloadEstimateUsageErrors =
-  BatchDeleteWorkloadEstimateUsageError[];
+  BatchDeleteWorkloadEstimateUsageError_[];
 export const BatchDeleteWorkloadEstimateUsageErrors = S.Array(
-  BatchDeleteWorkloadEstimateUsageError,
+  BatchDeleteWorkloadEstimateUsageError_,
 );
 export interface BatchDeleteWorkloadEstimateUsageResponse {
-  errors?: BatchDeleteWorkloadEstimateUsageError[];
+  errors?: BatchDeleteWorkloadEstimateUsageError_[];
 }
 export const BatchDeleteWorkloadEstimateUsageResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchDeleteWorkloadEstimateUsageErrors) }),
@@ -2373,12 +2373,12 @@ export const BatchUpdateWorkloadEstimateUsageRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchUpdateWorkloadEstimateUsageRequest",
 }) as any as S.Schema<BatchUpdateWorkloadEstimateUsageRequest>;
-export interface BatchUpdateWorkloadEstimateUsageError {
+export interface BatchUpdateWorkloadEstimateUsageError_ {
   id?: string;
   errorMessage?: string;
   errorCode?: WorkloadEstimateUpdateUsageErrorCode;
 }
-export const BatchUpdateWorkloadEstimateUsageError = S.suspend(() =>
+export const BatchUpdateWorkloadEstimateUsageError_ = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     errorMessage: S.optional(S.String),
@@ -2386,15 +2386,15 @@ export const BatchUpdateWorkloadEstimateUsageError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchUpdateWorkloadEstimateUsageError",
-}) as any as S.Schema<BatchUpdateWorkloadEstimateUsageError>;
+}) as any as S.Schema<BatchUpdateWorkloadEstimateUsageError_>;
 export type BatchUpdateWorkloadEstimateUsageErrors =
-  BatchUpdateWorkloadEstimateUsageError[];
+  BatchUpdateWorkloadEstimateUsageError_[];
 export const BatchUpdateWorkloadEstimateUsageErrors = S.Array(
-  BatchUpdateWorkloadEstimateUsageError,
+  BatchUpdateWorkloadEstimateUsageError_,
 );
 export interface BatchUpdateWorkloadEstimateUsageResponse {
   items?: WorkloadEstimateUsageItem[];
-  errors?: BatchUpdateWorkloadEstimateUsageError[];
+  errors?: BatchUpdateWorkloadEstimateUsageError_[];
 }
 export const BatchUpdateWorkloadEstimateUsageResponse = S.suspend(() =>
   S.Struct({
@@ -2433,81 +2433,94 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type GetPreferencesError = DataUnavailableException | CommonErrors;
 /**
  * Retrieves the current preferences for Pricing Calculator.
  */
 export const getPreferences: API.OperationMethod<
   GetPreferencesRequest,
   GetPreferencesResponse,
-  DataUnavailableException | CommonErrors,
+  GetPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPreferencesRequest,
   output: GetPreferencesResponse,
   errors: [DataUnavailableException],
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists all tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UpdatePreferencesError =
+  | DataUnavailableException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Updates the preferences for Pricing Calculator.
  */
 export const updatePreferences: API.OperationMethod<
   UpdatePreferencesRequest,
   UpdatePreferencesResponse,
-  DataUnavailableException | ServiceQuotaExceededException | CommonErrors,
+  UpdatePreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePreferencesRequest,
   output: UpdatePreferencesResponse,
   errors: [DataUnavailableException, ServiceQuotaExceededException],
 }));
+export type CreateBillEstimateError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
  */
 export const createBillEstimate: API.OperationMethod<
   CreateBillEstimateRequest,
   CreateBillEstimateResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateBillEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillEstimateRequest,
@@ -2518,29 +2531,35 @@ export const createBillEstimate: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetBillEstimateError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details of a specific bill estimate.
  */
 export const getBillEstimate: API.OperationMethod<
   GetBillEstimateRequest,
   GetBillEstimateResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  GetBillEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillEstimateRequest,
   output: GetBillEstimateResponse,
   errors: [DataUnavailableException, ResourceNotFoundException],
 }));
+export type UpdateBillEstimateError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing bill estimate.
  */
 export const updateBillEstimate: API.OperationMethod<
   UpdateBillEstimateRequest,
   UpdateBillEstimateResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateBillEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillEstimateRequest,
@@ -2551,40 +2570,45 @@ export const updateBillEstimate: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteBillEstimateError =
+  | ConflictException
+  | DataUnavailableException
+  | CommonErrors;
 /**
  * Deletes an existing bill estimate.
  */
 export const deleteBillEstimate: API.OperationMethod<
   DeleteBillEstimateRequest,
   DeleteBillEstimateResponse,
-  ConflictException | DataUnavailableException | CommonErrors,
+  DeleteBillEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillEstimateRequest,
   output: DeleteBillEstimateResponse,
   errors: [ConflictException, DataUnavailableException],
 }));
+export type ListBillEstimatesError = DataUnavailableException | CommonErrors;
 /**
  * Lists all bill estimates for the account.
  */
 export const listBillEstimates: API.OperationMethod<
   ListBillEstimatesRequest,
   ListBillEstimatesResponse,
-  DataUnavailableException | CommonErrors,
+  ListBillEstimatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillEstimatesRequest,
   ) => stream.Stream<
     ListBillEstimatesResponse,
-    DataUnavailableException | CommonErrors,
+    ListBillEstimatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillEstimatesRequest,
   ) => stream.Stream<
     BillEstimateSummary,
-    DataUnavailableException | CommonErrors,
+    ListBillEstimatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2598,27 +2622,31 @@ export const listBillEstimates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBillEstimateCommitmentsError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the commitments associated with a bill estimate.
  */
 export const listBillEstimateCommitments: API.OperationMethod<
   ListBillEstimateCommitmentsRequest,
   ListBillEstimateCommitmentsResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListBillEstimateCommitmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillEstimateCommitmentsRequest,
   ) => stream.Stream<
     ListBillEstimateCommitmentsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateCommitmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillEstimateCommitmentsRequest,
   ) => stream.Stream<
     BillEstimateCommitmentSummary,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateCommitmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2632,27 +2660,31 @@ export const listBillEstimateCommitments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBillEstimateInputCommitmentModificationsError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the input commitment modifications associated with a bill estimate.
  */
 export const listBillEstimateInputCommitmentModifications: API.OperationMethod<
   ListBillEstimateInputCommitmentModificationsRequest,
   ListBillEstimateInputCommitmentModificationsResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListBillEstimateInputCommitmentModificationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillEstimateInputCommitmentModificationsRequest,
   ) => stream.Stream<
     ListBillEstimateInputCommitmentModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateInputCommitmentModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillEstimateInputCommitmentModificationsRequest,
   ) => stream.Stream<
     BillEstimateInputCommitmentModificationSummary,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateInputCommitmentModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2666,27 +2698,31 @@ export const listBillEstimateInputCommitmentModifications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBillEstimateInputUsageModificationsError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the input usage modifications associated with a bill estimate.
  */
 export const listBillEstimateInputUsageModifications: API.OperationMethod<
   ListBillEstimateInputUsageModificationsRequest,
   ListBillEstimateInputUsageModificationsResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListBillEstimateInputUsageModificationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillEstimateInputUsageModificationsRequest,
   ) => stream.Stream<
     ListBillEstimateInputUsageModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateInputUsageModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillEstimateInputUsageModificationsRequest,
   ) => stream.Stream<
     BillEstimateInputUsageModificationSummary,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateInputUsageModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2700,27 +2736,31 @@ export const listBillEstimateInputUsageModifications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBillEstimateLineItemsError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the line items associated with a bill estimate.
  */
 export const listBillEstimateLineItems: API.OperationMethod<
   ListBillEstimateLineItemsRequest,
   ListBillEstimateLineItemsResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListBillEstimateLineItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillEstimateLineItemsRequest,
   ) => stream.Stream<
     ListBillEstimateLineItemsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateLineItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillEstimateLineItemsRequest,
   ) => stream.Stream<
     BillEstimateLineItemSummary,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillEstimateLineItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2734,16 +2774,18 @@ export const listBillEstimateLineItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateBillScenarioError =
+  | ConflictException
+  | DataUnavailableException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
  */
 export const createBillScenario: API.OperationMethod<
   CreateBillScenarioRequest,
   CreateBillScenarioResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateBillScenarioError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillScenarioRequest,
@@ -2754,29 +2796,35 @@ export const createBillScenario: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetBillScenarioError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details of a specific bill scenario.
  */
 export const getBillScenario: API.OperationMethod<
   GetBillScenarioRequest,
   GetBillScenarioResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  GetBillScenarioError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillScenarioRequest,
   output: GetBillScenarioResponse,
   errors: [DataUnavailableException, ResourceNotFoundException],
 }));
+export type UpdateBillScenarioError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing bill scenario.
  */
 export const updateBillScenario: API.OperationMethod<
   UpdateBillScenarioRequest,
   UpdateBillScenarioResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateBillScenarioError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillScenarioRequest,
@@ -2787,40 +2835,45 @@ export const updateBillScenario: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteBillScenarioError =
+  | ConflictException
+  | DataUnavailableException
+  | CommonErrors;
 /**
  * Deletes an existing bill scenario.
  */
 export const deleteBillScenario: API.OperationMethod<
   DeleteBillScenarioRequest,
   DeleteBillScenarioResponse,
-  ConflictException | DataUnavailableException | CommonErrors,
+  DeleteBillScenarioError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillScenarioRequest,
   output: DeleteBillScenarioResponse,
   errors: [ConflictException, DataUnavailableException],
 }));
+export type ListBillScenariosError = DataUnavailableException | CommonErrors;
 /**
  * Lists all bill scenarios for the account.
  */
 export const listBillScenarios: API.OperationMethod<
   ListBillScenariosRequest,
   ListBillScenariosResponse,
-  DataUnavailableException | CommonErrors,
+  ListBillScenariosError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillScenariosRequest,
   ) => stream.Stream<
     ListBillScenariosResponse,
-    DataUnavailableException | CommonErrors,
+    ListBillScenariosError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillScenariosRequest,
   ) => stream.Stream<
     BillScenarioSummary,
-    DataUnavailableException | CommonErrors,
+    ListBillScenariosError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2834,27 +2887,31 @@ export const listBillScenarios: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBillScenarioCommitmentModificationsError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the commitment modifications associated with a bill scenario.
  */
 export const listBillScenarioCommitmentModifications: API.OperationMethod<
   ListBillScenarioCommitmentModificationsRequest,
   ListBillScenarioCommitmentModificationsResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListBillScenarioCommitmentModificationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillScenarioCommitmentModificationsRequest,
   ) => stream.Stream<
     ListBillScenarioCommitmentModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillScenarioCommitmentModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillScenarioCommitmentModificationsRequest,
   ) => stream.Stream<
     BillScenarioCommitmentModificationItem,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillScenarioCommitmentModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2868,6 +2925,11 @@ export const listBillScenarioCommitmentModifications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchCreateBillScenarioCommitmentModificationError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.
  *
@@ -2876,10 +2938,7 @@ export const listBillScenarioCommitmentModifications: API.OperationMethod<
 export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
   BatchCreateBillScenarioCommitmentModificationRequest,
   BatchCreateBillScenarioCommitmentModificationResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  BatchCreateBillScenarioCommitmentModificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateBillScenarioCommitmentModificationRequest,
@@ -2890,6 +2949,11 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type BatchDeleteBillScenarioCommitmentModificationError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate BillScenarioCommitmentModificationAction of BatchCreateBillScenarioCommitmentModification operation.
  *
@@ -2898,10 +2962,7 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
 export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
   BatchDeleteBillScenarioCommitmentModificationRequest,
   BatchDeleteBillScenarioCommitmentModificationResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  BatchDeleteBillScenarioCommitmentModificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteBillScenarioCommitmentModificationRequest,
@@ -2912,6 +2973,11 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type BatchUpdateBillScenarioCommitmentModificationError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.
  *
@@ -2920,10 +2986,7 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
 export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
   BatchUpdateBillScenarioCommitmentModificationRequest,
   BatchUpdateBillScenarioCommitmentModificationResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  BatchUpdateBillScenarioCommitmentModificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateBillScenarioCommitmentModificationRequest,
@@ -2934,27 +2997,31 @@ export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListBillScenarioUsageModificationsError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the usage modifications associated with a bill scenario.
  */
 export const listBillScenarioUsageModifications: API.OperationMethod<
   ListBillScenarioUsageModificationsRequest,
   ListBillScenarioUsageModificationsResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListBillScenarioUsageModificationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBillScenarioUsageModificationsRequest,
   ) => stream.Stream<
     ListBillScenarioUsageModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillScenarioUsageModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBillScenarioUsageModificationsRequest,
   ) => stream.Stream<
     BillScenarioUsageModificationItem,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListBillScenarioUsageModificationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2968,6 +3035,12 @@ export const listBillScenarioUsageModifications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchCreateBillScenarioUsageModificationError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Create Amazon Web Services service usage that you want to model in a Bill Scenario.
  *
@@ -2976,11 +3049,7 @@ export const listBillScenarioUsageModifications: API.OperationMethod<
 export const batchCreateBillScenarioUsageModification: API.OperationMethod<
   BatchCreateBillScenarioUsageModificationRequest,
   BatchCreateBillScenarioUsageModificationResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  BatchCreateBillScenarioUsageModificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateBillScenarioUsageModificationRequest,
@@ -2992,6 +3061,12 @@ export const batchCreateBillScenarioUsageModification: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type BatchDeleteBillScenarioUsageModificationError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateBillScenarioUsageModification.
  *
@@ -3000,11 +3075,7 @@ export const batchCreateBillScenarioUsageModification: API.OperationMethod<
 export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
   BatchDeleteBillScenarioUsageModificationRequest,
   BatchDeleteBillScenarioUsageModificationResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  BatchDeleteBillScenarioUsageModificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteBillScenarioUsageModificationRequest,
@@ -3016,6 +3087,12 @@ export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type BatchUpdateBillScenarioUsageModificationError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.
  *
@@ -3024,11 +3101,7 @@ export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
 export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
   BatchUpdateBillScenarioUsageModificationRequest,
   BatchUpdateBillScenarioUsageModificationResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  BatchUpdateBillScenarioUsageModificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateBillScenarioUsageModificationRequest,
@@ -3040,16 +3113,18 @@ export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateWorkloadEstimateError =
+  | ConflictException
+  | DataUnavailableException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a new workload estimate to model costs for a specific workload.
  */
 export const createWorkloadEstimate: API.OperationMethod<
   CreateWorkloadEstimateRequest,
   CreateWorkloadEstimateResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateWorkloadEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkloadEstimateRequest,
@@ -3060,29 +3135,35 @@ export const createWorkloadEstimate: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetWorkloadEstimateError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details of a specific workload estimate.
  */
 export const getWorkloadEstimate: API.OperationMethod<
   GetWorkloadEstimateRequest,
   GetWorkloadEstimateResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  GetWorkloadEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadEstimateRequest,
   output: GetWorkloadEstimateResponse,
   errors: [DataUnavailableException, ResourceNotFoundException],
 }));
+export type UpdateWorkloadEstimateError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing workload estimate.
  */
 export const updateWorkloadEstimate: API.OperationMethod<
   UpdateWorkloadEstimateRequest,
   UpdateWorkloadEstimateResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateWorkloadEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadEstimateRequest,
@@ -3093,40 +3174,46 @@ export const updateWorkloadEstimate: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWorkloadEstimateError =
+  | DataUnavailableException
+  | CommonErrors;
 /**
  * Deletes an existing workload estimate.
  */
 export const deleteWorkloadEstimate: API.OperationMethod<
   DeleteWorkloadEstimateRequest,
   DeleteWorkloadEstimateResponse,
-  DataUnavailableException | CommonErrors,
+  DeleteWorkloadEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkloadEstimateRequest,
   output: DeleteWorkloadEstimateResponse,
   errors: [DataUnavailableException],
 }));
+export type ListWorkloadEstimatesError =
+  | DataUnavailableException
+  | CommonErrors;
 /**
  * Lists all workload estimates for the account.
  */
 export const listWorkloadEstimates: API.OperationMethod<
   ListWorkloadEstimatesRequest,
   ListWorkloadEstimatesResponse,
-  DataUnavailableException | CommonErrors,
+  ListWorkloadEstimatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadEstimatesRequest,
   ) => stream.Stream<
     ListWorkloadEstimatesResponse,
-    DataUnavailableException | CommonErrors,
+    ListWorkloadEstimatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadEstimatesRequest,
   ) => stream.Stream<
     WorkloadEstimateSummary,
-    DataUnavailableException | CommonErrors,
+    ListWorkloadEstimatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3140,27 +3227,31 @@ export const listWorkloadEstimates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListWorkloadEstimateUsageError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the usage associated with a workload estimate.
  */
 export const listWorkloadEstimateUsage: API.OperationMethod<
   ListWorkloadEstimateUsageRequest,
   ListWorkloadEstimateUsageResponse,
-  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  ListWorkloadEstimateUsageError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadEstimateUsageRequest,
   ) => stream.Stream<
     ListWorkloadEstimateUsageResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListWorkloadEstimateUsageError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadEstimateUsageRequest,
   ) => stream.Stream<
     WorkloadEstimateUsageItem,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
+    ListWorkloadEstimateUsageError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3174,6 +3265,12 @@ export const listWorkloadEstimateUsage: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchCreateWorkloadEstimateUsageError =
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Create Amazon Web Services service usage that you want to model in a Workload Estimate.
  *
@@ -3182,11 +3279,7 @@ export const listWorkloadEstimateUsage: API.OperationMethod<
 export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
   BatchCreateWorkloadEstimateUsageRequest,
   BatchCreateWorkloadEstimateUsageResponse,
-  | ConflictException
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  BatchCreateWorkloadEstimateUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateWorkloadEstimateUsageRequest,
@@ -3198,6 +3291,11 @@ export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type BatchDeleteWorkloadEstimateUsageError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage.
  *
@@ -3206,10 +3304,7 @@ export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
 export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
   BatchDeleteWorkloadEstimateUsageRequest,
   BatchDeleteWorkloadEstimateUsageResponse,
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  BatchDeleteWorkloadEstimateUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteWorkloadEstimateUsageRequest,
@@ -3220,6 +3315,11 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type BatchUpdateWorkloadEstimateUsageError =
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.
  *
@@ -3228,10 +3328,7 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
 export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
   BatchUpdateWorkloadEstimateUsageRequest,
   BatchUpdateWorkloadEstimateUsageResponse,
-  | DataUnavailableException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  BatchUpdateWorkloadEstimateUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateWorkloadEstimateUsageRequest,

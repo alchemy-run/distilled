@@ -716,19 +716,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Lists the tags assigned to this resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
-  ListTagsForResourceOutput,
+export type ListTagsForResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags assigned to this resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -742,19 +744,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds key-value pairs to a monitor or probe.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceInput,
-  TagResourceOutput,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds key-value pairs to a monitor or probe.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
+  TagResourceOutput,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -768,19 +772,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes a key-value pair from a monitor or probe.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceInput,
-  UntagResourceOutput,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a key-value pair from a monitor or probe.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
+  UntagResourceOutput,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -794,6 +800,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch.
  *
@@ -820,13 +834,7 @@ export const untagResource: API.OperationMethod<
 export const createMonitor: API.OperationMethod<
   CreateMonitorInput,
   CreateMonitorOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorInput,
@@ -840,6 +848,13 @@ export const createMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about a specific monitor.
  *
@@ -849,12 +864,7 @@ export const createMonitor: API.OperationMethod<
 export const getMonitor: API.OperationMethod<
   GetMonitorInput,
   GetMonitorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorInput,
@@ -867,6 +877,14 @@ export const getMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the `aggregationPeriod` for a monitor. Monitors support an
  * `aggregationPeriod` of either `30` or `60` seconds.
@@ -876,13 +894,7 @@ export const getMonitor: API.OperationMethod<
 export const updateMonitor: API.OperationMethod<
   UpdateMonitorInput,
   UpdateMonitorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorInput,
@@ -896,6 +908,13 @@ export const updateMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specified monitor.
  *
@@ -905,12 +924,7 @@ export const updateMonitor: API.OperationMethod<
 export const deleteMonitor: API.OperationMethod<
   DeleteMonitorInput,
   DeleteMonitorOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorInput,
@@ -923,39 +937,33 @@ export const deleteMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMonitorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all of your monitors.
  */
 export const listMonitors: API.OperationMethod<
   ListMonitorsInput,
   ListMonitorsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMonitorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMonitorsInput,
   ) => stream.Stream<
     ListMonitorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitorsInput,
   ) => stream.Stream<
     MonitorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -974,6 +982,14 @@ export const listMonitors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateProbeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a probe within a monitor. Once you create a probe, and it begins monitoring your
  * network traffic, you'll incur billing charges for that probe. This action requires the
@@ -984,13 +1000,7 @@ export const listMonitors: API.OperationMethod<
 export const createProbe: API.OperationMethod<
   CreateProbeInput,
   CreateProbeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateProbeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProbeInput,
@@ -1004,6 +1014,13 @@ export const createProbe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProbeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the details about a probe. This action requires both the
  * `monitorName` and `probeId` parameters. Run
@@ -1013,12 +1030,7 @@ export const createProbe: API.OperationMethod<
 export const getProbe: API.OperationMethod<
   GetProbeInput,
   GetProbeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProbeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProbeInput,
@@ -1031,6 +1043,14 @@ export const getProbe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProbeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a monitor probe. This action requires both the `monitorName` and `probeId` parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor` to get a list of probes and probe IDs.
  *
@@ -1057,13 +1077,7 @@ export const getProbe: API.OperationMethod<
 export const updateProbe: API.OperationMethod<
   UpdateProbeInput,
   UpdateProbeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateProbeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProbeInput,
@@ -1077,6 +1091,14 @@ export const updateProbe: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProbeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing
  * fees for that probe.
@@ -1089,13 +1111,7 @@ export const updateProbe: API.OperationMethod<
 export const deleteProbe: API.OperationMethod<
   DeleteProbeInput,
   DeleteProbeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteProbeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProbeInput,

@@ -1703,18 +1703,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags attached to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1727,18 +1729,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The resource you want to tag.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1751,18 +1755,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The resource you want to untag.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1775,12 +1781,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Use this operation to create an Earth observation job.
- */
-export const startEarthObservationJob: API.OperationMethod<
-  StartEarthObservationJobInput,
-  StartEarthObservationJobOutput,
+export type StartEarthObservationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1788,7 +1789,14 @@ export const startEarthObservationJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to create an Earth observation job.
+ */
+export const startEarthObservationJob: API.OperationMethod<
+  StartEarthObservationJobInput,
+  StartEarthObservationJobOutput,
+  StartEarthObservationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEarthObservationJobInput,
@@ -1803,18 +1811,20 @@ export const startEarthObservationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEarthObservationJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the details for a previously initiated Earth Observation job.
  */
 export const getEarthObservationJob: API.OperationMethod<
   GetEarthObservationJobInput,
   GetEarthObservationJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEarthObservationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEarthObservationJobInput,
@@ -1827,19 +1837,21 @@ export const getEarthObservationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Use this operation to delete an Earth Observation job.
- */
-export const deleteEarthObservationJob: API.OperationMethod<
-  DeleteEarthObservationJobInput,
-  DeleteEarthObservationJobOutput,
+export type DeleteEarthObservationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to delete an Earth Observation job.
+ */
+export const deleteEarthObservationJob: API.OperationMethod<
+  DeleteEarthObservationJobInput,
+  DeleteEarthObservationJobOutput,
+  DeleteEarthObservationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEarthObservationJobInput,
@@ -1853,42 +1865,34 @@ export const deleteEarthObservationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEarthObservationJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
  */
 export const listEarthObservationJobs: API.OperationMethod<
   ListEarthObservationJobInput,
   ListEarthObservationJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEarthObservationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEarthObservationJobInput,
   ) => stream.Stream<
     ListEarthObservationJobOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEarthObservationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEarthObservationJobInput,
   ) => stream.Stream<
     ListEarthObservationJobOutputConfig,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEarthObservationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1907,12 +1911,7 @@ export const listEarthObservationJobs: API.OperationMethod<
     items: "EarthObservationJobSummaries",
   } as const,
 }));
-/**
- * Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
- */
-export const exportEarthObservationJob: API.OperationMethod<
-  ExportEarthObservationJobInput,
-  ExportEarthObservationJobOutput,
+export type ExportEarthObservationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1920,7 +1919,14 @@ export const exportEarthObservationJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
+ */
+export const exportEarthObservationJob: API.OperationMethod<
+  ExportEarthObservationJobInput,
+  ExportEarthObservationJobOutput,
+  ExportEarthObservationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportEarthObservationJobInput,
@@ -1935,18 +1941,20 @@ export const exportEarthObservationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a web mercator tile for the given Earth Observation job.
  */
 export const getTile: API.OperationMethod<
   GetTileInput,
   GetTileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTileInput,
@@ -1959,19 +1967,21 @@ export const getTile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Use this operation to stop an existing earth observation job.
- */
-export const stopEarthObservationJob: API.OperationMethod<
-  StopEarthObservationJobInput,
-  StopEarthObservationJobOutput,
+export type StopEarthObservationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to stop an existing earth observation job.
+ */
+export const stopEarthObservationJob: API.OperationMethod<
+  StopEarthObservationJobInput,
+  StopEarthObservationJobOutput,
+  StopEarthObservationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEarthObservationJobInput,
@@ -1985,18 +1995,20 @@ export const stopEarthObservationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRasterDataCollectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to get details of a specific raster data collection.
  */
 export const getRasterDataCollection: API.OperationMethod<
   GetRasterDataCollectionInput,
   GetRasterDataCollectionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRasterDataCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRasterDataCollectionInput,
@@ -2009,42 +2021,34 @@ export const getRasterDataCollection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRasterDataCollectionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to get raster data collections.
  */
 export const listRasterDataCollections: API.OperationMethod<
   ListRasterDataCollectionsInput,
   ListRasterDataCollectionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRasterDataCollectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRasterDataCollectionsInput,
   ) => stream.Stream<
     ListRasterDataCollectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRasterDataCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRasterDataCollectionsInput,
   ) => stream.Stream<
     RasterDataCollectionMetadata,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRasterDataCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2063,42 +2067,34 @@ export const listRasterDataCollections: API.OperationMethod<
     items: "RasterDataCollectionSummaries",
   } as const,
 }));
+export type SearchRasterDataCollectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
  */
 export const searchRasterDataCollection: API.OperationMethod<
   SearchRasterDataCollectionInput,
   SearchRasterDataCollectionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchRasterDataCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchRasterDataCollectionInput,
   ) => stream.Stream<
     SearchRasterDataCollectionOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchRasterDataCollectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchRasterDataCollectionInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchRasterDataCollectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2113,12 +2109,7 @@ export const searchRasterDataCollection: API.OperationMethod<
   ],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
-/**
- * Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
- */
-export const startVectorEnrichmentJob: API.OperationMethod<
-  StartVectorEnrichmentJobInput,
-  StartVectorEnrichmentJobOutput,
+export type StartVectorEnrichmentJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2126,7 +2117,14 @@ export const startVectorEnrichmentJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
+ */
+export const startVectorEnrichmentJob: API.OperationMethod<
+  StartVectorEnrichmentJobInput,
+  StartVectorEnrichmentJobOutput,
+  StartVectorEnrichmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartVectorEnrichmentJobInput,
@@ -2141,18 +2139,20 @@ export const startVectorEnrichmentJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetVectorEnrichmentJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
  */
 export const getVectorEnrichmentJob: API.OperationMethod<
   GetVectorEnrichmentJobInput,
   GetVectorEnrichmentJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetVectorEnrichmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorEnrichmentJobInput,
@@ -2165,19 +2165,21 @@ export const getVectorEnrichmentJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Use this operation to delete a Vector Enrichment job.
- */
-export const deleteVectorEnrichmentJob: API.OperationMethod<
-  DeleteVectorEnrichmentJobInput,
-  DeleteVectorEnrichmentJobOutput,
+export type DeleteVectorEnrichmentJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to delete a Vector Enrichment job.
+ */
+export const deleteVectorEnrichmentJob: API.OperationMethod<
+  DeleteVectorEnrichmentJobInput,
+  DeleteVectorEnrichmentJobOutput,
+  DeleteVectorEnrichmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVectorEnrichmentJobInput,
@@ -2191,42 +2193,34 @@ export const deleteVectorEnrichmentJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListVectorEnrichmentJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of vector enrichment jobs.
  */
 export const listVectorEnrichmentJobs: API.OperationMethod<
   ListVectorEnrichmentJobInput,
   ListVectorEnrichmentJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListVectorEnrichmentJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVectorEnrichmentJobInput,
   ) => stream.Stream<
     ListVectorEnrichmentJobOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListVectorEnrichmentJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVectorEnrichmentJobInput,
   ) => stream.Stream<
     ListVectorEnrichmentJobOutputConfig,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListVectorEnrichmentJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2245,12 +2239,7 @@ export const listVectorEnrichmentJobs: API.OperationMethod<
     items: "VectorEnrichmentJobSummaries",
   } as const,
 }));
-/**
- * Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
- */
-export const exportVectorEnrichmentJob: API.OperationMethod<
-  ExportVectorEnrichmentJobInput,
-  ExportVectorEnrichmentJobOutput,
+export type ExportVectorEnrichmentJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2258,7 +2247,14 @@ export const exportVectorEnrichmentJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
+ */
+export const exportVectorEnrichmentJob: API.OperationMethod<
+  ExportVectorEnrichmentJobInput,
+  ExportVectorEnrichmentJobOutput,
+  ExportVectorEnrichmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportVectorEnrichmentJobInput,
@@ -2273,19 +2269,21 @@ export const exportVectorEnrichmentJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops the Vector Enrichment job for a given job ARN.
- */
-export const stopVectorEnrichmentJob: API.OperationMethod<
-  StopVectorEnrichmentJobInput,
-  StopVectorEnrichmentJobOutput,
+export type StopVectorEnrichmentJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops the Vector Enrichment job for a given job ARN.
+ */
+export const stopVectorEnrichmentJob: API.OperationMethod<
+  StopVectorEnrichmentJobInput,
+  StopVectorEnrichmentJobOutput,
+  StopVectorEnrichmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopVectorEnrichmentJobInput,

@@ -3585,6 +3585,14 @@ export class WAFSubscriptionNotFoundException extends S.TaggedErrorClass<WAFSubs
 ) {}
 
 //# Operations
+export type CreateByteMatchSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3617,13 +3625,7 @@ export class WAFSubscriptionNotFoundException extends S.TaggedErrorClass<WAFSubs
 export const createByteMatchSet: API.OperationMethod<
   CreateByteMatchSetRequest,
   CreateByteMatchSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateByteMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateByteMatchSetRequest,
@@ -3637,6 +3639,14 @@ export const createByteMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateGeoMatchSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3666,13 +3676,7 @@ export const createByteMatchSet: API.OperationMethod<
 export const createGeoMatchSet: API.OperationMethod<
   CreateGeoMatchSetRequest,
   CreateGeoMatchSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateGeoMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGeoMatchSetRequest,
@@ -3686,6 +3690,14 @@ export const createGeoMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateIPSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3720,13 +3732,7 @@ export const createGeoMatchSet: API.OperationMethod<
 export const createIPSet: API.OperationMethod<
   CreateIPSetRequest,
   CreateIPSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIPSetRequest,
@@ -3740,6 +3746,16 @@ export const createIPSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateRateBasedRuleError =
+  | WAFBadRequestException
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3820,15 +3836,7 @@ export const createIPSet: API.OperationMethod<
 export const createRateBasedRule: API.OperationMethod<
   CreateRateBasedRuleRequest,
   CreateRateBasedRuleResponse,
-  | WAFBadRequestException
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  CreateRateBasedRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRateBasedRuleRequest,
@@ -3844,6 +3852,12 @@ export const createRateBasedRule: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type CreateRegexMatchSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3876,11 +3890,7 @@ export const createRateBasedRule: API.OperationMethod<
 export const createRegexMatchSet: API.OperationMethod<
   CreateRegexMatchSetRequest,
   CreateRegexMatchSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateRegexMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegexMatchSetRequest,
@@ -3892,6 +3902,12 @@ export const createRegexMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateRegexPatternSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3920,11 +3936,7 @@ export const createRegexMatchSet: API.OperationMethod<
 export const createRegexPatternSet: API.OperationMethod<
   CreateRegexPatternSetRequest,
   CreateRegexPatternSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateRegexPatternSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegexPatternSetRequest,
@@ -3936,6 +3948,16 @@ export const createRegexPatternSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateRuleError =
+  | WAFBadRequestException
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -3982,15 +4004,7 @@ export const createRegexPatternSet: API.OperationMethod<
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  | WAFBadRequestException
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  CreateRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
@@ -4006,6 +4020,15 @@ export const createRule: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type CreateRuleGroupError =
+  | WAFBadRequestException
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4030,14 +4053,7 @@ export const createRule: API.OperationMethod<
 export const createRuleGroup: API.OperationMethod<
   CreateRuleGroupRequest,
   CreateRuleGroupResponse,
-  | WAFBadRequestException
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  CreateRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleGroupRequest,
@@ -4052,6 +4068,14 @@ export const createRuleGroup: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type CreateSizeConstraintSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4084,13 +4108,7 @@ export const createRuleGroup: API.OperationMethod<
 export const createSizeConstraintSet: API.OperationMethod<
   CreateSizeConstraintSetRequest,
   CreateSizeConstraintSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateSizeConstraintSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSizeConstraintSetRequest,
@@ -4104,6 +4122,14 @@ export const createSizeConstraintSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateSqlInjectionMatchSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4134,13 +4160,7 @@ export const createSizeConstraintSet: API.OperationMethod<
 export const createSqlInjectionMatchSet: API.OperationMethod<
   CreateSqlInjectionMatchSetRequest,
   CreateSqlInjectionMatchSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateSqlInjectionMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSqlInjectionMatchSetRequest,
@@ -4154,6 +4174,17 @@ export const createSqlInjectionMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type CreateWebACLError =
+  | WAFBadRequestException
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4193,16 +4224,7 @@ export const createSqlInjectionMatchSet: API.OperationMethod<
 export const createWebACL: API.OperationMethod<
   CreateWebACLRequest,
   CreateWebACLResponse,
-  | WAFBadRequestException
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  CreateWebACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebACLRequest,
@@ -4219,6 +4241,13 @@ export const createWebACL: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type CreateWebACLMigrationStackError =
+  | WAFEntityMigrationException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket.
  * Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2.
@@ -4233,12 +4262,7 @@ export const createWebACL: API.OperationMethod<
 export const createWebACLMigrationStack: API.OperationMethod<
   CreateWebACLMigrationStackRequest,
   CreateWebACLMigrationStackResponse,
-  | WAFEntityMigrationException
-  | WAFInternalErrorException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  CreateWebACLMigrationStackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebACLMigrationStackRequest,
@@ -4251,6 +4275,14 @@ export const createWebACLMigrationStack: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type CreateXssMatchSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4281,13 +4313,7 @@ export const createWebACLMigrationStack: API.OperationMethod<
 export const createXssMatchSet: API.OperationMethod<
   CreateXssMatchSetRequest,
   CreateXssMatchSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFStaleDataException
-  | CommonErrors,
+  CreateXssMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateXssMatchSetRequest,
@@ -4301,6 +4327,14 @@ export const createXssMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteByteMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4326,13 +4360,7 @@ export const createXssMatchSet: API.OperationMethod<
 export const deleteByteMatchSet: API.OperationMethod<
   DeleteByteMatchSetRequest,
   DeleteByteMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteByteMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteByteMatchSetRequest,
@@ -4346,6 +4374,14 @@ export const deleteByteMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteGeoMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4371,13 +4407,7 @@ export const deleteByteMatchSet: API.OperationMethod<
 export const deleteGeoMatchSet: API.OperationMethod<
   DeleteGeoMatchSetRequest,
   DeleteGeoMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteGeoMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGeoMatchSetRequest,
@@ -4391,6 +4421,14 @@ export const deleteGeoMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteIPSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4416,13 +4454,7 @@ export const deleteGeoMatchSet: API.OperationMethod<
 export const deleteIPSet: API.OperationMethod<
   DeleteIPSetRequest,
   DeleteIPSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIPSetRequest,
@@ -4436,6 +4468,11 @@ export const deleteIPSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteLoggingConfigurationError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4450,10 +4487,7 @@ export const deleteIPSet: API.OperationMethod<
 export const deleteLoggingConfiguration: API.OperationMethod<
   DeleteLoggingConfigurationRequest,
   DeleteLoggingConfigurationResponse,
-  | WAFInternalErrorException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoggingConfigurationRequest,
@@ -4464,6 +4498,11 @@ export const deleteLoggingConfiguration: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeletePermissionPolicyError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4479,10 +4518,7 @@ export const deleteLoggingConfiguration: API.OperationMethod<
 export const deletePermissionPolicy: API.OperationMethod<
   DeletePermissionPolicyRequest,
   DeletePermissionPolicyResponse,
-  | WAFInternalErrorException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeletePermissionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionPolicyRequest,
@@ -4493,6 +4529,16 @@ export const deletePermissionPolicy: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteRateBasedRuleError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4522,15 +4568,7 @@ export const deletePermissionPolicy: API.OperationMethod<
 export const deleteRateBasedRule: API.OperationMethod<
   DeleteRateBasedRuleRequest,
   DeleteRateBasedRuleResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  DeleteRateBasedRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRateBasedRuleRequest,
@@ -4546,6 +4584,14 @@ export const deleteRateBasedRule: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type DeleteRegexMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4571,13 +4617,7 @@ export const deleteRateBasedRule: API.OperationMethod<
 export const deleteRegexMatchSet: API.OperationMethod<
   DeleteRegexMatchSetRequest,
   DeleteRegexMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteRegexMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegexMatchSetRequest,
@@ -4591,6 +4631,14 @@ export const deleteRegexMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteRegexPatternSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4605,13 +4653,7 @@ export const deleteRegexMatchSet: API.OperationMethod<
 export const deleteRegexPatternSet: API.OperationMethod<
   DeleteRegexPatternSetRequest,
   DeleteRegexPatternSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteRegexPatternSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegexPatternSetRequest,
@@ -4625,6 +4667,16 @@ export const deleteRegexPatternSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteRuleError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4650,15 +4702,7 @@ export const deleteRegexPatternSet: API.OperationMethod<
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  DeleteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
@@ -4674,6 +4718,16 @@ export const deleteRule: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type DeleteRuleGroupError =
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4699,15 +4753,7 @@ export const deleteRule: API.OperationMethod<
 export const deleteRuleGroup: API.OperationMethod<
   DeleteRuleGroupRequest,
   DeleteRuleGroupResponse,
-  | WAFInternalErrorException
-  | WAFInvalidOperationException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  DeleteRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleGroupRequest,
@@ -4723,6 +4769,14 @@ export const deleteRuleGroup: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type DeleteSizeConstraintSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4748,13 +4802,7 @@ export const deleteRuleGroup: API.OperationMethod<
 export const deleteSizeConstraintSet: API.OperationMethod<
   DeleteSizeConstraintSetRequest,
   DeleteSizeConstraintSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteSizeConstraintSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSizeConstraintSetRequest,
@@ -4768,6 +4816,14 @@ export const deleteSizeConstraintSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteSqlInjectionMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4794,13 +4850,7 @@ export const deleteSizeConstraintSet: API.OperationMethod<
 export const deleteSqlInjectionMatchSet: API.OperationMethod<
   DeleteSqlInjectionMatchSetRequest,
   DeleteSqlInjectionMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteSqlInjectionMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSqlInjectionMatchSetRequest,
@@ -4814,6 +4864,16 @@ export const deleteSqlInjectionMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type DeleteWebACLError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4836,15 +4896,7 @@ export const deleteSqlInjectionMatchSet: API.OperationMethod<
 export const deleteWebACL: API.OperationMethod<
   DeleteWebACLRequest,
   DeleteWebACLResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  DeleteWebACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebACLRequest,
@@ -4860,6 +4912,14 @@ export const deleteWebACL: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type DeleteXssMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonEmptyEntityException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4886,13 +4946,7 @@ export const deleteWebACL: API.OperationMethod<
 export const deleteXssMatchSet: API.OperationMethod<
   DeleteXssMatchSetRequest,
   DeleteXssMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonEmptyEntityException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  DeleteXssMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteXssMatchSetRequest,
@@ -4906,6 +4960,11 @@ export const deleteXssMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type GetByteMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4919,10 +4978,7 @@ export const deleteXssMatchSet: API.OperationMethod<
 export const getByteMatchSet: API.OperationMethod<
   GetByteMatchSetRequest,
   GetByteMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetByteMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetByteMatchSetRequest,
@@ -4933,6 +4989,7 @@ export const getByteMatchSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetChangeTokenError = WAFInternalErrorException | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4954,13 +5011,17 @@ export const getByteMatchSet: API.OperationMethod<
 export const getChangeToken: API.OperationMethod<
   GetChangeTokenRequest,
   GetChangeTokenResponse,
-  WAFInternalErrorException | CommonErrors,
+  GetChangeTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChangeTokenRequest,
   output: GetChangeTokenResponse,
   errors: [WAFInternalErrorException],
 }));
+export type GetChangeTokenStatusError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -4982,13 +5043,18 @@ export const getChangeToken: API.OperationMethod<
 export const getChangeTokenStatus: API.OperationMethod<
   GetChangeTokenStatusRequest,
   GetChangeTokenStatusResponse,
-  WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
+  GetChangeTokenStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChangeTokenStatusRequest,
   output: GetChangeTokenStatusResponse,
   errors: [WAFInternalErrorException, WAFNonexistentItemException],
 }));
+export type GetGeoMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5002,10 +5068,7 @@ export const getChangeTokenStatus: API.OperationMethod<
 export const getGeoMatchSet: API.OperationMethod<
   GetGeoMatchSetRequest,
   GetGeoMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetGeoMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeoMatchSetRequest,
@@ -5016,6 +5079,11 @@ export const getGeoMatchSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetIPSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5029,10 +5097,7 @@ export const getGeoMatchSet: API.OperationMethod<
 export const getIPSet: API.OperationMethod<
   GetIPSetRequest,
   GetIPSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIPSetRequest,
@@ -5043,6 +5108,10 @@ export const getIPSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetLoggingConfigurationError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5056,13 +5125,17 @@ export const getIPSet: API.OperationMethod<
 export const getLoggingConfiguration: API.OperationMethod<
   GetLoggingConfigurationRequest,
   GetLoggingConfigurationResponse,
-  WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
+  GetLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingConfigurationRequest,
   output: GetLoggingConfigurationResponse,
   errors: [WAFInternalErrorException, WAFNonexistentItemException],
 }));
+export type GetPermissionPolicyError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5076,13 +5149,18 @@ export const getLoggingConfiguration: API.OperationMethod<
 export const getPermissionPolicy: API.OperationMethod<
   GetPermissionPolicyRequest,
   GetPermissionPolicyResponse,
-  WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
+  GetPermissionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionPolicyRequest,
   output: GetPermissionPolicyResponse,
   errors: [WAFInternalErrorException, WAFNonexistentItemException],
 }));
+export type GetRateBasedRuleError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5098,10 +5176,7 @@ export const getPermissionPolicy: API.OperationMethod<
 export const getRateBasedRule: API.OperationMethod<
   GetRateBasedRuleRequest,
   GetRateBasedRuleResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetRateBasedRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRateBasedRuleRequest,
@@ -5112,6 +5187,12 @@ export const getRateBasedRule: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetRateBasedRuleManagedKeysError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5127,11 +5208,7 @@ export const getRateBasedRule: API.OperationMethod<
 export const getRateBasedRuleManagedKeys: API.OperationMethod<
   GetRateBasedRuleManagedKeysRequest,
   GetRateBasedRuleManagedKeysResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidParameterException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetRateBasedRuleManagedKeysError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRateBasedRuleManagedKeysRequest,
@@ -5143,6 +5220,11 @@ export const getRateBasedRuleManagedKeys: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetRegexMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5156,10 +5238,7 @@ export const getRateBasedRuleManagedKeys: API.OperationMethod<
 export const getRegexMatchSet: API.OperationMethod<
   GetRegexMatchSetRequest,
   GetRegexMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetRegexMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegexMatchSetRequest,
@@ -5170,6 +5249,11 @@ export const getRegexMatchSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetRegexPatternSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5183,10 +5267,7 @@ export const getRegexMatchSet: API.OperationMethod<
 export const getRegexPatternSet: API.OperationMethod<
   GetRegexPatternSetRequest,
   GetRegexPatternSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetRegexPatternSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegexPatternSetRequest,
@@ -5197,6 +5278,11 @@ export const getRegexPatternSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetRuleError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5210,10 +5296,7 @@ export const getRegexPatternSet: API.OperationMethod<
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleRequest,
@@ -5224,6 +5307,10 @@ export const getRule: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetRuleGroupError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5239,13 +5326,17 @@ export const getRule: API.OperationMethod<
 export const getRuleGroup: API.OperationMethod<
   GetRuleGroupRequest,
   GetRuleGroupResponse,
-  WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
+  GetRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleGroupRequest,
   output: GetRuleGroupResponse,
   errors: [WAFInternalErrorException, WAFNonexistentItemException],
 }));
+export type GetSampledRequestsError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5263,13 +5354,18 @@ export const getRuleGroup: API.OperationMethod<
 export const getSampledRequests: API.OperationMethod<
   GetSampledRequestsRequest,
   GetSampledRequestsResponse,
-  WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
+  GetSampledRequestsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSampledRequestsRequest,
   output: GetSampledRequestsResponse,
   errors: [WAFInternalErrorException, WAFNonexistentItemException],
 }));
+export type GetSizeConstraintSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5283,10 +5379,7 @@ export const getSampledRequests: API.OperationMethod<
 export const getSizeConstraintSet: API.OperationMethod<
   GetSizeConstraintSetRequest,
   GetSizeConstraintSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetSizeConstraintSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSizeConstraintSetRequest,
@@ -5297,6 +5390,11 @@ export const getSizeConstraintSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetSqlInjectionMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5310,10 +5408,7 @@ export const getSizeConstraintSet: API.OperationMethod<
 export const getSqlInjectionMatchSet: API.OperationMethod<
   GetSqlInjectionMatchSetRequest,
   GetSqlInjectionMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetSqlInjectionMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSqlInjectionMatchSetRequest,
@@ -5324,6 +5419,11 @@ export const getSqlInjectionMatchSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetWebACLError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5337,10 +5437,7 @@ export const getSqlInjectionMatchSet: API.OperationMethod<
 export const getWebACL: API.OperationMethod<
   GetWebACLRequest,
   GetWebACLResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetWebACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebACLRequest,
@@ -5351,6 +5448,11 @@ export const getWebACL: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type GetXssMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5364,10 +5466,7 @@ export const getWebACL: API.OperationMethod<
 export const getXssMatchSet: API.OperationMethod<
   GetXssMatchSetRequest,
   GetXssMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  GetXssMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetXssMatchSetRequest,
@@ -5378,6 +5477,11 @@ export const getXssMatchSet: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type ListActivatedRulesInRuleGroupError =
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5391,10 +5495,7 @@ export const getXssMatchSet: API.OperationMethod<
 export const listActivatedRulesInRuleGroup: API.OperationMethod<
   ListActivatedRulesInRuleGroupRequest,
   ListActivatedRulesInRuleGroupResponse,
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  ListActivatedRulesInRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListActivatedRulesInRuleGroupRequest,
@@ -5405,6 +5506,10 @@ export const listActivatedRulesInRuleGroup: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type ListByteMatchSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5418,13 +5523,17 @@ export const listActivatedRulesInRuleGroup: API.OperationMethod<
 export const listByteMatchSets: API.OperationMethod<
   ListByteMatchSetsRequest,
   ListByteMatchSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListByteMatchSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListByteMatchSetsRequest,
   output: ListByteMatchSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListGeoMatchSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5438,13 +5547,17 @@ export const listByteMatchSets: API.OperationMethod<
 export const listGeoMatchSets: API.OperationMethod<
   ListGeoMatchSetsRequest,
   ListGeoMatchSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListGeoMatchSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGeoMatchSetsRequest,
   output: ListGeoMatchSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListIPSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5458,13 +5571,18 @@ export const listGeoMatchSets: API.OperationMethod<
 export const listIPSets: API.OperationMethod<
   ListIPSetsRequest,
   ListIPSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListIPSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIPSetsRequest,
   output: ListIPSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListLoggingConfigurationsError =
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5478,10 +5596,7 @@ export const listIPSets: API.OperationMethod<
 export const listLoggingConfigurations: API.OperationMethod<
   ListLoggingConfigurationsRequest,
   ListLoggingConfigurationsResponse,
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFNonexistentItemException
-  | CommonErrors,
+  ListLoggingConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoggingConfigurationsRequest,
@@ -5492,6 +5607,10 @@ export const listLoggingConfigurations: API.OperationMethod<
     WAFNonexistentItemException,
   ],
 }));
+export type ListRateBasedRulesError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5505,13 +5624,17 @@ export const listLoggingConfigurations: API.OperationMethod<
 export const listRateBasedRules: API.OperationMethod<
   ListRateBasedRulesRequest,
   ListRateBasedRulesResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListRateBasedRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRateBasedRulesRequest,
   output: ListRateBasedRulesResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListRegexMatchSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5525,13 +5648,17 @@ export const listRateBasedRules: API.OperationMethod<
 export const listRegexMatchSets: API.OperationMethod<
   ListRegexMatchSetsRequest,
   ListRegexMatchSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListRegexMatchSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRegexMatchSetsRequest,
   output: ListRegexMatchSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListRegexPatternSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5545,13 +5672,14 @@ export const listRegexMatchSets: API.OperationMethod<
 export const listRegexPatternSets: API.OperationMethod<
   ListRegexPatternSetsRequest,
   ListRegexPatternSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListRegexPatternSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRegexPatternSetsRequest,
   output: ListRegexPatternSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListRuleGroupsError = WAFInternalErrorException | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5565,13 +5693,17 @@ export const listRegexPatternSets: API.OperationMethod<
 export const listRuleGroups: API.OperationMethod<
   ListRuleGroupsRequest,
   ListRuleGroupsResponse,
-  WAFInternalErrorException | CommonErrors,
+  ListRuleGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRuleGroupsRequest,
   output: ListRuleGroupsResponse,
   errors: [WAFInternalErrorException],
 }));
+export type ListRulesError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5585,13 +5717,17 @@ export const listRuleGroups: API.OperationMethod<
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListSizeConstraintSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5605,13 +5741,17 @@ export const listRules: API.OperationMethod<
 export const listSizeConstraintSets: API.OperationMethod<
   ListSizeConstraintSetsRequest,
   ListSizeConstraintSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListSizeConstraintSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSizeConstraintSetsRequest,
   output: ListSizeConstraintSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListSqlInjectionMatchSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5625,13 +5765,17 @@ export const listSizeConstraintSets: API.OperationMethod<
 export const listSqlInjectionMatchSets: API.OperationMethod<
   ListSqlInjectionMatchSetsRequest,
   ListSqlInjectionMatchSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListSqlInjectionMatchSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSqlInjectionMatchSetsRequest,
   output: ListSqlInjectionMatchSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListSubscribedRuleGroupsError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5645,13 +5789,21 @@ export const listSqlInjectionMatchSets: API.OperationMethod<
 export const listSubscribedRuleGroups: API.OperationMethod<
   ListSubscribedRuleGroupsRequest,
   ListSubscribedRuleGroupsResponse,
-  WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
+  ListSubscribedRuleGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSubscribedRuleGroupsRequest,
   output: ListSubscribedRuleGroupsResponse,
   errors: [WAFInternalErrorException, WAFNonexistentItemException],
 }));
+export type ListTagsForResourceError =
+  | WAFBadRequestException
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5667,13 +5819,7 @@ export const listSubscribedRuleGroups: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | WAFBadRequestException
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFNonexistentItemException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -5687,6 +5833,10 @@ export const listTagsForResource: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type ListWebACLsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5700,13 +5850,17 @@ export const listTagsForResource: API.OperationMethod<
 export const listWebACLs: API.OperationMethod<
   ListWebACLsRequest,
   ListWebACLsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListWebACLsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWebACLsRequest,
   output: ListWebACLsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type ListXssMatchSetsError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5720,13 +5874,19 @@ export const listWebACLs: API.OperationMethod<
 export const listXssMatchSets: API.OperationMethod<
   ListXssMatchSetsRequest,
   ListXssMatchSetsResponse,
-  WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
+  ListXssMatchSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListXssMatchSetsRequest,
   output: ListXssMatchSetsResponse,
   errors: [WAFInternalErrorException, WAFInvalidAccountException],
 }));
+export type PutLoggingConfigurationError =
+  | WAFInternalErrorException
+  | WAFNonexistentItemException
+  | WAFServiceLinkedRoleErrorException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5754,11 +5914,7 @@ export const listXssMatchSets: API.OperationMethod<
 export const putLoggingConfiguration: API.OperationMethod<
   PutLoggingConfigurationRequest,
   PutLoggingConfigurationResponse,
-  | WAFInternalErrorException
-  | WAFNonexistentItemException
-  | WAFServiceLinkedRoleErrorException
-  | WAFStaleDataException
-  | CommonErrors,
+  PutLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingConfigurationRequest,
@@ -5770,6 +5926,12 @@ export const putLoggingConfiguration: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type PutPermissionPolicyError =
+  | WAFInternalErrorException
+  | WAFInvalidPermissionPolicyException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5805,11 +5967,7 @@ export const putLoggingConfiguration: API.OperationMethod<
 export const putPermissionPolicy: API.OperationMethod<
   PutPermissionPolicyRequest,
   PutPermissionPolicyResponse,
-  | WAFInternalErrorException
-  | WAFInvalidPermissionPolicyException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  PutPermissionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionPolicyRequest,
@@ -5821,6 +5979,15 @@ export const putPermissionPolicy: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type TagResourceError =
+  | WAFBadRequestException
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5836,14 +6003,7 @@ export const putPermissionPolicy: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | WAFBadRequestException
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentItemException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5858,6 +6018,14 @@ export const tagResource: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type UntagResourceError =
+  | WAFBadRequestException
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5869,13 +6037,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | WAFBadRequestException
-  | WAFInternalErrorException
-  | WAFInvalidParameterException
-  | WAFNonexistentItemException
-  | WAFTagOperationException
-  | WAFTagOperationInternalErrorException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5889,6 +6051,16 @@ export const untagResource: API.OperationMethod<
     WAFTagOperationInternalErrorException,
   ],
 }));
+export type UpdateByteMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5931,15 +6103,7 @@ export const untagResource: API.OperationMethod<
 export const updateByteMatchSet: API.OperationMethod<
   UpdateByteMatchSetRequest,
   UpdateByteMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateByteMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateByteMatchSetRequest,
@@ -5955,6 +6119,17 @@ export const updateByteMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateGeoMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -5990,16 +6165,7 @@ export const updateByteMatchSet: API.OperationMethod<
 export const updateGeoMatchSet: API.OperationMethod<
   UpdateGeoMatchSetRequest,
   UpdateGeoMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateGeoMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGeoMatchSetRequest,
@@ -6016,6 +6182,17 @@ export const updateGeoMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateIPSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6085,16 +6262,7 @@ export const updateGeoMatchSet: API.OperationMethod<
 export const updateIPSet: API.OperationMethod<
   UpdateIPSetRequest,
   UpdateIPSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIPSetRequest,
@@ -6111,6 +6279,17 @@ export const updateIPSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateRateBasedRuleError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6161,16 +6340,7 @@ export const updateIPSet: API.OperationMethod<
 export const updateRateBasedRule: API.OperationMethod<
   UpdateRateBasedRuleRequest,
   UpdateRateBasedRuleResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateRateBasedRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRateBasedRuleRequest,
@@ -6187,6 +6357,16 @@ export const updateRateBasedRule: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateRegexMatchSetError =
+  | WAFDisallowedNameException
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6226,15 +6406,7 @@ export const updateRateBasedRule: API.OperationMethod<
 export const updateRegexMatchSet: API.OperationMethod<
   UpdateRegexMatchSetRequest,
   UpdateRegexMatchSetResponse,
-  | WAFDisallowedNameException
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateRegexMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRegexMatchSetRequest,
@@ -6250,6 +6422,16 @@ export const updateRegexMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateRegexPatternSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidRegexPatternException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6290,15 +6472,7 @@ export const updateRegexMatchSet: API.OperationMethod<
 export const updateRegexPatternSet: API.OperationMethod<
   UpdateRegexPatternSetRequest,
   UpdateRegexPatternSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidRegexPatternException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateRegexPatternSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRegexPatternSetRequest,
@@ -6314,6 +6488,17 @@ export const updateRegexPatternSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateRuleError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6360,16 +6545,7 @@ export const updateRegexPatternSet: API.OperationMethod<
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
@@ -6386,6 +6562,15 @@ export const updateRule: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateRuleGroupError =
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6420,14 +6605,7 @@ export const updateRule: API.OperationMethod<
 export const updateRuleGroup: API.OperationMethod<
   UpdateRuleGroupRequest,
   UpdateRuleGroupResponse,
-  | WAFInternalErrorException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleGroupRequest,
@@ -6442,6 +6620,17 @@ export const updateRuleGroup: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateSizeConstraintSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6489,16 +6678,7 @@ export const updateRuleGroup: API.OperationMethod<
 export const updateSizeConstraintSet: API.OperationMethod<
   UpdateSizeConstraintSetRequest,
   UpdateSizeConstraintSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateSizeConstraintSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSizeConstraintSetRequest,
@@ -6515,6 +6695,16 @@ export const updateSizeConstraintSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateSqlInjectionMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6560,15 +6750,7 @@ export const updateSizeConstraintSet: API.OperationMethod<
 export const updateSqlInjectionMatchSet: API.OperationMethod<
   UpdateSqlInjectionMatchSetRequest,
   UpdateSqlInjectionMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateSqlInjectionMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSqlInjectionMatchSetRequest,
@@ -6584,6 +6766,18 @@ export const updateSqlInjectionMatchSet: API.OperationMethod<
     WAFStaleDataException,
   ],
 }));
+export type UpdateWebACLError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFReferencedItemException
+  | WAFStaleDataException
+  | WAFSubscriptionNotFoundException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6658,17 +6852,7 @@ export const updateSqlInjectionMatchSet: API.OperationMethod<
 export const updateWebACL: API.OperationMethod<
   UpdateWebACLRequest,
   UpdateWebACLResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFReferencedItemException
-  | WAFStaleDataException
-  | WAFSubscriptionNotFoundException
-  | CommonErrors,
+  UpdateWebACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebACLRequest,
@@ -6686,6 +6870,16 @@ export const updateWebACL: API.OperationMethod<
     WAFSubscriptionNotFoundException,
   ],
 }));
+export type UpdateXssMatchSetError =
+  | WAFInternalErrorException
+  | WAFInvalidAccountException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentContainerException
+  | WAFNonexistentItemException
+  | WAFStaleDataException
+  | CommonErrors;
 /**
  * This is **AWS WAF Classic** documentation. For
  * more information, see AWS
@@ -6733,15 +6927,7 @@ export const updateWebACL: API.OperationMethod<
 export const updateXssMatchSet: API.OperationMethod<
   UpdateXssMatchSetRequest,
   UpdateXssMatchSetResponse,
-  | WAFInternalErrorException
-  | WAFInvalidAccountException
-  | WAFInvalidOperationException
-  | WAFInvalidParameterException
-  | WAFLimitsExceededException
-  | WAFNonexistentContainerException
-  | WAFNonexistentItemException
-  | WAFStaleDataException
-  | CommonErrors,
+  UpdateXssMatchSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateXssMatchSetRequest,

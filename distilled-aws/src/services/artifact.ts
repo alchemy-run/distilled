@@ -594,12 +594,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Get the account settings for Artifact.
- */
-export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
-  GetAccountSettingsResponse,
+export type GetAccountSettingsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -607,7 +602,14 @@ export const getAccountSettings: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the account settings for Artifact.
+ */
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
+  GetAccountSettingsResponse,
+  GetAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
@@ -622,12 +624,7 @@ export const getAccountSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Put the account settings for Artifact.
- */
-export const putAccountSettings: API.OperationMethod<
-  PutAccountSettingsRequest,
-  PutAccountSettingsResponse,
+export type PutAccountSettingsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -635,7 +632,14 @@ export const putAccountSettings: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Put the account settings for Artifact.
+ */
+export const putAccountSettings: API.OperationMethod<
+  PutAccountSettingsRequest,
+  PutAccountSettingsResponse,
+  PutAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSettingsRequest,
@@ -650,39 +654,33 @@ export const putAccountSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCustomerAgreementsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List active customer-agreements applicable to calling identity.
  */
 export const listCustomerAgreements: API.OperationMethod<
   ListCustomerAgreementsRequest,
   ListCustomerAgreementsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCustomerAgreementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomerAgreementsRequest,
   ) => stream.Stream<
     ListCustomerAgreementsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomerAgreementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomerAgreementsRequest,
   ) => stream.Stream<
     CustomerAgreementSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomerAgreementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -701,19 +699,21 @@ export const listCustomerAgreements: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Get the metadata for a single report.
- */
-export const getReportMetadata: API.OperationMethod<
-  GetReportMetadataRequest,
-  GetReportMetadataResponse,
+export type GetReportMetadataError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the metadata for a single report.
+ */
+export const getReportMetadata: API.OperationMethod<
+  GetReportMetadataRequest,
+  GetReportMetadataResponse,
+  GetReportMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportMetadataRequest,
@@ -727,45 +727,35 @@ export const getReportMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * List available reports.
- */
-export const listReports: API.OperationMethod<
-  ListReportsRequest,
-  ListReportsResponse,
+export type ListReportsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List available reports.
+ */
+export const listReports: API.OperationMethod<
+  ListReportsRequest,
+  ListReportsResponse,
+  ListReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReportsRequest,
   ) => stream.Stream<
     ListReportsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportsRequest,
   ) => stream.Stream<
     ReportSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -786,12 +776,7 @@ export const listReports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Get the content for a single report.
- */
-export const getReport: API.OperationMethod<
-  GetReportRequest,
-  GetReportResponse,
+export type GetReportError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -799,7 +784,14 @@ export const getReport: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the content for a single report.
+ */
+export const getReport: API.OperationMethod<
+  GetReportRequest,
+  GetReportResponse,
+  GetReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportRequest,
@@ -814,12 +806,7 @@ export const getReport: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get the Term content associated with a single report.
- */
-export const getTermForReport: API.OperationMethod<
-  GetTermForReportRequest,
-  GetTermForReportResponse,
+export type GetTermForReportError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -827,7 +814,14 @@ export const getTermForReport: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the Term content associated with a single report.
+ */
+export const getTermForReport: API.OperationMethod<
+  GetTermForReportRequest,
+  GetTermForReportResponse,
+  GetTermForReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTermForReportRequest,
@@ -842,45 +836,35 @@ export const getTermForReport: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * List available report versions for a given report.
- */
-export const listReportVersions: API.OperationMethod<
-  ListReportVersionsRequest,
-  ListReportVersionsResponse,
+export type ListReportVersionsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List available report versions for a given report.
+ */
+export const listReportVersions: API.OperationMethod<
+  ListReportVersionsRequest,
+  ListReportVersionsResponse,
+  ListReportVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReportVersionsRequest,
   ) => stream.Stream<
     ListReportVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReportVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportVersionsRequest,
   ) => stream.Stream<
     ReportSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReportVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

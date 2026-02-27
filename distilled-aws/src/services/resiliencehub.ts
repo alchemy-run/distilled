@@ -3880,18 +3880,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type AcceptResourceGroupingRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
  */
 export const acceptResourceGroupingRecommendations: API.OperationMethod<
   AcceptResourceGroupingRecommendationsRequest,
   AcceptResourceGroupingRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AcceptResourceGroupingRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptResourceGroupingRecommendationsRequest,
@@ -3904,6 +3906,15 @@ export const acceptResourceGroupingRecommendations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AddDraftAppVersionResourceMappingsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds the source of resource-maps to the draft version of an application. During
  * assessment, Resilience Hub will use these resource-maps to resolve the latest physical
@@ -3915,14 +3926,7 @@ export const acceptResourceGroupingRecommendations: API.OperationMethod<
 export const addDraftAppVersionResourceMappings: API.OperationMethod<
   AddDraftAppVersionResourceMappingsRequest,
   AddDraftAppVersionResourceMappingsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AddDraftAppVersionResourceMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddDraftAppVersionResourceMappingsRequest,
@@ -3937,18 +3941,20 @@ export const addDraftAppVersionResourceMappings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchUpdateRecommendationStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to include or exclude one or more operational recommendations.
  */
 export const batchUpdateRecommendationStatus: API.OperationMethod<
   BatchUpdateRecommendationStatusRequest,
   BatchUpdateRecommendationStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateRecommendationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateRecommendationStatusRequest,
@@ -3961,6 +3967,15 @@ export const batchUpdateRecommendationStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAppError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Resilience Hub application. An Resilience Hub application is a
  * collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an
@@ -3978,14 +3993,7 @@ export const batchUpdateRecommendationStatus: API.OperationMethod<
 export const createApp: API.OperationMethod<
   CreateAppRequest,
   CreateAppResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
@@ -4000,6 +4008,15 @@ export const createApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAppVersionAppComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Application Component in the Resilience Hub application.
  *
@@ -4010,14 +4027,7 @@ export const createApp: API.OperationMethod<
 export const createAppVersionAppComponent: API.OperationMethod<
   CreateAppVersionAppComponentRequest,
   CreateAppVersionAppComponentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAppVersionAppComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppVersionAppComponentRequest,
@@ -4032,6 +4042,15 @@ export const createAppVersionAppComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAppVersionResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a resource to the Resilience Hub application and assigns it to the specified
  * Application Components. If you specify a new Application Component, Resilience Hub will
@@ -4049,14 +4068,7 @@ export const createAppVersionAppComponent: API.OperationMethod<
 export const createAppVersionResource: API.OperationMethod<
   CreateAppVersionResourceRequest,
   CreateAppVersionResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAppVersionResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppVersionResourceRequest,
@@ -4071,12 +4083,7 @@ export const createAppVersionResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new recommendation template for the Resilience Hub application.
- */
-export const createRecommendationTemplate: API.OperationMethod<
-  CreateRecommendationTemplateRequest,
-  CreateRecommendationTemplateResponse,
+export type CreateRecommendationTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4084,7 +4091,14 @@ export const createRecommendationTemplate: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new recommendation template for the Resilience Hub application.
+ */
+export const createRecommendationTemplate: API.OperationMethod<
+  CreateRecommendationTemplateRequest,
+  CreateRecommendationTemplateResponse,
+  CreateRecommendationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecommendationTemplateRequest,
@@ -4099,6 +4113,14 @@ export const createRecommendationTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResiliencyPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a resiliency policy for an application.
  *
@@ -4113,13 +4135,7 @@ export const createRecommendationTemplate: API.OperationMethod<
 export const createResiliencyPolicy: API.OperationMethod<
   CreateResiliencyPolicyRequest,
   CreateResiliencyPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateResiliencyPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResiliencyPolicyRequest,
@@ -4133,6 +4149,13 @@ export const createResiliencyPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Resilience Hub application. This is a destructive action that can't be
  * undone.
@@ -4140,12 +4163,7 @@ export const createResiliencyPolicy: API.OperationMethod<
 export const deleteApp: API.OperationMethod<
   DeleteAppRequest,
   DeleteAppResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
@@ -4158,6 +4176,14 @@ export const deleteApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppAssessmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Resilience Hub application assessment. This is a destructive action
  * that can't be undone.
@@ -4165,13 +4191,7 @@ export const deleteApp: API.OperationMethod<
 export const deleteAppAssessment: API.OperationMethod<
   DeleteAppAssessmentRequest,
   DeleteAppAssessmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppAssessmentRequest,
@@ -4185,6 +4205,14 @@ export const deleteAppAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppInputSourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the input source and all of its imported resources from the Resilience Hub
  * application.
@@ -4192,13 +4220,7 @@ export const deleteAppAssessment: API.OperationMethod<
 export const deleteAppInputSource: API.OperationMethod<
   DeleteAppInputSourceRequest,
   DeleteAppInputSourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppInputSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInputSourceRequest,
@@ -4212,6 +4234,14 @@ export const deleteAppInputSource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppVersionAppComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Application Component from the Resilience Hub application.
  *
@@ -4225,13 +4255,7 @@ export const deleteAppInputSource: API.OperationMethod<
 export const deleteAppVersionAppComponent: API.OperationMethod<
   DeleteAppVersionAppComponentRequest,
   DeleteAppVersionAppComponentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppVersionAppComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppVersionAppComponentRequest,
@@ -4245,6 +4269,14 @@ export const deleteAppVersionAppComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppVersionResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a resource from the Resilience Hub application.
  *
@@ -4260,13 +4292,7 @@ export const deleteAppVersionAppComponent: API.OperationMethod<
 export const deleteAppVersionResource: API.OperationMethod<
   DeleteAppVersionResourceRequest,
   DeleteAppVersionResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppVersionResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppVersionResourceRequest,
@@ -4280,6 +4306,13 @@ export const deleteAppVersionResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRecommendationTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a recommendation template. This is a destructive action that can't be
  * undone.
@@ -4287,12 +4320,7 @@ export const deleteAppVersionResource: API.OperationMethod<
 export const deleteRecommendationTemplate: API.OperationMethod<
   DeleteRecommendationTemplateRequest,
   DeleteRecommendationTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRecommendationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecommendationTemplateRequest,
@@ -4305,19 +4333,21 @@ export const deleteRecommendationTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a resiliency policy. This is a destructive action that can't be undone.
- */
-export const deleteResiliencyPolicy: API.OperationMethod<
-  DeleteResiliencyPolicyRequest,
-  DeleteResiliencyPolicyResponse,
+export type DeleteResiliencyPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a resiliency policy. This is a destructive action that can't be undone.
+ */
+export const deleteResiliencyPolicy: API.OperationMethod<
+  DeleteResiliencyPolicyRequest,
+  DeleteResiliencyPolicyResponse,
+  DeleteResiliencyPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResiliencyPolicyRequest,
@@ -4331,18 +4361,20 @@ export const deleteResiliencyPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes an Resilience Hub application.
  */
 export const describeApp: API.OperationMethod<
   DescribeAppRequest,
   DescribeAppResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppRequest,
@@ -4355,18 +4387,20 @@ export const describeApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes an assessment for an Resilience Hub application.
  */
 export const describeAppAssessment: API.OperationMethod<
   DescribeAppAssessmentRequest,
   DescribeAppAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppAssessmentRequest,
@@ -4379,18 +4413,20 @@ export const describeAppAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the Resilience Hub application version.
  */
 export const describeAppVersion: API.OperationMethod<
   DescribeAppVersionRequest,
   DescribeAppVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppVersionRequest,
@@ -4403,19 +4439,21 @@ export const describeAppVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Describes an Application Component in the Resilience Hub application.
- */
-export const describeAppVersionAppComponent: API.OperationMethod<
-  DescribeAppVersionAppComponentRequest,
-  DescribeAppVersionAppComponentResponse,
+export type DescribeAppVersionAppComponentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes an Application Component in the Resilience Hub application.
+ */
+export const describeAppVersionAppComponent: API.OperationMethod<
+  DescribeAppVersionAppComponentRequest,
+  DescribeAppVersionAppComponentResponse,
+  DescribeAppVersionAppComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppVersionAppComponentRequest,
@@ -4429,6 +4467,14 @@ export const describeAppVersionAppComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppVersionResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes a resource of the Resilience Hub application.
  *
@@ -4444,13 +4490,7 @@ export const describeAppVersionAppComponent: API.OperationMethod<
 export const describeAppVersionResource: API.OperationMethod<
   DescribeAppVersionResourceRequest,
   DescribeAppVersionResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppVersionResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppVersionResourceRequest,
@@ -4464,6 +4504,13 @@ export const describeAppVersionResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppVersionResourcesResolutionStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resolution status for the specified resolution identifier for an application
  * version. If `resolutionId` is not specified, the current resolution status is
@@ -4472,12 +4519,7 @@ export const describeAppVersionResource: API.OperationMethod<
 export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
   DescribeAppVersionResourcesResolutionStatusRequest,
   DescribeAppVersionResourcesResolutionStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppVersionResourcesResolutionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppVersionResourcesResolutionStatusRequest,
@@ -4490,18 +4532,20 @@ export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppVersionTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes details about an Resilience Hub application.
  */
 export const describeAppVersionTemplate: API.OperationMethod<
   DescribeAppVersionTemplateRequest,
   DescribeAppVersionTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppVersionTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppVersionTemplateRequest,
@@ -4514,6 +4558,13 @@ export const describeAppVersionTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDraftAppVersionResourcesImportStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the status of importing resources to an application version.
  *
@@ -4526,12 +4577,7 @@ export const describeAppVersionTemplate: API.OperationMethod<
 export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
   DescribeDraftAppVersionResourcesImportStatusRequest,
   DescribeDraftAppVersionResourcesImportStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDraftAppVersionResourcesImportStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDraftAppVersionResourcesImportStatusRequest,
@@ -4544,18 +4590,20 @@ export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeMetricsExportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the metrics of the application configuration being exported.
  */
 export const describeMetricsExport: API.OperationMethod<
   DescribeMetricsExportRequest,
   DescribeMetricsExportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeMetricsExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMetricsExportRequest,
@@ -4568,6 +4616,13 @@ export const describeMetricsExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeResiliencyPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes a specified resiliency policy for an Resilience Hub application. The
  * returned policy object includes creation time, data location constraints, the Amazon Resource
@@ -4576,12 +4631,7 @@ export const describeMetricsExport: API.OperationMethod<
 export const describeResiliencyPolicy: API.OperationMethod<
   DescribeResiliencyPolicyRequest,
   DescribeResiliencyPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeResiliencyPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResiliencyPolicyRequest,
@@ -4594,18 +4644,20 @@ export const describeResiliencyPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeResourceGroupingRecommendationTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
  */
 export const describeResourceGroupingRecommendationTask: API.OperationMethod<
   DescribeResourceGroupingRecommendationTaskRequest,
   DescribeResourceGroupingRecommendationTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeResourceGroupingRecommendationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourceGroupingRecommendationTaskRequest,
@@ -4618,6 +4670,15 @@ export const describeResourceGroupingRecommendationTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportResourcesToDraftAppVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports resources to Resilience Hub application draft version from different input
  * sources. For more information about the input sources supported by Resilience Hub, see
@@ -4626,14 +4687,7 @@ export const describeResourceGroupingRecommendationTask: API.OperationMethod<
 export const importResourcesToDraftAppVersion: API.OperationMethod<
   ImportResourcesToDraftAppVersionRequest,
   ImportResourcesToDraftAppVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ImportResourcesToDraftAppVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportResourcesToDraftAppVersionRequest,
@@ -4648,42 +4702,34 @@ export const importResourcesToDraftAppVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAlarmRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the alarm recommendations for an Resilience Hub application.
  */
 export const listAlarmRecommendations: API.OperationMethod<
   ListAlarmRecommendationsRequest,
   ListAlarmRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAlarmRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAlarmRecommendationsRequest,
   ) => stream.Stream<
     ListAlarmRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAlarmRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAlarmRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAlarmRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4702,6 +4748,12 @@ export const listAlarmRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppAssessmentComplianceDriftsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of compliance drifts that were detected while running an
  * assessment.
@@ -4709,33 +4761,21 @@ export const listAlarmRecommendations: API.OperationMethod<
 export const listAppAssessmentComplianceDrifts: API.OperationMethod<
   ListAppAssessmentComplianceDriftsRequest,
   ListAppAssessmentComplianceDriftsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppAssessmentComplianceDriftsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppAssessmentComplianceDriftsRequest,
   ) => stream.Stream<
     ListAppAssessmentComplianceDriftsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAssessmentComplianceDriftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppAssessmentComplianceDriftsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAssessmentComplianceDriftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4753,6 +4793,12 @@ export const listAppAssessmentComplianceDrifts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppAssessmentResourceDriftsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of resource drifts that were detected while running an
  * assessment.
@@ -4760,33 +4806,21 @@ export const listAppAssessmentComplianceDrifts: API.OperationMethod<
 export const listAppAssessmentResourceDrifts: API.OperationMethod<
   ListAppAssessmentResourceDriftsRequest,
   ListAppAssessmentResourceDriftsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppAssessmentResourceDriftsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppAssessmentResourceDriftsRequest,
   ) => stream.Stream<
     ListAppAssessmentResourceDriftsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAssessmentResourceDriftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppAssessmentResourceDriftsRequest,
   ) => stream.Stream<
     ResourceDrift,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAssessmentResourceDriftsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4805,6 +4839,13 @@ export const listAppAssessmentResourceDrifts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppAssessmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the assessments for an Resilience Hub application. You can use request
  * parameters to refine the results for the response object.
@@ -4812,36 +4853,21 @@ export const listAppAssessmentResourceDrifts: API.OperationMethod<
 export const listAppAssessments: API.OperationMethod<
   ListAppAssessmentsRequest,
   ListAppAssessmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppAssessmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppAssessmentsRequest,
   ) => stream.Stream<
     ListAppAssessmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppAssessmentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppAssessmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4860,42 +4886,34 @@ export const listAppAssessments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppComponentCompliancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the compliances for an Resilience Hub Application Component.
  */
 export const listAppComponentCompliances: API.OperationMethod<
   ListAppComponentCompliancesRequest,
   ListAppComponentCompliancesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppComponentCompliancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppComponentCompliancesRequest,
   ) => stream.Stream<
     ListAppComponentCompliancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppComponentCompliancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppComponentCompliancesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppComponentCompliancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4914,42 +4932,34 @@ export const listAppComponentCompliances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppComponentRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the recommendations for an Resilience Hub Application Component.
  */
 export const listAppComponentRecommendations: API.OperationMethod<
   ListAppComponentRecommendationsRequest,
   ListAppComponentRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppComponentRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppComponentRecommendationsRequest,
   ) => stream.Stream<
     ListAppComponentRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppComponentRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppComponentRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppComponentRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4968,6 +4978,13 @@ export const listAppComponentRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppInputSourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the input sources of the Resilience Hub application. For more
  * information about the input sources supported by Resilience Hub, see Discover
@@ -4976,36 +4993,21 @@ export const listAppComponentRecommendations: API.OperationMethod<
 export const listAppInputSources: API.OperationMethod<
   ListAppInputSourcesRequest,
   ListAppInputSourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppInputSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppInputSourcesRequest,
   ) => stream.Stream<
     ListAppInputSourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppInputSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppInputSourcesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppInputSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5024,6 +5026,12 @@ export const listAppInputSources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists your Resilience Hub applications.
  *
@@ -5037,33 +5045,21 @@ export const listAppInputSources: API.OperationMethod<
 export const listApps: API.OperationMethod<
   ListAppsRequest,
   ListAppsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppsRequest,
   ) => stream.Stream<
     ListAppsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5081,45 +5077,35 @@ export const listApps: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists all the Application Components in the Resilience Hub application.
- */
-export const listAppVersionAppComponents: API.OperationMethod<
-  ListAppVersionAppComponentsRequest,
-  ListAppVersionAppComponentsResponse,
+export type ListAppVersionAppComponentsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the Application Components in the Resilience Hub application.
+ */
+export const listAppVersionAppComponents: API.OperationMethod<
+  ListAppVersionAppComponentsRequest,
+  ListAppVersionAppComponentsResponse,
+  ListAppVersionAppComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppVersionAppComponentsRequest,
   ) => stream.Stream<
     ListAppVersionAppComponentsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionAppComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppVersionAppComponentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionAppComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5139,6 +5125,13 @@ export const listAppVersionAppComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppVersionResourceMappingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists how the resources in an application version are mapped/sourced from. Mappings can be
  * physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry
@@ -5147,36 +5140,21 @@ export const listAppVersionAppComponents: API.OperationMethod<
 export const listAppVersionResourceMappings: API.OperationMethod<
   ListAppVersionResourceMappingsRequest,
   ListAppVersionResourceMappingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppVersionResourceMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppVersionResourceMappingsRequest,
   ) => stream.Stream<
     ListAppVersionResourceMappingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionResourceMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppVersionResourceMappingsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionResourceMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5195,45 +5173,35 @@ export const listAppVersionResourceMappings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists all the resources in an Resilience Hub application.
- */
-export const listAppVersionResources: API.OperationMethod<
-  ListAppVersionResourcesRequest,
-  ListAppVersionResourcesResponse,
+export type ListAppVersionResourcesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the resources in an Resilience Hub application.
+ */
+export const listAppVersionResources: API.OperationMethod<
+  ListAppVersionResourcesRequest,
+  ListAppVersionResourcesResponse,
+  ListAppVersionResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppVersionResourcesRequest,
   ) => stream.Stream<
     ListAppVersionResourcesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppVersionResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5253,39 +5221,33 @@ export const listAppVersionResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAppVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the different versions for the Resilience Hub applications.
  */
 export const listAppVersions: API.OperationMethod<
   ListAppVersionsRequest,
   ListAppVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAppVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppVersionsRequest,
   ) => stream.Stream<
     ListAppVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAppVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5303,39 +5265,33 @@ export const listAppVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMetricsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the metrics that can be exported.
  */
 export const listMetrics: API.OperationMethod<
   ListMetricsRequest,
   ListMetricsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetricsRequest,
   ) => stream.Stream<
     ListMetricsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricsRequest,
   ) => stream.Stream<
     String255[],
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5354,39 +5310,33 @@ export const listMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendationTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the recommendation templates for the Resilience Hub applications.
  */
 export const listRecommendationTemplates: API.OperationMethod<
   ListRecommendationTemplatesRequest,
   ListRecommendationTemplatesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendationTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendationTemplatesRequest,
   ) => stream.Stream<
     ListRecommendationTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationTemplatesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5404,42 +5354,34 @@ export const listRecommendationTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResiliencyPoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the resiliency policies for the Resilience Hub applications.
  */
 export const listResiliencyPolicies: API.OperationMethod<
   ListResiliencyPoliciesRequest,
   ListResiliencyPoliciesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListResiliencyPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResiliencyPoliciesRequest,
   ) => stream.Stream<
     ListResiliencyPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResiliencyPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResiliencyPoliciesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResiliencyPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5458,42 +5400,34 @@ export const listResiliencyPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListResourceGroupingRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the resource grouping recommendations suggested by Resilience Hub for your application.
  */
 export const listResourceGroupingRecommendations: API.OperationMethod<
   ListResourceGroupingRecommendationsRequest,
   ListResourceGroupingRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListResourceGroupingRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceGroupingRecommendationsRequest,
   ) => stream.Stream<
     ListResourceGroupingRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResourceGroupingRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceGroupingRecommendationsRequest,
   ) => stream.Stream<
     GroupingRecommendation,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResourceGroupingRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5513,45 +5447,35 @@ export const listResourceGroupingRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
- */
-export const listSopRecommendations: API.OperationMethod<
-  ListSopRecommendationsRequest,
-  ListSopRecommendationsResponse,
+export type ListSopRecommendationsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
+ */
+export const listSopRecommendations: API.OperationMethod<
+  ListSopRecommendationsRequest,
+  ListSopRecommendationsResponse,
+  ListSopRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSopRecommendationsRequest,
   ) => stream.Stream<
     ListSopRecommendationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSopRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSopRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSopRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5571,6 +5495,13 @@ export const listSopRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSuggestedResiliencyPoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the suggested resiliency policies for the Resilience Hub
  * applications.
@@ -5578,36 +5509,21 @@ export const listSopRecommendations: API.OperationMethod<
 export const listSuggestedResiliencyPolicies: API.OperationMethod<
   ListSuggestedResiliencyPoliciesRequest,
   ListSuggestedResiliencyPoliciesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSuggestedResiliencyPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSuggestedResiliencyPoliciesRequest,
   ) => stream.Stream<
     ListSuggestedResiliencyPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSuggestedResiliencyPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSuggestedResiliencyPoliciesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSuggestedResiliencyPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5626,18 +5542,20 @@ export const listSuggestedResiliencyPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for your resources in your Resilience Hub applications.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -5650,45 +5568,35 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists the test recommendations for the Resilience Hub application.
- */
-export const listTestRecommendations: API.OperationMethod<
-  ListTestRecommendationsRequest,
-  ListTestRecommendationsResponse,
+export type ListTestRecommendationsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the test recommendations for the Resilience Hub application.
+ */
+export const listTestRecommendations: API.OperationMethod<
+  ListTestRecommendationsRequest,
+  ListTestRecommendationsResponse,
+  ListTestRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestRecommendationsRequest,
   ) => stream.Stream<
     ListTestRecommendationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5708,6 +5616,14 @@ export const listTestRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListUnsupportedAppVersionResourcesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the resources that are not currently supported in Resilience Hub. An
  * unsupported resource is a resource that exists in the object that was used to create an app,
@@ -5716,39 +5632,21 @@ export const listTestRecommendations: API.OperationMethod<
 export const listUnsupportedAppVersionResources: API.OperationMethod<
   ListUnsupportedAppVersionResourcesRequest,
   ListUnsupportedAppVersionResourcesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListUnsupportedAppVersionResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUnsupportedAppVersionResourcesRequest,
   ) => stream.Stream<
     ListUnsupportedAppVersionResourcesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUnsupportedAppVersionResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUnsupportedAppVersionResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUnsupportedAppVersionResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5768,19 +5666,21 @@ export const listUnsupportedAppVersionResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Publishes a new version of a specific Resilience Hub application.
- */
-export const publishAppVersion: API.OperationMethod<
-  PublishAppVersionRequest,
-  PublishAppVersionResponse,
+export type PublishAppVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Publishes a new version of a specific Resilience Hub application.
+ */
+export const publishAppVersion: API.OperationMethod<
+  PublishAppVersionRequest,
+  PublishAppVersionResponse,
+  PublishAppVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishAppVersionRequest,
@@ -5794,6 +5694,14 @@ export const publishAppVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDraftAppVersionTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates the app template for an Resilience Hub application draft
  * version.
@@ -5801,13 +5709,7 @@ export const publishAppVersion: API.OperationMethod<
 export const putDraftAppVersionTemplate: API.OperationMethod<
   PutDraftAppVersionTemplateRequest,
   PutDraftAppVersionTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutDraftAppVersionTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDraftAppVersionTemplateRequest,
@@ -5821,18 +5723,20 @@ export const putDraftAppVersionTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RejectResourceGroupingRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Rejects resource grouping recommendations.
  */
 export const rejectResourceGroupingRecommendations: API.OperationMethod<
   RejectResourceGroupingRecommendationsRequest,
   RejectResourceGroupingRecommendationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RejectResourceGroupingRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectResourceGroupingRecommendationsRequest,
@@ -5845,19 +5749,21 @@ export const rejectResourceGroupingRecommendations: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes resource mappings from a draft application version.
- */
-export const removeDraftAppVersionResourceMappings: API.OperationMethod<
-  RemoveDraftAppVersionResourceMappingsRequest,
-  RemoveDraftAppVersionResourceMappingsResponse,
+export type RemoveDraftAppVersionResourceMappingsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes resource mappings from a draft application version.
+ */
+export const removeDraftAppVersionResourceMappings: API.OperationMethod<
+  RemoveDraftAppVersionResourceMappingsRequest,
+  RemoveDraftAppVersionResourceMappingsResponse,
+  RemoveDraftAppVersionResourceMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveDraftAppVersionResourceMappingsRequest,
@@ -5871,19 +5777,21 @@ export const removeDraftAppVersionResourceMappings: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Resolves the resources for an application version.
- */
-export const resolveAppVersionResources: API.OperationMethod<
-  ResolveAppVersionResourcesRequest,
-  ResolveAppVersionResourcesResponse,
+export type ResolveAppVersionResourcesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Resolves the resources for an application version.
+ */
+export const resolveAppVersionResources: API.OperationMethod<
+  ResolveAppVersionResourcesRequest,
+  ResolveAppVersionResourcesResponse,
+  ResolveAppVersionResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveAppVersionResourcesRequest,
@@ -5897,12 +5805,7 @@ export const resolveAppVersionResources: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new application assessment for an application.
- */
-export const startAppAssessment: API.OperationMethod<
-  StartAppAssessmentRequest,
-  StartAppAssessmentResponse,
+export type StartAppAssessmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -5910,7 +5813,14 @@ export const startAppAssessment: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new application assessment for an application.
+ */
+export const startAppAssessment: API.OperationMethod<
+  StartAppAssessmentRequest,
+  StartAppAssessmentResponse,
+  StartAppAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAppAssessmentRequest,
@@ -5925,19 +5835,21 @@ export const startAppAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Initiates the export task of metrics.
- */
-export const startMetricsExport: API.OperationMethod<
-  StartMetricsExportRequest,
-  StartMetricsExportResponse,
+export type StartMetricsExportError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates the export task of metrics.
+ */
+export const startMetricsExport: API.OperationMethod<
+  StartMetricsExportRequest,
+  StartMetricsExportResponse,
+  StartMetricsExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetricsExportRequest,
@@ -5951,19 +5863,21 @@ export const startMetricsExport: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts grouping recommendation task.
- */
-export const startResourceGroupingRecommendationTask: API.OperationMethod<
-  StartResourceGroupingRecommendationTaskRequest,
-  StartResourceGroupingRecommendationTaskResponse,
+export type StartResourceGroupingRecommendationTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts grouping recommendation task.
+ */
+export const startResourceGroupingRecommendationTask: API.OperationMethod<
+  StartResourceGroupingRecommendationTaskRequest,
+  StartResourceGroupingRecommendationTaskResponse,
+  StartResourceGroupingRecommendationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartResourceGroupingRecommendationTaskRequest,
@@ -5977,18 +5891,20 @@ export const startResourceGroupingRecommendationTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Applies one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -6001,18 +5917,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -6025,19 +5943,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an application.
- */
-export const updateApp: API.OperationMethod<
-  UpdateAppRequest,
-  UpdateAppResponse,
+export type UpdateAppError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an application.
+ */
+export const updateApp: API.OperationMethod<
+  UpdateAppRequest,
+  UpdateAppResponse,
+  UpdateAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppRequest,
@@ -6051,6 +5971,14 @@ export const updateApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAppVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the Resilience Hub application version.
  *
@@ -6061,13 +5989,7 @@ export const updateApp: API.OperationMethod<
 export const updateAppVersion: API.OperationMethod<
   UpdateAppVersionRequest,
   UpdateAppVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAppVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppVersionRequest,
@@ -6081,6 +6003,14 @@ export const updateAppVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAppVersionAppComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing Application Component in the Resilience Hub application.
  *
@@ -6091,13 +6021,7 @@ export const updateAppVersion: API.OperationMethod<
 export const updateAppVersionAppComponent: API.OperationMethod<
   UpdateAppVersionAppComponentRequest,
   UpdateAppVersionAppComponentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAppVersionAppComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppVersionAppComponentRequest,
@@ -6111,6 +6035,15 @@ export const updateAppVersionAppComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAppVersionResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the resource details in the Resilience Hub application.
  *
@@ -6126,14 +6059,7 @@ export const updateAppVersionAppComponent: API.OperationMethod<
 export const updateAppVersionResource: API.OperationMethod<
   UpdateAppVersionResourceRequest,
   UpdateAppVersionResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAppVersionResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppVersionResourceRequest,
@@ -6148,6 +6074,14 @@ export const updateAppVersionResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateResiliencyPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a resiliency policy.
  *
@@ -6162,13 +6096,7 @@ export const updateAppVersionResource: API.OperationMethod<
 export const updateResiliencyPolicy: API.OperationMethod<
   UpdateResiliencyPolicyRequest,
   UpdateResiliencyPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateResiliencyPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResiliencyPolicyRequest,

@@ -1941,6 +1941,12 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type GetMedicalScribeStreamError =
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provides details about the specified Amazon Web Services HealthScribe streaming session.
  * To view the status of the streaming session, check the `StreamStatus` field in the response. To get the
@@ -1949,11 +1955,7 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 export const getMedicalScribeStream: API.OperationMethod<
   GetMedicalScribeStreamRequest,
   GetMedicalScribeStreamResponse,
-  | BadRequestException
-  | InternalFailureException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMedicalScribeStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMedicalScribeStreamRequest,
@@ -1965,6 +1967,13 @@ export const getMedicalScribeStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartCallAnalyticsStreamTranscriptionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to
  * Amazon Transcribe and the transcription results are streamed to your application. Use this operation
@@ -1983,12 +1992,7 @@ export const getMedicalScribeStream: API.OperationMethod<
 export const startCallAnalyticsStreamTranscription: API.OperationMethod<
   StartCallAnalyticsStreamTranscriptionRequest,
   StartCallAnalyticsStreamTranscriptionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  StartCallAnalyticsStreamTranscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCallAnalyticsStreamTranscriptionRequest,
@@ -2001,6 +2005,13 @@ export const startCallAnalyticsStreamTranscription: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartMedicalScribeStreamError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Starts a bidirectional HTTP/2 stream, where audio is streamed to
  * Amazon Web Services HealthScribe
@@ -2035,12 +2046,7 @@ export const startCallAnalyticsStreamTranscription: API.OperationMethod<
 export const startMedicalScribeStream: API.OperationMethod<
   StartMedicalScribeStreamRequest,
   StartMedicalScribeStreamResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  StartMedicalScribeStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMedicalScribeStreamRequest,
@@ -2053,6 +2059,13 @@ export const startMedicalScribeStream: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartMedicalStreamTranscriptionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to
  * Amazon Transcribe Medical and the transcription results are streamed to your
@@ -2073,12 +2086,7 @@ export const startMedicalScribeStream: API.OperationMethod<
 export const startMedicalStreamTranscription: API.OperationMethod<
   StartMedicalStreamTranscriptionRequest,
   StartMedicalStreamTranscriptionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  StartMedicalStreamTranscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMedicalStreamTranscriptionRequest,
@@ -2091,6 +2099,13 @@ export const startMedicalStreamTranscription: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartStreamTranscriptionError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to
  * Amazon Transcribe and the transcription results are streamed to your application.
@@ -2108,12 +2123,7 @@ export const startMedicalStreamTranscription: API.OperationMethod<
 export const startStreamTranscription: API.OperationMethod<
   StartStreamTranscriptionRequest,
   StartStreamTranscriptionResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
+  StartStreamTranscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartStreamTranscriptionRequest,

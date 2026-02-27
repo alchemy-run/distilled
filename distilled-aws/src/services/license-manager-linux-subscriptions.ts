@@ -603,6 +603,12 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ) {}
 
 //# Operations
+export type DeregisterSubscriptionProviderError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions
  * registered to your account.
@@ -610,11 +616,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const deregisterSubscriptionProvider: API.OperationMethod<
   DeregisterSubscriptionProviderRequest,
   DeregisterSubscriptionProviderResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeregisterSubscriptionProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterSubscriptionProviderRequest,
@@ -626,17 +628,19 @@ export const deregisterSubscriptionProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRegisteredSubscriptionProviderError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
  */
 export const getRegisteredSubscriptionProvider: API.OperationMethod<
   GetRegisteredSubscriptionProviderRequest,
   GetRegisteredSubscriptionProviderResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRegisteredSubscriptionProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegisteredSubscriptionProviderRequest,
@@ -648,22 +652,29 @@ export const getRegisteredSubscriptionProvider: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceSettingsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Linux subscriptions service settings for your account.
  */
 export const getServiceSettings: API.OperationMethod<
   GetServiceSettingsRequest,
   GetServiceSettingsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
   output: GetServiceSettingsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+export type ListLinuxSubscriptionInstancesError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the running Amazon EC2 instances that were discovered with commercial Linux
  * subscriptions.
@@ -671,30 +682,21 @@ export const getServiceSettings: API.OperationMethod<
 export const listLinuxSubscriptionInstances: API.OperationMethod<
   ListLinuxSubscriptionInstancesRequest,
   ListLinuxSubscriptionInstancesResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLinuxSubscriptionInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLinuxSubscriptionInstancesRequest,
   ) => stream.Stream<
     ListLinuxSubscriptionInstancesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLinuxSubscriptionInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLinuxSubscriptionInstancesRequest,
   ) => stream.Stream<
     Instance,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLinuxSubscriptionInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -708,6 +710,11 @@ export const listLinuxSubscriptionInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLinuxSubscriptionsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Linux subscriptions that have been discovered. If you have linked your
  * organization, the returned results will include data aggregated across your accounts in
@@ -716,30 +723,21 @@ export const listLinuxSubscriptionInstances: API.OperationMethod<
 export const listLinuxSubscriptions: API.OperationMethod<
   ListLinuxSubscriptionsRequest,
   ListLinuxSubscriptionsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLinuxSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLinuxSubscriptionsRequest,
   ) => stream.Stream<
     ListLinuxSubscriptionsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLinuxSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLinuxSubscriptionsRequest,
   ) => stream.Stream<
     Subscription,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLinuxSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -753,36 +751,32 @@ export const listLinuxSubscriptions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRegisteredSubscriptionProvidersError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List Bring Your Own License (BYOL) subscription registration resources for your account.
  */
 export const listRegisteredSubscriptionProviders: API.OperationMethod<
   ListRegisteredSubscriptionProvidersRequest,
   ListRegisteredSubscriptionProvidersResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRegisteredSubscriptionProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRegisteredSubscriptionProvidersRequest,
   ) => stream.Stream<
     ListRegisteredSubscriptionProvidersResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRegisteredSubscriptionProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRegisteredSubscriptionProvidersRequest,
   ) => stream.Stream<
     RegisteredSubscriptionProvider,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRegisteredSubscriptionProvidersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -796,6 +790,11 @@ export const listRegisteredSubscriptionProviders: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the metadata tags that are assigned to the
  * specified Amazon Web Services resource.
@@ -803,10 +802,7 @@ export const listRegisteredSubscriptionProviders: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -817,32 +813,36 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterSubscriptionProviderError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
  */
 export const registerSubscriptionProvider: API.OperationMethod<
   RegisterSubscriptionProviderRequest,
   RegisterSubscriptionProviderResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RegisterSubscriptionProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterSubscriptionProviderRequest,
   output: RegisterSubscriptionProviderResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Add metadata tags to the specified Amazon Web Services resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -853,29 +853,35 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type UpdateServiceSettingsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the service settings for Linux subscriptions.
  */
 export const updateServiceSettings: API.OperationMethod<
   UpdateServiceSettingsRequest,
   UpdateServiceSettingsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServiceSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceSettingsRequest,

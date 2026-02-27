@@ -9583,6 +9583,10 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AcceptAdministratorInvitationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Accepts the invitation to be a member account and get monitored by a GuardDuty
  * administrator account that sent the invitation.
@@ -9590,26 +9594,34 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const acceptAdministratorInvitation: API.OperationMethod<
   AcceptAdministratorInvitationRequest,
   AcceptAdministratorInvitationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  AcceptAdministratorInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptAdministratorInvitationRequest,
   output: AcceptAdministratorInvitationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type AcceptInvitationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Accepts the invitation to be monitored by a GuardDuty administrator account.
  */
 export const acceptInvitation: API.OperationMethod<
   AcceptInvitationRequest,
   AcceptInvitationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  AcceptInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInvitationRequest,
   output: AcceptInvitationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type ArchiveFindingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Archives GuardDuty findings that are specified by the list of finding IDs.
  *
@@ -9619,13 +9631,17 @@ export const acceptInvitation: API.OperationMethod<
 export const archiveFindings: API.OperationMethod<
   ArchiveFindingsRequest,
   ArchiveFindingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ArchiveFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchiveFindingsRequest,
   output: ArchiveFindingsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateDetectorError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a single GuardDuty detector. A detector is a resource that represents the
  * GuardDuty service. To start using GuardDuty, you must create a detector in each Region where
@@ -9652,13 +9668,17 @@ export const archiveFindings: API.OperationMethod<
 export const createDetector: API.OperationMethod<
   CreateDetectorRequest,
   CreateDetectorResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDetectorRequest,
   output: CreateDetectorResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateFilterError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a filter using the specified finding criteria. The maximum number of saved filters
  * per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty.
@@ -9666,13 +9686,18 @@ export const createDetector: API.OperationMethod<
 export const createFilter: API.OperationMethod<
   CreateFilterRequest,
   CreateFilterResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFilterRequest,
   output: CreateFilterResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateIPSetError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a new IPSet, which is called a trusted IP list in the console user interface. An
  * IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services
@@ -9682,10 +9707,7 @@ export const createFilter: API.OperationMethod<
 export const createIPSet: API.OperationMethod<
   CreateIPSetRequest,
   CreateIPSetResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  CreateIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIPSetRequest,
@@ -9696,6 +9718,12 @@ export const createIPSet: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type CreateMalwareProtectionPlanError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a new Malware Protection plan for the protected resource.
  *
@@ -9705,11 +9733,7 @@ export const createIPSet: API.OperationMethod<
 export const createMalwareProtectionPlan: API.OperationMethod<
   CreateMalwareProtectionPlanRequest,
   CreateMalwareProtectionPlanResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | CommonErrors,
+  CreateMalwareProtectionPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMalwareProtectionPlanRequest,
@@ -9721,6 +9745,10 @@ export const createMalwareProtectionPlan: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type CreateMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account
  * IDs. This step is a prerequisite for managing the associated member accounts either by
@@ -9750,13 +9778,17 @@ export const createMalwareProtectionPlan: API.OperationMethod<
 export const createMembers: API.OperationMethod<
   CreateMembersRequest,
   CreateMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMembersRequest,
   output: CreateMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreatePublishingDestinationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the
  * findings, the destination resource must exist.
@@ -9764,13 +9796,17 @@ export const createMembers: API.OperationMethod<
 export const createPublishingDestination: API.OperationMethod<
   CreatePublishingDestinationRequest,
   CreatePublishingDestinationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreatePublishingDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePublishingDestinationRequest,
   output: CreatePublishingDestinationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateSampleFindingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Generates sample findings of types specified by the list of finding types. If 'NULL' is
  * specified for `findingTypes`, the API generates sample findings of all supported
@@ -9779,13 +9815,17 @@ export const createPublishingDestination: API.OperationMethod<
 export const createSampleFindings: API.OperationMethod<
   CreateSampleFindingsRequest,
   CreateSampleFindingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateSampleFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSampleFindingsRequest,
   output: CreateSampleFindingsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateThreatEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a new threat entity set. In a threat entity set, you can provide known malicious
  * IP addresses and domains for your Amazon Web Services environment.
@@ -9796,13 +9836,18 @@ export const createSampleFindings: API.OperationMethod<
 export const createThreatEntitySet: API.OperationMethod<
   CreateThreatEntitySetRequest,
   CreateThreatEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateThreatEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThreatEntitySetRequest,
   output: CreateThreatEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type CreateThreatIntelSetError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses.
  * GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator
@@ -9811,10 +9856,7 @@ export const createThreatEntitySet: API.OperationMethod<
 export const createThreatIntelSet: API.OperationMethod<
   CreateThreatIntelSetRequest,
   CreateThreatIntelSetResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  CreateThreatIntelSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThreatIntelSetRequest,
@@ -9825,6 +9867,10 @@ export const createThreatIntelSet: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type CreateTrustedEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses
  * and domains that you believe are secure for communication in your Amazon Web Services environment. GuardDuty
@@ -9837,13 +9883,17 @@ export const createThreatIntelSet: API.OperationMethod<
 export const createTrustedEntitySet: API.OperationMethod<
   CreateTrustedEntitySetRequest,
   CreateTrustedEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  CreateTrustedEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustedEntitySetRequest,
   output: CreateTrustedEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeclineInvitationsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Declines invitations sent to the current member account by Amazon Web Services accounts specified by
  * their account IDs.
@@ -9851,39 +9901,51 @@ export const createTrustedEntitySet: API.OperationMethod<
 export const declineInvitations: API.OperationMethod<
   DeclineInvitationsRequest,
   DeclineInvitationsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeclineInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeclineInvitationsRequest,
   output: DeclineInvitationsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteDetectorError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes an Amazon GuardDuty detector that is specified by the detector ID.
  */
 export const deleteDetector: API.OperationMethod<
   DeleteDetectorRequest,
   DeleteDetectorResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectorRequest,
   output: DeleteDetectorResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteFilterError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes the filter specified by the filter name.
  */
 export const deleteFilter: API.OperationMethod<
   DeleteFilterRequest,
   DeleteFilterResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFilterRequest,
   output: DeleteFilterResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteInvitationsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes invitations sent to the current member account by Amazon Web Services accounts specified by
  * their account IDs.
@@ -9891,13 +9953,17 @@ export const deleteFilter: API.OperationMethod<
 export const deleteInvitations: API.OperationMethod<
   DeleteInvitationsRequest,
   DeleteInvitationsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvitationsRequest,
   output: DeleteInvitationsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteIPSetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes the IPSet specified by the `ipSetId`. IPSets are called trusted IP
  * lists in the console user interface.
@@ -9905,13 +9971,19 @@ export const deleteInvitations: API.OperationMethod<
 export const deleteIPSet: API.OperationMethod<
   DeleteIPSetRequest,
   DeleteIPSetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIPSetRequest,
   output: DeleteIPSetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteMalwareProtectionPlanError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the Malware Protection plan ID associated with the Malware Protection plan resource.
  * Use this API only when you no longer want to protect the resource associated with this
@@ -9920,11 +9992,7 @@ export const deleteIPSet: API.OperationMethod<
 export const deleteMalwareProtectionPlan: API.OperationMethod<
   DeleteMalwareProtectionPlanRequest,
   DeleteMalwareProtectionPlanResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteMalwareProtectionPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMalwareProtectionPlanRequest,
@@ -9936,6 +10004,10 @@ export const deleteMalwareProtectionPlan: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes GuardDuty member accounts (to the current GuardDuty administrator account)
  * specified by the account IDs.
@@ -9947,26 +10019,34 @@ export const deleteMalwareProtectionPlan: API.OperationMethod<
 export const deleteMembers: API.OperationMethod<
   DeleteMembersRequest,
   DeleteMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMembersRequest,
   output: DeleteMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeletePublishingDestinationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes the publishing definition with the specified `destinationId`.
  */
 export const deletePublishingDestination: API.OperationMethod<
   DeletePublishingDestinationRequest,
   DeletePublishingDestinationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeletePublishingDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePublishingDestinationRequest,
   output: DeletePublishingDestinationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteThreatEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes the threat entity set that is associated with the specified
  * `threatEntitySetId`.
@@ -9974,26 +10054,34 @@ export const deletePublishingDestination: API.OperationMethod<
 export const deleteThreatEntitySet: API.OperationMethod<
   DeleteThreatEntitySetRequest,
   DeleteThreatEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteThreatEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThreatEntitySetRequest,
   output: DeleteThreatEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteThreatIntelSetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
 export const deleteThreatIntelSet: API.OperationMethod<
   DeleteThreatIntelSetRequest,
   DeleteThreatIntelSetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteThreatIntelSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThreatIntelSetRequest,
   output: DeleteThreatIntelSetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DeleteTrustedEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Deletes the trusted entity set that is associated with the specified
  * `trustedEntitySetId`.
@@ -10001,13 +10089,17 @@ export const deleteThreatIntelSet: API.OperationMethod<
 export const deleteTrustedEntitySet: API.OperationMethod<
   DeleteTrustedEntitySetRequest,
   DeleteTrustedEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DeleteTrustedEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustedEntitySetRequest,
   output: DeleteTrustedEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DescribeMalwareScansError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns a list of malware scans. Each member account can view the malware scans for their
  * own accounts. An administrator can view the malware scans for all the member accounts.
@@ -10019,21 +10111,21 @@ export const deleteTrustedEntitySet: API.OperationMethod<
 export const describeMalwareScans: API.OperationMethod<
   DescribeMalwareScansRequest,
   DescribeMalwareScansResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DescribeMalwareScansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMalwareScansRequest,
   ) => stream.Stream<
     DescribeMalwareScansResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    DescribeMalwareScansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMalwareScansRequest,
   ) => stream.Stream<
     Scan,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    DescribeMalwareScansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10047,6 +10139,10 @@ export const describeMalwareScans: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeOrganizationConfigurationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns information about the account selected as the delegated administrator for
  * GuardDuty.
@@ -10058,21 +10154,21 @@ export const describeMalwareScans: API.OperationMethod<
 export const describeOrganizationConfiguration: API.OperationMethod<
   DescribeOrganizationConfigurationRequest,
   DescribeOrganizationConfigurationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DescribeOrganizationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrganizationConfigurationRequest,
   ) => stream.Stream<
     DescribeOrganizationConfigurationResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    DescribeOrganizationConfigurationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrganizationConfigurationRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    DescribeOrganizationConfigurationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10085,6 +10181,10 @@ export const describeOrganizationConfiguration: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePublishingDestinationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns information about the publishing destination specified by the provided
  * `destinationId`.
@@ -10092,13 +10192,17 @@ export const describeOrganizationConfiguration: API.OperationMethod<
 export const describePublishingDestination: API.OperationMethod<
   DescribePublishingDestinationRequest,
   DescribePublishingDestinationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DescribePublishingDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePublishingDestinationRequest,
   output: DescribePublishingDestinationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DisableOrganizationAdminAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Removes the existing GuardDuty delegated
  * administrator of the organization. Only the organization's management account can run this
@@ -10107,13 +10211,17 @@ export const describePublishingDestination: API.OperationMethod<
 export const disableOrganizationAdminAccount: API.OperationMethod<
   DisableOrganizationAdminAccountRequest,
   DisableOrganizationAdminAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DisableOrganizationAdminAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableOrganizationAdminAccountRequest,
   output: DisableOrganizationAdminAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DisassociateFromAdministratorAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Disassociates the current GuardDuty member account from its administrator account.
  *
@@ -10131,13 +10239,17 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
 export const disassociateFromAdministratorAccount: API.OperationMethod<
   DisassociateFromAdministratorAccountRequest,
   DisassociateFromAdministratorAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DisassociateFromAdministratorAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFromAdministratorAccountRequest,
   output: DisassociateFromAdministratorAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DisassociateFromMasterAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Disassociates the current GuardDuty member account from its administrator account.
  *
@@ -10151,13 +10263,17 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
 export const disassociateFromMasterAccount: API.OperationMethod<
   DisassociateFromMasterAccountRequest,
   DisassociateFromMasterAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DisassociateFromMasterAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFromMasterAccountRequest,
   output: DisassociateFromMasterAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type DisassociateMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Disassociates GuardDuty member accounts (from the current administrator account) specified
  * by the account IDs.
@@ -10186,13 +10302,17 @@ export const disassociateFromMasterAccount: API.OperationMethod<
 export const disassociateMembers: API.OperationMethod<
   DisassociateMembersRequest,
   DisassociateMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  DisassociateMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMembersRequest,
   output: DisassociateMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type EnableOrganizationAdminAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Designates an Amazon Web Services account within the organization as your GuardDuty delegated
  * administrator. Only the organization's management account can run this
@@ -10201,13 +10321,17 @@ export const disassociateMembers: API.OperationMethod<
 export const enableOrganizationAdminAccount: API.OperationMethod<
   EnableOrganizationAdminAccountRequest,
   EnableOrganizationAdminAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  EnableOrganizationAdminAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableOrganizationAdminAccountRequest,
   output: EnableOrganizationAdminAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetAdministratorAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Provides the details of the GuardDuty administrator account associated with the current
  * GuardDuty member account.
@@ -10225,13 +10349,17 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
 export const getAdministratorAccount: API.OperationMethod<
   GetAdministratorAccountRequest,
   GetAdministratorAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetAdministratorAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdministratorAccountRequest,
   output: GetAdministratorAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetCoverageStatisticsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you
  * can retrieve the statistics for all the resources associated with the active member accounts
@@ -10241,13 +10369,17 @@ export const getAdministratorAccount: API.OperationMethod<
 export const getCoverageStatistics: API.OperationMethod<
   GetCoverageStatisticsRequest,
   GetCoverageStatisticsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetCoverageStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoverageStatisticsRequest,
   output: GetCoverageStatisticsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetDetectorError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves a GuardDuty detector specified by the detectorId.
  *
@@ -10258,39 +10390,51 @@ export const getCoverageStatistics: API.OperationMethod<
 export const getDetector: API.OperationMethod<
   GetDetectorRequest,
   GetDetectorResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDetectorRequest,
   output: GetDetectorResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetFilterError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns the details of the filter specified by the filter name.
  */
 export const getFilter: API.OperationMethod<
   GetFilterRequest,
   GetFilterResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFilterRequest,
   output: GetFilterResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetFindingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Describes Amazon GuardDuty findings specified by finding IDs.
  */
 export const getFindings: API.OperationMethod<
   GetFindingsRequest,
   GetFindingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingsRequest,
   output: GetFindingsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetFindingsStatisticsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists GuardDuty findings statistics for the specified detector ID.
  *
@@ -10304,13 +10448,17 @@ export const getFindings: API.OperationMethod<
 export const getFindingsStatistics: API.OperationMethod<
   GetFindingsStatisticsRequest,
   GetFindingsStatisticsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetFindingsStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingsStatisticsRequest,
   output: GetFindingsStatisticsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetInvitationsCountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns the count of all GuardDuty membership invitations that were sent to the current
  * member account except the currently accepted invitation.
@@ -10318,26 +10466,36 @@ export const getFindingsStatistics: API.OperationMethod<
 export const getInvitationsCount: API.OperationMethod<
   GetInvitationsCountRequest,
   GetInvitationsCountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetInvitationsCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvitationsCountRequest,
   output: GetInvitationsCountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetIPSetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the IPSet specified by the `ipSetId`.
  */
 export const getIPSet: API.OperationMethod<
   GetIPSetRequest,
   GetIPSetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIPSetRequest,
   output: GetIPSetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetMalwareProtectionPlanError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the Malware Protection plan details associated with a Malware Protection
  * plan ID.
@@ -10345,11 +10503,7 @@ export const getIPSet: API.OperationMethod<
 export const getMalwareProtectionPlan: API.OperationMethod<
   GetMalwareProtectionPlanRequest,
   GetMalwareProtectionPlanResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMalwareProtectionPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMalwareProtectionPlanRequest,
@@ -10361,6 +10515,11 @@ export const getMalwareProtectionPlan: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMalwareScanError =
+  | BadRequestException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the detailed information for a specific malware scan. Each member account can view the malware scan details for their
  * own account. An administrator can view malware scan details for all accounts in the organization.
@@ -10372,10 +10531,7 @@ export const getMalwareProtectionPlan: API.OperationMethod<
 export const getMalwareScan: API.OperationMethod<
   GetMalwareScanRequest,
   GetMalwareScanResponse,
-  | BadRequestException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMalwareScanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMalwareScanRequest,
@@ -10386,6 +10542,10 @@ export const getMalwareScan: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMalwareScanSettingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns the details of the malware scan settings.
  *
@@ -10396,13 +10556,17 @@ export const getMalwareScan: API.OperationMethod<
 export const getMalwareScanSettings: API.OperationMethod<
   GetMalwareScanSettingsRequest,
   GetMalwareScanSettingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetMalwareScanSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMalwareScanSettingsRequest,
   output: GetMalwareScanSettingsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetMasterAccountError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Provides the details for the GuardDuty administrator account associated with the current
  * GuardDuty member account.
@@ -10410,13 +10574,17 @@ export const getMalwareScanSettings: API.OperationMethod<
 export const getMasterAccount: API.OperationMethod<
   GetMasterAccountRequest,
   GetMasterAccountResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetMasterAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMasterAccountRequest,
   output: GetMasterAccountResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetMemberDetectorsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Describes which data sources are enabled for the member account's detector.
  *
@@ -10427,13 +10595,17 @@ export const getMasterAccount: API.OperationMethod<
 export const getMemberDetectors: API.OperationMethod<
   GetMemberDetectorsRequest,
   GetMemberDetectorsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetMemberDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberDetectorsRequest,
   output: GetMemberDetectorsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves GuardDuty member accounts (of the current GuardDuty administrator account)
  * specified by the account IDs.
@@ -10441,13 +10613,17 @@ export const getMemberDetectors: API.OperationMethod<
 export const getMembers: API.OperationMethod<
   GetMembersRequest,
   GetMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembersRequest,
   output: GetMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetOrganizationStatisticsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves how many active member accounts have
  * each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API.
@@ -10458,13 +10634,17 @@ export const getMembers: API.OperationMethod<
 export const getOrganizationStatistics: API.OperationMethod<
   GetOrganizationStatisticsRequest,
   GetOrganizationStatisticsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetOrganizationStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationStatisticsRequest,
   output: GetOrganizationStatisticsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetRemainingFreeTrialDaysError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Provides the number of days left for each data source used in the free trial
  * period.
@@ -10472,52 +10652,68 @@ export const getOrganizationStatistics: API.OperationMethod<
 export const getRemainingFreeTrialDays: API.OperationMethod<
   GetRemainingFreeTrialDaysRequest,
   GetRemainingFreeTrialDaysResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetRemainingFreeTrialDaysError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRemainingFreeTrialDaysRequest,
   output: GetRemainingFreeTrialDaysResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetThreatEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the threat entity set associated with the specified `threatEntitySetId`.
  */
 export const getThreatEntitySet: API.OperationMethod<
   GetThreatEntitySetRequest,
   GetThreatEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetThreatEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThreatEntitySetRequest,
   output: GetThreatEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetThreatIntelSetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
  */
 export const getThreatIntelSet: API.OperationMethod<
   GetThreatIntelSetRequest,
   GetThreatIntelSetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetThreatIntelSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThreatIntelSetRequest,
   output: GetThreatIntelSetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetTrustedEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Retrieves the trusted entity set associated with the specified `trustedEntitySetId`.
  */
 export const getTrustedEntitySet: API.OperationMethod<
   GetTrustedEntitySetRequest,
   GetTrustedEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetTrustedEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrustedEntitySetRequest,
   output: GetTrustedEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type GetUsageStatisticsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector
  * ID. For newly enabled detectors or data sources, the cost returned will include only the usage
@@ -10527,21 +10723,21 @@ export const getTrustedEntitySet: API.OperationMethod<
 export const getUsageStatistics: API.OperationMethod<
   GetUsageStatisticsRequest,
   GetUsageStatisticsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  GetUsageStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetUsageStatisticsRequest,
   ) => stream.Stream<
     GetUsageStatisticsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    GetUsageStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetUsageStatisticsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    GetUsageStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10554,6 +10750,10 @@ export const getUsageStatistics: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type InviteMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account
  * that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not
@@ -10589,13 +10789,17 @@ export const getUsageStatistics: API.OperationMethod<
 export const inviteMembers: API.OperationMethod<
   InviteMembersRequest,
   InviteMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  InviteMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InviteMembersRequest,
   output: InviteMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type ListCoverageError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can
  * retrieve all resources associated with the active member accounts in your organization.
@@ -10606,21 +10810,21 @@ export const inviteMembers: API.OperationMethod<
 export const listCoverage: API.OperationMethod<
   ListCoverageRequest,
   ListCoverageResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListCoverageError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCoverageRequest,
   ) => stream.Stream<
     ListCoverageResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListCoverageError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCoverageRequest,
   ) => stream.Stream<
     CoverageResource,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListCoverageError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10634,27 +10838,31 @@ export const listCoverage: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDetectorsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists detectorIds of all the existing Amazon GuardDuty detector resources.
  */
 export const listDetectors: API.OperationMethod<
   ListDetectorsRequest,
   ListDetectorsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDetectorsRequest,
   ) => stream.Stream<
     ListDetectorsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDetectorsRequest,
   ) => stream.Stream<
     DetectorId,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10668,27 +10876,31 @@ export const listDetectors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFiltersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns a paginated list of the current filters.
  */
 export const listFilters: API.OperationMethod<
   ListFiltersRequest,
   ListFiltersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListFiltersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFiltersRequest,
   ) => stream.Stream<
     ListFiltersResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFiltersRequest,
   ) => stream.Stream<
     FilterName,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10702,6 +10914,10 @@ export const listFilters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFindingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists GuardDuty findings for the specified detector ID.
  *
@@ -10711,21 +10927,21 @@ export const listFilters: API.OperationMethod<
 export const listFindings: API.OperationMethod<
   ListFindingsRequest,
   ListFindingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     ListFindingsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     FindingId,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10739,6 +10955,10 @@ export const listFindings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInvitationsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services
  * account.
@@ -10746,21 +10966,21 @@ export const listFindings: API.OperationMethod<
 export const listInvitations: API.OperationMethod<
   ListInvitationsRequest,
   ListInvitationsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInvitationsRequest,
   ) => stream.Stream<
     ListInvitationsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvitationsRequest,
   ) => stream.Stream<
     Invitation,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10774,6 +10994,10 @@ export const listInvitations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListIPSetsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this
  * operation from a member account, the IPSets returned are the IPSets from the associated
@@ -10782,21 +11006,21 @@ export const listInvitations: API.OperationMethod<
 export const listIPSets: API.OperationMethod<
   ListIPSetsRequest,
   ListIPSetsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListIPSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIPSetsRequest,
   ) => stream.Stream<
     ListIPSetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListIPSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIPSetsRequest,
   ) => stream.Stream<
     string,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListIPSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10810,6 +11034,11 @@ export const listIPSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMalwareProtectionPlansError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists the Malware Protection plan IDs associated with the protected
  * resources in your Amazon Web Services account.
@@ -10817,10 +11046,7 @@ export const listIPSets: API.OperationMethod<
 export const listMalwareProtectionPlans: API.OperationMethod<
   ListMalwareProtectionPlansRequest,
   ListMalwareProtectionPlansResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  ListMalwareProtectionPlansError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMalwareProtectionPlansRequest,
@@ -10831,6 +11057,10 @@ export const listMalwareProtectionPlans: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type ListMalwareScansError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns a list of malware scans. Each member account can view the malware scans for their
  * own accounts. An administrator can view the malware scans for all of its members' accounts.
@@ -10838,21 +11068,21 @@ export const listMalwareProtectionPlans: API.OperationMethod<
 export const listMalwareScans: API.OperationMethod<
   ListMalwareScansRequest,
   ListMalwareScansResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListMalwareScansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMalwareScansRequest,
   ) => stream.Stream<
     ListMalwareScansResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListMalwareScansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMalwareScansRequest,
   ) => stream.Stream<
     MalwareScan,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListMalwareScansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10866,6 +11096,10 @@ export const listMalwareScans: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists details about all member accounts for the current GuardDuty administrator
  * account.
@@ -10873,21 +11107,21 @@ export const listMalwareScans: API.OperationMethod<
 export const listMembers: API.OperationMethod<
   ListMembersRequest,
   ListMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
     ListMembersResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMembersRequest,
   ) => stream.Stream<
     Member,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10901,6 +11135,10 @@ export const listMembers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOrganizationAdminAccountsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists the accounts designated as GuardDuty delegated administrators.
  * Only the organization's management account can run this
@@ -10909,21 +11147,21 @@ export const listMembers: API.OperationMethod<
 export const listOrganizationAdminAccounts: API.OperationMethod<
   ListOrganizationAdminAccountsRequest,
   ListOrganizationAdminAccountsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListOrganizationAdminAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationAdminAccountsRequest,
   ) => stream.Stream<
     ListOrganizationAdminAccountsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListOrganizationAdminAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationAdminAccountsRequest,
   ) => stream.Stream<
     AdminAccount,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListOrganizationAdminAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10937,6 +11175,10 @@ export const listOrganizationAdminAccounts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPublishingDestinationsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns a list of publishing destinations associated with the specified
  * `detectorId`.
@@ -10944,21 +11186,21 @@ export const listOrganizationAdminAccounts: API.OperationMethod<
 export const listPublishingDestinations: API.OperationMethod<
   ListPublishingDestinationsRequest,
   ListPublishingDestinationsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListPublishingDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPublishingDestinationsRequest,
   ) => stream.Stream<
     ListPublishingDestinationsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListPublishingDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPublishingDestinationsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListPublishingDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -10971,6 +11213,11 @@ export const listPublishingDestinations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists tags for a resource. Tagging is currently supported for detectors, finding filters,
  * IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource.
@@ -10980,10 +11227,7 @@ export const listPublishingDestinations: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -10994,6 +11238,10 @@ export const listTagsForResource: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type ListThreatEntitySetsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this
  * operation from a member account, the threat entity sets that are returned as a response, belong to the
@@ -11002,21 +11250,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listThreatEntitySets: API.OperationMethod<
   ListThreatEntitySetsRequest,
   ListThreatEntitySetsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListThreatEntitySetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThreatEntitySetsRequest,
   ) => stream.Stream<
     ListThreatEntitySetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListThreatEntitySetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThreatEntitySetsRequest,
   ) => stream.Stream<
     string,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListThreatEntitySetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11030,6 +11278,10 @@ export const listThreatEntitySets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListThreatIntelSetsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you
  * use this operation from a member account, the ThreatIntelSets associated with the
@@ -11038,21 +11290,21 @@ export const listThreatEntitySets: API.OperationMethod<
 export const listThreatIntelSets: API.OperationMethod<
   ListThreatIntelSetsRequest,
   ListThreatIntelSetsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListThreatIntelSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListThreatIntelSetsRequest,
   ) => stream.Stream<
     ListThreatIntelSetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListThreatIntelSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThreatIntelSetsRequest,
   ) => stream.Stream<
     string,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListThreatIntelSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11066,6 +11318,10 @@ export const listThreatIntelSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTrustedEntitySetsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this
  * operation from a member account, the trusted entity sets that are returned as a response, belong to the
@@ -11074,21 +11330,21 @@ export const listThreatIntelSets: API.OperationMethod<
 export const listTrustedEntitySets: API.OperationMethod<
   ListTrustedEntitySetsRequest,
   ListTrustedEntitySetsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  ListTrustedEntitySetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrustedEntitySetsRequest,
   ) => stream.Stream<
     ListTrustedEntitySetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListTrustedEntitySetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrustedEntitySetsRequest,
   ) => stream.Stream<
     string,
-    BadRequestException | InternalServerErrorException | CommonErrors,
+    ListTrustedEntitySetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11102,6 +11358,11 @@ export const listTrustedEntitySets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SendObjectMalwareScanError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand malware scanning of individual objects in S3 buckets that have Malware Protection for S3 enabled.
  *
@@ -11111,10 +11372,7 @@ export const listTrustedEntitySets: API.OperationMethod<
 export const sendObjectMalwareScan: API.OperationMethod<
   SendObjectMalwareScanRequest,
   SendObjectMalwareScanResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  SendObjectMalwareScanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendObjectMalwareScanRequest,
@@ -11125,6 +11383,11 @@ export const sendObjectMalwareScan: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type StartMalwareScanError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Initiates the malware scan. Invoking this API will automatically create the Service-linked role in
  * the corresponding account if the resourceArn belongs to an EC2 instance.
@@ -11138,10 +11401,7 @@ export const sendObjectMalwareScan: API.OperationMethod<
 export const startMalwareScan: API.OperationMethod<
   StartMalwareScanRequest,
   StartMalwareScanResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerErrorException
-  | CommonErrors,
+  StartMalwareScanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMalwareScanRequest,
@@ -11152,6 +11412,10 @@ export const startMalwareScan: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type StartMonitoringMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Turns on GuardDuty monitoring of the specified member accounts. Use this operation to
  * restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
@@ -11159,13 +11423,17 @@ export const startMalwareScan: API.OperationMethod<
 export const startMonitoringMembers: API.OperationMethod<
   StartMonitoringMembersRequest,
   StartMonitoringMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  StartMonitoringMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMonitoringMembersRequest,
   output: StartMonitoringMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type StopMonitoringMembersError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Stops GuardDuty monitoring for the specified member accounts. Use the
  * `StartMonitoringMembers` operation to restart monitoring for those
@@ -11178,23 +11446,25 @@ export const startMonitoringMembers: API.OperationMethod<
 export const stopMonitoringMembers: API.OperationMethod<
   StopMonitoringMembersRequest,
   StopMonitoringMembersResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  StopMonitoringMembersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMonitoringMembersRequest,
   output: StopMonitoringMembersResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -11205,29 +11475,35 @@ export const tagResource: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type UnarchiveFindingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Unarchives GuardDuty findings specified by the `findingIds`.
  */
 export const unarchiveFindings: API.OperationMethod<
   UnarchiveFindingsRequest,
   UnarchiveFindingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UnarchiveFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnarchiveFindingsRequest,
   output: UnarchiveFindingsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -11238,6 +11514,10 @@ export const untagResource: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type UpdateDetectorError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the GuardDuty detector specified by the detector ID.
  *
@@ -11254,49 +11534,59 @@ export const untagResource: API.OperationMethod<
 export const updateDetector: API.OperationMethod<
   UpdateDetectorRequest,
   UpdateDetectorResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectorRequest,
   output: UpdateDetectorResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateFilterError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the filter specified by the filter name.
  */
 export const updateFilter: API.OperationMethod<
   UpdateFilterRequest,
   UpdateFilterResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFilterRequest,
   output: UpdateFilterResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateFindingsFeedbackError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Marks the specified GuardDuty findings as useful or not useful.
  */
 export const updateFindingsFeedback: API.OperationMethod<
   UpdateFindingsFeedbackRequest,
   UpdateFindingsFeedbackResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateFindingsFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFindingsFeedbackRequest,
   output: UpdateFindingsFeedbackResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateIPSetError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the IPSet specified by the IPSet ID.
  */
 export const updateIPSet: API.OperationMethod<
   UpdateIPSetRequest,
   UpdateIPSetResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  UpdateIPSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIPSetRequest,
@@ -11307,17 +11597,19 @@ export const updateIPSet: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type UpdateMalwareProtectionPlanError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an existing Malware Protection plan resource.
  */
 export const updateMalwareProtectionPlan: API.OperationMethod<
   UpdateMalwareProtectionPlanRequest,
   UpdateMalwareProtectionPlanResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateMalwareProtectionPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMalwareProtectionPlanRequest,
@@ -11329,6 +11621,10 @@ export const updateMalwareProtectionPlan: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateMalwareScanSettingsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the malware scan settings.
  *
@@ -11339,13 +11635,17 @@ export const updateMalwareProtectionPlan: API.OperationMethod<
 export const updateMalwareScanSettings: API.OperationMethod<
   UpdateMalwareScanSettingsRequest,
   UpdateMalwareScanSettingsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateMalwareScanSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMalwareScanSettingsRequest,
   output: UpdateMalwareScanSettingsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateMemberDetectorsError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Contains information on member accounts to be updated.
  *
@@ -11362,13 +11662,17 @@ export const updateMalwareScanSettings: API.OperationMethod<
 export const updateMemberDetectors: API.OperationMethod<
   UpdateMemberDetectorsRequest,
   UpdateMemberDetectorsResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateMemberDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemberDetectorsRequest,
   output: UpdateMemberDetectorsResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateOrganizationConfigurationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Configures the delegated administrator account with the provided values. You must provide
  * a value for either `autoEnableOrganizationMembers` or `autoEnable`, but not both.
@@ -11386,13 +11690,17 @@ export const updateMemberDetectors: API.OperationMethod<
 export const updateOrganizationConfiguration: API.OperationMethod<
   UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateOrganizationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOrganizationConfigurationRequest,
   output: UpdateOrganizationConfigurationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdatePublishingDestinationError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates information about the publishing destination specified by the
  * `destinationId`.
@@ -11400,36 +11708,42 @@ export const updateOrganizationConfiguration: API.OperationMethod<
 export const updatePublishingDestination: API.OperationMethod<
   UpdatePublishingDestinationRequest,
   UpdatePublishingDestinationResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdatePublishingDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePublishingDestinationRequest,
   output: UpdatePublishingDestinationResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateThreatEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the threat entity set associated with the specified `threatEntitySetId`.
  */
 export const updateThreatEntitySet: API.OperationMethod<
   UpdateThreatEntitySetRequest,
   UpdateThreatEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateThreatEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThreatEntitySetRequest,
   output: UpdateThreatEntitySetResponse,
   errors: [BadRequestException, InternalServerErrorException],
 }));
+export type UpdateThreatIntelSetError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
 export const updateThreatIntelSet: API.OperationMethod<
   UpdateThreatIntelSetRequest,
   UpdateThreatIntelSetResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerErrorException
-  | CommonErrors,
+  UpdateThreatIntelSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThreatIntelSetRequest,
@@ -11440,13 +11754,17 @@ export const updateThreatIntelSet: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type UpdateTrustedEntitySetError =
+  | BadRequestException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Updates the trusted entity set associated with the specified `trustedEntitySetId`.
  */
 export const updateTrustedEntitySet: API.OperationMethod<
   UpdateTrustedEntitySetRequest,
   UpdateTrustedEntitySetResponse,
-  BadRequestException | InternalServerErrorException | CommonErrors,
+  UpdateTrustedEntitySetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustedEntitySetRequest,

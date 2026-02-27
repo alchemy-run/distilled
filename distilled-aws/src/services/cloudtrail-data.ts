@@ -191,6 +191,14 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
 ) {}
 
 //# Operations
+export type PutAuditEventsError =
+  | ChannelInsufficientPermission
+  | ChannelNotFound
+  | ChannelUnsupportedSchema
+  | DuplicatedAuditEventId
+  | InvalidChannelARN
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Ingests your application events into CloudTrail Lake. A required parameter,
  * `auditEvents`, accepts the JSON records (also called
@@ -201,13 +209,7 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
 export const putAuditEvents: API.OperationMethod<
   PutAuditEventsRequest,
   PutAuditEventsResponse,
-  | ChannelInsufficientPermission
-  | ChannelNotFound
-  | ChannelUnsupportedSchema
-  | DuplicatedAuditEventId
-  | InvalidChannelARN
-  | UnsupportedOperationException
-  | CommonErrors,
+  PutAuditEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAuditEventsRequest,

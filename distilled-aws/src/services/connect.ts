@@ -24173,6 +24173,13 @@ export class ContactNotFoundException extends S.TaggedErrorClass<ContactNotFound
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ActivateEvaluationFormError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is
  * activated, it is available to start new evaluations based on the form.
@@ -24180,12 +24187,7 @@ export class ContactNotFoundException extends S.TaggedErrorClass<ContactNotFound
 export const activateEvaluationForm: API.OperationMethod<
   ActivateEvaluationFormRequest,
   ActivateEvaluationFormResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ActivateEvaluationFormError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateEvaluationFormRequest,
@@ -24198,6 +24200,13 @@ export const activateEvaluationForm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateAnalyticsDataSetError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates the specified dataset for a Amazon Connect instance with the target account. You can associate
  * only one dataset in a single call.
@@ -24205,12 +24214,7 @@ export const activateEvaluationForm: API.OperationMethod<
 export const associateAnalyticsDataSet: API.OperationMethod<
   AssociateAnalyticsDataSetRequest,
   AssociateAnalyticsDataSetResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateAnalyticsDataSetError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAnalyticsDataSetRequest,
@@ -24223,6 +24227,15 @@ export const associateAnalyticsDataSet: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateApprovedOriginError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24231,14 +24244,7 @@ export const associateAnalyticsDataSet: API.OperationMethod<
 export const associateApprovedOrigin: API.OperationMethod<
   AssociateApprovedOriginRequest,
   AssociateApprovedOriginResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateApprovedOriginError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateApprovedOriginRequest,
@@ -24253,6 +24259,15 @@ export const associateApprovedOrigin: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateBotError =
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24262,14 +24277,7 @@ export const associateApprovedOrigin: API.OperationMethod<
 export const associateBot: API.OperationMethod<
   AssociateBotRequest,
   AssociateBotResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateBotError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateBotRequest,
@@ -24284,6 +24292,14 @@ export const associateBot: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateContactWithUserError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a queued contact with an agent.
  *
@@ -24319,13 +24335,7 @@ export const associateBot: API.OperationMethod<
 export const associateContactWithUser: API.OperationMethod<
   AssociateContactWithUserRequest,
   AssociateContactWithUserResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateContactWithUserError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateContactWithUserRequest,
@@ -24339,6 +24349,13 @@ export const associateContactWithUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateDefaultVocabularyError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time
  * analysis sessions for the given language.
@@ -24346,12 +24363,7 @@ export const associateContactWithUser: API.OperationMethod<
 export const associateDefaultVocabulary: API.OperationMethod<
   AssociateDefaultVocabularyRequest,
   AssociateDefaultVocabularyResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateDefaultVocabularyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDefaultVocabularyRequest,
@@ -24364,6 +24376,16 @@ export const associateDefaultVocabulary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateEmailAddressAliasError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates an email address alias with an existing email address in an Amazon Connect instance. This creates
  * a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary
@@ -24421,15 +24443,7 @@ export const associateDefaultVocabulary: API.OperationMethod<
 export const associateEmailAddressAlias: API.OperationMethod<
   AssociateEmailAddressAliasRequest,
   AssociateEmailAddressAliasResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateEmailAddressAliasError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateEmailAddressAliasRequest,
@@ -24445,19 +24459,21 @@ export const associateEmailAddressAlias: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Associates a connect resource to a flow.
- */
-export const associateFlow: API.OperationMethod<
-  AssociateFlowRequest,
-  AssociateFlowResponse,
+export type AssociateFlowError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a connect resource to a flow.
+ */
+export const associateFlow: API.OperationMethod<
+  AssociateFlowRequest,
+  AssociateFlowResponse,
+  AssociateFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFlowRequest,
@@ -24471,12 +24487,7 @@ export const associateFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
- */
-export const associateHoursOfOperations: API.OperationMethod<
-  AssociateHoursOfOperationsRequest,
-  AssociateHoursOfOperationsResponse,
+export type AssociateHoursOfOperationsError =
   | ConditionalOperationFailedException
   | InternalServiceException
   | InvalidParameterException
@@ -24484,7 +24495,14 @@ export const associateHoursOfOperations: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
+ */
+export const associateHoursOfOperations: API.OperationMethod<
+  AssociateHoursOfOperationsRequest,
+  AssociateHoursOfOperationsResponse,
+  AssociateHoursOfOperationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateHoursOfOperationsRequest,
@@ -24499,6 +24517,14 @@ export const associateHoursOfOperations: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateInstanceStorageConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24513,13 +24539,7 @@ export const associateHoursOfOperations: API.OperationMethod<
 export const associateInstanceStorageConfig: API.OperationMethod<
   AssociateInstanceStorageConfigRequest,
   AssociateInstanceStorageConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateInstanceStorageConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateInstanceStorageConfigRequest,
@@ -24533,6 +24553,15 @@ export const associateInstanceStorageConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateLambdaFunctionError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24541,14 +24570,7 @@ export const associateInstanceStorageConfig: API.OperationMethod<
 export const associateLambdaFunction: API.OperationMethod<
   AssociateLambdaFunctionRequest,
   AssociateLambdaFunctionResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateLambdaFunctionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLambdaFunctionRequest,
@@ -24563,6 +24585,15 @@ export const associateLambdaFunction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateLexBotError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24572,14 +24603,7 @@ export const associateLambdaFunction: API.OperationMethod<
 export const associateLexBot: API.OperationMethod<
   AssociateLexBotRequest,
   AssociateLexBotResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateLexBotError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLexBotRequest,
@@ -24594,6 +24618,13 @@ export const associateLexBot: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociatePhoneNumberContactFlowError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a flow with a phone number claimed to your Amazon Connect instance.
  *
@@ -24607,12 +24638,7 @@ export const associateLexBot: API.OperationMethod<
 export const associatePhoneNumberContactFlow: API.OperationMethod<
   AssociatePhoneNumberContactFlowRequest,
   AssociatePhoneNumberContactFlowResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociatePhoneNumberContactFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePhoneNumberContactFlowRequest,
@@ -24625,19 +24651,21 @@ export const associatePhoneNumberContactFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Associates a set of quick connects with a queue.
- */
-export const associateQueueQuickConnects: API.OperationMethod<
-  AssociateQueueQuickConnectsRequest,
-  AssociateQueueQuickConnectsResponse,
+export type AssociateQueueQuickConnectsError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a set of quick connects with a queue.
+ */
+export const associateQueueQuickConnects: API.OperationMethod<
+  AssociateQueueQuickConnectsRequest,
+  AssociateQueueQuickConnectsResponse,
+  AssociateQueueQuickConnectsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateQueueQuickConnectsRequest,
@@ -24651,18 +24679,20 @@ export const associateQueueQuickConnects: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateRoutingProfileQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a set of queues with a routing profile.
  */
 export const associateRoutingProfileQueues: API.OperationMethod<
   AssociateRoutingProfileQueuesRequest,
   AssociateRoutingProfileQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateRoutingProfileQueuesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateRoutingProfileQueuesRequest,
@@ -24675,6 +24705,15 @@ export const associateRoutingProfileQueues: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateSecurityKeyError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24683,14 +24722,7 @@ export const associateRoutingProfileQueues: API.OperationMethod<
 export const associateSecurityKey: API.OperationMethod<
   AssociateSecurityKeyRequest,
   AssociateSecurityKeyResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateSecurityKeyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSecurityKeyRequest,
@@ -24705,12 +24737,7 @@ export const associateSecurityKey: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Associate security profiles with an Entity in an Amazon Connect instance.
- */
-export const associateSecurityProfiles: API.OperationMethod<
-  AssociateSecurityProfilesRequest,
-  AssociateSecurityProfilesResponse,
+export type AssociateSecurityProfilesError =
   | AccessDeniedException
   | ConditionalOperationFailedException
   | InternalServiceException
@@ -24718,7 +24745,14 @@ export const associateSecurityProfiles: API.OperationMethod<
   | InvalidRequestException
   | ResourceConflictException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate security profiles with an Entity in an Amazon Connect instance.
+ */
+export const associateSecurityProfiles: API.OperationMethod<
+  AssociateSecurityProfilesRequest,
+  AssociateSecurityProfilesResponse,
+  AssociateSecurityProfilesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSecurityProfilesRequest,
@@ -24733,6 +24767,14 @@ export const associateSecurityProfiles: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateTrafficDistributionGroupUserError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group
  * is created.
@@ -24740,13 +24782,7 @@ export const associateSecurityProfiles: API.OperationMethod<
 export const associateTrafficDistributionGroupUser: API.OperationMethod<
   AssociateTrafficDistributionGroupUserRequest,
   AssociateTrafficDistributionGroupUserResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateTrafficDistributionGroupUserError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateTrafficDistributionGroupUserRequest,
@@ -24760,18 +24796,20 @@ export const associateTrafficDistributionGroupUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateUserProficienciesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a set of proficiencies with a user.
  */
 export const associateUserProficiencies: API.OperationMethod<
   AssociateUserProficienciesRequest,
   AssociateUserProficienciesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateUserProficienciesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateUserProficienciesRequest,
@@ -24784,13 +24822,7 @@ export const associateUserProficiencies: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's
- * configured views and pages.
- */
-export const associateWorkspace: API.OperationMethod<
-  AssociateWorkspaceRequest,
-  AssociateWorkspaceResponse,
+export type AssociateWorkspaceError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -24798,7 +24830,15 @@ export const associateWorkspace: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's
+ * configured views and pages.
+ */
+export const associateWorkspace: API.OperationMethod<
+  AssociateWorkspaceRequest,
+  AssociateWorkspaceResponse,
+  AssociateWorkspaceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWorkspaceRequest,
@@ -24813,6 +24853,13 @@ export const associateWorkspace: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchAssociateAnalyticsDataSetError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can
  * associate multiple datasets in a single call.
@@ -24820,12 +24867,7 @@ export const associateWorkspace: API.OperationMethod<
 export const batchAssociateAnalyticsDataSet: API.OperationMethod<
   BatchAssociateAnalyticsDataSetRequest,
   BatchAssociateAnalyticsDataSetResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchAssociateAnalyticsDataSetError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateAnalyticsDataSetRequest,
@@ -24838,6 +24880,17 @@ export const batchAssociateAnalyticsDataSet: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchCreateDataTableValueError =
+  | AccessDeniedException
+  | ConflictException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates values for attributes in a data table. The value may be a default or it may be associated with a primary
  * value. The value must pass all customer defined validation as well as the default validation for the value type. The
@@ -24849,16 +24902,7 @@ export const batchAssociateAnalyticsDataSet: API.OperationMethod<
 export const batchCreateDataTableValue: API.OperationMethod<
   BatchCreateDataTableValueRequest,
   BatchCreateDataTableValueResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  BatchCreateDataTableValueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateDataTableValueRequest,
@@ -24875,6 +24919,15 @@ export const batchCreateDataTableValue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchDeleteDataTableValueError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested
  * from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values
@@ -24883,14 +24936,7 @@ export const batchCreateDataTableValue: API.OperationMethod<
 export const batchDeleteDataTableValue: API.OperationMethod<
   BatchDeleteDataTableValueRequest,
   BatchDeleteDataTableValueResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchDeleteDataTableValueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDataTableValueRequest,
@@ -24905,6 +24951,14 @@ export const batchDeleteDataTableValue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchDescribeDataTableValueError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves multiple values from a data table without evaluating expressions. Returns the raw stored values along
  * with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to
@@ -24913,13 +24967,7 @@ export const batchDeleteDataTableValue: API.OperationMethod<
 export const batchDescribeDataTableValue: API.OperationMethod<
   BatchDescribeDataTableValueRequest,
   BatchDescribeDataTableValueResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchDescribeDataTableValueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDescribeDataTableValueRequest,
@@ -24933,6 +24981,13 @@ export const batchDescribeDataTableValue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchDisassociateAnalyticsDataSetError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate
  * multiple datasets in a single call.
@@ -24940,12 +24995,7 @@ export const batchDescribeDataTableValue: API.OperationMethod<
 export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
   BatchDisassociateAnalyticsDataSetRequest,
   BatchDisassociateAnalyticsDataSetResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchDisassociateAnalyticsDataSetError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateAnalyticsDataSetRequest,
@@ -24958,6 +25008,13 @@ export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchGetAttachedFileMetadataError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file
  * provided in the input list must be associated with the input AssociatedResourceArn.
@@ -24965,12 +25022,7 @@ export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
 export const batchGetAttachedFileMetadata: API.OperationMethod<
   BatchGetAttachedFileMetadataRequest,
   BatchGetAttachedFileMetadataResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchGetAttachedFileMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAttachedFileMetadataRequest,
@@ -24983,19 +25035,21 @@ export const batchGetAttachedFileMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieve the flow associations for the given resources.
- */
-export const batchGetFlowAssociation: API.OperationMethod<
-  BatchGetFlowAssociationRequest,
-  BatchGetFlowAssociationResponse,
+export type BatchGetFlowAssociationError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the flow associations for the given resources.
+ */
+export const batchGetFlowAssociation: API.OperationMethod<
+  BatchGetFlowAssociationRequest,
+  BatchGetFlowAssociationResponse,
+  BatchGetFlowAssociationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFlowAssociationRequest,
@@ -25009,6 +25063,14 @@ export const batchGetFlowAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type BatchPutContactError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account
  * and call this API.
@@ -25021,13 +25083,7 @@ export const batchGetFlowAssociation: API.OperationMethod<
 export const batchPutContact: API.OperationMethod<
   BatchPutContactRequest,
   BatchPutContactResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  BatchPutContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutContactRequest,
@@ -25041,6 +25097,15 @@ export const batchPutContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type BatchUpdateDataTableValueError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates multiple data table values using all properties from BatchCreateDataTableValue. System managed values
  * are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification
@@ -25049,14 +25114,7 @@ export const batchPutContact: API.OperationMethod<
 export const batchUpdateDataTableValue: API.OperationMethod<
   BatchUpdateDataTableValueRequest,
   BatchUpdateDataTableValueResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  BatchUpdateDataTableValueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateDataTableValueRequest,
@@ -25071,6 +25129,14 @@ export const batchUpdateDataTableValue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ClaimPhoneNumberError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call
  * this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was
@@ -25103,13 +25169,7 @@ export const batchUpdateDataTableValue: API.OperationMethod<
 export const claimPhoneNumber: API.OperationMethod<
   ClaimPhoneNumberRequest,
   ClaimPhoneNumberResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ClaimPhoneNumberError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimPhoneNumberRequest,
@@ -25123,6 +25183,13 @@ export const claimPhoneNumber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CompleteAttachedFileUploadError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the
  * StartAttachedFileUpload API.
@@ -25130,12 +25197,7 @@ export const claimPhoneNumber: API.OperationMethod<
 export const completeAttachedFileUpload: API.OperationMethod<
   CompleteAttachedFileUploadRequest,
   CompleteAttachedFileUploadResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CompleteAttachedFileUploadError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteAttachedFileUploadRequest,
@@ -25148,12 +25210,7 @@ export const completeAttachedFileUpload: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates an agent status for the specified Amazon Connect instance.
- */
-export const createAgentStatus: API.OperationMethod<
-  CreateAgentStatusRequest,
-  CreateAgentStatusResponse,
+export type CreateAgentStatusError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -25161,7 +25218,14 @@ export const createAgentStatus: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an agent status for the specified Amazon Connect instance.
+ */
+export const createAgentStatus: API.OperationMethod<
+  CreateAgentStatusRequest,
+  CreateAgentStatusResponse,
+  CreateAgentStatusError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentStatusRequest,
@@ -25176,6 +25240,17 @@ export const createAgentStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateContactError =
+  | AccessDeniedException
+  | ConflictException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Only the VOICE, EMAIL, and TASK channels are supported.
  *
@@ -25197,16 +25272,7 @@ export const createAgentStatus: API.OperationMethod<
 export const createContact: API.OperationMethod<
   CreateContactRequest,
   CreateContactResponse,
-  | AccessDeniedException
-  | ConflictException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactRequest,
@@ -25223,6 +25289,16 @@ export const createContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateContactFlowError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidContactFlowException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a flow for the specified Amazon Connect instance.
  *
@@ -25232,15 +25308,7 @@ export const createContact: API.OperationMethod<
 export const createContactFlow: API.OperationMethod<
   CreateContactFlowRequest,
   CreateContactFlowResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidContactFlowException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateContactFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactFlowRequest,
@@ -25256,12 +25324,7 @@ export const createContactFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a flow module for the specified Amazon Connect instance.
- */
-export const createContactFlowModule: API.OperationMethod<
-  CreateContactFlowModuleRequest,
-  CreateContactFlowModuleResponse,
+export type CreateContactFlowModuleError =
   | AccessDeniedException
   | DuplicateResourceException
   | IdempotencyException
@@ -25272,7 +25335,14 @@ export const createContactFlowModule: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a flow module for the specified Amazon Connect instance.
+ */
+export const createContactFlowModule: API.OperationMethod<
+  CreateContactFlowModuleRequest,
+  CreateContactFlowModuleResponse,
+  CreateContactFlowModuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactFlowModuleRequest,
@@ -25290,12 +25360,7 @@ export const createContactFlowModule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a named alias that points to a specific version of a contact flow module.
- */
-export const createContactFlowModuleAlias: API.OperationMethod<
-  CreateContactFlowModuleAliasRequest,
-  CreateContactFlowModuleAliasResponse,
+export type CreateContactFlowModuleAliasError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -25304,7 +25369,14 @@ export const createContactFlowModuleAlias: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a named alias that points to a specific version of a contact flow module.
+ */
+export const createContactFlowModuleAlias: API.OperationMethod<
+  CreateContactFlowModuleAliasRequest,
+  CreateContactFlowModuleAliasResponse,
+  CreateContactFlowModuleAliasError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactFlowModuleAliasRequest,
@@ -25320,13 +25392,7 @@ export const createContactFlowModuleAlias: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point
- * in time for version control and rollback capabilities.
- */
-export const createContactFlowModuleVersion: API.OperationMethod<
-  CreateContactFlowModuleVersionRequest,
-  CreateContactFlowModuleVersionResponse,
+export type CreateContactFlowModuleVersionError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -25334,7 +25400,15 @@ export const createContactFlowModuleVersion: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point
+ * in time for version control and rollback capabilities.
+ */
+export const createContactFlowModuleVersion: API.OperationMethod<
+  CreateContactFlowModuleVersionRequest,
+  CreateContactFlowModuleVersionResponse,
+  CreateContactFlowModuleVersionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactFlowModuleVersionRequest,
@@ -25349,6 +25423,15 @@ export const createContactFlowModuleVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateContactFlowVersionError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the
  * `FlowContentSha256` provided is different from the `FlowContentSha256` of the
@@ -25358,14 +25441,7 @@ export const createContactFlowModuleVersion: API.OperationMethod<
 export const createContactFlowVersion: API.OperationMethod<
   CreateContactFlowVersionRequest,
   CreateContactFlowVersionResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateContactFlowVersionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactFlowVersionRequest,
@@ -25380,14 +25456,7 @@ export const createContactFlowVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a new data table with the specified properties. Supports the creation of all table properties except for
- * attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per
- * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
- */
-export const createDataTable: API.OperationMethod<
-  CreateDataTableRequest,
-  CreateDataTableResponse,
+export type CreateDataTableError =
   | AccessDeniedException
   | ConflictException
   | DuplicateResourceException
@@ -25397,7 +25466,16 @@ export const createDataTable: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new data table with the specified properties. Supports the creation of all table properties except for
+ * attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per
+ * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
+ */
+export const createDataTable: API.OperationMethod<
+  CreateDataTableRequest,
+  CreateDataTableResponse,
+  CreateDataTableError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataTableRequest,
@@ -25414,15 +25492,7 @@ export const createDataTable: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the
- * specified value type for all existing records. This should not affect uniqueness of published data tables since the
- * existing primary values will already be unique. Creating attributes does not create any values. System managed tables
- * may not allow customers to create new attributes.
- */
-export const createDataTableAttribute: API.OperationMethod<
-  CreateDataTableAttributeRequest,
-  CreateDataTableAttributeResponse,
+export type CreateDataTableAttributeError =
   | AccessDeniedException
   | ConflictException
   | DuplicateResourceException
@@ -25432,7 +25502,17 @@ export const createDataTableAttribute: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the
+ * specified value type for all existing records. This should not affect uniqueness of published data tables since the
+ * existing primary values will already be unique. Creating attributes does not create any values. System managed tables
+ * may not allow customers to create new attributes.
+ */
+export const createDataTableAttribute: API.OperationMethod<
+  CreateDataTableAttributeRequest,
+  CreateDataTableAttributeResponse,
+  CreateDataTableAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataTableAttributeRequest,
@@ -25449,14 +25529,7 @@ export const createDataTableAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Create new email address in the specified Amazon Connect instance. For more information about email
- * addresses, see Create email
- * addresses in the Amazon Connect Administrator Guide.
- */
-export const createEmailAddress: API.OperationMethod<
-  CreateEmailAddressRequest,
-  CreateEmailAddressResponse,
+export type CreateEmailAddressError =
   | AccessDeniedException
   | DuplicateResourceException
   | IdempotencyException
@@ -25467,7 +25540,16 @@ export const createEmailAddress: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create new email address in the specified Amazon Connect instance. For more information about email
+ * addresses, see Create email
+ * addresses in the Amazon Connect Administrator Guide.
+ */
+export const createEmailAddress: API.OperationMethod<
+  CreateEmailAddressRequest,
+  CreateEmailAddressResponse,
+  CreateEmailAddressError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailAddressRequest,
@@ -25485,6 +25567,14 @@ export const createEmailAddress: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateEvaluationFormError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define
  * questions related to agent performance, and create sections to organize such questions. Question and section
@@ -25493,13 +25583,7 @@ export const createEmailAddress: API.OperationMethod<
 export const createEvaluationForm: API.OperationMethod<
   CreateEvaluationFormRequest,
   CreateEvaluationFormResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateEvaluationFormError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEvaluationFormRequest,
@@ -25513,12 +25597,7 @@ export const createEvaluationForm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates hours of operation.
- */
-export const createHoursOfOperation: API.OperationMethod<
-  CreateHoursOfOperationRequest,
-  CreateHoursOfOperationResponse,
+export type CreateHoursOfOperationError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -25527,7 +25606,14 @@ export const createHoursOfOperation: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates hours of operation.
+ */
+export const createHoursOfOperation: API.OperationMethod<
+  CreateHoursOfOperationRequest,
+  CreateHoursOfOperationResponse,
+  CreateHoursOfOperationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHoursOfOperationRequest,
@@ -25543,12 +25629,7 @@ export const createHoursOfOperation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates an hours of operation override in an Amazon Connect hours of operation resource.
- */
-export const createHoursOfOperationOverride: API.OperationMethod<
-  CreateHoursOfOperationOverrideRequest,
-  CreateHoursOfOperationOverrideResponse,
+export type CreateHoursOfOperationOverrideError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -25556,7 +25637,14 @@ export const createHoursOfOperationOverride: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an hours of operation override in an Amazon Connect hours of operation resource.
+ */
+export const createHoursOfOperationOverride: API.OperationMethod<
+  CreateHoursOfOperationOverrideRequest,
+  CreateHoursOfOperationOverrideResponse,
+  CreateHoursOfOperationOverrideError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHoursOfOperationOverrideRequest,
@@ -25571,6 +25659,13 @@ export const createHoursOfOperationOverride: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateInstanceError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -25588,12 +25683,7 @@ export const createHoursOfOperationOverride: API.OperationMethod<
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
   CreateInstanceResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateInstanceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceRequest,
@@ -25606,18 +25696,20 @@ export const createInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateIntegrationAssociationError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services resource association with an Amazon Connect instance.
  */
 export const createIntegrationAssociation: API.OperationMethod<
   CreateIntegrationAssociationRequest,
   CreateIntegrationAssociationResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateIntegrationAssociationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationAssociationRequest,
@@ -25630,12 +25722,7 @@ export const createIntegrationAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
- */
-export const createNotification: API.OperationMethod<
-  CreateNotificationRequest,
-  CreateNotificationResponse,
+export type CreateNotificationError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -25643,7 +25730,14 @@ export const createNotification: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
+ */
+export const createNotification: API.OperationMethod<
+  CreateNotificationRequest,
+  CreateNotificationResponse,
+  CreateNotificationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotificationRequest,
@@ -25658,6 +25752,14 @@ export const createNotification: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateParticipantError =
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by
  * integrating custom participants or Enable multi-user web, in-app, and video
@@ -25666,13 +25768,7 @@ export const createNotification: API.OperationMethod<
 export const createParticipant: API.OperationMethod<
   CreateParticipantRequest,
   CreateParticipantResponse,
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateParticipantError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateParticipantRequest,
@@ -25686,6 +25782,14 @@ export const createParticipant: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreatePersistentContactAssociationError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see
  * Enable persistent chat in
@@ -25694,13 +25798,7 @@ export const createParticipant: API.OperationMethod<
 export const createPersistentContactAssociation: API.OperationMethod<
   CreatePersistentContactAssociationRequest,
   CreatePersistentContactAssociationResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreatePersistentContactAssociationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePersistentContactAssociationRequest,
@@ -25714,6 +25812,15 @@ export const createPersistentContactAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreatePredefinedAttributeError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a new predefined attribute for the specified Amazon Connect instance. A *predefined attribute*
  * is made up of a name and a value.
@@ -25738,14 +25845,7 @@ export const createPersistentContactAssociation: API.OperationMethod<
 export const createPredefinedAttribute: API.OperationMethod<
   CreatePredefinedAttributeRequest,
   CreatePredefinedAttributeResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreatePredefinedAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePredefinedAttributeRequest,
@@ -25760,6 +25860,14 @@ export const createPredefinedAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreatePromptError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a prompt. For more information about prompts, such as supported file types and maximum length, see
  * Create prompts in the
@@ -25768,13 +25876,7 @@ export const createPredefinedAttribute: API.OperationMethod<
 export const createPrompt: API.OperationMethod<
   CreatePromptRequest,
   CreatePromptResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreatePromptError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePromptRequest,
@@ -25788,6 +25890,14 @@ export const createPrompt: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreatePushNotificationRegistrationError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates registration for a device token and a chat contact to receive real-time push notifications. For more
  * information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the *Amazon Connect Administrator Guide*.
@@ -25795,13 +25905,7 @@ export const createPrompt: API.OperationMethod<
 export const createPushNotificationRegistration: API.OperationMethod<
   CreatePushNotificationRegistrationRequest,
   CreatePushNotificationRegistrationResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreatePushNotificationRegistrationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePushNotificationRegistrationRequest,
@@ -25815,6 +25919,15 @@ export const createPushNotificationRegistration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateQueueError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a new queue for the specified Amazon Connect instance.
  *
@@ -25835,14 +25948,7 @@ export const createPushNotificationRegistration: API.OperationMethod<
 export const createQueue: API.OperationMethod<
   CreateQueueRequest,
   CreateQueueResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateQueueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
@@ -25857,12 +25963,7 @@ export const createQueue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a quick connect for the specified Amazon Connect instance.
- */
-export const createQuickConnect: API.OperationMethod<
-  CreateQuickConnectRequest,
-  CreateQuickConnectResponse,
+export type CreateQuickConnectError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -25870,7 +25971,14 @@ export const createQuickConnect: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a quick connect for the specified Amazon Connect instance.
+ */
+export const createQuickConnect: API.OperationMethod<
+  CreateQuickConnectRequest,
+  CreateQuickConnectResponse,
+  CreateQuickConnectError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuickConnectRequest,
@@ -25885,12 +25993,7 @@ export const createQuickConnect: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a new routing profile.
- */
-export const createRoutingProfile: API.OperationMethod<
-  CreateRoutingProfileRequest,
-  CreateRoutingProfileResponse,
+export type CreateRoutingProfileError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -25898,7 +26001,14 @@ export const createRoutingProfile: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new routing profile.
+ */
+export const createRoutingProfile: API.OperationMethod<
+  CreateRoutingProfileRequest,
+  CreateRoutingProfileResponse,
+  CreateRoutingProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoutingProfileRequest,
@@ -25913,6 +26023,15 @@ export const createRoutingProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateRuleError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a rule for the specified Amazon Connect instance.
  *
@@ -25922,14 +26041,7 @@ export const createRoutingProfile: API.OperationMethod<
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateRuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
@@ -25944,6 +26056,15 @@ export const createRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateSecurityProfileError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a security profile.
  *
@@ -25954,14 +26075,7 @@ export const createRule: API.OperationMethod<
 export const createSecurityProfile: API.OperationMethod<
   CreateSecurityProfileRequest,
   CreateSecurityProfileResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateSecurityProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityProfileRequest,
@@ -25976,19 +26090,21 @@ export const createSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a new task template in the specified Amazon Connect instance.
- */
-export const createTaskTemplate: API.OperationMethod<
-  CreateTaskTemplateRequest,
-  CreateTaskTemplateResponse,
+export type CreateTaskTemplateError =
   | InternalServiceException
   | InvalidParameterException
   | PropertyValidationException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new task template in the specified Amazon Connect instance.
+ */
+export const createTaskTemplate: API.OperationMethod<
+  CreateTaskTemplateRequest,
+  CreateTaskTemplateResponse,
+  CreateTaskTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskTemplateRequest,
@@ -26002,12 +26118,7 @@ export const createTaskTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a test case with its content and metadata for the specified Amazon Connect instance.
- */
-export const createTestCase: API.OperationMethod<
-  CreateTestCaseRequest,
-  CreateTestCaseResponse,
+export type CreateTestCaseError =
   | AccessDeniedException
   | DuplicateResourceException
   | IdempotencyException
@@ -26019,7 +26130,14 @@ export const createTestCase: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a test case with its content and metadata for the specified Amazon Connect instance.
+ */
+export const createTestCase: API.OperationMethod<
+  CreateTestCaseRequest,
+  CreateTestCaseResponse,
+  CreateTestCaseError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTestCaseRequest,
@@ -26038,6 +26156,16 @@ export const createTestCase: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateTrafficDistributionGroupError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a traffic distribution group given an Amazon Connect instance that has been replicated.
  *
@@ -26054,15 +26182,7 @@ export const createTestCase: API.OperationMethod<
 export const createTrafficDistributionGroup: API.OperationMethod<
   CreateTrafficDistributionGroupRequest,
   CreateTrafficDistributionGroupResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateTrafficDistributionGroupError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrafficDistributionGroupRequest,
@@ -26078,18 +26198,20 @@ export const createTrafficDistributionGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateUseCaseError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a use case for an integration association.
  */
 export const createUseCase: API.OperationMethod<
   CreateUseCaseRequest,
   CreateUseCaseResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateUseCaseError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUseCaseRequest,
@@ -26102,6 +26224,15 @@ export const createUseCase: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateUserError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a user account for the specified Amazon Connect instance.
  *
@@ -26127,14 +26258,7 @@ export const createUseCase: API.OperationMethod<
 export const createUser: API.OperationMethod<
   CreateUserRequest,
   CreateUserResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateUserError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -26149,12 +26273,7 @@ export const createUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a new user hierarchy group.
- */
-export const createUserHierarchyGroup: API.OperationMethod<
-  CreateUserHierarchyGroupRequest,
-  CreateUserHierarchyGroupResponse,
+export type CreateUserHierarchyGroupError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -26162,7 +26281,14 @@ export const createUserHierarchyGroup: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new user hierarchy group.
+ */
+export const createUserHierarchyGroup: API.OperationMethod<
+  CreateUserHierarchyGroupRequest,
+  CreateUserHierarchyGroupResponse,
+  CreateUserHierarchyGroupError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserHierarchyGroupRequest,
@@ -26177,6 +26303,17 @@ export const createUserHierarchyGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateViewError =
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new view with the possible status of `SAVED` or `PUBLISHED`.
  *
@@ -26190,16 +26327,7 @@ export const createUserHierarchyGroup: API.OperationMethod<
 export const createView: API.OperationMethod<
   CreateViewRequest,
   CreateViewResponse,
-  | AccessDeniedException
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateViewError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateViewRequest,
@@ -26216,6 +26344,16 @@ export const createView: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateViewVersionError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Publishes a new version of the view identifier.
  *
@@ -26227,15 +26365,7 @@ export const createView: API.OperationMethod<
 export const createViewVersion: API.OperationMethod<
   CreateViewVersionRequest,
   CreateViewVersionResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateViewVersionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateViewVersionRequest,
@@ -26251,6 +26381,15 @@ export const createViewVersion: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateVocabularyError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to
  * be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time
@@ -26259,14 +26398,7 @@ export const createViewVersion: API.OperationMethod<
 export const createVocabulary: API.OperationMethod<
   CreateVocabularyRequest,
   CreateVocabularyResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateVocabularyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVocabularyRequest,
@@ -26281,13 +26413,7 @@ export const createVocabulary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Creates a workspace that defines the user experience by mapping views to pages. Workspaces can be assigned to
- * users or routing profiles.
- */
-export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
-  CreateWorkspaceResponse,
+export type CreateWorkspaceError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -26297,7 +26423,15 @@ export const createWorkspace: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a workspace that defines the user experience by mapping views to pages. Workspaces can be assigned to
+ * users or routing profiles.
+ */
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
+  CreateWorkspaceResponse,
+  CreateWorkspaceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceRequest,
@@ -26314,12 +26448,7 @@ export const createWorkspace: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
- */
-export const createWorkspacePage: API.OperationMethod<
-  CreateWorkspacePageRequest,
-  CreateWorkspacePageResponse,
+export type CreateWorkspacePageError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -26330,7 +26459,14 @@ export const createWorkspacePage: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
+ */
+export const createWorkspacePage: API.OperationMethod<
+  CreateWorkspacePageRequest,
+  CreateWorkspacePageResponse,
+  CreateWorkspacePageError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspacePageRequest,
@@ -26348,6 +26484,13 @@ export const createWorkspacePage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeactivateEvaluationFormError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer
  * available for users to start new evaluations based on the form.
@@ -26355,12 +26498,7 @@ export const createWorkspacePage: API.OperationMethod<
 export const deactivateEvaluationForm: API.OperationMethod<
   DeactivateEvaluationFormRequest,
   DeactivateEvaluationFormResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeactivateEvaluationFormError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateEvaluationFormRequest,
@@ -26373,6 +26511,13 @@ export const deactivateEvaluationForm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteAttachedFileError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an attached file along with the underlying S3 Object.
  *
@@ -26382,12 +26527,7 @@ export const deactivateEvaluationForm: API.OperationMethod<
 export const deleteAttachedFile: API.OperationMethod<
   DeleteAttachedFileRequest,
   DeleteAttachedFileResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAttachedFileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttachedFileRequest,
@@ -26400,18 +26540,20 @@ export const deleteAttachedFile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteContactEvaluationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a contact evaluation in the specified Amazon Connect instance.
  */
 export const deleteContactEvaluation: API.OperationMethod<
   DeleteContactEvaluationRequest,
   DeleteContactEvaluationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteContactEvaluationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactEvaluationRequest,
@@ -26424,19 +26566,21 @@ export const deleteContactEvaluation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a flow for the specified Amazon Connect instance.
- */
-export const deleteContactFlow: API.OperationMethod<
-  DeleteContactFlowRequest,
-  DeleteContactFlowResponse,
+export type DeleteContactFlowError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a flow for the specified Amazon Connect instance.
+ */
+export const deleteContactFlow: API.OperationMethod<
+  DeleteContactFlowRequest,
+  DeleteContactFlowResponse,
+  DeleteContactFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactFlowRequest,
@@ -26450,19 +26594,21 @@ export const deleteContactFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the specified flow module.
- */
-export const deleteContactFlowModule: API.OperationMethod<
-  DeleteContactFlowModuleRequest,
-  DeleteContactFlowModuleResponse,
+export type DeleteContactFlowModuleError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified flow module.
+ */
+export const deleteContactFlowModule: API.OperationMethod<
+  DeleteContactFlowModuleRequest,
+  DeleteContactFlowModuleResponse,
+  DeleteContactFlowModuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactFlowModuleRequest,
@@ -26476,6 +26622,14 @@ export const deleteContactFlowModule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteContactFlowModuleAliasError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes an alias reference, breaking the named connection to the underlying module version without affecting the
  * version itself.
@@ -26483,13 +26637,7 @@ export const deleteContactFlowModule: API.OperationMethod<
 export const deleteContactFlowModuleAlias: API.OperationMethod<
   DeleteContactFlowModuleAliasRequest,
   DeleteContactFlowModuleAliasResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteContactFlowModuleAliasError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactFlowModuleAliasRequest,
@@ -26503,19 +26651,21 @@ export const deleteContactFlowModuleAlias: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Removes a specific version of a contact flow module.
- */
-export const deleteContactFlowModuleVersion: API.OperationMethod<
-  DeleteContactFlowModuleVersionRequest,
-  DeleteContactFlowModuleVersionResponse,
+export type DeleteContactFlowModuleVersionError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes a specific version of a contact flow module.
+ */
+export const deleteContactFlowModuleVersion: API.OperationMethod<
+  DeleteContactFlowModuleVersionRequest,
+  DeleteContactFlowModuleVersionResponse,
+  DeleteContactFlowModuleVersionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactFlowModuleVersionRequest,
@@ -26529,19 +26679,21 @@ export const deleteContactFlowModuleVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the particular version specified in flow version identifier.
- */
-export const deleteContactFlowVersion: API.OperationMethod<
-  DeleteContactFlowVersionRequest,
-  DeleteContactFlowVersionResponse,
+export type DeleteContactFlowVersionError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the particular version specified in flow version identifier.
+ */
+export const deleteContactFlowVersion: API.OperationMethod<
+  DeleteContactFlowVersionRequest,
+  DeleteContactFlowVersionResponse,
+  DeleteContactFlowVersionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactFlowVersionRequest,
@@ -26555,6 +26707,15 @@ export const deleteContactFlowVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDataTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references
  * to the data table, even from other data tables. This includes dynamic values and conditional validations. System
@@ -26565,14 +26726,7 @@ export const deleteContactFlowVersion: API.OperationMethod<
 export const deleteDataTable: API.OperationMethod<
   DeleteDataTableRequest,
   DeleteDataTableResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDataTableError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataTableRequest,
@@ -26587,12 +26741,7 @@ export const deleteDataTable: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes an attribute and all its values from a data table.
- */
-export const deleteDataTableAttribute: API.OperationMethod<
-  DeleteDataTableAttributeRequest,
-  DeleteDataTableAttributeResponse,
+export type DeleteDataTableAttributeError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
@@ -26600,7 +26749,14 @@ export const deleteDataTableAttribute: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an attribute and all its values from a data table.
+ */
+export const deleteDataTableAttribute: API.OperationMethod<
+  DeleteDataTableAttributeRequest,
+  DeleteDataTableAttributeResponse,
+  DeleteDataTableAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataTableAttributeRequest,
@@ -26615,12 +26771,7 @@ export const deleteDataTableAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes email address from the specified Amazon Connect instance.
- */
-export const deleteEmailAddress: API.OperationMethod<
-  DeleteEmailAddressRequest,
-  DeleteEmailAddressResponse,
+export type DeleteEmailAddressError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -26628,7 +26779,14 @@ export const deleteEmailAddress: API.OperationMethod<
   | ResourceConflictException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes email address from the specified Amazon Connect instance.
+ */
+export const deleteEmailAddress: API.OperationMethod<
+  DeleteEmailAddressRequest,
+  DeleteEmailAddressResponse,
+  DeleteEmailAddressError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailAddressRequest,
@@ -26643,6 +26801,13 @@ export const deleteEmailAddress: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteEvaluationFormError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an evaluation form in the specified Amazon Connect instance.
  *
@@ -26653,12 +26818,7 @@ export const deleteEmailAddress: API.OperationMethod<
 export const deleteEvaluationForm: API.OperationMethod<
   DeleteEvaluationFormRequest,
   DeleteEvaluationFormResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteEvaluationFormError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEvaluationFormRequest,
@@ -26671,18 +26831,20 @@ export const deleteEvaluationForm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteHoursOfOperationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an hours of operation.
  */
 export const deleteHoursOfOperation: API.OperationMethod<
   DeleteHoursOfOperationRequest,
   DeleteHoursOfOperationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteHoursOfOperationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHoursOfOperationRequest,
@@ -26695,18 +26857,20 @@ export const deleteHoursOfOperation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteHoursOfOperationOverrideError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an hours of operation override in an Amazon Connect hours of operation resource.
  */
 export const deleteHoursOfOperationOverride: API.OperationMethod<
   DeleteHoursOfOperationOverrideRequest,
   DeleteHoursOfOperationOverrideResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteHoursOfOperationOverrideError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHoursOfOperationOverrideRequest,
@@ -26719,6 +26883,11 @@ export const deleteHoursOfOperationOverride: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteInstanceError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -26732,10 +26901,7 @@ export const deleteHoursOfOperationOverride: API.OperationMethod<
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
   DeleteInstanceResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteInstanceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
@@ -26746,6 +26912,12 @@ export const deleteInstance: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteIntegrationAssociationError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not
  * have any use cases associated with it.
@@ -26753,11 +26925,7 @@ export const deleteInstance: API.OperationMethod<
 export const deleteIntegrationAssociation: API.OperationMethod<
   DeleteIntegrationAssociationRequest,
   DeleteIntegrationAssociationResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteIntegrationAssociationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationAssociationRequest,
@@ -26769,19 +26937,21 @@ export const deleteIntegrationAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
- */
-export const deleteNotification: API.OperationMethod<
-  DeleteNotificationRequest,
-  DeleteNotificationResponse,
+export type DeleteNotificationError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
+ */
+export const deleteNotification: API.OperationMethod<
+  DeleteNotificationRequest,
+  DeleteNotificationResponse,
+  DeleteNotificationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotificationRequest,
@@ -26795,19 +26965,21 @@ export const deleteNotification: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a predefined attribute from the specified Amazon Connect instance.
- */
-export const deletePredefinedAttribute: API.OperationMethod<
-  DeletePredefinedAttributeRequest,
-  DeletePredefinedAttributeResponse,
+export type DeletePredefinedAttributeError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a predefined attribute from the specified Amazon Connect instance.
+ */
+export const deletePredefinedAttribute: API.OperationMethod<
+  DeletePredefinedAttributeRequest,
+  DeletePredefinedAttributeResponse,
+  DeletePredefinedAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePredefinedAttributeRequest,
@@ -26821,18 +26993,20 @@ export const deletePredefinedAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeletePromptError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a prompt.
  */
 export const deletePrompt: API.OperationMethod<
   DeletePromptRequest,
   DeletePromptResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeletePromptError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePromptRequest,
@@ -26845,18 +27019,20 @@ export const deletePrompt: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeletePushNotificationRegistrationError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes registration for a device token and a chat contact.
  */
 export const deletePushNotificationRegistration: API.OperationMethod<
   DeletePushNotificationRegistrationRequest,
   DeletePushNotificationRegistrationResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeletePushNotificationRegistrationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePushNotificationRegistrationRequest,
@@ -26869,19 +27045,21 @@ export const deletePushNotificationRegistration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a queue.
- */
-export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
-  DeleteQueueResponse,
+export type DeleteQueueError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a queue.
+ */
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
+  DeleteQueueResponse,
+  DeleteQueueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
@@ -26895,6 +27073,13 @@ export const deleteQueue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteQuickConnectError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a quick connect.
  *
@@ -26911,12 +27096,7 @@ export const deleteQueue: API.OperationMethod<
 export const deleteQuickConnect: API.OperationMethod<
   DeleteQuickConnectRequest,
   DeleteQuickConnectResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteQuickConnectError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQuickConnectRequest,
@@ -26929,19 +27109,21 @@ export const deleteQuickConnect: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a routing profile.
- */
-export const deleteRoutingProfile: API.OperationMethod<
-  DeleteRoutingProfileRequest,
-  DeleteRoutingProfileResponse,
+export type DeleteRoutingProfileError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a routing profile.
+ */
+export const deleteRoutingProfile: API.OperationMethod<
+  DeleteRoutingProfileRequest,
+  DeleteRoutingProfileResponse,
+  DeleteRoutingProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoutingProfileRequest,
@@ -26955,18 +27137,20 @@ export const deleteRoutingProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteRuleError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a rule for the specified Amazon Connect instance.
  */
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteRuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
@@ -26979,12 +27163,7 @@ export const deleteRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a security profile.
- */
-export const deleteSecurityProfile: API.OperationMethod<
-  DeleteSecurityProfileRequest,
-  DeleteSecurityProfileResponse,
+export type DeleteSecurityProfileError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -26992,7 +27171,14 @@ export const deleteSecurityProfile: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a security profile.
+ */
+export const deleteSecurityProfile: API.OperationMethod<
+  DeleteSecurityProfileRequest,
+  DeleteSecurityProfileResponse,
+  DeleteSecurityProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecurityProfileRequest,
@@ -27007,18 +27193,20 @@ export const deleteSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteTaskTemplateError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the task template.
  */
 export const deleteTaskTemplate: API.OperationMethod<
   DeleteTaskTemplateRequest,
   DeleteTaskTemplateResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteTaskTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaskTemplateRequest,
@@ -27031,19 +27219,21 @@ export const deleteTaskTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the test case that has already been created for the specified Amazon Connect instance.
- */
-export const deleteTestCase: API.OperationMethod<
-  DeleteTestCaseRequest,
-  DeleteTestCaseResponse,
+export type DeleteTestCaseError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the test case that has already been created for the specified Amazon Connect instance.
+ */
+export const deleteTestCase: API.OperationMethod<
+  DeleteTestCaseRequest,
+  DeleteTestCaseResponse,
+  DeleteTestCaseError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTestCaseRequest,
@@ -27057,6 +27247,13 @@ export const deleteTestCase: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteTrafficDistributionGroupError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
  *
@@ -27066,12 +27263,7 @@ export const deleteTestCase: API.OperationMethod<
 export const deleteTrafficDistributionGroup: API.OperationMethod<
   DeleteTrafficDistributionGroupRequest,
   DeleteTrafficDistributionGroupResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteTrafficDistributionGroupError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrafficDistributionGroupRequest,
@@ -27084,17 +27276,19 @@ export const deleteTrafficDistributionGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteUseCaseError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a use case from an integration association.
  */
 export const deleteUseCase: API.OperationMethod<
   DeleteUseCaseRequest,
   DeleteUseCaseResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteUseCaseError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUseCaseRequest,
@@ -27106,6 +27300,13 @@ export const deleteUseCase: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteUserError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a user account from the specified Amazon Connect instance.
  *
@@ -27125,12 +27326,7 @@ export const deleteUseCase: API.OperationMethod<
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteUserError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -27143,6 +27339,14 @@ export const deleteUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteUserHierarchyGroupError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child
  * groups.
@@ -27150,13 +27354,7 @@ export const deleteUser: API.OperationMethod<
 export const deleteUserHierarchyGroup: API.OperationMethod<
   DeleteUserHierarchyGroupRequest,
   DeleteUserHierarchyGroupResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteUserHierarchyGroupError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserHierarchyGroupRequest,
@@ -27170,12 +27368,7 @@ export const deleteUserHierarchyGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
- */
-export const deleteView: API.OperationMethod<
-  DeleteViewRequest,
-  DeleteViewResponse,
+export type DeleteViewError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -27183,7 +27376,14 @@ export const deleteView: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
+ */
+export const deleteView: API.OperationMethod<
+  DeleteViewRequest,
+  DeleteViewResponse,
+  DeleteViewError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteViewRequest,
@@ -27198,12 +27398,7 @@ export const deleteView: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes the particular version specified in `ViewVersion` identifier.
- */
-export const deleteViewVersion: API.OperationMethod<
-  DeleteViewVersionRequest,
-  DeleteViewVersionResponse,
+export type DeleteViewVersionError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -27211,7 +27406,14 @@ export const deleteViewVersion: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the particular version specified in `ViewVersion` identifier.
+ */
+export const deleteViewVersion: API.OperationMethod<
+  DeleteViewVersionRequest,
+  DeleteViewVersionResponse,
+  DeleteViewVersionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteViewVersionRequest,
@@ -27226,19 +27428,21 @@ export const deleteViewVersion: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes the vocabulary that has the given identifier.
- */
-export const deleteVocabulary: API.OperationMethod<
-  DeleteVocabularyRequest,
-  DeleteVocabularyResponse,
+export type DeleteVocabularyError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the vocabulary that has the given identifier.
+ */
+export const deleteVocabulary: API.OperationMethod<
+  DeleteVocabularyRequest,
+  DeleteVocabularyResponse,
+  DeleteVocabularyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVocabularyRequest,
@@ -27252,19 +27456,21 @@ export const deleteVocabulary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes a workspace and removes all associated view and resource assignments.
- */
-export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
-  DeleteWorkspaceResponse,
+export type DeleteWorkspaceError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a workspace and removes all associated view and resource assignments.
+ */
+export const deleteWorkspace: API.OperationMethod<
+  DeleteWorkspaceRequest,
+  DeleteWorkspaceResponse,
+  DeleteWorkspaceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceRequest,
@@ -27278,18 +27484,20 @@ export const deleteWorkspace: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteWorkspaceMediaError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a media asset (such as a logo) from a workspace.
  */
 export const deleteWorkspaceMedia: API.OperationMethod<
   DeleteWorkspaceMediaRequest,
   DeleteWorkspaceMediaResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteWorkspaceMediaError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceMediaRequest,
@@ -27302,13 +27510,7 @@ export const deleteWorkspaceMedia: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Removes the association between a view and a page in a workspace. The page will display the default view after
- * deletion.
- */
-export const deleteWorkspacePage: API.OperationMethod<
-  DeleteWorkspacePageRequest,
-  DeleteWorkspacePageResponse,
+export type DeleteWorkspacePageError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -27316,7 +27518,15 @@ export const deleteWorkspacePage: API.OperationMethod<
   | ResourceConflictException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between a view and a page in a workspace. The page will display the default view after
+ * deletion.
+ */
+export const deleteWorkspacePage: API.OperationMethod<
+  DeleteWorkspacePageRequest,
+  DeleteWorkspacePageResponse,
+  DeleteWorkspacePageError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspacePageRequest,
@@ -27331,18 +27541,20 @@ export const deleteWorkspacePage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAgentStatusError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes an agent status.
  */
 export const describeAgentStatus: API.OperationMethod<
   DescribeAgentStatusRequest,
   DescribeAgentStatusResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAgentStatusError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAgentStatusRequest,
@@ -27355,6 +27567,13 @@ export const describeAgentStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeAuthenticationProfileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change. To
  * request access to this API, contact Amazon Web Services Support.
@@ -27364,12 +27583,7 @@ export const describeAgentStatus: API.OperationMethod<
 export const describeAuthenticationProfile: API.OperationMethod<
   DescribeAuthenticationProfileRequest,
   DescribeAuthenticationProfileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeAuthenticationProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuthenticationProfileRequest,
@@ -27382,6 +27596,13 @@ export const describeAuthenticationProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeContactError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -27415,12 +27636,7 @@ export const describeAuthenticationProfile: API.OperationMethod<
 export const describeContact: API.OperationMethod<
   DescribeContactRequest,
   DescribeContactResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactRequest,
@@ -27433,17 +27649,19 @@ export const describeContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeContactEvaluationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a contact evaluation in the specified Amazon Connect instance.
  */
 export const describeContactEvaluation: API.OperationMethod<
   DescribeContactEvaluationRequest,
   DescribeContactEvaluationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeContactEvaluationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactEvaluationRequest,
@@ -27455,6 +27673,14 @@ export const describeContactEvaluation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeContactFlowError =
+  | ContactFlowNotPublishedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified flow.
  *
@@ -27475,13 +27701,7 @@ export const describeContactEvaluation: API.OperationMethod<
 export const describeContactFlow: API.OperationMethod<
   DescribeContactFlowRequest,
   DescribeContactFlowResponse,
-  | ContactFlowNotPublishedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeContactFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactFlowRequest,
@@ -27495,6 +27715,14 @@ export const describeContactFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeContactFlowModuleError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified flow module.
  *
@@ -27505,13 +27733,7 @@ export const describeContactFlow: API.OperationMethod<
 export const describeContactFlowModule: API.OperationMethod<
   DescribeContactFlowModuleRequest,
   DescribeContactFlowModuleResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeContactFlowModuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactFlowModuleRequest,
@@ -27525,6 +27747,14 @@ export const describeContactFlowModule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeContactFlowModuleAliasError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific alias, including which version it currently points to and its
  * metadata.
@@ -27532,13 +27762,7 @@ export const describeContactFlowModule: API.OperationMethod<
 export const describeContactFlowModuleAlias: API.OperationMethod<
   DescribeContactFlowModuleAliasRequest,
   DescribeContactFlowModuleAliasResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeContactFlowModuleAliasError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactFlowModuleAliasRequest,
@@ -27552,6 +27776,14 @@ export const describeContactFlowModuleAlias: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDataTableError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns all properties for a data table except for attributes and values. All properties from CreateDataTable
  * are returned as well as properties for region replication, versioning, and system tables. "Describe" is a deprecated
@@ -27560,13 +27792,7 @@ export const describeContactFlowModuleAlias: API.OperationMethod<
 export const describeDataTable: API.OperationMethod<
   DescribeDataTableRequest,
   DescribeDataTableResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDataTableError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataTableRequest,
@@ -27580,6 +27806,14 @@ export const describeDataTable: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDataTableAttributeError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns detailed information for a specific data table attribute including its configuration, validation rules,
  * and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
@@ -27587,13 +27821,7 @@ export const describeDataTable: API.OperationMethod<
 export const describeDataTableAttribute: API.OperationMethod<
   DescribeDataTableAttributeRequest,
   DescribeDataTableAttributeResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDataTableAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataTableAttributeRequest,
@@ -27607,19 +27835,21 @@ export const describeDataTableAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Describe email address form the specified Amazon Connect instance.
- */
-export const describeEmailAddress: API.OperationMethod<
-  DescribeEmailAddressRequest,
-  DescribeEmailAddressResponse,
+export type DescribeEmailAddressError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describe email address form the specified Amazon Connect instance.
+ */
+export const describeEmailAddress: API.OperationMethod<
+  DescribeEmailAddressRequest,
+  DescribeEmailAddressResponse,
+  DescribeEmailAddressError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEmailAddressRequest,
@@ -27633,6 +27863,12 @@ export const describeEmailAddress: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeEvaluationFormError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes an evaluation form in the specified Amazon Connect instance. If the version property is not
  * provided, the latest version of the evaluation form is described.
@@ -27640,11 +27876,7 @@ export const describeEmailAddress: API.OperationMethod<
 export const describeEvaluationForm: API.OperationMethod<
   DescribeEvaluationFormRequest,
   DescribeEvaluationFormResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeEvaluationFormError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEvaluationFormRequest,
@@ -27656,18 +27888,20 @@ export const describeEvaluationForm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeHoursOfOperationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the hours of operation.
  */
 export const describeHoursOfOperation: API.OperationMethod<
   DescribeHoursOfOperationRequest,
   DescribeHoursOfOperationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeHoursOfOperationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHoursOfOperationRequest,
@@ -27680,18 +27914,20 @@ export const describeHoursOfOperation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeHoursOfOperationOverrideError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the hours of operation override.
  */
 export const describeHoursOfOperationOverride: API.OperationMethod<
   DescribeHoursOfOperationOverrideRequest,
   DescribeHoursOfOperationOverrideResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeHoursOfOperationOverrideError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHoursOfOperationOverrideRequest,
@@ -27704,6 +27940,11 @@ export const describeHoursOfOperationOverride: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeInstanceError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -27716,10 +27957,7 @@ export const describeHoursOfOperationOverride: API.OperationMethod<
 export const describeInstance: API.OperationMethod<
   DescribeInstanceRequest,
   DescribeInstanceResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeInstanceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceRequest,
@@ -27730,6 +27968,13 @@ export const describeInstance: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeInstanceAttributeError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -27738,12 +27983,7 @@ export const describeInstance: API.OperationMethod<
 export const describeInstanceAttribute: API.OperationMethod<
   DescribeInstanceAttributeRequest,
   DescribeInstanceAttributeResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeInstanceAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceAttributeRequest,
@@ -27756,6 +27996,13 @@ export const describeInstanceAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeInstanceStorageConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -27765,12 +28012,7 @@ export const describeInstanceAttribute: API.OperationMethod<
 export const describeInstanceStorageConfig: API.OperationMethod<
   DescribeInstanceStorageConfigRequest,
   DescribeInstanceStorageConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeInstanceStorageConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceStorageConfigRequest,
@@ -27783,19 +28025,21 @@ export const describeInstanceStorageConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
- */
-export const describeNotification: API.OperationMethod<
-  DescribeNotificationRequest,
-  DescribeNotificationResponse,
+export type DescribeNotificationError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
+ */
+export const describeNotification: API.OperationMethod<
+  DescribeNotificationRequest,
+  DescribeNotificationResponse,
+  DescribeNotificationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNotificationRequest,
@@ -27809,6 +28053,13 @@ export const describeNotification: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribePhoneNumberError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.
  *
@@ -27821,12 +28072,7 @@ export const describeNotification: API.OperationMethod<
 export const describePhoneNumber: API.OperationMethod<
   DescribePhoneNumberRequest,
   DescribePhoneNumberResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribePhoneNumberError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePhoneNumberRequest,
@@ -27839,6 +28085,13 @@ export const describePhoneNumber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribePredefinedAttributeError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a predefined attribute for the specified Amazon Connect instance. A *predefined attribute*
  * is made up of a name and a value. You can use predefined attributes for:
@@ -27858,12 +28111,7 @@ export const describePhoneNumber: API.OperationMethod<
 export const describePredefinedAttribute: API.OperationMethod<
   DescribePredefinedAttributeRequest,
   DescribePredefinedAttributeResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribePredefinedAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePredefinedAttributeRequest,
@@ -27876,18 +28124,20 @@ export const describePredefinedAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribePromptError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the prompt.
  */
 export const describePrompt: API.OperationMethod<
   DescribePromptRequest,
   DescribePromptResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribePromptError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePromptRequest,
@@ -27900,18 +28150,20 @@ export const describePrompt: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeQueueError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified queue.
  */
 export const describeQueue: API.OperationMethod<
   DescribeQueueRequest,
   DescribeQueueResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeQueueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQueueRequest,
@@ -27924,18 +28176,20 @@ export const describeQueue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeQuickConnectError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the quick connect.
  */
 export const describeQuickConnect: API.OperationMethod<
   DescribeQuickConnectRequest,
   DescribeQuickConnectResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeQuickConnectError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQuickConnectRequest,
@@ -27948,6 +28202,13 @@ export const describeQuickConnect: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeRoutingProfileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified routing profile.
  *
@@ -27958,12 +28219,7 @@ export const describeQuickConnect: API.OperationMethod<
 export const describeRoutingProfile: API.OperationMethod<
   DescribeRoutingProfileRequest,
   DescribeRoutingProfileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeRoutingProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRoutingProfileRequest,
@@ -27976,18 +28232,20 @@ export const describeRoutingProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeRuleError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes a rule for the specified Amazon Connect instance.
  */
 export const describeRule: API.OperationMethod<
   DescribeRuleRequest,
   DescribeRuleResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeRuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRuleRequest,
@@ -28000,6 +28258,13 @@ export const describeRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeSecurityProfileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets basic information about the security profile.
  *
@@ -28010,12 +28275,7 @@ export const describeRule: API.OperationMethod<
 export const describeSecurityProfile: API.OperationMethod<
   DescribeSecurityProfileRequest,
   DescribeSecurityProfileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeSecurityProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSecurityProfileRequest,
@@ -28028,19 +28288,21 @@ export const describeSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
- */
-export const describeTestCase: API.OperationMethod<
-  DescribeTestCaseRequest,
-  DescribeTestCaseResponse,
+export type DescribeTestCaseError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
+ */
+export const describeTestCase: API.OperationMethod<
+  DescribeTestCaseRequest,
+  DescribeTestCaseResponse,
+  DescribeTestCaseError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTestCaseRequest,
@@ -28054,18 +28316,20 @@ export const describeTestCase: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeTrafficDistributionGroupError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets details and status of a traffic distribution group.
  */
 export const describeTrafficDistributionGroup: API.OperationMethod<
   DescribeTrafficDistributionGroupRequest,
   DescribeTrafficDistributionGroupResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeTrafficDistributionGroupError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrafficDistributionGroupRequest,
@@ -28078,6 +28342,13 @@ export const describeTrafficDistributionGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeUserError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified user. You can find the instance ID in the Amazon Connect
  * console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users
@@ -28086,12 +28357,7 @@ export const describeTrafficDistributionGroup: API.OperationMethod<
 export const describeUser: API.OperationMethod<
   DescribeUserRequest,
   DescribeUserResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeUserError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
@@ -28104,18 +28370,20 @@ export const describeUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeUserHierarchyGroupError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified hierarchy group.
  */
 export const describeUserHierarchyGroup: API.OperationMethod<
   DescribeUserHierarchyGroupRequest,
   DescribeUserHierarchyGroupResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeUserHierarchyGroupError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserHierarchyGroupRequest,
@@ -28128,18 +28396,20 @@ export const describeUserHierarchyGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeUserHierarchyStructureError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the hierarchy structure of the specified Amazon Connect instance.
  */
 export const describeUserHierarchyStructure: API.OperationMethod<
   DescribeUserHierarchyStructureRequest,
   DescribeUserHierarchyStructureResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeUserHierarchyStructureError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserHierarchyStructureRequest,
@@ -28152,6 +28422,14 @@ export const describeUserHierarchyStructure: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeViewError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the view for the specified Amazon Connect instance and view identifier.
  *
@@ -28167,13 +28445,7 @@ export const describeUserHierarchyStructure: API.OperationMethod<
 export const describeView: API.OperationMethod<
   DescribeViewRequest,
   DescribeViewResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeViewError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeViewRequest,
@@ -28187,18 +28459,20 @@ export const describeView: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeVocabularyError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified vocabulary.
  */
 export const describeVocabulary: API.OperationMethod<
   DescribeVocabularyRequest,
   DescribeVocabularyResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeVocabularyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVocabularyRequest,
@@ -28211,19 +28485,21 @@ export const describeVocabulary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves details about a workspace, including its configuration and metadata.
- */
-export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
-  DescribeWorkspaceResponse,
+export type DescribeWorkspaceError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details about a workspace, including its configuration and metadata.
+ */
+export const describeWorkspace: API.OperationMethod<
+  DescribeWorkspaceRequest,
+  DescribeWorkspaceResponse,
+  DescribeWorkspaceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceRequest,
@@ -28237,18 +28513,20 @@ export const describeWorkspace: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateAnalyticsDataSetError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the dataset ID associated with a given Amazon Connect instance.
  */
 export const disassociateAnalyticsDataSet: API.OperationMethod<
   DisassociateAnalyticsDataSetRequest,
   DisassociateAnalyticsDataSetResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateAnalyticsDataSetError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAnalyticsDataSetRequest,
@@ -28261,6 +28539,13 @@ export const disassociateAnalyticsDataSet: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateApprovedOriginError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -28269,12 +28554,7 @@ export const disassociateAnalyticsDataSet: API.OperationMethod<
 export const disassociateApprovedOrigin: API.OperationMethod<
   DisassociateApprovedOriginRequest,
   DisassociateApprovedOriginResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateApprovedOriginError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateApprovedOriginRequest,
@@ -28287,6 +28567,12 @@ export const disassociateApprovedOrigin: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateBotError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -28295,11 +28581,7 @@ export const disassociateApprovedOrigin: API.OperationMethod<
 export const disassociateBot: API.OperationMethod<
   DisassociateBotRequest,
   DisassociateBotResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateBotError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateBotRequest,
@@ -28311,6 +28593,15 @@ export const disassociateBot: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateEmailAddressAliasError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the alias association between two email addresses in an Amazon Connect instance. After
  * disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address.
@@ -28370,14 +28661,7 @@ export const disassociateBot: API.OperationMethod<
 export const disassociateEmailAddressAlias: API.OperationMethod<
   DisassociateEmailAddressAliasRequest,
   DisassociateEmailAddressAliasResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateEmailAddressAliasError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateEmailAddressAliasRequest,
@@ -28392,19 +28676,21 @@ export const disassociateEmailAddressAlias: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Disassociates a connect resource from a flow.
- */
-export const disassociateFlow: API.OperationMethod<
-  DisassociateFlowRequest,
-  DisassociateFlowResponse,
+export type DisassociateFlowError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a connect resource from a flow.
+ */
+export const disassociateFlow: API.OperationMethod<
+  DisassociateFlowRequest,
+  DisassociateFlowResponse,
+  DisassociateFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFlowRequest,
@@ -28418,19 +28704,21 @@ export const disassociateFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
- */
-export const disassociateHoursOfOperations: API.OperationMethod<
-  DisassociateHoursOfOperationsRequest,
-  DisassociateHoursOfOperationsResponse,
+export type DisassociateHoursOfOperationsError =
   | ConditionalOperationFailedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
+ */
+export const disassociateHoursOfOperations: API.OperationMethod<
+  DisassociateHoursOfOperationsRequest,
+  DisassociateHoursOfOperationsResponse,
+  DisassociateHoursOfOperationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateHoursOfOperationsRequest,
@@ -28444,6 +28732,13 @@ export const disassociateHoursOfOperations: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateInstanceStorageConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -28452,12 +28747,7 @@ export const disassociateHoursOfOperations: API.OperationMethod<
 export const disassociateInstanceStorageConfig: API.OperationMethod<
   DisassociateInstanceStorageConfigRequest,
   DisassociateInstanceStorageConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateInstanceStorageConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateInstanceStorageConfigRequest,
@@ -28470,6 +28760,13 @@ export const disassociateInstanceStorageConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateLambdaFunctionError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -28478,12 +28775,7 @@ export const disassociateInstanceStorageConfig: API.OperationMethod<
 export const disassociateLambdaFunction: API.OperationMethod<
   DisassociateLambdaFunctionRequest,
   DisassociateLambdaFunctionResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateLambdaFunctionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLambdaFunctionRequest,
@@ -28496,6 +28788,13 @@ export const disassociateLambdaFunction: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateLexBotError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -28504,12 +28803,7 @@ export const disassociateLambdaFunction: API.OperationMethod<
 export const disassociateLexBot: API.OperationMethod<
   DisassociateLexBotRequest,
   DisassociateLexBotResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateLexBotError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLexBotRequest,
@@ -28522,6 +28816,13 @@ export const disassociateLexBot: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociatePhoneNumberContactFlowError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the flow association from a phone number claimed to your Amazon Connect instance.
  *
@@ -28534,12 +28835,7 @@ export const disassociateLexBot: API.OperationMethod<
 export const disassociatePhoneNumberContactFlow: API.OperationMethod<
   DisassociatePhoneNumberContactFlowRequest,
   DisassociatePhoneNumberContactFlowResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociatePhoneNumberContactFlowError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociatePhoneNumberContactFlowRequest,
@@ -28552,18 +28848,20 @@ export const disassociatePhoneNumberContactFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateQueueQuickConnectsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a set of quick connects from a queue.
  */
 export const disassociateQueueQuickConnects: API.OperationMethod<
   DisassociateQueueQuickConnectsRequest,
   DisassociateQueueQuickConnectsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateQueueQuickConnectsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateQueueQuickConnectsRequest,
@@ -28576,6 +28874,13 @@ export const disassociateQueueQuickConnects: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateRoutingProfileQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a set of queues from a routing profile.
  *
@@ -28585,12 +28890,7 @@ export const disassociateQueueQuickConnects: API.OperationMethod<
 export const disassociateRoutingProfileQueues: API.OperationMethod<
   DisassociateRoutingProfileQueuesRequest,
   DisassociateRoutingProfileQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateRoutingProfileQueuesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateRoutingProfileQueuesRequest,
@@ -28603,6 +28903,13 @@ export const disassociateRoutingProfileQueues: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateSecurityKeyError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -28611,12 +28918,7 @@ export const disassociateRoutingProfileQueues: API.OperationMethod<
 export const disassociateSecurityKey: API.OperationMethod<
   DisassociateSecurityKeyRequest,
   DisassociateSecurityKeyResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateSecurityKeyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSecurityKeyRequest,
@@ -28629,12 +28931,7 @@ export const disassociateSecurityKey: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
- */
-export const disassociateSecurityProfiles: API.OperationMethod<
-  DisassociateSecurityProfilesRequest,
-  DisassociateSecurityProfilesResponse,
+export type DisassociateSecurityProfilesError =
   | AccessDeniedException
   | ConditionalOperationFailedException
   | InternalServiceException
@@ -28642,7 +28939,14 @@ export const disassociateSecurityProfiles: API.OperationMethod<
   | InvalidRequestException
   | ResourceConflictException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
+ */
+export const disassociateSecurityProfiles: API.OperationMethod<
+  DisassociateSecurityProfilesRequest,
+  DisassociateSecurityProfilesResponse,
+  DisassociateSecurityProfilesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSecurityProfilesRequest,
@@ -28657,6 +28961,14 @@ export const disassociateSecurityProfiles: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateTrafficDistributionGroupUserError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the
  * traffic distribution group is created.
@@ -28664,13 +28976,7 @@ export const disassociateSecurityProfiles: API.OperationMethod<
 export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
   DisassociateTrafficDistributionGroupUserRequest,
   DisassociateTrafficDistributionGroupUserResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateTrafficDistributionGroupUserError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateTrafficDistributionGroupUserRequest,
@@ -28684,18 +28990,20 @@ export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateUserProficienciesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a set of proficiencies from a user.
  */
 export const disassociateUserProficiencies: API.OperationMethod<
   DisassociateUserProficienciesRequest,
   DisassociateUserProficienciesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateUserProficienciesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateUserProficienciesRequest,
@@ -28708,19 +29016,21 @@ export const disassociateUserProficiencies: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Removes the association between a workspace and one or more users or routing profiles.
- */
-export const disassociateWorkspace: API.OperationMethod<
-  DisassociateWorkspaceRequest,
-  DisassociateWorkspaceResponse,
+export type DisassociateWorkspaceError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association between a workspace and one or more users or routing profiles.
+ */
+export const disassociateWorkspace: API.OperationMethod<
+  DisassociateWorkspaceRequest,
+  DisassociateWorkspaceResponse,
+  DisassociateWorkspaceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWorkspaceRequest,
@@ -28734,6 +29044,14 @@ export const disassociateWorkspace: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DismissUserContactError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to
  * receive a new routed contact. Contacts can only be dismissed if they are in a `MISSED`,
@@ -28742,13 +29060,7 @@ export const disassociateWorkspace: API.OperationMethod<
 export const dismissUserContact: API.OperationMethod<
   DismissUserContactRequest,
   DismissUserContactResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DismissUserContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DismissUserContactRequest,
@@ -28762,6 +29074,14 @@ export const dismissUserContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type EvaluateDataTableValuesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's
  * timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the
@@ -28772,39 +29092,21 @@ export const dismissUserContact: API.OperationMethod<
 export const evaluateDataTableValues: API.OperationMethod<
   EvaluateDataTableValuesRequest,
   EvaluateDataTableValuesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  EvaluateDataTableValuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: EvaluateDataTableValuesRequest,
   ) => stream.Stream<
     EvaluateDataTableValuesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    EvaluateDataTableValuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: EvaluateDataTableValuesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    EvaluateDataTableValuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -28824,6 +29126,13 @@ export const evaluateDataTableValues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetAttachedFileError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the
  * attached file. It will only return a downloadURL if the status of the attached file is `APPROVED`.
@@ -28831,12 +29140,7 @@ export const evaluateDataTableValues: API.OperationMethod<
 export const getAttachedFile: API.OperationMethod<
   GetAttachedFileRequest,
   GetAttachedFileResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetAttachedFileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttachedFileRequest,
@@ -28849,16 +29153,18 @@ export const getAttachedFile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetContactAttributesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the contact attributes for the specified contact.
  */
 export const getContactAttributes: API.OperationMethod<
   GetContactAttributesRequest,
   GetContactAttributesResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetContactAttributesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactAttributesRequest,
@@ -28869,6 +29175,14 @@ export const getContactAttributes: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetContactMetricsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves contact metric data for a specified contact.
  *
@@ -28895,13 +29209,7 @@ export const getContactAttributes: API.OperationMethod<
 export const getContactMetrics: API.OperationMethod<
   GetContactMetricsRequest,
   GetContactMetricsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetContactMetricsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactMetricsRequest,
@@ -28915,6 +29223,13 @@ export const getContactMetrics: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetCurrentMetricDataError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the real-time metric data from the specified Amazon Connect instance.
  *
@@ -28944,36 +29259,21 @@ export const getContactMetrics: API.OperationMethod<
 export const getCurrentMetricData: API.OperationMethod<
   GetCurrentMetricDataRequest,
   GetCurrentMetricDataResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetCurrentMetricDataError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCurrentMetricDataRequest,
   ) => stream.Stream<
     GetCurrentMetricDataResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetCurrentMetricDataError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCurrentMetricDataRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetCurrentMetricDataError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -28992,42 +29292,34 @@ export const getCurrentMetricData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetCurrentUserDataError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the real-time active user data from the specified Amazon Connect instance.
  */
 export const getCurrentUserData: API.OperationMethod<
   GetCurrentUserDataRequest,
   GetCurrentUserDataResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetCurrentUserDataError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCurrentUserDataRequest,
   ) => stream.Stream<
     GetCurrentUserDataResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetCurrentUserDataError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCurrentUserDataRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetCurrentUserDataError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29046,18 +29338,20 @@ export const getCurrentUserData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetEffectiveHoursOfOperationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get the hours of operations with the effective override applied.
  */
 export const getEffectiveHoursOfOperations: API.OperationMethod<
   GetEffectiveHoursOfOperationsRequest,
   GetEffectiveHoursOfOperationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetEffectiveHoursOfOperationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEffectiveHoursOfOperationsRequest,
@@ -29070,6 +29364,14 @@ export const getEffectiveHoursOfOperations: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFederationTokenError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | UserNotFoundException
+  | CommonErrors;
 /**
  * Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.
  *
@@ -29084,13 +29386,7 @@ export const getEffectiveHoursOfOperations: API.OperationMethod<
 export const getFederationToken: API.OperationMethod<
   GetFederationTokenRequest,
   GetFederationTokenResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | UserNotFoundException
-  | CommonErrors,
+  GetFederationTokenError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFederationTokenRequest,
@@ -29104,19 +29400,21 @@ export const getFederationToken: API.OperationMethod<
     UserNotFoundException,
   ],
 }));
-/**
- * Retrieves the flow associated for a given resource.
- */
-export const getFlowAssociation: API.OperationMethod<
-  GetFlowAssociationRequest,
-  GetFlowAssociationResponse,
+export type GetFlowAssociationError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the flow associated for a given resource.
+ */
+export const getFlowAssociation: API.OperationMethod<
+  GetFlowAssociationRequest,
+  GetFlowAssociationResponse,
+  GetFlowAssociationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowAssociationRequest,
@@ -29130,6 +29428,13 @@ export const getFlowAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetMetricDataError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets historical metric data from the specified Amazon Connect instance.
  *
@@ -29144,36 +29449,21 @@ export const getFlowAssociation: API.OperationMethod<
 export const getMetricData: API.OperationMethod<
   GetMetricDataRequest,
   GetMetricDataResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetMetricDataError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetMetricDataRequest,
   ) => stream.Stream<
     GetMetricDataResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetMetricDataError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetMetricDataRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetMetricDataError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29192,6 +29482,13 @@ export const getMetricData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetMetricDataV2Error =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets metric data from the specified Amazon Connect instance.
  *
@@ -29229,36 +29526,21 @@ export const getMetricData: API.OperationMethod<
 export const getMetricDataV2: API.OperationMethod<
   GetMetricDataV2Request,
   GetMetricDataV2Response,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetMetricDataV2Error,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetMetricDataV2Request,
   ) => stream.Stream<
     GetMetricDataV2Response,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetMetricDataV2Error,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetMetricDataV2Request,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetMetricDataV2Error,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29277,18 +29559,20 @@ export const getMetricDataV2: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetPromptFileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the prompt file.
  */
 export const getPromptFile: API.OperationMethod<
   GetPromptFileRequest,
   GetPromptFileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetPromptFileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPromptFileRequest,
@@ -29301,18 +29585,20 @@ export const getPromptFile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetTaskTemplateError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets details about a specific task template in the specified Amazon Connect instance.
  */
 export const getTaskTemplate: API.OperationMethod<
   GetTaskTemplateRequest,
   GetTaskTemplateResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetTaskTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskTemplateRequest,
@@ -29325,19 +29611,21 @@ export const getTaskTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
- */
-export const getTestCaseExecutionSummary: API.OperationMethod<
-  GetTestCaseExecutionSummaryRequest,
-  GetTestCaseExecutionSummaryResponse,
+export type GetTestCaseExecutionSummaryError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
+ */
+export const getTestCaseExecutionSummary: API.OperationMethod<
+  GetTestCaseExecutionSummaryRequest,
+  GetTestCaseExecutionSummaryResponse,
+  GetTestCaseExecutionSummaryError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestCaseExecutionSummaryRequest,
@@ -29351,18 +29639,20 @@ export const getTestCaseExecutionSummary: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetTrafficDistributionError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the current traffic distribution for a given traffic distribution group.
  */
 export const getTrafficDistribution: API.OperationMethod<
   GetTrafficDistributionRequest,
   GetTrafficDistributionResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetTrafficDistributionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrafficDistributionRequest,
@@ -29375,6 +29665,14 @@ export const getTrafficDistribution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ImportPhoneNumberError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an
  * Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
@@ -29397,13 +29695,7 @@ export const getTrafficDistribution: API.OperationMethod<
 export const importPhoneNumber: API.OperationMethod<
   ImportPhoneNumberRequest,
   ImportPhoneNumberResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ImportPhoneNumberError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportPhoneNumberRequest,
@@ -29417,18 +29709,20 @@ export const importPhoneNumber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ImportWorkspaceMediaError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Imports a media asset (such as a logo) for use in a workspace.
  */
 export const importWorkspaceMedia: API.OperationMethod<
   ImportWorkspaceMediaRequest,
   ImportWorkspaceMediaResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ImportWorkspaceMediaError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportWorkspaceMediaRequest,
@@ -29441,42 +29735,34 @@ export const importWorkspaceMedia: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAgentStatusesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists agent statuses.
  */
 export const listAgentStatuses: API.OperationMethod<
   ListAgentStatusRequest,
   ListAgentStatusResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAgentStatusesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAgentStatusRequest,
   ) => stream.Stream<
     ListAgentStatusResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAgentStatusesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentStatusRequest,
   ) => stream.Stream<
     AgentStatusSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAgentStatusesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29496,18 +29782,20 @@ export const listAgentStatuses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAnalyticsDataAssociationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the association status of requested dataset ID for a given Amazon Connect instance.
  */
 export const listAnalyticsDataAssociations: API.OperationMethod<
   ListAnalyticsDataAssociationsRequest,
   ListAnalyticsDataAssociationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAnalyticsDataAssociationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAnalyticsDataAssociationsRequest,
@@ -29520,18 +29808,20 @@ export const listAnalyticsDataAssociations: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAnalyticsDataLakeDataSetsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the data lake datasets available to associate with for a given Amazon Connect instance.
  */
 export const listAnalyticsDataLakeDataSets: API.OperationMethod<
   ListAnalyticsDataLakeDataSetsRequest,
   ListAnalyticsDataLakeDataSetsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAnalyticsDataLakeDataSetsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAnalyticsDataLakeDataSetsRequest,
@@ -29544,6 +29834,13 @@ export const listAnalyticsDataLakeDataSets: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListApprovedOriginsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -29552,36 +29849,21 @@ export const listAnalyticsDataLakeDataSets: API.OperationMethod<
 export const listApprovedOrigins: API.OperationMethod<
   ListApprovedOriginsRequest,
   ListApprovedOriginsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListApprovedOriginsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApprovedOriginsRequest,
   ) => stream.Stream<
     ListApprovedOriginsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListApprovedOriginsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApprovedOriginsRequest,
   ) => stream.Stream<
     Origin,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListApprovedOriginsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29601,18 +29883,20 @@ export const listApprovedOrigins: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAssociatedContactsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about contact tree, a list of associated contacts with a unique identifier.
  */
 export const listAssociatedContacts: API.OperationMethod<
   ListAssociatedContactsRequest,
   ListAssociatedContactsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAssociatedContactsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAssociatedContactsRequest,
@@ -29625,6 +29909,13 @@ export const listAssociatedContacts: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAuthenticationProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change. To
  * request access to this API, contact Amazon Web Services Support.
@@ -29635,36 +29926,21 @@ export const listAssociatedContacts: API.OperationMethod<
 export const listAuthenticationProfiles: API.OperationMethod<
   ListAuthenticationProfilesRequest,
   ListAuthenticationProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListAuthenticationProfilesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAuthenticationProfilesRequest,
   ) => stream.Stream<
     ListAuthenticationProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuthenticationProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAuthenticationProfilesRequest,
   ) => stream.Stream<
     AuthenticationProfileSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListAuthenticationProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29684,6 +29960,12 @@ export const listAuthenticationProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListBotsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -29694,33 +29976,21 @@ export const listAuthenticationProfiles: API.OperationMethod<
 export const listBots: API.OperationMethod<
   ListBotsRequest,
   ListBotsResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListBotsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
     ListBotsResponse,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListBotsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotsRequest,
   ) => stream.Stream<
     LexBotConfig,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListBotsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29739,6 +30009,13 @@ export const listBots: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListChildHoursOfOperationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the child hours of operations for the specified parent hours of operation.
  *
@@ -29748,36 +30025,21 @@ export const listBots: API.OperationMethod<
 export const listChildHoursOfOperations: API.OperationMethod<
   ListChildHoursOfOperationsRequest,
   ListChildHoursOfOperationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListChildHoursOfOperationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChildHoursOfOperationsRequest,
   ) => stream.Stream<
     ListChildHoursOfOperationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListChildHoursOfOperationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChildHoursOfOperationsRequest,
   ) => stream.Stream<
     HoursOfOperationsIdentifier,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListChildHoursOfOperationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29797,39 +30059,33 @@ export const listChildHoursOfOperations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListContactEvaluationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists contact evaluations in the specified Amazon Connect instance.
  */
 export const listContactEvaluations: API.OperationMethod<
   ListContactEvaluationsRequest,
   ListContactEvaluationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListContactEvaluationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactEvaluationsRequest,
   ) => stream.Stream<
     ListContactEvaluationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactEvaluationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactEvaluationsRequest,
   ) => stream.Stream<
     EvaluationSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactEvaluationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29847,6 +30103,14 @@ export const listContactEvaluations: API.OperationMethod<
     items: "EvaluationSummaryList",
   } as const,
 }));
+export type ListContactFlowModuleAliasesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all aliases associated with a contact flow module, showing their current version mappings and
  * metadata.
@@ -29854,39 +30118,21 @@ export const listContactEvaluations: API.OperationMethod<
 export const listContactFlowModuleAliases: API.OperationMethod<
   ListContactFlowModuleAliasesRequest,
   ListContactFlowModuleAliasesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListContactFlowModuleAliasesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactFlowModuleAliasesRequest,
   ) => stream.Stream<
     ListContactFlowModuleAliasesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowModuleAliasesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactFlowModuleAliasesRequest,
   ) => stream.Stream<
     ContactFlowModuleAliasSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowModuleAliasesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29907,45 +30153,35 @@ export const listContactFlowModuleAliases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Provides information about the flow modules for the specified Amazon Connect instance.
- */
-export const listContactFlowModules: API.OperationMethod<
-  ListContactFlowModulesRequest,
-  ListContactFlowModulesResponse,
+export type ListContactFlowModulesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides information about the flow modules for the specified Amazon Connect instance.
+ */
+export const listContactFlowModules: API.OperationMethod<
+  ListContactFlowModulesRequest,
+  ListContactFlowModulesResponse,
+  ListContactFlowModulesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactFlowModulesRequest,
   ) => stream.Stream<
     ListContactFlowModulesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowModulesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactFlowModulesRequest,
   ) => stream.Stream<
     ContactFlowModuleSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowModulesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -29966,45 +30202,35 @@ export const listContactFlowModules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of all versions for a specific contact flow module.
- */
-export const listContactFlowModuleVersions: API.OperationMethod<
-  ListContactFlowModuleVersionsRequest,
-  ListContactFlowModuleVersionsResponse,
+export type ListContactFlowModuleVersionsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of all versions for a specific contact flow module.
+ */
+export const listContactFlowModuleVersions: API.OperationMethod<
+  ListContactFlowModuleVersionsRequest,
+  ListContactFlowModuleVersionsResponse,
+  ListContactFlowModuleVersionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactFlowModuleVersionsRequest,
   ) => stream.Stream<
     ListContactFlowModuleVersionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowModuleVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactFlowModuleVersionsRequest,
   ) => stream.Stream<
     ContactFlowModuleVersionSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowModuleVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30025,6 +30251,13 @@ export const listContactFlowModuleVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListContactFlowsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the flows for the specified Amazon Connect instance.
  *
@@ -30037,36 +30270,21 @@ export const listContactFlowModuleVersions: API.OperationMethod<
 export const listContactFlows: API.OperationMethod<
   ListContactFlowsRequest,
   ListContactFlowsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListContactFlowsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactFlowsRequest,
   ) => stream.Stream<
     ListContactFlowsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactFlowsRequest,
   ) => stream.Stream<
     ContactFlowSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30086,45 +30304,35 @@ export const listContactFlows: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns all the available versions for the specified Amazon Connect instance and flow identifier.
- */
-export const listContactFlowVersions: API.OperationMethod<
-  ListContactFlowVersionsRequest,
-  ListContactFlowVersionsResponse,
+export type ListContactFlowVersionsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns all the available versions for the specified Amazon Connect instance and flow identifier.
+ */
+export const listContactFlowVersions: API.OperationMethod<
+  ListContactFlowVersionsRequest,
+  ListContactFlowVersionsResponse,
+  ListContactFlowVersionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactFlowVersionsRequest,
   ) => stream.Stream<
     ListContactFlowVersionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactFlowVersionsRequest,
   ) => stream.Stream<
     ContactFlowVersionSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactFlowVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30145,6 +30353,13 @@ export const listContactFlowVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListContactReferencesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -30155,36 +30370,21 @@ export const listContactFlowVersions: API.OperationMethod<
 export const listContactReferences: API.OperationMethod<
   ListContactReferencesRequest,
   ListContactReferencesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListContactReferencesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactReferencesRequest,
   ) => stream.Stream<
     ListContactReferencesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactReferencesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactReferencesRequest,
   ) => stream.Stream<
     ReferenceSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListContactReferencesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30203,6 +30403,14 @@ export const listContactReferences: API.OperationMethod<
     items: "ReferenceSummaryList",
   } as const,
 }));
+export type ListDataTableAttributesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed.
  * Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs
@@ -30211,39 +30419,21 @@ export const listContactReferences: API.OperationMethod<
 export const listDataTableAttributes: API.OperationMethod<
   ListDataTableAttributesRequest,
   ListDataTableAttributesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListDataTableAttributesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataTableAttributesRequest,
   ) => stream.Stream<
     ListDataTableAttributesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTableAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataTableAttributesRequest,
   ) => stream.Stream<
     DataTableAttribute,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTableAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30264,6 +30454,14 @@ export const listDataTableAttributes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDataTablePrimaryValuesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all primary value combinations for a given data table. Returns the unique combinations of primary
  * attribute values that identify records in the table. Up to 100 records are returned per request.
@@ -30271,39 +30469,21 @@ export const listDataTableAttributes: API.OperationMethod<
 export const listDataTablePrimaryValues: API.OperationMethod<
   ListDataTablePrimaryValuesRequest,
   ListDataTablePrimaryValuesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListDataTablePrimaryValuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataTablePrimaryValuesRequest,
   ) => stream.Stream<
     ListDataTablePrimaryValuesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTablePrimaryValuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataTablePrimaryValuesRequest,
   ) => stream.Stream<
     RecordPrimaryValue,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTablePrimaryValuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30324,6 +30504,14 @@ export const listDataTablePrimaryValues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDataTablesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all data tables for the specified Amazon Connect instance. Returns summary information for each table
  * including basic metadata and modification details.
@@ -30331,39 +30519,21 @@ export const listDataTablePrimaryValues: API.OperationMethod<
 export const listDataTables: API.OperationMethod<
   ListDataTablesRequest,
   ListDataTablesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListDataTablesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataTablesRequest,
   ) => stream.Stream<
     ListDataTablesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTablesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataTablesRequest,
   ) => stream.Stream<
     DataTableSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTablesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30384,6 +30554,14 @@ export const listDataTables: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDataTableValuesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists values stored in a data table with optional filtering by record IDs or primary attribute values. Returns
  * the raw stored values along with metadata such as lock versions and modification timestamps.
@@ -30391,39 +30569,21 @@ export const listDataTables: API.OperationMethod<
 export const listDataTableValues: API.OperationMethod<
   ListDataTableValuesRequest,
   ListDataTableValuesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListDataTableValuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataTableValuesRequest,
   ) => stream.Stream<
     ListDataTableValuesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTableValuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataTableValuesRequest,
   ) => stream.Stream<
     DataTableValueSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListDataTableValuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30444,39 +30604,33 @@ export const listDataTableValues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDefaultVocabulariesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the default vocabularies for the specified Amazon Connect instance.
  */
 export const listDefaultVocabularies: API.OperationMethod<
   ListDefaultVocabulariesRequest,
   ListDefaultVocabulariesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListDefaultVocabulariesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDefaultVocabulariesRequest,
   ) => stream.Stream<
     ListDefaultVocabulariesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDefaultVocabulariesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDefaultVocabulariesRequest,
   ) => stream.Stream<
     DefaultVocabulary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListDefaultVocabulariesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30495,42 +30649,34 @@ export const listDefaultVocabularies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEntitySecurityProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
  */
 export const listEntitySecurityProfiles: API.OperationMethod<
   ListEntitySecurityProfilesRequest,
   ListEntitySecurityProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListEntitySecurityProfilesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntitySecurityProfilesRequest,
   ) => stream.Stream<
     ListEntitySecurityProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListEntitySecurityProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntitySecurityProfilesRequest,
   ) => stream.Stream<
     SecurityProfileItem,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListEntitySecurityProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30550,39 +30696,33 @@ export const listEntitySecurityProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEvaluationFormsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists evaluation forms in the specified Amazon Connect instance.
  */
 export const listEvaluationForms: API.OperationMethod<
   ListEvaluationFormsRequest,
   ListEvaluationFormsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListEvaluationFormsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEvaluationFormsRequest,
   ) => stream.Stream<
     ListEvaluationFormsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListEvaluationFormsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEvaluationFormsRequest,
   ) => stream.Stream<
     EvaluationFormSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListEvaluationFormsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30601,39 +30741,33 @@ export const listEvaluationForms: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEvaluationFormVersionsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists versions of an evaluation form in the specified Amazon Connect instance.
  */
 export const listEvaluationFormVersions: API.OperationMethod<
   ListEvaluationFormVersionsRequest,
   ListEvaluationFormVersionsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListEvaluationFormVersionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEvaluationFormVersionsRequest,
   ) => stream.Stream<
     ListEvaluationFormVersionsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListEvaluationFormVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEvaluationFormVersionsRequest,
   ) => stream.Stream<
     EvaluationFormVersionSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListEvaluationFormVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30652,45 +30786,35 @@ export const listEvaluationFormVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List the flow association based on the filters.
- */
-export const listFlowAssociations: API.OperationMethod<
-  ListFlowAssociationsRequest,
-  ListFlowAssociationsResponse,
+export type ListFlowAssociationsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the flow association based on the filters.
+ */
+export const listFlowAssociations: API.OperationMethod<
+  ListFlowAssociationsRequest,
+  ListFlowAssociationsResponse,
+  ListFlowAssociationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowAssociationsRequest,
   ) => stream.Stream<
     ListFlowAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListFlowAssociationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowAssociationsRequest,
   ) => stream.Stream<
     FlowAssociationSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListFlowAssociationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30711,42 +30835,34 @@ export const listFlowAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListHoursOfOperationOverridesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List the hours of operation overrides.
  */
 export const listHoursOfOperationOverrides: API.OperationMethod<
   ListHoursOfOperationOverridesRequest,
   ListHoursOfOperationOverridesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListHoursOfOperationOverridesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHoursOfOperationOverridesRequest,
   ) => stream.Stream<
     ListHoursOfOperationOverridesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListHoursOfOperationOverridesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHoursOfOperationOverridesRequest,
   ) => stream.Stream<
     HoursOfOperationOverride,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListHoursOfOperationOverridesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30766,6 +30882,13 @@ export const listHoursOfOperationOverrides: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListHoursOfOperationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the hours of operation for the specified Amazon Connect instance.
  *
@@ -30775,36 +30898,21 @@ export const listHoursOfOperationOverrides: API.OperationMethod<
 export const listHoursOfOperations: API.OperationMethod<
   ListHoursOfOperationsRequest,
   ListHoursOfOperationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListHoursOfOperationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHoursOfOperationsRequest,
   ) => stream.Stream<
     ListHoursOfOperationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListHoursOfOperationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHoursOfOperationsRequest,
   ) => stream.Stream<
     HoursOfOperationSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListHoursOfOperationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30824,6 +30932,13 @@ export const listHoursOfOperations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInstanceAttributesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -30832,36 +30947,21 @@ export const listHoursOfOperations: API.OperationMethod<
 export const listInstanceAttributes: API.OperationMethod<
   ListInstanceAttributesRequest,
   ListInstanceAttributesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListInstanceAttributesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstanceAttributesRequest,
   ) => stream.Stream<
     ListInstanceAttributesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInstanceAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceAttributesRequest,
   ) => stream.Stream<
     Attribute,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInstanceAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30881,6 +30981,10 @@ export const listInstanceAttributes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInstancesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -30891,21 +30995,21 @@ export const listInstanceAttributes: API.OperationMethod<
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
-  InternalServiceException | InvalidRequestException | CommonErrors,
+  ListInstancesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     ListInstancesResponse,
-    InternalServiceException | InvalidRequestException | CommonErrors,
+    ListInstancesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     InstanceSummary,
-    InternalServiceException | InvalidRequestException | CommonErrors,
+    ListInstancesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30919,6 +31023,13 @@ export const listInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInstanceStorageConfigsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -30927,36 +31038,21 @@ export const listInstances: API.OperationMethod<
 export const listInstanceStorageConfigs: API.OperationMethod<
   ListInstanceStorageConfigsRequest,
   ListInstanceStorageConfigsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListInstanceStorageConfigsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstanceStorageConfigsRequest,
   ) => stream.Stream<
     ListInstanceStorageConfigsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInstanceStorageConfigsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceStorageConfigsRequest,
   ) => stream.Stream<
     InstanceStorageConfig,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInstanceStorageConfigsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -30976,39 +31072,33 @@ export const listInstanceStorageConfigs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListIntegrationAssociationsError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
  */
 export const listIntegrationAssociations: API.OperationMethod<
   ListIntegrationAssociationsRequest,
   ListIntegrationAssociationsResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListIntegrationAssociationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIntegrationAssociationsRequest,
   ) => stream.Stream<
     ListIntegrationAssociationsResponse,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListIntegrationAssociationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIntegrationAssociationsRequest,
   ) => stream.Stream<
     IntegrationAssociationSummary,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListIntegrationAssociationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31027,6 +31117,13 @@ export const listIntegrationAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLambdaFunctionsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -31036,36 +31133,21 @@ export const listIntegrationAssociations: API.OperationMethod<
 export const listLambdaFunctions: API.OperationMethod<
   ListLambdaFunctionsRequest,
   ListLambdaFunctionsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListLambdaFunctionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLambdaFunctionsRequest,
   ) => stream.Stream<
     ListLambdaFunctionsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListLambdaFunctionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLambdaFunctionsRequest,
   ) => stream.Stream<
     FunctionArn,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListLambdaFunctionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31085,6 +31167,13 @@ export const listLambdaFunctions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLexBotsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -31094,36 +31183,21 @@ export const listLambdaFunctions: API.OperationMethod<
 export const listLexBots: API.OperationMethod<
   ListLexBotsRequest,
   ListLexBotsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListLexBotsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLexBotsRequest,
   ) => stream.Stream<
     ListLexBotsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListLexBotsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLexBotsRequest,
   ) => stream.Stream<
     LexBot,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListLexBotsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31143,19 +31217,21 @@ export const listLexBots: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of all notifications in the Amazon Connect instance.
- */
-export const listNotifications: API.OperationMethod<
-  ListNotificationsRequest,
-  ListNotificationsResponse,
+export type ListNotificationsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of all notifications in the Amazon Connect instance.
+ */
+export const listNotifications: API.OperationMethod<
+  ListNotificationsRequest,
+  ListNotificationsResponse,
+  ListNotificationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListNotificationsRequest,
@@ -31169,6 +31245,13 @@ export const listNotifications: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListPhoneNumbersError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the phone numbers for the specified Amazon Connect instance.
  *
@@ -31186,36 +31269,21 @@ export const listNotifications: API.OperationMethod<
 export const listPhoneNumbers: API.OperationMethod<
   ListPhoneNumbersRequest,
   ListPhoneNumbersResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListPhoneNumbersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
     ListPhoneNumbersResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPhoneNumbersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
     PhoneNumberSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPhoneNumbersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31235,6 +31303,13 @@ export const listPhoneNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPhoneNumbersV2Error =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided `TargetArn`
  * is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group.
@@ -31251,36 +31326,21 @@ export const listPhoneNumbers: API.OperationMethod<
 export const listPhoneNumbersV2: API.OperationMethod<
   ListPhoneNumbersV2Request,
   ListPhoneNumbersV2Response,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListPhoneNumbersV2Error,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPhoneNumbersV2Request,
   ) => stream.Stream<
     ListPhoneNumbersV2Response,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPhoneNumbersV2Error,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPhoneNumbersV2Request,
   ) => stream.Stream<
     ListPhoneNumbersSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPhoneNumbersV2Error,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31300,6 +31360,13 @@ export const listPhoneNumbersV2: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPredefinedAttributesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists predefined attributes for the specified Amazon Connect instance. A *predefined attribute* is
  * made up of a name and a value. You can use predefined attributes for:
@@ -31319,36 +31386,21 @@ export const listPhoneNumbersV2: API.OperationMethod<
 export const listPredefinedAttributes: API.OperationMethod<
   ListPredefinedAttributesRequest,
   ListPredefinedAttributesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListPredefinedAttributesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPredefinedAttributesRequest,
   ) => stream.Stream<
     ListPredefinedAttributesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPredefinedAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPredefinedAttributesRequest,
   ) => stream.Stream<
     PredefinedAttributeSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPredefinedAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31368,42 +31420,34 @@ export const listPredefinedAttributes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPromptsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the prompts for the specified Amazon Connect instance.
  */
 export const listPrompts: API.OperationMethod<
   ListPromptsRequest,
   ListPromptsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListPromptsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPromptsRequest,
   ) => stream.Stream<
     ListPromptsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPromptsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPromptsRequest,
   ) => stream.Stream<
     PromptSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPromptsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31423,42 +31467,34 @@ export const listPrompts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListQueueQuickConnectsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the quick connects associated with a queue.
  */
 export const listQueueQuickConnects: API.OperationMethod<
   ListQueueQuickConnectsRequest,
   ListQueueQuickConnectsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListQueueQuickConnectsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueueQuickConnectsRequest,
   ) => stream.Stream<
     ListQueueQuickConnectsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueueQuickConnectsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueueQuickConnectsRequest,
   ) => stream.Stream<
     QuickConnectSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueueQuickConnectsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31478,6 +31514,13 @@ export const listQueueQuickConnects: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the queues for the specified Amazon Connect instance.
  *
@@ -31491,36 +31534,21 @@ export const listQueueQuickConnects: API.OperationMethod<
 export const listQueues: API.OperationMethod<
   ListQueuesRequest,
   ListQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListQueuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     ListQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     QueueSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31540,42 +31568,34 @@ export const listQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListQuickConnectsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about the quick connects for the specified Amazon Connect instance.
  */
 export const listQuickConnects: API.OperationMethod<
   ListQuickConnectsRequest,
   ListQuickConnectsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListQuickConnectsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQuickConnectsRequest,
   ) => stream.Stream<
     ListQuickConnectsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQuickConnectsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQuickConnectsRequest,
   ) => stream.Stream<
     QuickConnectSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListQuickConnectsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31595,6 +31615,14 @@ export const listQuickConnects: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRealtimeContactAnalysisSegmentsV2Error =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | OutputTypeNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels
  * only.
@@ -31605,39 +31633,21 @@ export const listQuickConnects: API.OperationMethod<
 export const listRealtimeContactAnalysisSegmentsV2: API.OperationMethod<
   ListRealtimeContactAnalysisSegmentsV2Request,
   ListRealtimeContactAnalysisSegmentsV2Response,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | OutputTypeNotFoundException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRealtimeContactAnalysisSegmentsV2Error,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
   ) => stream.Stream<
     ListRealtimeContactAnalysisSegmentsV2Response,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | OutputTypeNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRealtimeContactAnalysisSegmentsV2Error,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | OutputTypeNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRealtimeContactAnalysisSegmentsV2Error,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31657,6 +31667,13 @@ export const listRealtimeContactAnalysisSegmentsV2: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRoutingProfileManualAssignmentQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the manual assignment queues associated with a routing profile.
  *
@@ -31680,36 +31697,21 @@ export const listRealtimeContactAnalysisSegmentsV2: API.OperationMethod<
 export const listRoutingProfileManualAssignmentQueues: API.OperationMethod<
   ListRoutingProfileManualAssignmentQueuesRequest,
   ListRoutingProfileManualAssignmentQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRoutingProfileManualAssignmentQueuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
   ) => stream.Stream<
     ListRoutingProfileManualAssignmentQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRoutingProfileManualAssignmentQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
   ) => stream.Stream<
     RoutingProfileManualAssignmentQueueConfigSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRoutingProfileManualAssignmentQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31729,42 +31731,34 @@ export const listRoutingProfileManualAssignmentQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRoutingProfileQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the queues associated with a routing profile.
  */
 export const listRoutingProfileQueues: API.OperationMethod<
   ListRoutingProfileQueuesRequest,
   ListRoutingProfileQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRoutingProfileQueuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutingProfileQueuesRequest,
   ) => stream.Stream<
     ListRoutingProfileQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRoutingProfileQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutingProfileQueuesRequest,
   ) => stream.Stream<
     RoutingProfileQueueConfigSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRoutingProfileQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31784,6 +31778,13 @@ export const listRoutingProfileQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRoutingProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides summary information about the routing profiles for the specified Amazon Connect instance.
  *
@@ -31792,36 +31793,21 @@ export const listRoutingProfileQueues: API.OperationMethod<
 export const listRoutingProfiles: API.OperationMethod<
   ListRoutingProfilesRequest,
   ListRoutingProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRoutingProfilesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutingProfilesRequest,
   ) => stream.Stream<
     ListRoutingProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRoutingProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutingProfilesRequest,
   ) => stream.Stream<
     RoutingProfileSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRoutingProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31841,42 +31827,34 @@ export const listRoutingProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRulesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List all rules for the specified Amazon Connect instance.
  */
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListRulesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRulesRequest,
   ) => stream.Stream<
     ListRulesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRulesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesRequest,
   ) => stream.Stream<
     RuleSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListRulesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31896,6 +31874,13 @@ export const listRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecurityKeysError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -31904,36 +31889,21 @@ export const listRules: API.OperationMethod<
 export const listSecurityKeys: API.OperationMethod<
   ListSecurityKeysRequest,
   ListSecurityKeysResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityKeysError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityKeysRequest,
   ) => stream.Stream<
     ListSecurityKeysResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityKeysError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityKeysRequest,
   ) => stream.Stream<
     SecurityKey,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityKeysError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -31953,42 +31923,34 @@ export const listSecurityKeys: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecurityProfileApplicationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of third-party applications or MCP Servers in a specific security profile.
  */
 export const listSecurityProfileApplications: API.OperationMethod<
   ListSecurityProfileApplicationsRequest,
   ListSecurityProfileApplicationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityProfileApplicationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityProfileApplicationsRequest,
   ) => stream.Stream<
     ListSecurityProfileApplicationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfileApplicationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityProfileApplicationsRequest,
   ) => stream.Stream<
     Application,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfileApplicationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32008,42 +31970,34 @@ export const listSecurityProfileApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecurityProfileFlowModulesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * A list of Flow Modules an AI Agent can invoke as a tool
  */
 export const listSecurityProfileFlowModules: API.OperationMethod<
   ListSecurityProfileFlowModulesRequest,
   ListSecurityProfileFlowModulesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityProfileFlowModulesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityProfileFlowModulesRequest,
   ) => stream.Stream<
     ListSecurityProfileFlowModulesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfileFlowModulesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityProfileFlowModulesRequest,
   ) => stream.Stream<
     FlowModule,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfileFlowModulesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32063,6 +32017,13 @@ export const listSecurityProfileFlowModules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecurityProfilePermissionsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the permissions granted to a security profile.
  *
@@ -32073,36 +32034,21 @@ export const listSecurityProfileFlowModules: API.OperationMethod<
 export const listSecurityProfilePermissions: API.OperationMethod<
   ListSecurityProfilePermissionsRequest,
   ListSecurityProfilePermissionsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityProfilePermissionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityProfilePermissionsRequest,
   ) => stream.Stream<
     ListSecurityProfilePermissionsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilePermissionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityProfilePermissionsRequest,
   ) => stream.Stream<
     SecurityProfilePermission,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilePermissionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32122,6 +32068,13 @@ export const listSecurityProfilePermissions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSecurityProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides summary information about the security profiles for the specified Amazon Connect instance.
  *
@@ -32132,36 +32085,21 @@ export const listSecurityProfilePermissions: API.OperationMethod<
 export const listSecurityProfiles: API.OperationMethod<
   ListSecurityProfilesRequest,
   ListSecurityProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListSecurityProfilesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSecurityProfilesRequest,
   ) => stream.Stream<
     ListSecurityProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityProfilesRequest,
   ) => stream.Stream<
     SecurityProfileSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListSecurityProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32181,6 +32119,13 @@ export const listSecurityProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  *
@@ -32190,12 +32135,7 @@ export const listSecurityProfiles: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -32208,42 +32148,34 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListTaskTemplatesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists task templates for the specified Amazon Connect instance.
  */
 export const listTaskTemplates: API.OperationMethod<
   ListTaskTemplatesRequest,
   ListTaskTemplatesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTaskTemplatesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTaskTemplatesRequest,
   ) => stream.Stream<
     ListTaskTemplatesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTaskTemplatesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTaskTemplatesRequest,
   ) => stream.Stream<
     TaskTemplateMetadata,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTaskTemplatesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32263,19 +32195,21 @@ export const listTaskTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
- */
-export const listTestCaseExecutionRecords: API.OperationMethod<
-  ListTestCaseExecutionRecordsRequest,
-  ListTestCaseExecutionRecordsResponse,
+export type ListTestCaseExecutionRecordsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
+ */
+export const listTestCaseExecutionRecords: API.OperationMethod<
+  ListTestCaseExecutionRecordsRequest,
+  ListTestCaseExecutionRecordsResponse,
+  ListTestCaseExecutionRecordsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTestCaseExecutionRecordsRequest,
@@ -32289,19 +32223,21 @@ export const listTestCaseExecutionRecords: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
- */
-export const listTestCaseExecutions: API.OperationMethod<
-  ListTestCaseExecutionsRequest,
-  ListTestCaseExecutionsResponse,
+export type ListTestCaseExecutionsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
+ */
+export const listTestCaseExecutions: API.OperationMethod<
+  ListTestCaseExecutionsRequest,
+  ListTestCaseExecutionsResponse,
+  ListTestCaseExecutionsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTestCaseExecutionsRequest,
@@ -32315,45 +32251,35 @@ export const listTestCaseExecutions: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Lists the test cases present in the specific Amazon Connect instance.
- */
-export const listTestCases: API.OperationMethod<
-  ListTestCasesRequest,
-  ListTestCasesResponse,
+export type ListTestCasesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the test cases present in the specific Amazon Connect instance.
+ */
+export const listTestCases: API.OperationMethod<
+  ListTestCasesRequest,
+  ListTestCasesResponse,
+  ListTestCasesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestCasesRequest,
   ) => stream.Stream<
     ListTestCasesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTestCasesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestCasesRequest,
   ) => stream.Stream<
     TestCaseSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTestCasesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32374,39 +32300,33 @@ export const listTestCases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTrafficDistributionGroupsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists traffic distribution groups.
  */
 export const listTrafficDistributionGroups: API.OperationMethod<
   ListTrafficDistributionGroupsRequest,
   ListTrafficDistributionGroupsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListTrafficDistributionGroupsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrafficDistributionGroupsRequest,
   ) => stream.Stream<
     ListTrafficDistributionGroupsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListTrafficDistributionGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrafficDistributionGroupsRequest,
   ) => stream.Stream<
     TrafficDistributionGroupSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListTrafficDistributionGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32425,42 +32345,34 @@ export const listTrafficDistributionGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTrafficDistributionGroupUsersError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists traffic distribution group users.
  */
 export const listTrafficDistributionGroupUsers: API.OperationMethod<
   ListTrafficDistributionGroupUsersRequest,
   ListTrafficDistributionGroupUsersResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTrafficDistributionGroupUsersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrafficDistributionGroupUsersRequest,
   ) => stream.Stream<
     ListTrafficDistributionGroupUsersResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTrafficDistributionGroupUsersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrafficDistributionGroupUsersRequest,
   ) => stream.Stream<
     TrafficDistributionGroupUserSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTrafficDistributionGroupUsersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32480,39 +32392,33 @@ export const listTrafficDistributionGroupUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUseCasesError =
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the use cases for the integration association.
  */
 export const listUseCases: API.OperationMethod<
   ListUseCasesRequest,
   ListUseCasesResponse,
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListUseCasesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUseCasesRequest,
   ) => stream.Stream<
     ListUseCasesResponse,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUseCasesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUseCasesRequest,
   ) => stream.Stream<
     UseCase,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUseCasesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32531,6 +32437,13 @@ export const listUseCases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUserHierarchyGroupsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
  *
@@ -32539,36 +32452,21 @@ export const listUseCases: API.OperationMethod<
 export const listUserHierarchyGroups: API.OperationMethod<
   ListUserHierarchyGroupsRequest,
   ListUserHierarchyGroupsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListUserHierarchyGroupsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUserHierarchyGroupsRequest,
   ) => stream.Stream<
     ListUserHierarchyGroupsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUserHierarchyGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUserHierarchyGroupsRequest,
   ) => stream.Stream<
     HierarchyGroupSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUserHierarchyGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32588,19 +32486,21 @@ export const listUserHierarchyGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
- */
-export const listUserNotifications: API.OperationMethod<
-  ListUserNotificationsRequest,
-  ListUserNotificationsResponse,
+export type ListUserNotificationsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
+ */
+export const listUserNotifications: API.OperationMethod<
+  ListUserNotificationsRequest,
+  ListUserNotificationsResponse,
+  ListUserNotificationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUserNotificationsRequest,
@@ -32614,42 +32514,34 @@ export const listUserNotifications: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListUserProficienciesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists proficiencies associated with a user.
  */
 export const listUserProficiencies: API.OperationMethod<
   ListUserProficienciesRequest,
   ListUserProficienciesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListUserProficienciesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUserProficienciesRequest,
   ) => stream.Stream<
     ListUserProficienciesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUserProficienciesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUserProficienciesRequest,
   ) => stream.Stream<
     UserProficiency,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUserProficienciesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32669,42 +32561,34 @@ export const listUserProficiencies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUsersError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides summary information about the users for the specified Amazon Connect instance.
  */
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListUsersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUsersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     UserSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUsersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32724,6 +32608,14 @@ export const listUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListViewsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns views in the given instance.
  *
@@ -32732,39 +32624,21 @@ export const listUsers: API.OperationMethod<
 export const listViews: API.OperationMethod<
   ListViewsRequest,
   ListViewsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListViewsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListViewsRequest,
   ) => stream.Stream<
     ListViewsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListViewsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListViewsRequest,
   ) => stream.Stream<
     ViewSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListViewsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32785,6 +32659,14 @@ export const listViews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListViewVersionsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns all the available versions for the specified Amazon Connect instance and view identifier.
  *
@@ -32793,39 +32675,21 @@ export const listViews: API.OperationMethod<
 export const listViewVersions: API.OperationMethod<
   ListViewVersionsRequest,
   ListViewVersionsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListViewVersionsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListViewVersionsRequest,
   ) => stream.Stream<
     ListViewVersionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListViewVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListViewVersionsRequest,
   ) => stream.Stream<
     ViewVersionSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListViewVersionsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32846,19 +32710,21 @@ export const listViewVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists media assets (such as logos) associated with a workspace.
- */
-export const listWorkspaceMedia: API.OperationMethod<
-  ListWorkspaceMediaRequest,
-  ListWorkspaceMediaResponse,
+export type ListWorkspaceMediaError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists media assets (such as logos) associated with a workspace.
+ */
+export const listWorkspaceMedia: API.OperationMethod<
+  ListWorkspaceMediaRequest,
+  ListWorkspaceMediaResponse,
+  ListWorkspaceMediaError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWorkspaceMediaRequest,
@@ -32872,45 +32738,35 @@ export const listWorkspaceMedia: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Lists the page configurations in a workspace, including the views assigned to each page.
- */
-export const listWorkspacePages: API.OperationMethod<
-  ListWorkspacePagesRequest,
-  ListWorkspacePagesResponse,
+export type ListWorkspacePagesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the page configurations in a workspace, including the views assigned to each page.
+ */
+export const listWorkspacePages: API.OperationMethod<
+  ListWorkspacePagesRequest,
+  ListWorkspacePagesResponse,
+  ListWorkspacePagesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkspacePagesRequest,
   ) => stream.Stream<
     ListWorkspacePagesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListWorkspacePagesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkspacePagesRequest,
   ) => stream.Stream<
     WorkspacePage,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListWorkspacePagesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32931,45 +32787,35 @@ export const listWorkspacePages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the workspaces in an Amazon Connect instance.
- */
-export const listWorkspaces: API.OperationMethod<
-  ListWorkspacesRequest,
-  ListWorkspacesResponse,
+export type ListWorkspacesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the workspaces in an Amazon Connect instance.
+ */
+export const listWorkspaces: API.OperationMethod<
+  ListWorkspacesRequest,
+  ListWorkspacesResponse,
+  ListWorkspacesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
     ListWorkspacesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListWorkspacesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
     WorkspaceSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListWorkspacesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -32990,13 +32836,7 @@ export const listWorkspaces: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by
- * *userId* will be set to silent monitoring mode on the contact.
- */
-export const monitorContact: API.OperationMethod<
-  MonitorContactRequest,
-  MonitorContactResponse,
+export type MonitorContactError =
   | AccessDeniedException
   | IdempotencyException
   | InternalServiceException
@@ -33004,7 +32844,15 @@ export const monitorContact: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by
+ * *userId* will be set to silent monitoring mode on the contact.
+ */
+export const monitorContact: API.OperationMethod<
+  MonitorContactRequest,
+  MonitorContactResponse,
+  MonitorContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MonitorContactRequest,
@@ -33019,12 +32867,7 @@ export const monitorContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Allows pausing an ongoing task contact.
- */
-export const pauseContact: API.OperationMethod<
-  PauseContactRequest,
-  PauseContactResponse,
+export type PauseContactError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
@@ -33033,7 +32876,14 @@ export const pauseContact: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows pausing an ongoing task contact.
+ */
+export const pauseContact: API.OperationMethod<
+  PauseContactRequest,
+  PauseContactResponse,
+  PauseContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseContactRequest,
@@ -33049,6 +32899,14 @@ export const pauseContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type PutUserStatusError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a
  * contact, this sets the agent's next status.
@@ -33059,13 +32917,7 @@ export const pauseContact: API.OperationMethod<
 export const putUserStatus: API.OperationMethod<
   PutUserStatusRequest,
   PutUserStatusResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  PutUserStatusError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutUserStatusRequest,
@@ -33079,6 +32931,15 @@ export const putUserStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ReleasePhoneNumberError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API
  * only in the Amazon Web Services Region where the number was claimed.
@@ -33108,14 +32969,7 @@ export const putUserStatus: API.OperationMethod<
 export const releasePhoneNumber: API.OperationMethod<
   ReleasePhoneNumberRequest,
   ReleasePhoneNumberResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ReleasePhoneNumberError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleasePhoneNumberRequest,
@@ -33130,6 +32984,16 @@ export const releasePhoneNumber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ReplicateInstanceError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration
  * information for Amazon Connect resources across Amazon Web Services Regions.
@@ -33140,15 +33004,7 @@ export const releasePhoneNumber: API.OperationMethod<
 export const replicateInstance: API.OperationMethod<
   ReplicateInstanceRequest,
   ReplicateInstanceResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  ReplicateInstanceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplicateInstanceRequest,
@@ -33164,12 +33020,7 @@ export const replicateInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Allows resuming a task contact in a paused state.
- */
-export const resumeContact: API.OperationMethod<
-  ResumeContactRequest,
-  ResumeContactResponse,
+export type ResumeContactError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
@@ -33177,7 +33028,14 @@ export const resumeContact: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows resuming a task contact in a paused state.
+ */
+export const resumeContact: API.OperationMethod<
+  ResumeContactRequest,
+  ResumeContactResponse,
+  ResumeContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeContactRequest,
@@ -33192,6 +33050,12 @@ export const resumeContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ResumeContactRecordingError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API
  * resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call
@@ -33202,11 +33066,7 @@ export const resumeContact: API.OperationMethod<
 export const resumeContactRecording: API.OperationMethod<
   ResumeContactRecordingRequest,
   ResumeContactRecordingResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ResumeContactRecordingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeContactRecordingRequest,
@@ -33218,42 +33078,34 @@ export const resumeContactRecording: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type SearchAgentStatusesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
  */
 export const searchAgentStatuses: API.OperationMethod<
   SearchAgentStatusesRequest,
   SearchAgentStatusesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchAgentStatusesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchAgentStatusesRequest,
   ) => stream.Stream<
     SearchAgentStatusesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchAgentStatusesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchAgentStatusesRequest,
   ) => stream.Stream<
     AgentStatus,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchAgentStatusesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33273,6 +33125,12 @@ export const searchAgentStatuses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchAvailablePhoneNumbersError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the
  * provided `TargetArn` is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with
@@ -33281,33 +33139,21 @@ export const searchAgentStatuses: API.OperationMethod<
 export const searchAvailablePhoneNumbers: API.OperationMethod<
   SearchAvailablePhoneNumbersRequest,
   SearchAvailablePhoneNumbersResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | ThrottlingException
-  | CommonErrors,
+  SearchAvailablePhoneNumbersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
     SearchAvailablePhoneNumbersResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    SearchAvailablePhoneNumbersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
     AvailableNumberSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
+    SearchAvailablePhoneNumbersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33326,6 +33172,13 @@ export const searchAvailablePhoneNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchContactEvaluationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches contact evaluations in an Amazon Connect instance, with optional filtering.
  *
@@ -33349,12 +33202,7 @@ export const searchAvailablePhoneNumbers: API.OperationMethod<
 export const searchContactEvaluations: API.OperationMethod<
   SearchContactEvaluationsRequest,
   SearchContactEvaluationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchContactEvaluationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchContactEvaluationsRequest,
@@ -33367,42 +33215,34 @@ export const searchContactEvaluations: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchContactFlowModulesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches the flow modules in an Amazon Connect instance, with optional filtering.
  */
 export const searchContactFlowModules: API.OperationMethod<
   SearchContactFlowModulesRequest,
   SearchContactFlowModulesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchContactFlowModulesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchContactFlowModulesRequest,
   ) => stream.Stream<
     SearchContactFlowModulesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchContactFlowModulesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchContactFlowModulesRequest,
   ) => stream.Stream<
     ContactFlowModule,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchContactFlowModulesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33422,42 +33262,34 @@ export const searchContactFlowModules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchContactFlowsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches the flows in an Amazon Connect instance, with optional filtering.
  */
 export const searchContactFlows: API.OperationMethod<
   SearchContactFlowsRequest,
   SearchContactFlowsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchContactFlowsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchContactFlowsRequest,
   ) => stream.Stream<
     SearchContactFlowsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchContactFlowsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchContactFlowsRequest,
   ) => stream.Stream<
     ContactFlow,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchContactFlowsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33477,42 +33309,34 @@ export const searchContactFlows: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchContactsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches contacts in an Amazon Connect instance.
  */
 export const searchContacts: API.OperationMethod<
   SearchContactsRequest,
   SearchContactsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchContactsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchContactsRequest,
   ) => stream.Stream<
     SearchContactsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchContactsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchContactsRequest,
   ) => stream.Stream<
     ContactSearchSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchContactsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33532,6 +33356,13 @@ export const searchContacts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchDataTablesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for data tables based on the table's ID, name, and description. In the future, this operation can
  * support searching on attribute names and possibly primary values. Follows other search operations closely and
@@ -33540,36 +33371,21 @@ export const searchContacts: API.OperationMethod<
 export const searchDataTables: API.OperationMethod<
   SearchDataTablesRequest,
   SearchDataTablesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchDataTablesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchDataTablesRequest,
   ) => stream.Stream<
     SearchDataTablesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchDataTablesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchDataTablesRequest,
   ) => stream.Stream<
     DataTable,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchDataTablesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33589,19 +33405,21 @@ export const searchDataTables: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches email address in an instance, with optional filtering.
- */
-export const searchEmailAddresses: API.OperationMethod<
-  SearchEmailAddressesRequest,
-  SearchEmailAddressesResponse,
+export type SearchEmailAddressesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches email address in an instance, with optional filtering.
+ */
+export const searchEmailAddresses: API.OperationMethod<
+  SearchEmailAddressesRequest,
+  SearchEmailAddressesResponse,
+  SearchEmailAddressesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchEmailAddressesRequest,
@@ -33615,6 +33433,13 @@ export const searchEmailAddresses: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchEvaluationFormsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches evaluation forms in an Amazon Connect instance, with optional filtering.
  *
@@ -33639,12 +33464,7 @@ export const searchEmailAddresses: API.OperationMethod<
 export const searchEvaluationForms: API.OperationMethod<
   SearchEvaluationFormsRequest,
   SearchEvaluationFormsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchEvaluationFormsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchEvaluationFormsRequest,
@@ -33657,42 +33477,34 @@ export const searchEvaluationForms: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchHoursOfOperationOverridesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches the hours of operation overrides.
  */
 export const searchHoursOfOperationOverrides: API.OperationMethod<
   SearchHoursOfOperationOverridesRequest,
   SearchHoursOfOperationOverridesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchHoursOfOperationOverridesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchHoursOfOperationOverridesRequest,
   ) => stream.Stream<
     SearchHoursOfOperationOverridesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchHoursOfOperationOverridesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchHoursOfOperationOverridesRequest,
   ) => stream.Stream<
     HoursOfOperationOverride,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchHoursOfOperationOverridesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33712,42 +33524,34 @@ export const searchHoursOfOperationOverrides: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchHoursOfOperationsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches the hours of operation in an Amazon Connect instance, with optional filtering.
  */
 export const searchHoursOfOperations: API.OperationMethod<
   SearchHoursOfOperationsRequest,
   SearchHoursOfOperationsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchHoursOfOperationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchHoursOfOperationsRequest,
   ) => stream.Stream<
     SearchHoursOfOperationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchHoursOfOperationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchHoursOfOperationsRequest,
   ) => stream.Stream<
     HoursOfOperation,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchHoursOfOperationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33767,19 +33571,21 @@ export const searchHoursOfOperations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
- */
-export const searchNotifications: API.OperationMethod<
-  SearchNotificationsRequest,
-  SearchNotificationsResponse,
+export type SearchNotificationsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
+ */
+export const searchNotifications: API.OperationMethod<
+  SearchNotificationsRequest,
+  SearchNotificationsResponse,
+  SearchNotificationsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchNotificationsRequest,
@@ -33793,6 +33599,13 @@ export const searchNotifications: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchPredefinedAttributesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches predefined attributes that meet certain criteria. A *predefined attribute* is made
  * up of a name and a value. You can use predefined attributes for:
@@ -33812,36 +33625,21 @@ export const searchNotifications: API.OperationMethod<
 export const searchPredefinedAttributes: API.OperationMethod<
   SearchPredefinedAttributesRequest,
   SearchPredefinedAttributesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchPredefinedAttributesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchPredefinedAttributesRequest,
   ) => stream.Stream<
     SearchPredefinedAttributesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchPredefinedAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchPredefinedAttributesRequest,
   ) => stream.Stream<
     PredefinedAttribute,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchPredefinedAttributesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33861,42 +33659,34 @@ export const searchPredefinedAttributes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchPromptsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches prompts in an Amazon Connect instance, with optional filtering.
  */
 export const searchPrompts: API.OperationMethod<
   SearchPromptsRequest,
   SearchPromptsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchPromptsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchPromptsRequest,
   ) => stream.Stream<
     SearchPromptsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchPromptsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchPromptsRequest,
   ) => stream.Stream<
     Prompt,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchPromptsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33916,42 +33706,34 @@ export const searchPrompts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches queues in an Amazon Connect instance, with optional filtering.
  */
 export const searchQueues: API.OperationMethod<
   SearchQueuesRequest,
   SearchQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchQueuesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchQueuesRequest,
   ) => stream.Stream<
     SearchQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchQueuesRequest,
   ) => stream.Stream<
     Queue,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchQueuesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -33971,42 +33753,34 @@ export const searchQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchQuickConnectsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches quick connects in an Amazon Connect instance, with optional filtering.
  */
 export const searchQuickConnects: API.OperationMethod<
   SearchQuickConnectsRequest,
   SearchQuickConnectsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchQuickConnectsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchQuickConnectsRequest,
   ) => stream.Stream<
     SearchQuickConnectsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchQuickConnectsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchQuickConnectsRequest,
   ) => stream.Stream<
     QuickConnect,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchQuickConnectsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34026,45 +33800,35 @@ export const searchQuickConnects: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches tags used in an Amazon Connect instance using optional search criteria.
- */
-export const searchResourceTags: API.OperationMethod<
-  SearchResourceTagsRequest,
-  SearchResourceTagsResponse,
+export type SearchResourceTagsError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | MaximumResultReturnedException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches tags used in an Amazon Connect instance using optional search criteria.
+ */
+export const searchResourceTags: API.OperationMethod<
+  SearchResourceTagsRequest,
+  SearchResourceTagsResponse,
+  SearchResourceTagsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchResourceTagsRequest,
   ) => stream.Stream<
     SearchResourceTagsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | MaximumResultReturnedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchResourceTagsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchResourceTagsRequest,
   ) => stream.Stream<
     TagSet,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | MaximumResultReturnedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchResourceTagsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34085,6 +33849,13 @@ export const searchResourceTags: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchRoutingProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches routing profiles in an Amazon Connect instance, with optional filtering.
  *
@@ -34094,36 +33865,21 @@ export const searchResourceTags: API.OperationMethod<
 export const searchRoutingProfiles: API.OperationMethod<
   SearchRoutingProfilesRequest,
   SearchRoutingProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchRoutingProfilesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchRoutingProfilesRequest,
   ) => stream.Stream<
     SearchRoutingProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchRoutingProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchRoutingProfilesRequest,
   ) => stream.Stream<
     RoutingProfile,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchRoutingProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34143,6 +33899,13 @@ export const searchRoutingProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchSecurityProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches security profiles in an Amazon Connect instance, with optional filtering.
  *
@@ -34153,36 +33916,21 @@ export const searchRoutingProfiles: API.OperationMethod<
 export const searchSecurityProfiles: API.OperationMethod<
   SearchSecurityProfilesRequest,
   SearchSecurityProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchSecurityProfilesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSecurityProfilesRequest,
   ) => stream.Stream<
     SearchSecurityProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchSecurityProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSecurityProfilesRequest,
   ) => stream.Stream<
     SecurityProfileSearchSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchSecurityProfilesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34202,45 +33950,35 @@ export const searchSecurityProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches for test cases in the specified Amazon Connect instance, with optional filtering.
- */
-export const searchTestCases: API.OperationMethod<
-  SearchTestCasesRequest,
-  SearchTestCasesResponse,
+export type SearchTestCasesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches for test cases in the specified Amazon Connect instance, with optional filtering.
+ */
+export const searchTestCases: API.OperationMethod<
+  SearchTestCasesRequest,
+  SearchTestCasesResponse,
+  SearchTestCasesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchTestCasesRequest,
   ) => stream.Stream<
     SearchTestCasesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchTestCasesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchTestCasesRequest,
   ) => stream.Stream<
     TestCase,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchTestCasesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34261,6 +33999,13 @@ export const searchTestCases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchUserHierarchyGroupsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.
  *
@@ -34270,36 +34015,21 @@ export const searchTestCases: API.OperationMethod<
 export const searchUserHierarchyGroups: API.OperationMethod<
   SearchUserHierarchyGroupsRequest,
   SearchUserHierarchyGroupsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchUserHierarchyGroupsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchUserHierarchyGroupsRequest,
   ) => stream.Stream<
     SearchUserHierarchyGroupsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchUserHierarchyGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchUserHierarchyGroupsRequest,
   ) => stream.Stream<
     HierarchyGroup,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchUserHierarchyGroupsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34319,6 +34049,13 @@ export const searchUserHierarchyGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchUsersError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches users in an Amazon Connect instance, with optional filtering.
  *
@@ -34327,36 +34064,21 @@ export const searchUserHierarchyGroups: API.OperationMethod<
 export const searchUsers: API.OperationMethod<
   SearchUsersRequest,
   SearchUsersResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchUsersError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchUsersRequest,
   ) => stream.Stream<
     SearchUsersResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchUsersError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchUsersRequest,
   ) => stream.Stream<
     UserSearchSummary,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchUsersError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34376,45 +34098,35 @@ export const searchUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches views based on name, description, or tags.
- */
-export const searchViews: API.OperationMethod<
-  SearchViewsRequest,
-  SearchViewsResponse,
+export type SearchViewsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches views based on name, description, or tags.
+ */
+export const searchViews: API.OperationMethod<
+  SearchViewsRequest,
+  SearchViewsResponse,
+  SearchViewsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchViewsRequest,
   ) => stream.Stream<
     SearchViewsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchViewsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchViewsRequest,
   ) => stream.Stream<
     View,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchViewsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34435,6 +34147,12 @@ export const searchViews: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SearchVocabulariesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for vocabularies within a specific Amazon Connect instance using `State`,
  * `NameStartsWith`, and `LanguageCode`.
@@ -34442,33 +34160,21 @@ export const searchViews: API.OperationMethod<
 export const searchVocabularies: API.OperationMethod<
   SearchVocabulariesRequest,
   SearchVocabulariesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  SearchVocabulariesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchVocabulariesRequest,
   ) => stream.Stream<
     SearchVocabulariesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchVocabulariesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchVocabulariesRequest,
   ) => stream.Stream<
     VocabularySummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchVocabulariesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34487,45 +34193,35 @@ export const searchVocabularies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches for workspace associations with users or routing profiles based on various criteria.
- */
-export const searchWorkspaceAssociations: API.OperationMethod<
-  SearchWorkspaceAssociationsRequest,
-  SearchWorkspaceAssociationsResponse,
+export type SearchWorkspaceAssociationsError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches for workspace associations with users or routing profiles based on various criteria.
+ */
+export const searchWorkspaceAssociations: API.OperationMethod<
+  SearchWorkspaceAssociationsRequest,
+  SearchWorkspaceAssociationsResponse,
+  SearchWorkspaceAssociationsError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchWorkspaceAssociationsRequest,
   ) => stream.Stream<
     SearchWorkspaceAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchWorkspaceAssociationsError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchWorkspaceAssociationsRequest,
   ) => stream.Stream<
     WorkspaceAssociationSearchSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchWorkspaceAssociationsError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34546,45 +34242,35 @@ export const searchWorkspaceAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Searches workspaces based on name, description, visibility, or tags.
- */
-export const searchWorkspaces: API.OperationMethod<
-  SearchWorkspacesRequest,
-  SearchWorkspacesResponse,
+export type SearchWorkspacesError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches workspaces based on name, description, visibility, or tags.
+ */
+export const searchWorkspaces: API.OperationMethod<
+  SearchWorkspacesRequest,
+  SearchWorkspacesResponse,
+  SearchWorkspacesError,
   Creds | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchWorkspacesRequest,
   ) => stream.Stream<
     SearchWorkspacesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchWorkspacesError,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchWorkspacesRequest,
   ) => stream.Stream<
     WorkspaceSearchSummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchWorkspacesError,
     Creds | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -34605,6 +34291,13 @@ export const searchWorkspaces: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SendChatIntegrationEventError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat
  * integration event includes:
@@ -34623,12 +34316,7 @@ export const searchWorkspaces: API.OperationMethod<
 export const sendChatIntegrationEvent: API.OperationMethod<
   SendChatIntegrationEventRequest,
   SendChatIntegrationEventResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SendChatIntegrationEventError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendChatIntegrationEventRequest,
@@ -34641,6 +34329,15 @@ export const sendChatIntegrationEvent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SendOutboundEmailError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Amazon Connect
  * outbound campaigns.
@@ -34651,14 +34348,7 @@ export const sendChatIntegrationEvent: API.OperationMethod<
 export const sendOutboundEmail: API.OperationMethod<
   SendOutboundEmailRequest,
   SendOutboundEmailResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  SendOutboundEmailError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendOutboundEmailRequest,
@@ -34673,6 +34363,14 @@ export const sendOutboundEmail: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartAttachedFileUploadError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides a pre-signed Amazon S3 URL in response for uploading your content.
  *
@@ -34681,13 +34379,7 @@ export const sendOutboundEmail: API.OperationMethod<
 export const startAttachedFileUpload: API.OperationMethod<
   StartAttachedFileUploadRequest,
   StartAttachedFileUploadResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  StartAttachedFileUploadError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAttachedFileUploadRequest,
@@ -34701,6 +34393,13 @@ export const startAttachedFileUpload: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartChatContactError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain
  * credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service.
@@ -34729,12 +34428,7 @@ export const startAttachedFileUpload: API.OperationMethod<
 export const startChatContact: API.OperationMethod<
   StartChatContactRequest,
   StartChatContactResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartChatContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChatContactRequest,
@@ -34747,6 +34441,14 @@ export const startChatContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartContactEvaluationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the
  * particular contact. The evaluation form version used for the contact evaluation corresponds to the currently
@@ -34757,13 +34459,7 @@ export const startChatContact: API.OperationMethod<
 export const startContactEvaluation: API.OperationMethod<
   StartContactEvaluationRequest,
   StartContactEvaluationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  StartContactEvaluationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContactEvaluationRequest,
@@ -34777,13 +34473,7 @@ export const startContactEvaluation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the
- * rest of the chat, even if an individual contact segment ends.
- */
-export const startContactMediaProcessing: API.OperationMethod<
-  StartContactMediaProcessingRequest,
-  StartContactMediaProcessingResponse,
+export type StartContactMediaProcessingError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -34791,7 +34481,15 @@ export const startContactMediaProcessing: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the
+ * rest of the chat, even if an individual contact segment ends.
+ */
+export const startContactMediaProcessing: API.OperationMethod<
+  StartContactMediaProcessingRequest,
+  StartContactMediaProcessingResponse,
+  StartContactMediaProcessingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContactMediaProcessingRequest,
@@ -34806,6 +34504,13 @@ export const startContactMediaProcessing: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type StartContactRecordingError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts recording the contact:
  *
@@ -34827,12 +34532,7 @@ export const startContactMediaProcessing: API.OperationMethod<
 export const startContactRecording: API.OperationMethod<
   StartContactRecordingRequest,
   StartContactRecordingResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartContactRecordingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContactRecordingRequest,
@@ -34845,6 +34545,13 @@ export const startContactRecording: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartContactStreamingError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Initiates real-time message streaming for a new chat contact.
  *
@@ -34861,12 +34568,7 @@ export const startContactRecording: API.OperationMethod<
 export const startContactStreaming: API.OperationMethod<
   StartContactStreamingRequest,
   StartContactStreamingResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartContactStreamingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContactStreamingRequest,
@@ -34879,13 +34581,7 @@ export const startContactStreaming: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of
- * this API provides the ContactId of the email contact created.
- */
-export const startEmailContact: API.OperationMethod<
-  StartEmailContactRequest,
-  StartEmailContactResponse,
+export type StartEmailContactError =
   | AccessDeniedException
   | IdempotencyException
   | InternalServiceException
@@ -34893,7 +34589,15 @@ export const startEmailContact: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of
+ * this API provides the ContactId of the email contact created.
+ */
+export const startEmailContact: API.OperationMethod<
+  StartEmailContactRequest,
+  StartEmailContactResponse,
+  StartEmailContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEmailContactRequest,
@@ -34908,6 +34612,15 @@ export const startEmailContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartOutboundChatContactError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the
  * `ContactId` of the outbound SMS or WhatsApp contact created.
@@ -34936,14 +34649,7 @@ export const startEmailContact: API.OperationMethod<
 export const startOutboundChatContact: API.OperationMethod<
   StartOutboundChatContactRequest,
   StartOutboundChatContactResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  StartOutboundChatContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartOutboundChatContactRequest,
@@ -34958,13 +34664,7 @@ export const startOutboundChatContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a
- * customer.
- */
-export const startOutboundEmailContact: API.OperationMethod<
-  StartOutboundEmailContactRequest,
-  StartOutboundEmailContactResponse,
+export type StartOutboundEmailContactError =
   | AccessDeniedException
   | IdempotencyException
   | InternalServiceException
@@ -34972,7 +34672,15 @@ export const startOutboundEmailContact: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a
+ * customer.
+ */
+export const startOutboundEmailContact: API.OperationMethod<
+  StartOutboundEmailContactRequest,
+  StartOutboundEmailContactResponse,
+  StartOutboundEmailContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartOutboundEmailContactRequest,
@@ -34987,6 +34695,15 @@ export const startOutboundEmailContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartOutboundVoiceContactError =
+  | DestinationNotAllowedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | OutboundContactNotPermittedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's
  * specified (in `ContactFlowId`).
@@ -35012,14 +34729,7 @@ export const startOutboundEmailContact: API.OperationMethod<
 export const startOutboundVoiceContact: API.OperationMethod<
   StartOutboundVoiceContactRequest,
   StartOutboundVoiceContactResponse,
-  | DestinationNotAllowedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | OutboundContactNotPermittedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartOutboundVoiceContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartOutboundVoiceContactRequest,
@@ -35034,6 +34744,14 @@ export const startOutboundVoiceContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartScreenSharingError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing
  * capabilities in the *Amazon Connect Administrator Guide*.
@@ -35041,13 +34759,7 @@ export const startOutboundVoiceContact: API.OperationMethod<
 export const startScreenSharing: API.OperationMethod<
   StartScreenSharingRequest,
   StartScreenSharingResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  StartScreenSharingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartScreenSharingRequest,
@@ -35061,6 +34773,14 @@ export const startScreenSharing: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartTaskContactError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the
  * *Amazon Connect Administrator Guide*.
@@ -35099,13 +34819,7 @@ export const startScreenSharing: API.OperationMethod<
 export const startTaskContact: API.OperationMethod<
   StartTaskContactRequest,
   StartTaskContactResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  StartTaskContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTaskContactRequest,
@@ -35119,12 +34833,7 @@ export const startTaskContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Starts executing a published test case.
- */
-export const startTestCaseExecution: API.OperationMethod<
-  StartTestCaseExecutionRequest,
-  StartTestCaseExecutionResponse,
+export type StartTestCaseExecutionError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
@@ -35132,7 +34841,14 @@ export const startTestCaseExecution: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts executing a published test case.
+ */
+export const startTestCaseExecution: API.OperationMethod<
+  StartTestCaseExecutionRequest,
+  StartTestCaseExecutionResponse,
+  StartTestCaseExecutionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTestCaseExecutionRequest,
@@ -35147,6 +34863,13 @@ export const startTestCaseExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartWebRTCContactError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions
  * in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as
@@ -35155,12 +34878,7 @@ export const startTestCaseExecution: API.OperationMethod<
 export const startWebRTCContact: API.OperationMethod<
   StartWebRTCContactRequest,
   StartWebRTCContactResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartWebRTCContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWebRTCContactRequest,
@@ -35173,6 +34891,14 @@ export const startWebRTCContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopContactError =
+  | ContactNotFoundException
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use
  * the following initiation methods:
@@ -35192,13 +34918,7 @@ export const startWebRTCContact: API.OperationMethod<
 export const stopContact: API.OperationMethod<
   StopContactRequest,
   StopContactResponse,
-  | ContactNotFoundException
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopContactRequest,
@@ -35212,19 +34932,21 @@ export const stopContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Stops in-flight message processing for an ongoing chat session.
- */
-export const stopContactMediaProcessing: API.OperationMethod<
-  StopContactMediaProcessingRequest,
-  StopContactMediaProcessingResponse,
+export type StopContactMediaProcessingError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops in-flight message processing for an ongoing chat session.
+ */
+export const stopContactMediaProcessing: API.OperationMethod<
+  StopContactMediaProcessingRequest,
+  StopContactMediaProcessingResponse,
+  StopContactMediaProcessingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopContactMediaProcessingRequest,
@@ -35238,6 +34960,12 @@ export const stopContactMediaProcessing: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopContactRecordingError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use
  * StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For
@@ -35249,11 +34977,7 @@ export const stopContactMediaProcessing: API.OperationMethod<
 export const stopContactRecording: API.OperationMethod<
   StopContactRecordingRequest,
   StopContactRecordingResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopContactRecordingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopContactRecordingRequest,
@@ -35265,6 +34989,12 @@ export const stopContactRecording: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopContactStreamingError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming
  * API.
@@ -35272,11 +35002,7 @@ export const stopContactRecording: API.OperationMethod<
 export const stopContactStreaming: API.OperationMethod<
   StopContactStreamingRequest,
   StopContactStreamingResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopContactStreamingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopContactStreamingRequest,
@@ -35288,19 +35014,21 @@ export const stopContactStreaming: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Stops a running test execution.
- */
-export const stopTestCaseExecution: API.OperationMethod<
-  StopTestCaseExecutionRequest,
-  StopTestCaseExecutionResponse,
+export type StopTestCaseExecutionError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a running test execution.
+ */
+export const stopTestCaseExecution: API.OperationMethod<
+  StopTestCaseExecutionRequest,
+  StopTestCaseExecutionResponse,
+  StopTestCaseExecutionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTestCaseExecutionRequest,
@@ -35314,6 +35042,13 @@ export const stopTestCaseExecution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SubmitContactEvaluationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are
  * merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted
@@ -35325,12 +35060,7 @@ export const stopTestCaseExecution: API.OperationMethod<
 export const submitContactEvaluation: API.OperationMethod<
   SubmitContactEvaluationRequest,
   SubmitContactEvaluationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SubmitContactEvaluationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitContactEvaluationRequest,
@@ -35343,6 +35073,12 @@ export const submitContactEvaluation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SuspendContactRecordingError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration:
  * call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be
@@ -35357,11 +35093,7 @@ export const submitContactEvaluation: API.OperationMethod<
 export const suspendContactRecording: API.OperationMethod<
   SuspendContactRecordingRequest,
   SuspendContactRecordingResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  SuspendContactRecordingError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuspendContactRecordingRequest,
@@ -35373,6 +35105,14 @@ export const suspendContactRecording: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagContactError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed
  * view of your Amazon Connect usage.
@@ -35380,13 +35120,7 @@ export const suspendContactRecording: API.OperationMethod<
 export const tagContact: API.OperationMethod<
   TagContactRequest,
   TagContactResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  TagContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagContactRequest,
@@ -35400,6 +35134,13 @@ export const tagContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  *
@@ -35412,12 +35153,7 @@ export const tagContact: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  TagResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -35430,6 +35166,15 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type TransferContactError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Transfers `TASK` or `EMAIL`
  * contacts from one agent or queue to another agent or queue at any point after a contact is
@@ -35453,14 +35198,7 @@ export const tagResource: API.OperationMethod<
 export const transferContact: API.OperationMethod<
   TransferContactRequest,
   TransferContactResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  TransferContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferContactRequest,
@@ -35475,6 +35213,14 @@ export const transferContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagContactError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed
  * view of your Amazon Connect usage.
@@ -35482,13 +35228,7 @@ export const transferContact: API.OperationMethod<
 export const untagContact: API.OperationMethod<
   UntagContactRequest,
   UntagContactResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagContactRequest,
@@ -35502,18 +35242,20 @@ export const untagContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -35526,12 +35268,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates agent status.
- */
-export const updateAgentStatus: API.OperationMethod<
-  UpdateAgentStatusRequest,
-  UpdateAgentStatusResponse,
+export type UpdateAgentStatusError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
@@ -35539,7 +35276,14 @@ export const updateAgentStatus: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates agent status.
+ */
+export const updateAgentStatus: API.OperationMethod<
+  UpdateAgentStatusRequest,
+  UpdateAgentStatusResponse,
+  UpdateAgentStatusError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentStatusRequest,
@@ -35554,6 +35298,13 @@ export const updateAgentStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateAuthenticationProfileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change. To
  * request access to this API, contact Amazon Web Services Support.
@@ -35563,12 +35314,7 @@ export const updateAgentStatus: API.OperationMethod<
 export const updateAuthenticationProfile: API.OperationMethod<
   UpdateAuthenticationProfileRequest,
   UpdateAuthenticationProfileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateAuthenticationProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthenticationProfileRequest,
@@ -35581,6 +35327,16 @@ export const updateAuthenticationProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateContactError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -35592,15 +35348,7 @@ export const updateAuthenticationProfile: API.OperationMethod<
 export const updateContact: API.OperationMethod<
   UpdateContactRequest,
   UpdateContactResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateContactError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactRequest,
@@ -35616,6 +35364,13 @@ export const updateContact: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateContactAttributesError =
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates or updates user-defined contact
  * attributes associated with the specified contact.
@@ -35632,12 +35387,7 @@ export const updateContact: API.OperationMethod<
 export const updateContactAttributes: API.OperationMethod<
   UpdateContactAttributesRequest,
   UpdateContactAttributesResponse,
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateContactAttributesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactAttributesRequest,
@@ -35650,6 +35400,13 @@ export const updateContactAttributes: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateContactEvaluationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation
  * must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An
@@ -35658,12 +35415,7 @@ export const updateContactAttributes: API.OperationMethod<
 export const updateContactEvaluation: API.OperationMethod<
   UpdateContactEvaluationRequest,
   UpdateContactEvaluationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateContactEvaluationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactEvaluationRequest,
@@ -35676,6 +35428,14 @@ export const updateContactEvaluation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateContactFlowContentError =
+  | InternalServiceException
+  | InvalidContactFlowException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the specified flow.
  *
@@ -35689,13 +35449,7 @@ export const updateContactEvaluation: API.OperationMethod<
 export const updateContactFlowContent: API.OperationMethod<
   UpdateContactFlowContentRequest,
   UpdateContactFlowContentResponse,
-  | InternalServiceException
-  | InvalidContactFlowException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateContactFlowContentError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactFlowContentRequest,
@@ -35709,19 +35463,21 @@ export const updateContactFlowContent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates metadata about specified flow.
- */
-export const updateContactFlowMetadata: API.OperationMethod<
-  UpdateContactFlowMetadataRequest,
-  UpdateContactFlowMetadataResponse,
+export type UpdateContactFlowMetadataError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates metadata about specified flow.
+ */
+export const updateContactFlowMetadata: API.OperationMethod<
+  UpdateContactFlowMetadataRequest,
+  UpdateContactFlowMetadataResponse,
+  UpdateContactFlowMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactFlowMetadataRequest,
@@ -35735,12 +35491,7 @@ export const updateContactFlowMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
- */
-export const updateContactFlowModuleAlias: API.OperationMethod<
-  UpdateContactFlowModuleAliasRequest,
-  UpdateContactFlowModuleAliasResponse,
+export type UpdateContactFlowModuleAliasError =
   | AccessDeniedException
   | ConditionalOperationFailedException
   | DuplicateResourceException
@@ -35749,7 +35500,14 @@ export const updateContactFlowModuleAlias: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
+ */
+export const updateContactFlowModuleAlias: API.OperationMethod<
+  UpdateContactFlowModuleAliasRequest,
+  UpdateContactFlowModuleAliasResponse,
+  UpdateContactFlowModuleAliasError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactFlowModuleAliasRequest,
@@ -35765,6 +35523,14 @@ export const updateContactFlowModuleAlias: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateContactFlowModuleContentError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidContactFlowModuleException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates specified flow module for the specified Amazon Connect instance.
  *
@@ -35775,13 +35541,7 @@ export const updateContactFlowModuleAlias: API.OperationMethod<
 export const updateContactFlowModuleContent: API.OperationMethod<
   UpdateContactFlowModuleContentRequest,
   UpdateContactFlowModuleContentResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidContactFlowModuleException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateContactFlowModuleContentError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactFlowModuleContentRequest,
@@ -35795,12 +35555,7 @@ export const updateContactFlowModuleContent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates metadata about specified flow module.
- */
-export const updateContactFlowModuleMetadata: API.OperationMethod<
-  UpdateContactFlowModuleMetadataRequest,
-  UpdateContactFlowModuleMetadataResponse,
+export type UpdateContactFlowModuleMetadataError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -35808,7 +35563,14 @@ export const updateContactFlowModuleMetadata: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates metadata about specified flow module.
+ */
+export const updateContactFlowModuleMetadata: API.OperationMethod<
+  UpdateContactFlowModuleMetadataRequest,
+  UpdateContactFlowModuleMetadataResponse,
+  UpdateContactFlowModuleMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactFlowModuleMetadataRequest,
@@ -35823,6 +35585,14 @@ export const updateContactFlowModuleMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateContactFlowNameError =
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * The name of the flow.
  *
@@ -35832,13 +35602,7 @@ export const updateContactFlowModuleMetadata: API.OperationMethod<
 export const updateContactFlowName: API.OperationMethod<
   UpdateContactFlowNameRequest,
   UpdateContactFlowNameResponse,
-  | DuplicateResourceException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateContactFlowNameError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactFlowNameRequest,
@@ -35852,6 +35616,15 @@ export const updateContactFlowName: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateContactRoutingDataError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates routing priority and age on the contact (**QueuePriority** and **QueueTimeAdjustmentInSeconds**). These properties can be used to change a customer's position
  * in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority
@@ -35866,14 +35639,7 @@ export const updateContactFlowName: API.OperationMethod<
 export const updateContactRoutingData: API.OperationMethod<
   UpdateContactRoutingDataRequest,
   UpdateContactRoutingDataResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidActiveRegionException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateContactRoutingDataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactRoutingDataRequest,
@@ -35888,19 +35654,21 @@ export const updateContactRoutingData: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the scheduled time of a task contact that is already scheduled.
- */
-export const updateContactSchedule: API.OperationMethod<
-  UpdateContactScheduleRequest,
-  UpdateContactScheduleResponse,
+export type UpdateContactScheduleError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the scheduled time of a task contact that is already scheduled.
+ */
+export const updateContactSchedule: API.OperationMethod<
+  UpdateContactScheduleRequest,
+  UpdateContactScheduleResponse,
+  UpdateContactScheduleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactScheduleRequest,
@@ -35914,15 +35682,7 @@ export const updateContactSchedule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other
- * granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed
- * attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since
- * validation only runs when values are created or updated.
- */
-export const updateDataTableAttribute: API.OperationMethod<
-  UpdateDataTableAttributeRequest,
-  UpdateDataTableAttributeResponse,
+export type UpdateDataTableAttributeError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
@@ -35932,7 +35692,17 @@ export const updateDataTableAttribute: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other
+ * granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed
+ * attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since
+ * validation only runs when values are created or updated.
+ */
+export const updateDataTableAttribute: API.OperationMethod<
+  UpdateDataTableAttributeRequest,
+  UpdateDataTableAttributeResponse,
+  UpdateDataTableAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataTableAttributeRequest,
@@ -35949,14 +35719,7 @@ export const updateDataTableAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for
- * fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties
- * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
- */
-export const updateDataTableMetadata: API.OperationMethod<
-  UpdateDataTableMetadataRequest,
-  UpdateDataTableMetadataResponse,
+export type UpdateDataTableMetadataError =
   | AccessDeniedException
   | ConflictException
   | DuplicateResourceException
@@ -35965,7 +35728,16 @@ export const updateDataTableMetadata: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for
+ * fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties
+ * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
+ */
+export const updateDataTableMetadata: API.OperationMethod<
+  UpdateDataTableMetadataRequest,
+  UpdateDataTableMetadataResponse,
+  UpdateDataTableMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataTableMetadataRequest,
@@ -35981,6 +35753,15 @@ export const updateDataTableMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateDataTablePrimaryValuesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the primary values for a record. This operation affects all existing values that are currently
  * associated to the record and its primary values. Users that have restrictions on attributes and/or primary values are
@@ -35989,14 +35770,7 @@ export const updateDataTableMetadata: API.OperationMethod<
 export const updateDataTablePrimaryValues: API.OperationMethod<
   UpdateDataTablePrimaryValuesRequest,
   UpdateDataTablePrimaryValuesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateDataTablePrimaryValuesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataTablePrimaryValuesRequest,
@@ -36011,13 +35785,7 @@ export const updateDataTablePrimaryValues: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect
- * Administrator Guide.
- */
-export const updateEmailAddressMetadata: API.OperationMethod<
-  UpdateEmailAddressMetadataRequest,
-  UpdateEmailAddressMetadataResponse,
+export type UpdateEmailAddressMetadataError =
   | AccessDeniedException
   | IdempotencyException
   | InternalServiceException
@@ -36025,7 +35793,15 @@ export const updateEmailAddressMetadata: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect
+ * Administrator Guide.
+ */
+export const updateEmailAddressMetadata: API.OperationMethod<
+  UpdateEmailAddressMetadataRequest,
+  UpdateEmailAddressMetadataResponse,
+  UpdateEmailAddressMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEmailAddressMetadataRequest,
@@ -36040,6 +35816,14 @@ export const updateEmailAddressMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateEvaluationFormError =
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question
  * and section identifiers cannot be duplicated within the same evaluation form.
@@ -36050,13 +35834,7 @@ export const updateEmailAddressMetadata: API.OperationMethod<
 export const updateEvaluationForm: API.OperationMethod<
   UpdateEvaluationFormRequest,
   UpdateEvaluationFormResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateEvaluationFormError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEvaluationFormRequest,
@@ -36070,19 +35848,21 @@ export const updateEvaluationForm: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the hours of operation.
- */
-export const updateHoursOfOperation: API.OperationMethod<
-  UpdateHoursOfOperationRequest,
-  UpdateHoursOfOperationResponse,
+export type UpdateHoursOfOperationError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the hours of operation.
+ */
+export const updateHoursOfOperation: API.OperationMethod<
+  UpdateHoursOfOperationRequest,
+  UpdateHoursOfOperationResponse,
+  UpdateHoursOfOperationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHoursOfOperationRequest,
@@ -36096,12 +35876,7 @@ export const updateHoursOfOperation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Update the hours of operation override.
- */
-export const updateHoursOfOperationOverride: API.OperationMethod<
-  UpdateHoursOfOperationOverrideRequest,
-  UpdateHoursOfOperationOverrideResponse,
+export type UpdateHoursOfOperationOverrideError =
   | ConditionalOperationFailedException
   | DuplicateResourceException
   | InternalServiceException
@@ -36109,7 +35884,14 @@ export const updateHoursOfOperationOverride: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the hours of operation override.
+ */
+export const updateHoursOfOperationOverride: API.OperationMethod<
+  UpdateHoursOfOperationOverrideRequest,
+  UpdateHoursOfOperationOverrideResponse,
+  UpdateHoursOfOperationOverrideError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHoursOfOperationOverrideRequest,
@@ -36124,6 +35906,13 @@ export const updateHoursOfOperationOverride: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateInstanceAttributeError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -36132,12 +35921,7 @@ export const updateHoursOfOperationOverride: API.OperationMethod<
 export const updateInstanceAttribute: API.OperationMethod<
   UpdateInstanceAttributeRequest,
   UpdateInstanceAttributeResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateInstanceAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceAttributeRequest,
@@ -36150,6 +35934,13 @@ export const updateInstanceAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateInstanceStorageConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -36158,12 +35949,7 @@ export const updateInstanceAttribute: API.OperationMethod<
 export const updateInstanceStorageConfig: API.OperationMethod<
   UpdateInstanceStorageConfigRequest,
   UpdateInstanceStorageConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateInstanceStorageConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceStorageConfigRequest,
@@ -36176,19 +35962,21 @@ export const updateInstanceStorageConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
- */
-export const updateNotificationContent: API.OperationMethod<
-  UpdateNotificationContentRequest,
-  UpdateNotificationContentResponse,
+export type UpdateNotificationContentError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
+ */
+export const updateNotificationContent: API.OperationMethod<
+  UpdateNotificationContentRequest,
+  UpdateNotificationContentResponse,
+  UpdateNotificationContentError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationContentRequest,
@@ -36202,6 +35990,14 @@ export const updateNotificationContent: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateParticipantAuthenticationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request
  * body contents:
@@ -36218,13 +36014,7 @@ export const updateNotificationContent: API.OperationMethod<
 export const updateParticipantAuthentication: API.OperationMethod<
   UpdateParticipantAuthenticationRequest,
   UpdateParticipantAuthenticationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateParticipantAuthenticationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateParticipantAuthenticationRequest,
@@ -36238,6 +36028,14 @@ export const updateParticipantAuthentication: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateParticipantRoleConfigError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically
  * disconnected from a chat due to idleness. You can set four timers:
@@ -36256,13 +36054,7 @@ export const updateParticipantAuthentication: API.OperationMethod<
 export const updateParticipantRoleConfig: API.OperationMethod<
   UpdateParticipantRoleConfigRequest,
   UpdateParticipantRoleConfigResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateParticipantRoleConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateParticipantRoleConfigRequest,
@@ -36276,6 +36068,15 @@ export const updateParticipantRoleConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdatePhoneNumberError =
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.
  *
@@ -36288,14 +36089,7 @@ export const updateParticipantRoleConfig: API.OperationMethod<
 export const updatePhoneNumber: API.OperationMethod<
   UpdatePhoneNumberRequest,
   UpdatePhoneNumberResponse,
-  | AccessDeniedException
-  | IdempotencyException
-  | InternalServiceException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdatePhoneNumberError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberRequest,
@@ -36310,14 +36104,7 @@ export const updatePhoneNumber: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates a phone number’s metadata.
- *
- * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
- */
-export const updatePhoneNumberMetadata: API.OperationMethod<
-  UpdatePhoneNumberMetadataRequest,
-  UpdatePhoneNumberMetadataResponse,
+export type UpdatePhoneNumberMetadataError =
   | AccessDeniedException
   | IdempotencyException
   | InternalServiceException
@@ -36326,7 +36113,16 @@ export const updatePhoneNumberMetadata: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a phone number’s metadata.
+ *
+ * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
+ */
+export const updatePhoneNumberMetadata: API.OperationMethod<
+  UpdatePhoneNumberMetadataRequest,
+  UpdatePhoneNumberMetadataResponse,
+  UpdatePhoneNumberMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberMetadataRequest,
@@ -36342,6 +36138,13 @@ export const updatePhoneNumberMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdatePredefinedAttributeError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a predefined attribute for the specified Amazon Connect instance. A *predefined attribute* is
  * made up of a name and a value.
@@ -36366,12 +36169,7 @@ export const updatePhoneNumberMetadata: API.OperationMethod<
 export const updatePredefinedAttribute: API.OperationMethod<
   UpdatePredefinedAttributeRequest,
   UpdatePredefinedAttributeResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdatePredefinedAttributeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePredefinedAttributeRequest,
@@ -36384,18 +36182,20 @@ export const updatePredefinedAttribute: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdatePromptError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a prompt.
  */
 export const updatePrompt: API.OperationMethod<
   UpdatePromptRequest,
   UpdatePromptResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdatePromptError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePromptRequest,
@@ -36408,18 +36208,20 @@ export const updatePrompt: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateQueueHoursOfOperationError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the hours of operation for the specified queue.
  */
 export const updateQueueHoursOfOperation: API.OperationMethod<
   UpdateQueueHoursOfOperationRequest,
   UpdateQueueHoursOfOperationResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateQueueHoursOfOperationError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueHoursOfOperationRequest,
@@ -36432,18 +36234,20 @@ export const updateQueueHoursOfOperation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateQueueMaxContactsError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the maximum number of contacts allowed in a queue before it is considered full.
  */
 export const updateQueueMaxContacts: API.OperationMethod<
   UpdateQueueMaxContactsRequest,
   UpdateQueueMaxContactsResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateQueueMaxContactsError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueMaxContactsRequest,
@@ -36456,19 +36260,21 @@ export const updateQueueMaxContacts: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
- */
-export const updateQueueName: API.OperationMethod<
-  UpdateQueueNameRequest,
-  UpdateQueueNameResponse,
+export type UpdateQueueNameError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
+ */
+export const updateQueueName: API.OperationMethod<
+  UpdateQueueNameRequest,
+  UpdateQueueNameResponse,
+  UpdateQueueNameError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueNameRequest,
@@ -36482,6 +36288,13 @@ export const updateQueueName: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateQueueOutboundCallerConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
  *
@@ -36502,12 +36315,7 @@ export const updateQueueName: API.OperationMethod<
 export const updateQueueOutboundCallerConfig: API.OperationMethod<
   UpdateQueueOutboundCallerConfigRequest,
   UpdateQueueOutboundCallerConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateQueueOutboundCallerConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueOutboundCallerConfigRequest,
@@ -36520,12 +36328,7 @@ export const updateQueueOutboundCallerConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the outbound email address Id for a specified queue.
- */
-export const updateQueueOutboundEmailConfig: API.OperationMethod<
-  UpdateQueueOutboundEmailConfigRequest,
-  UpdateQueueOutboundEmailConfigResponse,
+export type UpdateQueueOutboundEmailConfigError =
   | AccessDeniedException
   | ConditionalOperationFailedException
   | InternalServiceException
@@ -36533,7 +36336,14 @@ export const updateQueueOutboundEmailConfig: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the outbound email address Id for a specified queue.
+ */
+export const updateQueueOutboundEmailConfig: API.OperationMethod<
+  UpdateQueueOutboundEmailConfigRequest,
+  UpdateQueueOutboundEmailConfigResponse,
+  UpdateQueueOutboundEmailConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueOutboundEmailConfigRequest,
@@ -36548,18 +36358,20 @@ export const updateQueueOutboundEmailConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateQueueStatusError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the status of the queue.
  */
 export const updateQueueStatus: API.OperationMethod<
   UpdateQueueStatusRequest,
   UpdateQueueStatusResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateQueueStatusError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueStatusRequest,
@@ -36572,18 +36384,20 @@ export const updateQueueStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateQuickConnectConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the configuration settings for the specified quick connect.
  */
 export const updateQuickConnectConfig: API.OperationMethod<
   UpdateQuickConnectConfigRequest,
   UpdateQuickConnectConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateQuickConnectConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQuickConnectConfigRequest,
@@ -36596,18 +36410,20 @@ export const updateQuickConnectConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateQuickConnectNameError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
 export const updateQuickConnectName: API.OperationMethod<
   UpdateQuickConnectNameRequest,
   UpdateQuickConnectNameResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateQuickConnectNameError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQuickConnectNameRequest,
@@ -36620,6 +36436,13 @@ export const updateQuickConnectName: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateRoutingProfileAgentAvailabilityTimerError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Whether agents with this routing profile will have their routing order calculated based on time since
  * their last inbound contact or *longest idle time*.
@@ -36627,12 +36450,7 @@ export const updateQuickConnectName: API.OperationMethod<
 export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
   UpdateRoutingProfileAgentAvailabilityTimerRequest,
   UpdateRoutingProfileAgentAvailabilityTimerResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateRoutingProfileAgentAvailabilityTimerError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
@@ -36645,18 +36463,20 @@ export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateRoutingProfileConcurrencyError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
  */
 export const updateRoutingProfileConcurrency: API.OperationMethod<
   UpdateRoutingProfileConcurrencyRequest,
   UpdateRoutingProfileConcurrencyResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateRoutingProfileConcurrencyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingProfileConcurrencyRequest,
@@ -36669,18 +36489,20 @@ export const updateRoutingProfileConcurrency: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateRoutingProfileDefaultOutboundQueueError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the default outbound queue of a routing profile.
  */
 export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
   UpdateRoutingProfileDefaultOutboundQueueRequest,
   UpdateRoutingProfileDefaultOutboundQueueResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateRoutingProfileDefaultOutboundQueueError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingProfileDefaultOutboundQueueRequest,
@@ -36693,19 +36515,21 @@ export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
- */
-export const updateRoutingProfileName: API.OperationMethod<
-  UpdateRoutingProfileNameRequest,
-  UpdateRoutingProfileNameResponse,
+export type UpdateRoutingProfileNameError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
+ */
+export const updateRoutingProfileName: API.OperationMethod<
+  UpdateRoutingProfileNameRequest,
+  UpdateRoutingProfileNameResponse,
+  UpdateRoutingProfileNameError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingProfileNameRequest,
@@ -36719,18 +36543,20 @@ export const updateRoutingProfileName: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateRoutingProfileQueuesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the properties associated with a set of queues for a routing profile.
  */
 export const updateRoutingProfileQueues: API.OperationMethod<
   UpdateRoutingProfileQueuesRequest,
   UpdateRoutingProfileQueuesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateRoutingProfileQueuesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingProfileQueuesRequest,
@@ -36743,6 +36569,14 @@ export const updateRoutingProfileQueues: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateRuleError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a rule for the specified Amazon Connect instance.
  *
@@ -36752,13 +36586,7 @@ export const updateRoutingProfileQueues: API.OperationMethod<
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateRuleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
@@ -36772,6 +36600,13 @@ export const updateRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateSecurityProfileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a security profile.
  *
@@ -36782,12 +36617,7 @@ export const updateRule: API.OperationMethod<
 export const updateSecurityProfile: API.OperationMethod<
   UpdateSecurityProfileRequest,
   UpdateSecurityProfileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateSecurityProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityProfileRequest,
@@ -36800,6 +36630,14 @@ export const updateSecurityProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateTaskTemplateError =
+  | InternalServiceException
+  | InvalidParameterException
+  | PropertyValidationException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates details about a specific task template in the specified Amazon Connect instance. This operation does
  * not support partial updates. Instead it does a full update of template content.
@@ -36807,13 +36645,7 @@ export const updateSecurityProfile: API.OperationMethod<
 export const updateTaskTemplate: API.OperationMethod<
   UpdateTaskTemplateRequest,
   UpdateTaskTemplateResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | PropertyValidationException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateTaskTemplateError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskTemplateRequest,
@@ -36827,12 +36659,7 @@ export const updateTaskTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
- */
-export const updateTestCase: API.OperationMethod<
-  UpdateTestCaseRequest,
-  UpdateTestCaseResponse,
+export type UpdateTestCaseError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -36841,7 +36668,14 @@ export const updateTestCase: API.OperationMethod<
   | InvalidTestCaseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
+ */
+export const updateTestCase: API.OperationMethod<
+  UpdateTestCaseRequest,
+  UpdateTestCaseResponse,
+  UpdateTestCaseError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTestCaseRequest,
@@ -36857,6 +36691,14 @@ export const updateTestCase: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateTrafficDistributionError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the traffic distribution for a given traffic distribution group.
  *
@@ -36878,13 +36720,7 @@ export const updateTestCase: API.OperationMethod<
 export const updateTrafficDistribution: API.OperationMethod<
   UpdateTrafficDistributionRequest,
   UpdateTrafficDistributionResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidRequestException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateTrafficDistributionError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrafficDistributionRequest,
@@ -36898,6 +36734,14 @@ export const updateTrafficDistribution: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserConfigError =
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings.
  *
@@ -36906,13 +36750,7 @@ export const updateTrafficDistribution: API.OperationMethod<
 export const updateUserConfig: API.OperationMethod<
   UpdateUserConfigRequest,
   UpdateUserConfigResponse,
-  | ConditionalOperationFailedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserConfigRequest,
@@ -36926,18 +36764,20 @@ export const updateUserConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserHierarchyError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Assigns the specified hierarchy group to the specified user.
  */
 export const updateUserHierarchy: API.OperationMethod<
   UpdateUserHierarchyRequest,
   UpdateUserHierarchyResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserHierarchyError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserHierarchyRequest,
@@ -36950,19 +36790,21 @@ export const updateUserHierarchy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the name of the user hierarchy group.
- */
-export const updateUserHierarchyGroupName: API.OperationMethod<
-  UpdateUserHierarchyGroupNameRequest,
-  UpdateUserHierarchyGroupNameResponse,
+export type UpdateUserHierarchyGroupNameError =
   | DuplicateResourceException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the name of the user hierarchy group.
+ */
+export const updateUserHierarchyGroupName: API.OperationMethod<
+  UpdateUserHierarchyGroupNameRequest,
+  UpdateUserHierarchyGroupNameResponse,
+  UpdateUserHierarchyGroupNameError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserHierarchyGroupNameRequest,
@@ -36976,19 +36818,21 @@ export const updateUserHierarchyGroupName: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
- */
-export const updateUserHierarchyStructure: API.OperationMethod<
-  UpdateUserHierarchyStructureRequest,
-  UpdateUserHierarchyStructureResponse,
+export type UpdateUserHierarchyStructureError =
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
+ */
+export const updateUserHierarchyStructure: API.OperationMethod<
+  UpdateUserHierarchyStructureRequest,
+  UpdateUserHierarchyStructureResponse,
+  UpdateUserHierarchyStructureError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserHierarchyStructureRequest,
@@ -37002,6 +36846,13 @@ export const updateUserHierarchyStructure: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserIdentityInfoError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the identity information for the specified user.
  *
@@ -37014,12 +36865,7 @@ export const updateUserHierarchyStructure: API.OperationMethod<
 export const updateUserIdentityInfo: API.OperationMethod<
   UpdateUserIdentityInfoRequest,
   UpdateUserIdentityInfoResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserIdentityInfoError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserIdentityInfoRequest,
@@ -37032,19 +36878,21 @@ export const updateUserIdentityInfo: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
- */
-export const updateUserNotificationStatus: API.OperationMethod<
-  UpdateUserNotificationStatusRequest,
-  UpdateUserNotificationStatusResponse,
+export type UpdateUserNotificationStatusError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
+ */
+export const updateUserNotificationStatus: API.OperationMethod<
+  UpdateUserNotificationStatusRequest,
+  UpdateUserNotificationStatusResponse,
+  UpdateUserNotificationStatusError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserNotificationStatusRequest,
@@ -37058,6 +36906,13 @@ export const updateUserNotificationStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserPhoneConfigError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the phone configuration settings for the specified user.
  *
@@ -37066,12 +36921,7 @@ export const updateUserNotificationStatus: API.OperationMethod<
 export const updateUserPhoneConfig: API.OperationMethod<
   UpdateUserPhoneConfigRequest,
   UpdateUserPhoneConfigResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserPhoneConfigError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserPhoneConfigRequest,
@@ -37084,18 +36934,20 @@ export const updateUserPhoneConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserProficienciesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the properties associated with the proficiencies of a user.
  */
 export const updateUserProficiencies: API.OperationMethod<
   UpdateUserProficienciesRequest,
   UpdateUserProficienciesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserProficienciesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserProficienciesRequest,
@@ -37108,18 +36960,20 @@ export const updateUserProficiencies: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserRoutingProfileError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Assigns the specified routing profile to the specified user.
  */
 export const updateUserRoutingProfile: API.OperationMethod<
   UpdateUserRoutingProfileRequest,
   UpdateUserRoutingProfileResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserRoutingProfileError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRoutingProfileRequest,
@@ -37132,18 +36986,20 @@ export const updateUserRoutingProfile: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateUserSecurityProfilesError =
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Assigns the specified security profiles to the specified user.
  */
 export const updateUserSecurityProfiles: API.OperationMethod<
   UpdateUserSecurityProfilesRequest,
   UpdateUserSecurityProfilesResponse,
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateUserSecurityProfilesError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserSecurityProfilesRequest,
@@ -37156,6 +37012,15 @@ export const updateUserSecurityProfiles: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateViewContentError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the view content of the given view identifier in the specified Amazon Connect instance.
  *
@@ -37167,14 +37032,7 @@ export const updateUserSecurityProfiles: API.OperationMethod<
 export const updateViewContent: API.OperationMethod<
   UpdateViewContentRequest,
   UpdateViewContentResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateViewContentError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateViewContentRequest,
@@ -37189,13 +37047,7 @@ export const updateViewContent: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the view metadata. Note that either `Name` or `Description` must be
- * provided.
- */
-export const updateViewMetadata: API.OperationMethod<
-  UpdateViewMetadataRequest,
-  UpdateViewMetadataResponse,
+export type UpdateViewMetadataError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -37204,7 +37056,15 @@ export const updateViewMetadata: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the view metadata. Note that either `Name` or `Description` must be
+ * provided.
+ */
+export const updateViewMetadata: API.OperationMethod<
+  UpdateViewMetadataRequest,
+  UpdateViewMetadataResponse,
+  UpdateViewMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateViewMetadataRequest,
@@ -37220,12 +37080,7 @@ export const updateViewMetadata: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the metadata of a workspace, such as its name and description.
- */
-export const updateWorkspaceMetadata: API.OperationMethod<
-  UpdateWorkspaceMetadataRequest,
-  UpdateWorkspaceMetadataResponse,
+export type UpdateWorkspaceMetadataError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -37233,7 +37088,14 @@ export const updateWorkspaceMetadata: API.OperationMethod<
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the metadata of a workspace, such as its name and description.
+ */
+export const updateWorkspaceMetadata: API.OperationMethod<
+  UpdateWorkspaceMetadataRequest,
+  UpdateWorkspaceMetadataResponse,
+  UpdateWorkspaceMetadataError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceMetadataRequest,
@@ -37248,12 +37110,7 @@ export const updateWorkspaceMetadata: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the configuration of a page in a workspace, including the associated view and input data.
- */
-export const updateWorkspacePage: API.OperationMethod<
-  UpdateWorkspacePageRequest,
-  UpdateWorkspacePageResponse,
+export type UpdateWorkspacePageError =
   | AccessDeniedException
   | DuplicateResourceException
   | InternalServiceException
@@ -37262,7 +37119,14 @@ export const updateWorkspacePage: API.OperationMethod<
   | ResourceConflictException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of a page in a workspace, including the associated view and input data.
+ */
+export const updateWorkspacePage: API.OperationMethod<
+  UpdateWorkspacePageRequest,
+  UpdateWorkspacePageResponse,
+  UpdateWorkspacePageError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspacePageRequest,
@@ -37278,19 +37142,21 @@ export const updateWorkspacePage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates the theme configuration for a workspace, including colors and styling.
- */
-export const updateWorkspaceTheme: API.OperationMethod<
-  UpdateWorkspaceThemeRequest,
-  UpdateWorkspaceThemeResponse,
+export type UpdateWorkspaceThemeError =
   | AccessDeniedException
   | InternalServiceException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the theme configuration for a workspace, including colors and styling.
+ */
+export const updateWorkspaceTheme: API.OperationMethod<
+  UpdateWorkspaceThemeRequest,
+  UpdateWorkspaceThemeResponse,
+  UpdateWorkspaceThemeError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceThemeRequest,
@@ -37304,6 +37170,14 @@ export const updateWorkspaceTheme: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateWorkspaceVisibilityError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users
  * only, or none.
@@ -37311,13 +37185,7 @@ export const updateWorkspaceTheme: API.OperationMethod<
 export const updateWorkspaceVisibility: API.OperationMethod<
   UpdateWorkspaceVisibilityRequest,
   UpdateWorkspaceVisibilityResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateWorkspaceVisibilityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceVisibilityRequest,

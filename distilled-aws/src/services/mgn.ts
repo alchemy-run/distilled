@@ -3601,40 +3601,48 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type InitializeServiceError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Initialize Application Migration Service.
  */
 export const initializeService: API.OperationMethod<
   InitializeServiceRequest,
   InitializeServiceResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  InitializeServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitializeServiceRequest,
   output: InitializeServiceResponse,
   errors: [AccessDeniedException, ValidationException],
 }));
+export type ListManagedAccountsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * List Managed Accounts.
  */
 export const listManagedAccounts: API.OperationMethod<
   ListManagedAccountsRequest,
   ListManagedAccountsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  ListManagedAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedAccountsRequest,
   ) => stream.Stream<
     ListManagedAccountsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListManagedAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedAccountsRequest,
   ) => stream.Stream<
     ManagedAccount,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListManagedAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3648,18 +3656,20 @@ export const listManagedAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all tags for your Application Migration Service resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3672,18 +3682,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3696,18 +3708,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified set of tags from the specified set of Application Migration Service resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3720,16 +3734,18 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateApplicationError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Create application.
  */
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   Application,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -3740,16 +3756,18 @@ export const createApplication: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DeleteApplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Delete application.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -3760,27 +3778,30 @@ export const deleteApplication: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type ListApplicationsError =
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Retrieves all applications or multiple applications by ID.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  UninitializedAccountException | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    UninitializedAccountException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     Application,
-    UninitializedAccountException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3794,17 +3815,19 @@ export const listApplications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ArchiveApplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Archive application.
  */
 export const archiveApplication: API.OperationMethod<
   ArchiveApplicationRequest,
   Application,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  ArchiveApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchiveApplicationRequest,
@@ -3816,17 +3839,19 @@ export const archiveApplication: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type AssociateSourceServersError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Associate source servers to application.
  */
 export const associateSourceServers: API.OperationMethod<
   AssociateSourceServersRequest,
   AssociateSourceServersResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  AssociateSourceServersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSourceServersRequest,
@@ -3838,16 +3863,18 @@ export const associateSourceServers: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DisassociateSourceServersError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Disassociate source servers from application.
  */
 export const disassociateSourceServers: API.OperationMethod<
   DisassociateSourceServersRequest,
   DisassociateSourceServersResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DisassociateSourceServersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSourceServersRequest,
@@ -3858,16 +3885,18 @@ export const disassociateSourceServers: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type UnarchiveApplicationError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Unarchive application.
  */
 export const unarchiveApplication: API.OperationMethod<
   UnarchiveApplicationRequest,
   Application,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  UnarchiveApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnarchiveApplicationRequest,
@@ -3878,16 +3907,18 @@ export const unarchiveApplication: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type UpdateApplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Update application.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   Application,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -3898,29 +3929,35 @@ export const updateApplication: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type CreateConnectorError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create Connector.
  */
 export const createConnector: API.OperationMethod<
   CreateConnectorRequest,
   Connector,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  CreateConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
   output: Connector,
   errors: [UninitializedAccountException, ValidationException],
 }));
+export type UpdateConnectorError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update Connector.
  */
 export const updateConnector: API.OperationMethod<
   UpdateConnectorRequest,
   Connector,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  UpdateConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorRequest,
@@ -3931,16 +3968,18 @@ export const updateConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConnectorError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete Connector.
  */
 export const deleteConnector: API.OperationMethod<
   DeleteConnectorRequest,
   DeleteConnectorResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  DeleteConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
@@ -3951,27 +3990,31 @@ export const deleteConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConnectorsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * List Connectors.
  */
 export const listConnectors: API.OperationMethod<
   ListConnectorsRequest,
   ListConnectorsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  ListConnectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     ListConnectorsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     Connector,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3985,16 +4028,18 @@ export const listConnectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartExportError =
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start export.
  */
 export const startExport: API.OperationMethod<
   StartExportRequest,
   StartExportResponse,
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  StartExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportRequest,
@@ -4005,27 +4050,28 @@ export const startExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListExportsError = UninitializedAccountException | CommonErrors;
 /**
  * List exports.
  */
 export const listExports: API.OperationMethod<
   ListExportsRequest,
   ListExportsResponse,
-  UninitializedAccountException | CommonErrors,
+  ListExportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExportsRequest,
   ) => stream.Stream<
     ListExportsResponse,
-    UninitializedAccountException | CommonErrors,
+    ListExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExportsRequest,
   ) => stream.Stream<
     ExportTask,
-    UninitializedAccountException | CommonErrors,
+    ListExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4039,27 +4085,31 @@ export const listExports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExportErrorsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * List export errors.
  */
 export const listExportErrors: API.OperationMethod<
   ListExportErrorsRequest,
   ListExportErrorsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  ListExportErrorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExportErrorsRequest,
   ) => stream.Stream<
     ListExportErrorsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListExportErrorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExportErrorsRequest,
   ) => stream.Stream<
     ExportTaskError,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListExportErrorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4073,18 +4123,20 @@ export const listExportErrors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartImportError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start import.
  */
 export const startImport: API.OperationMethod<
   StartImportRequest,
   StartImportResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  StartImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportRequest,
@@ -4097,27 +4149,31 @@ export const startImport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListImportsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * List imports.
  */
 export const listImports: API.OperationMethod<
   ListImportsRequest,
   ListImportsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  ListImportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportsRequest,
   ) => stream.Stream<
     ListImportsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportsRequest,
   ) => stream.Stream<
     ImportTask,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4131,27 +4187,31 @@ export const listImports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListImportErrorsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * List import errors.
  */
 export const listImportErrors: API.OperationMethod<
   ListImportErrorsRequest,
   ListImportErrorsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  ListImportErrorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportErrorsRequest,
   ) => stream.Stream<
     ListImportErrorsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListImportErrorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportErrorsRequest,
   ) => stream.Stream<
     ImportTaskError,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    ListImportErrorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4165,16 +4225,18 @@ export const listImportErrors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DeleteJobError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Deletes a single Job by ID.
  */
 export const deleteJob: API.OperationMethod<
   DeleteJobRequest,
   DeleteJobResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DeleteJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
@@ -4185,27 +4247,31 @@ export const deleteJob: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DescribeJobsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
 export const describeJobs: API.OperationMethod<
   DescribeJobsRequest,
   DescribeJobsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  DescribeJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeJobsRequest,
   ) => stream.Stream<
     DescribeJobsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    DescribeJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeJobsRequest,
   ) => stream.Stream<
     Job,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    DescribeJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4219,27 +4285,31 @@ export const describeJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeJobLogItemsError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed job log items with paging.
  */
 export const describeJobLogItems: API.OperationMethod<
   DescribeJobLogItemsRequest,
   DescribeJobLogItemsResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  DescribeJobLogItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeJobLogItemsRequest,
   ) => stream.Stream<
     DescribeJobLogItemsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    DescribeJobLogItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeJobLogItemsRequest,
   ) => stream.Stream<
     JobLog,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    DescribeJobLogItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4253,16 +4323,18 @@ export const describeJobLogItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateLaunchConfigurationTemplateError =
+  | AccessDeniedException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Launch Configuration Template.
  */
 export const createLaunchConfigurationTemplate: API.OperationMethod<
   CreateLaunchConfigurationTemplateRequest,
   LaunchConfigurationTemplate,
-  | AccessDeniedException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  CreateLaunchConfigurationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLaunchConfigurationTemplateRequest,
@@ -4273,17 +4345,19 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLaunchConfigurationTemplateError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing Launch Configuration Template by ID.
  */
 export const updateLaunchConfigurationTemplate: API.OperationMethod<
   UpdateLaunchConfigurationTemplateRequest,
   LaunchConfigurationTemplate,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  UpdateLaunchConfigurationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLaunchConfigurationTemplateRequest,
@@ -4295,16 +4369,18 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLaunchConfigurationTemplateError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Deletes a single Launch Configuration Template by ID.
  */
 export const deleteLaunchConfigurationTemplate: API.OperationMethod<
   DeleteLaunchConfigurationTemplateRequest,
   DeleteLaunchConfigurationTemplateResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DeleteLaunchConfigurationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLaunchConfigurationTemplateRequest,
@@ -4315,36 +4391,32 @@ export const deleteLaunchConfigurationTemplate: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DescribeLaunchConfigurationTemplatesError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
 export const describeLaunchConfigurationTemplates: API.OperationMethod<
   DescribeLaunchConfigurationTemplatesRequest,
   DescribeLaunchConfigurationTemplatesResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  DescribeLaunchConfigurationTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeLaunchConfigurationTemplatesRequest,
   ) => stream.Stream<
     DescribeLaunchConfigurationTemplatesResponse,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
+    DescribeLaunchConfigurationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLaunchConfigurationTemplatesRequest,
   ) => stream.Stream<
     LaunchConfigurationTemplate,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
+    DescribeLaunchConfigurationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4362,27 +4434,31 @@ export const describeLaunchConfigurationTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTemplateActionsError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * List template post migration custom actions.
  */
 export const listTemplateActions: API.OperationMethod<
   ListTemplateActionsRequest,
   ListTemplateActionsResponse,
-  ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+  ListTemplateActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplateActionsRequest,
   ) => stream.Stream<
     ListTemplateActionsResponse,
-    ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+    ListTemplateActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplateActionsRequest,
   ) => stream.Stream<
     TemplateActionDocument,
-    ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+    ListTemplateActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4396,17 +4472,19 @@ export const listTemplateActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutTemplateActionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Put template post migration custom action.
  */
 export const putTemplateAction: API.OperationMethod<
   PutTemplateActionRequest,
   TemplateActionDocument,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  PutTemplateActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTemplateActionRequest,
@@ -4418,16 +4496,18 @@ export const putTemplateAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveTemplateActionError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove template post migration custom action.
  */
 export const removeTemplateAction: API.OperationMethod<
   RemoveTemplateActionRequest,
   RemoveTemplateActionResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  RemoveTemplateActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTemplateActionRequest,
@@ -4438,16 +4518,18 @@ export const removeTemplateAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateReplicationConfigurationTemplateError =
+  | AccessDeniedException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new ReplicationConfigurationTemplate.
  */
 export const createReplicationConfigurationTemplate: API.OperationMethod<
   CreateReplicationConfigurationTemplateRequest,
   ReplicationConfigurationTemplate,
-  | AccessDeniedException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  CreateReplicationConfigurationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationConfigurationTemplateRequest,
@@ -4458,17 +4540,19 @@ export const createReplicationConfigurationTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateReplicationConfigurationTemplateError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates multiple ReplicationConfigurationTemplates by ID.
  */
 export const updateReplicationConfigurationTemplate: API.OperationMethod<
   UpdateReplicationConfigurationTemplateRequest,
   ReplicationConfigurationTemplate,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  UpdateReplicationConfigurationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReplicationConfigurationTemplateRequest,
@@ -4480,16 +4564,18 @@ export const updateReplicationConfigurationTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteReplicationConfigurationTemplateError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Deletes a single Replication Configuration Template by ID
  */
 export const deleteReplicationConfigurationTemplate: API.OperationMethod<
   DeleteReplicationConfigurationTemplateRequest,
   DeleteReplicationConfigurationTemplateResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DeleteReplicationConfigurationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationConfigurationTemplateRequest,
@@ -4500,36 +4586,32 @@ export const deleteReplicationConfigurationTemplate: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DescribeReplicationConfigurationTemplatesError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
 export const describeReplicationConfigurationTemplates: API.OperationMethod<
   DescribeReplicationConfigurationTemplatesRequest,
   DescribeReplicationConfigurationTemplatesResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  DescribeReplicationConfigurationTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationConfigurationTemplatesRequest,
   ) => stream.Stream<
     DescribeReplicationConfigurationTemplatesResponse,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
+    DescribeReplicationConfigurationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationConfigurationTemplatesRequest,
   ) => stream.Stream<
     ReplicationConfigurationTemplate,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
+    DescribeReplicationConfigurationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4547,16 +4629,18 @@ export const describeReplicationConfigurationTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateSourceServerError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Update Source Server.
  */
 export const updateSourceServer: API.OperationMethod<
   UpdateSourceServerRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  UpdateSourceServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSourceServerRequest,
@@ -4567,16 +4651,18 @@ export const updateSourceServer: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DeleteSourceServerError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Deletes a single source server by ID.
  */
 export const deleteSourceServer: API.OperationMethod<
   DeleteSourceServerRequest,
   DeleteSourceServerResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DeleteSourceServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceServerRequest,
@@ -4587,27 +4673,31 @@ export const deleteSourceServer: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DescribeSourceServersError =
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all SourceServers or multiple SourceServers by ID.
  */
 export const describeSourceServers: API.OperationMethod<
   DescribeSourceServersRequest,
   DescribeSourceServersResponse,
-  UninitializedAccountException | ValidationException | CommonErrors,
+  DescribeSourceServersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSourceServersRequest,
   ) => stream.Stream<
     DescribeSourceServersResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    DescribeSourceServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSourceServersRequest,
   ) => stream.Stream<
     SourceServer,
-    UninitializedAccountException | ValidationException | CommonErrors,
+    DescribeSourceServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4621,17 +4711,19 @@ export const describeSourceServers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ChangeServerLifeCycleStateError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
  */
 export const changeServerLifeCycleState: API.OperationMethod<
   ChangeServerLifeCycleStateRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  ChangeServerLifeCycleStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeServerLifeCycleStateRequest,
@@ -4643,16 +4735,18 @@ export const changeServerLifeCycleState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisconnectFromServiceError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectFromService: API.OperationMethod<
   DisconnectFromServiceRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DisconnectFromServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisconnectFromServiceRequest,
@@ -4663,17 +4757,19 @@ export const disconnectFromService: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type FinalizeCutoverError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const finalizeCutover: API.OperationMethod<
   FinalizeCutoverRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  FinalizeCutoverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FinalizeCutoverRequest,
@@ -4685,53 +4781,65 @@ export const finalizeCutover: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLaunchConfigurationError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Lists all LaunchConfigurations available, filtered by Source Server IDs.
  */
 export const getLaunchConfiguration: API.OperationMethod<
   GetLaunchConfigurationRequest,
   LaunchConfiguration,
-  ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+  GetLaunchConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLaunchConfigurationRequest,
   output: LaunchConfiguration,
   errors: [ResourceNotFoundException, UninitializedAccountException],
 }));
+export type GetReplicationConfigurationError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Lists all ReplicationConfigurations, filtered by Source Server ID.
  */
 export const getReplicationConfiguration: API.OperationMethod<
   GetReplicationConfigurationRequest,
   ReplicationConfiguration,
-  ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+  GetReplicationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReplicationConfigurationRequest,
   output: ReplicationConfiguration,
   errors: [ResourceNotFoundException, UninitializedAccountException],
 }));
+export type ListSourceServerActionsError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * List source server post migration custom actions.
  */
 export const listSourceServerActions: API.OperationMethod<
   ListSourceServerActionsRequest,
   ListSourceServerActionsResponse,
-  ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+  ListSourceServerActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourceServerActionsRequest,
   ) => stream.Stream<
     ListSourceServerActionsResponse,
-    ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+    ListSourceServerActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceServerActionsRequest,
   ) => stream.Stream<
     SourceServerActionDocument,
-    ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+    ListSourceServerActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4745,16 +4853,18 @@ export const listSourceServerActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type MarkAsArchivedError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
  */
 export const markAsArchived: API.OperationMethod<
   MarkAsArchivedRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  MarkAsArchivedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MarkAsArchivedRequest,
@@ -4765,18 +4875,20 @@ export const markAsArchived: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type PauseReplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Pause Replication.
  */
 export const pauseReplication: API.OperationMethod<
   PauseReplicationRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  PauseReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseReplicationRequest,
@@ -4789,17 +4901,19 @@ export const pauseReplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutSourceServerActionError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Put source server post migration custom action.
  */
 export const putSourceServerAction: API.OperationMethod<
   PutSourceServerActionRequest,
   SourceServerActionDocument,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  PutSourceServerActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSourceServerActionRequest,
@@ -4811,16 +4925,18 @@ export const putSourceServerAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveSourceServerActionError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove source server post migration custom action.
  */
 export const removeSourceServerAction: API.OperationMethod<
   RemoveSourceServerActionRequest,
   RemoveSourceServerActionResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  RemoveSourceServerActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveSourceServerActionRequest,
@@ -4831,18 +4947,20 @@ export const removeSourceServerAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResumeReplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Resume Replication.
  */
 export const resumeReplication: API.OperationMethod<
   ResumeReplicationRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  ResumeReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeReplicationRequest,
@@ -4855,16 +4973,18 @@ export const resumeReplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RetryDataReplicationError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
  */
 export const retryDataReplication: API.OperationMethod<
   RetryDataReplicationRequest,
   SourceServer,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  RetryDataReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryDataReplicationRequest,
@@ -4875,18 +4995,20 @@ export const retryDataReplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartReplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start replication for source server irrespective of its replication type.
  */
 export const startReplication: API.OperationMethod<
   StartReplicationRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  StartReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationRequest,
@@ -4899,18 +5021,20 @@ export const startReplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopReplicationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stop Replication.
  */
 export const stopReplication: API.OperationMethod<
   StopReplicationRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  StopReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopReplicationRequest,
@@ -4923,6 +5047,12 @@ export const stopReplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLaunchConfigurationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates multiple LaunchConfigurations by Source Server ID.
  *
@@ -4931,11 +5061,7 @@ export const stopReplication: API.OperationMethod<
 export const updateLaunchConfiguration: API.OperationMethod<
   UpdateLaunchConfigurationRequest,
   LaunchConfiguration,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  UpdateLaunchConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLaunchConfigurationRequest,
@@ -4947,18 +5073,20 @@ export const updateLaunchConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateReplicationConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you to update multiple ReplicationConfigurations by Source Server ID.
  */
 export const updateReplicationConfiguration: API.OperationMethod<
   UpdateReplicationConfigurationRequest,
   ReplicationConfiguration,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  UpdateReplicationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReplicationConfigurationRequest,
@@ -4971,6 +5099,12 @@ export const updateReplicationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSourceServerReplicationTypeError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
  *
@@ -4979,11 +5113,7 @@ export const updateReplicationConfiguration: API.OperationMethod<
 export const updateSourceServerReplicationType: API.OperationMethod<
   UpdateSourceServerReplicationTypeRequest,
   SourceServer,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  UpdateSourceServerReplicationTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSourceServerReplicationTypeRequest,
@@ -4995,16 +5125,18 @@ export const updateSourceServerReplicationType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartCutoverError =
+  | ConflictException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
  */
 export const startCutover: API.OperationMethod<
   StartCutoverRequest,
   StartCutoverResponse,
-  | ConflictException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  StartCutoverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCutoverRequest,
@@ -5015,16 +5147,18 @@ export const startCutover: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartTestError =
+  | ConflictException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
  */
 export const startTest: API.OperationMethod<
   StartTestRequest,
   StartTestResponse,
-  | ConflictException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  StartTestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTestRequest,
@@ -5035,16 +5169,18 @@ export const startTest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TerminateTargetInstancesError =
+  | ConflictException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
  */
 export const terminateTargetInstances: API.OperationMethod<
   TerminateTargetInstancesRequest,
   TerminateTargetInstancesResponse,
-  | ConflictException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  TerminateTargetInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateTargetInstancesRequest,
@@ -5055,16 +5191,18 @@ export const terminateTargetInstances: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteVcenterClientError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a given vCenter client by ID.
  */
 export const deleteVcenterClient: API.OperationMethod<
   DeleteVcenterClientRequest,
   DeleteVcenterClientResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  DeleteVcenterClientError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVcenterClientRequest,
@@ -5075,36 +5213,32 @@ export const deleteVcenterClient: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeVcenterClientsError =
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the installed vCenter clients.
  */
 export const describeVcenterClients: API.OperationMethod<
   DescribeVcenterClientsRequest,
   DescribeVcenterClientsResponse,
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | ValidationException
-  | CommonErrors,
+  DescribeVcenterClientsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeVcenterClientsRequest,
   ) => stream.Stream<
     DescribeVcenterClientsResponse,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
+    DescribeVcenterClientsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeVcenterClientsRequest,
   ) => stream.Stream<
     VcenterClient,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
+    DescribeVcenterClientsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5122,16 +5256,18 @@ export const describeVcenterClients: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateWaveError =
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Create wave.
  */
 export const createWave: API.OperationMethod<
   CreateWaveRequest,
   Wave,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  CreateWaveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWaveRequest,
@@ -5142,16 +5278,18 @@ export const createWave: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DeleteWaveError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Delete wave.
  */
 export const deleteWave: API.OperationMethod<
   DeleteWaveRequest,
   DeleteWaveResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DeleteWaveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWaveRequest,
@@ -5162,27 +5300,28 @@ export const deleteWave: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type ListWavesError = UninitializedAccountException | CommonErrors;
 /**
  * Retrieves all waves or multiple waves by ID.
  */
 export const listWaves: API.OperationMethod<
   ListWavesRequest,
   ListWavesResponse,
-  UninitializedAccountException | CommonErrors,
+  ListWavesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWavesRequest,
   ) => stream.Stream<
     ListWavesResponse,
-    UninitializedAccountException | CommonErrors,
+    ListWavesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWavesRequest,
   ) => stream.Stream<
     Wave,
-    UninitializedAccountException | CommonErrors,
+    ListWavesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5196,17 +5335,19 @@ export const listWaves: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ArchiveWaveError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Archive wave.
  */
 export const archiveWave: API.OperationMethod<
   ArchiveWaveRequest,
   Wave,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  ArchiveWaveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchiveWaveRequest,
@@ -5218,17 +5359,19 @@ export const archiveWave: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type AssociateApplicationsError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Associate applications to wave.
  */
 export const associateApplications: API.OperationMethod<
   AssociateApplicationsRequest,
   AssociateApplicationsResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  AssociateApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateApplicationsRequest,
@@ -5240,16 +5383,18 @@ export const associateApplications: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type DisassociateApplicationsError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Disassociate applications from wave.
  */
 export const disassociateApplications: API.OperationMethod<
   DisassociateApplicationsRequest,
   DisassociateApplicationsResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  DisassociateApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateApplicationsRequest,
@@ -5260,16 +5405,18 @@ export const disassociateApplications: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type UnarchiveWaveError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Unarchive wave.
  */
 export const unarchiveWave: API.OperationMethod<
   UnarchiveWaveRequest,
   Wave,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | UninitializedAccountException
-  | CommonErrors,
+  UnarchiveWaveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnarchiveWaveRequest,
@@ -5280,16 +5427,18 @@ export const unarchiveWave: API.OperationMethod<
     UninitializedAccountException,
   ],
 }));
+export type UpdateWaveError =
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | CommonErrors;
 /**
  * Update wave.
  */
 export const updateWave: API.OperationMethod<
   UpdateWaveRequest,
   Wave,
-  | ConflictException
-  | ResourceNotFoundException
-  | UninitializedAccountException
-  | CommonErrors,
+  UpdateWaveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWaveRequest,

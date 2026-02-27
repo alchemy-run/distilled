@@ -2626,12 +2626,7 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
-/**
- * Creates a media pipeline.
- */
-export const createMediaCapturePipeline: API.OperationMethod<
-  CreateMediaCapturePipelineRequest,
-  CreateMediaCapturePipelineResponse,
+export type CreateMediaCapturePipelineError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -2639,7 +2634,14 @@ export const createMediaCapturePipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a media pipeline.
+ */
+export const createMediaCapturePipeline: API.OperationMethod<
+  CreateMediaCapturePipelineRequest,
+  CreateMediaCapturePipelineResponse,
+  CreateMediaCapturePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaCapturePipelineRequest,
@@ -2654,12 +2656,7 @@ export const createMediaCapturePipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a media concatenation pipeline.
- */
-export const createMediaConcatenationPipeline: API.OperationMethod<
-  CreateMediaConcatenationPipelineRequest,
-  CreateMediaConcatenationPipelineResponse,
+export type CreateMediaConcatenationPipelineError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -2667,7 +2664,14 @@ export const createMediaConcatenationPipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a media concatenation pipeline.
+ */
+export const createMediaConcatenationPipeline: API.OperationMethod<
+  CreateMediaConcatenationPipelineRequest,
+  CreateMediaConcatenationPipelineResponse,
+  CreateMediaConcatenationPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaConcatenationPipelineRequest,
@@ -2682,12 +2686,7 @@ export const createMediaConcatenationPipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a media insights pipeline.
- */
-export const createMediaInsightsPipeline: API.OperationMethod<
-  CreateMediaInsightsPipelineRequest,
-  CreateMediaInsightsPipelineResponse,
+export type CreateMediaInsightsPipelineError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -2696,7 +2695,14 @@ export const createMediaInsightsPipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a media insights pipeline.
+ */
+export const createMediaInsightsPipeline: API.OperationMethod<
+  CreateMediaInsightsPipelineRequest,
+  CreateMediaInsightsPipelineResponse,
+  CreateMediaInsightsPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaInsightsPipelineRequest,
@@ -2712,13 +2718,7 @@ export const createMediaInsightsPipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * A structure that contains the static configurations for a media insights
- * pipeline.
- */
-export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
-  CreateMediaInsightsPipelineConfigurationRequest,
-  CreateMediaInsightsPipelineConfigurationResponse,
+export type CreateMediaInsightsPipelineConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -2727,7 +2727,15 @@ export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * A structure that contains the static configurations for a media insights
+ * pipeline.
+ */
+export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
+  CreateMediaInsightsPipelineConfigurationRequest,
+  CreateMediaInsightsPipelineConfigurationResponse,
+  CreateMediaInsightsPipelineConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaInsightsPipelineConfigurationRequest,
@@ -2743,12 +2751,7 @@ export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a media live connector pipeline in an Amazon Chime SDK meeting.
- */
-export const createMediaLiveConnectorPipeline: API.OperationMethod<
-  CreateMediaLiveConnectorPipelineRequest,
-  CreateMediaLiveConnectorPipelineResponse,
+export type CreateMediaLiveConnectorPipelineError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -2756,7 +2759,14 @@ export const createMediaLiveConnectorPipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a media live connector pipeline in an Amazon Chime SDK meeting.
+ */
+export const createMediaLiveConnectorPipeline: API.OperationMethod<
+  CreateMediaLiveConnectorPipelineRequest,
+  CreateMediaLiveConnectorPipelineResponse,
+  CreateMediaLiveConnectorPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaLiveConnectorPipelineRequest,
@@ -2771,6 +2781,16 @@ export const createMediaLiveConnectorPipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type CreateMediaPipelineKinesisVideoStreamPoolError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Creates an Amazon Kinesis Video Stream pool for use with media stream
  * pipelines.
@@ -2793,15 +2813,7 @@ export const createMediaLiveConnectorPipeline: API.OperationMethod<
 export const createMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   CreateMediaPipelineKinesisVideoStreamPoolRequest,
   CreateMediaPipelineKinesisVideoStreamPoolResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateMediaPipelineKinesisVideoStreamPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaPipelineKinesisVideoStreamPoolRequest,
@@ -2817,12 +2829,7 @@ export const createMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a streaming media pipeline.
- */
-export const createMediaStreamPipeline: API.OperationMethod<
-  CreateMediaStreamPipelineRequest,
-  CreateMediaStreamPipelineResponse,
+export type CreateMediaStreamPipelineError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -2831,7 +2838,14 @@ export const createMediaStreamPipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a streaming media pipeline.
+ */
+export const createMediaStreamPipeline: API.OperationMethod<
+  CreateMediaStreamPipelineRequest,
+  CreateMediaStreamPipelineResponse,
+  CreateMediaStreamPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMediaStreamPipelineRequest,
@@ -2847,12 +2861,7 @@ export const createMediaStreamPipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the media pipeline.
- */
-export const deleteMediaCapturePipeline: API.OperationMethod<
-  DeleteMediaCapturePipelineRequest,
-  DeleteMediaCapturePipelineResponse,
+export type DeleteMediaCapturePipelineError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -2860,7 +2869,14 @@ export const deleteMediaCapturePipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the media pipeline.
+ */
+export const deleteMediaCapturePipeline: API.OperationMethod<
+  DeleteMediaCapturePipelineRequest,
+  DeleteMediaCapturePipelineResponse,
+  DeleteMediaCapturePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMediaCapturePipelineRequest,
@@ -2875,12 +2891,7 @@ export const deleteMediaCapturePipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the specified configuration settings.
- */
-export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
-  DeleteMediaInsightsPipelineConfigurationRequest,
-  DeleteMediaInsightsPipelineConfigurationResponse,
+export type DeleteMediaInsightsPipelineConfigurationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2889,7 +2900,14 @@ export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified configuration settings.
+ */
+export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
+  DeleteMediaInsightsPipelineConfigurationRequest,
+  DeleteMediaInsightsPipelineConfigurationResponse,
+  DeleteMediaInsightsPipelineConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMediaInsightsPipelineConfigurationRequest,
@@ -2905,12 +2923,7 @@ export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the media pipeline.
- */
-export const deleteMediaPipeline: API.OperationMethod<
-  DeleteMediaPipelineRequest,
-  DeleteMediaPipelineResponse,
+export type DeleteMediaPipelineError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2919,7 +2932,14 @@ export const deleteMediaPipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the media pipeline.
+ */
+export const deleteMediaPipeline: API.OperationMethod<
+  DeleteMediaPipelineRequest,
+  DeleteMediaPipelineResponse,
+  DeleteMediaPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMediaPipelineRequest,
@@ -2935,12 +2955,7 @@ export const deleteMediaPipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes an Amazon Kinesis Video Stream pool.
- */
-export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  DeleteMediaPipelineKinesisVideoStreamPoolRequest,
-  DeleteMediaPipelineKinesisVideoStreamPoolResponse,
+export type DeleteMediaPipelineKinesisVideoStreamPoolError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2949,7 +2964,14 @@ export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Kinesis Video Stream pool.
+ */
+export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  DeleteMediaPipelineKinesisVideoStreamPoolRequest,
+  DeleteMediaPipelineKinesisVideoStreamPoolResponse,
+  DeleteMediaPipelineKinesisVideoStreamPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMediaPipelineKinesisVideoStreamPoolRequest,
@@ -2965,12 +2987,7 @@ export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Gets an existing media pipeline.
- */
-export const getMediaCapturePipeline: API.OperationMethod<
-  GetMediaCapturePipelineRequest,
-  GetMediaCapturePipelineResponse,
+export type GetMediaCapturePipelineError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -2978,7 +2995,14 @@ export const getMediaCapturePipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets an existing media pipeline.
+ */
+export const getMediaCapturePipeline: API.OperationMethod<
+  GetMediaCapturePipelineRequest,
+  GetMediaCapturePipelineResponse,
+  GetMediaCapturePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaCapturePipelineRequest,
@@ -2993,12 +3017,7 @@ export const getMediaCapturePipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Gets the configuration settings for a media insights pipeline.
- */
-export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
-  GetMediaInsightsPipelineConfigurationRequest,
-  GetMediaInsightsPipelineConfigurationResponse,
+export type GetMediaInsightsPipelineConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3006,7 +3025,14 @@ export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the configuration settings for a media insights pipeline.
+ */
+export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
+  GetMediaInsightsPipelineConfigurationRequest,
+  GetMediaInsightsPipelineConfigurationResponse,
+  GetMediaInsightsPipelineConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaInsightsPipelineConfigurationRequest,
@@ -3021,12 +3047,7 @@ export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Gets an existing media pipeline.
- */
-export const getMediaPipeline: API.OperationMethod<
-  GetMediaPipelineRequest,
-  GetMediaPipelineResponse,
+export type GetMediaPipelineError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3034,7 +3055,14 @@ export const getMediaPipeline: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets an existing media pipeline.
+ */
+export const getMediaPipeline: API.OperationMethod<
+  GetMediaPipelineRequest,
+  GetMediaPipelineResponse,
+  GetMediaPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaPipelineRequest,
@@ -3049,12 +3077,7 @@ export const getMediaPipeline: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Gets an Kinesis video stream pool.
- */
-export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  GetMediaPipelineKinesisVideoStreamPoolRequest,
-  GetMediaPipelineKinesisVideoStreamPoolResponse,
+export type GetMediaPipelineKinesisVideoStreamPoolError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3062,7 +3085,14 @@ export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets an Kinesis video stream pool.
+ */
+export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  GetMediaPipelineKinesisVideoStreamPoolRequest,
+  GetMediaPipelineKinesisVideoStreamPoolResponse,
+  GetMediaPipelineKinesisVideoStreamPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaPipelineKinesisVideoStreamPoolRequest,
@@ -3077,12 +3107,7 @@ export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of the specified speaker search task.
- */
-export const getSpeakerSearchTask: API.OperationMethod<
-  GetSpeakerSearchTaskRequest,
-  GetSpeakerSearchTaskResponse,
+export type GetSpeakerSearchTaskError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3090,7 +3115,14 @@ export const getSpeakerSearchTask: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of the specified speaker search task.
+ */
+export const getSpeakerSearchTask: API.OperationMethod<
+  GetSpeakerSearchTaskRequest,
+  GetSpeakerSearchTaskResponse,
+  GetSpeakerSearchTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpeakerSearchTaskRequest,
@@ -3105,12 +3137,7 @@ export const getSpeakerSearchTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of a voice tone analysis task.
- */
-export const getVoiceToneAnalysisTask: API.OperationMethod<
-  GetVoiceToneAnalysisTaskRequest,
-  GetVoiceToneAnalysisTaskResponse,
+export type GetVoiceToneAnalysisTaskError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3118,7 +3145,14 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of a voice tone analysis task.
+ */
+export const getVoiceToneAnalysisTask: API.OperationMethod<
+  GetVoiceToneAnalysisTaskRequest,
+  GetVoiceToneAnalysisTaskResponse,
+  GetVoiceToneAnalysisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceToneAnalysisTaskRequest,
@@ -3133,12 +3167,7 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns a list of media pipelines.
- */
-export const listMediaCapturePipelines: API.OperationMethod<
-  ListMediaCapturePipelinesRequest,
-  ListMediaCapturePipelinesResponse,
+export type ListMediaCapturePipelinesError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -3146,35 +3175,28 @@ export const listMediaCapturePipelines: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of media pipelines.
+ */
+export const listMediaCapturePipelines: API.OperationMethod<
+  ListMediaCapturePipelinesRequest,
+  ListMediaCapturePipelinesResponse,
+  ListMediaCapturePipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMediaCapturePipelinesRequest,
   ) => stream.Stream<
     ListMediaCapturePipelinesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaCapturePipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMediaCapturePipelinesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaCapturePipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3195,12 +3217,7 @@ export const listMediaCapturePipelines: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the available media insights pipeline configurations.
- */
-export const listMediaInsightsPipelineConfigurations: API.OperationMethod<
-  ListMediaInsightsPipelineConfigurationsRequest,
-  ListMediaInsightsPipelineConfigurationsResponse,
+export type ListMediaInsightsPipelineConfigurationsError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -3208,35 +3225,28 @@ export const listMediaInsightsPipelineConfigurations: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the available media insights pipeline configurations.
+ */
+export const listMediaInsightsPipelineConfigurations: API.OperationMethod<
+  ListMediaInsightsPipelineConfigurationsRequest,
+  ListMediaInsightsPipelineConfigurationsResponse,
+  ListMediaInsightsPipelineConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMediaInsightsPipelineConfigurationsRequest,
   ) => stream.Stream<
     ListMediaInsightsPipelineConfigurationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaInsightsPipelineConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMediaInsightsPipelineConfigurationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaInsightsPipelineConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3257,12 +3267,7 @@ export const listMediaInsightsPipelineConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the video stream pools in the media pipeline.
- */
-export const listMediaPipelineKinesisVideoStreamPools: API.OperationMethod<
-  ListMediaPipelineKinesisVideoStreamPoolsRequest,
-  ListMediaPipelineKinesisVideoStreamPoolsResponse,
+export type ListMediaPipelineKinesisVideoStreamPoolsError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -3270,35 +3275,28 @@ export const listMediaPipelineKinesisVideoStreamPools: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the video stream pools in the media pipeline.
+ */
+export const listMediaPipelineKinesisVideoStreamPools: API.OperationMethod<
+  ListMediaPipelineKinesisVideoStreamPoolsRequest,
+  ListMediaPipelineKinesisVideoStreamPoolsResponse,
+  ListMediaPipelineKinesisVideoStreamPoolsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
   ) => stream.Stream<
     ListMediaPipelineKinesisVideoStreamPoolsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaPipelineKinesisVideoStreamPoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaPipelineKinesisVideoStreamPoolsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3319,12 +3317,7 @@ export const listMediaPipelineKinesisVideoStreamPools: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a list of media pipelines.
- */
-export const listMediaPipelines: API.OperationMethod<
-  ListMediaPipelinesRequest,
-  ListMediaPipelinesResponse,
+export type ListMediaPipelinesError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -3332,35 +3325,28 @@ export const listMediaPipelines: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of media pipelines.
+ */
+export const listMediaPipelines: API.OperationMethod<
+  ListMediaPipelinesRequest,
+  ListMediaPipelinesResponse,
+  ListMediaPipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMediaPipelinesRequest,
   ) => stream.Stream<
     ListMediaPipelinesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMediaPipelinesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListMediaPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3381,12 +3367,7 @@ export const listMediaPipelines: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the tags available for a media pipeline.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3394,7 +3375,14 @@ export const listTagsForResource: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags available for a media pipeline.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3409,6 +3397,16 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type StartSpeakerSearchTaskError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Starts a speaker search task.
  *
@@ -3418,15 +3416,7 @@ export const listTagsForResource: API.OperationMethod<
 export const startSpeakerSearchTask: API.OperationMethod<
   StartSpeakerSearchTaskRequest,
   StartSpeakerSearchTaskResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  StartSpeakerSearchTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSpeakerSearchTaskRequest,
@@ -3442,6 +3432,16 @@ export const startSpeakerSearchTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type StartVoiceToneAnalysisTaskError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Starts a voice tone analysis task. For more information about voice tone analysis, see
  * Using Amazon Chime SDK voice analytics
@@ -3453,15 +3453,7 @@ export const startSpeakerSearchTask: API.OperationMethod<
 export const startVoiceToneAnalysisTask: API.OperationMethod<
   StartVoiceToneAnalysisTaskRequest,
   StartVoiceToneAnalysisTaskResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  StartVoiceToneAnalysisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartVoiceToneAnalysisTaskRequest,
@@ -3477,12 +3469,7 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Stops a speaker search task.
- */
-export const stopSpeakerSearchTask: API.OperationMethod<
-  StopSpeakerSearchTaskRequest,
-  StopSpeakerSearchTaskResponse,
+export type StopSpeakerSearchTaskError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3491,7 +3478,14 @@ export const stopSpeakerSearchTask: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a speaker search task.
+ */
+export const stopSpeakerSearchTask: API.OperationMethod<
+  StopSpeakerSearchTaskRequest,
+  StopSpeakerSearchTaskResponse,
+  StopSpeakerSearchTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSpeakerSearchTaskRequest,
@@ -3507,12 +3501,7 @@ export const stopSpeakerSearchTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Stops a voice tone analysis task.
- */
-export const stopVoiceToneAnalysisTask: API.OperationMethod<
-  StopVoiceToneAnalysisTaskRequest,
-  StopVoiceToneAnalysisTaskResponse,
+export type StopVoiceToneAnalysisTaskError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3521,7 +3510,14 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a voice tone analysis task.
+ */
+export const stopVoiceToneAnalysisTask: API.OperationMethod<
+  StopVoiceToneAnalysisTaskRequest,
+  StopVoiceToneAnalysisTaskResponse,
+  StopVoiceToneAnalysisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopVoiceToneAnalysisTaskRequest,
@@ -3537,12 +3533,7 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3550,7 +3541,14 @@ export const tagResource: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3565,12 +3563,7 @@ export const tagResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Removes any tags from a media pipeline.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -3578,7 +3571,14 @@ export const untagResource: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes any tags from a media pipeline.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3593,12 +3593,7 @@ export const untagResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the media insights pipeline's configuration settings.
- */
-export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
-  UpdateMediaInsightsPipelineConfigurationRequest,
-  UpdateMediaInsightsPipelineConfigurationResponse,
+export type UpdateMediaInsightsPipelineConfigurationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3607,7 +3602,14 @@ export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the media insights pipeline's configuration settings.
+ */
+export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
+  UpdateMediaInsightsPipelineConfigurationRequest,
+  UpdateMediaInsightsPipelineConfigurationResponse,
+  UpdateMediaInsightsPipelineConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMediaInsightsPipelineConfigurationRequest,
@@ -3623,12 +3625,7 @@ export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the status of a media insights pipeline.
- */
-export const updateMediaInsightsPipelineStatus: API.OperationMethod<
-  UpdateMediaInsightsPipelineStatusRequest,
-  UpdateMediaInsightsPipelineStatusResponse,
+export type UpdateMediaInsightsPipelineStatusError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3637,7 +3634,14 @@ export const updateMediaInsightsPipelineStatus: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the status of a media insights pipeline.
+ */
+export const updateMediaInsightsPipelineStatus: API.OperationMethod<
+  UpdateMediaInsightsPipelineStatusRequest,
+  UpdateMediaInsightsPipelineStatusResponse,
+  UpdateMediaInsightsPipelineStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMediaInsightsPipelineStatusRequest,
@@ -3653,12 +3657,7 @@ export const updateMediaInsightsPipelineStatus: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates an Amazon Kinesis Video Stream pool in a media pipeline.
- */
-export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
-  UpdateMediaPipelineKinesisVideoStreamPoolRequest,
-  UpdateMediaPipelineKinesisVideoStreamPoolResponse,
+export type UpdateMediaPipelineKinesisVideoStreamPoolError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -3667,7 +3666,14 @@ export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an Amazon Kinesis Video Stream pool in a media pipeline.
+ */
+export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  UpdateMediaPipelineKinesisVideoStreamPoolRequest,
+  UpdateMediaPipelineKinesisVideoStreamPoolResponse,
+  UpdateMediaPipelineKinesisVideoStreamPoolError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMediaPipelineKinesisVideoStreamPoolRequest,

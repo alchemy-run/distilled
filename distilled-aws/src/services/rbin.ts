@@ -634,6 +634,11 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateRuleError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Recycle Bin retention rule. You can create two types of retention rules:
  *
@@ -655,10 +660,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
@@ -669,6 +671,12 @@ export const createRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRuleError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a Recycle Bin retention rule. For more information, see
  * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
@@ -676,11 +684,7 @@ export const createRule: API.OperationMethod<
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
@@ -692,16 +696,18 @@ export const deleteRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRuleError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a Recycle Bin retention rule.
  */
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleRequest,
@@ -712,27 +718,31 @@ export const getRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRulesError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Recycle Bin retention rules in the Region.
  */
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRulesRequest,
   ) => stream.Stream<
     ListRulesResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesRequest,
   ) => stream.Stream<
     RuleSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -746,16 +756,18 @@ export const listRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags assigned to a retention rule.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -766,6 +778,12 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type LockRuleError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Locks a Region-level retention rule. A locked retention rule can't be modified or
  * deleted.
@@ -776,11 +794,7 @@ export const listTagsForResource: API.OperationMethod<
 export const lockRule: API.OperationMethod<
   LockRuleRequest,
   LockRuleResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  LockRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LockRuleRequest,
@@ -792,17 +806,19 @@ export const lockRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns tags to the specified retention rule.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -814,6 +830,12 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UnlockRuleError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted
  * only after the unlock delay period expires.
@@ -821,11 +843,7 @@ export const tagResource: API.OperationMethod<
 export const unlockRule: API.OperationMethod<
   UnlockRuleRequest,
   UnlockRuleResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UnlockRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlockRuleRequest,
@@ -837,16 +855,18 @@ export const unlockRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Unassigns a tag from a retention rule.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -857,6 +877,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateRuleError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing Recycle Bin retention rule. You can update a retention rule's description,
  * resource tags, and retention period at any time after creation. You can't update a retention rule's
@@ -866,12 +893,7 @@ export const untagResource: API.OperationMethod<
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,

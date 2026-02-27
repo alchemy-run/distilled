@@ -1941,6 +1941,13 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateBrokerError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Creates a broker. Note: This API is asynchronous.
  *
@@ -1979,12 +1986,7 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 export const createBroker: API.OperationMethod<
   CreateBrokerRequest,
   CreateBrokerResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | UnauthorizedException
-  | CommonErrors,
+  CreateBrokerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBrokerRequest,
@@ -1997,17 +1999,19 @@ export const createBroker: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
  */
 export const createConfiguration: API.OperationMethod<
   CreateConfigurationRequest,
   CreateConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | CommonErrors,
+  CreateConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationRequest,
@@ -2019,17 +2023,19 @@ export const createConfiguration: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type CreateTagsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Add a tag to a resource.
  */
 export const createTags: API.OperationMethod<
   CreateTagsRequest,
   CreateTagsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  CreateTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
@@ -2041,6 +2047,13 @@ export const createTags: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type CreateUserError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Creates an ActiveMQ user.
  *
@@ -2049,12 +2062,7 @@ export const createTags: API.OperationMethod<
 export const createUser: API.OperationMethod<
   CreateUserRequest,
   CreateUserResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  CreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -2067,17 +2075,19 @@ export const createUser: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteBrokerError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes a broker. Note: This API is asynchronous.
  */
 export const deleteBroker: API.OperationMethod<
   DeleteBrokerRequest,
   DeleteBrokerResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DeleteBrokerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBrokerRequest,
@@ -2089,18 +2099,20 @@ export const deleteBroker: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified configuration.
  */
 export const deleteConfiguration: API.OperationMethod<
   DeleteConfigurationRequest,
   DeleteConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DeleteConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationRequest,
@@ -2113,17 +2125,19 @@ export const deleteConfiguration: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteTagsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes a tag from a resource.
  */
 export const deleteTags: API.OperationMethod<
   DeleteTagsRequest,
   DeleteTagsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DeleteTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
@@ -2135,17 +2149,19 @@ export const deleteTags: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteUserError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes an ActiveMQ user.
  */
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -2157,17 +2173,19 @@ export const deleteUser: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DescribeBrokerError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about the specified broker.
  */
 export const describeBroker: API.OperationMethod<
   DescribeBrokerRequest,
   DescribeBrokerResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DescribeBrokerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBrokerRequest,
@@ -2179,16 +2197,18 @@ export const describeBroker: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DescribeBrokerEngineTypesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Describe available engine types and versions.
  */
 export const describeBrokerEngineTypes: API.OperationMethod<
   DescribeBrokerEngineTypesRequest,
   DescribeBrokerEngineTypesResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | CommonErrors,
+  DescribeBrokerEngineTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBrokerEngineTypesRequest,
@@ -2199,16 +2219,18 @@ export const describeBrokerEngineTypes: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type DescribeBrokerInstanceOptionsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Describe available broker instance options.
  */
 export const describeBrokerInstanceOptions: API.OperationMethod<
   DescribeBrokerInstanceOptionsRequest,
   DescribeBrokerInstanceOptionsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | CommonErrors,
+  DescribeBrokerInstanceOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBrokerInstanceOptionsRequest,
@@ -2219,17 +2241,19 @@ export const describeBrokerInstanceOptions: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type DescribeConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about the specified configuration.
  */
 export const describeConfiguration: API.OperationMethod<
   DescribeConfigurationRequest,
   DescribeConfigurationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DescribeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConfigurationRequest,
@@ -2241,17 +2265,19 @@ export const describeConfiguration: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DescribeConfigurationRevisionError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns the specified configuration revision for the specified configuration.
  */
 export const describeConfigurationRevision: API.OperationMethod<
   DescribeConfigurationRevisionRequest,
   DescribeConfigurationRevisionResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DescribeConfigurationRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConfigurationRevisionRequest,
@@ -2263,17 +2289,19 @@ export const describeConfigurationRevision: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DescribeUserError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about an ActiveMQ user.
  */
 export const describeUser: API.OperationMethod<
   DescribeUserRequest,
   DescribeUserResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DescribeUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
@@ -2285,36 +2313,32 @@ export const describeUser: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type ListBrokersError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns a list of all brokers.
  */
 export const listBrokers: API.OperationMethod<
   ListBrokersRequest,
   ListBrokersResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | CommonErrors,
+  ListBrokersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBrokersRequest,
   ) => stream.Stream<
     ListBrokersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | CommonErrors,
+    ListBrokersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBrokersRequest,
   ) => stream.Stream<
     BrokerSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | CommonErrors,
+    ListBrokersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2332,17 +2356,19 @@ export const listBrokers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListConfigurationRevisionsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns a list of all revisions for the specified configuration.
  */
 export const listConfigurationRevisions: API.OperationMethod<
   ListConfigurationRevisionsRequest,
   ListConfigurationRevisionsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListConfigurationRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConfigurationRevisionsRequest,
@@ -2354,16 +2380,18 @@ export const listConfigurationRevisions: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type ListConfigurationsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | CommonErrors;
 /**
  * Returns a list of all configurations.
  */
 export const listConfigurations: API.OperationMethod<
   ListConfigurationsRequest,
   ListConfigurationsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | CommonErrors,
+  ListConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConfigurationsRequest,
@@ -2374,17 +2402,19 @@ export const listConfigurations: API.OperationMethod<
     InternalServerErrorException,
   ],
 }));
+export type ListTagsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Lists tags for a resource.
  */
 export const listTags: API.OperationMethod<
   ListTagsRequest,
   ListTagsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
@@ -2396,17 +2426,19 @@ export const listTags: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type ListUsersError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns a list of all ActiveMQ users.
  */
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUsersRequest,
@@ -2418,17 +2450,19 @@ export const listUsers: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type PromoteError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Promotes a data replication replica broker to the primary broker role.
  */
 export const promote: API.OperationMethod<
   PromoteRequest,
   PromoteResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  PromoteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromoteRequest,
@@ -2440,17 +2474,19 @@ export const promote: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type RebootBrokerError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Reboots a broker. Note: This API is asynchronous.
  */
 export const rebootBroker: API.OperationMethod<
   RebootBrokerRequest,
   RebootBrokerResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  RebootBrokerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootBrokerRequest,
@@ -2462,18 +2498,20 @@ export const rebootBroker: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateBrokerError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Adds a pending configuration change to a broker.
  */
 export const updateBroker: API.OperationMethod<
   UpdateBrokerRequest,
   UpdateBrokerResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UpdateBrokerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrokerRequest,
@@ -2486,18 +2524,20 @@ export const updateBroker: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateConfigurationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Updates the specified configuration.
  */
 export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationRequest,
   UpdateConfigurationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UpdateConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationRequest,
@@ -2510,18 +2550,20 @@ export const updateConfiguration: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateUserError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Updates the information for an ActiveMQ user.
  */
 export const updateUser: API.OperationMethod<
   UpdateUserRequest,
   UpdateUserResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UpdateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,

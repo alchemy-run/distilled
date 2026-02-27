@@ -1216,6 +1216,14 @@ export class CommonServiceException extends S.TaggedErrorClass<CommonServiceExce
 ) {}
 
 //# Operations
+export type AddPermissionError =
+  | InvalidAddress
+  | InvalidSecurity
+  | OverLimit
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Adds a permission to a queue for a specific principal. This allows sharing
  * access to the queue.
@@ -1246,13 +1254,7 @@ export class CommonServiceException extends S.TaggedErrorClass<CommonServiceExce
 export const addPermission: API.OperationMethod<
   AddPermissionRequest,
   AddPermissionResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | OverLimit
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  AddPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPermissionRequest,
@@ -1266,6 +1268,15 @@ export const addPermission: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type CancelMessageMoveTaskError =
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | ResourceNotFoundException
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Cancels a specified message movement task. A message movement can only be cancelled
  * when the current status is RUNNING. Cancelling a message movement task does not revert
@@ -1283,14 +1294,7 @@ export const addPermission: API.OperationMethod<
 export const cancelMessageMoveTask: API.OperationMethod<
   CancelMessageMoveTaskRequest,
   CancelMessageMoveTaskResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | RequestThrottled
-  | ResourceNotFoundException
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | InvalidParameterValueException
-  | CommonErrors,
+  CancelMessageMoveTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMessageMoveTaskRequest,
@@ -1305,6 +1309,15 @@ export const cancelMessageMoveTask: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type ChangeMessageVisibilityError =
+  | InvalidAddress
+  | InvalidSecurity
+  | MessageNotInflight
+  | QueueDoesNotExist
+  | ReceiptHandleIsInvalid
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Changes the visibility timeout of a specified message in a queue to a new value. The
  * default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The
@@ -1353,14 +1366,7 @@ export const cancelMessageMoveTask: API.OperationMethod<
 export const changeMessageVisibility: API.OperationMethod<
   ChangeMessageVisibilityRequest,
   ChangeMessageVisibilityResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | MessageNotInflight
-  | QueueDoesNotExist
-  | ReceiptHandleIsInvalid
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  ChangeMessageVisibilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeMessageVisibilityRequest,
@@ -1375,6 +1381,17 @@ export const changeMessageVisibility: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type ChangeMessageVisibilityBatchError =
+  | BatchEntryIdsNotDistinct
+  | EmptyBatchRequest
+  | InvalidAddress
+  | InvalidBatchEntryId
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | TooManyEntriesInBatchRequest
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Changes the visibility timeout of multiple messages. This is a batch version of
  *
@@ -1390,16 +1407,7 @@ export const changeMessageVisibility: API.OperationMethod<
 export const changeMessageVisibilityBatch: API.OperationMethod<
   ChangeMessageVisibilityBatchRequest,
   ChangeMessageVisibilityBatchResult,
-  | BatchEntryIdsNotDistinct
-  | EmptyBatchRequest
-  | InvalidAddress
-  | InvalidBatchEntryId
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | TooManyEntriesInBatchRequest
-  | UnsupportedOperation
-  | CommonErrors,
+  ChangeMessageVisibilityBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeMessageVisibilityBatchRequest,
@@ -1416,6 +1424,18 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type CreateQueueError =
+  | InvalidAddress
+  | InvalidAttributeName
+  | InvalidAttributeValue
+  | InvalidSecurity
+  | QueueDeletedRecently
+  | QueueNameExists
+  | RequestThrottled
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Creates a new standard or FIFO queue. You can pass one or more attributes in
  * the request. Keep the following in mind:
@@ -1467,17 +1487,7 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
 export const createQueue: API.OperationMethod<
   CreateQueueRequest,
   CreateQueueResult,
-  | InvalidAddress
-  | InvalidAttributeName
-  | InvalidAttributeValue
-  | InvalidSecurity
-  | QueueDeletedRecently
-  | QueueNameExists
-  | RequestThrottled
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | InvalidParameterValueException
-  | CommonErrors,
+  CreateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
@@ -1495,6 +1505,15 @@ export const createQueue: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type DeleteMessageError =
+  | InvalidAddress
+  | InvalidIdFormat
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | ReceiptHandleIsInvalid
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Deletes the specified message from the specified queue. To select the message to
  * delete, use the `ReceiptHandle` of the message (*not* the
@@ -1521,14 +1540,7 @@ export const createQueue: API.OperationMethod<
 export const deleteMessage: API.OperationMethod<
   DeleteMessageRequest,
   DeleteMessageResponse,
-  | InvalidAddress
-  | InvalidIdFormat
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | ReceiptHandleIsInvalid
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  DeleteMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageRequest,
@@ -1543,6 +1555,17 @@ export const deleteMessage: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type DeleteMessageBatchError =
+  | BatchEntryIdsNotDistinct
+  | EmptyBatchRequest
+  | InvalidAddress
+  | InvalidBatchEntryId
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | TooManyEntriesInBatchRequest
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Deletes up to ten messages from the specified queue. This is a batch version of
  *
@@ -1554,16 +1577,7 @@ export const deleteMessage: API.OperationMethod<
 export const deleteMessageBatch: API.OperationMethod<
   DeleteMessageBatchRequest,
   DeleteMessageBatchResult,
-  | BatchEntryIdsNotDistinct
-  | EmptyBatchRequest
-  | InvalidAddress
-  | InvalidBatchEntryId
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | TooManyEntriesInBatchRequest
-  | UnsupportedOperation
-  | CommonErrors,
+  DeleteMessageBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageBatchRequest,
@@ -1580,6 +1594,13 @@ export const deleteMessageBatch: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type DeleteQueueError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Deletes the queue specified by the `QueueUrl`, regardless of the queue's
  * contents.
@@ -1606,12 +1627,7 @@ export const deleteMessageBatch: API.OperationMethod<
 export const deleteQueue: API.OperationMethod<
   DeleteQueueRequest,
   DeleteQueueResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  DeleteQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
@@ -1624,6 +1640,14 @@ export const deleteQueue: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type GetQueueAttributesError =
+  | InvalidAddress
+  | InvalidAttributeName
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Gets attributes for the specified queue.
  *
@@ -1632,13 +1656,7 @@ export const deleteQueue: API.OperationMethod<
 export const getQueueAttributes: API.OperationMethod<
   GetQueueAttributesRequest,
   GetQueueAttributesResult,
-  | InvalidAddress
-  | InvalidAttributeName
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  GetQueueAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueAttributesRequest,
@@ -1652,6 +1670,13 @@ export const getQueueAttributes: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type GetQueueUrlError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * The `GetQueueUrl` API returns the URL of an existing Amazon SQS queue. This is
  * useful when you know the queue's name but need to retrieve its URL for further
@@ -1669,12 +1694,7 @@ export const getQueueAttributes: API.OperationMethod<
 export const getQueueUrl: API.OperationMethod<
   GetQueueUrlRequest,
   GetQueueUrlResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  GetQueueUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueUrlRequest,
@@ -1687,6 +1707,13 @@ export const getQueueUrl: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type ListDeadLetterSourceQueuesError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Returns a list of your queues that have the `RedrivePolicy` queue attribute
  * configured with a dead-letter queue.
@@ -1705,36 +1732,21 @@ export const getQueueUrl: API.OperationMethod<
 export const listDeadLetterSourceQueues: API.OperationMethod<
   ListDeadLetterSourceQueuesRequest,
   ListDeadLetterSourceQueuesResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  ListDeadLetterSourceQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeadLetterSourceQueuesRequest,
   ) => stream.Stream<
     ListDeadLetterSourceQueuesResult,
-    | InvalidAddress
-    | InvalidSecurity
-    | QueueDoesNotExist
-    | RequestThrottled
-    | UnsupportedOperation
-    | CommonErrors,
+    ListDeadLetterSourceQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeadLetterSourceQueuesRequest,
   ) => stream.Stream<
     string,
-    | InvalidAddress
-    | InvalidSecurity
-    | QueueDoesNotExist
-    | RequestThrottled
-    | UnsupportedOperation
-    | CommonErrors,
+    ListDeadLetterSourceQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1754,6 +1766,15 @@ export const listDeadLetterSourceQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMessageMoveTasksError =
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | ResourceNotFoundException
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Gets the most recent message movement tasks (up to 10) under a specific source
  * queue.
@@ -1769,14 +1790,7 @@ export const listDeadLetterSourceQueues: API.OperationMethod<
 export const listMessageMoveTasks: API.OperationMethod<
   ListMessageMoveTasksRequest,
   ListMessageMoveTasksResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | RequestThrottled
-  | ResourceNotFoundException
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | InvalidParameterValueException
-  | CommonErrors,
+  ListMessageMoveTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMessageMoveTasksRequest,
@@ -1791,6 +1805,12 @@ export const listMessageMoveTasks: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type ListQueuesError =
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Returns a list of your queues in the current region. The response includes a maximum
  * of 1,000 results. If you specify a value for the optional `QueueNamePrefix`
@@ -1812,33 +1832,21 @@ export const listMessageMoveTasks: API.OperationMethod<
 export const listQueues: API.OperationMethod<
   ListQueuesRequest,
   ListQueuesResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  ListQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     ListQueuesResult,
-    | InvalidAddress
-    | InvalidSecurity
-    | RequestThrottled
-    | UnsupportedOperation
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     string,
-    | InvalidAddress
-    | InvalidSecurity
-    | RequestThrottled
-    | UnsupportedOperation
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1857,6 +1865,13 @@ export const listQueues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListQueueTagsError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * List all cost allocation tags added to the specified Amazon SQS queue.
  * For an overview, see Tagging
@@ -1869,12 +1884,7 @@ export const listQueues: API.OperationMethod<
 export const listQueueTags: API.OperationMethod<
   ListQueueTagsRequest,
   ListQueueTagsResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  ListQueueTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQueueTagsRequest,
@@ -1887,6 +1897,14 @@ export const listQueueTags: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type PurgeQueueError =
+  | InvalidAddress
+  | InvalidSecurity
+  | PurgeQueueInProgress
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Deletes available messages in a queue (including in-flight messages) specified by the
  * `QueueURL` parameter.
@@ -1907,13 +1925,7 @@ export const listQueueTags: API.OperationMethod<
 export const purgeQueue: API.OperationMethod<
   PurgeQueueRequest,
   PurgeQueueResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | PurgeQueueInProgress
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  PurgeQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeQueueRequest,
@@ -1927,6 +1939,23 @@ export const purgeQueue: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type ReceiveMessageError =
+  | InvalidAddress
+  | InvalidSecurity
+  | KmsAccessDenied
+  | KmsDisabled
+  | KmsInvalidKeyUsage
+  | KmsInvalidState
+  | KmsNotFound
+  | KmsOptInRequired
+  | KmsThrottled
+  | OverLimit
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Retrieves one or more messages (up to 10), from the specified queue. Using the
  * `WaitTimeSeconds` parameter enables long-poll support. For more
@@ -1970,22 +1999,7 @@ export const purgeQueue: API.OperationMethod<
 export const receiveMessage: API.OperationMethod<
   ReceiveMessageRequest,
   ReceiveMessageResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | KmsAccessDenied
-  | KmsDisabled
-  | KmsInvalidKeyUsage
-  | KmsInvalidState
-  | KmsNotFound
-  | KmsOptInRequired
-  | KmsThrottled
-  | OverLimit
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | InvalidParameterValueException
-  | CommonErrors,
+  ReceiveMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReceiveMessageRequest,
@@ -2008,6 +2022,13 @@ export const receiveMessage: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type RemovePermissionError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Revokes any permissions in the queue policy that matches the specified
  * `Label` parameter.
@@ -2023,12 +2044,7 @@ export const receiveMessage: API.OperationMethod<
 export const removePermission: API.OperationMethod<
   RemovePermissionRequest,
   RemovePermissionResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  RemovePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionRequest,
@@ -2041,18 +2057,7 @@ export const removePermission: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
-/**
- * Delivers a message to the specified queue.
- *
- * A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters.
- *
- * `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to `#x10FFFF`
- *
- * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
- */
-export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
-  SendMessageResult,
+export type SendMessageError =
   | InvalidAddress
   | InvalidMessageContents
   | InvalidSecurity
@@ -2069,7 +2074,20 @@ export const sendMessage: API.OperationMethod<
   | RequestLimitExceeded
   | InvalidParameterValueException
   | MissingRequiredParameterException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delivers a message to the specified queue.
+ *
+ * A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters.
+ *
+ * `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to `#x10FFFF`
+ *
+ * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
+ */
+export const sendMessage: API.OperationMethod<
+  SendMessageRequest,
+  SendMessageResult,
+  SendMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
@@ -2093,6 +2111,28 @@ export const sendMessage: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type SendMessageBatchError =
+  | BatchEntryIdsNotDistinct
+  | BatchRequestTooLong
+  | EmptyBatchRequest
+  | InvalidAddress
+  | InvalidBatchEntryId
+  | InvalidSecurity
+  | KmsAccessDenied
+  | KmsDisabled
+  | KmsInvalidKeyUsage
+  | KmsInvalidState
+  | KmsNotFound
+  | KmsOptInRequired
+  | KmsThrottled
+  | QueueDoesNotExist
+  | RequestThrottled
+  | TooManyEntriesInBatchRequest
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | InvalidParameterValueException
+  | ParseError
+  | CommonErrors;
 /**
  * You can use `SendMessageBatch` to send up to 10 messages to the specified
  * queue by assigning either identical or different values to each message (or by not
@@ -2119,27 +2159,7 @@ export const sendMessage: API.OperationMethod<
 export const sendMessageBatch: API.OperationMethod<
   SendMessageBatchRequest,
   SendMessageBatchResult,
-  | BatchEntryIdsNotDistinct
-  | BatchRequestTooLong
-  | EmptyBatchRequest
-  | InvalidAddress
-  | InvalidBatchEntryId
-  | InvalidSecurity
-  | KmsAccessDenied
-  | KmsDisabled
-  | KmsInvalidKeyUsage
-  | KmsInvalidState
-  | KmsNotFound
-  | KmsOptInRequired
-  | KmsThrottled
-  | QueueDoesNotExist
-  | RequestThrottled
-  | TooManyEntriesInBatchRequest
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | InvalidParameterValueException
-  | ParseError
-  | CommonErrors,
+  SendMessageBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageBatchRequest,
@@ -2167,6 +2187,18 @@ export const sendMessageBatch: API.OperationMethod<
     ParseError,
   ],
 }));
+export type SetQueueAttributesError =
+  | InvalidAddress
+  | InvalidAttributeName
+  | InvalidAttributeValue
+  | InvalidSecurity
+  | OverLimit
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | CommonServiceException
+  | CommonErrors;
 /**
  * Sets the value of one or more queue attributes, like a policy. When you change a
  * queue's attributes, the change can take up to 60 seconds for most of the attributes to
@@ -2187,17 +2219,7 @@ export const sendMessageBatch: API.OperationMethod<
 export const setQueueAttributes: API.OperationMethod<
   SetQueueAttributesRequest,
   SetQueueAttributesResponse,
-  | InvalidAddress
-  | InvalidAttributeName
-  | InvalidAttributeValue
-  | InvalidSecurity
-  | OverLimit
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | CommonServiceException
-  | CommonErrors,
+  SetQueueAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetQueueAttributesRequest,
@@ -2215,6 +2237,16 @@ export const setQueueAttributes: API.OperationMethod<
     CommonServiceException,
   ],
 }));
+export type StartMessageMoveTaskError =
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | ResourceNotFoundException
+  | UnsupportedOperation
+  | RequestLimitExceeded
+  | CommonServiceException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Starts an asynchronous task to move messages from a specified source queue to a
  * specified destination queue.
@@ -2235,15 +2267,7 @@ export const setQueueAttributes: API.OperationMethod<
 export const startMessageMoveTask: API.OperationMethod<
   StartMessageMoveTaskRequest,
   StartMessageMoveTaskResult,
-  | InvalidAddress
-  | InvalidSecurity
-  | RequestThrottled
-  | ResourceNotFoundException
-  | UnsupportedOperation
-  | RequestLimitExceeded
-  | CommonServiceException
-  | InvalidParameterValueException
-  | CommonErrors,
+  StartMessageMoveTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMessageMoveTaskRequest,
@@ -2259,6 +2283,13 @@ export const startMessageMoveTask: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type TagQueueError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging
  * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
@@ -2284,12 +2315,7 @@ export const startMessageMoveTask: API.OperationMethod<
 export const tagQueue: API.OperationMethod<
   TagQueueRequest,
   TagQueueResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  TagQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagQueueRequest,
@@ -2302,6 +2328,13 @@ export const tagQueue: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type UntagQueueError =
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see Tagging
  * Your Amazon SQS Queues in the *Amazon SQS Developer Guide*.
@@ -2313,12 +2346,7 @@ export const tagQueue: API.OperationMethod<
 export const untagQueue: API.OperationMethod<
   UntagQueueRequest,
   UntagQueueResponse,
-  | InvalidAddress
-  | InvalidSecurity
-  | QueueDoesNotExist
-  | RequestThrottled
-  | UnsupportedOperation
-  | CommonErrors,
+  UntagQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagQueueRequest,

@@ -4124,16 +4124,18 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 ) {}
 
 //# Operations
+export type AcceptPortfolioShareError =
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Accepts an offer to share the specified portfolio.
  */
 export const acceptPortfolioShare: API.OperationMethod<
   AcceptPortfolioShareInput,
   AcceptPortfolioShareOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AcceptPortfolioShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptPortfolioShareInput,
@@ -4144,17 +4146,19 @@ export const acceptPortfolioShare: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateBudgetWithResourceError =
+  | DuplicateResourceException
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates the specified budget with the specified resource.
  */
 export const associateBudgetWithResource: API.OperationMethod<
   AssociateBudgetWithResourceInput,
   AssociateBudgetWithResourceOutput,
-  | DuplicateResourceException
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateBudgetWithResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateBudgetWithResourceInput,
@@ -4166,6 +4170,11 @@ export const associateBudgetWithResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociatePrincipalWithPortfolioError =
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates the specified principal ARN with the specified portfolio.
  *
@@ -4188,10 +4197,7 @@ export const associateBudgetWithResource: API.OperationMethod<
 export const associatePrincipalWithPortfolio: API.OperationMethod<
   AssociatePrincipalWithPortfolioInput,
   AssociatePrincipalWithPortfolioOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociatePrincipalWithPortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePrincipalWithPortfolioInput,
@@ -4202,6 +4208,11 @@ export const associatePrincipalWithPortfolio: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateProductWithPortfolioError =
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates the specified product with the specified portfolio.
  *
@@ -4210,10 +4221,7 @@ export const associatePrincipalWithPortfolio: API.OperationMethod<
 export const associateProductWithPortfolio: API.OperationMethod<
   AssociateProductWithPortfolioInput,
   AssociateProductWithPortfolioOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateProductWithPortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateProductWithPortfolioInput,
@@ -4224,17 +4232,19 @@ export const associateProductWithPortfolio: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AssociateServiceActionWithProvisioningArtifactError =
+  | DuplicateResourceException
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates a self-service action with a provisioning artifact.
  */
 export const associateServiceActionWithProvisioningArtifact: API.OperationMethod<
   AssociateServiceActionWithProvisioningArtifactInput,
   AssociateServiceActionWithProvisioningArtifactOutput,
-  | DuplicateResourceException
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateServiceActionWithProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateServiceActionWithProvisioningArtifactInput,
@@ -4246,19 +4256,21 @@ export const associateServiceActionWithProvisioningArtifact: API.OperationMethod
     ResourceNotFoundException,
   ],
 }));
-/**
- * Associate the specified TagOption with the specified portfolio or product.
- */
-export const associateTagOptionWithResource: API.OperationMethod<
-  AssociateTagOptionWithResourceInput,
-  AssociateTagOptionWithResourceOutput,
+export type AssociateTagOptionWithResourceError =
   | DuplicateResourceException
   | InvalidParametersException
   | InvalidStateException
   | LimitExceededException
   | ResourceNotFoundException
   | TagOptionNotMigratedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate the specified TagOption with the specified portfolio or product.
+ */
+export const associateTagOptionWithResource: API.OperationMethod<
+  AssociateTagOptionWithResourceInput,
+  AssociateTagOptionWithResourceOutput,
+  AssociateTagOptionWithResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateTagOptionWithResourceInput,
@@ -4272,32 +4284,42 @@ export const associateTagOptionWithResource: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type BatchAssociateServiceActionWithProvisioningArtifactError =
+  | InvalidParametersException
+  | CommonErrors;
 /**
  * Associates multiple self-service actions with provisioning artifacts.
  */
 export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationMethod<
   BatchAssociateServiceActionWithProvisioningArtifactInput,
   BatchAssociateServiceActionWithProvisioningArtifactOutput,
-  InvalidParametersException | CommonErrors,
+  BatchAssociateServiceActionWithProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateServiceActionWithProvisioningArtifactInput,
   output: BatchAssociateServiceActionWithProvisioningArtifactOutput,
   errors: [InvalidParametersException],
 }));
+export type BatchDisassociateServiceActionFromProvisioningArtifactError =
+  | InvalidParametersException
+  | CommonErrors;
 /**
  * Disassociates a batch of self-service actions from the specified provisioning artifact.
  */
 export const batchDisassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
   BatchDisassociateServiceActionFromProvisioningArtifactInput,
   BatchDisassociateServiceActionFromProvisioningArtifactOutput,
-  InvalidParametersException | CommonErrors,
+  BatchDisassociateServiceActionFromProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateServiceActionFromProvisioningArtifactInput,
   output: BatchDisassociateServiceActionFromProvisioningArtifactOutput,
   errors: [InvalidParametersException],
 }));
+export type CopyProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Copies the specified source product to the specified target product or a new
  * product.
@@ -4312,13 +4334,19 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: API.Operati
 export const copyProduct: API.OperationMethod<
   CopyProductInput,
   CopyProductOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  CopyProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyProductInput,
   output: CopyProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type CreateConstraintError =
+  | DuplicateResourceException
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a constraint.
  *
@@ -4327,11 +4355,7 @@ export const copyProduct: API.OperationMethod<
 export const createConstraint: API.OperationMethod<
   CreateConstraintInput,
   CreateConstraintOutput,
-  | DuplicateResourceException
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateConstraintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConstraintInput,
@@ -4343,6 +4367,11 @@ export const createConstraint: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreatePortfolioError =
+  | InvalidParametersException
+  | LimitExceededException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Creates a portfolio.
  *
@@ -4351,10 +4380,7 @@ export const createConstraint: API.OperationMethod<
 export const createPortfolio: API.OperationMethod<
   CreatePortfolioInput,
   CreatePortfolioOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  CreatePortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortfolioInput,
@@ -4365,6 +4391,13 @@ export const createPortfolio: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type CreatePortfolioShareError =
+  | InvalidParametersException
+  | InvalidStateException
+  | LimitExceededException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Shares the specified portfolio with the specified account or organization node.
  * Shares to an organization node can only be created by the management account of an
@@ -4391,12 +4424,7 @@ export const createPortfolio: API.OperationMethod<
 export const createPortfolioShare: API.OperationMethod<
   CreatePortfolioShareInput,
   CreatePortfolioShareOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | LimitExceededException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreatePortfolioShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortfolioShareInput,
@@ -4409,6 +4437,11 @@ export const createPortfolioShare: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateProductError =
+  | InvalidParametersException
+  | LimitExceededException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Creates a product.
  *
@@ -4422,10 +4455,7 @@ export const createPortfolioShare: API.OperationMethod<
 export const createProduct: API.OperationMethod<
   CreateProductInput,
   CreateProductOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  CreateProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProductInput,
@@ -4436,6 +4466,11 @@ export const createProduct: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type CreateProvisionedProductPlanError =
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a plan.
  *
@@ -4452,10 +4487,7 @@ export const createProduct: API.OperationMethod<
 export const createProvisionedProductPlan: API.OperationMethod<
   CreateProvisionedProductPlanInput,
   CreateProvisionedProductPlanOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateProvisionedProductPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisionedProductPlanInput,
@@ -4466,6 +4498,11 @@ export const createProvisionedProductPlan: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateProvisioningArtifactError =
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a provisioning artifact (also known as a version) for the specified product.
  *
@@ -4478,10 +4515,7 @@ export const createProvisionedProductPlan: API.OperationMethod<
 export const createProvisioningArtifact: API.OperationMethod<
   CreateProvisioningArtifactInput,
   CreateProvisioningArtifactOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisioningArtifactInput,
@@ -4492,29 +4526,35 @@ export const createProvisioningArtifact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateServiceActionError =
+  | InvalidParametersException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a self-service action.
  */
 export const createServiceAction: API.OperationMethod<
   CreateServiceActionInput,
   CreateServiceActionOutput,
-  InvalidParametersException | LimitExceededException | CommonErrors,
+  CreateServiceActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceActionInput,
   output: CreateServiceActionOutput,
   errors: [InvalidParametersException, LimitExceededException],
 }));
+export type CreateTagOptionError =
+  | DuplicateResourceException
+  | LimitExceededException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Creates a TagOption.
  */
 export const createTagOption: API.OperationMethod<
   CreateTagOptionInput,
   CreateTagOptionOutput,
-  | DuplicateResourceException
-  | LimitExceededException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  CreateTagOptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagOptionInput,
@@ -4525,6 +4565,10 @@ export const createTagOption: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type DeleteConstraintError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified constraint.
  *
@@ -4533,13 +4577,19 @@ export const createTagOption: API.OperationMethod<
 export const deleteConstraint: API.OperationMethod<
   DeleteConstraintInput,
   DeleteConstraintOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DeleteConstraintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConstraintInput,
   output: DeleteConstraintOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DeletePortfolioError =
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Deletes the specified portfolio.
  *
@@ -4551,11 +4601,7 @@ export const deleteConstraint: API.OperationMethod<
 export const deletePortfolio: API.OperationMethod<
   DeletePortfolioInput,
   DeletePortfolioOutput,
-  | InvalidParametersException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  DeletePortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortfolioInput,
@@ -4567,6 +4613,12 @@ export const deletePortfolio: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type DeletePortfolioShareError =
+  | InvalidParametersException
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops sharing the specified portfolio with the specified account or organization
  * node. Shares to an organization node can only be deleted by the management account of an
@@ -4577,11 +4629,7 @@ export const deletePortfolio: API.OperationMethod<
 export const deletePortfolioShare: API.OperationMethod<
   DeletePortfolioShareInput,
   DeletePortfolioShareOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeletePortfolioShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortfolioShareInput,
@@ -4593,6 +4641,12 @@ export const deletePortfolioShare: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteProductError =
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Deletes the specified product.
  *
@@ -4603,11 +4657,7 @@ export const deletePortfolioShare: API.OperationMethod<
 export const deleteProduct: API.OperationMethod<
   DeleteProductInput,
   DeleteProductOutput,
-  | InvalidParametersException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  DeleteProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductInput,
@@ -4619,19 +4669,28 @@ export const deleteProduct: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type DeleteProvisionedProductPlanError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified plan.
  */
 export const deleteProvisionedProductPlan: API.OperationMethod<
   DeleteProvisionedProductPlanInput,
   DeleteProvisionedProductPlanOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DeleteProvisionedProductPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisionedProductPlanInput,
   output: DeleteProvisionedProductPlanOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DeleteProvisioningArtifactError =
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified provisioning artifact (also known as a version) for the specified product.
  *
@@ -4642,10 +4701,7 @@ export const deleteProvisionedProductPlan: API.OperationMethod<
 export const deleteProvisioningArtifact: API.OperationMethod<
   DeleteProvisioningArtifactInput,
   DeleteProvisioningArtifactOutput,
-  | InvalidParametersException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisioningArtifactInput,
@@ -4656,16 +4712,18 @@ export const deleteProvisioningArtifact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteServiceActionError =
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a self-service action.
  */
 export const deleteServiceAction: API.OperationMethod<
   DeleteServiceActionInput,
   DeleteServiceActionOutput,
-  | InvalidParametersException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteServiceActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceActionInput,
@@ -4676,6 +4734,11 @@ export const deleteServiceAction: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteTagOptionError =
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Deletes the specified TagOption.
  *
@@ -4684,10 +4747,7 @@ export const deleteServiceAction: API.OperationMethod<
 export const deleteTagOption: API.OperationMethod<
   DeleteTagOptionInput,
   DeleteTagOptionOutput,
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  DeleteTagOptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagOptionInput,
@@ -4698,32 +4758,37 @@ export const deleteTagOption: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type DescribeConstraintError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets information about the specified constraint.
  */
 export const describeConstraint: API.OperationMethod<
   DescribeConstraintInput,
   DescribeConstraintOutput,
-  ResourceNotFoundException | CommonErrors,
+  DescribeConstraintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConstraintInput,
   output: DescribeConstraintOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DescribeCopyProductStatusError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the status of the specified copy product operation.
  */
 export const describeCopyProductStatus: API.OperationMethod<
   DescribeCopyProductStatusInput,
   DescribeCopyProductStatusOutput,
-  ResourceNotFoundException | CommonErrors,
+  DescribeCopyProductStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCopyProductStatusInput,
   output: DescribeCopyProductStatusOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DescribePortfolioError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets information about the specified portfolio.
  *
@@ -4732,13 +4797,17 @@ export const describeCopyProductStatus: API.OperationMethod<
 export const describePortfolio: API.OperationMethod<
   DescribePortfolioInput,
   DescribePortfolioOutput,
-  ResourceNotFoundException | CommonErrors,
+  DescribePortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePortfolioInput,
   output: DescribePortfolioOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DescribePortfolioSharesError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a summary of each of the portfolio shares that were created for the specified portfolio.
  *
@@ -4751,21 +4820,21 @@ export const describePortfolio: API.OperationMethod<
 export const describePortfolioShares: API.OperationMethod<
   DescribePortfolioSharesInput,
   DescribePortfolioSharesOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribePortfolioSharesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePortfolioSharesInput,
   ) => stream.Stream<
     DescribePortfolioSharesOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    DescribePortfolioSharesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePortfolioSharesInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    DescribePortfolioSharesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4778,6 +4847,11 @@ export const describePortfolioShares: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type DescribePortfolioShareStatusError =
+  | InvalidParametersException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the status of the specified portfolio share operation. This API can only be called
  * by the management account in the organization or by a delegated admin.
@@ -4785,10 +4859,7 @@ export const describePortfolioShares: API.OperationMethod<
 export const describePortfolioShareStatus: API.OperationMethod<
   DescribePortfolioShareStatusInput,
   DescribePortfolioShareStatusOutput,
-  | InvalidParametersException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribePortfolioShareStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePortfolioShareStatusInput,
@@ -4799,6 +4870,10 @@ export const describePortfolioShareStatus: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the specified product.
  *
@@ -4811,78 +4886,102 @@ export const describePortfolioShareStatus: API.OperationMethod<
 export const describeProduct: API.OperationMethod<
   DescribeProductInput,
   DescribeProductOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProductInput,
   output: DescribeProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeProductAsAdminError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the specified product. This operation is run with administrator access.
  */
 export const describeProductAsAdmin: API.OperationMethod<
   DescribeProductAsAdminInput,
   DescribeProductAsAdminOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProductAsAdminError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProductAsAdminInput,
   output: DescribeProductAsAdminOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeProductViewError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the specified product.
  */
 export const describeProductView: API.OperationMethod<
   DescribeProductViewInput,
   DescribeProductViewOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProductViewError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProductViewInput,
   output: DescribeProductViewOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeProvisionedProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the specified provisioned product.
  */
 export const describeProvisionedProduct: API.OperationMethod<
   DescribeProvisionedProductInput,
   DescribeProvisionedProductOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProvisionedProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProvisionedProductInput,
   output: DescribeProvisionedProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeProvisionedProductPlanError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the resource changes for the specified plan.
  */
 export const describeProvisionedProductPlan: API.OperationMethod<
   DescribeProvisionedProductPlanInput,
   DescribeProvisionedProductPlanOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProvisionedProductPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProvisionedProductPlanInput,
   output: DescribeProvisionedProductPlanOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeProvisioningArtifactError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the specified provisioning artifact (also known as a version) for the specified product.
  */
 export const describeProvisioningArtifact: API.OperationMethod<
   DescribeProvisioningArtifactInput,
   DescribeProvisioningArtifactOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProvisioningArtifactInput,
   output: DescribeProvisioningArtifactOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeProvisioningParametersError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the configuration required to provision the specified product using
  * the specified provisioning artifact.
@@ -4897,13 +4996,14 @@ export const describeProvisioningArtifact: API.OperationMethod<
 export const describeProvisioningParameters: API.OperationMethod<
   DescribeProvisioningParametersInput,
   DescribeProvisioningParametersOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeProvisioningParametersError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProvisioningParametersInput,
   output: DescribeProvisioningParametersOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeRecordError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets information about the specified request operation.
  *
@@ -4917,52 +5017,68 @@ export const describeProvisioningParameters: API.OperationMethod<
 export const describeRecord: API.OperationMethod<
   DescribeRecordInput,
   DescribeRecordOutput,
-  ResourceNotFoundException | CommonErrors,
+  DescribeRecordError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecordInput,
   output: DescribeRecordOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DescribeServiceActionError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a self-service action.
  */
 export const describeServiceAction: API.OperationMethod<
   DescribeServiceActionInput,
   DescribeServiceActionOutput,
-  ResourceNotFoundException | CommonErrors,
+  DescribeServiceActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceActionInput,
   output: DescribeServiceActionOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DescribeServiceActionExecutionParametersError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
  */
 export const describeServiceActionExecutionParameters: API.OperationMethod<
   DescribeServiceActionExecutionParametersInput,
   DescribeServiceActionExecutionParametersOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DescribeServiceActionExecutionParametersError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceActionExecutionParametersInput,
   output: DescribeServiceActionExecutionParametersOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DescribeTagOptionError =
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Gets information about the specified TagOption.
  */
 export const describeTagOption: API.OperationMethod<
   DescribeTagOptionInput,
   DescribeTagOptionOutput,
-  ResourceNotFoundException | TagOptionNotMigratedException | CommonErrors,
+  DescribeTagOptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagOptionInput,
   output: DescribeTagOptionOutput,
   errors: [ResourceNotFoundException, TagOptionNotMigratedException],
 }));
+export type DisableAWSOrganizationsAccessError =
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disable portfolio sharing through the Organizations service. This command will not
  * delete your current shares, but prevents you from creating new shares throughout your
@@ -4982,10 +5098,7 @@ export const describeTagOption: API.OperationMethod<
 export const disableAWSOrganizationsAccess: API.OperationMethod<
   DisableAWSOrganizationsAccessInput,
   DisableAWSOrganizationsAccessOutput,
-  | InvalidStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisableAWSOrganizationsAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableAWSOrganizationsAccessInput,
@@ -4996,19 +5109,26 @@ export const disableAWSOrganizationsAccess: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateBudgetFromResourceError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates the specified budget from the specified resource.
  */
 export const disassociateBudgetFromResource: API.OperationMethod<
   DisassociateBudgetFromResourceInput,
   DisassociateBudgetFromResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  DisassociateBudgetFromResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateBudgetFromResourceInput,
   output: DisassociateBudgetFromResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type DisassociatePrincipalFromPortfolioError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates a previously associated principal ARN from a specified
  * portfolio.
@@ -5034,13 +5154,18 @@ export const disassociateBudgetFromResource: API.OperationMethod<
 export const disassociatePrincipalFromPortfolio: API.OperationMethod<
   DisassociatePrincipalFromPortfolioInput,
   DisassociatePrincipalFromPortfolioOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DisassociatePrincipalFromPortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociatePrincipalFromPortfolioInput,
   output: DisassociatePrincipalFromPortfolioOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DisassociateProductFromPortfolioError =
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates the specified product from the specified portfolio.
  *
@@ -5049,10 +5174,7 @@ export const disassociatePrincipalFromPortfolio: API.OperationMethod<
 export const disassociateProductFromPortfolio: API.OperationMethod<
   DisassociateProductFromPortfolioInput,
   DisassociateProductFromPortfolioOutput,
-  | InvalidParametersException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisassociateProductFromPortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateProductFromPortfolioInput,
@@ -5063,32 +5185,45 @@ export const disassociateProductFromPortfolio: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateServiceActionFromProvisioningArtifactError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates the specified self-service action association from the specified provisioning artifact.
  */
 export const disassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
   DisassociateServiceActionFromProvisioningArtifactInput,
   DisassociateServiceActionFromProvisioningArtifactOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  DisassociateServiceActionFromProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateServiceActionFromProvisioningArtifactInput,
   output: DisassociateServiceActionFromProvisioningArtifactOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type DisassociateTagOptionFromResourceError =
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Disassociates the specified TagOption from the specified resource.
  */
 export const disassociateTagOptionFromResource: API.OperationMethod<
   DisassociateTagOptionFromResourceInput,
   DisassociateTagOptionFromResourceOutput,
-  ResourceNotFoundException | TagOptionNotMigratedException | CommonErrors,
+  DisassociateTagOptionFromResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateTagOptionFromResourceInput,
   output: DisassociateTagOptionFromResourceOutput,
   errors: [ResourceNotFoundException, TagOptionNotMigratedException],
 }));
+export type EnableAWSOrganizationsAccessError =
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the
  * current structure. This API can only be called by the management account in the organization.
@@ -5108,10 +5243,7 @@ export const disassociateTagOptionFromResource: API.OperationMethod<
 export const enableAWSOrganizationsAccess: API.OperationMethod<
   EnableAWSOrganizationsAccessInput,
   EnableAWSOrganizationsAccessOutput,
-  | InvalidStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  EnableAWSOrganizationsAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAWSOrganizationsAccessInput,
@@ -5122,16 +5254,18 @@ export const enableAWSOrganizationsAccess: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ExecuteProvisionedProductPlanError =
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
 export const executeProvisionedProductPlan: API.OperationMethod<
   ExecuteProvisionedProductPlanInput,
   ExecuteProvisionedProductPlanOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ExecuteProvisionedProductPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteProvisionedProductPlanInput,
@@ -5142,16 +5276,18 @@ export const executeProvisionedProductPlan: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ExecuteProvisionedProductServiceActionError =
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Executes a self-service action against a provisioned product.
  */
 export const executeProvisionedProductServiceAction: API.OperationMethod<
   ExecuteProvisionedProductServiceActionInput,
   ExecuteProvisionedProductServiceActionOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ExecuteProvisionedProductServiceActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteProvisionedProductServiceActionInput,
@@ -5162,6 +5298,10 @@ export const executeProvisionedProductServiceAction: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetAWSOrganizationsAccessStatusError =
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Get the Access Status for Organizations portfolio share feature. This API can only be
  * called by the management account in the organization or by a delegated admin.
@@ -5169,34 +5309,38 @@ export const executeProvisionedProductServiceAction: API.OperationMethod<
 export const getAWSOrganizationsAccessStatus: API.OperationMethod<
   GetAWSOrganizationsAccessStatusInput,
   GetAWSOrganizationsAccessStatusOutput,
-  OperationNotSupportedException | ResourceNotFoundException | CommonErrors,
+  GetAWSOrganizationsAccessStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAWSOrganizationsAccessStatusInput,
   output: GetAWSOrganizationsAccessStatusOutput,
   errors: [OperationNotSupportedException, ResourceNotFoundException],
 }));
+export type GetProvisionedProductOutputsError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This API takes either a `ProvisonedProductId` or a `ProvisionedProductName`, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
  */
 export const getProvisionedProductOutputs: API.OperationMethod<
   GetProvisionedProductOutputsInput,
   GetProvisionedProductOutputsOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  GetProvisionedProductOutputsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetProvisionedProductOutputsInput,
   ) => stream.Stream<
     GetProvisionedProductOutputsOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    GetProvisionedProductOutputsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetProvisionedProductOutputsInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    GetProvisionedProductOutputsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5209,6 +5353,12 @@ export const getProvisionedProductOutputs: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ImportAsProvisionedProductError =
+  | DuplicateResourceException
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Requests the import of a resource as an Service Catalog provisioned product
  * that is associated to an Service Catalog product and provisioning artifact.
@@ -5240,11 +5390,7 @@ export const getProvisionedProductOutputs: API.OperationMethod<
 export const importAsProvisionedProduct: API.OperationMethod<
   ImportAsProvisionedProductInput,
   ImportAsProvisionedProductOutput,
-  | DuplicateResourceException
-  | InvalidParametersException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ImportAsProvisionedProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportAsProvisionedProductInput,
@@ -5256,6 +5402,10 @@ export const importAsProvisionedProduct: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListAcceptedPortfolioSharesError =
+  | InvalidParametersException
+  | OperationNotSupportedException
+  | CommonErrors;
 /**
  * Lists all imported portfolios for which account-to-account shares were accepted by
  * this account. By specifying the `PortfolioShareType`, you can list portfolios for which
@@ -5264,21 +5414,21 @@ export const importAsProvisionedProduct: API.OperationMethod<
 export const listAcceptedPortfolioShares: API.OperationMethod<
   ListAcceptedPortfolioSharesInput,
   ListAcceptedPortfolioSharesOutput,
-  InvalidParametersException | OperationNotSupportedException | CommonErrors,
+  ListAcceptedPortfolioSharesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAcceptedPortfolioSharesInput,
   ) => stream.Stream<
     ListAcceptedPortfolioSharesOutput,
-    InvalidParametersException | OperationNotSupportedException | CommonErrors,
+    ListAcceptedPortfolioSharesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAcceptedPortfolioSharesInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | OperationNotSupportedException | CommonErrors,
+    ListAcceptedPortfolioSharesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5291,27 +5441,31 @@ export const listAcceptedPortfolioShares: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListBudgetsForResourceError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all the budgets associated to the specified resource.
  */
 export const listBudgetsForResource: API.OperationMethod<
   ListBudgetsForResourceInput,
   ListBudgetsForResourceOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListBudgetsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBudgetsForResourceInput,
   ) => stream.Stream<
     ListBudgetsForResourceOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListBudgetsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListBudgetsForResourceInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListBudgetsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5324,27 +5478,31 @@ export const listBudgetsForResource: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListConstraintsForPortfolioError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the constraints for the specified portfolio and product.
  */
 export const listConstraintsForPortfolio: API.OperationMethod<
   ListConstraintsForPortfolioInput,
   ListConstraintsForPortfolioOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListConstraintsForPortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConstraintsForPortfolioInput,
   ) => stream.Stream<
     ListConstraintsForPortfolioOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListConstraintsForPortfolioError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListConstraintsForPortfolioInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListConstraintsForPortfolioError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5357,6 +5515,10 @@ export const listConstraintsForPortfolio: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListLaunchPathsError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the paths
  * to the specified product.
@@ -5383,21 +5545,21 @@ export const listConstraintsForPortfolio: API.OperationMethod<
 export const listLaunchPaths: API.OperationMethod<
   ListLaunchPathsInput,
   ListLaunchPathsOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListLaunchPathsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLaunchPathsInput,
   ) => stream.Stream<
     ListLaunchPathsOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListLaunchPathsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListLaunchPathsInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListLaunchPathsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5410,6 +5572,11 @@ export const listLaunchPaths: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListOrganizationPortfolioAccessError =
+  | InvalidParametersException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the organization nodes that have access to the specified portfolio. This API can
  * only be called by the management account in the organization or by a delegated
@@ -5420,30 +5587,21 @@ export const listLaunchPaths: API.OperationMethod<
 export const listOrganizationPortfolioAccess: API.OperationMethod<
   ListOrganizationPortfolioAccessInput,
   ListOrganizationPortfolioAccessOutput,
-  | InvalidParametersException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListOrganizationPortfolioAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationPortfolioAccessInput,
   ) => stream.Stream<
     ListOrganizationPortfolioAccessOutput,
-    | InvalidParametersException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListOrganizationPortfolioAccessError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationPortfolioAccessInput,
   ) => stream.Stream<
     unknown,
-    | InvalidParametersException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListOrganizationPortfolioAccessError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5460,6 +5618,10 @@ export const listOrganizationPortfolioAccess: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListPortfolioAccessError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the account IDs that have access to the specified portfolio.
  *
@@ -5468,21 +5630,21 @@ export const listOrganizationPortfolioAccess: API.OperationMethod<
 export const listPortfolioAccess: API.OperationMethod<
   ListPortfolioAccessInput,
   ListPortfolioAccessOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListPortfolioAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPortfolioAccessInput,
   ) => stream.Stream<
     ListPortfolioAccessOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListPortfolioAccessError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPortfolioAccessInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListPortfolioAccessError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5495,27 +5657,28 @@ export const listPortfolioAccess: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListPortfoliosError = InvalidParametersException | CommonErrors;
 /**
  * Lists all portfolios in the catalog.
  */
 export const listPortfolios: API.OperationMethod<
   ListPortfoliosInput,
   ListPortfoliosOutput,
-  InvalidParametersException | CommonErrors,
+  ListPortfoliosError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPortfoliosInput,
   ) => stream.Stream<
     ListPortfoliosOutput,
-    InvalidParametersException | CommonErrors,
+    ListPortfoliosError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPortfoliosInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | CommonErrors,
+    ListPortfoliosError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5528,27 +5691,31 @@ export const listPortfolios: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListPortfoliosForProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all portfolios that the specified product is associated with.
  */
 export const listPortfoliosForProduct: API.OperationMethod<
   ListPortfoliosForProductInput,
   ListPortfoliosForProductOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListPortfoliosForProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPortfoliosForProductInput,
   ) => stream.Stream<
     ListPortfoliosForProductOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListPortfoliosForProductError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPortfoliosForProductInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListPortfoliosForProductError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5561,27 +5728,31 @@ export const listPortfoliosForProduct: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListPrincipalsForPortfolioError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all `PrincipalARN`s and corresponding `PrincipalType`s associated with the specified portfolio.
  */
 export const listPrincipalsForPortfolio: API.OperationMethod<
   ListPrincipalsForPortfolioInput,
   ListPrincipalsForPortfolioOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListPrincipalsForPortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrincipalsForPortfolioInput,
   ) => stream.Stream<
     ListPrincipalsForPortfolioOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListPrincipalsForPortfolioError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPrincipalsForPortfolioInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListPrincipalsForPortfolioError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5594,53 +5765,65 @@ export const listPrincipalsForPortfolio: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListProvisionedProductPlansError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
 export const listProvisionedProductPlans: API.OperationMethod<
   ListProvisionedProductPlansInput,
   ListProvisionedProductPlansOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListProvisionedProductPlansError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProvisionedProductPlansInput,
   output: ListProvisionedProductPlansOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type ListProvisioningArtifactsError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all provisioning artifacts (also known as versions) for the specified product.
  */
 export const listProvisioningArtifacts: API.OperationMethod<
   ListProvisioningArtifactsInput,
   ListProvisioningArtifactsOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListProvisioningArtifactsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProvisioningArtifactsInput,
   output: ListProvisioningArtifactsOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type ListProvisioningArtifactsForServiceActionError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all provisioning artifacts (also known as versions) for the specified self-service action.
  */
 export const listProvisioningArtifactsForServiceAction: API.OperationMethod<
   ListProvisioningArtifactsForServiceActionInput,
   ListProvisioningArtifactsForServiceActionOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListProvisioningArtifactsForServiceActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProvisioningArtifactsForServiceActionInput,
   ) => stream.Stream<
     ListProvisioningArtifactsForServiceActionOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListProvisioningArtifactsForServiceActionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisioningArtifactsForServiceActionInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListProvisioningArtifactsForServiceActionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5653,49 +5836,46 @@ export const listProvisioningArtifactsForServiceAction: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
 /**
  * Lists the specified requests or all performed requests.
  */
 export const listRecordHistory: API.OperationMethod<
   ListRecordHistoryInput,
   ListRecordHistoryOutput,
-  InvalidParametersException | CommonErrors,
+  ListRecordHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRecordHistoryInput,
   output: ListRecordHistoryOutput,
   errors: [InvalidParametersException],
 }));
+export type ListResourcesForTagOptionError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Lists the resources associated with the specified TagOption.
  */
 export const listResourcesForTagOption: API.OperationMethod<
   ListResourcesForTagOptionInput,
   ListResourcesForTagOptionOutput,
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  ListResourcesForTagOptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesForTagOptionInput,
   ) => stream.Stream<
     ListResourcesForTagOptionOutput,
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | TagOptionNotMigratedException
-    | CommonErrors,
+    ListResourcesForTagOptionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesForTagOptionInput,
   ) => stream.Stream<
     unknown,
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | TagOptionNotMigratedException
-    | CommonErrors,
+    ListResourcesForTagOptionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5712,27 +5892,28 @@ export const listResourcesForTagOption: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListServiceActionsError = InvalidParametersException | CommonErrors;
 /**
  * Lists all self-service actions.
  */
 export const listServiceActions: API.OperationMethod<
   ListServiceActionsInput,
   ListServiceActionsOutput,
-  InvalidParametersException | CommonErrors,
+  ListServiceActionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceActionsInput,
   ) => stream.Stream<
     ListServiceActionsOutput,
-    InvalidParametersException | CommonErrors,
+    ListServiceActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceActionsInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | CommonErrors,
+    ListServiceActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5745,27 +5926,31 @@ export const listServiceActions: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListServiceActionsForProvisioningArtifactError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
  */
 export const listServiceActionsForProvisioningArtifact: API.OperationMethod<
   ListServiceActionsForProvisioningArtifactInput,
   ListServiceActionsForProvisioningArtifactOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListServiceActionsForProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceActionsForProvisioningArtifactInput,
   ) => stream.Stream<
     ListServiceActionsForProvisioningArtifactOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListServiceActionsForProvisioningArtifactError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceActionsForProvisioningArtifactInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    ListServiceActionsForProvisioningArtifactError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5778,40 +5963,48 @@ export const listServiceActionsForProvisioningArtifact: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type ListStackInstancesForProvisionedProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
 export const listStackInstancesForProvisionedProduct: API.OperationMethod<
   ListStackInstancesForProvisionedProductInput,
   ListStackInstancesForProvisionedProductOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  ListStackInstancesForProvisionedProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStackInstancesForProvisionedProductInput,
   output: ListStackInstancesForProvisionedProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type ListTagOptionsError =
+  | InvalidParametersException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Lists the specified TagOptions or all TagOptions.
  */
 export const listTagOptions: API.OperationMethod<
   ListTagOptionsInput,
   ListTagOptionsOutput,
-  InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
+  ListTagOptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagOptionsInput,
   ) => stream.Stream<
     ListTagOptionsOutput,
-    InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
+    ListTagOptionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTagOptionsInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
+    ListTagOptionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5824,6 +6017,10 @@ export const listTagOptions: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type NotifyProvisionProductEngineWorkflowResultError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Notifies the result
  * of the provisioning engine execution.
@@ -5831,13 +6028,17 @@ export const listTagOptions: API.OperationMethod<
 export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
   NotifyProvisionProductEngineWorkflowResultInput,
   NotifyProvisionProductEngineWorkflowResultOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  NotifyProvisionProductEngineWorkflowResultError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyProvisionProductEngineWorkflowResultInput,
   output: NotifyProvisionProductEngineWorkflowResultOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type NotifyTerminateProvisionedProductEngineWorkflowResultError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Notifies the result
  * of the terminate engine execution.
@@ -5845,13 +6046,17 @@ export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
 export const notifyTerminateProvisionedProductEngineWorkflowResult: API.OperationMethod<
   NotifyTerminateProvisionedProductEngineWorkflowResultInput,
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  NotifyTerminateProvisionedProductEngineWorkflowResultError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
   output: NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type NotifyUpdateProvisionedProductEngineWorkflowResultError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Notifies the result
  * of the update engine execution.
@@ -5859,13 +6064,18 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: API.Operatio
 export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMethod<
   NotifyUpdateProvisionedProductEngineWorkflowResultInput,
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  NotifyUpdateProvisionedProductEngineWorkflowResultError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
   output: NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type ProvisionProductError =
+  | DuplicateResourceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provisions the specified product.
  *
@@ -5901,10 +6111,7 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMe
 export const provisionProduct: API.OperationMethod<
   ProvisionProductInput,
   ProvisionProductOutput,
-  | DuplicateResourceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ProvisionProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionProductInput,
@@ -5915,19 +6122,25 @@ export const provisionProduct: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RejectPortfolioShareError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Rejects an offer to share the specified portfolio.
  */
 export const rejectPortfolioShare: API.OperationMethod<
   RejectPortfolioShareInput,
   RejectPortfolioShareOutput,
-  ResourceNotFoundException | CommonErrors,
+  RejectPortfolioShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectPortfolioShareInput,
   output: RejectPortfolioShareOutput,
   errors: [ResourceNotFoundException],
 }));
+export type ScanProvisionedProductsError =
+  | InvalidParametersException
+  | CommonErrors;
 /**
  * Lists the provisioned products that are available (not terminated).
  *
@@ -5936,34 +6149,35 @@ export const rejectPortfolioShare: API.OperationMethod<
 export const scanProvisionedProducts: API.OperationMethod<
   ScanProvisionedProductsInput,
   ScanProvisionedProductsOutput,
-  InvalidParametersException | CommonErrors,
+  ScanProvisionedProductsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScanProvisionedProductsInput,
   output: ScanProvisionedProductsOutput,
   errors: [InvalidParametersException],
 }));
+export type SearchProductsError = InvalidParametersException | CommonErrors;
 /**
  * Gets information about the products to which the caller has access.
  */
 export const searchProducts: API.OperationMethod<
   SearchProductsInput,
   SearchProductsOutput,
-  InvalidParametersException | CommonErrors,
+  SearchProductsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchProductsInput,
   ) => stream.Stream<
     SearchProductsOutput,
-    InvalidParametersException | CommonErrors,
+    SearchProductsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchProductsInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | CommonErrors,
+    SearchProductsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5976,27 +6190,31 @@ export const searchProducts: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type SearchProductsAsAdminError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets information about the products for the specified portfolio or all products.
  */
 export const searchProductsAsAdmin: API.OperationMethod<
   SearchProductsAsAdminInput,
   SearchProductsAsAdminOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  SearchProductsAsAdminError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchProductsAsAdminInput,
   ) => stream.Stream<
     SearchProductsAsAdminOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    SearchProductsAsAdminError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchProductsAsAdminInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
+    SearchProductsAsAdminError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6009,27 +6227,30 @@ export const searchProductsAsAdmin: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type SearchProvisionedProductsError =
+  | InvalidParametersException
+  | CommonErrors;
 /**
  * Gets information about the provisioned products that meet the specified criteria.
  */
 export const searchProvisionedProducts: API.OperationMethod<
   SearchProvisionedProductsInput,
   SearchProvisionedProductsOutput,
-  InvalidParametersException | CommonErrors,
+  SearchProvisionedProductsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchProvisionedProductsInput,
   ) => stream.Stream<
     SearchProvisionedProductsOutput,
-    InvalidParametersException | CommonErrors,
+    SearchProvisionedProductsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchProvisionedProductsInput,
   ) => stream.Stream<
     unknown,
-    InvalidParametersException | CommonErrors,
+    SearchProvisionedProductsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6042,6 +6263,9 @@ export const searchProvisionedProducts: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type TerminateProvisionedProductError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Terminates the specified provisioned product.
  *
@@ -6052,26 +6276,36 @@ export const searchProvisionedProducts: API.OperationMethod<
 export const terminateProvisionedProduct: API.OperationMethod<
   TerminateProvisionedProductInput,
   TerminateProvisionedProductOutput,
-  ResourceNotFoundException | CommonErrors,
+  TerminateProvisionedProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateProvisionedProductInput,
   output: TerminateProvisionedProductOutput,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateConstraintError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified constraint.
  */
 export const updateConstraint: API.OperationMethod<
   UpdateConstraintInput,
   UpdateConstraintOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  UpdateConstraintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConstraintInput,
   output: UpdateConstraintOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type UpdatePortfolioError =
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Updates the specified portfolio.
  *
@@ -6080,11 +6314,7 @@ export const updateConstraint: API.OperationMethod<
 export const updatePortfolio: API.OperationMethod<
   UpdatePortfolioInput,
   UpdatePortfolioOutput,
-  | InvalidParametersException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  UpdatePortfolioError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortfolioInput,
@@ -6096,6 +6326,12 @@ export const updatePortfolio: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type UpdatePortfolioShareError =
+  | InvalidParametersException
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified portfolio share. You can use this API to enable or disable `TagOptions` sharing
  * or Principal sharing for an existing portfolio share.
@@ -6120,11 +6356,7 @@ export const updatePortfolio: API.OperationMethod<
 export const updatePortfolioShare: API.OperationMethod<
   UpdatePortfolioShareInput,
   UpdatePortfolioShareOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdatePortfolioShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortfolioShareInput,
@@ -6136,16 +6368,18 @@ export const updatePortfolioShare: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Updates the specified product.
  */
 export const updateProduct: API.OperationMethod<
   UpdateProductInput,
   UpdateProductOutput,
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  UpdateProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProductInput,
@@ -6156,6 +6390,10 @@ export const updateProduct: API.OperationMethod<
     TagOptionNotMigratedException,
   ],
 }));
+export type UpdateProvisionedProductError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Requests updates to the configuration of the specified provisioned product.
  *
@@ -6168,23 +6406,25 @@ export const updateProduct: API.OperationMethod<
 export const updateProvisionedProduct: API.OperationMethod<
   UpdateProvisionedProductInput,
   UpdateProvisionedProductOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  UpdateProvisionedProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProvisionedProductInput,
   output: UpdateProvisionedProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type UpdateProvisionedProductPropertiesError =
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Requests updates to the properties of the specified provisioned product.
  */
 export const updateProvisionedProductProperties: API.OperationMethod<
   UpdateProvisionedProductPropertiesInput,
   UpdateProvisionedProductPropertiesOutput,
-  | InvalidParametersException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateProvisionedProductPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProvisionedProductPropertiesInput,
@@ -6195,6 +6435,10 @@ export const updateProvisionedProductProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateProvisioningArtifactError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified provisioning artifact (also known as a version) for the specified product.
  *
@@ -6203,37 +6447,43 @@ export const updateProvisionedProductProperties: API.OperationMethod<
 export const updateProvisioningArtifact: API.OperationMethod<
   UpdateProvisioningArtifactInput,
   UpdateProvisioningArtifactOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  UpdateProvisioningArtifactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProvisioningArtifactInput,
   output: UpdateProvisioningArtifactOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type UpdateServiceActionError =
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a self-service action.
  */
 export const updateServiceAction: API.OperationMethod<
   UpdateServiceActionInput,
   UpdateServiceActionOutput,
-  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  UpdateServiceActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceActionInput,
   output: UpdateServiceActionOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
 }));
+export type UpdateTagOptionError =
+  | DuplicateResourceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors;
 /**
  * Updates the specified TagOption.
  */
 export const updateTagOption: API.OperationMethod<
   UpdateTagOptionInput,
   UpdateTagOptionOutput,
-  | DuplicateResourceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | TagOptionNotMigratedException
-  | CommonErrors,
+  UpdateTagOptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTagOptionInput,

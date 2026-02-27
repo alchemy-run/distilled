@@ -1329,6 +1329,14 @@ export class DependencyFailedException extends S.TaggedErrorClass<DependencyFail
 ) {}
 
 //# Operations
+export type DeleteSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes session information for a specified bot, alias, and user ID.
  *
@@ -1351,13 +1359,7 @@ export class DependencyFailedException extends S.TaggedErrorClass<DependencyFail
 export const deleteSession: API.OperationMethod<
   DeleteSessionRequest,
   DeleteSessionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
@@ -1371,6 +1373,13 @@ export const deleteSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns session information for a specified bot, alias, and
  * user.
@@ -1387,12 +1396,7 @@ export const deleteSession: API.OperationMethod<
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -1405,14 +1409,7 @@ export const getSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new session or modifies an existing session with an Amazon Lex V2
- * bot. Use this operation to enable your application to set the state of
- * the bot.
- */
-export const putSession: API.OperationMethod<
-  PutSessionRequest,
-  PutSessionResponse,
+export type PutSessionError =
   | AccessDeniedException
   | BadGatewayException
   | ConflictException
@@ -1421,7 +1418,16 @@ export const putSession: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new session or modifies an existing session with an Amazon Lex V2
+ * bot. Use this operation to enable your application to set the state of
+ * the bot.
+ */
+export const putSession: API.OperationMethod<
+  PutSessionRequest,
+  PutSessionResponse,
+  PutSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSessionRequest,
@@ -1437,6 +1443,16 @@ export const putSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RecognizeTextError =
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends user input to Amazon Lex V2. Client applications use this API to send
  * requests to Amazon Lex V2 at runtime. Amazon Lex V2 then interprets the user input
@@ -1468,15 +1484,7 @@ export const putSession: API.OperationMethod<
 export const recognizeText: API.OperationMethod<
   RecognizeTextRequest,
   RecognizeTextResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RecognizeTextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecognizeTextRequest,
@@ -1492,6 +1500,16 @@ export const recognizeText: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RecognizeUtteranceError =
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends user input to Amazon Lex V2. You can send text or speech. Clients use
  * this API to send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2
@@ -1546,15 +1564,7 @@ export const recognizeText: API.OperationMethod<
 export const recognizeUtterance: API.OperationMethod<
   RecognizeUtteranceRequest,
   RecognizeUtteranceResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RecognizeUtteranceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecognizeUtteranceRequest,
@@ -1570,6 +1580,12 @@ export const recognizeUtterance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartConversationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts an HTTP/2 bidirectional event stream that enables you to send
  * audio, text, or DTMF input in real time. After your application starts
@@ -1620,11 +1636,7 @@ export const recognizeUtterance: API.OperationMethod<
 export const startConversation: API.OperationMethod<
   StartConversationRequest,
   StartConversationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartConversationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConversationRequest,

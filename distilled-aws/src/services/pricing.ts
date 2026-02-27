@@ -352,6 +352,14 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DescribeServicesError =
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the metadata for one service or a list of the metadata for all services. Use
  * this without a service code to get the service codes for all services.
@@ -364,39 +372,21 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const describeServices: API.OperationMethod<
   DescribeServicesRequest,
   DescribeServicesResponse,
-  | ExpiredNextTokenException
-  | InternalErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeServicesRequest,
   ) => stream.Stream<
     DescribeServicesResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeServicesRequest,
   ) => stream.Stream<
     Service,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -417,6 +407,14 @@ export const describeServices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetAttributeValuesError =
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of attribute values. Attributes are similar to the details
  * in a Price List API offer file. For a list of available attributes, see
@@ -426,39 +424,21 @@ export const describeServices: API.OperationMethod<
 export const getAttributeValues: API.OperationMethod<
   GetAttributeValuesRequest,
   GetAttributeValuesResponse,
-  | ExpiredNextTokenException
-  | InternalErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | NotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetAttributeValuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAttributeValuesRequest,
   ) => stream.Stream<
     GetAttributeValuesResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetAttributeValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAttributeValuesRequest,
   ) => stream.Stream<
     AttributeValue,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetAttributeValuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -479,6 +459,14 @@ export const getAttributeValues: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetPriceListFileUrlError =
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * **This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).**
  *
@@ -489,13 +477,7 @@ export const getAttributeValues: API.OperationMethod<
 export const getPriceListFileUrl: API.OperationMethod<
   GetPriceListFileUrlRequest,
   GetPriceListFileUrlResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetPriceListFileUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPriceListFileUrlRequest,
@@ -509,45 +491,35 @@ export const getPriceListFileUrl: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Returns a list of all products that match the filter criteria.
- */
-export const getProducts: API.OperationMethod<
-  GetProductsRequest,
-  GetProductsResponse,
+export type GetProductsError =
   | ExpiredNextTokenException
   | InternalErrorException
   | InvalidNextTokenException
   | InvalidParameterException
   | NotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all products that match the filter criteria.
+ */
+export const getProducts: API.OperationMethod<
+  GetProductsRequest,
+  GetProductsResponse,
+  GetProductsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetProductsRequest,
   ) => stream.Stream<
     GetProductsResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetProductsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetProductsRequest,
   ) => stream.Stream<
     SynthesizedJsonPriceListJsonItem,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetProductsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -568,6 +540,16 @@ export const getProducts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPriceListsError =
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * **This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).**
  *
@@ -582,45 +564,21 @@ export const getProducts: API.OperationMethod<
 export const listPriceLists: API.OperationMethod<
   ListPriceListsRequest,
   ListPriceListsResponse,
-  | AccessDeniedException
-  | ExpiredNextTokenException
-  | InternalErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | NotFoundException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListPriceListsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPriceListsRequest,
   ) => stream.Stream<
     ListPriceListsResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPriceListsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPriceListsRequest,
   ) => stream.Stream<
     PriceList,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListPriceListsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

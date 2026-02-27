@@ -124,17 +124,19 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetRevocationStatusError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the revocation status for a signed artifact by checking if the signing profile, job, or certificate has been revoked.
  */
 export const getRevocationStatus: API.OperationMethod<
   GetRevocationStatusRequest,
   GetRevocationStatusResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetRevocationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRevocationStatusRequest,

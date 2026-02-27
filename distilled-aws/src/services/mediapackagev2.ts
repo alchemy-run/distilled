@@ -2531,19 +2531,21 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type ListTagsForResourceError = ValidationException | CommonErrors;
 /**
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ValidationException],
 }));
+export type TagResourceError = ValidationException | CommonErrors;
 /**
  * Assigns one of more tags (key-value pairs) to the specified MediaPackage resource.
  *
@@ -2552,32 +2554,28 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ValidationException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ValidationException],
 }));
+export type UntagResourceError = ValidationException | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ValidationException],
 }));
-/**
- * Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
- */
-export const createChannelGroup: API.OperationMethod<
-  CreateChannelGroupRequest,
-  CreateChannelGroupResponse,
+export type CreateChannelGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2585,7 +2583,14 @@ export const createChannelGroup: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
+ */
+export const createChannelGroup: API.OperationMethod<
+  CreateChannelGroupRequest,
+  CreateChannelGroupResponse,
+  CreateChannelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelGroupRequest,
@@ -2600,18 +2605,20 @@ export const createChannelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetChannelGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
  */
 export const getChannelGroup: API.OperationMethod<
   GetChannelGroupRequest,
   GetChannelGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetChannelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelGroupRequest,
@@ -2624,6 +2631,14 @@ export const getChannelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateChannelGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group.
  *
@@ -2632,13 +2647,7 @@ export const getChannelGroup: API.OperationMethod<
 export const updateChannelGroup: API.OperationMethod<
   UpdateChannelGroupRequest,
   UpdateChannelGroupResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateChannelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelGroupRequest,
@@ -2652,18 +2661,20 @@ export const updateChannelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteChannelGroupError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
  */
 export const deleteChannelGroup: API.OperationMethod<
   DeleteChannelGroupRequest,
   DeleteChannelGroupResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteChannelGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelGroupRequest,
@@ -2676,39 +2687,33 @@ export const deleteChannelGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChannelGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all channel groups that are configured in Elemental MediaPackage.
  */
 export const listChannelGroups: API.OperationMethod<
   ListChannelGroupsRequest,
   ListChannelGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListChannelGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelGroupsRequest,
   ) => stream.Stream<
     ListChannelGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelGroupsRequest,
   ) => stream.Stream<
     ChannelGroupListConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2727,12 +2732,7 @@ export const listChannelGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
- */
-export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
-  CreateChannelResponse,
+export type CreateChannelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2740,7 +2740,14 @@ export const createChannel: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
+ */
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
+  CreateChannelResponse,
+  CreateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
@@ -2755,18 +2762,20 @@ export const createChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetChannelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
  */
 export const getChannel: API.OperationMethod<
   GetChannelRequest,
   GetChannelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelRequest,
@@ -2779,6 +2788,14 @@ export const getChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details.
  *
@@ -2787,13 +2804,7 @@ export const getChannel: API.OperationMethod<
 export const updateChannel: API.OperationMethod<
   UpdateChannelRequest,
   UpdateChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
@@ -2807,18 +2818,20 @@ export const updateChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
  */
 export const deleteChannel: API.OperationMethod<
   DeleteChannelRequest,
   DeleteChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
@@ -2831,42 +2844,34 @@ export const deleteChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChannelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
  */
 export const listChannels: API.OperationMethod<
   ListChannelsRequest,
   ListChannelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ChannelListConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2886,6 +2891,14 @@ export const listChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ResetChannelStateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.
  *
@@ -2894,13 +2907,7 @@ export const listChannels: API.OperationMethod<
 export const resetChannelState: API.OperationMethod<
   ResetChannelStateRequest,
   ResetChannelStateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetChannelStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetChannelStateRequest,
@@ -2914,19 +2921,21 @@ export const resetChannelState: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
- */
-export const putChannelPolicy: API.OperationMethod<
-  PutChannelPolicyRequest,
-  PutChannelPolicyResponse,
+export type PutChannelPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
+ */
+export const putChannelPolicy: API.OperationMethod<
+  PutChannelPolicyRequest,
+  PutChannelPolicyResponse,
+  PutChannelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutChannelPolicyRequest,
@@ -2940,18 +2949,20 @@ export const putChannelPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetChannelPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
  */
 export const getChannelPolicy: API.OperationMethod<
   GetChannelPolicyRequest,
   GetChannelPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetChannelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelPolicyRequest,
@@ -2964,18 +2975,20 @@ export const getChannelPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteChannelPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a channel policy.
  */
 export const deleteChannelPolicy: API.OperationMethod<
   DeleteChannelPolicyRequest,
   DeleteChannelPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteChannelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelPolicyRequest,
@@ -2988,12 +3001,7 @@ export const deleteChannelPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
- */
-export const createOriginEndpoint: API.OperationMethod<
-  CreateOriginEndpointRequest,
-  CreateOriginEndpointResponse,
+export type CreateOriginEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3001,7 +3009,14 @@ export const createOriginEndpoint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
+ */
+export const createOriginEndpoint: API.OperationMethod<
+  CreateOriginEndpointRequest,
+  CreateOriginEndpointResponse,
+  CreateOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOriginEndpointRequest,
@@ -3016,18 +3031,20 @@ export const createOriginEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOriginEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
  */
 export const getOriginEndpoint: API.OperationMethod<
   GetOriginEndpointRequest,
   GetOriginEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOriginEndpointRequest,
@@ -3040,6 +3057,15 @@ export const getOriginEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateOriginEndpointError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint.
  *
@@ -3048,14 +3074,7 @@ export const getOriginEndpoint: API.OperationMethod<
 export const updateOriginEndpoint: API.OperationMethod<
   UpdateOriginEndpointRequest,
   UpdateOriginEndpointResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOriginEndpointRequest,
@@ -3070,17 +3089,19 @@ export const updateOriginEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOriginEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
  */
 export const deleteOriginEndpoint: API.OperationMethod<
   DeleteOriginEndpointRequest,
   DeleteOriginEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteOriginEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOriginEndpointRequest,
@@ -3092,42 +3113,34 @@ export const deleteOriginEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListOriginEndpointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
  */
 export const listOriginEndpoints: API.OperationMethod<
   ListOriginEndpointsRequest,
   ListOriginEndpointsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOriginEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOriginEndpointsRequest,
   ) => stream.Stream<
     ListOriginEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOriginEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOriginEndpointsRequest,
   ) => stream.Stream<
     OriginEndpointListConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOriginEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3147,6 +3160,14 @@ export const listOriginEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ResetOriginEndpointStateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint.
  *
@@ -3155,13 +3176,7 @@ export const listOriginEndpoints: API.OperationMethod<
 export const resetOriginEndpointState: API.OperationMethod<
   ResetOriginEndpointStateRequest,
   ResetOriginEndpointStateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetOriginEndpointStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetOriginEndpointStateRequest,
@@ -3175,19 +3190,21 @@ export const resetOriginEndpointState: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
- */
-export const putOriginEndpointPolicy: API.OperationMethod<
-  PutOriginEndpointPolicyRequest,
-  PutOriginEndpointPolicyResponse,
+export type PutOriginEndpointPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
+ */
+export const putOriginEndpointPolicy: API.OperationMethod<
+  PutOriginEndpointPolicyRequest,
+  PutOriginEndpointPolicyResponse,
+  PutOriginEndpointPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutOriginEndpointPolicyRequest,
@@ -3201,18 +3218,20 @@ export const putOriginEndpointPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOriginEndpointPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
  */
 export const getOriginEndpointPolicy: API.OperationMethod<
   GetOriginEndpointPolicyRequest,
   GetOriginEndpointPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOriginEndpointPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOriginEndpointPolicyRequest,
@@ -3225,18 +3244,20 @@ export const getOriginEndpointPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOriginEndpointPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an origin endpoint policy.
  */
 export const deleteOriginEndpointPolicy: API.OperationMethod<
   DeleteOriginEndpointPolicyRequest,
   DeleteOriginEndpointPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteOriginEndpointPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOriginEndpointPolicyRequest,
@@ -3249,12 +3270,7 @@ export const deleteOriginEndpointPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
- */
-export const createHarvestJob: API.OperationMethod<
-  CreateHarvestJobRequest,
-  CreateHarvestJobResponse,
+export type CreateHarvestJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3262,7 +3278,14 @@ export const createHarvestJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
+ */
+export const createHarvestJob: API.OperationMethod<
+  CreateHarvestJobRequest,
+  CreateHarvestJobResponse,
+  CreateHarvestJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHarvestJobRequest,
@@ -3277,18 +3300,20 @@ export const createHarvestJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetHarvestJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details of a specific harvest job.
  */
 export const getHarvestJob: API.OperationMethod<
   GetHarvestJobRequest,
   GetHarvestJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetHarvestJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHarvestJobRequest,
@@ -3301,19 +3326,21 @@ export const getHarvestJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels an in-progress harvest job.
- */
-export const cancelHarvestJob: API.OperationMethod<
-  CancelHarvestJobRequest,
-  CancelHarvestJobResponse,
+export type CancelHarvestJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels an in-progress harvest job.
+ */
+export const cancelHarvestJob: API.OperationMethod<
+  CancelHarvestJobRequest,
+  CancelHarvestJobResponse,
+  CancelHarvestJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelHarvestJobRequest,
@@ -3327,42 +3354,34 @@ export const cancelHarvestJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListHarvestJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of harvest jobs that match the specified criteria.
  */
 export const listHarvestJobs: API.OperationMethod<
   ListHarvestJobsRequest,
   ListHarvestJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListHarvestJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHarvestJobsRequest,
   ) => stream.Stream<
     ListHarvestJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHarvestJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHarvestJobsRequest,
   ) => stream.Stream<
     HarvestJob,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListHarvestJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

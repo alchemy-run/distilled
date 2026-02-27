@@ -244,19 +244,21 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * This API sets up the home region for the calling account only.
- */
-export const createHomeRegionControl: API.OperationMethod<
-  CreateHomeRegionControlRequest,
-  CreateHomeRegionControlResult,
+export type CreateHomeRegionControlError =
   | AccessDeniedException
   | DryRunOperation
   | InternalServerError
   | InvalidInputException
   | ServiceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This API sets up the home region for the calling account only.
+ */
+export const createHomeRegionControl: API.OperationMethod<
+  CreateHomeRegionControlRequest,
+  CreateHomeRegionControlResult,
+  CreateHomeRegionControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHomeRegionControlRequest,
@@ -270,18 +272,20 @@ export const createHomeRegionControl: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteHomeRegionControlError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
  */
 export const deleteHomeRegionControl: API.OperationMethod<
   DeleteHomeRegionControlRequest,
   DeleteHomeRegionControlResult,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidInputException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteHomeRegionControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHomeRegionControlRequest,
@@ -294,6 +298,13 @@ export const deleteHomeRegionControl: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeHomeRegionControlsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API permits filtering on the `ControlId` and `HomeRegion`
  * fields.
@@ -301,36 +312,21 @@ export const deleteHomeRegionControl: API.OperationMethod<
 export const describeHomeRegionControls: API.OperationMethod<
   DescribeHomeRegionControlsRequest,
   DescribeHomeRegionControlsResult,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidInputException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeHomeRegionControlsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeHomeRegionControlsRequest,
   ) => stream.Stream<
     DescribeHomeRegionControlsResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeHomeRegionControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeHomeRegionControlsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeHomeRegionControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -349,6 +345,13 @@ export const describeHomeRegionControls: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetHomeRegionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the calling account’s home region, if configured. This API is used by other AWS
  * services to determine the regional endpoint for calling AWS Application Discovery Service and
@@ -359,12 +362,7 @@ export const describeHomeRegionControls: API.OperationMethod<
 export const getHomeRegion: API.OperationMethod<
   GetHomeRegionRequest,
   GetHomeRegionResult,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidInputException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  GetHomeRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHomeRegionRequest,

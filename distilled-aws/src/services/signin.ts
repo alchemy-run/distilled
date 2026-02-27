@@ -228,6 +228,12 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateOAuth2TokenError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
 /**
  * CreateOAuth2Token API
  *
@@ -261,11 +267,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const createOAuth2Token: API.OperationMethod<
   CreateOAuth2TokenRequest,
   CreateOAuth2TokenResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsError
-  | ValidationException
-  | CommonErrors,
+  CreateOAuth2TokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOAuth2TokenRequest,

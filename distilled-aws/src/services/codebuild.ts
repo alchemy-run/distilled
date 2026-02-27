@@ -3477,133 +3477,146 @@ export class AccountSuspendedException extends S.TaggedErrorClass<AccountSuspend
 ) {}
 
 //# Operations
+export type BatchDeleteBuildsError = InvalidInputException | CommonErrors;
 /**
  * Deletes one or more builds.
  */
 export const batchDeleteBuilds: API.OperationMethod<
   BatchDeleteBuildsInput,
   BatchDeleteBuildsOutput,
-  InvalidInputException | CommonErrors,
+  BatchDeleteBuildsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteBuildsInput,
   output: BatchDeleteBuildsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetBuildBatchesError = InvalidInputException | CommonErrors;
 /**
  * Retrieves information about one or more batch builds.
  */
 export const batchGetBuildBatches: API.OperationMethod<
   BatchGetBuildBatchesInput,
   BatchGetBuildBatchesOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetBuildBatchesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetBuildBatchesInput,
   output: BatchGetBuildBatchesOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetBuildsError = InvalidInputException | CommonErrors;
 /**
  * Gets information about one or more builds.
  */
 export const batchGetBuilds: API.OperationMethod<
   BatchGetBuildsInput,
   BatchGetBuildsOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetBuildsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetBuildsInput,
   output: BatchGetBuildsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetCommandExecutionsError =
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Gets information about the command executions.
  */
 export const batchGetCommandExecutions: API.OperationMethod<
   BatchGetCommandExecutionsInput,
   BatchGetCommandExecutionsOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetCommandExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCommandExecutionsInput,
   output: BatchGetCommandExecutionsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetFleetsError = InvalidInputException | CommonErrors;
 /**
  * Gets information about one or more compute fleets.
  */
 export const batchGetFleets: API.OperationMethod<
   BatchGetFleetsInput,
   BatchGetFleetsOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetFleetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFleetsInput,
   output: BatchGetFleetsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetProjectsError = InvalidInputException | CommonErrors;
 /**
  * Gets information about one or more build projects.
  */
 export const batchGetProjects: API.OperationMethod<
   BatchGetProjectsInput,
   BatchGetProjectsOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsInput,
   output: BatchGetProjectsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetReportGroupsError = InvalidInputException | CommonErrors;
 /**
  * Returns an array of report groups.
  */
 export const batchGetReportGroups: API.OperationMethod<
   BatchGetReportGroupsInput,
   BatchGetReportGroupsOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetReportGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetReportGroupsInput,
   output: BatchGetReportGroupsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetReportsError = InvalidInputException | CommonErrors;
 /**
  * Returns an array of reports.
  */
 export const batchGetReports: API.OperationMethod<
   BatchGetReportsInput,
   BatchGetReportsOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetReportsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetReportsInput,
   output: BatchGetReportsOutput,
   errors: [InvalidInputException],
 }));
+export type BatchGetSandboxesError = InvalidInputException | CommonErrors;
 /**
  * Gets information about the sandbox status.
  */
 export const batchGetSandboxes: API.OperationMethod<
   BatchGetSandboxesInput,
   BatchGetSandboxesOutput,
-  InvalidInputException | CommonErrors,
+  BatchGetSandboxesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetSandboxesInput,
   output: BatchGetSandboxesOutput,
   errors: [InvalidInputException],
 }));
+export type CreateFleetError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a compute fleet.
  */
 export const createFleet: API.OperationMethod<
   CreateFleetInput,
   CreateFleetOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetInput,
@@ -3614,16 +3627,18 @@ export const createFleet: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreateProjectError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a build project.
  */
 export const createProject: API.OperationMethod<
   CreateProjectInput,
   CreateProjectOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectInput,
@@ -3634,16 +3649,18 @@ export const createProject: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreateReportGroupError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a report group. A report group contains a collection of reports.
  */
 export const createReportGroup: API.OperationMethod<
   CreateReportGroupInput,
   CreateReportGroupOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateReportGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReportGroupInput,
@@ -3654,6 +3671,12 @@ export const createReportGroup: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreateWebhookError =
+  | InvalidInputException
+  | OAuthProviderException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For an existing CodeBuild build project that has its source code stored in a GitHub or
  * Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
@@ -3669,11 +3692,7 @@ export const createReportGroup: API.OperationMethod<
 export const createWebhook: API.OperationMethod<
   CreateWebhookInput,
   CreateWebhookOutput,
-  | InvalidInputException
-  | OAuthProviderException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateWebhookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebhookInput,
@@ -3685,97 +3704,112 @@ export const createWebhook: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteBuildBatchError = InvalidInputException | CommonErrors;
 /**
  * Deletes a batch build.
  */
 export const deleteBuildBatch: API.OperationMethod<
   DeleteBuildBatchInput,
   DeleteBuildBatchOutput,
-  InvalidInputException | CommonErrors,
+  DeleteBuildBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBuildBatchInput,
   output: DeleteBuildBatchOutput,
   errors: [InvalidInputException],
 }));
+export type DeleteFleetError = InvalidInputException | CommonErrors;
 /**
  * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
  */
 export const deleteFleet: API.OperationMethod<
   DeleteFleetInput,
   DeleteFleetOutput,
-  InvalidInputException | CommonErrors,
+  DeleteFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetInput,
   output: DeleteFleetOutput,
   errors: [InvalidInputException],
 }));
+export type DeleteProjectError = InvalidInputException | CommonErrors;
 /**
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
 export const deleteProject: API.OperationMethod<
   DeleteProjectInput,
   DeleteProjectOutput,
-  InvalidInputException | CommonErrors,
+  DeleteProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectInput,
   output: DeleteProjectOutput,
   errors: [InvalidInputException],
 }));
+export type DeleteReportError = InvalidInputException | CommonErrors;
 /**
  * Deletes a report.
  */
 export const deleteReport: API.OperationMethod<
   DeleteReportInput,
   DeleteReportOutput,
-  InvalidInputException | CommonErrors,
+  DeleteReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportInput,
   output: DeleteReportOutput,
   errors: [InvalidInputException],
 }));
+export type DeleteReportGroupError = InvalidInputException | CommonErrors;
 /**
  * Deletes a report group. Before you delete a report group, you must delete its reports.
  */
 export const deleteReportGroup: API.OperationMethod<
   DeleteReportGroupInput,
   DeleteReportGroupOutput,
-  InvalidInputException | CommonErrors,
+  DeleteReportGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportGroupInput,
   output: DeleteReportGroupOutput,
   errors: [InvalidInputException],
 }));
+export type DeleteResourcePolicyError = InvalidInputException | CommonErrors;
 /**
  * Deletes a resource policy that is identified by its resource ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyInput,
   DeleteResourcePolicyOutput,
-  InvalidInputException | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyInput,
   output: DeleteResourcePolicyOutput,
   errors: [InvalidInputException],
 }));
+export type DeleteSourceCredentialsError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
  */
 export const deleteSourceCredentials: API.OperationMethod<
   DeleteSourceCredentialsInput,
   DeleteSourceCredentialsOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DeleteSourceCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceCredentialsInput,
   output: DeleteSourceCredentialsOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DeleteWebhookError =
+  | InvalidInputException
+  | OAuthProviderException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For an existing CodeBuild build project that has its source code stored in a GitHub or
  * Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
@@ -3784,10 +3818,7 @@ export const deleteSourceCredentials: API.OperationMethod<
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookInput,
   DeleteWebhookOutput,
-  | InvalidInputException
-  | OAuthProviderException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteWebhookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebhookInput,
@@ -3798,27 +3829,28 @@ export const deleteWebhook: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeCodeCoveragesError = InvalidInputException | CommonErrors;
 /**
  * Retrieves one or more code coverage reports.
  */
 export const describeCodeCoverages: API.OperationMethod<
   DescribeCodeCoveragesInput,
   DescribeCodeCoveragesOutput,
-  InvalidInputException | CommonErrors,
+  DescribeCodeCoveragesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeCodeCoveragesInput,
   ) => stream.Stream<
     DescribeCodeCoveragesOutput,
-    InvalidInputException | CommonErrors,
+    DescribeCodeCoveragesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCodeCoveragesInput,
   ) => stream.Stream<
     CodeCoverage,
-    InvalidInputException | CommonErrors,
+    DescribeCodeCoveragesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3832,27 +3864,31 @@ export const describeCodeCoverages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeTestCasesError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of details about test cases for a report.
  */
 export const describeTestCases: API.OperationMethod<
   DescribeTestCasesInput,
   DescribeTestCasesOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeTestCasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTestCasesInput,
   ) => stream.Stream<
     DescribeTestCasesOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    DescribeTestCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTestCasesInput,
   ) => stream.Stream<
     TestCase,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    DescribeTestCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3866,32 +3902,45 @@ export const describeTestCases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetReportGroupTrendError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Analyzes and accumulates test report values for the specified test reports.
  */
 export const getReportGroupTrend: API.OperationMethod<
   GetReportGroupTrendInput,
   GetReportGroupTrendOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  GetReportGroupTrendError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportGroupTrendInput,
   output: GetReportGroupTrendOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type GetResourcePolicyError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a resource policy that is identified by its resource ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyInput,
   GetResourcePolicyOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyInput,
   output: GetResourcePolicyOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type ImportSourceCredentialsError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Imports the source repository credentials for an CodeBuild project that has its
  * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
@@ -3899,10 +3948,7 @@ export const getResourcePolicy: API.OperationMethod<
 export const importSourceCredentials: API.OperationMethod<
   ImportSourceCredentialsInput,
   ImportSourceCredentialsOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  ImportSourceCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSourceCredentialsInput,
@@ -3913,40 +3959,45 @@ export const importSourceCredentials: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type InvalidateProjectCacheError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Resets the cache for a project.
  */
 export const invalidateProjectCache: API.OperationMethod<
   InvalidateProjectCacheInput,
   InvalidateProjectCacheOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  InvalidateProjectCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvalidateProjectCacheInput,
   output: InvalidateProjectCacheOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type ListBuildBatchesError = InvalidInputException | CommonErrors;
 /**
  * Retrieves the identifiers of your build batches in the current region.
  */
 export const listBuildBatches: API.OperationMethod<
   ListBuildBatchesInput,
   ListBuildBatchesOutput,
-  InvalidInputException | CommonErrors,
+  ListBuildBatchesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuildBatchesInput,
   ) => stream.Stream<
     ListBuildBatchesOutput,
-    InvalidInputException | CommonErrors,
+    ListBuildBatchesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildBatchesInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListBuildBatchesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3960,27 +4011,31 @@ export const listBuildBatches: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBuildBatchesForProjectError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the identifiers of the build batches for a specific project.
  */
 export const listBuildBatchesForProject: API.OperationMethod<
   ListBuildBatchesForProjectInput,
   ListBuildBatchesForProjectOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  ListBuildBatchesForProjectError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuildBatchesForProjectInput,
   ) => stream.Stream<
     ListBuildBatchesForProjectOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListBuildBatchesForProjectError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildBatchesForProjectInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListBuildBatchesForProjectError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3994,27 +4049,28 @@ export const listBuildBatchesForProject: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBuildsError = InvalidInputException | CommonErrors;
 /**
  * Gets a list of build IDs, with each build ID representing a single build.
  */
 export const listBuilds: API.OperationMethod<
   ListBuildsInput,
   ListBuildsOutput,
-  InvalidInputException | CommonErrors,
+  ListBuildsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuildsInput,
   ) => stream.Stream<
     ListBuildsOutput,
-    InvalidInputException | CommonErrors,
+    ListBuildsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildsInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListBuildsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4027,6 +4083,10 @@ export const listBuilds: API.OperationMethod<
     items: "ids",
   } as const,
 }));
+export type ListBuildsForProjectError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a list of build identifiers for the specified build project, with each build
  * identifier representing a single build.
@@ -4034,21 +4094,21 @@ export const listBuilds: API.OperationMethod<
 export const listBuildsForProject: API.OperationMethod<
   ListBuildsForProjectInput,
   ListBuildsForProjectOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  ListBuildsForProjectError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuildsForProjectInput,
   ) => stream.Stream<
     ListBuildsForProjectOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListBuildsForProjectError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildsForProjectInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListBuildsForProjectError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4061,27 +4121,31 @@ export const listBuildsForProject: API.OperationMethod<
     items: "ids",
   } as const,
 }));
+export type ListCommandExecutionsForSandboxError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a list of command executions for a sandbox.
  */
 export const listCommandExecutionsForSandbox: API.OperationMethod<
   ListCommandExecutionsForSandboxInput,
   ListCommandExecutionsForSandboxOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  ListCommandExecutionsForSandboxError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommandExecutionsForSandboxInput,
   ) => stream.Stream<
     ListCommandExecutionsForSandboxOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListCommandExecutionsForSandboxError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCommandExecutionsForSandboxInput,
   ) => stream.Stream<
     CommandExecution,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListCommandExecutionsForSandboxError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4095,40 +4159,42 @@ export const listCommandExecutionsForSandbox: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCuratedEnvironmentImagesError = CommonErrors;
 /**
  * Gets information about Docker images that are managed by CodeBuild.
  */
 export const listCuratedEnvironmentImages: API.OperationMethod<
   ListCuratedEnvironmentImagesInput,
   ListCuratedEnvironmentImagesOutput,
-  CommonErrors,
+  ListCuratedEnvironmentImagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCuratedEnvironmentImagesInput,
   output: ListCuratedEnvironmentImagesOutput,
   errors: [],
 }));
+export type ListFleetsError = InvalidInputException | CommonErrors;
 /**
  * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
  */
 export const listFleets: API.OperationMethod<
   ListFleetsInput,
   ListFleetsOutput,
-  InvalidInputException | CommonErrors,
+  ListFleetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFleetsInput,
   ) => stream.Stream<
     ListFleetsOutput,
-    InvalidInputException | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetsInput,
   ) => stream.Stream<
     unknown,
-    InvalidInputException | CommonErrors,
+    ListFleetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4141,6 +4207,7 @@ export const listFleets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProjectsError = InvalidInputException | CommonErrors;
 /**
  * Gets a list of build project names, with each build project name representing a single
  * build project.
@@ -4148,21 +4215,21 @@ export const listFleets: API.OperationMethod<
 export const listProjects: API.OperationMethod<
   ListProjectsInput,
   ListProjectsOutput,
-  InvalidInputException | CommonErrors,
+  ListProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectsInput,
   ) => stream.Stream<
     ListProjectsOutput,
-    InvalidInputException | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4175,27 +4242,28 @@ export const listProjects: API.OperationMethod<
     items: "projects",
   } as const,
 }));
+export type ListReportGroupsError = InvalidInputException | CommonErrors;
 /**
  * Gets a list ARNs for the report groups in the current Amazon Web Services account.
  */
 export const listReportGroups: API.OperationMethod<
   ListReportGroupsInput,
   ListReportGroupsOutput,
-  InvalidInputException | CommonErrors,
+  ListReportGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReportGroupsInput,
   ) => stream.Stream<
     ListReportGroupsOutput,
-    InvalidInputException | CommonErrors,
+    ListReportGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportGroupsInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListReportGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4209,27 +4277,28 @@ export const listReportGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListReportsError = InvalidInputException | CommonErrors;
 /**
  * Returns a list of ARNs for the reports in the current Amazon Web Services account.
  */
 export const listReports: API.OperationMethod<
   ListReportsInput,
   ListReportsOutput,
-  InvalidInputException | CommonErrors,
+  ListReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReportsInput,
   ) => stream.Stream<
     ListReportsOutput,
-    InvalidInputException | CommonErrors,
+    ListReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportsInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4243,27 +4312,31 @@ export const listReports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListReportsForReportGroupError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
  */
 export const listReportsForReportGroup: API.OperationMethod<
   ListReportsForReportGroupInput,
   ListReportsForReportGroupOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  ListReportsForReportGroupError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReportsForReportGroupInput,
   ) => stream.Stream<
     ListReportsForReportGroupOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListReportsForReportGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportsForReportGroupInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListReportsForReportGroupError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4277,27 +4350,28 @@ export const listReportsForReportGroup: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSandboxesError = InvalidInputException | CommonErrors;
 /**
  * Gets a list of sandboxes.
  */
 export const listSandboxes: API.OperationMethod<
   ListSandboxesInput,
   ListSandboxesOutput,
-  InvalidInputException | CommonErrors,
+  ListSandboxesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSandboxesInput,
   ) => stream.Stream<
     ListSandboxesOutput,
-    InvalidInputException | CommonErrors,
+    ListSandboxesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSandboxesInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListSandboxesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4311,27 +4385,31 @@ export const listSandboxes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSandboxesForProjectError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets a list of sandboxes for a given project.
  */
 export const listSandboxesForProject: API.OperationMethod<
   ListSandboxesForProjectInput,
   ListSandboxesForProjectOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  ListSandboxesForProjectError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSandboxesForProjectInput,
   ) => stream.Stream<
     ListSandboxesForProjectOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListSandboxesForProjectError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSandboxesForProjectInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
+    ListSandboxesForProjectError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4345,27 +4423,28 @@ export const listSandboxesForProject: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSharedProjectsError = InvalidInputException | CommonErrors;
 /**
  * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedProjects: API.OperationMethod<
   ListSharedProjectsInput,
   ListSharedProjectsOutput,
-  InvalidInputException | CommonErrors,
+  ListSharedProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSharedProjectsInput,
   ) => stream.Stream<
     ListSharedProjectsOutput,
-    InvalidInputException | CommonErrors,
+    ListSharedProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSharedProjectsInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListSharedProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4379,27 +4458,28 @@ export const listSharedProjects: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSharedReportGroupsError = InvalidInputException | CommonErrors;
 /**
  * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedReportGroups: API.OperationMethod<
   ListSharedReportGroupsInput,
   ListSharedReportGroupsOutput,
-  InvalidInputException | CommonErrors,
+  ListSharedReportGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSharedReportGroupsInput,
   ) => stream.Stream<
     ListSharedReportGroupsOutput,
-    InvalidInputException | CommonErrors,
+    ListSharedReportGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSharedReportGroupsInput,
   ) => stream.Stream<
     NonEmptyString,
-    InvalidInputException | CommonErrors,
+    ListSharedReportGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4413,19 +4493,24 @@ export const listSharedReportGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSourceCredentialsError = InvalidInputException | CommonErrors;
 /**
  * Returns a list of `SourceCredentialsInfo` objects.
  */
 export const listSourceCredentials: API.OperationMethod<
   ListSourceCredentialsInput,
   ListSourceCredentialsOutput,
-  InvalidInputException | CommonErrors,
+  ListSourceCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSourceCredentialsInput,
   output: ListSourceCredentialsOutput,
   errors: [InvalidInputException],
 }));
+export type PutResourcePolicyError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stores a resource policy for the ARN of a `Project` or
  * `ReportGroup` object.
@@ -4433,23 +4518,25 @@ export const listSourceCredentials: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyInput,
   PutResourcePolicyOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyInput,
   output: PutResourcePolicyOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type RetryBuildError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Restarts a build.
  */
 export const retryBuild: API.OperationMethod<
   RetryBuildInput,
   RetryBuildOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RetryBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryBuildInput,
@@ -4460,19 +4547,28 @@ export const retryBuild: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RetryBuildBatchError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
 export const retryBuildBatch: API.OperationMethod<
   RetryBuildBatchInput,
   RetryBuildBatchOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  RetryBuildBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryBuildBatchInput,
   output: RetryBuildBatchOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type StartBuildError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts running a build with the settings defined in the project. These setting include: how to run a build,
  * where to get the source code, which build environment to use, which build commands to run, and where to store the build output.
@@ -4483,10 +4579,7 @@ export const retryBuildBatch: API.OperationMethod<
 export const startBuild: API.OperationMethod<
   StartBuildInput,
   StartBuildOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBuildInput,
@@ -4497,42 +4590,52 @@ export const startBuild: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartBuildBatchError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a batch build for a project.
  */
 export const startBuildBatch: API.OperationMethod<
   StartBuildBatchInput,
   StartBuildBatchOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  StartBuildBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBuildBatchInput,
   output: StartBuildBatchOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type StartCommandExecutionError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a command execution.
  */
 export const startCommandExecution: API.OperationMethod<
   StartCommandExecutionInput,
   StartCommandExecutionOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  StartCommandExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCommandExecutionInput,
   output: StartCommandExecutionOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type StartSandboxError =
+  | AccountSuspendedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a sandbox.
  */
 export const startSandbox: API.OperationMethod<
   StartSandboxInput,
   StartSandboxOutput,
-  | AccountSuspendedException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartSandboxError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSandboxInput,
@@ -4543,68 +4646,86 @@ export const startSandbox: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartSandboxConnectionError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a sandbox connection.
  */
 export const startSandboxConnection: API.OperationMethod<
   StartSandboxConnectionInput,
   StartSandboxConnectionOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  StartSandboxConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSandboxConnectionInput,
   output: StartSandboxConnectionOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type StopBuildError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Attempts to stop running a build.
  */
 export const stopBuild: API.OperationMethod<
   StopBuildInput,
   StopBuildOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  StopBuildError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBuildInput,
   output: StopBuildOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type StopBuildBatchError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a running batch build.
  */
 export const stopBuildBatch: API.OperationMethod<
   StopBuildBatchInput,
   StopBuildBatchOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  StopBuildBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBuildBatchInput,
   output: StopBuildBatchOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type StopSandboxError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a sandbox.
  */
 export const stopSandbox: API.OperationMethod<
   StopSandboxInput,
   StopSandboxOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  StopSandboxError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSandboxInput,
   output: StopSandboxOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type UpdateFleetError =
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a compute fleet.
  */
 export const updateFleet: API.OperationMethod<
   UpdateFleetInput,
   UpdateFleetOutput,
-  | AccountLimitExceededException
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateFleetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetInput,
@@ -4615,19 +4736,27 @@ export const updateFleet: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateProjectError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Changes the settings of a build project.
  */
 export const updateProject: API.OperationMethod<
   UpdateProjectInput,
   UpdateProjectOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  UpdateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectInput,
   output: UpdateProjectOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type UpdateProjectVisibilityError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Changes the public visibility for a project. The project's build results, logs, and
  * artifacts are available to the general public. For more information, see Public build
@@ -4660,26 +4789,35 @@ export const updateProject: API.OperationMethod<
 export const updateProjectVisibility: API.OperationMethod<
   UpdateProjectVisibilityInput,
   UpdateProjectVisibilityOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  UpdateProjectVisibilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectVisibilityInput,
   output: UpdateProjectVisibilityOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type UpdateReportGroupError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a report group.
  */
 export const updateReportGroup: API.OperationMethod<
   UpdateReportGroupInput,
   UpdateReportGroupOutput,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  UpdateReportGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReportGroupInput,
   output: UpdateReportGroupOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type UpdateWebhookError =
+  | InvalidInputException
+  | OAuthProviderException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the webhook associated with an CodeBuild build project.
  *
@@ -4688,10 +4826,7 @@ export const updateReportGroup: API.OperationMethod<
 export const updateWebhook: API.OperationMethod<
   UpdateWebhookInput,
   UpdateWebhookOutput,
-  | InvalidInputException
-  | OAuthProviderException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateWebhookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebhookInput,

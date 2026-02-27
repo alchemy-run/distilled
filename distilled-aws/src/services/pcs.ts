@@ -1199,45 +1199,59 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Returns a list of all tags on an PCS resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type CreateClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action.
  *
@@ -1246,13 +1260,7 @@ export const untagResource: API.OperationMethod<
 export const createCluster: API.OperationMethod<
   CreateClusterRequest,
   CreateClusterResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -1266,6 +1274,14 @@ export const createCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster.
  *
@@ -1274,13 +1290,7 @@ export const createCluster: API.OperationMethod<
 export const updateCluster: API.OperationMethod<
   UpdateClusterRequest,
   UpdateClusterResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -1294,19 +1304,21 @@ export const updateCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
- */
-export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
-  DeleteClusterResponse,
+export type DeleteClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
+ */
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
+  DeleteClusterResponse,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -1320,19 +1332,21 @@ export const deleteCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
- */
-export const getCluster: API.OperationMethod<
-  GetClusterRequest,
-  GetClusterResponse,
+export type GetClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
+ */
+export const getCluster: API.OperationMethod<
+  GetClusterRequest,
+  GetClusterResponse,
+  GetClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterRequest,
@@ -1346,6 +1360,10 @@ export const getCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterComputeNodeGroupInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * This API action isn't intended for you to use.
  *
@@ -1354,52 +1372,42 @@ export const getCluster: API.OperationMethod<
 export const registerComputeNodeGroupInstance: API.OperationMethod<
   RegisterComputeNodeGroupInstanceRequest,
   RegisterComputeNodeGroupInstanceResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  RegisterComputeNodeGroupInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterComputeNodeGroupInstanceRequest,
   output: RegisterComputeNodeGroupInstanceResponse,
   errors: [AccessDeniedException, InternalServerException],
 }));
-/**
- * Returns a list of running clusters in your account.
- */
-export const listClusters: API.OperationMethod<
-  ListClustersRequest,
-  ListClustersResponse,
+export type ListClustersError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of running clusters in your account.
+ */
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ListClustersResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ClusterSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1420,12 +1428,7 @@ export const listClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
- */
-export const createComputeNodeGroup: API.OperationMethod<
-  CreateComputeNodeGroupRequest,
-  CreateComputeNodeGroupResponse,
+export type CreateComputeNodeGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1433,7 +1436,14 @@ export const createComputeNodeGroup: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
+ */
+export const createComputeNodeGroup: API.OperationMethod<
+  CreateComputeNodeGroupRequest,
+  CreateComputeNodeGroupResponse,
+  CreateComputeNodeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComputeNodeGroupRequest,
@@ -1448,12 +1458,7 @@ export const createComputeNodeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
- */
-export const updateComputeNodeGroup: API.OperationMethod<
-  UpdateComputeNodeGroupRequest,
-  UpdateComputeNodeGroupResponse,
+export type UpdateComputeNodeGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1461,7 +1466,14 @@ export const updateComputeNodeGroup: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
+ */
+export const updateComputeNodeGroup: API.OperationMethod<
+  UpdateComputeNodeGroupRequest,
+  UpdateComputeNodeGroupResponse,
+  UpdateComputeNodeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComputeNodeGroupRequest,
@@ -1476,19 +1488,21 @@ export const updateComputeNodeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a compute node group. You must delete all queues associated with the compute node group first.
- */
-export const deleteComputeNodeGroup: API.OperationMethod<
-  DeleteComputeNodeGroupRequest,
-  DeleteComputeNodeGroupResponse,
+export type DeleteComputeNodeGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a compute node group. You must delete all queues associated with the compute node group first.
+ */
+export const deleteComputeNodeGroup: API.OperationMethod<
+  DeleteComputeNodeGroupRequest,
+  DeleteComputeNodeGroupResponse,
+  DeleteComputeNodeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComputeNodeGroupRequest,
@@ -1502,19 +1516,21 @@ export const deleteComputeNodeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
- */
-export const getComputeNodeGroup: API.OperationMethod<
-  GetComputeNodeGroupRequest,
-  GetComputeNodeGroupResponse,
+export type GetComputeNodeGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
+ */
+export const getComputeNodeGroup: API.OperationMethod<
+  GetComputeNodeGroupRequest,
+  GetComputeNodeGroupResponse,
+  GetComputeNodeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComputeNodeGroupRequest,
@@ -1528,45 +1544,35 @@ export const getComputeNodeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns a list of all compute node groups associated with a cluster.
- */
-export const listComputeNodeGroups: API.OperationMethod<
-  ListComputeNodeGroupsRequest,
-  ListComputeNodeGroupsResponse,
+export type ListComputeNodeGroupsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all compute node groups associated with a cluster.
+ */
+export const listComputeNodeGroups: API.OperationMethod<
+  ListComputeNodeGroupsRequest,
+  ListComputeNodeGroupsResponse,
+  ListComputeNodeGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComputeNodeGroupsRequest,
   ) => stream.Stream<
     ListComputeNodeGroupsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComputeNodeGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComputeNodeGroupsRequest,
   ) => stream.Stream<
     ComputeNodeGroupSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComputeNodeGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1587,12 +1593,7 @@ export const listComputeNodeGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
- */
-export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
-  CreateQueueResponse,
+export type CreateQueueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1600,7 +1601,14 @@ export const createQueue: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
+ */
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
+  CreateQueueResponse,
+  CreateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
@@ -1615,12 +1623,7 @@ export const createQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
- */
-export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
-  UpdateQueueResponse,
+export type UpdateQueueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1628,7 +1631,14 @@ export const updateQueue: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
+ */
+export const updateQueue: API.OperationMethod<
+  UpdateQueueRequest,
+  UpdateQueueResponse,
+  UpdateQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueRequest,
@@ -1643,19 +1653,21 @@ export const updateQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
- */
-export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
-  DeleteQueueResponse,
+export type DeleteQueueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
+ */
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
+  DeleteQueueResponse,
+  DeleteQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
@@ -1669,19 +1681,21 @@ export const deleteQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
- */
-export const getQueue: API.OperationMethod<
-  GetQueueRequest,
-  GetQueueResponse,
+export type GetQueueError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
+ */
+export const getQueue: API.OperationMethod<
+  GetQueueRequest,
+  GetQueueResponse,
+  GetQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueRequest,
@@ -1695,45 +1709,35 @@ export const getQueue: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns a list of all queues associated with a cluster.
- */
-export const listQueues: API.OperationMethod<
-  ListQueuesRequest,
-  ListQueuesResponse,
+export type ListQueuesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of all queues associated with a cluster.
+ */
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResponse,
+  ListQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     ListQueuesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueuesRequest,
   ) => stream.Stream<
     QueueSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

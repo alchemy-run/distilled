@@ -1793,18 +1793,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type GetDataIntegrationEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
  */
 export const getDataIntegrationEvent: API.OperationMethod<
   GetDataIntegrationEventRequest,
   GetDataIntegrationEventResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataIntegrationEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataIntegrationEventRequest,
@@ -1817,18 +1819,20 @@ export const getDataIntegrationEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataIntegrationFlowExecutionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the flow execution.
  */
 export const getDataIntegrationFlowExecution: API.OperationMethod<
   GetDataIntegrationFlowExecutionRequest,
   GetDataIntegrationFlowExecutionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataIntegrationFlowExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataIntegrationFlowExecutionRequest,
@@ -1841,39 +1845,33 @@ export const getDataIntegrationFlowExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataIntegrationEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
  */
 export const listDataIntegrationEvents: API.OperationMethod<
   ListDataIntegrationEventsRequest,
   ListDataIntegrationEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataIntegrationEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataIntegrationEventsRequest,
   ) => stream.Stream<
     ListDataIntegrationEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIntegrationEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataIntegrationEventsRequest,
   ) => stream.Stream<
     DataIntegrationEvent,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIntegrationEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1892,42 +1890,34 @@ export const listDataIntegrationEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDataIntegrationFlowExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List flow executions.
  */
 export const listDataIntegrationFlowExecutions: API.OperationMethod<
   ListDataIntegrationFlowExecutionsRequest,
   ListDataIntegrationFlowExecutionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataIntegrationFlowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataIntegrationFlowExecutionsRequest,
   ) => stream.Stream<
     ListDataIntegrationFlowExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIntegrationFlowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataIntegrationFlowExecutionsRequest,
   ) => stream.Stream<
     DataIntegrationFlowExecution,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIntegrationFlowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1947,18 +1937,20 @@ export const listDataIntegrationFlowExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1971,12 +1963,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
- */
-export const sendDataIntegrationEvent: API.OperationMethod<
-  SendDataIntegrationEventRequest,
-  SendDataIntegrationEventResponse,
+export type SendDataIntegrationEventError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1984,7 +1971,14 @@ export const sendDataIntegrationEvent: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
+ */
+export const sendDataIntegrationEvent: API.OperationMethod<
+  SendDataIntegrationEventRequest,
+  SendDataIntegrationEventResponse,
+  SendDataIntegrationEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDataIntegrationEventRequest,
@@ -1999,18 +1993,20 @@ export const sendDataIntegrationEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2023,18 +2019,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2047,6 +2045,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateBillOfMaterialsImportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide.
  *
@@ -2055,13 +2061,7 @@ export const untagResource: API.OperationMethod<
 export const createBillOfMaterialsImportJob: API.OperationMethod<
   CreateBillOfMaterialsImportJobRequest,
   CreateBillOfMaterialsImportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBillOfMaterialsImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillOfMaterialsImportJobRequest,
@@ -2075,18 +2075,20 @@ export const createBillOfMaterialsImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBillOfMaterialsImportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get status and details of a BillOfMaterialsImportJob.
  */
 export const getBillOfMaterialsImportJob: API.OperationMethod<
   GetBillOfMaterialsImportJobRequest,
   GetBillOfMaterialsImportJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBillOfMaterialsImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillOfMaterialsImportJobRequest,
@@ -2099,19 +2101,21 @@ export const getBillOfMaterialsImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
- */
-export const createDataIntegrationFlow: API.OperationMethod<
-  CreateDataIntegrationFlowRequest,
-  CreateDataIntegrationFlowResponse,
+export type CreateDataIntegrationFlowError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
+ */
+export const createDataIntegrationFlow: API.OperationMethod<
+  CreateDataIntegrationFlowRequest,
+  CreateDataIntegrationFlowResponse,
+  CreateDataIntegrationFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataIntegrationFlowRequest,
@@ -2125,18 +2129,20 @@ export const createDataIntegrationFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataIntegrationFlowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
 export const getDataIntegrationFlow: API.OperationMethod<
   GetDataIntegrationFlowRequest,
   GetDataIntegrationFlowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataIntegrationFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataIntegrationFlowRequest,
@@ -2149,18 +2155,20 @@ export const getDataIntegrationFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDataIntegrationFlowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
 export const updateDataIntegrationFlow: API.OperationMethod<
   UpdateDataIntegrationFlowRequest,
   UpdateDataIntegrationFlowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDataIntegrationFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataIntegrationFlowRequest,
@@ -2173,17 +2181,19 @@ export const updateDataIntegrationFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataIntegrationFlowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
 export const deleteDataIntegrationFlow: API.OperationMethod<
   DeleteDataIntegrationFlowRequest,
   DeleteDataIntegrationFlowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDataIntegrationFlowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataIntegrationFlowRequest,
@@ -2195,39 +2205,33 @@ export const deleteDataIntegrationFlow: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListDataIntegrationFlowsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
  */
 export const listDataIntegrationFlows: API.OperationMethod<
   ListDataIntegrationFlowsRequest,
   ListDataIntegrationFlowsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataIntegrationFlowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataIntegrationFlowsRequest,
   ) => stream.Stream<
     ListDataIntegrationFlowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIntegrationFlowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataIntegrationFlowsRequest,
   ) => stream.Stream<
     DataIntegrationFlow,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataIntegrationFlowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2246,12 +2250,7 @@ export const listDataIntegrationFlows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
- */
-export const createDataLakeDataset: API.OperationMethod<
-  CreateDataLakeDatasetRequest,
-  CreateDataLakeDatasetResponse,
+export type CreateDataLakeDatasetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2259,7 +2258,14 @@ export const createDataLakeDataset: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
+ */
+export const createDataLakeDataset: API.OperationMethod<
+  CreateDataLakeDatasetRequest,
+  CreateDataLakeDatasetResponse,
+  CreateDataLakeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataLakeDatasetRequest,
@@ -2274,18 +2280,20 @@ export const createDataLakeDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataLakeDatasetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
  */
 export const getDataLakeDataset: API.OperationMethod<
   GetDataLakeDatasetRequest,
   GetDataLakeDatasetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataLakeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataLakeDatasetRequest,
@@ -2298,18 +2306,20 @@ export const getDataLakeDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDataLakeDatasetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
  */
 export const updateDataLakeDataset: API.OperationMethod<
   UpdateDataLakeDatasetRequest,
   UpdateDataLakeDatasetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDataLakeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataLakeDatasetRequest,
@@ -2322,18 +2332,20 @@ export const updateDataLakeDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataLakeDatasetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
  */
 export const deleteDataLakeDataset: API.OperationMethod<
   DeleteDataLakeDatasetRequest,
   DeleteDataLakeDatasetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataLakeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataLakeDatasetRequest,
@@ -2346,42 +2358,34 @@ export const deleteDataLakeDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataLakeDatasetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
  */
 export const listDataLakeDatasets: API.OperationMethod<
   ListDataLakeDatasetsRequest,
   ListDataLakeDatasetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataLakeDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataLakeDatasetsRequest,
   ) => stream.Stream<
     ListDataLakeDatasetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataLakeDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataLakeDatasetsRequest,
   ) => stream.Stream<
     DataLakeDataset,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataLakeDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2401,19 +2405,21 @@ export const listDataLakeDatasets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
- */
-export const createDataLakeNamespace: API.OperationMethod<
-  CreateDataLakeNamespaceRequest,
-  CreateDataLakeNamespaceResponse,
+export type CreateDataLakeNamespaceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
+ */
+export const createDataLakeNamespace: API.OperationMethod<
+  CreateDataLakeNamespaceRequest,
+  CreateDataLakeNamespaceResponse,
+  CreateDataLakeNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataLakeNamespaceRequest,
@@ -2427,18 +2433,20 @@ export const createDataLakeNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataLakeNamespaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
  */
 export const getDataLakeNamespace: API.OperationMethod<
   GetDataLakeNamespaceRequest,
   GetDataLakeNamespaceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataLakeNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataLakeNamespaceRequest,
@@ -2451,18 +2459,20 @@ export const getDataLakeNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDataLakeNamespaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
  */
 export const updateDataLakeNamespace: API.OperationMethod<
   UpdateDataLakeNamespaceRequest,
   UpdateDataLakeNamespaceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDataLakeNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataLakeNamespaceRequest,
@@ -2475,18 +2485,20 @@ export const updateDataLakeNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataLakeNamespaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
  */
 export const deleteDataLakeNamespace: API.OperationMethod<
   DeleteDataLakeNamespaceRequest,
   DeleteDataLakeNamespaceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataLakeNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataLakeNamespaceRequest,
@@ -2499,39 +2511,33 @@ export const deleteDataLakeNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataLakeNamespacesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
  */
 export const listDataLakeNamespaces: API.OperationMethod<
   ListDataLakeNamespacesRequest,
   ListDataLakeNamespacesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataLakeNamespacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataLakeNamespacesRequest,
   ) => stream.Stream<
     ListDataLakeNamespacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataLakeNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataLakeNamespacesRequest,
   ) => stream.Stream<
     DataLakeNamespace,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataLakeNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2550,6 +2556,14 @@ export const listDataLakeNamespaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateInstanceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console.
  *
@@ -2558,13 +2572,7 @@ export const listDataLakeNamespaces: API.OperationMethod<
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
   CreateInstanceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceRequest,
@@ -2578,18 +2586,20 @@ export const createInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
  */
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
   GetInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceRequest,
@@ -2602,18 +2612,20 @@ export const getInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
  */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,
   UpdateInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceRequest,
@@ -2626,6 +2638,13 @@ export const updateInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console.
  *
@@ -2634,12 +2653,7 @@ export const updateInstance: API.OperationMethod<
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
   DeleteInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
@@ -2652,39 +2666,33 @@ export const deleteInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
  */
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     ListInstancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesRequest,
   ) => stream.Stream<
     Instance,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

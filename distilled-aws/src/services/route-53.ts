@@ -4114,6 +4114,14 @@ export class ConflictingTypes extends S.TaggedErrorClass<ConflictingTypes>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ActivateKeySigningKeyError =
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | InvalidSigningStatus
+  | NoSuchKeySigningKey
+  | CommonErrors;
 /**
  * Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This
  * operation changes the KSK status to `ACTIVE`.
@@ -4121,13 +4129,7 @@ export class ConflictingTypes extends S.TaggedErrorClass<ConflictingTypes>()(
 export const activateKeySigningKey: API.OperationMethod<
   ActivateKeySigningKeyRequest,
   ActivateKeySigningKeyResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | InvalidKeySigningKeyStatus
-  | InvalidKMSArn
-  | InvalidSigningStatus
-  | NoSuchKeySigningKey
-  | CommonErrors,
+  ActivateKeySigningKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateKeySigningKeyRequest,
@@ -4141,6 +4143,16 @@ export const activateKeySigningKey: API.OperationMethod<
     NoSuchKeySigningKey,
   ],
 }));
+export type AssociateVPCWithHostedZoneError =
+  | ConflictingDomainExists
+  | InvalidInput
+  | InvalidVPCId
+  | LimitsExceeded
+  | NoSuchHostedZone
+  | NotAuthorizedException
+  | PriorRequestNotComplete
+  | PublicZoneVPCAssociation
+  | CommonErrors;
 /**
  * Associates an Amazon VPC with a private hosted zone.
  *
@@ -4171,15 +4183,7 @@ export const activateKeySigningKey: API.OperationMethod<
 export const associateVPCWithHostedZone: API.OperationMethod<
   AssociateVPCWithHostedZoneRequest,
   AssociateVPCWithHostedZoneResponse,
-  | ConflictingDomainExists
-  | InvalidInput
-  | InvalidVPCId
-  | LimitsExceeded
-  | NoSuchHostedZone
-  | NotAuthorizedException
-  | PriorRequestNotComplete
-  | PublicZoneVPCAssociation
-  | CommonErrors,
+  AssociateVPCWithHostedZoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateVPCWithHostedZoneRequest,
@@ -4195,6 +4199,14 @@ export const associateVPCWithHostedZone: API.OperationMethod<
     PublicZoneVPCAssociation,
   ],
 }));
+export type ChangeCidrCollectionError =
+  | CidrBlockInUseException
+  | CidrCollectionVersionMismatchException
+  | ConcurrentModification
+  | InvalidInput
+  | LimitsExceeded
+  | NoSuchCidrCollectionException
+  | CommonErrors;
 /**
  * Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative
  * IP information mapping blocks to one or multiple locations.
@@ -4220,13 +4232,7 @@ export const associateVPCWithHostedZone: API.OperationMethod<
 export const changeCidrCollection: API.OperationMethod<
   ChangeCidrCollectionRequest,
   ChangeCidrCollectionResponse,
-  | CidrBlockInUseException
-  | CidrCollectionVersionMismatchException
-  | ConcurrentModification
-  | InvalidInput
-  | LimitsExceeded
-  | NoSuchCidrCollectionException
-  | CommonErrors,
+  ChangeCidrCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeCidrCollectionRequest,
@@ -4240,6 +4246,13 @@ export const changeCidrCollection: API.OperationMethod<
     NoSuchCidrCollectionException,
   ],
 }));
+export type ChangeResourceRecordSetsError =
+  | InvalidChangeBatch
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | CommonErrors;
 /**
  * Creates, changes, or deletes a resource record set, which contains authoritative DNS
  * information for a specified domain name or subdomain name. For example, you can use
@@ -4329,12 +4342,7 @@ export const changeCidrCollection: API.OperationMethod<
 export const changeResourceRecordSets: API.OperationMethod<
   ChangeResourceRecordSetsRequest,
   ChangeResourceRecordSetsResponse,
-  | InvalidChangeBatch
-  | InvalidInput
-  | NoSuchHealthCheck
-  | NoSuchHostedZone
-  | PriorRequestNotComplete
-  | CommonErrors,
+  ChangeResourceRecordSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeResourceRecordSetsRequest,
@@ -4347,6 +4355,13 @@ export const changeResourceRecordSets: API.OperationMethod<
     PriorRequestNotComplete,
   ],
 }));
+export type ChangeTagsForResourceError =
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds, edits, or deletes tags for a health check or a hosted zone.
  *
@@ -4356,12 +4371,7 @@ export const changeResourceRecordSets: API.OperationMethod<
 export const changeTagsForResource: API.OperationMethod<
   ChangeTagsForResourceRequest,
   ChangeTagsForResourceResponse,
-  | InvalidInput
-  | NoSuchHealthCheck
-  | NoSuchHostedZone
-  | PriorRequestNotComplete
-  | ThrottlingException
-  | CommonErrors,
+  ChangeTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeTagsForResourceRequest,
@@ -4374,17 +4384,19 @@ export const changeTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateCidrCollectionError =
+  | CidrCollectionAlreadyExistsException
+  | ConcurrentModification
+  | InvalidInput
+  | LimitsExceeded
+  | CommonErrors;
 /**
  * Creates a CIDR collection in the current Amazon Web Services account.
  */
 export const createCidrCollection: API.OperationMethod<
   CreateCidrCollectionRequest,
   CreateCidrCollectionResponse,
-  | CidrCollectionAlreadyExistsException
-  | ConcurrentModification
-  | InvalidInput
-  | LimitsExceeded
-  | CommonErrors,
+  CreateCidrCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCidrCollectionRequest,
@@ -4396,6 +4408,11 @@ export const createCidrCollection: API.OperationMethod<
     LimitsExceeded,
   ],
 }));
+export type CreateHealthCheckError =
+  | HealthCheckAlreadyExists
+  | InvalidInput
+  | TooManyHealthChecks
+  | CommonErrors;
 /**
  * Creates a new health check.
  *
@@ -4432,13 +4449,24 @@ export const createCidrCollection: API.OperationMethod<
 export const createHealthCheck: API.OperationMethod<
   CreateHealthCheckRequest,
   CreateHealthCheckResponse,
-  HealthCheckAlreadyExists | InvalidInput | TooManyHealthChecks | CommonErrors,
+  CreateHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHealthCheckRequest,
   output: CreateHealthCheckResponse,
   errors: [HealthCheckAlreadyExists, InvalidInput, TooManyHealthChecks],
 }));
+export type CreateHostedZoneError =
+  | ConflictingDomainExists
+  | DelegationSetNotAvailable
+  | DelegationSetNotReusable
+  | HostedZoneAlreadyExists
+  | InvalidDomainName
+  | InvalidInput
+  | InvalidVPCId
+  | NoSuchDelegationSet
+  | TooManyHostedZones
+  | CommonErrors;
 /**
  * Creates a new public or private hosted zone. You create records in a public hosted
  * zone to define how you want to route traffic on the internet for a domain, such as
@@ -4499,16 +4527,7 @@ export const createHealthCheck: API.OperationMethod<
 export const createHostedZone: API.OperationMethod<
   CreateHostedZoneRequest,
   CreateHostedZoneResponse,
-  | ConflictingDomainExists
-  | DelegationSetNotAvailable
-  | DelegationSetNotReusable
-  | HostedZoneAlreadyExists
-  | InvalidDomainName
-  | InvalidInput
-  | InvalidVPCId
-  | NoSuchDelegationSet
-  | TooManyHostedZones
-  | CommonErrors,
+  CreateHostedZoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHostedZoneRequest,
@@ -4525,13 +4544,7 @@ export const createHostedZone: API.OperationMethod<
     TooManyHostedZones,
   ],
 }));
-/**
- * Creates a new key-signing key (KSK) associated with a hosted zone. You can only have
- * two KSKs per hosted zone.
- */
-export const createKeySigningKey: API.OperationMethod<
-  CreateKeySigningKeyRequest,
-  CreateKeySigningKeyResponse,
+export type CreateKeySigningKeyError =
   | ConcurrentModification
   | InvalidArgument
   | InvalidInput
@@ -4542,7 +4555,15 @@ export const createKeySigningKey: API.OperationMethod<
   | KeySigningKeyAlreadyExists
   | NoSuchHostedZone
   | TooManyKeySigningKeys
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new key-signing key (KSK) associated with a hosted zone. You can only have
+ * two KSKs per hosted zone.
+ */
+export const createKeySigningKey: API.OperationMethod<
+  CreateKeySigningKeyRequest,
+  CreateKeySigningKeyResponse,
+  CreateKeySigningKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeySigningKeyRequest,
@@ -4560,6 +4581,14 @@ export const createKeySigningKey: API.OperationMethod<
     TooManyKeySigningKeys,
   ],
 }));
+export type CreateQueryLoggingConfigError =
+  | ConcurrentModification
+  | InsufficientCloudWatchLogsResourcePolicy
+  | InvalidInput
+  | NoSuchCloudWatchLogsLogGroup
+  | NoSuchHostedZone
+  | QueryLoggingConfigAlreadyExists
+  | CommonErrors;
 /**
  * Creates a configuration for DNS query logging. After you create a query logging
  * configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs
@@ -4706,13 +4735,7 @@ export const createKeySigningKey: API.OperationMethod<
 export const createQueryLoggingConfig: API.OperationMethod<
   CreateQueryLoggingConfigRequest,
   CreateQueryLoggingConfigResponse,
-  | ConcurrentModification
-  | InsufficientCloudWatchLogsResourcePolicy
-  | InvalidInput
-  | NoSuchCloudWatchLogsLogGroup
-  | NoSuchHostedZone
-  | QueryLoggingConfigAlreadyExists
-  | CommonErrors,
+  CreateQueryLoggingConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueryLoggingConfigRequest,
@@ -4726,6 +4749,15 @@ export const createQueryLoggingConfig: API.OperationMethod<
     QueryLoggingConfigAlreadyExists,
   ],
 }));
+export type CreateReusableDelegationSetError =
+  | DelegationSetAlreadyCreated
+  | DelegationSetAlreadyReusable
+  | DelegationSetNotAvailable
+  | HostedZoneNotFound
+  | InvalidArgument
+  | InvalidInput
+  | LimitsExceeded
+  | CommonErrors;
 /**
  * Creates a delegation set (a group of four name servers) that can be reused by multiple
  * hosted zones that were created by the same Amazon Web Services account.
@@ -4779,14 +4811,7 @@ export const createQueryLoggingConfig: API.OperationMethod<
 export const createReusableDelegationSet: API.OperationMethod<
   CreateReusableDelegationSetRequest,
   CreateReusableDelegationSetResponse,
-  | DelegationSetAlreadyCreated
-  | DelegationSetAlreadyReusable
-  | DelegationSetNotAvailable
-  | HostedZoneNotFound
-  | InvalidArgument
-  | InvalidInput
-  | LimitsExceeded
-  | CommonErrors,
+  CreateReusableDelegationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReusableDelegationSetRequest,
@@ -4801,6 +4826,12 @@ export const createReusableDelegationSet: API.OperationMethod<
     LimitsExceeded,
   ],
 }));
+export type CreateTrafficPolicyError =
+  | InvalidInput
+  | InvalidTrafficPolicyDocument
+  | TooManyTrafficPolicies
+  | TrafficPolicyAlreadyExists
+  | CommonErrors;
 /**
  * Creates a traffic policy, which you use to create multiple DNS resource record sets
  * for one domain name (such as example.com) or one subdomain name (such as
@@ -4809,11 +4840,7 @@ export const createReusableDelegationSet: API.OperationMethod<
 export const createTrafficPolicy: API.OperationMethod<
   CreateTrafficPolicyRequest,
   CreateTrafficPolicyResponse,
-  | InvalidInput
-  | InvalidTrafficPolicyDocument
-  | TooManyTrafficPolicies
-  | TrafficPolicyAlreadyExists
-  | CommonErrors,
+  CreateTrafficPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrafficPolicyRequest,
@@ -4825,6 +4852,13 @@ export const createTrafficPolicy: API.OperationMethod<
     TrafficPolicyAlreadyExists,
   ],
 }));
+export type CreateTrafficPolicyInstanceError =
+  | InvalidInput
+  | NoSuchHostedZone
+  | NoSuchTrafficPolicy
+  | TooManyTrafficPolicyInstances
+  | TrafficPolicyInstanceAlreadyExists
+  | CommonErrors;
 /**
  * Creates resource record sets in a specified hosted zone based on the settings in a
  * specified traffic policy version. In addition, `CreateTrafficPolicyInstance`
@@ -4843,12 +4877,7 @@ export const createTrafficPolicy: API.OperationMethod<
 export const createTrafficPolicyInstance: API.OperationMethod<
   CreateTrafficPolicyInstanceRequest,
   CreateTrafficPolicyInstanceResponse,
-  | InvalidInput
-  | NoSuchHostedZone
-  | NoSuchTrafficPolicy
-  | TooManyTrafficPolicyInstances
-  | TrafficPolicyInstanceAlreadyExists
-  | CommonErrors,
+  CreateTrafficPolicyInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrafficPolicyInstanceRequest,
@@ -4861,6 +4890,13 @@ export const createTrafficPolicyInstance: API.OperationMethod<
     TrafficPolicyInstanceAlreadyExists,
   ],
 }));
+export type CreateTrafficPolicyVersionError =
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidTrafficPolicyDocument
+  | NoSuchTrafficPolicy
+  | TooManyTrafficPolicyVersionsForCurrentPolicy
+  | CommonErrors;
 /**
  * Creates a new version of an existing traffic policy. When you create a new version of
  * a traffic policy, you specify the ID of the traffic policy that you want to update and a
@@ -4873,12 +4909,7 @@ export const createTrafficPolicyInstance: API.OperationMethod<
 export const createTrafficPolicyVersion: API.OperationMethod<
   CreateTrafficPolicyVersionRequest,
   CreateTrafficPolicyVersionResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | InvalidTrafficPolicyDocument
-  | NoSuchTrafficPolicy
-  | TooManyTrafficPolicyVersionsForCurrentPolicy
-  | CommonErrors,
+  CreateTrafficPolicyVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrafficPolicyVersionRequest,
@@ -4891,6 +4922,13 @@ export const createTrafficPolicyVersion: API.OperationMethod<
     TooManyTrafficPolicyVersionsForCurrentPolicy,
   ],
 }));
+export type CreateVPCAssociationAuthorizationError =
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidVPCId
+  | NoSuchHostedZone
+  | TooManyVPCAssociationAuthorizations
+  | CommonErrors;
 /**
  * Authorizes the Amazon Web Services account that created a specified VPC to submit an
  * `AssociateVPCWithHostedZone` request to associate the VPC with a
@@ -4906,12 +4944,7 @@ export const createTrafficPolicyVersion: API.OperationMethod<
 export const createVPCAssociationAuthorization: API.OperationMethod<
   CreateVPCAssociationAuthorizationRequest,
   CreateVPCAssociationAuthorizationResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | InvalidVPCId
-  | NoSuchHostedZone
-  | TooManyVPCAssociationAuthorizations
-  | CommonErrors,
+  CreateVPCAssociationAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVPCAssociationAuthorizationRequest,
@@ -4924,13 +4957,7 @@ export const createVPCAssociationAuthorization: API.OperationMethod<
     TooManyVPCAssociationAuthorizations,
   ],
 }));
-/**
- * Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
- * This operation changes the KSK status to `INACTIVE`.
- */
-export const deactivateKeySigningKey: API.OperationMethod<
-  DeactivateKeySigningKeyRequest,
-  DeactivateKeySigningKeyResponse,
+export type DeactivateKeySigningKeyError =
   | ConcurrentModification
   | InvalidInput
   | InvalidKeySigningKeyStatus
@@ -4938,7 +4965,15 @@ export const deactivateKeySigningKey: API.OperationMethod<
   | KeySigningKeyInParentDSRecord
   | KeySigningKeyInUse
   | NoSuchKeySigningKey
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
+ * This operation changes the KSK status to `INACTIVE`.
+ */
+export const deactivateKeySigningKey: API.OperationMethod<
+  DeactivateKeySigningKeyRequest,
+  DeactivateKeySigningKeyResponse,
+  DeactivateKeySigningKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateKeySigningKeyRequest,
@@ -4953,6 +4988,12 @@ export const deactivateKeySigningKey: API.OperationMethod<
     NoSuchKeySigningKey,
   ],
 }));
+export type DeleteCidrCollectionError =
+  | CidrCollectionInUseException
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchCidrCollectionException
+  | CommonErrors;
 /**
  * Deletes a CIDR collection in the current Amazon Web Services account. The collection
  * must be empty before it can be deleted.
@@ -4960,11 +5001,7 @@ export const deactivateKeySigningKey: API.OperationMethod<
 export const deleteCidrCollection: API.OperationMethod<
   DeleteCidrCollectionRequest,
   DeleteCidrCollectionResponse,
-  | CidrCollectionInUseException
-  | ConcurrentModification
-  | InvalidInput
-  | NoSuchCidrCollectionException
-  | CommonErrors,
+  DeleteCidrCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCidrCollectionRequest,
@@ -4976,6 +5013,11 @@ export const deleteCidrCollection: API.OperationMethod<
     NoSuchCidrCollectionException,
   ],
 }));
+export type DeleteHealthCheckError =
+  | HealthCheckInUse
+  | InvalidInput
+  | NoSuchHealthCheck
+  | CommonErrors;
 /**
  * Deletes a health check.
  *
@@ -4996,13 +5038,20 @@ export const deleteCidrCollection: API.OperationMethod<
 export const deleteHealthCheck: API.OperationMethod<
   DeleteHealthCheckRequest,
   DeleteHealthCheckResponse,
-  HealthCheckInUse | InvalidInput | NoSuchHealthCheck | CommonErrors,
+  DeleteHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHealthCheckRequest,
   output: DeleteHealthCheckResponse,
   errors: [HealthCheckInUse, InvalidInput, NoSuchHealthCheck],
 }));
+export type DeleteHostedZoneError =
+  | HostedZoneNotEmpty
+  | InvalidDomainName
+  | InvalidInput
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | CommonErrors;
 /**
  * Deletes a hosted zone.
  *
@@ -5050,12 +5099,7 @@ export const deleteHealthCheck: API.OperationMethod<
 export const deleteHostedZone: API.OperationMethod<
   DeleteHostedZoneRequest,
   DeleteHostedZoneResponse,
-  | HostedZoneNotEmpty
-  | InvalidDomainName
-  | InvalidInput
-  | NoSuchHostedZone
-  | PriorRequestNotComplete
-  | CommonErrors,
+  DeleteHostedZoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHostedZoneRequest,
@@ -5068,6 +5112,14 @@ export const deleteHostedZone: API.OperationMethod<
     PriorRequestNotComplete,
   ],
 }));
+export type DeleteKeySigningKeyError =
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | InvalidSigningStatus
+  | NoSuchKeySigningKey
+  | CommonErrors;
 /**
  * Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it.
  * The KSK must be deactivated before you can delete it regardless of whether the hosted
@@ -5081,13 +5133,7 @@ export const deleteHostedZone: API.OperationMethod<
 export const deleteKeySigningKey: API.OperationMethod<
   DeleteKeySigningKeyRequest,
   DeleteKeySigningKeyResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | InvalidKeySigningKeyStatus
-  | InvalidKMSArn
-  | InvalidSigningStatus
-  | NoSuchKeySigningKey
-  | CommonErrors,
+  DeleteKeySigningKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeySigningKeyRequest,
@@ -5101,6 +5147,11 @@ export const deleteKeySigningKey: API.OperationMethod<
     NoSuchKeySigningKey,
   ],
 }));
+export type DeleteQueryLoggingConfigError =
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchQueryLoggingConfig
+  | CommonErrors;
 /**
  * Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
  * Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs
@@ -5111,16 +5162,19 @@ export const deleteKeySigningKey: API.OperationMethod<
 export const deleteQueryLoggingConfig: API.OperationMethod<
   DeleteQueryLoggingConfigRequest,
   DeleteQueryLoggingConfigResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | NoSuchQueryLoggingConfig
-  | CommonErrors,
+  DeleteQueryLoggingConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueryLoggingConfigRequest,
   output: DeleteQueryLoggingConfigResponse,
   errors: [ConcurrentModification, InvalidInput, NoSuchQueryLoggingConfig],
 }));
+export type DeleteReusableDelegationSetError =
+  | DelegationSetInUse
+  | DelegationSetNotReusable
+  | InvalidInput
+  | NoSuchDelegationSet
+  | CommonErrors;
 /**
  * Deletes a reusable delegation set.
  *
@@ -5134,11 +5188,7 @@ export const deleteQueryLoggingConfig: API.OperationMethod<
 export const deleteReusableDelegationSet: API.OperationMethod<
   DeleteReusableDelegationSetRequest,
   DeleteReusableDelegationSetResponse,
-  | DelegationSetInUse
-  | DelegationSetNotReusable
-  | InvalidInput
-  | NoSuchDelegationSet
-  | CommonErrors,
+  DeleteReusableDelegationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReusableDelegationSetRequest,
@@ -5150,6 +5200,12 @@ export const deleteReusableDelegationSet: API.OperationMethod<
     NoSuchDelegationSet,
   ],
 }));
+export type DeleteTrafficPolicyError =
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | TrafficPolicyInUse
+  | CommonErrors;
 /**
  * Deletes a traffic policy.
  *
@@ -5167,11 +5223,7 @@ export const deleteReusableDelegationSet: API.OperationMethod<
 export const deleteTrafficPolicy: API.OperationMethod<
   DeleteTrafficPolicyRequest,
   DeleteTrafficPolicyResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | NoSuchTrafficPolicy
-  | TrafficPolicyInUse
-  | CommonErrors,
+  DeleteTrafficPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrafficPolicyRequest,
@@ -5183,6 +5235,11 @@ export const deleteTrafficPolicy: API.OperationMethod<
     TrafficPolicyInUse,
   ],
 }));
+export type DeleteTrafficPolicyInstanceError =
+  | InvalidInput
+  | NoSuchTrafficPolicyInstance
+  | PriorRequestNotComplete
+  | CommonErrors;
 /**
  * Deletes a traffic policy instance and all of the resource record sets that Amazon
  * Route 53 created when you created the instance.
@@ -5193,16 +5250,20 @@ export const deleteTrafficPolicy: API.OperationMethod<
 export const deleteTrafficPolicyInstance: API.OperationMethod<
   DeleteTrafficPolicyInstanceRequest,
   DeleteTrafficPolicyInstanceResponse,
-  | InvalidInput
-  | NoSuchTrafficPolicyInstance
-  | PriorRequestNotComplete
-  | CommonErrors,
+  DeleteTrafficPolicyInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrafficPolicyInstanceRequest,
   output: DeleteTrafficPolicyInstanceResponse,
   errors: [InvalidInput, NoSuchTrafficPolicyInstance, PriorRequestNotComplete],
 }));
+export type DeleteVPCAssociationAuthorizationError =
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidVPCId
+  | NoSuchHostedZone
+  | VPCAssociationAuthorizationNotFound
+  | CommonErrors;
 /**
  * Removes authorization to submit an `AssociateVPCWithHostedZone` request to
  * associate a specified VPC with a hosted zone that was created by a different account.
@@ -5219,12 +5280,7 @@ export const deleteTrafficPolicyInstance: API.OperationMethod<
 export const deleteVPCAssociationAuthorization: API.OperationMethod<
   DeleteVPCAssociationAuthorizationRequest,
   DeleteVPCAssociationAuthorizationResponse,
-  | ConcurrentModification
-  | InvalidInput
-  | InvalidVPCId
-  | NoSuchHostedZone
-  | VPCAssociationAuthorizationNotFound
-  | CommonErrors,
+  DeleteVPCAssociationAuthorizationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVPCAssociationAuthorizationRequest,
@@ -5237,13 +5293,7 @@ export const deleteVPCAssociationAuthorization: API.OperationMethod<
     VPCAssociationAuthorizationNotFound,
   ],
 }));
-/**
- * Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
- * key-signing keys (KSKs) that are active in the hosted zone.
- */
-export const disableHostedZoneDNSSEC: API.OperationMethod<
-  DisableHostedZoneDNSSECRequest,
-  DisableHostedZoneDNSSECResponse,
+export type DisableHostedZoneDNSSECError =
   | ConcurrentModification
   | DNSSECNotFound
   | InvalidArgument
@@ -5252,7 +5302,15 @@ export const disableHostedZoneDNSSEC: API.OperationMethod<
   | InvalidKMSArn
   | KeySigningKeyInParentDSRecord
   | NoSuchHostedZone
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
+ * key-signing keys (KSKs) that are active in the hosted zone.
+ */
+export const disableHostedZoneDNSSEC: API.OperationMethod<
+  DisableHostedZoneDNSSECRequest,
+  DisableHostedZoneDNSSECResponse,
+  DisableHostedZoneDNSSECError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableHostedZoneDNSSECRequest,
@@ -5268,6 +5326,13 @@ export const disableHostedZoneDNSSEC: API.OperationMethod<
     NoSuchHostedZone,
   ],
 }));
+export type DisassociateVPCFromHostedZoneError =
+  | InvalidInput
+  | InvalidVPCId
+  | LastVPCAssociation
+  | NoSuchHostedZone
+  | VPCAssociationNotFound
+  | CommonErrors;
 /**
  * Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53
  * private hosted zone. Note the following:
@@ -5310,12 +5375,7 @@ export const disableHostedZoneDNSSEC: API.OperationMethod<
 export const disassociateVPCFromHostedZone: API.OperationMethod<
   DisassociateVPCFromHostedZoneRequest,
   DisassociateVPCFromHostedZoneResponse,
-  | InvalidInput
-  | InvalidVPCId
-  | LastVPCAssociation
-  | NoSuchHostedZone
-  | VPCAssociationNotFound
-  | CommonErrors,
+  DisassociateVPCFromHostedZoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateVPCFromHostedZoneRequest,
@@ -5328,12 +5388,7 @@ export const disassociateVPCFromHostedZone: API.OperationMethod<
     VPCAssociationNotFound,
   ],
 }));
-/**
- * Enables DNSSEC signing in a specific hosted zone.
- */
-export const enableHostedZoneDNSSEC: API.OperationMethod<
-  EnableHostedZoneDNSSECRequest,
-  EnableHostedZoneDNSSECResponse,
+export type EnableHostedZoneDNSSECError =
   | ConcurrentModification
   | DNSSECNotFound
   | HostedZonePartiallyDelegated
@@ -5343,7 +5398,14 @@ export const enableHostedZoneDNSSEC: API.OperationMethod<
   | InvalidKMSArn
   | KeySigningKeyWithActiveStatusNotFound
   | NoSuchHostedZone
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables DNSSEC signing in a specific hosted zone.
+ */
+export const enableHostedZoneDNSSEC: API.OperationMethod<
+  EnableHostedZoneDNSSECRequest,
+  EnableHostedZoneDNSSECResponse,
+  EnableHostedZoneDNSSECError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableHostedZoneDNSSECRequest,
@@ -5360,6 +5422,7 @@ export const enableHostedZoneDNSSEC: API.OperationMethod<
     NoSuchHostedZone,
   ],
 }));
+export type GetAccountLimitError = InvalidInput | CommonErrors;
 /**
  * Gets the specified limit for the current account, for example, the maximum number of
  * health checks that you can create using the account.
@@ -5374,13 +5437,14 @@ export const enableHostedZoneDNSSEC: API.OperationMethod<
 export const getAccountLimit: API.OperationMethod<
   GetAccountLimitRequest,
   GetAccountLimitResponse,
-  InvalidInput | CommonErrors,
+  GetAccountLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountLimitRequest,
   output: GetAccountLimitResponse,
   errors: [InvalidInput],
 }));
+export type GetChangeError = InvalidInput | NoSuchChange | CommonErrors;
 /**
  * Returns the current status of a change batch request. The status is one of the
  * following values:
@@ -5395,13 +5459,14 @@ export const getAccountLimit: API.OperationMethod<
 export const getChange: API.OperationMethod<
   GetChangeRequest,
   GetChangeResponse,
-  InvalidInput | NoSuchChange | CommonErrors,
+  GetChangeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChangeRequest,
   output: GetChangeResponse,
   errors: [InvalidInput, NoSuchChange],
 }));
+export type GetCheckerIpRangesError = CommonErrors;
 /**
  * Route 53 does not perform authorization for this API because it retrieves information
  * that is already available to the public.
@@ -5415,13 +5480,18 @@ export const getChange: API.OperationMethod<
 export const getCheckerIpRanges: API.OperationMethod<
   GetCheckerIpRangesRequest,
   GetCheckerIpRangesResponse,
-  CommonErrors,
+  GetCheckerIpRangesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCheckerIpRangesRequest,
   output: GetCheckerIpRangesResponse,
   errors: [],
 }));
+export type GetDNSSECError =
+  | InvalidArgument
+  | InvalidInput
+  | NoSuchHostedZone
+  | CommonErrors;
 /**
  * Returns information about DNSSEC for a specific hosted zone, including the key-signing
  * keys (KSKs) in the hosted zone.
@@ -5429,13 +5499,17 @@ export const getCheckerIpRanges: API.OperationMethod<
 export const getDNSSEC: API.OperationMethod<
   GetDNSSECRequest,
   GetDNSSECResponse,
-  InvalidArgument | InvalidInput | NoSuchHostedZone | CommonErrors,
+  GetDNSSECError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDNSSECRequest,
   output: GetDNSSECResponse,
   errors: [InvalidArgument, InvalidInput, NoSuchHostedZone],
 }));
+export type GetGeoLocationError =
+  | InvalidInput
+  | NoSuchGeoLocation
+  | CommonErrors;
 /**
  * Gets information about whether a specified geographic location is supported for Amazon
  * Route 53 geolocation resource record sets.
@@ -5465,52 +5539,66 @@ export const getDNSSEC: API.OperationMethod<
 export const getGeoLocation: API.OperationMethod<
   GetGeoLocationRequest,
   GetGeoLocationResponse,
-  InvalidInput | NoSuchGeoLocation | CommonErrors,
+  GetGeoLocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeoLocationRequest,
   output: GetGeoLocationResponse,
   errors: [InvalidInput, NoSuchGeoLocation],
 }));
+export type GetHealthCheckError =
+  | IncompatibleVersion
+  | InvalidInput
+  | NoSuchHealthCheck
+  | CommonErrors;
 /**
  * Gets information about a specified health check.
  */
 export const getHealthCheck: API.OperationMethod<
   GetHealthCheckRequest,
   GetHealthCheckResponse,
-  IncompatibleVersion | InvalidInput | NoSuchHealthCheck | CommonErrors,
+  GetHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthCheckRequest,
   output: GetHealthCheckResponse,
   errors: [IncompatibleVersion, InvalidInput, NoSuchHealthCheck],
 }));
+export type GetHealthCheckCountError = CommonErrors;
 /**
  * Retrieves the number of health checks that are associated with the current Amazon Web Services account.
  */
 export const getHealthCheckCount: API.OperationMethod<
   GetHealthCheckCountRequest,
   GetHealthCheckCountResponse,
-  CommonErrors,
+  GetHealthCheckCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthCheckCountRequest,
   output: GetHealthCheckCountResponse,
   errors: [],
 }));
+export type GetHealthCheckLastFailureReasonError =
+  | InvalidInput
+  | NoSuchHealthCheck
+  | CommonErrors;
 /**
  * Gets the reason that a specified health check failed most recently.
  */
 export const getHealthCheckLastFailureReason: API.OperationMethod<
   GetHealthCheckLastFailureReasonRequest,
   GetHealthCheckLastFailureReasonResponse,
-  InvalidInput | NoSuchHealthCheck | CommonErrors,
+  GetHealthCheckLastFailureReasonError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthCheckLastFailureReasonRequest,
   output: GetHealthCheckLastFailureReasonResponse,
   errors: [InvalidInput, NoSuchHealthCheck],
 }));
+export type GetHealthCheckStatusError =
+  | InvalidInput
+  | NoSuchHealthCheck
+  | CommonErrors;
 /**
  * Gets status of a specified health check.
  *
@@ -5521,13 +5609,14 @@ export const getHealthCheckLastFailureReason: API.OperationMethod<
 export const getHealthCheckStatus: API.OperationMethod<
   GetHealthCheckStatusRequest,
   GetHealthCheckStatusResponse,
-  InvalidInput | NoSuchHealthCheck | CommonErrors,
+  GetHealthCheckStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthCheckStatusRequest,
   output: GetHealthCheckStatusResponse,
   errors: [InvalidInput, NoSuchHealthCheck],
 }));
+export type GetHostedZoneError = InvalidInput | NoSuchHostedZone | CommonErrors;
 /**
  * Gets information about a specified hosted zone including the four name servers
  * assigned to the hosted zone.
@@ -5538,26 +5627,32 @@ export const getHealthCheckStatus: API.OperationMethod<
 export const getHostedZone: API.OperationMethod<
   GetHostedZoneRequest,
   GetHostedZoneResponse,
-  InvalidInput | NoSuchHostedZone | CommonErrors,
+  GetHostedZoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneRequest,
   output: GetHostedZoneResponse,
   errors: [InvalidInput, NoSuchHostedZone],
 }));
+export type GetHostedZoneCountError = InvalidInput | CommonErrors;
 /**
  * Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
  */
 export const getHostedZoneCount: API.OperationMethod<
   GetHostedZoneCountRequest,
   GetHostedZoneCountResponse,
-  InvalidInput | CommonErrors,
+  GetHostedZoneCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneCountRequest,
   output: GetHostedZoneCountResponse,
   errors: [InvalidInput],
 }));
+export type GetHostedZoneLimitError =
+  | HostedZoneNotPrivate
+  | InvalidInput
+  | NoSuchHostedZone
+  | CommonErrors;
 /**
  * Gets the specified limit for a specified hosted zone, for example, the maximum number
  * of records that you can create in the hosted zone.
@@ -5569,13 +5664,17 @@ export const getHostedZoneCount: API.OperationMethod<
 export const getHostedZoneLimit: API.OperationMethod<
   GetHostedZoneLimitRequest,
   GetHostedZoneLimitResponse,
-  HostedZoneNotPrivate | InvalidInput | NoSuchHostedZone | CommonErrors,
+  GetHostedZoneLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneLimitRequest,
   output: GetHostedZoneLimitResponse,
   errors: [HostedZoneNotPrivate, InvalidInput, NoSuchHostedZone],
 }));
+export type GetQueryLoggingConfigError =
+  | InvalidInput
+  | NoSuchQueryLoggingConfig
+  | CommonErrors;
 /**
  * Gets information about a specified configuration for DNS query logging.
  *
@@ -5585,13 +5684,18 @@ export const getHostedZoneLimit: API.OperationMethod<
 export const getQueryLoggingConfig: API.OperationMethod<
   GetQueryLoggingConfigRequest,
   GetQueryLoggingConfigResponse,
-  InvalidInput | NoSuchQueryLoggingConfig | CommonErrors,
+  GetQueryLoggingConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryLoggingConfigRequest,
   output: GetQueryLoggingConfigResponse,
   errors: [InvalidInput, NoSuchQueryLoggingConfig],
 }));
+export type GetReusableDelegationSetError =
+  | DelegationSetNotReusable
+  | InvalidInput
+  | NoSuchDelegationSet
+  | CommonErrors;
 /**
  * Retrieves information about a specified reusable delegation set, including the four
  * name servers that are assigned to the delegation set.
@@ -5599,13 +5703,17 @@ export const getQueryLoggingConfig: API.OperationMethod<
 export const getReusableDelegationSet: API.OperationMethod<
   GetReusableDelegationSetRequest,
   GetReusableDelegationSetResponse,
-  DelegationSetNotReusable | InvalidInput | NoSuchDelegationSet | CommonErrors,
+  GetReusableDelegationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReusableDelegationSetRequest,
   output: GetReusableDelegationSetResponse,
   errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
 }));
+export type GetReusableDelegationSetLimitError =
+  | InvalidInput
+  | NoSuchDelegationSet
+  | CommonErrors;
 /**
  * Gets the maximum number of hosted zones that you can associate with the specified
  * reusable delegation set.
@@ -5617,13 +5725,17 @@ export const getReusableDelegationSet: API.OperationMethod<
 export const getReusableDelegationSetLimit: API.OperationMethod<
   GetReusableDelegationSetLimitRequest,
   GetReusableDelegationSetLimitResponse,
-  InvalidInput | NoSuchDelegationSet | CommonErrors,
+  GetReusableDelegationSetLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReusableDelegationSetLimitRequest,
   output: GetReusableDelegationSetLimitResponse,
   errors: [InvalidInput, NoSuchDelegationSet],
 }));
+export type GetTrafficPolicyError =
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | CommonErrors;
 /**
  * Gets information about a specific traffic policy version.
  *
@@ -5633,13 +5745,17 @@ export const getReusableDelegationSetLimit: API.OperationMethod<
 export const getTrafficPolicy: API.OperationMethod<
   GetTrafficPolicyRequest,
   GetTrafficPolicyResponse,
-  InvalidInput | NoSuchTrafficPolicy | CommonErrors,
+  GetTrafficPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrafficPolicyRequest,
   output: GetTrafficPolicyResponse,
   errors: [InvalidInput, NoSuchTrafficPolicy],
 }));
+export type GetTrafficPolicyInstanceError =
+  | InvalidInput
+  | NoSuchTrafficPolicyInstance
+  | CommonErrors;
 /**
  * Gets information about a specified traffic policy instance.
  *
@@ -5654,13 +5770,14 @@ export const getTrafficPolicy: API.OperationMethod<
 export const getTrafficPolicyInstance: API.OperationMethod<
   GetTrafficPolicyInstanceRequest,
   GetTrafficPolicyInstanceResponse,
-  InvalidInput | NoSuchTrafficPolicyInstance | CommonErrors,
+  GetTrafficPolicyInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrafficPolicyInstanceRequest,
   output: GetTrafficPolicyInstanceResponse,
   errors: [InvalidInput, NoSuchTrafficPolicyInstance],
 }));
+export type GetTrafficPolicyInstanceCountError = CommonErrors;
 /**
  * Gets the number of traffic policy instances that are associated with the current
  * Amazon Web Services account.
@@ -5668,43 +5785,39 @@ export const getTrafficPolicyInstance: API.OperationMethod<
 export const getTrafficPolicyInstanceCount: API.OperationMethod<
   GetTrafficPolicyInstanceCountRequest,
   GetTrafficPolicyInstanceCountResponse,
-  CommonErrors,
+  GetTrafficPolicyInstanceCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrafficPolicyInstanceCountRequest,
   output: GetTrafficPolicyInstanceCountResponse,
   errors: [],
 }));
+export type ListCidrBlocksError =
+  | InvalidInput
+  | NoSuchCidrCollectionException
+  | NoSuchCidrLocationException
+  | CommonErrors;
 /**
  * Returns a paginated list of location objects and their CIDR blocks.
  */
 export const listCidrBlocks: API.OperationMethod<
   ListCidrBlocksRequest,
   ListCidrBlocksResponse,
-  | InvalidInput
-  | NoSuchCidrCollectionException
-  | NoSuchCidrLocationException
-  | CommonErrors,
+  ListCidrBlocksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCidrBlocksRequest,
   ) => stream.Stream<
     ListCidrBlocksResponse,
-    | InvalidInput
-    | NoSuchCidrCollectionException
-    | NoSuchCidrLocationException
-    | CommonErrors,
+    ListCidrBlocksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCidrBlocksRequest,
   ) => stream.Stream<
     CidrBlockSummary,
-    | InvalidInput
-    | NoSuchCidrCollectionException
-    | NoSuchCidrLocationException
-    | CommonErrors,
+    ListCidrBlocksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5722,6 +5835,7 @@ export const listCidrBlocks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCidrCollectionsError = InvalidInput | CommonErrors;
 /**
  * Returns a paginated list of CIDR collections in the Amazon Web Services account
  * (metadata only).
@@ -5729,21 +5843,21 @@ export const listCidrBlocks: API.OperationMethod<
 export const listCidrCollections: API.OperationMethod<
   ListCidrCollectionsRequest,
   ListCidrCollectionsResponse,
-  InvalidInput | CommonErrors,
+  ListCidrCollectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCidrCollectionsRequest,
   ) => stream.Stream<
     ListCidrCollectionsResponse,
-    InvalidInput | CommonErrors,
+    ListCidrCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCidrCollectionsRequest,
   ) => stream.Stream<
     CollectionSummary,
-    InvalidInput | CommonErrors,
+    ListCidrCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5757,6 +5871,10 @@ export const listCidrCollections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCidrLocationsError =
+  | InvalidInput
+  | NoSuchCidrCollectionException
+  | CommonErrors;
 /**
  * Returns a paginated list of CIDR locations for the given collection (metadata only,
  * does not include CIDR blocks).
@@ -5764,21 +5882,21 @@ export const listCidrCollections: API.OperationMethod<
 export const listCidrLocations: API.OperationMethod<
   ListCidrLocationsRequest,
   ListCidrLocationsResponse,
-  InvalidInput | NoSuchCidrCollectionException | CommonErrors,
+  ListCidrLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCidrLocationsRequest,
   ) => stream.Stream<
     ListCidrLocationsResponse,
-    InvalidInput | NoSuchCidrCollectionException | CommonErrors,
+    ListCidrLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCidrLocationsRequest,
   ) => stream.Stream<
     LocationSummary,
-    InvalidInput | NoSuchCidrCollectionException | CommonErrors,
+    ListCidrLocationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5792,6 +5910,7 @@ export const listCidrLocations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGeoLocationsError = InvalidInput | CommonErrors;
 /**
  * Retrieves a list of supported geographic locations.
  *
@@ -5809,34 +5928,38 @@ export const listCidrLocations: API.OperationMethod<
 export const listGeoLocations: API.OperationMethod<
   ListGeoLocationsRequest,
   ListGeoLocationsResponse,
-  InvalidInput | CommonErrors,
+  ListGeoLocationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGeoLocationsRequest,
   output: ListGeoLocationsResponse,
   errors: [InvalidInput],
 }));
+export type ListHealthChecksError =
+  | IncompatibleVersion
+  | InvalidInput
+  | CommonErrors;
 /**
  * Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
  */
 export const listHealthChecks: API.OperationMethod<
   ListHealthChecksRequest,
   ListHealthChecksResponse,
-  IncompatibleVersion | InvalidInput | CommonErrors,
+  ListHealthChecksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHealthChecksRequest,
   ) => stream.Stream<
     ListHealthChecksResponse,
-    IncompatibleVersion | InvalidInput | CommonErrors,
+    ListHealthChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHealthChecksRequest,
   ) => stream.Stream<
     HealthCheck,
-    IncompatibleVersion | InvalidInput | CommonErrors,
+    ListHealthChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5850,6 +5973,11 @@ export const listHealthChecks: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListHostedZonesError =
+  | DelegationSetNotReusable
+  | InvalidInput
+  | NoSuchDelegationSet
+  | CommonErrors;
 /**
  * Retrieves a list of the public and private hosted zones that are associated with the
  * current Amazon Web Services account. The response includes a `HostedZones`
@@ -5862,27 +5990,21 @@ export const listHealthChecks: API.OperationMethod<
 export const listHostedZones: API.OperationMethod<
   ListHostedZonesRequest,
   ListHostedZonesResponse,
-  DelegationSetNotReusable | InvalidInput | NoSuchDelegationSet | CommonErrors,
+  ListHostedZonesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHostedZonesRequest,
   ) => stream.Stream<
     ListHostedZonesResponse,
-    | DelegationSetNotReusable
-    | InvalidInput
-    | NoSuchDelegationSet
-    | CommonErrors,
+    ListHostedZonesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHostedZonesRequest,
   ) => stream.Stream<
     HostedZone,
-    | DelegationSetNotReusable
-    | InvalidInput
-    | NoSuchDelegationSet
-    | CommonErrors,
+    ListHostedZonesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5896,6 +6018,10 @@ export const listHostedZones: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListHostedZonesByNameError =
+  | InvalidDomainName
+  | InvalidInput
+  | CommonErrors;
 /**
  * Retrieves a list of your hosted zones in lexicographic order. The response includes a
  * `HostedZones` child element for each hosted zone created by the current
@@ -5954,13 +6080,17 @@ export const listHostedZones: API.OperationMethod<
 export const listHostedZonesByName: API.OperationMethod<
   ListHostedZonesByNameRequest,
   ListHostedZonesByNameResponse,
-  InvalidDomainName | InvalidInput | CommonErrors,
+  ListHostedZonesByNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHostedZonesByNameRequest,
   output: ListHostedZonesByNameResponse,
   errors: [InvalidDomainName, InvalidInput],
 }));
+export type ListHostedZonesByVPCError =
+  | InvalidInput
+  | InvalidPaginationToken
+  | CommonErrors;
 /**
  * Lists all the private hosted zones that a specified VPC is associated with, regardless
  * of which Amazon Web Services account or Amazon Web Services service owns the hosted zones.
@@ -5998,13 +6128,18 @@ export const listHostedZonesByName: API.OperationMethod<
 export const listHostedZonesByVPC: API.OperationMethod<
   ListHostedZonesByVPCRequest,
   ListHostedZonesByVPCResponse,
-  InvalidInput | InvalidPaginationToken | CommonErrors,
+  ListHostedZonesByVPCError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHostedZonesByVPCRequest,
   output: ListHostedZonesByVPCResponse,
   errors: [InvalidInput, InvalidPaginationToken],
 }));
+export type ListQueryLoggingConfigsError =
+  | InvalidInput
+  | InvalidPaginationToken
+  | NoSuchHostedZone
+  | CommonErrors;
 /**
  * Lists the configurations for DNS query logging that are associated with the current
  * Amazon Web Services account or the configuration that is associated with a specified
@@ -6017,21 +6152,21 @@ export const listHostedZonesByVPC: API.OperationMethod<
 export const listQueryLoggingConfigs: API.OperationMethod<
   ListQueryLoggingConfigsRequest,
   ListQueryLoggingConfigsResponse,
-  InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
+  ListQueryLoggingConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueryLoggingConfigsRequest,
   ) => stream.Stream<
     ListQueryLoggingConfigsResponse,
-    InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
+    ListQueryLoggingConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueryLoggingConfigsRequest,
   ) => stream.Stream<
     QueryLoggingConfig,
-    InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
+    ListQueryLoggingConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6045,6 +6180,10 @@ export const listQueryLoggingConfigs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceRecordSetsError =
+  | InvalidInput
+  | NoSuchHostedZone
+  | CommonErrors;
 /**
  * Lists the resource record sets in a specified hosted zone.
  *
@@ -6120,13 +6259,14 @@ export const listQueryLoggingConfigs: API.OperationMethod<
 export const listResourceRecordSets: API.OperationMethod<
   ListResourceRecordSetsRequest,
   ListResourceRecordSetsResponse,
-  InvalidInput | NoSuchHostedZone | CommonErrors,
+  ListResourceRecordSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListResourceRecordSetsRequest,
   output: ListResourceRecordSetsResponse,
   errors: [InvalidInput, NoSuchHostedZone],
 }));
+export type ListReusableDelegationSetsError = InvalidInput | CommonErrors;
 /**
  * Retrieves a list of the reusable delegation sets that are associated with the current
  * Amazon Web Services account.
@@ -6134,13 +6274,20 @@ export const listResourceRecordSets: API.OperationMethod<
 export const listReusableDelegationSets: API.OperationMethod<
   ListReusableDelegationSetsRequest,
   ListReusableDelegationSetsResponse,
-  InvalidInput | CommonErrors,
+  ListReusableDelegationSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReusableDelegationSetsRequest,
   output: ListReusableDelegationSetsResponse,
   errors: [InvalidInput],
 }));
+export type ListTagsForResourceError =
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists tags for one health check or hosted zone.
  *
@@ -6150,12 +6297,7 @@ export const listReusableDelegationSets: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidInput
-  | NoSuchHealthCheck
-  | NoSuchHostedZone
-  | PriorRequestNotComplete
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -6168,6 +6310,13 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListTagsForResourcesError =
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists tags for up to 10 health checks or hosted zones.
  *
@@ -6177,12 +6326,7 @@ export const listTagsForResource: API.OperationMethod<
 export const listTagsForResources: API.OperationMethod<
   ListTagsForResourcesRequest,
   ListTagsForResourcesResponse,
-  | InvalidInput
-  | NoSuchHealthCheck
-  | NoSuchHostedZone
-  | PriorRequestNotComplete
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourcesRequest,
@@ -6195,6 +6339,7 @@ export const listTagsForResources: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListTrafficPoliciesError = InvalidInput | CommonErrors;
 /**
  * Gets information about the latest version for every traffic policy that is associated
  * with the current Amazon Web Services account. Policies are listed in the order that they
@@ -6206,13 +6351,17 @@ export const listTagsForResources: API.OperationMethod<
 export const listTrafficPolicies: API.OperationMethod<
   ListTrafficPoliciesRequest,
   ListTrafficPoliciesResponse,
-  InvalidInput | CommonErrors,
+  ListTrafficPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTrafficPoliciesRequest,
   output: ListTrafficPoliciesResponse,
   errors: [InvalidInput],
 }));
+export type ListTrafficPolicyInstancesError =
+  | InvalidInput
+  | NoSuchTrafficPolicyInstance
+  | CommonErrors;
 /**
  * Gets information about the traffic policy instances that you created by using the
  * current Amazon Web Services account.
@@ -6229,13 +6378,18 @@ export const listTrafficPolicies: API.OperationMethod<
 export const listTrafficPolicyInstances: API.OperationMethod<
   ListTrafficPolicyInstancesRequest,
   ListTrafficPolicyInstancesResponse,
-  InvalidInput | NoSuchTrafficPolicyInstance | CommonErrors,
+  ListTrafficPolicyInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTrafficPolicyInstancesRequest,
   output: ListTrafficPolicyInstancesResponse,
   errors: [InvalidInput, NoSuchTrafficPolicyInstance],
 }));
+export type ListTrafficPolicyInstancesByHostedZoneError =
+  | InvalidInput
+  | NoSuchHostedZone
+  | NoSuchTrafficPolicyInstance
+  | CommonErrors;
 /**
  * Gets information about the traffic policy instances that you created in a specified
  * hosted zone.
@@ -6253,13 +6407,18 @@ export const listTrafficPolicyInstances: API.OperationMethod<
 export const listTrafficPolicyInstancesByHostedZone: API.OperationMethod<
   ListTrafficPolicyInstancesByHostedZoneRequest,
   ListTrafficPolicyInstancesByHostedZoneResponse,
-  InvalidInput | NoSuchHostedZone | NoSuchTrafficPolicyInstance | CommonErrors,
+  ListTrafficPolicyInstancesByHostedZoneError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTrafficPolicyInstancesByHostedZoneRequest,
   output: ListTrafficPolicyInstancesByHostedZoneResponse,
   errors: [InvalidInput, NoSuchHostedZone, NoSuchTrafficPolicyInstance],
 }));
+export type ListTrafficPolicyInstancesByPolicyError =
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | NoSuchTrafficPolicyInstance
+  | CommonErrors;
 /**
  * Gets information about the traffic policy instances that you created by using a
  * specify traffic policy version.
@@ -6277,16 +6436,17 @@ export const listTrafficPolicyInstancesByHostedZone: API.OperationMethod<
 export const listTrafficPolicyInstancesByPolicy: API.OperationMethod<
   ListTrafficPolicyInstancesByPolicyRequest,
   ListTrafficPolicyInstancesByPolicyResponse,
-  | InvalidInput
-  | NoSuchTrafficPolicy
-  | NoSuchTrafficPolicyInstance
-  | CommonErrors,
+  ListTrafficPolicyInstancesByPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTrafficPolicyInstancesByPolicyRequest,
   output: ListTrafficPolicyInstancesByPolicyResponse,
   errors: [InvalidInput, NoSuchTrafficPolicy, NoSuchTrafficPolicyInstance],
 }));
+export type ListTrafficPolicyVersionsError =
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | CommonErrors;
 /**
  * Gets information about all of the versions for a specified traffic policy.
  *
@@ -6296,13 +6456,18 @@ export const listTrafficPolicyInstancesByPolicy: API.OperationMethod<
 export const listTrafficPolicyVersions: API.OperationMethod<
   ListTrafficPolicyVersionsRequest,
   ListTrafficPolicyVersionsResponse,
-  InvalidInput | NoSuchTrafficPolicy | CommonErrors,
+  ListTrafficPolicyVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTrafficPolicyVersionsRequest,
   output: ListTrafficPolicyVersionsResponse,
   errors: [InvalidInput, NoSuchTrafficPolicy],
 }));
+export type ListVPCAssociationAuthorizationsError =
+  | InvalidInput
+  | InvalidPaginationToken
+  | NoSuchHostedZone
+  | CommonErrors;
 /**
  * Gets a list of the VPCs that were created by other accounts and that can be associated
  * with a specified hosted zone because you've submitted one or more
@@ -6314,13 +6479,14 @@ export const listTrafficPolicyVersions: API.OperationMethod<
 export const listVPCAssociationAuthorizations: API.OperationMethod<
   ListVPCAssociationAuthorizationsRequest,
   ListVPCAssociationAuthorizationsResponse,
-  InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
+  ListVPCAssociationAuthorizationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVPCAssociationAuthorizationsRequest,
   output: ListVPCAssociationAuthorizationsResponse,
   errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
 }));
+export type TestDNSAnswerError = InvalidInput | NoSuchHostedZone | CommonErrors;
 /**
  * Gets the value that Amazon Route 53 returns in response to a DNS request for a
  * specified record name and type. You can optionally specify the IP address of a DNS
@@ -6336,13 +6502,18 @@ export const listVPCAssociationAuthorizations: API.OperationMethod<
 export const testDNSAnswer: API.OperationMethod<
   TestDNSAnswerRequest,
   TestDNSAnswerResponse,
-  InvalidInput | NoSuchHostedZone | CommonErrors,
+  TestDNSAnswerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestDNSAnswerRequest,
   output: TestDNSAnswerResponse,
   errors: [InvalidInput, NoSuchHostedZone],
 }));
+export type UpdateHealthCheckError =
+  | HealthCheckVersionMismatch
+  | InvalidInput
+  | NoSuchHealthCheck
+  | CommonErrors;
 /**
  * Updates an existing health check. Note that some values can't be updated.
  *
@@ -6353,26 +6524,37 @@ export const testDNSAnswer: API.OperationMethod<
 export const updateHealthCheck: API.OperationMethod<
   UpdateHealthCheckRequest,
   UpdateHealthCheckResponse,
-  HealthCheckVersionMismatch | InvalidInput | NoSuchHealthCheck | CommonErrors,
+  UpdateHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHealthCheckRequest,
   output: UpdateHealthCheckResponse,
   errors: [HealthCheckVersionMismatch, InvalidInput, NoSuchHealthCheck],
 }));
+export type UpdateHostedZoneCommentError =
+  | InvalidInput
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | CommonErrors;
 /**
  * Updates the comment for a specified hosted zone.
  */
 export const updateHostedZoneComment: API.OperationMethod<
   UpdateHostedZoneCommentRequest,
   UpdateHostedZoneCommentResponse,
-  InvalidInput | NoSuchHostedZone | PriorRequestNotComplete | CommonErrors,
+  UpdateHostedZoneCommentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHostedZoneCommentRequest,
   output: UpdateHostedZoneCommentResponse,
   errors: [InvalidInput, NoSuchHostedZone, PriorRequestNotComplete],
 }));
+export type UpdateHostedZoneFeaturesError =
+  | InvalidInput
+  | LimitsExceeded
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | CommonErrors;
 /**
  * Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery.
  *
@@ -6381,11 +6563,7 @@ export const updateHostedZoneComment: API.OperationMethod<
 export const updateHostedZoneFeatures: API.OperationMethod<
   UpdateHostedZoneFeaturesRequest,
   UpdateHostedZoneFeaturesResponse,
-  | InvalidInput
-  | LimitsExceeded
-  | NoSuchHostedZone
-  | PriorRequestNotComplete
-  | CommonErrors,
+  UpdateHostedZoneFeaturesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHostedZoneFeaturesRequest,
@@ -6397,19 +6575,31 @@ export const updateHostedZoneFeatures: API.OperationMethod<
     PriorRequestNotComplete,
   ],
 }));
+export type UpdateTrafficPolicyCommentError =
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | CommonErrors;
 /**
  * Updates the comment for a specified traffic policy version.
  */
 export const updateTrafficPolicyComment: API.OperationMethod<
   UpdateTrafficPolicyCommentRequest,
   UpdateTrafficPolicyCommentResponse,
-  ConcurrentModification | InvalidInput | NoSuchTrafficPolicy | CommonErrors,
+  UpdateTrafficPolicyCommentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrafficPolicyCommentRequest,
   output: UpdateTrafficPolicyCommentResponse,
   errors: [ConcurrentModification, InvalidInput, NoSuchTrafficPolicy],
 }));
+export type UpdateTrafficPolicyInstanceError =
+  | ConflictingTypes
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | NoSuchTrafficPolicyInstance
+  | PriorRequestNotComplete
+  | CommonErrors;
 /**
  * After you submit a `UpdateTrafficPolicyInstance` request, there's a brief delay while Route 53 creates the resource record sets
  * that are specified in the traffic policy definition. Use `GetTrafficPolicyInstance` with the `id` of updated traffic policy instance confirm
@@ -6438,12 +6628,7 @@ export const updateTrafficPolicyComment: API.OperationMethod<
 export const updateTrafficPolicyInstance: API.OperationMethod<
   UpdateTrafficPolicyInstanceRequest,
   UpdateTrafficPolicyInstanceResponse,
-  | ConflictingTypes
-  | InvalidInput
-  | NoSuchTrafficPolicy
-  | NoSuchTrafficPolicyInstance
-  | PriorRequestNotComplete
-  | CommonErrors,
+  UpdateTrafficPolicyInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrafficPolicyInstanceRequest,

@@ -896,43 +896,50 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetVersionsError =
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
  */
 export const getVersions: API.OperationMethod<
   GetVersionsRequest,
   GetVersionsResponse,
-  InternalServerException | ThrottlingException | CommonErrors,
+  GetVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVersionsRequest,
   output: GetVersionsResponse,
   errors: [InternalServerException, ThrottlingException],
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags for an Amazon EVS resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TagPolicyException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Associates the specified tags to an Amazon EVS resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | TagPolicyException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -944,19 +951,24 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | TagPolicyException
+  | CommonErrors;
 /**
  * Deletes specified tags from an Amazon EVS resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | TagPolicyException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, TagPolicyException],
 }));
+export type CreateEnvironmentError = ValidationException | CommonErrors;
 /**
  * Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server.
  *
@@ -971,26 +983,34 @@ export const untagResource: API.OperationMethod<
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentRequest,
   CreateEnvironmentResponse,
-  ValidationException | CommonErrors,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
   output: CreateEnvironmentResponse,
   errors: [ValidationException],
 }));
+export type GetEnvironmentError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a description of the specified environment.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentRequest,
   GetEnvironmentResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: GetEnvironmentResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DeleteEnvironmentError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon EVS environment.
  *
@@ -1001,34 +1021,35 @@ export const getEnvironment: API.OperationMethod<
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
   output: DeleteEnvironmentResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListEnvironmentsError = ValidationException | CommonErrors;
 /**
  * Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   ListEnvironmentsResponse,
-  ValidationException | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     ListEnvironmentsResponse,
-    ValidationException | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     EnvironmentSummary,
-    ValidationException | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1042,22 +1063,28 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type AssociateEipToVlanError =
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
 export const associateEipToVlan: API.OperationMethod<
   AssociateEipToVlanRequest,
   AssociateEipToVlanResponse,
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateEipToVlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateEipToVlanRequest,
   output: AssociateEipToVlanResponse,
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
 }));
+export type CreateEnvironmentHostError =
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an ESX host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment.
  *
@@ -1074,13 +1101,17 @@ export const associateEipToVlan: API.OperationMethod<
 export const createEnvironmentHost: API.OperationMethod<
   CreateEnvironmentHostRequest,
   CreateEnvironmentHostResponse,
-  ThrottlingException | ValidationException | CommonErrors,
+  CreateEnvironmentHostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentHostRequest,
   output: CreateEnvironmentHostResponse,
   errors: [ThrottlingException, ValidationException],
 }));
+export type DeleteEnvironmentHostError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a host from an Amazon EVS environment.
  *
@@ -1089,50 +1120,56 @@ export const createEnvironmentHost: API.OperationMethod<
 export const deleteEnvironmentHost: API.OperationMethod<
   DeleteEnvironmentHostRequest,
   DeleteEnvironmentHostResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DeleteEnvironmentHostError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentHostRequest,
   output: DeleteEnvironmentHostResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DisassociateEipFromVlanError =
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
 export const disassociateEipFromVlan: API.OperationMethod<
   DisassociateEipFromVlanRequest,
   DisassociateEipFromVlanResponse,
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateEipFromVlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateEipFromVlanRequest,
   output: DisassociateEipFromVlanResponse,
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
 }));
+export type ListEnvironmentHostsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the hosts within an environment.
  */
 export const listEnvironmentHosts: API.OperationMethod<
   ListEnvironmentHostsRequest,
   ListEnvironmentHostsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListEnvironmentHostsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentHostsRequest,
   ) => stream.Stream<
     ListEnvironmentHostsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListEnvironmentHostsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentHostsRequest,
   ) => stream.Stream<
     Host,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListEnvironmentHostsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1146,27 +1183,31 @@ export const listEnvironmentHosts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEnvironmentVlansError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists environment VLANs that are associated with the specified environment.
  */
 export const listEnvironmentVlans: API.OperationMethod<
   ListEnvironmentVlansRequest,
   ListEnvironmentVlansResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListEnvironmentVlansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentVlansRequest,
   ) => stream.Stream<
     ListEnvironmentVlansResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListEnvironmentVlansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentVlansRequest,
   ) => stream.Stream<
     Vlan,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListEnvironmentVlansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

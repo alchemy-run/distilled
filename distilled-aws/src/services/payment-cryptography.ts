@@ -1273,6 +1273,15 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type DisableDefaultKeyReplicationRegionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disables Multi-Region key replication settings for the specified Amazon Web Services Regions in your Amazon Web Services account, preventing new keys from being automatically replicated to those regions.
  *
@@ -1291,14 +1300,7 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 export const disableDefaultKeyReplicationRegions: API.OperationMethod<
   DisableDefaultKeyReplicationRegionsInput,
   DisableDefaultKeyReplicationRegionsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisableDefaultKeyReplicationRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDefaultKeyReplicationRegionsInput,
@@ -1313,6 +1315,15 @@ export const disableDefaultKeyReplicationRegions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EnableDefaultKeyReplicationRegionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created.
  *
@@ -1331,14 +1342,7 @@ export const disableDefaultKeyReplicationRegions: API.OperationMethod<
 export const enableDefaultKeyReplicationRegions: API.OperationMethod<
   EnableDefaultKeyReplicationRegionsInput,
   EnableDefaultKeyReplicationRegionsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  EnableDefaultKeyReplicationRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDefaultKeyReplicationRegionsInput,
@@ -1353,6 +1357,15 @@ export const enableDefaultKeyReplicationRegions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExportKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Exports a key from Amazon Web Services Payment Cryptography.
  *
@@ -1447,14 +1460,7 @@ export const enableDefaultKeyReplicationRegions: API.OperationMethod<
 export const exportKey: API.OperationMethod<
   ExportKeyInput,
   ExportKeyOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ExportKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportKeyInput,
@@ -1469,19 +1475,21 @@ export const exportKey: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a certificate signing request (CSR) from a key pair.
- */
-export const getCertificateSigningRequest: API.OperationMethod<
-  GetCertificateSigningRequestInput,
-  GetCertificateSigningRequestOutput,
+export type GetCertificateSigningRequestError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a certificate signing request (CSR) from a key pair.
+ */
+export const getCertificateSigningRequest: API.OperationMethod<
+  GetCertificateSigningRequestInput,
+  GetCertificateSigningRequestOutput,
+  GetCertificateSigningRequestError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCertificateSigningRequestInput,
@@ -1495,6 +1503,15 @@ export const getCertificateSigningRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDefaultKeyReplicationRegionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account.
  *
@@ -1511,14 +1528,7 @@ export const getCertificateSigningRequest: API.OperationMethod<
 export const getDefaultKeyReplicationRegions: API.OperationMethod<
   GetDefaultKeyReplicationRegionsInput,
   GetDefaultKeyReplicationRegionsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDefaultKeyReplicationRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultKeyReplicationRegionsInput,
@@ -1533,6 +1543,16 @@ export const getDefaultKeyReplicationRegions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetParametersForExportError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography.
  *
@@ -1549,15 +1569,7 @@ export const getDefaultKeyReplicationRegions: API.OperationMethod<
 export const getParametersForExport: API.OperationMethod<
   GetParametersForExportInput,
   GetParametersForExportOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetParametersForExportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParametersForExportInput,
@@ -1573,6 +1585,16 @@ export const getParametersForExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetParametersForImportError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography.
  *
@@ -1589,15 +1611,7 @@ export const getParametersForExport: API.OperationMethod<
 export const getParametersForImport: API.OperationMethod<
   GetParametersForImportInput,
   GetParametersForImportOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetParametersForImportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParametersForImportInput,
@@ -1613,6 +1627,14 @@ export const getParametersForImport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPublicKeyCertificateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography.
  *
@@ -1623,13 +1645,7 @@ export const getParametersForImport: API.OperationMethod<
 export const getPublicKeyCertificate: API.OperationMethod<
   GetPublicKeyCertificateInput,
   GetPublicKeyCertificateOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPublicKeyCertificateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeyCertificateInput,
@@ -1643,6 +1659,16 @@ export const getPublicKeyCertificate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography.
  *
@@ -1743,15 +1769,7 @@ export const getPublicKeyCertificate: API.OperationMethod<
 export const importKey: API.OperationMethod<
   ImportKeyInput,
   ImportKeyOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ImportKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyInput,
@@ -1767,6 +1785,14 @@ export const importKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for an Amazon Web Services resource.
  *
@@ -1783,39 +1809,21 @@ export const importKey: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     ListTagsForResourceOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     Tag,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1836,6 +1844,16 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or edits tags on an Amazon Web Services Payment Cryptography key.
  *
@@ -1854,15 +1872,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1878,6 +1888,15 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a tag from an Amazon Web Services Payment Cryptography key.
  *
@@ -1894,14 +1913,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1916,6 +1928,16 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAliasError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an *alias*, or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData.
  *
@@ -1938,15 +1960,7 @@ export const untagResource: API.OperationMethod<
 export const createAlias: API.OperationMethod<
   CreateAliasInput,
   CreateAliasOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasInput,
@@ -1962,6 +1976,14 @@ export const createAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAliasError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the Amazon Web Services Payment Cryptography key associated with the alias.
  *
@@ -1980,13 +2002,7 @@ export const createAlias: API.OperationMethod<
 export const getAlias: API.OperationMethod<
   GetAliasInput,
   GetAliasOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAliasInput,
@@ -2000,6 +2016,15 @@ export const getAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAliasError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web Services Region
  *
@@ -2018,14 +2043,7 @@ export const getAlias: API.OperationMethod<
 export const updateAlias: API.OperationMethod<
   UpdateAliasInput,
   UpdateAliasOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasInput,
@@ -2040,6 +2058,15 @@ export const updateAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAliasError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the alias, but doesn't affect the underlying key.
  *
@@ -2060,14 +2087,7 @@ export const updateAlias: API.OperationMethod<
 export const deleteAlias: API.OperationMethod<
   DeleteAliasInput,
   DeleteAliasOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasInput,
@@ -2082,6 +2102,14 @@ export const deleteAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAliasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the aliases by `keyARN`. For more information, see Using aliases in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2102,39 +2130,21 @@ export const deleteAlias: API.OperationMethod<
 export const listAliases: API.OperationMethod<
   ListAliasesInput,
   ListAliasesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAliasesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAliasesInput,
   ) => stream.Stream<
     ListAliasesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAliasesInput,
   ) => stream.Stream<
     Alias,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2155,6 +2165,16 @@ export const listAliases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption.
  *
@@ -2181,15 +2201,7 @@ export const listAliases: API.OperationMethod<
 export const createKey: API.OperationMethod<
   CreateKeyInput,
   CreateKeyOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyInput,
@@ -2205,6 +2217,14 @@ export const createKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material.
  *
@@ -2221,13 +2241,7 @@ export const createKey: API.OperationMethod<
 export const getKey: API.OperationMethod<
   GetKeyInput,
   GetKeyOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyInput,
@@ -2241,6 +2255,15 @@ export const getKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the key material and metadata associated with Amazon Web Services Payment Cryptography key.
  *
@@ -2261,14 +2284,7 @@ export const getKey: API.OperationMethod<
 export const deleteKey: API.OperationMethod<
   DeleteKeyInput,
   DeleteKeyOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyInput,
@@ -2283,6 +2299,14 @@ export const deleteKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListKeysError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of keys.
  *
@@ -2301,39 +2325,21 @@ export const deleteKey: API.OperationMethod<
 export const listKeys: API.OperationMethod<
   ListKeysInput,
   ListKeysOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListKeysError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeysInput,
   ) => stream.Stream<
     ListKeysOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListKeysInput,
   ) => stream.Stream<
     KeySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2354,6 +2360,15 @@ export const listKeys: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type AddKeyReplicationRegionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions.
  *
@@ -2374,14 +2389,7 @@ export const listKeys: API.OperationMethod<
 export const addKeyReplicationRegions: API.OperationMethod<
   AddKeyReplicationRegionsInput,
   AddKeyReplicationRegionsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AddKeyReplicationRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddKeyReplicationRegionsInput,
@@ -2396,6 +2404,15 @@ export const addKeyReplicationRegions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveKeyReplicationRegionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions.
  *
@@ -2414,14 +2431,7 @@ export const addKeyReplicationRegions: API.OperationMethod<
 export const removeKeyReplicationRegions: API.OperationMethod<
   RemoveKeyReplicationRegionsInput,
   RemoveKeyReplicationRegionsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveKeyReplicationRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveKeyReplicationRegionsInput,
@@ -2436,6 +2446,16 @@ export const removeKeyReplicationRegions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RestoreKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a scheduled key deletion during the waiting period. Use this operation to restore a `Key` that is scheduled for deletion.
  *
@@ -2454,15 +2474,7 @@ export const removeKeyReplicationRegions: API.OperationMethod<
 export const restoreKey: API.OperationMethod<
   RestoreKeyInput,
   RestoreKeyOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RestoreKeyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreKeyInput,
@@ -2478,6 +2490,16 @@ export const restoreKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartKeyUsageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography
  *
@@ -2490,15 +2512,7 @@ export const restoreKey: API.OperationMethod<
 export const startKeyUsage: API.OperationMethod<
   StartKeyUsageInput,
   StartKeyUsageOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartKeyUsageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartKeyUsageInput,
@@ -2514,6 +2528,16 @@ export const startKeyUsage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopKeyUsageError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disables an Amazon Web Services Payment Cryptography key, which makes it inactive within Amazon Web Services Payment Cryptography.
  *
@@ -2530,15 +2554,7 @@ export const startKeyUsage: API.OperationMethod<
 export const stopKeyUsage: API.OperationMethod<
   StopKeyUsageInput,
   StopKeyUsageOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopKeyUsageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopKeyUsageInput,

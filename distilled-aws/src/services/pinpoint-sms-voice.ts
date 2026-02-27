@@ -497,18 +497,20 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateConfigurationSetError =
+  | AlreadyExistsException
+  | BadRequestException
+  | InternalServiceErrorException
+  | LimitExceededException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  */
 export const createConfigurationSet: API.OperationMethod<
   CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
-  | AlreadyExistsException
-  | BadRequestException
-  | InternalServiceErrorException
-  | LimitExceededException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetRequest,
@@ -521,19 +523,21 @@ export const createConfigurationSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new event destination in a configuration set.
- */
-export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
-  CreateConfigurationSetEventDestinationResponse,
+export type CreateConfigurationSetEventDestinationError =
   | AlreadyExistsException
   | BadRequestException
   | InternalServiceErrorException
   | LimitExceededException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new event destination in a configuration set.
+ */
+export const createConfigurationSetEventDestination: API.OperationMethod<
+  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationResponse,
+  CreateConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationSetEventDestinationRequest,
@@ -547,17 +551,19 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteConfigurationSetError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an existing configuration set.
  */
 export const deleteConfigurationSet: API.OperationMethod<
   DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteConfigurationSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetRequest,
@@ -569,17 +575,19 @@ export const deleteConfigurationSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteConfigurationSetEventDestinationError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an event destination in a configuration set.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
   DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationSetEventDestinationRequest,
@@ -591,17 +599,19 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetConfigurationSetEventDestinationsError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
   GetConfigurationSetEventDestinationsRequest,
   GetConfigurationSetEventDestinationsResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetConfigurationSetEventDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationSetEventDestinationsRequest,
@@ -613,16 +623,18 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListConfigurationSetsError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
  */
 export const listConfigurationSets: API.OperationMethod<
   ListConfigurationSetsRequest,
   ListConfigurationSetsResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListConfigurationSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConfigurationSetsRequest,
@@ -633,16 +645,18 @@ export const listConfigurationSets: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type SendVoiceMessageError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Create a new voice message and send it to a recipient's phone number.
  */
 export const sendVoiceMessage: API.OperationMethod<
   SendVoiceMessageRequest,
   SendVoiceMessageResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | TooManyRequestsException
-  | CommonErrors,
+  SendVoiceMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendVoiceMessageRequest,
@@ -653,17 +667,19 @@ export const sendVoiceMessage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateConfigurationSetEventDestinationError =
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
   UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
-  | BadRequestException
-  | InternalServiceErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateConfigurationSetEventDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationSetEventDestinationRequest,

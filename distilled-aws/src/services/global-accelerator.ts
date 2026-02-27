@@ -2021,6 +2021,15 @@ export class EndpointNotFoundException extends S.TaggedErrorClass<EndpointNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddCustomRoutingEndpointsError =
+  | AccessDeniedException
+  | ConflictException
+  | EndpointAlreadyExistsException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator.
  *
@@ -2040,14 +2049,7 @@ export class EndpointNotFoundException extends S.TaggedErrorClass<EndpointNotFou
 export const addCustomRoutingEndpoints: API.OperationMethod<
   AddCustomRoutingEndpointsRequest,
   AddCustomRoutingEndpointsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | EndpointAlreadyExistsException
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | CommonErrors,
+  AddCustomRoutingEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddCustomRoutingEndpointsRequest,
@@ -2062,6 +2064,14 @@ export const addCustomRoutingEndpoints: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type AddEndpointsError =
+  | AccessDeniedException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Add endpoints to an endpoint group. The `AddEndpoints` API operation is the recommended option for adding endpoints. The
  * alternative options are to add endpoints when you create an endpoint group (with the
@@ -2085,13 +2095,7 @@ export const addCustomRoutingEndpoints: API.OperationMethod<
 export const addEndpoints: API.OperationMethod<
   AddEndpointsRequest,
   AddEndpointsResponse,
-  | AccessDeniedException
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | TransactionInProgressException
-  | CommonErrors,
+  AddEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddEndpointsRequest,
@@ -2105,6 +2109,13 @@ export const addEndpoints: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type AdvertiseByoipCidrError =
+  | AccessDeniedException
+  | ByoipCidrNotFoundException
+  | IncorrectCidrStateException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources
  * through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to
@@ -2119,12 +2130,7 @@ export const addEndpoints: API.OperationMethod<
 export const advertiseByoipCidr: API.OperationMethod<
   AdvertiseByoipCidrRequest,
   AdvertiseByoipCidrResponse,
-  | AccessDeniedException
-  | ByoipCidrNotFoundException
-  | IncorrectCidrStateException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  AdvertiseByoipCidrError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdvertiseByoipCidrRequest,
@@ -2137,6 +2143,11 @@ export const advertiseByoipCidr: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type AllowCustomRoutingTrafficError =
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic
  * for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a
@@ -2149,10 +2160,7 @@ export const advertiseByoipCidr: API.OperationMethod<
 export const allowCustomRoutingTraffic: API.OperationMethod<
   AllowCustomRoutingTrafficRequest,
   AllowCustomRoutingTrafficResponse,
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  AllowCustomRoutingTrafficError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllowCustomRoutingTrafficRequest,
@@ -2163,6 +2171,13 @@ export const allowCustomRoutingTraffic: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type CreateAcceleratorError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic
  * to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers.
@@ -2174,12 +2189,7 @@ export const allowCustomRoutingTraffic: API.OperationMethod<
 export const createAccelerator: API.OperationMethod<
   CreateAcceleratorRequest,
   CreateAcceleratorResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | TransactionInProgressException
-  | CommonErrors,
+  CreateAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAcceleratorRequest,
@@ -2192,6 +2202,13 @@ export const createAccelerator: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type CreateCrossAccountAttachmentError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to
  * specify the *principals* who have permission to work with *resources*
@@ -2217,12 +2234,7 @@ export const createAccelerator: API.OperationMethod<
 export const createCrossAccountAttachment: API.OperationMethod<
   CreateCrossAccountAttachmentRequest,
   CreateCrossAccountAttachmentResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | TransactionInProgressException
-  | CommonErrors,
+  CreateCrossAccountAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCrossAccountAttachmentRequest,
@@ -2235,6 +2247,13 @@ export const createCrossAccountAttachment: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type CreateCustomRoutingAcceleratorError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands
  * of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints.
@@ -2251,12 +2270,7 @@ export const createCrossAccountAttachment: API.OperationMethod<
 export const createCustomRoutingAccelerator: API.OperationMethod<
   CreateCustomRoutingAcceleratorRequest,
   CreateCustomRoutingAcceleratorResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | TransactionInProgressException
-  | CommonErrors,
+  CreateCustomRoutingAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomRoutingAcceleratorRequest,
@@ -2269,14 +2283,7 @@ export const createCustomRoutingAccelerator: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
-/**
- * Create an endpoint group for the specified listener for a custom routing accelerator.
- * An endpoint group is a collection of endpoints in one Amazon Web Services
- * Region.
- */
-export const createCustomRoutingEndpointGroup: API.OperationMethod<
-  CreateCustomRoutingEndpointGroupRequest,
-  CreateCustomRoutingEndpointGroupResponse,
+export type CreateCustomRoutingEndpointGroupError =
   | AcceleratorNotFoundException
   | AccessDeniedException
   | EndpointGroupAlreadyExistsException
@@ -2285,7 +2292,16 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
   | InvalidPortRangeException
   | LimitExceededException
   | ListenerNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create an endpoint group for the specified listener for a custom routing accelerator.
+ * An endpoint group is a collection of endpoints in one Amazon Web Services
+ * Region.
+ */
+export const createCustomRoutingEndpointGroup: API.OperationMethod<
+  CreateCustomRoutingEndpointGroupRequest,
+  CreateCustomRoutingEndpointGroupResponse,
+  CreateCustomRoutingEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomRoutingEndpointGroupRequest,
@@ -2301,6 +2317,13 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type CreateCustomRoutingListenerError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidPortRangeException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Create a listener to process inbound connections from clients to a custom routing accelerator.
  * Connections arrive to assigned static IP addresses on the port range that you specify.
@@ -2308,12 +2331,7 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
 export const createCustomRoutingListener: API.OperationMethod<
   CreateCustomRoutingListenerRequest,
   CreateCustomRoutingListenerResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidPortRangeException
-  | LimitExceededException
-  | CommonErrors,
+  CreateCustomRoutingListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomRoutingListenerRequest,
@@ -2326,6 +2344,15 @@ export const createCustomRoutingListener: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type CreateEndpointGroupError =
+  | AcceleratorNotFoundException
+  | AccessDeniedException
+  | EndpointGroupAlreadyExistsException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services
  * Region. A resource must be valid and active when you add it as an endpoint.
@@ -2337,14 +2364,7 @@ export const createCustomRoutingListener: API.OperationMethod<
 export const createEndpointGroup: API.OperationMethod<
   CreateEndpointGroupRequest,
   CreateEndpointGroupResponse,
-  | AcceleratorNotFoundException
-  | AccessDeniedException
-  | EndpointGroupAlreadyExistsException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ListenerNotFoundException
-  | CommonErrors,
+  CreateEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointGroupRequest,
@@ -2359,6 +2379,13 @@ export const createEndpointGroup: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type CreateListenerError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidPortRangeException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static
  * IP addresses on a port, port range, or list of port ranges that you specify.
@@ -2366,12 +2393,7 @@ export const createEndpointGroup: API.OperationMethod<
 export const createListener: API.OperationMethod<
   CreateListenerRequest,
   CreateListenerResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidPortRangeException
-  | LimitExceededException
-  | CommonErrors,
+  CreateListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateListenerRequest,
@@ -2384,6 +2406,14 @@ export const createListener: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type DeleteAcceleratorError =
+  | AcceleratorNotDisabledException
+  | AcceleratorNotFoundException
+  | AssociatedListenerFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources
  * (listeners and endpoint groups). To disable the accelerator, update the accelerator to set `Enabled` to false.
@@ -2402,13 +2432,7 @@ export const createListener: API.OperationMethod<
 export const deleteAccelerator: API.OperationMethod<
   DeleteAcceleratorRequest,
   DeleteAcceleratorResponse,
-  | AcceleratorNotDisabledException
-  | AcceleratorNotFoundException
-  | AssociatedListenerFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  DeleteAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAcceleratorRequest,
@@ -2422,6 +2446,13 @@ export const deleteAccelerator: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type DeleteCrossAccountAttachmentError =
+  | AccessDeniedException
+  | AttachmentNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission
  * to use the resources in the attachment from all principals in the list of principals. Global Accelerator
@@ -2434,12 +2465,7 @@ export const deleteAccelerator: API.OperationMethod<
 export const deleteCrossAccountAttachment: API.OperationMethod<
   DeleteCrossAccountAttachmentRequest,
   DeleteCrossAccountAttachmentResponse,
-  | AccessDeniedException
-  | AttachmentNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  DeleteCrossAccountAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCrossAccountAttachmentRequest,
@@ -2452,6 +2478,14 @@ export const deleteCrossAccountAttachment: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type DeleteCustomRoutingAcceleratorError =
+  | AcceleratorNotDisabledException
+  | AcceleratorNotFoundException
+  | AssociatedListenerFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources
  * (listeners and endpoint groups). To disable the accelerator, update the accelerator to set `Enabled` to false.
@@ -2470,13 +2504,7 @@ export const deleteCrossAccountAttachment: API.OperationMethod<
 export const deleteCustomRoutingAccelerator: API.OperationMethod<
   DeleteCustomRoutingAcceleratorRequest,
   DeleteCustomRoutingAcceleratorResponse,
-  | AcceleratorNotDisabledException
-  | AcceleratorNotFoundException
-  | AssociatedListenerFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  DeleteCustomRoutingAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomRoutingAcceleratorRequest,
@@ -2490,16 +2518,18 @@ export const deleteCustomRoutingAccelerator: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type DeleteCustomRoutingEndpointGroupError =
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Delete an endpoint group from a listener for a custom routing accelerator.
  */
 export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
   DeleteCustomRoutingEndpointGroupRequest,
   DeleteCustomRoutingEndpointGroupResponse,
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DeleteCustomRoutingEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomRoutingEndpointGroupRequest,
@@ -2510,17 +2540,19 @@ export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DeleteCustomRoutingListenerError =
+  | AssociatedEndpointGroupFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * Delete a listener for a custom routing accelerator.
  */
 export const deleteCustomRoutingListener: API.OperationMethod<
   DeleteCustomRoutingListenerRequest,
   DeleteCustomRoutingListenerResponse,
-  | AssociatedEndpointGroupFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | ListenerNotFoundException
-  | CommonErrors,
+  DeleteCustomRoutingListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomRoutingListenerRequest,
@@ -2532,16 +2564,18 @@ export const deleteCustomRoutingListener: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type DeleteEndpointGroupError =
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Delete an endpoint group from a listener.
  */
 export const deleteEndpointGroup: API.OperationMethod<
   DeleteEndpointGroupRequest,
   DeleteEndpointGroupResponse,
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DeleteEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointGroupRequest,
@@ -2552,17 +2586,19 @@ export const deleteEndpointGroup: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DeleteListenerError =
+  | AssociatedEndpointGroupFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * Delete a listener from an accelerator.
  */
 export const deleteListener: API.OperationMethod<
   DeleteListenerRequest,
   DeleteListenerResponse,
-  | AssociatedEndpointGroupFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | ListenerNotFoundException
-  | CommonErrors,
+  DeleteListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteListenerRequest,
@@ -2574,6 +2610,11 @@ export const deleteListener: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type DenyCustomRoutingTrafficError =
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic
  * for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a
@@ -2586,10 +2627,7 @@ export const deleteListener: API.OperationMethod<
 export const denyCustomRoutingTraffic: API.OperationMethod<
   DenyCustomRoutingTrafficRequest,
   DenyCustomRoutingTrafficResponse,
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DenyCustomRoutingTrafficError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DenyCustomRoutingTrafficRequest,
@@ -2600,6 +2638,13 @@ export const denyCustomRoutingTraffic: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DeprovisionByoipCidrError =
+  | AccessDeniedException
+  | ByoipCidrNotFoundException
+  | IncorrectCidrStateException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Releases the specified address range that you provisioned to use with your Amazon Web Services resources
  * through bring your own IP addresses (BYOIP) and deletes the corresponding address pool.
@@ -2613,12 +2658,7 @@ export const denyCustomRoutingTraffic: API.OperationMethod<
 export const deprovisionByoipCidr: API.OperationMethod<
   DeprovisionByoipCidrRequest,
   DeprovisionByoipCidrResponse,
-  | AccessDeniedException
-  | ByoipCidrNotFoundException
-  | IncorrectCidrStateException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DeprovisionByoipCidrError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprovisionByoipCidrRequest,
@@ -2631,16 +2671,18 @@ export const deprovisionByoipCidr: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeAcceleratorError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Describe an accelerator.
  */
 export const describeAccelerator: API.OperationMethod<
   DescribeAcceleratorRequest,
   DescribeAcceleratorResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAcceleratorRequest,
@@ -2651,16 +2693,18 @@ export const describeAccelerator: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeAcceleratorAttributesError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Describe the attributes of an accelerator.
  */
 export const describeAcceleratorAttributes: API.OperationMethod<
   DescribeAcceleratorAttributesRequest,
   DescribeAcceleratorAttributesResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeAcceleratorAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAcceleratorAttributesRequest,
@@ -2671,17 +2715,19 @@ export const describeAcceleratorAttributes: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeCrossAccountAttachmentError =
+  | AccessDeniedException
+  | AttachmentNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Gets configuration information about a cross-account attachment.
  */
 export const describeCrossAccountAttachment: API.OperationMethod<
   DescribeCrossAccountAttachmentRequest,
   DescribeCrossAccountAttachmentResponse,
-  | AccessDeniedException
-  | AttachmentNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeCrossAccountAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCrossAccountAttachmentRequest,
@@ -2693,16 +2739,18 @@ export const describeCrossAccountAttachment: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeCustomRoutingAcceleratorError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Describe a custom routing accelerator.
  */
 export const describeCustomRoutingAccelerator: API.OperationMethod<
   DescribeCustomRoutingAcceleratorRequest,
   DescribeCustomRoutingAcceleratorResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeCustomRoutingAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomRoutingAcceleratorRequest,
@@ -2713,16 +2761,18 @@ export const describeCustomRoutingAccelerator: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeCustomRoutingAcceleratorAttributesError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Describe the attributes of a custom routing accelerator.
  */
 export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
   DescribeCustomRoutingAcceleratorAttributesRequest,
   DescribeCustomRoutingAcceleratorAttributesResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeCustomRoutingAcceleratorAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomRoutingAcceleratorAttributesRequest,
@@ -2733,16 +2783,18 @@ export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeCustomRoutingEndpointGroupError =
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Describe an endpoint group for a custom routing accelerator.
  */
 export const describeCustomRoutingEndpointGroup: API.OperationMethod<
   DescribeCustomRoutingEndpointGroupRequest,
   DescribeCustomRoutingEndpointGroupResponse,
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeCustomRoutingEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomRoutingEndpointGroupRequest,
@@ -2753,16 +2805,18 @@ export const describeCustomRoutingEndpointGroup: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeCustomRoutingListenerError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * The description of a listener for a custom routing accelerator.
  */
 export const describeCustomRoutingListener: API.OperationMethod<
   DescribeCustomRoutingListenerRequest,
   DescribeCustomRoutingListenerResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | ListenerNotFoundException
-  | CommonErrors,
+  DescribeCustomRoutingListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomRoutingListenerRequest,
@@ -2773,16 +2827,18 @@ export const describeCustomRoutingListener: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type DescribeEndpointGroupError =
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Describe an endpoint group.
  */
 export const describeEndpointGroup: API.OperationMethod<
   DescribeEndpointGroupRequest,
   DescribeEndpointGroupResponse,
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  DescribeEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointGroupRequest,
@@ -2793,16 +2849,18 @@ export const describeEndpointGroup: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type DescribeListenerError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * Describe a listener.
  */
 export const describeListener: API.OperationMethod<
   DescribeListenerRequest,
   DescribeListenerResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | ListenerNotFoundException
-  | CommonErrors,
+  DescribeListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeListenerRequest,
@@ -2813,36 +2871,32 @@ export const describeListener: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type ListAcceleratorsError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the accelerators for an Amazon Web Services account.
  */
 export const listAccelerators: API.OperationMethod<
   ListAcceleratorsRequest,
   ListAcceleratorsResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListAcceleratorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAcceleratorsRequest,
   ) => stream.Stream<
     ListAcceleratorsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListAcceleratorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAcceleratorsRequest,
   ) => stream.Stream<
     Accelerator,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListAcceleratorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2860,6 +2914,12 @@ export const listAccelerators: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListByoipCidrsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, including
  * the current state and a history of state changes.
@@ -2867,33 +2927,21 @@ export const listAccelerators: API.OperationMethod<
 export const listByoipCidrs: API.OperationMethod<
   ListByoipCidrsRequest,
   ListByoipCidrsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListByoipCidrsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListByoipCidrsRequest,
   ) => stream.Stream<
     ListByoipCidrsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListByoipCidrsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListByoipCidrsRequest,
   ) => stream.Stream<
     ByoipCidr,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListByoipCidrsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2912,39 +2960,33 @@ export const listByoipCidrs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCrossAccountAttachmentsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the cross-account attachments that have been created in Global Accelerator.
  */
 export const listCrossAccountAttachments: API.OperationMethod<
   ListCrossAccountAttachmentsRequest,
   ListCrossAccountAttachmentsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListCrossAccountAttachmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCrossAccountAttachmentsRequest,
   ) => stream.Stream<
     ListCrossAccountAttachmentsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCrossAccountAttachmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCrossAccountAttachmentsRequest,
   ) => stream.Stream<
     Attachment,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCrossAccountAttachmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2963,6 +3005,10 @@ export const listCrossAccountAttachments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCrossAccountResourceAccountsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | CommonErrors;
 /**
  * List the accounts that have cross-account resources.
  *
@@ -2973,49 +3019,41 @@ export const listCrossAccountAttachments: API.OperationMethod<
 export const listCrossAccountResourceAccounts: API.OperationMethod<
   ListCrossAccountResourceAccountsRequest,
   ListCrossAccountResourceAccountsResponse,
-  AccessDeniedException | InternalServiceErrorException | CommonErrors,
+  ListCrossAccountResourceAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCrossAccountResourceAccountsRequest,
   output: ListCrossAccountResourceAccountsResponse,
   errors: [AccessDeniedException, InternalServiceErrorException],
 }));
+export type ListCrossAccountResourcesError =
+  | AcceleratorNotFoundException
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the cross-account resources available to work with.
  */
 export const listCrossAccountResources: API.OperationMethod<
   ListCrossAccountResourcesRequest,
   ListCrossAccountResourcesResponse,
-  | AcceleratorNotFoundException
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListCrossAccountResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCrossAccountResourcesRequest,
   ) => stream.Stream<
     ListCrossAccountResourcesResponse,
-    | AcceleratorNotFoundException
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCrossAccountResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCrossAccountResourcesRequest,
   ) => stream.Stream<
     CrossAccountResource,
-    | AcceleratorNotFoundException
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCrossAccountResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3035,36 +3073,32 @@ export const listCrossAccountResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCustomRoutingAcceleratorsError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the custom routing accelerators for an Amazon Web Services account.
  */
 export const listCustomRoutingAccelerators: API.OperationMethod<
   ListCustomRoutingAcceleratorsRequest,
   ListCustomRoutingAcceleratorsResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListCustomRoutingAcceleratorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomRoutingAcceleratorsRequest,
   ) => stream.Stream<
     ListCustomRoutingAcceleratorsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingAcceleratorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomRoutingAcceleratorsRequest,
   ) => stream.Stream<
     CustomRoutingAccelerator,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingAcceleratorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3082,39 +3116,33 @@ export const listCustomRoutingAccelerators: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCustomRoutingEndpointGroupsError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * List the endpoint groups that are associated with a listener for a custom routing accelerator.
  */
 export const listCustomRoutingEndpointGroups: API.OperationMethod<
   ListCustomRoutingEndpointGroupsRequest,
   ListCustomRoutingEndpointGroupsResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | ListenerNotFoundException
-  | CommonErrors,
+  ListCustomRoutingEndpointGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomRoutingEndpointGroupsRequest,
   ) => stream.Stream<
     ListCustomRoutingEndpointGroupsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | ListenerNotFoundException
-    | CommonErrors,
+    ListCustomRoutingEndpointGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomRoutingEndpointGroupsRequest,
   ) => stream.Stream<
     CustomRoutingEndpointGroup,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | ListenerNotFoundException
-    | CommonErrors,
+    ListCustomRoutingEndpointGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3133,39 +3161,33 @@ export const listCustomRoutingEndpointGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCustomRoutingListenersError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the listeners for a custom routing accelerator.
  */
 export const listCustomRoutingListeners: API.OperationMethod<
   ListCustomRoutingListenersRequest,
   ListCustomRoutingListenersResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListCustomRoutingListenersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomRoutingListenersRequest,
   ) => stream.Stream<
     ListCustomRoutingListenersResponse,
-    | AcceleratorNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingListenersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomRoutingListenersRequest,
   ) => stream.Stream<
     CustomRoutingListener,
-    | AcceleratorNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingListenersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3184,6 +3206,13 @@ export const listCustomRoutingListeners: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCustomRoutingPortMappingsError =
+  | AcceleratorNotFoundException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance
  * IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator.
@@ -3200,36 +3229,21 @@ export const listCustomRoutingListeners: API.OperationMethod<
 export const listCustomRoutingPortMappings: API.OperationMethod<
   ListCustomRoutingPortMappingsRequest,
   ListCustomRoutingPortMappingsResponse,
-  | AcceleratorNotFoundException
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListCustomRoutingPortMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomRoutingPortMappingsRequest,
   ) => stream.Stream<
     ListCustomRoutingPortMappingsResponse,
-    | AcceleratorNotFoundException
-    | EndpointGroupNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingPortMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomRoutingPortMappingsRequest,
   ) => stream.Stream<
     PortMapping,
-    | AcceleratorNotFoundException
-    | EndpointGroupNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingPortMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3249,6 +3263,12 @@ export const listCustomRoutingPortMappings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCustomRoutingPortMappingsByDestinationError =
+  | EndpointNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The
  * response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that
@@ -3258,33 +3278,21 @@ export const listCustomRoutingPortMappings: API.OperationMethod<
 export const listCustomRoutingPortMappingsByDestination: API.OperationMethod<
   ListCustomRoutingPortMappingsByDestinationRequest,
   ListCustomRoutingPortMappingsByDestinationResponse,
-  | EndpointNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListCustomRoutingPortMappingsByDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomRoutingPortMappingsByDestinationRequest,
   ) => stream.Stream<
     ListCustomRoutingPortMappingsByDestinationResponse,
-    | EndpointNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingPortMappingsByDestinationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomRoutingPortMappingsByDestinationRequest,
   ) => stream.Stream<
     DestinationPortMapping,
-    | EndpointNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListCustomRoutingPortMappingsByDestinationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3303,39 +3311,33 @@ export const listCustomRoutingPortMappingsByDestination: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEndpointGroupsError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * List the endpoint groups that are associated with a listener.
  */
 export const listEndpointGroups: API.OperationMethod<
   ListEndpointGroupsRequest,
   ListEndpointGroupsResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | ListenerNotFoundException
-  | CommonErrors,
+  ListEndpointGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEndpointGroupsRequest,
   ) => stream.Stream<
     ListEndpointGroupsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | ListenerNotFoundException
-    | CommonErrors,
+    ListEndpointGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEndpointGroupsRequest,
   ) => stream.Stream<
     EndpointGroup,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | ListenerNotFoundException
-    | CommonErrors,
+    ListEndpointGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3354,39 +3356,33 @@ export const listEndpointGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListListenersError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * List the listeners for an accelerator.
  */
 export const listListeners: API.OperationMethod<
   ListListenersRequest,
   ListListenersResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidNextTokenException
-  | CommonErrors,
+  ListListenersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListListenersRequest,
   ) => stream.Stream<
     ListListenersResponse,
-    | AcceleratorNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListListenersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListListenersRequest,
   ) => stream.Stream<
     Listener,
-    | AcceleratorNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
+    ListListenersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3405,6 +3401,14 @@ export const listListeners: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AcceleratorNotFoundException
+  | AttachmentNotFoundException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * List all tags for an accelerator.
  *
@@ -3414,13 +3418,7 @@ export const listListeners: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AcceleratorNotFoundException
-  | AttachmentNotFoundException
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | ListenerNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3434,6 +3432,13 @@ export const listTagsForResource: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type ProvisionByoipCidrError =
+  | AccessDeniedException
+  | IncorrectCidrStateException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP
  * addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned,
@@ -3446,12 +3451,7 @@ export const listTagsForResource: API.OperationMethod<
 export const provisionByoipCidr: API.OperationMethod<
   ProvisionByoipCidrRequest,
   ProvisionByoipCidrResponse,
-  | AccessDeniedException
-  | IncorrectCidrStateException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | CommonErrors,
+  ProvisionByoipCidrError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionByoipCidrRequest,
@@ -3464,19 +3464,21 @@ export const provisionByoipCidr: API.OperationMethod<
     LimitExceededException,
   ],
 }));
-/**
- * Remove endpoints from a custom routing accelerator.
- */
-export const removeCustomRoutingEndpoints: API.OperationMethod<
-  RemoveCustomRoutingEndpointsRequest,
-  RemoveCustomRoutingEndpointsResponse,
+export type RemoveCustomRoutingEndpointsError =
   | AccessDeniedException
   | ConflictException
   | EndpointGroupNotFoundException
   | EndpointNotFoundException
   | InternalServiceErrorException
   | InvalidArgumentException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Remove endpoints from a custom routing accelerator.
+ */
+export const removeCustomRoutingEndpoints: API.OperationMethod<
+  RemoveCustomRoutingEndpointsRequest,
+  RemoveCustomRoutingEndpointsResponse,
+  RemoveCustomRoutingEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveCustomRoutingEndpointsRequest,
@@ -3490,6 +3492,13 @@ export const removeCustomRoutingEndpoints: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type RemoveEndpointsError =
+  | AccessDeniedException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Remove endpoints from an endpoint group.
  *
@@ -3509,12 +3518,7 @@ export const removeCustomRoutingEndpoints: API.OperationMethod<
 export const removeEndpoints: API.OperationMethod<
   RemoveEndpointsRequest,
   RemoveEndpointsResponse,
-  | AccessDeniedException
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  RemoveEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveEndpointsRequest,
@@ -3527,6 +3531,11 @@ export const removeEndpoints: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type TagResourceError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Add tags to an accelerator resource.
  *
@@ -3536,10 +3545,7 @@ export const removeEndpoints: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3550,6 +3556,11 @@ export const tagResource: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type UntagResourceError =
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value.
  * The operation succeeds even if you attempt to remove tags from an accelerator that was already removed.
@@ -3560,10 +3571,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AcceleratorNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3574,6 +3582,14 @@ export const untagResource: API.OperationMethod<
     InvalidArgumentException,
   ],
 }));
+export type UpdateAcceleratorError =
+  | AcceleratorNotFoundException
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Update an accelerator to make changes, such as the following:
  *
@@ -3596,13 +3612,7 @@ export const untagResource: API.OperationMethod<
 export const updateAccelerator: API.OperationMethod<
   UpdateAcceleratorRequest,
   UpdateAcceleratorResponse,
-  | AcceleratorNotFoundException
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  UpdateAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAcceleratorRequest,
@@ -3616,18 +3626,20 @@ export const updateAccelerator: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type UpdateAcceleratorAttributesError =
+  | AcceleratorNotFoundException
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Update the attributes for an accelerator.
  */
 export const updateAcceleratorAttributes: API.OperationMethod<
   UpdateAcceleratorAttributesRequest,
   UpdateAcceleratorAttributesResponse,
-  | AcceleratorNotFoundException
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  UpdateAcceleratorAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAcceleratorAttributesRequest,
@@ -3640,6 +3652,14 @@ export const updateAcceleratorAttributes: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type UpdateCrossAccountAttachmentError =
+  | AccessDeniedException
+  | AttachmentNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Update a cross-account attachment to add or remove principals or resources. When you update
  * an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator
@@ -3652,13 +3672,7 @@ export const updateAcceleratorAttributes: API.OperationMethod<
 export const updateCrossAccountAttachment: API.OperationMethod<
   UpdateCrossAccountAttachmentRequest,
   UpdateCrossAccountAttachmentResponse,
-  | AccessDeniedException
-  | AttachmentNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | TransactionInProgressException
-  | CommonErrors,
+  UpdateCrossAccountAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCrossAccountAttachmentRequest,
@@ -3672,18 +3686,20 @@ export const updateCrossAccountAttachment: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type UpdateCustomRoutingAcceleratorError =
+  | AcceleratorNotFoundException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Update a custom routing accelerator.
  */
 export const updateCustomRoutingAccelerator: API.OperationMethod<
   UpdateCustomRoutingAcceleratorRequest,
   UpdateCustomRoutingAcceleratorResponse,
-  | AcceleratorNotFoundException
-  | ConflictException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  UpdateCustomRoutingAcceleratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomRoutingAcceleratorRequest,
@@ -3696,18 +3712,20 @@ export const updateCustomRoutingAccelerator: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type UpdateCustomRoutingAcceleratorAttributesError =
+  | AcceleratorNotFoundException
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | TransactionInProgressException
+  | CommonErrors;
 /**
  * Update the attributes for a custom routing accelerator.
  */
 export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
   UpdateCustomRoutingAcceleratorAttributesRequest,
   UpdateCustomRoutingAcceleratorAttributesResponse,
-  | AcceleratorNotFoundException
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | TransactionInProgressException
-  | CommonErrors,
+  UpdateCustomRoutingAcceleratorAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomRoutingAcceleratorAttributesRequest,
@@ -3720,18 +3738,20 @@ export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
     TransactionInProgressException,
   ],
 }));
+export type UpdateCustomRoutingListenerError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidPortRangeException
+  | LimitExceededException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * Update a listener for a custom routing accelerator.
  */
 export const updateCustomRoutingListener: API.OperationMethod<
   UpdateCustomRoutingListenerRequest,
   UpdateCustomRoutingListenerResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidPortRangeException
-  | LimitExceededException
-  | ListenerNotFoundException
-  | CommonErrors,
+  UpdateCustomRoutingListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomRoutingListenerRequest,
@@ -3744,18 +3764,20 @@ export const updateCustomRoutingListener: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type UpdateEndpointGroupError =
+  | AccessDeniedException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
  */
 export const updateEndpointGroup: API.OperationMethod<
   UpdateEndpointGroupRequest,
   UpdateEndpointGroupResponse,
-  | AccessDeniedException
-  | EndpointGroupNotFoundException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | LimitExceededException
-  | CommonErrors,
+  UpdateEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEndpointGroupRequest,
@@ -3768,18 +3790,20 @@ export const updateEndpointGroup: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type UpdateListenerError =
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidPortRangeException
+  | LimitExceededException
+  | ListenerNotFoundException
+  | CommonErrors;
 /**
  * Update a listener.
  */
 export const updateListener: API.OperationMethod<
   UpdateListenerRequest,
   UpdateListenerResponse,
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | InvalidPortRangeException
-  | LimitExceededException
-  | ListenerNotFoundException
-  | CommonErrors,
+  UpdateListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateListenerRequest,
@@ -3792,6 +3816,13 @@ export const updateListener: API.OperationMethod<
     ListenerNotFoundException,
   ],
 }));
+export type WithdrawByoipCidrError =
+  | AccessDeniedException
+  | ByoipCidrNotFoundException
+  | IncorrectCidrStateException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Stops advertising an address range that is provisioned as an address pool.
  * You can perform this operation at most once every 10 seconds, even if you specify different address
@@ -3806,12 +3837,7 @@ export const updateListener: API.OperationMethod<
 export const withdrawByoipCidr: API.OperationMethod<
   WithdrawByoipCidrRequest,
   WithdrawByoipCidrResponse,
-  | AccessDeniedException
-  | ByoipCidrNotFoundException
-  | IncorrectCidrStateException
-  | InternalServiceErrorException
-  | InvalidArgumentException
-  | CommonErrors,
+  WithdrawByoipCidrError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WithdrawByoipCidrRequest,

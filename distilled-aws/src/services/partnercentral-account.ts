@@ -1700,18 +1700,20 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type GetVerificationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
  */
 export const getVerification: API.OperationMethod<
   GetVerificationRequest,
   GetVerificationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetVerificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVerificationRequest,
@@ -1724,18 +1726,20 @@ export const getVerification: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags associated with a specific AWS Partner Central Account resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1748,18 +1752,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendEmailVerificationCodeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends an email verification code to the specified email address for account verification purposes.
  */
 export const sendEmailVerificationCode: API.OperationMethod<
   SendEmailVerificationCodeRequest,
   SendEmailVerificationCodeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendEmailVerificationCodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEmailVerificationCodeRequest,
@@ -1772,19 +1778,21 @@ export const sendEmailVerificationCode: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
- */
-export const startVerification: API.OperationMethod<
-  StartVerificationRequest,
-  StartVerificationResponse,
+export type StartVerificationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
+ */
+export const startVerification: API.OperationMethod<
+  StartVerificationRequest,
+  StartVerificationResponse,
+  StartVerificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartVerificationRequest,
@@ -1798,19 +1806,21 @@ export const startVerification: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds or updates tags for a specified AWS Partner Central Account resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds or updates tags for a specified AWS Partner Central Account resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1824,19 +1834,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes specified tags from an AWS Partner Central Account resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes specified tags from an AWS Partner Central Account resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1850,19 +1862,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new connection invitation to establish a partnership with another organization.
- */
-export const createConnectionInvitation: API.OperationMethod<
-  CreateConnectionInvitationRequest,
-  CreateConnectionInvitationResponse,
+export type CreateConnectionInvitationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new connection invitation to establish a partnership with another organization.
+ */
+export const createConnectionInvitation: API.OperationMethod<
+  CreateConnectionInvitationRequest,
+  CreateConnectionInvitationResponse,
+  CreateConnectionInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionInvitationRequest,
@@ -1876,18 +1890,20 @@ export const createConnectionInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectionInvitationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific connection invitation.
  */
 export const getConnectionInvitation: API.OperationMethod<
   GetConnectionInvitationRequest,
   GetConnectionInvitationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConnectionInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionInvitationRequest,
@@ -1900,39 +1916,33 @@ export const getConnectionInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConnectionInvitationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria.
  */
 export const listConnectionInvitations: API.OperationMethod<
   ListConnectionInvitationsRequest,
   ListConnectionInvitationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConnectionInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectionInvitationsRequest,
   ) => stream.Stream<
     ListConnectionInvitationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectionInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionInvitationsRequest,
   ) => stream.Stream<
     ConnectionInvitationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectionInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1951,19 +1961,21 @@ export const listConnectionInvitations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Accepts a connection invitation from another partner, establishing a formal partnership connection between the two parties.
- */
-export const acceptConnectionInvitation: API.OperationMethod<
-  AcceptConnectionInvitationRequest,
-  AcceptConnectionInvitationResponse,
+export type AcceptConnectionInvitationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accepts a connection invitation from another partner, establishing a formal partnership connection between the two parties.
+ */
+export const acceptConnectionInvitation: API.OperationMethod<
+  AcceptConnectionInvitationRequest,
+  AcceptConnectionInvitationResponse,
+  AcceptConnectionInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptConnectionInvitationRequest,
@@ -1977,19 +1989,21 @@ export const acceptConnectionInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels a pending connection invitation before it has been accepted or rejected.
- */
-export const cancelConnectionInvitation: API.OperationMethod<
-  CancelConnectionInvitationRequest,
-  CancelConnectionInvitationResponse,
+export type CancelConnectionInvitationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels a pending connection invitation before it has been accepted or rejected.
+ */
+export const cancelConnectionInvitation: API.OperationMethod<
+  CancelConnectionInvitationRequest,
+  CancelConnectionInvitationResponse,
+  CancelConnectionInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelConnectionInvitationRequest,
@@ -2003,19 +2017,21 @@ export const cancelConnectionInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Rejects a connection invitation from another partner, declining the partnership request.
- */
-export const rejectConnectionInvitation: API.OperationMethod<
-  RejectConnectionInvitationRequest,
-  RejectConnectionInvitationResponse,
+export type RejectConnectionInvitationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rejects a connection invitation from another partner, declining the partnership request.
+ */
+export const rejectConnectionInvitation: API.OperationMethod<
+  RejectConnectionInvitationRequest,
+  RejectConnectionInvitationResponse,
+  RejectConnectionInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectConnectionInvitationRequest,
@@ -2029,17 +2045,19 @@ export const rejectConnectionInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectionPreferencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the connection preferences for a partner account, including access settings and exclusions.
  */
 export const getConnectionPreferences: API.OperationMethod<
   GetConnectionPreferencesRequest,
   GetConnectionPreferencesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConnectionPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionPreferencesRequest,
@@ -2051,18 +2069,20 @@ export const getConnectionPreferences: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConnectionPreferencesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the connection preferences for a partner account, modifying access settings and exclusions.
  */
 export const updateConnectionPreferences: API.OperationMethod<
   UpdateConnectionPreferencesRequest,
   UpdateConnectionPreferencesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateConnectionPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionPreferencesRequest,
@@ -2075,18 +2095,20 @@ export const updateConnectionPreferences: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific connection between partners.
  */
 export const getConnection: API.OperationMethod<
   GetConnectionRequest,
   GetConnectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
@@ -2099,39 +2121,33 @@ export const getConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConnectionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists active connections for the partner account, with optional filtering by connection type and participant.
  */
 export const listConnections: API.OperationMethod<
   ListConnectionsRequest,
   ListConnectionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectionsRequest,
   ) => stream.Stream<
     ListConnectionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionsRequest,
   ) => stream.Stream<
     ConnectionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2150,19 +2166,21 @@ export const listConnections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Cancels an existing connection between partners, terminating the partnership relationship.
- */
-export const cancelConnection: API.OperationMethod<
-  CancelConnectionRequest,
-  CancelConnectionResponse,
+export type CancelConnectionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels an existing connection between partners, terminating the partnership relationship.
+ */
+export const cancelConnection: API.OperationMethod<
+  CancelConnectionRequest,
+  CancelConnectionResponse,
+  CancelConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelConnectionRequest,
@@ -2176,18 +2194,20 @@ export const cancelConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePartnerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new partner account in the AWS Partner Network with the specified details and configuration.
  */
 export const createPartner: API.OperationMethod<
   CreatePartnerRequest,
   CreatePartnerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePartnerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnerRequest,
@@ -2200,18 +2220,20 @@ export const createPartner: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPartnerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific partner account.
  */
 export const getPartner: API.OperationMethod<
   GetPartnerRequest,
   GetPartnerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPartnerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnerRequest,
@@ -2224,39 +2246,33 @@ export const getPartner: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPartnersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists partner accounts in the catalog, providing a summary view of all partners.
  */
 export const listPartners: API.OperationMethod<
   ListPartnersRequest,
   ListPartnersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPartnersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPartnersRequest,
   ) => stream.Stream<
     ListPartnersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPartnersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPartnersRequest,
   ) => stream.Stream<
     PartnerSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPartnersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2274,19 +2290,21 @@ export const listPartners: API.OperationMethod<
     items: "PartnerSummaryList",
   } as const,
 }));
-/**
- * Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications.
- */
-export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
-  AssociateAwsTrainingCertificationEmailDomainRequest,
-  AssociateAwsTrainingCertificationEmailDomainResponse,
+export type AssociateAwsTrainingCertificationEmailDomainError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications.
+ */
+export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
+  AssociateAwsTrainingCertificationEmailDomainRequest,
+  AssociateAwsTrainingCertificationEmailDomainResponse,
+  AssociateAwsTrainingCertificationEmailDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAwsTrainingCertificationEmailDomainRequest,
@@ -2300,19 +2318,21 @@ export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels an in-progress profile update task, stopping any pending changes to the partner profile.
- */
-export const cancelProfileUpdateTask: API.OperationMethod<
-  CancelProfileUpdateTaskRequest,
-  CancelProfileUpdateTaskResponse,
+export type CancelProfileUpdateTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels an in-progress profile update task, stopping any pending changes to the partner profile.
+ */
+export const cancelProfileUpdateTask: API.OperationMethod<
+  CancelProfileUpdateTaskRequest,
+  CancelProfileUpdateTaskResponse,
+  CancelProfileUpdateTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProfileUpdateTaskRequest,
@@ -2326,18 +2346,20 @@ export const cancelProfileUpdateTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateAwsTrainingCertificationEmailDomainError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association between an email domain and AWS training and certification for the partner account.
  */
 export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMethod<
   DisassociateAwsTrainingCertificationEmailDomainRequest,
   DisassociateAwsTrainingCertificationEmailDomainResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateAwsTrainingCertificationEmailDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAwsTrainingCertificationEmailDomainRequest,
@@ -2350,18 +2372,20 @@ export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMetho
     ValidationException,
   ],
 }));
+export type GetAllianceLeadContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the alliance lead contact information for a partner account.
  */
 export const getAllianceLeadContact: API.OperationMethod<
   GetAllianceLeadContactRequest,
   GetAllianceLeadContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAllianceLeadContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAllianceLeadContactRequest,
@@ -2374,18 +2398,20 @@ export const getAllianceLeadContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProfileUpdateTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specific profile update task.
  */
 export const getProfileUpdateTask: API.OperationMethod<
   GetProfileUpdateTaskRequest,
   GetProfileUpdateTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProfileUpdateTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileUpdateTaskRequest,
@@ -2398,18 +2424,20 @@ export const getProfileUpdateTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProfileVisibilityError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the visibility settings for a partner profile, determining who can see the profile information.
  */
 export const getProfileVisibility: API.OperationMethod<
   GetProfileVisibilityRequest,
   GetProfileVisibilityResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProfileVisibilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileVisibilityRequest,
@@ -2422,18 +2450,20 @@ export const getProfileVisibility: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutAllianceLeadContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates the alliance lead contact information for a partner account.
  */
 export const putAllianceLeadContact: API.OperationMethod<
   PutAllianceLeadContactRequest,
   PutAllianceLeadContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutAllianceLeadContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAllianceLeadContactRequest,
@@ -2446,18 +2476,20 @@ export const putAllianceLeadContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutProfileVisibilityError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the visibility level for a partner profile, controlling who can view the profile information.
  */
 export const putProfileVisibility: API.OperationMethod<
   PutProfileVisibilityRequest,
   PutProfileVisibilityResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutProfileVisibilityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProfileVisibilityRequest,
@@ -2470,19 +2502,21 @@ export const putProfileVisibility: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Initiates a profile update task to modify partner profile information asynchronously.
- */
-export const startProfileUpdateTask: API.OperationMethod<
-  StartProfileUpdateTaskRequest,
-  StartProfileUpdateTaskResponse,
+export type StartProfileUpdateTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a profile update task to modify partner profile information asynchronously.
+ */
+export const startProfileUpdateTask: API.OperationMethod<
+  StartProfileUpdateTaskRequest,
+  StartProfileUpdateTaskResponse,
+  StartProfileUpdateTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProfileUpdateTaskRequest,

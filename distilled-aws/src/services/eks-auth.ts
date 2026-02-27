@@ -199,6 +199,17 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type AssumeRoleForPodIdentityError =
+  | AccessDeniedException
+  | ExpiredTokenException
+  | InternalServerException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * The Amazon EKS Auth API and the `AssumeRoleForPodIdentity` action are only used
  * by the EKS Pod Identity Agent.
@@ -210,16 +221,7 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 export const assumeRoleForPodIdentity: API.OperationMethod<
   AssumeRoleForPodIdentityRequest,
   AssumeRoleForPodIdentityResponse,
-  | AccessDeniedException
-  | ExpiredTokenException
-  | InternalServerException
-  | InvalidParameterException
-  | InvalidRequestException
-  | InvalidTokenException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  AssumeRoleForPodIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRoleForPodIdentityRequest,

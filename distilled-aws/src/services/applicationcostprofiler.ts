@@ -369,6 +369,12 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type DeleteReportDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being
  * generated.
@@ -376,11 +382,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const deleteReportDefinition: API.OperationMethod<
   DeleteReportDefinitionRequest,
   DeleteReportDefinitionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportDefinitionRequest,
@@ -392,17 +394,19 @@ export const deleteReportDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReportDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
 export const getReportDefinition: API.OperationMethod<
   GetReportDefinitionRequest,
   GetReportDefinitionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportDefinitionRequest,
@@ -414,6 +418,12 @@ export const getReportDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportApplicationUsageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Ingests application usage data from Amazon Simple Storage Service (Amazon S3).
  *
@@ -424,11 +434,7 @@ export const getReportDefinition: API.OperationMethod<
 export const importApplicationUsage: API.OperationMethod<
   ImportApplicationUsageRequest,
   ImportApplicationUsageResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ImportApplicationUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportApplicationUsageRequest,
@@ -440,6 +446,12 @@ export const importApplicationUsage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListReportDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all reports and their configurations for your AWS account.
  *
@@ -448,33 +460,21 @@ export const importApplicationUsage: API.OperationMethod<
 export const listReportDefinitions: API.OperationMethod<
   ListReportDefinitionsRequest,
   ListReportDefinitionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReportDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReportDefinitionsRequest,
   ) => stream.Stream<
     ListReportDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReportDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportDefinitionsRequest,
   ) => stream.Stream<
     ReportDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReportDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -493,18 +493,20 @@ export const listReportDefinitions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutReportDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates the report definition for a report in Application Cost Profiler.
  */
 export const putReportDefinition: API.OperationMethod<
   PutReportDefinitionRequest,
   PutReportDefinitionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutReportDefinitionRequest,
@@ -517,17 +519,19 @@ export const putReportDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateReportDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates existing report in AWS Application Cost Profiler.
  */
 export const updateReportDefinition: API.OperationMethod<
   UpdateReportDefinitionRequest,
   UpdateReportDefinitionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReportDefinitionRequest,

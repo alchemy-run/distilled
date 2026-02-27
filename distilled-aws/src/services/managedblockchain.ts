@@ -1672,13 +1672,7 @@ export class IllegalActionException extends S.TaggedErrorClass<IllegalActionExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access.
- * The accessor contains information required for token based access.
- */
-export const createAccessor: API.OperationMethod<
-  CreateAccessorInput,
-  CreateAccessorOutput,
+export type CreateAccessorError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidRequestException
@@ -1686,7 +1680,15 @@ export const createAccessor: API.OperationMethod<
   | ResourceLimitExceededException
   | ThrottlingException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access.
+ * The accessor contains information required for token based access.
+ */
+export const createAccessor: API.OperationMethod<
+  CreateAccessorInput,
+  CreateAccessorOutput,
+  CreateAccessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessorInput,
@@ -1701,14 +1703,7 @@ export const createAccessor: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Creates a member within a Managed Blockchain network.
- *
- * Applies only to Hyperledger Fabric.
- */
-export const createMember: API.OperationMethod<
-  CreateMemberInput,
-  CreateMemberOutput,
+export type CreateMemberError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidRequestException
@@ -1718,7 +1713,16 @@ export const createMember: API.OperationMethod<
   | ResourceNotReadyException
   | ThrottlingException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a member within a Managed Blockchain network.
+ *
+ * Applies only to Hyperledger Fabric.
+ */
+export const createMember: API.OperationMethod<
+  CreateMemberInput,
+  CreateMemberOutput,
+  CreateMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMemberInput,
@@ -1735,6 +1739,15 @@ export const createMember: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateNetworkError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a new blockchain network using Amazon Managed Blockchain.
  *
@@ -1743,14 +1756,7 @@ export const createMember: API.OperationMethod<
 export const createNetwork: API.OperationMethod<
   CreateNetworkInput,
   CreateNetworkOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkInput,
@@ -1765,14 +1771,7 @@ export const createNetwork: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Creates a node on the specified blockchain network.
- *
- * Applies to Hyperledger Fabric and Ethereum.
- */
-export const createNode: API.OperationMethod<
-  CreateNodeInput,
-  CreateNodeOutput,
+export type CreateNodeError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidRequestException
@@ -1782,7 +1781,16 @@ export const createNode: API.OperationMethod<
   | ResourceNotReadyException
   | ThrottlingException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a node on the specified blockchain network.
+ *
+ * Applies to Hyperledger Fabric and Ethereum.
+ */
+export const createNode: API.OperationMethod<
+  CreateNodeInput,
+  CreateNodeOutput,
+  CreateNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodeInput,
@@ -1799,6 +1807,15 @@ export const createNode: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateProposalError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal.
  *
@@ -1807,14 +1824,7 @@ export const createNode: API.OperationMethod<
 export const createProposal: API.OperationMethod<
   CreateProposalInput,
   CreateProposalOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateProposalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProposalInput,
@@ -1829,6 +1839,13 @@ export const createProposal: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type DeleteAccessorError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the
  * information required for token based access to your Ethereum nodes including, the
@@ -1841,12 +1858,7 @@ export const createProposal: API.OperationMethod<
 export const deleteAccessor: API.OperationMethod<
   DeleteAccessorInput,
   DeleteAccessorOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteAccessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessorInput,
@@ -1859,6 +1871,14 @@ export const deleteAccessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteMemberError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a member. Deleting a member removes the member and all associated resources from the network. `DeleteMember` can only be called for a specified `MemberId` if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the `DeleteMember` action is carried out as the result of an approved proposal to remove a member. If `MemberId` is the last member in a network specified by the last Amazon Web Services account, the network is deleted also.
  *
@@ -1867,13 +1887,7 @@ export const deleteAccessor: API.OperationMethod<
 export const deleteMember: API.OperationMethod<
   DeleteMemberInput,
   DeleteMemberOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemberInput,
@@ -1887,6 +1901,14 @@ export const deleteMember: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteNodeError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered.
  *
@@ -1895,13 +1917,7 @@ export const deleteMember: API.OperationMethod<
 export const deleteNode: API.OperationMethod<
   DeleteNodeInput,
   DeleteNodeOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNodeInput,
@@ -1915,6 +1931,13 @@ export const deleteNode: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetAccessorError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns detailed information about an accessor. An accessor object is a container that has the
  * information required for token based access to your Ethereum nodes.
@@ -1922,12 +1945,7 @@ export const deleteNode: API.OperationMethod<
 export const getAccessor: API.OperationMethod<
   GetAccessorInput,
   GetAccessorOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetAccessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessorInput,
@@ -1940,6 +1958,13 @@ export const getAccessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetMemberError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns detailed information about a member.
  *
@@ -1948,12 +1973,7 @@ export const getAccessor: API.OperationMethod<
 export const getMember: API.OperationMethod<
   GetMemberInput,
   GetMemberOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberInput,
@@ -1966,6 +1986,13 @@ export const getMember: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetNetworkError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns detailed information about a network.
  *
@@ -1974,12 +2001,7 @@ export const getMember: API.OperationMethod<
 export const getNetwork: API.OperationMethod<
   GetNetworkInput,
   GetNetworkOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkInput,
@@ -1992,6 +2014,13 @@ export const getNetwork: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetNodeError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns detailed information about a node.
  *
@@ -2000,12 +2029,7 @@ export const getNetwork: API.OperationMethod<
 export const getNode: API.OperationMethod<
   GetNodeInput,
   GetNodeOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNodeInput,
@@ -2018,6 +2042,13 @@ export const getNode: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetProposalError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns detailed information about a proposal.
  *
@@ -2026,12 +2057,7 @@ export const getNode: API.OperationMethod<
 export const getProposal: API.OperationMethod<
   GetProposalInput,
   GetProposalOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetProposalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProposalInput,
@@ -2044,6 +2070,12 @@ export const getProposal: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListAccessorsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of the accessors and their properties. Accessor objects are containers that have the
  * information required for token based access to your Ethereum nodes.
@@ -2051,33 +2083,21 @@ export const getProposal: API.OperationMethod<
 export const listAccessors: API.OperationMethod<
   ListAccessorsInput,
   ListAccessorsOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListAccessorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessorsInput,
   ) => stream.Stream<
     ListAccessorsOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAccessorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessorsInput,
   ) => stream.Stream<
     AccessorSummary,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListAccessorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2096,6 +2116,14 @@ export const listAccessors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInvitationsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of all invitations for the current Amazon Web Services account.
  *
@@ -2104,39 +2132,21 @@ export const listAccessors: API.OperationMethod<
 export const listInvitations: API.OperationMethod<
   ListInvitationsInput,
   ListInvitationsOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListInvitationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInvitationsInput,
   ) => stream.Stream<
     ListInvitationsOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceLimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvitationsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceLimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListInvitationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2156,6 +2166,12 @@ export const listInvitations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMembersError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of the members in a network and properties of their configurations.
  *
@@ -2164,33 +2180,21 @@ export const listInvitations: API.OperationMethod<
 export const listMembers: API.OperationMethod<
   ListMembersInput,
   ListMembersOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMembersInput,
   ) => stream.Stream<
     ListMembersOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMembersInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2208,6 +2212,12 @@ export const listMembers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNetworksError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about the networks in which the current Amazon Web Services account participates.
  *
@@ -2216,33 +2226,21 @@ export const listMembers: API.OperationMethod<
 export const listNetworks: API.OperationMethod<
   ListNetworksInput,
   ListNetworksOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListNetworksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNetworksInput,
   ) => stream.Stream<
     ListNetworksOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListNetworksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNetworksInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListNetworksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2260,6 +2258,12 @@ export const listNetworks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNodesError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about the nodes within a network.
  *
@@ -2268,33 +2272,21 @@ export const listNetworks: API.OperationMethod<
 export const listNodes: API.OperationMethod<
   ListNodesInput,
   ListNodesOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodesInput,
   ) => stream.Stream<
     ListNodesOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNodesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2312,6 +2304,13 @@ export const listNodes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProposalsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of proposals for the network.
  *
@@ -2320,36 +2319,21 @@ export const listNodes: API.OperationMethod<
 export const listProposals: API.OperationMethod<
   ListProposalsInput,
   ListProposalsOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListProposalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProposalsInput,
   ) => stream.Stream<
     ListProposalsOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListProposalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProposalsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListProposalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2368,6 +2352,12 @@ export const listProposals: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProposalVotesError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
  *
@@ -2376,33 +2366,21 @@ export const listProposals: API.OperationMethod<
 export const listProposalVotes: API.OperationMethod<
   ListProposalVotesInput,
   ListProposalVotesOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListProposalVotesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProposalVotesInput,
   ) => stream.Stream<
     ListProposalVotesOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListProposalVotesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProposalVotesInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListProposalVotesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2420,6 +2398,12 @@ export const listProposalVotes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | CommonErrors;
 /**
  * Returns a list of tags for the specified resource. Each tag consists of a key and optional value.
  *
@@ -2428,11 +2412,7 @@ export const listProposalVotes: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2444,6 +2424,14 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotReadyException,
   ],
 }));
+export type RejectInvitationError =
+  | AccessDeniedException
+  | IllegalActionException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network.
  *
@@ -2452,13 +2440,7 @@ export const listTagsForResource: API.OperationMethod<
 export const rejectInvitation: API.OperationMethod<
   RejectInvitationInput,
   RejectInvitationOutput,
-  | AccessDeniedException
-  | IllegalActionException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  RejectInvitationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectInvitationInput,
@@ -2472,6 +2454,13 @@ export const rejectInvitation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value.
  *
@@ -2484,12 +2473,7 @@ export const rejectInvitation: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2502,6 +2486,12 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | CommonErrors;
 /**
  * Removes the specified tags from the Amazon Managed Blockchain resource.
  *
@@ -2510,11 +2500,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2526,6 +2512,13 @@ export const untagResource: API.OperationMethod<
     ResourceNotReadyException,
   ],
 }));
+export type UpdateMemberError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a member configuration with new parameters.
  *
@@ -2534,12 +2527,7 @@ export const untagResource: API.OperationMethod<
 export const updateMember: API.OperationMethod<
   UpdateMemberInput,
   UpdateMemberOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemberInput,
@@ -2552,6 +2540,13 @@ export const updateMember: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateNodeError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates a node configuration with new parameters.
  *
@@ -2560,12 +2555,7 @@ export const updateMember: API.OperationMethod<
 export const updateNode: API.OperationMethod<
   UpdateNodeInput,
   UpdateNodeOutput,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNodeInput,
@@ -2578,6 +2568,14 @@ export const updateNode: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type VoteOnProposalError =
+  | AccessDeniedException
+  | IllegalActionException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Casts a vote for a specified `ProposalId` on behalf of a member. The member to vote as, specified by `VoterMemberId`, must be in the same Amazon Web Services account as the principal that calls the action.
  *
@@ -2586,13 +2584,7 @@ export const updateNode: API.OperationMethod<
 export const voteOnProposal: API.OperationMethod<
   VoteOnProposalInput,
   VoteOnProposalOutput,
-  | AccessDeniedException
-  | IllegalActionException
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  VoteOnProposalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VoteOnProposalInput,

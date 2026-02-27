@@ -1552,19 +1552,21 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Changes the packaging group's properities to configure log subscription
- */
-export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
-  ConfigureLogsResponse,
+export type ConfigureLogsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes the packaging group's properities to configure log subscription
+ */
+export const configureLogs: API.OperationMethod<
+  ConfigureLogsRequest,
+  ConfigureLogsResponse,
+  ConfigureLogsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureLogsRequest,
@@ -1578,19 +1580,21 @@ export const configureLogs: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new MediaPackage VOD Asset resource.
- */
-export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
-  CreateAssetResponse,
+export type CreateAssetError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new MediaPackage VOD Asset resource.
+ */
+export const createAsset: API.OperationMethod<
+  CreateAssetRequest,
+  CreateAssetResponse,
+  CreateAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetRequest,
@@ -1604,19 +1608,21 @@ export const createAsset: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new MediaPackage VOD PackagingConfiguration resource.
- */
-export const createPackagingConfiguration: API.OperationMethod<
-  CreatePackagingConfigurationRequest,
-  CreatePackagingConfigurationResponse,
+export type CreatePackagingConfigurationError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new MediaPackage VOD PackagingConfiguration resource.
+ */
+export const createPackagingConfiguration: API.OperationMethod<
+  CreatePackagingConfigurationRequest,
+  CreatePackagingConfigurationResponse,
+  CreatePackagingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackagingConfigurationRequest,
@@ -1630,19 +1636,21 @@ export const createPackagingConfiguration: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new MediaPackage VOD PackagingGroup resource.
- */
-export const createPackagingGroup: API.OperationMethod<
-  CreatePackagingGroupRequest,
-  CreatePackagingGroupResponse,
+export type CreatePackagingGroupError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new MediaPackage VOD PackagingGroup resource.
+ */
+export const createPackagingGroup: API.OperationMethod<
+  CreatePackagingGroupRequest,
+  CreatePackagingGroupResponse,
+  CreatePackagingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackagingGroupRequest,
@@ -1656,19 +1664,21 @@ export const createPackagingGroup: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes an existing MediaPackage VOD Asset resource.
- */
-export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
-  DeleteAssetResponse,
+export type DeleteAssetError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing MediaPackage VOD Asset resource.
+ */
+export const deleteAsset: API.OperationMethod<
+  DeleteAssetRequest,
+  DeleteAssetResponse,
+  DeleteAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetRequest,
@@ -1682,19 +1692,21 @@ export const deleteAsset: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes a MediaPackage VOD PackagingConfiguration resource.
- */
-export const deletePackagingConfiguration: API.OperationMethod<
-  DeletePackagingConfigurationRequest,
-  DeletePackagingConfigurationResponse,
+export type DeletePackagingConfigurationError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a MediaPackage VOD PackagingConfiguration resource.
+ */
+export const deletePackagingConfiguration: API.OperationMethod<
+  DeletePackagingConfigurationRequest,
+  DeletePackagingConfigurationResponse,
+  DeletePackagingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackagingConfigurationRequest,
@@ -1708,19 +1720,21 @@ export const deletePackagingConfiguration: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Deletes a MediaPackage VOD PackagingGroup resource.
- */
-export const deletePackagingGroup: API.OperationMethod<
-  DeletePackagingGroupRequest,
-  DeletePackagingGroupResponse,
+export type DeletePackagingGroupError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a MediaPackage VOD PackagingGroup resource.
+ */
+export const deletePackagingGroup: API.OperationMethod<
+  DeletePackagingGroupRequest,
+  DeletePackagingGroupResponse,
+  DeletePackagingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackagingGroupRequest,
@@ -1734,19 +1748,21 @@ export const deletePackagingGroup: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Returns a description of a MediaPackage VOD Asset resource.
- */
-export const describeAsset: API.OperationMethod<
-  DescribeAssetRequest,
-  DescribeAssetResponse,
+export type DescribeAssetError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a description of a MediaPackage VOD Asset resource.
+ */
+export const describeAsset: API.OperationMethod<
+  DescribeAssetRequest,
+  DescribeAssetResponse,
+  DescribeAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetRequest,
@@ -1760,19 +1776,21 @@ export const describeAsset: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
- */
-export const describePackagingConfiguration: API.OperationMethod<
-  DescribePackagingConfigurationRequest,
-  DescribePackagingConfigurationResponse,
+export type DescribePackagingConfigurationError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
+ */
+export const describePackagingConfiguration: API.OperationMethod<
+  DescribePackagingConfigurationRequest,
+  DescribePackagingConfigurationResponse,
+  DescribePackagingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackagingConfigurationRequest,
@@ -1786,19 +1804,21 @@ export const describePackagingConfiguration: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Returns a description of a MediaPackage VOD PackagingGroup resource.
- */
-export const describePackagingGroup: API.OperationMethod<
-  DescribePackagingGroupRequest,
-  DescribePackagingGroupResponse,
+export type DescribePackagingGroupError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a description of a MediaPackage VOD PackagingGroup resource.
+ */
+export const describePackagingGroup: API.OperationMethod<
+  DescribePackagingGroupRequest,
+  DescribePackagingGroupResponse,
+  DescribePackagingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackagingGroupRequest,
@@ -1812,45 +1832,35 @@ export const describePackagingGroup: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Returns a collection of MediaPackage VOD Asset resources.
- */
-export const listAssets: API.OperationMethod<
-  ListAssetsRequest,
-  ListAssetsResponse,
+export type ListAssetsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a collection of MediaPackage VOD Asset resources.
+ */
+export const listAssets: API.OperationMethod<
+  ListAssetsRequest,
+  ListAssetsResponse,
+  ListAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetsRequest,
   ) => stream.Stream<
     ListAssetsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetsRequest,
   ) => stream.Stream<
     AssetShallow,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1871,45 +1881,35 @@ export const listAssets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a collection of MediaPackage VOD PackagingConfiguration resources.
- */
-export const listPackagingConfigurations: API.OperationMethod<
-  ListPackagingConfigurationsRequest,
-  ListPackagingConfigurationsResponse,
+export type ListPackagingConfigurationsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a collection of MediaPackage VOD PackagingConfiguration resources.
+ */
+export const listPackagingConfigurations: API.OperationMethod<
+  ListPackagingConfigurationsRequest,
+  ListPackagingConfigurationsResponse,
+  ListPackagingConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagingConfigurationsRequest,
   ) => stream.Stream<
     ListPackagingConfigurationsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListPackagingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagingConfigurationsRequest,
   ) => stream.Stream<
     PackagingConfiguration,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListPackagingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1930,45 +1930,35 @@ export const listPackagingConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a collection of MediaPackage VOD PackagingGroup resources.
- */
-export const listPackagingGroups: API.OperationMethod<
-  ListPackagingGroupsRequest,
-  ListPackagingGroupsResponse,
+export type ListPackagingGroupsError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a collection of MediaPackage VOD PackagingGroup resources.
+ */
+export const listPackagingGroups: API.OperationMethod<
+  ListPackagingGroupsRequest,
+  ListPackagingGroupsResponse,
+  ListPackagingGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPackagingGroupsRequest,
   ) => stream.Stream<
     ListPackagingGroupsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListPackagingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPackagingGroupsRequest,
   ) => stream.Stream<
     PackagingGroup,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListPackagingGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1989,58 +1979,63 @@ export const listPackagingGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = CommonErrors;
 /**
  * Returns a list of the tags assigned to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
 }));
+export type TagResourceError = CommonErrors;
 /**
  * Adds tags to the specified resource. You can specify one or more tags to add.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
 }));
+export type UntagResourceError = CommonErrors;
 /**
  * Removes tags from the specified resource. You can specify one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
 }));
-/**
- * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
- */
-export const updatePackagingGroup: API.OperationMethod<
-  UpdatePackagingGroupRequest,
-  UpdatePackagingGroupResponse,
+export type UpdatePackagingGroupError =
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
+ */
+export const updatePackagingGroup: API.OperationMethod<
+  UpdatePackagingGroupRequest,
+  UpdatePackagingGroupResponse,
+  UpdatePackagingGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackagingGroupRequest,

@@ -916,19 +916,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * The type of pending maintenance action to be applied to the resource.
- */
-export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionInput,
-  ApplyPendingMaintenanceActionOutput,
+export type ApplyPendingMaintenanceActionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The type of pending maintenance action to be applied to the resource.
+ */
+export const applyPendingMaintenanceAction: API.OperationMethod<
+  ApplyPendingMaintenanceActionInput,
+  ApplyPendingMaintenanceActionOutput,
+  ApplyPendingMaintenanceActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyPendingMaintenanceActionInput,
@@ -942,12 +944,7 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Copies a snapshot of an elastic cluster.
- */
-export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotInput,
-  CopyClusterSnapshotOutput,
+export type CopyClusterSnapshotError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -955,7 +952,14 @@ export const copyClusterSnapshot: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Copies a snapshot of an elastic cluster.
+ */
+export const copyClusterSnapshot: API.OperationMethod<
+  CopyClusterSnapshotInput,
+  CopyClusterSnapshotOutput,
+  CopyClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyClusterSnapshotInput,
@@ -970,19 +974,21 @@ export const copyClusterSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
- */
-export const createCluster: API.OperationMethod<
-  CreateClusterInput,
-  CreateClusterOutput,
+export type CreateClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
+ */
+export const createCluster: API.OperationMethod<
+  CreateClusterInput,
+  CreateClusterOutput,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterInput,
@@ -996,12 +1002,7 @@ export const createCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a snapshot of an elastic cluster.
- */
-export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotInput,
-  CreateClusterSnapshotOutput,
+export type CreateClusterSnapshotError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1009,7 +1010,14 @@ export const createClusterSnapshot: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a snapshot of an elastic cluster.
+ */
+export const createClusterSnapshot: API.OperationMethod<
+  CreateClusterSnapshotInput,
+  CreateClusterSnapshotOutput,
+  CreateClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterSnapshotInput,
@@ -1024,19 +1032,21 @@ export const createClusterSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete an elastic cluster.
- */
-export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
-  DeleteClusterOutput,
+export type DeleteClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an elastic cluster.
+ */
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterInput,
+  DeleteClusterOutput,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterInput,
@@ -1050,19 +1060,21 @@ export const deleteCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete an elastic cluster snapshot.
- */
-export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotInput,
-  DeleteClusterSnapshotOutput,
+export type DeleteClusterSnapshotError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an elastic cluster snapshot.
+ */
+export const deleteClusterSnapshot: API.OperationMethod<
+  DeleteClusterSnapshotInput,
+  DeleteClusterSnapshotOutput,
+  DeleteClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterSnapshotInput,
@@ -1076,18 +1088,20 @@ export const deleteClusterSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetClusterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific elastic cluster.
  */
 export const getCluster: API.OperationMethod<
   GetClusterInput,
   GetClusterOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterInput,
@@ -1100,18 +1114,20 @@ export const getCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetClusterSnapshotError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific elastic cluster snapshot
  */
 export const getClusterSnapshot: API.OperationMethod<
   GetClusterSnapshotInput,
   GetClusterSnapshotOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterSnapshotInput,
@@ -1124,19 +1140,21 @@ export const getClusterSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves all maintenance actions that are pending.
- */
-export const getPendingMaintenanceAction: API.OperationMethod<
-  GetPendingMaintenanceActionInput,
-  GetPendingMaintenanceActionOutput,
+export type GetPendingMaintenanceActionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves all maintenance actions that are pending.
+ */
+export const getPendingMaintenanceAction: API.OperationMethod<
+  GetPendingMaintenanceActionInput,
+  GetPendingMaintenanceActionOutput,
+  GetPendingMaintenanceActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPendingMaintenanceActionInput,
@@ -1150,39 +1168,33 @@ export const getPendingMaintenanceAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListClustersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about provisioned Amazon DocumentDB elastic clusters.
  */
 export const listClusters: API.OperationMethod<
   ListClustersInput,
   ListClustersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersInput,
   ) => stream.Stream<
     ListClustersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersInput,
   ) => stream.Stream<
     ClusterInList,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1201,39 +1213,33 @@ export const listClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListClusterSnapshotsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about snapshots for a specified elastic cluster.
  */
 export const listClusterSnapshots: API.OperationMethod<
   ListClusterSnapshotsInput,
   ListClusterSnapshotsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListClusterSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClusterSnapshotsInput,
   ) => stream.Stream<
     ListClusterSnapshotsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClusterSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClusterSnapshotsInput,
   ) => stream.Stream<
     ClusterSnapshotInList,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClusterSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1252,39 +1258,33 @@ export const listClusterSnapshots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPendingMaintenanceActionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all maintenance actions that are pending.
  */
 export const listPendingMaintenanceActions: API.OperationMethod<
   ListPendingMaintenanceActionsInput,
   ListPendingMaintenanceActionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPendingMaintenanceActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPendingMaintenanceActionsInput,
   ) => stream.Stream<
     ListPendingMaintenanceActionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPendingMaintenanceActionsInput,
   ) => stream.Stream<
     ResourcePendingMaintenanceAction,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1303,17 +1303,19 @@ export const listPendingMaintenanceActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags on a elastic cluster resource
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1325,12 +1327,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Restores an elastic cluster from a snapshot.
- */
-export const restoreClusterFromSnapshot: API.OperationMethod<
-  RestoreClusterFromSnapshotInput,
-  RestoreClusterFromSnapshotOutput,
+export type RestoreClusterFromSnapshotError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1338,7 +1335,14 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores an elastic cluster from a snapshot.
+ */
+export const restoreClusterFromSnapshot: API.OperationMethod<
+  RestoreClusterFromSnapshotInput,
+  RestoreClusterFromSnapshotOutput,
+  RestoreClusterFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreClusterFromSnapshotInput,
@@ -1353,18 +1357,20 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartClusterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Restarts the stopped elastic cluster that is specified by `clusterARN`.
  */
 export const startCluster: API.OperationMethod<
   StartClusterInput,
   StartClusterOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartClusterInput,
@@ -1377,6 +1383,13 @@ export const startCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopClusterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the running elastic cluster that is specified by `clusterArn`.
  * The elastic cluster must be in the *available* state.
@@ -1384,12 +1397,7 @@ export const startCluster: API.OperationMethod<
 export const stopCluster: API.OperationMethod<
   StopClusterInput,
   StopClusterOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopClusterInput,
@@ -1402,17 +1410,19 @@ export const stopCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds metadata tags to an elastic cluster resource
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1424,17 +1434,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes metadata tags from an elastic cluster resource
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1446,6 +1458,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies an elastic cluster. This includes updating admin-username/password,
  * upgrading the API version, and setting up a backup window and maintenance window
@@ -1453,13 +1473,7 @@ export const untagResource: API.OperationMethod<
 export const updateCluster: API.OperationMethod<
   UpdateClusterInput,
   UpdateClusterOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterInput,

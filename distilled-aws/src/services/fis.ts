@@ -2272,6 +2272,12 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateExperimentTemplateError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an experiment template.
  *
@@ -2294,11 +2300,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const createExperimentTemplate: API.OperationMethod<
   CreateExperimentTemplateRequest,
   CreateExperimentTemplateResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateExperimentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExperimentTemplateRequest,
@@ -2310,6 +2312,12 @@ export const createExperimentTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTargetAccountConfigurationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a target account configuration for the experiment template. A target account configuration
  * is required when `accountTargeting` of `experimentOptions` is set to `multi-account`.
@@ -2319,11 +2327,7 @@ export const createExperimentTemplate: API.OperationMethod<
 export const createTargetAccountConfiguration: API.OperationMethod<
   CreateTargetAccountConfigurationRequest,
   CreateTargetAccountConfigurationResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateTargetAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTargetAccountConfigurationRequest,
@@ -2335,144 +2339,178 @@ export const createTargetAccountConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteExperimentTemplateError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified experiment template.
  */
 export const deleteExperimentTemplate: API.OperationMethod<
   DeleteExperimentTemplateRequest,
   DeleteExperimentTemplateResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DeleteExperimentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExperimentTemplateRequest,
   output: DeleteExperimentTemplateResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DeleteTargetAccountConfigurationError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified target account configuration of the experiment template.
  */
 export const deleteTargetAccountConfiguration: API.OperationMethod<
   DeleteTargetAccountConfigurationRequest,
   DeleteTargetAccountConfigurationResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DeleteTargetAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTargetAccountConfigurationRequest,
   output: DeleteTargetAccountConfigurationResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetActionError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified FIS action.
  */
 export const getAction: API.OperationMethod<
   GetActionRequest,
   GetActionResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActionRequest,
   output: GetActionResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetExperimentError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified experiment.
  */
 export const getExperiment: API.OperationMethod<
   GetExperimentRequest,
   GetExperimentResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetExperimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExperimentRequest,
   output: GetExperimentResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetExperimentTargetAccountConfigurationError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified target account configuration of the experiment.
  */
 export const getExperimentTargetAccountConfiguration: API.OperationMethod<
   GetExperimentTargetAccountConfigurationRequest,
   GetExperimentTargetAccountConfigurationResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetExperimentTargetAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExperimentTargetAccountConfigurationRequest,
   output: GetExperimentTargetAccountConfigurationResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetExperimentTemplateError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified experiment template.
  */
 export const getExperimentTemplate: API.OperationMethod<
   GetExperimentTemplateRequest,
   GetExperimentTemplateResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetExperimentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExperimentTemplateRequest,
   output: GetExperimentTemplateResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetSafetyLeverError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets information about the specified safety lever.
  */
 export const getSafetyLever: API.OperationMethod<
   GetSafetyLeverRequest,
   GetSafetyLeverResponse,
-  ResourceNotFoundException | CommonErrors,
+  GetSafetyLeverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSafetyLeverRequest,
   output: GetSafetyLeverResponse,
   errors: [ResourceNotFoundException],
 }));
+export type GetTargetAccountConfigurationError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified target account configuration of the experiment template.
  */
 export const getTargetAccountConfiguration: API.OperationMethod<
   GetTargetAccountConfigurationRequest,
   GetTargetAccountConfigurationResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetTargetAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTargetAccountConfigurationRequest,
   output: GetTargetAccountConfigurationResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetTargetResourceTypeError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the specified resource type.
  */
 export const getTargetResourceType: API.OperationMethod<
   GetTargetResourceTypeRequest,
   GetTargetResourceTypeResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetTargetResourceTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTargetResourceTypeRequest,
   output: GetTargetResourceTypeResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListActionsError = ValidationException | CommonErrors;
 /**
  * Lists the available FIS actions.
  */
 export const listActions: API.OperationMethod<
   ListActionsRequest,
   ListActionsResponse,
-  ValidationException | CommonErrors,
+  ListActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListActionsRequest,
   ) => stream.Stream<
     ListActionsResponse,
-    ValidationException | CommonErrors,
+    ListActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActionsRequest,
   ) => stream.Stream<
     ActionSummary,
-    ValidationException | CommonErrors,
+    ListActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2486,27 +2524,31 @@ export const listActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExperimentResolvedTargetsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the resolved targets information of the specified experiment.
  */
 export const listExperimentResolvedTargets: API.OperationMethod<
   ListExperimentResolvedTargetsRequest,
   ListExperimentResolvedTargetsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListExperimentResolvedTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExperimentResolvedTargetsRequest,
   ) => stream.Stream<
     ListExperimentResolvedTargetsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListExperimentResolvedTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExperimentResolvedTargetsRequest,
   ) => stream.Stream<
     ResolvedTarget,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListExperimentResolvedTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2520,27 +2562,28 @@ export const listExperimentResolvedTargets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExperimentsError = ValidationException | CommonErrors;
 /**
  * Lists your experiments.
  */
 export const listExperiments: API.OperationMethod<
   ListExperimentsRequest,
   ListExperimentsResponse,
-  ValidationException | CommonErrors,
+  ListExperimentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExperimentsRequest,
   ) => stream.Stream<
     ListExperimentsResponse,
-    ValidationException | CommonErrors,
+    ListExperimentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExperimentsRequest,
   ) => stream.Stream<
     ExperimentSummary,
-    ValidationException | CommonErrors,
+    ListExperimentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2554,40 +2597,45 @@ export const listExperiments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExperimentTargetAccountConfigurationsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the target account configurations of the specified experiment.
  */
 export const listExperimentTargetAccountConfigurations: API.OperationMethod<
   ListExperimentTargetAccountConfigurationsRequest,
   ListExperimentTargetAccountConfigurationsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListExperimentTargetAccountConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListExperimentTargetAccountConfigurationsRequest,
   output: ListExperimentTargetAccountConfigurationsResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListExperimentTemplatesError = ValidationException | CommonErrors;
 /**
  * Lists your experiment templates.
  */
 export const listExperimentTemplates: API.OperationMethod<
   ListExperimentTemplatesRequest,
   ListExperimentTemplatesResponse,
-  ValidationException | CommonErrors,
+  ListExperimentTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExperimentTemplatesRequest,
   ) => stream.Stream<
     ListExperimentTemplatesResponse,
-    ValidationException | CommonErrors,
+    ListExperimentTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExperimentTemplatesRequest,
   ) => stream.Stream<
     ExperimentTemplateSummary,
-    ValidationException | CommonErrors,
+    ListExperimentTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2601,40 +2649,45 @@ export const listExperimentTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError = CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
 }));
+export type ListTargetAccountConfigurationsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the target account configurations of the specified experiment template.
  */
 export const listTargetAccountConfigurations: API.OperationMethod<
   ListTargetAccountConfigurationsRequest,
   ListTargetAccountConfigurationsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTargetAccountConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTargetAccountConfigurationsRequest,
   ) => stream.Stream<
     ListTargetAccountConfigurationsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListTargetAccountConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetAccountConfigurationsRequest,
   ) => stream.Stream<
     TargetAccountConfigurationSummary,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListTargetAccountConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2648,27 +2701,28 @@ export const listTargetAccountConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTargetResourceTypesError = ValidationException | CommonErrors;
 /**
  * Lists the target resource types.
  */
 export const listTargetResourceTypes: API.OperationMethod<
   ListTargetResourceTypesRequest,
   ListTargetResourceTypesResponse,
-  ValidationException | CommonErrors,
+  ListTargetResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTargetResourceTypesRequest,
   ) => stream.Stream<
     ListTargetResourceTypesResponse,
-    ValidationException | CommonErrors,
+    ListTargetResourceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetResourceTypesRequest,
   ) => stream.Stream<
     TargetResourceTypeSummary,
-    ValidationException | CommonErrors,
+    ListTargetResourceTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2682,17 +2736,19 @@ export const listTargetResourceTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartExperimentError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts running an experiment from the specified experiment template.
  */
 export const startExperiment: API.OperationMethod<
   StartExperimentRequest,
   StartExperimentResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartExperimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExperimentRequest,
@@ -2704,55 +2760,63 @@ export const startExperiment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopExperimentError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the specified experiment.
  */
 export const stopExperiment: API.OperationMethod<
   StopExperimentRequest,
   StopExperimentResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  StopExperimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopExperimentRequest,
   output: StopExperimentResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type TagResourceError = CommonErrors;
 /**
  * Applies the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
 }));
+export type UntagResourceError = CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
 }));
+export type UpdateExperimentTemplateError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified experiment template.
  */
 export const updateExperimentTemplate: API.OperationMethod<
   UpdateExperimentTemplateRequest,
   UpdateExperimentTemplateResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateExperimentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExperimentTemplateRequest,
@@ -2763,29 +2827,35 @@ export const updateExperimentTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSafetyLeverStateError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified safety lever state.
  */
 export const updateSafetyLeverState: API.OperationMethod<
   UpdateSafetyLeverStateRequest,
   UpdateSafetyLeverStateResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSafetyLeverStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSafetyLeverStateRequest,
   output: UpdateSafetyLeverStateResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type UpdateTargetAccountConfigurationError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the target account configuration for the specified experiment template.
  */
 export const updateTargetAccountConfiguration: API.OperationMethod<
   UpdateTargetAccountConfigurationRequest,
   UpdateTargetAccountConfigurationResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UpdateTargetAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTargetAccountConfigurationRequest,

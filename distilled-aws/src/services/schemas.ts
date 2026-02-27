@@ -1421,19 +1421,21 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 ) {}
 
 //# Operations
-/**
- * Creates a discoverer.
- */
-export const createDiscoverer: API.OperationMethod<
-  CreateDiscovererRequest,
-  CreateDiscovererResponse,
+export type CreateDiscovererError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a discoverer.
+ */
+export const createDiscoverer: API.OperationMethod<
+  CreateDiscovererRequest,
+  CreateDiscovererResponse,
+  CreateDiscovererError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiscovererRequest,
@@ -1447,19 +1449,21 @@ export const createDiscoverer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a registry.
- */
-export const createRegistry: API.OperationMethod<
-  CreateRegistryRequest,
-  CreateRegistryResponse,
+export type CreateRegistryError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a registry.
+ */
+export const createRegistry: API.OperationMethod<
+  CreateRegistryRequest,
+  CreateRegistryResponse,
+  CreateRegistryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistryRequest,
@@ -1473,6 +1477,12 @@ export const createRegistry: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type CreateSchemaError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a schema definition.
  *
@@ -1481,11 +1491,7 @@ export const createRegistry: API.OperationMethod<
 export const createSchema: API.OperationMethod<
   CreateSchemaRequest,
   CreateSchemaResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
@@ -1497,19 +1503,21 @@ export const createSchema: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
-/**
- * Deletes a discoverer.
- */
-export const deleteDiscoverer: API.OperationMethod<
-  DeleteDiscovererRequest,
-  DeleteDiscovererResponse,
+export type DeleteDiscovererError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a discoverer.
+ */
+export const deleteDiscoverer: API.OperationMethod<
+  DeleteDiscovererRequest,
+  DeleteDiscovererResponse,
+  DeleteDiscovererError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDiscovererRequest,
@@ -1523,19 +1531,21 @@ export const deleteDiscoverer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Deletes a Registry.
- */
-export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryRequest,
-  DeleteRegistryResponse,
+export type DeleteRegistryError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Registry.
+ */
+export const deleteRegistry: API.OperationMethod<
+  DeleteRegistryRequest,
+  DeleteRegistryResponse,
+  DeleteRegistryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistryRequest,
@@ -1549,19 +1559,21 @@ export const deleteRegistry: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Delete the resource-based policy attached to the specified registry.
- */
-export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
-  DeleteResourcePolicyResponse,
+export type DeleteResourcePolicyError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the resource-based policy attached to the specified registry.
+ */
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyResponse,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -1575,19 +1587,21 @@ export const deleteResourcePolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Delete a schema definition.
- */
-export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
-  DeleteSchemaResponse,
+export type DeleteSchemaError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a schema definition.
+ */
+export const deleteSchema: API.OperationMethod<
+  DeleteSchemaRequest,
+  DeleteSchemaResponse,
+  DeleteSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
@@ -1601,19 +1615,21 @@ export const deleteSchema: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Delete the schema version definition
- */
-export const deleteSchemaVersion: API.OperationMethod<
-  DeleteSchemaVersionRequest,
-  DeleteSchemaVersionResponse,
+export type DeleteSchemaVersionError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the schema version definition
+ */
+export const deleteSchemaVersion: API.OperationMethod<
+  DeleteSchemaVersionRequest,
+  DeleteSchemaVersionResponse,
+  DeleteSchemaVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaVersionRequest,
@@ -1627,19 +1643,21 @@ export const deleteSchemaVersion: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Describe the code binding URI.
- */
-export const describeCodeBinding: API.OperationMethod<
-  DescribeCodeBindingRequest,
-  DescribeCodeBindingResponse,
+export type DescribeCodeBindingError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describe the code binding URI.
+ */
+export const describeCodeBinding: API.OperationMethod<
+  DescribeCodeBindingRequest,
+  DescribeCodeBindingResponse,
+  DescribeCodeBindingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCodeBindingRequest,
@@ -1653,19 +1671,21 @@ export const describeCodeBinding: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Describes the discoverer.
- */
-export const describeDiscoverer: API.OperationMethod<
-  DescribeDiscovererRequest,
-  DescribeDiscovererResponse,
+export type DescribeDiscovererError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the discoverer.
+ */
+export const describeDiscoverer: API.OperationMethod<
+  DescribeDiscovererRequest,
+  DescribeDiscovererResponse,
+  DescribeDiscovererError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDiscovererRequest,
@@ -1679,19 +1699,21 @@ export const describeDiscoverer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Describes the registry.
- */
-export const describeRegistry: API.OperationMethod<
-  DescribeRegistryRequest,
-  DescribeRegistryResponse,
+export type DescribeRegistryError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the registry.
+ */
+export const describeRegistry: API.OperationMethod<
+  DescribeRegistryRequest,
+  DescribeRegistryResponse,
+  DescribeRegistryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRegistryRequest,
@@ -1705,19 +1727,21 @@ export const describeRegistry: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Retrieve the schema definition.
- */
-export const describeSchema: API.OperationMethod<
-  DescribeSchemaRequest,
-  DescribeSchemaResponse,
+export type DescribeSchemaError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the schema definition.
+ */
+export const describeSchema: API.OperationMethod<
+  DescribeSchemaRequest,
+  DescribeSchemaResponse,
+  DescribeSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSchemaRequest,
@@ -1731,12 +1755,7 @@ export const describeSchema: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- *
- */
-export const exportSchema: API.OperationMethod<
-  ExportSchemaRequest,
-  ExportSchemaResponse,
+export type ExportSchemaError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -1744,7 +1763,14 @@ export const exportSchema: API.OperationMethod<
   | ServiceUnavailableException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ *
+ */
+export const exportSchema: API.OperationMethod<
+  ExportSchemaRequest,
+  ExportSchemaResponse,
+  ExportSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportSchemaRequest,
@@ -1759,19 +1785,21 @@ export const exportSchema: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Get the code binding source URI.
- */
-export const getCodeBindingSource: API.OperationMethod<
-  GetCodeBindingSourceRequest,
-  GetCodeBindingSourceResponse,
+export type GetCodeBindingSourceError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the code binding source URI.
+ */
+export const getCodeBindingSource: API.OperationMethod<
+  GetCodeBindingSourceRequest,
+  GetCodeBindingSourceResponse,
+  GetCodeBindingSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeBindingSourceRequest,
@@ -1785,18 +1813,20 @@ export const getCodeBindingSource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type GetDiscoveredSchemaError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Get the discovered schema that was generated based on sampled events.
  */
 export const getDiscoveredSchema: API.OperationMethod<
   GetDiscoveredSchemaRequest,
   GetDiscoveredSchemaResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  GetDiscoveredSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiscoveredSchemaRequest,
@@ -1809,19 +1839,21 @@ export const getDiscoveredSchema: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Retrieves the resource-based policy attached to a given registry.
- */
-export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
-  GetResourcePolicyResponse,
+export type GetResourcePolicyError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the resource-based policy attached to a given registry.
+ */
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
+  GetResourcePolicyResponse,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -1835,42 +1867,34 @@ export const getResourcePolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type ListDiscoverersError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List the discoverers.
  */
 export const listDiscoverers: API.OperationMethod<
   ListDiscoverersRequest,
   ListDiscoverersResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  ListDiscoverersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDiscoverersRequest,
   ) => stream.Stream<
     ListDiscoverersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListDiscoverersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDiscoverersRequest,
   ) => stream.Stream<
     DiscovererSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListDiscoverersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1890,42 +1914,34 @@ export const listDiscoverers: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListRegistriesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List the registries.
  */
 export const listRegistries: API.OperationMethod<
   ListRegistriesRequest,
   ListRegistriesResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  ListRegistriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRegistriesRequest,
   ) => stream.Stream<
     ListRegistriesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListRegistriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRegistriesRequest,
   ) => stream.Stream<
     RegistrySummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListRegistriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1945,42 +1961,34 @@ export const listRegistries: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListSchemasError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * List the schemas.
  */
 export const listSchemas: API.OperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  ListSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemasRequest,
   ) => stream.Stream<
     ListSchemasResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemasRequest,
   ) => stream.Stream<
     SchemaSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2000,45 +2008,35 @@ export const listSchemas: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
-/**
- * Provides a list of the schema versions and related information.
- */
-export const listSchemaVersions: API.OperationMethod<
-  ListSchemaVersionsRequest,
-  ListSchemaVersionsResponse,
+export type ListSchemaVersionsError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides a list of the schema versions and related information.
+ */
+export const listSchemaVersions: API.OperationMethod<
+  ListSchemaVersionsRequest,
+  ListSchemaVersionsResponse,
+  ListSchemaVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemaVersionsRequest,
   ) => stream.Stream<
     ListSchemaVersionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListSchemaVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemaVersionsRequest,
   ) => stream.Stream<
     SchemaVersionSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    ListSchemaVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2059,17 +2057,19 @@ export const listSchemaVersions: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Get tags for resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2081,12 +2081,7 @@ export const listTagsForResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Put code binding URI
- */
-export const putCodeBinding: API.OperationMethod<
-  PutCodeBindingRequest,
-  PutCodeBindingResponse,
+export type PutCodeBindingError =
   | BadRequestException
   | ForbiddenException
   | GoneException
@@ -2094,7 +2089,14 @@ export const putCodeBinding: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Put code binding URI
+ */
+export const putCodeBinding: API.OperationMethod<
+  PutCodeBindingRequest,
+  PutCodeBindingResponse,
+  PutCodeBindingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCodeBindingRequest,
@@ -2109,12 +2111,7 @@ export const putCodeBinding: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * The name of the policy.
- */
-export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
-  PutResourcePolicyResponse,
+export type PutResourcePolicyError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
@@ -2122,7 +2119,14 @@ export const putResourcePolicy: API.OperationMethod<
   | PreconditionFailedException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The name of the policy.
+ */
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
+  PutResourcePolicyResponse,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -2137,42 +2141,34 @@ export const putResourcePolicy: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type SearchSchemasError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Search the schemas
  */
 export const searchSchemas: API.OperationMethod<
   SearchSchemasRequest,
   SearchSchemasResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableException
-  | UnauthorizedException
-  | CommonErrors,
+  SearchSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSchemasRequest,
   ) => stream.Stream<
     SearchSchemasResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    SearchSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSchemasRequest,
   ) => stream.Stream<
     SearchSchemaSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
+    SearchSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2192,19 +2188,21 @@ export const searchSchemas: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
-/**
- * Starts the discoverer
- */
-export const startDiscoverer: API.OperationMethod<
-  StartDiscovererRequest,
-  StartDiscovererResponse,
+export type StartDiscovererError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the discoverer
+ */
+export const startDiscoverer: API.OperationMethod<
+  StartDiscovererRequest,
+  StartDiscovererResponse,
+  StartDiscovererError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDiscovererRequest,
@@ -2218,19 +2216,21 @@ export const startDiscoverer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Stops the discoverer
- */
-export const stopDiscoverer: API.OperationMethod<
-  StopDiscovererRequest,
-  StopDiscovererResponse,
+export type StopDiscovererError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops the discoverer
+ */
+export const stopDiscoverer: API.OperationMethod<
+  StopDiscovererRequest,
+  StopDiscovererResponse,
+  StopDiscovererError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDiscovererRequest,
@@ -2244,17 +2244,19 @@ export const stopDiscoverer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Add tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2266,17 +2268,19 @@ export const tagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2288,19 +2292,21 @@ export const untagResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Updates the discoverer
- */
-export const updateDiscoverer: API.OperationMethod<
-  UpdateDiscovererRequest,
-  UpdateDiscovererResponse,
+export type UpdateDiscovererError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the discoverer
+ */
+export const updateDiscoverer: API.OperationMethod<
+  UpdateDiscovererRequest,
+  UpdateDiscovererResponse,
+  UpdateDiscovererError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDiscovererRequest,
@@ -2314,19 +2320,21 @@ export const updateDiscoverer: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Updates a registry.
- */
-export const updateRegistry: API.OperationMethod<
-  UpdateRegistryRequest,
-  UpdateRegistryResponse,
+export type UpdateRegistryError =
   | BadRequestException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | ServiceUnavailableException
   | UnauthorizedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a registry.
+ */
+export const updateRegistry: API.OperationMethod<
+  UpdateRegistryRequest,
+  UpdateRegistryResponse,
+  UpdateRegistryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRegistryRequest,
@@ -2340,6 +2348,13 @@ export const updateRegistry: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UpdateSchemaError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Updates the schema definition
  *
@@ -2348,12 +2363,7 @@ export const updateRegistry: API.OperationMethod<
 export const updateSchema: API.OperationMethod<
   UpdateSchemaRequest,
   UpdateSchemaResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UpdateSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchemaRequest,

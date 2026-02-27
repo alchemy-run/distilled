@@ -4260,12 +4260,7 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
- */
-export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
-  AssociatePhoneNumbersWithVoiceConnectorRequest,
-  AssociatePhoneNumbersWithVoiceConnectorResponse,
+export type AssociatePhoneNumbersWithVoiceConnectorError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -4274,7 +4269,14 @@ export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
+ */
+export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
+  AssociatePhoneNumbersWithVoiceConnectorRequest,
+  AssociatePhoneNumbersWithVoiceConnectorResponse,
+  AssociatePhoneNumbersWithVoiceConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePhoneNumbersWithVoiceConnectorRequest,
@@ -4290,12 +4292,7 @@ export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
- */
-export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
-  AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
-  AssociatePhoneNumbersWithVoiceConnectorGroupResponse,
+export type AssociatePhoneNumbersWithVoiceConnectorGroupError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -4304,7 +4301,14 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
+ */
+export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
+  AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
+  AssociatePhoneNumbersWithVoiceConnectorGroupResponse,
+  AssociatePhoneNumbersWithVoiceConnectorGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
@@ -4320,6 +4324,15 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type BatchDeletePhoneNumberError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Moves phone numbers into the
  * **Deletion queue**. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted.
@@ -4330,14 +4343,7 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
 export const batchDeletePhoneNumber: API.OperationMethod<
   BatchDeletePhoneNumberRequest,
   BatchDeletePhoneNumberResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  BatchDeletePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeletePhoneNumberRequest,
@@ -4352,6 +4358,15 @@ export const batchDeletePhoneNumber: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type BatchUpdatePhoneNumberError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each
  * `UpdatePhoneNumberRequestItem`. For example, you can update the product type, the calling name, or phone name.
@@ -4361,14 +4376,7 @@ export const batchDeletePhoneNumber: API.OperationMethod<
 export const batchUpdatePhoneNumber: API.OperationMethod<
   BatchUpdatePhoneNumberRequest,
   BatchUpdatePhoneNumberResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  BatchUpdatePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdatePhoneNumberRequest,
@@ -4383,12 +4391,7 @@ export const batchUpdatePhoneNumber: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
- */
-export const createPhoneNumberOrder: API.OperationMethod<
-  CreatePhoneNumberOrderRequest,
-  CreatePhoneNumberOrderResponse,
+export type CreatePhoneNumberOrderError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -4397,7 +4400,14 @@ export const createPhoneNumberOrder: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
+ */
+export const createPhoneNumberOrder: API.OperationMethod<
+  CreatePhoneNumberOrderRequest,
+  CreatePhoneNumberOrderResponse,
+  CreatePhoneNumberOrderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePhoneNumberOrderRequest,
@@ -4413,13 +4423,7 @@ export const createPhoneNumberOrder: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a proxy session for the specified Amazon Chime SDK Voice Connector for
- * the specified participant phone numbers.
- */
-export const createProxySession: API.OperationMethod<
-  CreateProxySessionRequest,
-  CreateProxySessionResponse,
+export type CreateProxySessionError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -4427,7 +4431,15 @@ export const createProxySession: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a proxy session for the specified Amazon Chime SDK Voice Connector for
+ * the specified participant phone numbers.
+ */
+export const createProxySession: API.OperationMethod<
+  CreateProxySessionRequest,
+  CreateProxySessionResponse,
+  CreateProxySessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProxySessionRequest,
@@ -4442,13 +4454,7 @@ export const createProxySession: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications
- * and rules in the *Amazon Chime SDK Administrator Guide*.
- */
-export const createSipMediaApplication: API.OperationMethod<
-  CreateSipMediaApplicationRequest,
-  CreateSipMediaApplicationResponse,
+export type CreateSipMediaApplicationError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -4458,7 +4464,15 @@ export const createSipMediaApplication: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications
+ * and rules in the *Amazon Chime SDK Administrator Guide*.
+ */
+export const createSipMediaApplication: API.OperationMethod<
+  CreateSipMediaApplicationRequest,
+  CreateSipMediaApplicationResponse,
+  CreateSipMediaApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSipMediaApplicationRequest,
@@ -4475,14 +4489,7 @@ export const createSipMediaApplication: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates an outbound call to a phone number from the phone number specified
- * in the request, and it invokes the endpoint of the specified
- * `sipMediaApplicationId`.
- */
-export const createSipMediaApplicationCall: API.OperationMethod<
-  CreateSipMediaApplicationCallRequest,
-  CreateSipMediaApplicationCallResponse,
+export type CreateSipMediaApplicationCallError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -4491,7 +4498,16 @@ export const createSipMediaApplicationCall: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an outbound call to a phone number from the phone number specified
+ * in the request, and it invokes the endpoint of the specified
+ * `sipMediaApplicationId`.
+ */
+export const createSipMediaApplicationCall: API.OperationMethod<
+  CreateSipMediaApplicationCallRequest,
+  CreateSipMediaApplicationCallResponse,
+  CreateSipMediaApplicationCallError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSipMediaApplicationCallRequest,
@@ -4507,13 +4523,7 @@ export const createSipMediaApplicationCall: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications
- * and rules in the *Amazon Chime SDK Administrator Guide*.
- */
-export const createSipRule: API.OperationMethod<
-  CreateSipRuleRequest,
-  CreateSipRuleResponse,
+export type CreateSipRuleError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -4523,7 +4533,15 @@ export const createSipRule: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications
+ * and rules in the *Amazon Chime SDK Administrator Guide*.
+ */
+export const createSipRule: API.OperationMethod<
+  CreateSipRuleRequest,
+  CreateSipRuleResponse,
+  CreateSipRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSipRuleRequest,
@@ -4540,6 +4558,16 @@ export const createSipRule: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type CreateVoiceConnectorError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Creates an Amazon Chime SDK Voice Connector. For more information about
  * Voice Connectors,
@@ -4549,15 +4577,7 @@ export const createSipRule: API.OperationMethod<
 export const createVoiceConnector: API.OperationMethod<
   CreateVoiceConnectorRequest,
   CreateVoiceConnectorResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateVoiceConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVoiceConnectorRequest,
@@ -4573,6 +4593,16 @@ export const createVoiceConnector: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type CreateVoiceConnectorGroupError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Creates an Amazon Chime SDK Voice Connector group under the administrator's
  * AWS account. You can associate Amazon Chime SDK Voice Connectors with the
@@ -4585,15 +4615,7 @@ export const createVoiceConnector: API.OperationMethod<
 export const createVoiceConnectorGroup: API.OperationMethod<
   CreateVoiceConnectorGroupRequest,
   CreateVoiceConnectorGroupResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateVoiceConnectorGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVoiceConnectorGroupRequest,
@@ -4609,6 +4631,19 @@ export const createVoiceConnectorGroup: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type CreateVoiceProfileError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | GoneException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Creates a voice profile, which consists of an enrolled user and their latest voice print.
  *
@@ -4621,18 +4656,7 @@ export const createVoiceConnectorGroup: API.OperationMethod<
 export const createVoiceProfile: API.OperationMethod<
   CreateVoiceProfileRequest,
   CreateVoiceProfileResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | GoneException
-  | NotFoundException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateVoiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVoiceProfileRequest,
@@ -4651,6 +4675,17 @@ export const createVoiceProfile: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type CreateVoiceProfileDomainError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio.
  *
@@ -4663,16 +4698,7 @@ export const createVoiceProfile: API.OperationMethod<
 export const createVoiceProfileDomain: API.OperationMethod<
   CreateVoiceProfileDomainRequest,
   CreateVoiceProfileDomainResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateVoiceProfileDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVoiceProfileDomainRequest,
@@ -4689,6 +4715,15 @@ export const createVoiceProfileDomain: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type DeletePhoneNumberError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Moves the specified phone number into the
  * **Deletion queue**. A phone number must
@@ -4702,14 +4737,7 @@ export const createVoiceProfileDomain: API.OperationMethod<
 export const deletePhoneNumber: API.OperationMethod<
   DeletePhoneNumberRequest,
   DeletePhoneNumberResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  DeletePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePhoneNumberRequest,
@@ -4724,13 +4752,7 @@ export const deletePhoneNumber: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the specified proxy session from the specified Amazon Chime SDK Voice
- * Connector.
- */
-export const deleteProxySession: API.OperationMethod<
-  DeleteProxySessionRequest,
-  DeleteProxySessionResponse,
+export type DeleteProxySessionError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -4738,7 +4760,15 @@ export const deleteProxySession: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified proxy session from the specified Amazon Chime SDK Voice
+ * Connector.
+ */
+export const deleteProxySession: API.OperationMethod<
+  DeleteProxySessionRequest,
+  DeleteProxySessionResponse,
+  DeleteProxySessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProxySessionRequest,
@@ -4753,12 +4783,7 @@ export const deleteProxySession: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes a SIP media application.
- */
-export const deleteSipMediaApplication: API.OperationMethod<
-  DeleteSipMediaApplicationRequest,
-  DeleteSipMediaApplicationResponse,
+export type DeleteSipMediaApplicationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4767,7 +4792,14 @@ export const deleteSipMediaApplication: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a SIP media application.
+ */
+export const deleteSipMediaApplication: API.OperationMethod<
+  DeleteSipMediaApplicationRequest,
+  DeleteSipMediaApplicationResponse,
+  DeleteSipMediaApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSipMediaApplicationRequest,
@@ -4783,12 +4815,7 @@ export const deleteSipMediaApplication: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes a SIP rule.
- */
-export const deleteSipRule: API.OperationMethod<
-  DeleteSipRuleRequest,
-  DeleteSipRuleResponse,
+export type DeleteSipRuleError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4797,7 +4824,14 @@ export const deleteSipRule: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a SIP rule.
+ */
+export const deleteSipRule: API.OperationMethod<
+  DeleteSipRuleRequest,
+  DeleteSipRuleResponse,
+  DeleteSipRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSipRuleRequest,
@@ -4813,14 +4847,7 @@ export const deleteSipRule: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated
- * with the Amazon Chime SDK Voice Connector must be disassociated from it before it
- * can be deleted.
- */
-export const deleteVoiceConnector: API.OperationMethod<
-  DeleteVoiceConnectorRequest,
-  DeleteVoiceConnectorResponse,
+export type DeleteVoiceConnectorError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4829,7 +4856,16 @@ export const deleteVoiceConnector: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated
+ * with the Amazon Chime SDK Voice Connector must be disassociated from it before it
+ * can be deleted.
+ */
+export const deleteVoiceConnector: API.OperationMethod<
+  DeleteVoiceConnectorRequest,
+  DeleteVoiceConnectorResponse,
+  DeleteVoiceConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorRequest,
@@ -4845,13 +4881,7 @@ export const deleteVoiceConnector: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the emergency calling details from the specified Amazon Chime SDK Voice
- * Connector.
- */
-export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
-  DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
-  DeleteVoiceConnectorEmergencyCallingConfigurationResponse,
+export type DeleteVoiceConnectorEmergencyCallingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -4859,7 +4889,15 @@ export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMet
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the emergency calling details from the specified Amazon Chime SDK Voice
+ * Connector.
+ */
+export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
+  DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
+  DeleteVoiceConnectorEmergencyCallingConfigurationResponse,
+  DeleteVoiceConnectorEmergencyCallingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
@@ -4874,12 +4912,7 @@ export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMet
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the external systems configuration for a Voice Connector.
- */
-export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
-  DeleteVoiceConnectorExternalSystemsConfigurationRequest,
-  DeleteVoiceConnectorExternalSystemsConfigurationResponse,
+export type DeleteVoiceConnectorExternalSystemsConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -4887,7 +4920,14 @@ export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMeth
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the external systems configuration for a Voice Connector.
+ */
+export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
+  DeleteVoiceConnectorExternalSystemsConfigurationRequest,
+  DeleteVoiceConnectorExternalSystemsConfigurationResponse,
+  DeleteVoiceConnectorExternalSystemsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorExternalSystemsConfigurationRequest,
@@ -4902,14 +4942,7 @@ export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMeth
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes an Amazon Chime SDK Voice Connector group. Any `VoiceConnectorItems`
- * and phone numbers associated with the group must be removed before it can be
- * deleted.
- */
-export const deleteVoiceConnectorGroup: API.OperationMethod<
-  DeleteVoiceConnectorGroupRequest,
-  DeleteVoiceConnectorGroupResponse,
+export type DeleteVoiceConnectorGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -4918,7 +4951,16 @@ export const deleteVoiceConnectorGroup: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Chime SDK Voice Connector group. Any `VoiceConnectorItems`
+ * and phone numbers associated with the group must be removed before it can be
+ * deleted.
+ */
+export const deleteVoiceConnectorGroup: API.OperationMethod<
+  DeleteVoiceConnectorGroupRequest,
+  DeleteVoiceConnectorGroupResponse,
+  DeleteVoiceConnectorGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorGroupRequest,
@@ -4934,6 +4976,15 @@ export const deleteVoiceConnectorGroup: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type DeleteVoiceConnectorOriginationError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Deletes the origination settings for the specified Amazon Chime SDK Voice Connector.
  *
@@ -4943,14 +4994,7 @@ export const deleteVoiceConnectorGroup: API.OperationMethod<
 export const deleteVoiceConnectorOrigination: API.OperationMethod<
   DeleteVoiceConnectorOriginationRequest,
   DeleteVoiceConnectorOriginationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  DeleteVoiceConnectorOriginationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorOriginationRequest,
@@ -4965,12 +5009,7 @@ export const deleteVoiceConnectorOrigination: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
- */
-export const deleteVoiceConnectorProxy: API.OperationMethod<
-  DeleteVoiceConnectorProxyRequest,
-  DeleteVoiceConnectorProxyResponse,
+export type DeleteVoiceConnectorProxyError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -4978,7 +5017,14 @@ export const deleteVoiceConnectorProxy: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
+ */
+export const deleteVoiceConnectorProxy: API.OperationMethod<
+  DeleteVoiceConnectorProxyRequest,
+  DeleteVoiceConnectorProxyResponse,
+  DeleteVoiceConnectorProxyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorProxyRequest,
@@ -4993,12 +5039,7 @@ export const deleteVoiceConnectorProxy: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes a Voice Connector's streaming configuration.
- */
-export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
-  DeleteVoiceConnectorStreamingConfigurationRequest,
-  DeleteVoiceConnectorStreamingConfigurationResponse,
+export type DeleteVoiceConnectorStreamingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5006,7 +5047,14 @@ export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Voice Connector's streaming configuration.
+ */
+export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
+  DeleteVoiceConnectorStreamingConfigurationRequest,
+  DeleteVoiceConnectorStreamingConfigurationResponse,
+  DeleteVoiceConnectorStreamingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorStreamingConfigurationRequest,
@@ -5021,6 +5069,15 @@ export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type DeleteVoiceConnectorTerminationError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Deletes the termination settings for the specified Amazon Chime SDK Voice Connector.
  *
@@ -5030,14 +5087,7 @@ export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
 export const deleteVoiceConnectorTermination: API.OperationMethod<
   DeleteVoiceConnectorTerminationRequest,
   DeleteVoiceConnectorTerminationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  DeleteVoiceConnectorTerminationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorTerminationRequest,
@@ -5052,13 +5102,7 @@ export const deleteVoiceConnectorTermination: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes the specified SIP credentials used by your equipment to
- * authenticate during call termination.
- */
-export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
-  DeleteVoiceConnectorTerminationCredentialsRequest,
-  DeleteVoiceConnectorTerminationCredentialsResponse,
+export type DeleteVoiceConnectorTerminationCredentialsError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5066,7 +5110,15 @@ export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified SIP credentials used by your equipment to
+ * authenticate during call termination.
+ */
+export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
+  DeleteVoiceConnectorTerminationCredentialsRequest,
+  DeleteVoiceConnectorTerminationCredentialsResponse,
+  DeleteVoiceConnectorTerminationCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceConnectorTerminationCredentialsRequest,
@@ -5081,12 +5133,7 @@ export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
- */
-export const deleteVoiceProfile: API.OperationMethod<
-  DeleteVoiceProfileRequest,
-  DeleteVoiceProfileResponse,
+export type DeleteVoiceProfileError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -5096,7 +5143,14 @@ export const deleteVoiceProfile: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
+ */
+export const deleteVoiceProfile: API.OperationMethod<
+  DeleteVoiceProfileRequest,
+  DeleteVoiceProfileResponse,
+  DeleteVoiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceProfileRequest,
@@ -5113,12 +5167,7 @@ export const deleteVoiceProfile: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes all voice profiles in the domain. WARNING: This action is not reversible.
- */
-export const deleteVoiceProfileDomain: API.OperationMethod<
-  DeleteVoiceProfileDomainRequest,
-  DeleteVoiceProfileDomainResponse,
+export type DeleteVoiceProfileDomainError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -5128,7 +5177,14 @@ export const deleteVoiceProfileDomain: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes all voice profiles in the domain. WARNING: This action is not reversible.
+ */
+export const deleteVoiceProfileDomain: API.OperationMethod<
+  DeleteVoiceProfileDomainRequest,
+  DeleteVoiceProfileDomainResponse,
+  DeleteVoiceProfileDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceProfileDomainRequest,
@@ -5145,13 +5201,7 @@ export const deleteVoiceProfileDomain: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Disassociates the specified phone numbers from the specified
- * Amazon Chime SDK Voice Connector.
- */
-export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
-  DisassociatePhoneNumbersFromVoiceConnectorRequest,
-  DisassociatePhoneNumbersFromVoiceConnectorResponse,
+export type DisassociatePhoneNumbersFromVoiceConnectorError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5159,7 +5209,15 @@ export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates the specified phone numbers from the specified
+ * Amazon Chime SDK Voice Connector.
+ */
+export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
+  DisassociatePhoneNumbersFromVoiceConnectorRequest,
+  DisassociatePhoneNumbersFromVoiceConnectorResponse,
+  DisassociatePhoneNumbersFromVoiceConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociatePhoneNumbersFromVoiceConnectorRequest,
@@ -5174,13 +5232,7 @@ export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice
- * Connector group.
- */
-export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMethod<
-  DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
-  DisassociatePhoneNumbersFromVoiceConnectorGroupResponse,
+export type DisassociatePhoneNumbersFromVoiceConnectorGroupError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5188,7 +5240,15 @@ export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMetho
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice
+ * Connector group.
+ */
+export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMethod<
+  DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
+  DisassociatePhoneNumbersFromVoiceConnectorGroupResponse,
+  DisassociatePhoneNumbersFromVoiceConnectorGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
@@ -5203,19 +5263,21 @@ export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMetho
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
- */
-export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
-  GetGlobalSettingsResponse,
+export type GetGlobalSettingsError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
+ */
+export const getGlobalSettings: API.OperationMethod<
+  GetGlobalSettingsRequest,
+  GetGlobalSettingsResponse,
+  GetGlobalSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlobalSettingsRequest,
@@ -5229,13 +5291,7 @@ export const getGlobalSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves details for the specified phone number ID, such as associations,
- * capabilities, and product type.
- */
-export const getPhoneNumber: API.OperationMethod<
-  GetPhoneNumberRequest,
-  GetPhoneNumberResponse,
+export type GetPhoneNumberError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5243,7 +5299,15 @@ export const getPhoneNumber: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details for the specified phone number ID, such as associations,
+ * capabilities, and product type.
+ */
+export const getPhoneNumber: API.OperationMethod<
+  GetPhoneNumberRequest,
+  GetPhoneNumberResponse,
+  GetPhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhoneNumberRequest,
@@ -5258,6 +5322,15 @@ export const getPhoneNumber: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type GetPhoneNumberOrderError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Retrieves details for the specified phone number order, such as the order
  * creation timestamp, phone numbers in E.164 format, product type, and
@@ -5266,14 +5339,7 @@ export const getPhoneNumber: API.OperationMethod<
 export const getPhoneNumberOrder: API.OperationMethod<
   GetPhoneNumberOrderRequest,
   GetPhoneNumberOrderResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  GetPhoneNumberOrderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhoneNumberOrderRequest,
@@ -5288,6 +5354,14 @@ export const getPhoneNumberOrder: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type GetPhoneNumberSettingsError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Retrieves the phone number settings for the administrator's AWS account,
  * such as the default outbound calling name.
@@ -5295,13 +5369,7 @@ export const getPhoneNumberOrder: API.OperationMethod<
 export const getPhoneNumberSettings: API.OperationMethod<
   GetPhoneNumberSettingsRequest,
   GetPhoneNumberSettingsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  GetPhoneNumberSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhoneNumberSettingsRequest,
@@ -5315,12 +5383,7 @@ export const getPhoneNumberSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
- */
-export const getProxySession: API.OperationMethod<
-  GetProxySessionRequest,
-  GetProxySessionResponse,
+export type GetProxySessionError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5328,7 +5391,14 @@ export const getProxySession: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
+ */
+export const getProxySession: API.OperationMethod<
+  GetProxySessionRequest,
+  GetProxySessionResponse,
+  GetProxySessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProxySessionRequest,
@@ -5343,13 +5413,7 @@ export const getProxySession: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the information for a SIP media application, including name,
- * AWS Region, and endpoints.
- */
-export const getSipMediaApplication: API.OperationMethod<
-  GetSipMediaApplicationRequest,
-  GetSipMediaApplicationResponse,
+export type GetSipMediaApplicationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5357,7 +5421,15 @@ export const getSipMediaApplication: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the information for a SIP media application, including name,
+ * AWS Region, and endpoints.
+ */
+export const getSipMediaApplication: API.OperationMethod<
+  GetSipMediaApplicationRequest,
+  GetSipMediaApplicationResponse,
+  GetSipMediaApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSipMediaApplicationRequest,
@@ -5372,6 +5444,15 @@ export const getSipMediaApplication: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type GetSipMediaApplicationAlexaSkillConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Gets the Alexa Skill configuration for the SIP media application.
  *
@@ -5381,14 +5462,7 @@ export const getSipMediaApplication: API.OperationMethod<
 export const getSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
   GetSipMediaApplicationAlexaSkillConfigurationRequest,
   GetSipMediaApplicationAlexaSkillConfigurationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  GetSipMediaApplicationAlexaSkillConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSipMediaApplicationAlexaSkillConfigurationRequest,
@@ -5403,12 +5477,7 @@ export const getSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the logging configuration for the specified SIP media application.
- */
-export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
-  GetSipMediaApplicationLoggingConfigurationRequest,
-  GetSipMediaApplicationLoggingConfigurationResponse,
+export type GetSipMediaApplicationLoggingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5416,7 +5485,14 @@ export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the logging configuration for the specified SIP media application.
+ */
+export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
+  GetSipMediaApplicationLoggingConfigurationRequest,
+  GetSipMediaApplicationLoggingConfigurationResponse,
+  GetSipMediaApplicationLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSipMediaApplicationLoggingConfigurationRequest,
@@ -5431,13 +5507,7 @@ export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and
- * target endpoints.
- */
-export const getSipRule: API.OperationMethod<
-  GetSipRuleRequest,
-  GetSipRuleResponse,
+export type GetSipRuleError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5445,7 +5515,15 @@ export const getSipRule: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and
+ * target endpoints.
+ */
+export const getSipRule: API.OperationMethod<
+  GetSipRuleRequest,
+  GetSipRuleResponse,
+  GetSipRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSipRuleRequest,
@@ -5460,12 +5538,7 @@ export const getSipRule: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of the specified speaker search task.
- */
-export const getSpeakerSearchTask: API.OperationMethod<
-  GetSpeakerSearchTaskRequest,
-  GetSpeakerSearchTaskResponse,
+export type GetSpeakerSearchTaskError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -5475,7 +5548,14 @@ export const getSpeakerSearchTask: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of the specified speaker search task.
+ */
+export const getSpeakerSearchTask: API.OperationMethod<
+  GetSpeakerSearchTaskRequest,
+  GetSpeakerSearchTaskResponse,
+  GetSpeakerSearchTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpeakerSearchTaskRequest,
@@ -5492,13 +5572,7 @@ export const getSpeakerSearchTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves details for the specified Amazon Chime SDK Voice Connector, such as
- * timestamps,name, outbound host, and encryption requirements.
- */
-export const getVoiceConnector: API.OperationMethod<
-  GetVoiceConnectorRequest,
-  GetVoiceConnectorResponse,
+export type GetVoiceConnectorError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5506,7 +5580,15 @@ export const getVoiceConnector: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details for the specified Amazon Chime SDK Voice Connector, such as
+ * timestamps,name, outbound host, and encryption requirements.
+ */
+export const getVoiceConnector: API.OperationMethod<
+  GetVoiceConnectorRequest,
+  GetVoiceConnectorResponse,
+  GetVoiceConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorRequest,
@@ -5521,12 +5603,7 @@ export const getVoiceConnector: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the emergency calling configuration details for the specified Voice Connector.
- */
-export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
-  GetVoiceConnectorEmergencyCallingConfigurationRequest,
-  GetVoiceConnectorEmergencyCallingConfigurationResponse,
+export type GetVoiceConnectorEmergencyCallingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5534,7 +5611,14 @@ export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the emergency calling configuration details for the specified Voice Connector.
+ */
+export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
+  GetVoiceConnectorEmergencyCallingConfigurationRequest,
+  GetVoiceConnectorEmergencyCallingConfigurationResponse,
+  GetVoiceConnectorEmergencyCallingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorEmergencyCallingConfigurationRequest,
@@ -5549,13 +5633,7 @@ export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
     UnauthorizedClientException,
   ],
 }));
-/**
- * Gets information about an external systems configuration for a Voice
- * Connector.
- */
-export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
-  GetVoiceConnectorExternalSystemsConfigurationRequest,
-  GetVoiceConnectorExternalSystemsConfigurationResponse,
+export type GetVoiceConnectorExternalSystemsConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5563,7 +5641,15 @@ export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about an external systems configuration for a Voice
+ * Connector.
+ */
+export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
+  GetVoiceConnectorExternalSystemsConfigurationRequest,
+  GetVoiceConnectorExternalSystemsConfigurationResponse,
+  GetVoiceConnectorExternalSystemsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorExternalSystemsConfigurationRequest,
@@ -5578,13 +5664,7 @@ export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves details for the specified Amazon Chime SDK Voice Connector group,
- * such as timestamps,name, and associated `VoiceConnectorItems`.
- */
-export const getVoiceConnectorGroup: API.OperationMethod<
-  GetVoiceConnectorGroupRequest,
-  GetVoiceConnectorGroupResponse,
+export type GetVoiceConnectorGroupError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5592,7 +5672,15 @@ export const getVoiceConnectorGroup: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves details for the specified Amazon Chime SDK Voice Connector group,
+ * such as timestamps,name, and associated `VoiceConnectorItems`.
+ */
+export const getVoiceConnectorGroup: API.OperationMethod<
+  GetVoiceConnectorGroupRequest,
+  GetVoiceConnectorGroupResponse,
+  GetVoiceConnectorGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorGroupRequest,
@@ -5607,13 +5695,7 @@ export const getVoiceConnectorGroup: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the logging configuration settings for the specified Voice Connector.
- * Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
- */
-export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
-  GetVoiceConnectorLoggingConfigurationRequest,
-  GetVoiceConnectorLoggingConfigurationResponse,
+export type GetVoiceConnectorLoggingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5621,7 +5703,15 @@ export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the logging configuration settings for the specified Voice Connector.
+ * Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+ */
+export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
+  GetVoiceConnectorLoggingConfigurationRequest,
+  GetVoiceConnectorLoggingConfigurationResponse,
+  GetVoiceConnectorLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorLoggingConfigurationRequest,
@@ -5636,12 +5726,7 @@ export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the origination settings for the specified Voice Connector.
- */
-export const getVoiceConnectorOrigination: API.OperationMethod<
-  GetVoiceConnectorOriginationRequest,
-  GetVoiceConnectorOriginationResponse,
+export type GetVoiceConnectorOriginationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5649,7 +5734,14 @@ export const getVoiceConnectorOrigination: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the origination settings for the specified Voice Connector.
+ */
+export const getVoiceConnectorOrigination: API.OperationMethod<
+  GetVoiceConnectorOriginationRequest,
+  GetVoiceConnectorOriginationResponse,
+  GetVoiceConnectorOriginationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorOriginationRequest,
@@ -5664,13 +5756,7 @@ export const getVoiceConnectorOrigination: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice
- * Connector.
- */
-export const getVoiceConnectorProxy: API.OperationMethod<
-  GetVoiceConnectorProxyRequest,
-  GetVoiceConnectorProxyResponse,
+export type GetVoiceConnectorProxyError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5678,7 +5764,15 @@ export const getVoiceConnectorProxy: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice
+ * Connector.
+ */
+export const getVoiceConnectorProxy: API.OperationMethod<
+  GetVoiceConnectorProxyRequest,
+  GetVoiceConnectorProxyResponse,
+  GetVoiceConnectorProxyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorProxyRequest,
@@ -5693,6 +5787,15 @@ export const getVoiceConnectorProxy: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type GetVoiceConnectorStreamingConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Retrieves the streaming configuration details for the specified Amazon Chime SDK
  * Voice Connector. Shows whether media streaming is enabled for sending to Amazon
@@ -5701,14 +5804,7 @@ export const getVoiceConnectorProxy: API.OperationMethod<
 export const getVoiceConnectorStreamingConfiguration: API.OperationMethod<
   GetVoiceConnectorStreamingConfigurationRequest,
   GetVoiceConnectorStreamingConfigurationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  GetVoiceConnectorStreamingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorStreamingConfigurationRequest,
@@ -5723,12 +5819,7 @@ export const getVoiceConnectorStreamingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the termination setting details for the specified Voice Connector.
- */
-export const getVoiceConnectorTermination: API.OperationMethod<
-  GetVoiceConnectorTerminationRequest,
-  GetVoiceConnectorTerminationResponse,
+export type GetVoiceConnectorTerminationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -5736,7 +5827,14 @@ export const getVoiceConnectorTermination: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the termination setting details for the specified Voice Connector.
+ */
+export const getVoiceConnectorTermination: API.OperationMethod<
+  GetVoiceConnectorTerminationRequest,
+  GetVoiceConnectorTerminationResponse,
+  GetVoiceConnectorTerminationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorTerminationRequest,
@@ -5751,6 +5849,15 @@ export const getVoiceConnectorTermination: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type GetVoiceConnectorTerminationHealthError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Retrieves information about the last time a `SIP OPTIONS` ping
  * was received from your SIP infrastructure for the specified Amazon Chime SDK Voice
@@ -5759,14 +5866,7 @@ export const getVoiceConnectorTermination: API.OperationMethod<
 export const getVoiceConnectorTerminationHealth: API.OperationMethod<
   GetVoiceConnectorTerminationHealthRequest,
   GetVoiceConnectorTerminationHealthResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  GetVoiceConnectorTerminationHealthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceConnectorTerminationHealthRequest,
@@ -5781,12 +5881,7 @@ export const getVoiceConnectorTerminationHealth: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of the specified voice profile.
- */
-export const getVoiceProfile: API.OperationMethod<
-  GetVoiceProfileRequest,
-  GetVoiceProfileResponse,
+export type GetVoiceProfileError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -5795,7 +5890,14 @@ export const getVoiceProfile: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of the specified voice profile.
+ */
+export const getVoiceProfile: API.OperationMethod<
+  GetVoiceProfileRequest,
+  GetVoiceProfileResponse,
+  GetVoiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceProfileRequest,
@@ -5811,12 +5913,7 @@ export const getVoiceProfile: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of the specified voice profile domain.
- */
-export const getVoiceProfileDomain: API.OperationMethod<
-  GetVoiceProfileDomainRequest,
-  GetVoiceProfileDomainResponse,
+export type GetVoiceProfileDomainError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -5825,7 +5922,14 @@ export const getVoiceProfileDomain: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of the specified voice profile domain.
+ */
+export const getVoiceProfileDomain: API.OperationMethod<
+  GetVoiceProfileDomainRequest,
+  GetVoiceProfileDomainResponse,
+  GetVoiceProfileDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceProfileDomainRequest,
@@ -5841,12 +5945,7 @@ export const getVoiceProfileDomain: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Retrieves the details of a voice tone analysis task.
- */
-export const getVoiceToneAnalysisTask: API.OperationMethod<
-  GetVoiceToneAnalysisTaskRequest,
-  GetVoiceToneAnalysisTaskResponse,
+export type GetVoiceToneAnalysisTaskError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -5856,7 +5955,14 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the details of a voice tone analysis task.
+ */
+export const getVoiceToneAnalysisTask: API.OperationMethod<
+  GetVoiceToneAnalysisTaskRequest,
+  GetVoiceToneAnalysisTaskResponse,
+  GetVoiceToneAnalysisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceToneAnalysisTaskRequest,
@@ -5873,19 +5979,21 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
- */
-export const listAvailableVoiceConnectorRegions: API.OperationMethod<
-  ListAvailableVoiceConnectorRegionsRequest,
-  ListAvailableVoiceConnectorRegionsResponse,
+export type ListAvailableVoiceConnectorRegionsError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
+ */
+export const listAvailableVoiceConnectorRegions: API.OperationMethod<
+  ListAvailableVoiceConnectorRegionsRequest,
+  ListAvailableVoiceConnectorRegionsResponse,
+  ListAvailableVoiceConnectorRegionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAvailableVoiceConnectorRegionsRequest,
@@ -5899,45 +6007,35 @@ export const listAvailableVoiceConnectorRegions: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Lists the phone numbers for an administrator's Amazon Chime SDK account.
- */
-export const listPhoneNumberOrders: API.OperationMethod<
-  ListPhoneNumberOrdersRequest,
-  ListPhoneNumberOrdersResponse,
+export type ListPhoneNumberOrdersError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the phone numbers for an administrator's Amazon Chime SDK account.
+ */
+export const listPhoneNumberOrders: API.OperationMethod<
+  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersResponse,
+  ListPhoneNumberOrdersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPhoneNumberOrdersRequest,
   ) => stream.Stream<
     ListPhoneNumberOrdersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListPhoneNumberOrdersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPhoneNumberOrdersRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListPhoneNumberOrdersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5957,6 +6055,15 @@ export const listPhoneNumberOrders: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPhoneNumbersError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Lists the phone numbers for the specified Amazon Chime SDK account,
  * Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice
@@ -5965,42 +6072,21 @@ export const listPhoneNumberOrders: API.OperationMethod<
 export const listPhoneNumbers: API.OperationMethod<
   ListPhoneNumbersRequest,
   ListPhoneNumbersResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  ListPhoneNumbersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
     ListPhoneNumbersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListPhoneNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListPhoneNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6021,12 +6107,7 @@ export const listPhoneNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
- */
-export const listProxySessions: API.OperationMethod<
-  ListProxySessionsRequest,
-  ListProxySessionsResponse,
+export type ListProxySessionsError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6034,35 +6115,28 @@ export const listProxySessions: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
+ */
+export const listProxySessions: API.OperationMethod<
+  ListProxySessionsRequest,
+  ListProxySessionsResponse,
+  ListProxySessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProxySessionsRequest,
   ) => stream.Stream<
     ListProxySessionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListProxySessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProxySessionsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListProxySessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6083,45 +6157,35 @@ export const listProxySessions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the SIP media applications under the administrator's AWS account.
- */
-export const listSipMediaApplications: API.OperationMethod<
-  ListSipMediaApplicationsRequest,
-  ListSipMediaApplicationsResponse,
+export type ListSipMediaApplicationsError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the SIP media applications under the administrator's AWS account.
+ */
+export const listSipMediaApplications: API.OperationMethod<
+  ListSipMediaApplicationsRequest,
+  ListSipMediaApplicationsResponse,
+  ListSipMediaApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSipMediaApplicationsRequest,
   ) => stream.Stream<
     ListSipMediaApplicationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListSipMediaApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSipMediaApplicationsRequest,
   ) => stream.Stream<
     SipMediaApplication,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListSipMediaApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6142,45 +6206,35 @@ export const listSipMediaApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the SIP rules under the administrator's AWS account.
- */
-export const listSipRules: API.OperationMethod<
-  ListSipRulesRequest,
-  ListSipRulesResponse,
+export type ListSipRulesError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the SIP rules under the administrator's AWS account.
+ */
+export const listSipRules: API.OperationMethod<
+  ListSipRulesRequest,
+  ListSipRulesResponse,
+  ListSipRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSipRulesRequest,
   ) => stream.Stream<
     ListSipRulesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListSipRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSipRulesRequest,
   ) => stream.Stream<
     SipRule,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListSipRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6201,12 +6255,7 @@ export const listSipRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the countries that you can order phone numbers from.
- */
-export const listSupportedPhoneNumberCountries: API.OperationMethod<
-  ListSupportedPhoneNumberCountriesRequest,
-  ListSupportedPhoneNumberCountriesResponse,
+export type ListSupportedPhoneNumberCountriesError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -6214,7 +6263,14 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the countries that you can order phone numbers from.
+ */
+export const listSupportedPhoneNumberCountries: API.OperationMethod<
+  ListSupportedPhoneNumberCountriesRequest,
+  ListSupportedPhoneNumberCountriesResponse,
+  ListSupportedPhoneNumberCountriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSupportedPhoneNumberCountriesRequest,
@@ -6229,19 +6285,21 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns a list of the tags in a given resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
   | ServiceFailureException
   | ServiceUnavailableException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of the tags in a given resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -6255,6 +6313,14 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type ListVoiceConnectorGroupsError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS
  * account.
@@ -6262,39 +6328,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listVoiceConnectorGroups: API.OperationMethod<
   ListVoiceConnectorGroupsRequest,
   ListVoiceConnectorGroupsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  ListVoiceConnectorGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVoiceConnectorGroupsRequest,
   ) => stream.Stream<
     ListVoiceConnectorGroupsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceConnectorGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVoiceConnectorGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceConnectorGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6314,6 +6362,14 @@ export const listVoiceConnectorGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListVoiceConnectorsError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Lists the Amazon Chime SDK Voice Connectors in the administrators
  * AWS account.
@@ -6321,39 +6377,21 @@ export const listVoiceConnectorGroups: API.OperationMethod<
 export const listVoiceConnectors: API.OperationMethod<
   ListVoiceConnectorsRequest,
   ListVoiceConnectorsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  ListVoiceConnectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVoiceConnectorsRequest,
   ) => stream.Stream<
     ListVoiceConnectorsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVoiceConnectorsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6373,12 +6411,7 @@ export const listVoiceConnectors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
- */
-export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
-  ListVoiceConnectorTerminationCredentialsRequest,
-  ListVoiceConnectorTerminationCredentialsResponse,
+export type ListVoiceConnectorTerminationCredentialsError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6386,7 +6419,14 @@ export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
+ */
+export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
+  ListVoiceConnectorTerminationCredentialsRequest,
+  ListVoiceConnectorTerminationCredentialsResponse,
+  ListVoiceConnectorTerminationCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVoiceConnectorTerminationCredentialsRequest,
@@ -6401,12 +6441,7 @@ export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Lists the specified voice profile domains in the administrator's AWS account.
- */
-export const listVoiceProfileDomains: API.OperationMethod<
-  ListVoiceProfileDomainsRequest,
-  ListVoiceProfileDomainsResponse,
+export type ListVoiceProfileDomainsError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6414,35 +6449,28 @@ export const listVoiceProfileDomains: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the specified voice profile domains in the administrator's AWS account.
+ */
+export const listVoiceProfileDomains: API.OperationMethod<
+  ListVoiceProfileDomainsRequest,
+  ListVoiceProfileDomainsResponse,
+  ListVoiceProfileDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVoiceProfileDomainsRequest,
   ) => stream.Stream<
     ListVoiceProfileDomainsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceProfileDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVoiceProfileDomainsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceProfileDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6463,12 +6491,7 @@ export const listVoiceProfileDomains: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the voice profiles in a voice profile domain.
- */
-export const listVoiceProfiles: API.OperationMethod<
-  ListVoiceProfilesRequest,
-  ListVoiceProfilesResponse,
+export type ListVoiceProfilesError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6476,35 +6499,28 @@ export const listVoiceProfiles: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the voice profiles in a voice profile domain.
+ */
+export const listVoiceProfiles: API.OperationMethod<
+  ListVoiceProfilesRequest,
+  ListVoiceProfilesResponse,
+  ListVoiceProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVoiceProfilesRequest,
   ) => stream.Stream<
     ListVoiceProfilesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVoiceProfilesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListVoiceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6525,6 +6541,15 @@ export const listVoiceProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutSipMediaApplicationAlexaSkillConfigurationError =
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Updates the Alexa Skill configuration for the SIP media application.
  *
@@ -6534,14 +6559,7 @@ export const listVoiceProfiles: API.OperationMethod<
 export const putSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
   PutSipMediaApplicationAlexaSkillConfigurationRequest,
   PutSipMediaApplicationAlexaSkillConfigurationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  PutSipMediaApplicationAlexaSkillConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSipMediaApplicationAlexaSkillConfigurationRequest,
@@ -6556,12 +6574,7 @@ export const putSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the logging configuration for the specified SIP media application.
- */
-export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
-  PutSipMediaApplicationLoggingConfigurationRequest,
-  PutSipMediaApplicationLoggingConfigurationResponse,
+export type PutSipMediaApplicationLoggingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6569,7 +6582,14 @@ export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the logging configuration for the specified SIP media application.
+ */
+export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
+  PutSipMediaApplicationLoggingConfigurationRequest,
+  PutSipMediaApplicationLoggingConfigurationResponse,
+  PutSipMediaApplicationLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSipMediaApplicationLoggingConfigurationRequest,
@@ -6584,12 +6604,7 @@ export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates a Voice Connector's emergency calling configuration.
- */
-export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
-  PutVoiceConnectorEmergencyCallingConfigurationRequest,
-  PutVoiceConnectorEmergencyCallingConfigurationResponse,
+export type PutVoiceConnectorEmergencyCallingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6597,7 +6612,14 @@ export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Voice Connector's emergency calling configuration.
+ */
+export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
+  PutVoiceConnectorEmergencyCallingConfigurationRequest,
+  PutVoiceConnectorEmergencyCallingConfigurationResponse,
+  PutVoiceConnectorEmergencyCallingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorEmergencyCallingConfigurationRequest,
@@ -6612,12 +6634,7 @@ export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
     UnauthorizedClientException,
   ],
 }));
-/**
- * Adds an external systems configuration to a Voice Connector.
- */
-export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
-  PutVoiceConnectorExternalSystemsConfigurationRequest,
-  PutVoiceConnectorExternalSystemsConfigurationResponse,
+export type PutVoiceConnectorExternalSystemsConfigurationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -6626,7 +6643,14 @@ export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds an external systems configuration to a Voice Connector.
+ */
+export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
+  PutVoiceConnectorExternalSystemsConfigurationRequest,
+  PutVoiceConnectorExternalSystemsConfigurationResponse,
+  PutVoiceConnectorExternalSystemsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorExternalSystemsConfigurationRequest,
@@ -6642,12 +6666,7 @@ export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates a Voice Connector's logging configuration.
- */
-export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
-  PutVoiceConnectorLoggingConfigurationRequest,
-  PutVoiceConnectorLoggingConfigurationResponse,
+export type PutVoiceConnectorLoggingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6655,7 +6674,14 @@ export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Voice Connector's logging configuration.
+ */
+export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
+  PutVoiceConnectorLoggingConfigurationRequest,
+  PutVoiceConnectorLoggingConfigurationResponse,
+  PutVoiceConnectorLoggingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorLoggingConfigurationRequest,
@@ -6670,12 +6696,7 @@ export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates a Voice Connector's origination settings.
- */
-export const putVoiceConnectorOrigination: API.OperationMethod<
-  PutVoiceConnectorOriginationRequest,
-  PutVoiceConnectorOriginationResponse,
+export type PutVoiceConnectorOriginationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6683,7 +6704,14 @@ export const putVoiceConnectorOrigination: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Voice Connector's origination settings.
+ */
+export const putVoiceConnectorOrigination: API.OperationMethod<
+  PutVoiceConnectorOriginationRequest,
+  PutVoiceConnectorOriginationResponse,
+  PutVoiceConnectorOriginationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorOriginationRequest,
@@ -6698,12 +6726,7 @@ export const putVoiceConnectorOrigination: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
- */
-export const putVoiceConnectorProxy: API.OperationMethod<
-  PutVoiceConnectorProxyRequest,
-  PutVoiceConnectorProxyResponse,
+export type PutVoiceConnectorProxyError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -6712,7 +6735,14 @@ export const putVoiceConnectorProxy: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
+ */
+export const putVoiceConnectorProxy: API.OperationMethod<
+  PutVoiceConnectorProxyRequest,
+  PutVoiceConnectorProxyResponse,
+  PutVoiceConnectorProxyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorProxyRequest,
@@ -6728,12 +6758,7 @@ export const putVoiceConnectorProxy: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates a Voice Connector's streaming configuration settings.
- */
-export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
-  PutVoiceConnectorStreamingConfigurationRequest,
-  PutVoiceConnectorStreamingConfigurationResponse,
+export type PutVoiceConnectorStreamingConfigurationError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6741,7 +6766,14 @@ export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Voice Connector's streaming configuration settings.
+ */
+export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
+  PutVoiceConnectorStreamingConfigurationRequest,
+  PutVoiceConnectorStreamingConfigurationResponse,
+  PutVoiceConnectorStreamingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorStreamingConfigurationRequest,
@@ -6756,12 +6788,7 @@ export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates a Voice Connector's termination settings.
- */
-export const putVoiceConnectorTermination: API.OperationMethod<
-  PutVoiceConnectorTerminationRequest,
-  PutVoiceConnectorTerminationResponse,
+export type PutVoiceConnectorTerminationError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -6770,7 +6797,14 @@ export const putVoiceConnectorTermination: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Voice Connector's termination settings.
+ */
+export const putVoiceConnectorTermination: API.OperationMethod<
+  PutVoiceConnectorTerminationRequest,
+  PutVoiceConnectorTerminationResponse,
+  PutVoiceConnectorTerminationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorTerminationRequest,
@@ -6786,12 +6820,7 @@ export const putVoiceConnectorTermination: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates a Voice Connector's termination credentials.
- */
-export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
-  PutVoiceConnectorTerminationCredentialsRequest,
-  PutVoiceConnectorTerminationCredentialsResponse,
+export type PutVoiceConnectorTerminationCredentialsError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6799,7 +6828,14 @@ export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Voice Connector's termination credentials.
+ */
+export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
+  PutVoiceConnectorTerminationCredentialsRequest,
+  PutVoiceConnectorTerminationCredentialsResponse,
+  PutVoiceConnectorTerminationCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVoiceConnectorTerminationCredentialsRequest,
@@ -6814,12 +6850,7 @@ export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Restores a deleted phone number.
- */
-export const restorePhoneNumber: API.OperationMethod<
-  RestorePhoneNumberRequest,
-  RestorePhoneNumberResponse,
+export type RestorePhoneNumberError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -6828,7 +6859,14 @@ export const restorePhoneNumber: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores a deleted phone number.
+ */
+export const restorePhoneNumber: API.OperationMethod<
+  RestorePhoneNumberRequest,
+  RestorePhoneNumberResponse,
+  RestorePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestorePhoneNumberRequest,
@@ -6844,12 +6882,7 @@ export const restorePhoneNumber: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Searches the provisioned phone numbers in an organization.
- */
-export const searchAvailablePhoneNumbers: API.OperationMethod<
-  SearchAvailablePhoneNumbersRequest,
-  SearchAvailablePhoneNumbersResponse,
+export type SearchAvailablePhoneNumbersError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -6857,35 +6890,28 @@ export const searchAvailablePhoneNumbers: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Searches the provisioned phone numbers in an organization.
+ */
+export const searchAvailablePhoneNumbers: API.OperationMethod<
+  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersResponse,
+  SearchAvailablePhoneNumbersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
     SearchAvailablePhoneNumbersResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    SearchAvailablePhoneNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    SearchAvailablePhoneNumbersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6906,15 +6932,7 @@ export const searchAvailablePhoneNumbers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Starts a speaker search task.
- *
- * Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
- * AWS service terms for the Amazon Chime SDK.
- */
-export const startSpeakerSearchTask: API.OperationMethod<
-  StartSpeakerSearchTaskRequest,
-  StartSpeakerSearchTaskResponse,
+export type StartSpeakerSearchTaskError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -6927,7 +6945,17 @@ export const startSpeakerSearchTask: API.OperationMethod<
   | ThrottledClientException
   | UnauthorizedClientException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a speaker search task.
+ *
+ * Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
+ * AWS service terms for the Amazon Chime SDK.
+ */
+export const startSpeakerSearchTask: API.OperationMethod<
+  StartSpeakerSearchTaskRequest,
+  StartSpeakerSearchTaskResponse,
+  StartSpeakerSearchTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSpeakerSearchTaskRequest,
@@ -6947,17 +6975,7 @@ export const startSpeakerSearchTask: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Starts a voice tone analysis task. For more information about voice tone analysis, see
- * Using Amazon Chime SDK voice analytics
- * in the *Amazon Chime SDK Developer Guide*.
- *
- * Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
- * AWS service terms for the Amazon Chime SDK.
- */
-export const startVoiceToneAnalysisTask: API.OperationMethod<
-  StartVoiceToneAnalysisTaskRequest,
-  StartVoiceToneAnalysisTaskResponse,
+export type StartVoiceToneAnalysisTaskError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -6970,7 +6988,19 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
   | ThrottledClientException
   | UnauthorizedClientException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a voice tone analysis task. For more information about voice tone analysis, see
+ * Using Amazon Chime SDK voice analytics
+ * in the *Amazon Chime SDK Developer Guide*.
+ *
+ * Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
+ * AWS service terms for the Amazon Chime SDK.
+ */
+export const startVoiceToneAnalysisTask: API.OperationMethod<
+  StartVoiceToneAnalysisTaskRequest,
+  StartVoiceToneAnalysisTaskResponse,
+  StartVoiceToneAnalysisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartVoiceToneAnalysisTaskRequest,
@@ -6990,12 +7020,7 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Stops a speaker search task.
- */
-export const stopSpeakerSearchTask: API.OperationMethod<
-  StopSpeakerSearchTaskRequest,
-  StopSpeakerSearchTaskResponse,
+export type StopSpeakerSearchTaskError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -7006,7 +7031,14 @@ export const stopSpeakerSearchTask: API.OperationMethod<
   | ThrottledClientException
   | UnauthorizedClientException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a speaker search task.
+ */
+export const stopSpeakerSearchTask: API.OperationMethod<
+  StopSpeakerSearchTaskRequest,
+  StopSpeakerSearchTaskResponse,
+  StopSpeakerSearchTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSpeakerSearchTaskRequest,
@@ -7024,12 +7056,7 @@ export const stopSpeakerSearchTask: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Stops a voice tone analysis task.
- */
-export const stopVoiceToneAnalysisTask: API.OperationMethod<
-  StopVoiceToneAnalysisTaskRequest,
-  StopVoiceToneAnalysisTaskResponse,
+export type StopVoiceToneAnalysisTaskError =
   | AccessDeniedException
   | BadRequestException
   | ConflictException
@@ -7040,7 +7067,14 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
   | ThrottledClientException
   | UnauthorizedClientException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a voice tone analysis task.
+ */
+export const stopVoiceToneAnalysisTask: API.OperationMethod<
+  StopVoiceToneAnalysisTaskRequest,
+  StopVoiceToneAnalysisTaskResponse,
+  StopVoiceToneAnalysisTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopVoiceToneAnalysisTaskRequest,
@@ -7058,12 +7092,7 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Adds a tag to the specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -7071,7 +7100,14 @@ export const tagResource: API.OperationMethod<
   | ServiceFailureException
   | ServiceUnavailableException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a tag to the specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7086,19 +7122,21 @@ export const tagResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Removes tags from a resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
   | ServiceFailureException
   | ServiceUnavailableException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes tags from a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -7112,19 +7150,21 @@ export const untagResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
- */
-export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsRequest,
-  UpdateGlobalSettingsResponse,
+export type UpdateGlobalSettingsError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
+ */
+export const updateGlobalSettings: API.OperationMethod<
+  UpdateGlobalSettingsRequest,
+  UpdateGlobalSettingsResponse,
+  UpdateGlobalSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlobalSettingsRequest,
@@ -7138,6 +7178,16 @@ export const updateGlobalSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type UpdatePhoneNumberError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Updates phone number details, such as product type, calling name, or phone number name for the
  * specified phone number ID. You can update one phone number detail at a time. For
@@ -7153,15 +7203,7 @@ export const updateGlobalSettings: API.OperationMethod<
 export const updatePhoneNumber: API.OperationMethod<
   UpdatePhoneNumberRequest,
   UpdatePhoneNumberResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  UpdatePhoneNumberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberRequest,
@@ -7177,6 +7219,14 @@ export const updatePhoneNumber: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type UpdatePhoneNumberSettingsError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Updates the phone number settings for the administrator's AWS account, such
  * as the default outbound calling name. You can update the default outbound calling
@@ -7186,13 +7236,7 @@ export const updatePhoneNumber: API.OperationMethod<
 export const updatePhoneNumberSettings: API.OperationMethod<
   UpdatePhoneNumberSettingsRequest,
   UpdatePhoneNumberSettingsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  UpdatePhoneNumberSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberSettingsRequest,
@@ -7206,12 +7250,7 @@ export const updatePhoneNumberSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the specified proxy session details, such as voice or SMS capabilities.
- */
-export const updateProxySession: API.OperationMethod<
-  UpdateProxySessionRequest,
-  UpdateProxySessionResponse,
+export type UpdateProxySessionError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -7219,7 +7258,14 @@ export const updateProxySession: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified proxy session details, such as voice or SMS capabilities.
+ */
+export const updateProxySession: API.OperationMethod<
+  UpdateProxySessionRequest,
+  UpdateProxySessionResponse,
+  UpdateProxySessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProxySessionRequest,
@@ -7234,12 +7280,7 @@ export const updateProxySession: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the details of the specified SIP media application.
- */
-export const updateSipMediaApplication: API.OperationMethod<
-  UpdateSipMediaApplicationRequest,
-  UpdateSipMediaApplicationResponse,
+export type UpdateSipMediaApplicationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -7248,7 +7289,14 @@ export const updateSipMediaApplication: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the details of the specified SIP media application.
+ */
+export const updateSipMediaApplication: API.OperationMethod<
+  UpdateSipMediaApplicationRequest,
+  UpdateSipMediaApplicationResponse,
+  UpdateSipMediaApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSipMediaApplicationRequest,
@@ -7264,14 +7312,7 @@ export const updateSipMediaApplication: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Invokes the AWS Lambda function associated with the SIP media application and
- * transaction ID in an update request. The Lambda function can then return a new set
- * of actions.
- */
-export const updateSipMediaApplicationCall: API.OperationMethod<
-  UpdateSipMediaApplicationCallRequest,
-  UpdateSipMediaApplicationCallResponse,
+export type UpdateSipMediaApplicationCallError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -7280,7 +7321,16 @@ export const updateSipMediaApplicationCall: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Invokes the AWS Lambda function associated with the SIP media application and
+ * transaction ID in an update request. The Lambda function can then return a new set
+ * of actions.
+ */
+export const updateSipMediaApplicationCall: API.OperationMethod<
+  UpdateSipMediaApplicationCallRequest,
+  UpdateSipMediaApplicationCallResponse,
+  UpdateSipMediaApplicationCallError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSipMediaApplicationCallRequest,
@@ -7296,12 +7346,7 @@ export const updateSipMediaApplicationCall: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the details of the specified SIP rule.
- */
-export const updateSipRule: API.OperationMethod<
-  UpdateSipRuleRequest,
-  UpdateSipRuleResponse,
+export type UpdateSipRuleError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -7311,7 +7356,14 @@ export const updateSipRule: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the details of the specified SIP rule.
+ */
+export const updateSipRule: API.OperationMethod<
+  UpdateSipRuleRequest,
+  UpdateSipRuleResponse,
+  UpdateSipRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSipRuleRequest,
@@ -7328,12 +7380,7 @@ export const updateSipRule: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the details for the specified Amazon Chime SDK Voice Connector.
- */
-export const updateVoiceConnector: API.OperationMethod<
-  UpdateVoiceConnectorRequest,
-  UpdateVoiceConnectorResponse,
+export type UpdateVoiceConnectorError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -7341,7 +7388,14 @@ export const updateVoiceConnector: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the details for the specified Amazon Chime SDK Voice Connector.
+ */
+export const updateVoiceConnector: API.OperationMethod<
+  UpdateVoiceConnectorRequest,
+  UpdateVoiceConnectorResponse,
+  UpdateVoiceConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVoiceConnectorRequest,
@@ -7356,12 +7410,7 @@ export const updateVoiceConnector: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the settings for the specified Amazon Chime SDK Voice Connector group.
- */
-export const updateVoiceConnectorGroup: API.OperationMethod<
-  UpdateVoiceConnectorGroupRequest,
-  UpdateVoiceConnectorGroupResponse,
+export type UpdateVoiceConnectorGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -7370,7 +7419,14 @@ export const updateVoiceConnectorGroup: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the settings for the specified Amazon Chime SDK Voice Connector group.
+ */
+export const updateVoiceConnectorGroup: API.OperationMethod<
+  UpdateVoiceConnectorGroupRequest,
+  UpdateVoiceConnectorGroupResponse,
+  UpdateVoiceConnectorGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVoiceConnectorGroupRequest,
@@ -7386,6 +7442,18 @@ export const updateVoiceConnectorGroup: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type UpdateVoiceProfileError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | GoneException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Updates the specified voice profile’s voice print and refreshes its expiration timestamp.
  *
@@ -7401,17 +7469,7 @@ export const updateVoiceConnectorGroup: API.OperationMethod<
 export const updateVoiceProfile: API.OperationMethod<
   UpdateVoiceProfileRequest,
   UpdateVoiceProfileResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | GoneException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  UpdateVoiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVoiceProfileRequest,
@@ -7429,12 +7487,7 @@ export const updateVoiceProfile: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the settings for the specified voice profile domain.
- */
-export const updateVoiceProfileDomain: API.OperationMethod<
-  UpdateVoiceProfileDomainRequest,
-  UpdateVoiceProfileDomainResponse,
+export type UpdateVoiceProfileDomainError =
   | AccessDeniedException
   | BadRequestException
   | ForbiddenException
@@ -7443,7 +7496,14 @@ export const updateVoiceProfileDomain: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the settings for the specified voice profile domain.
+ */
+export const updateVoiceProfileDomain: API.OperationMethod<
+  UpdateVoiceProfileDomainRequest,
+  UpdateVoiceProfileDomainResponse,
+  UpdateVoiceProfileDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVoiceProfileDomainRequest,
@@ -7459,6 +7519,16 @@ export const updateVoiceProfileDomain: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type ValidateE911AddressError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Validates an address to be used for 911 calls made with Amazon Chime SDK Voice
  * Connectors. You can use validated addresses in a Presence Information Data Format
@@ -7468,15 +7538,7 @@ export const updateVoiceProfileDomain: API.OperationMethod<
 export const validateE911Address: API.OperationMethod<
   ValidateE911AddressRequest,
   ValidateE911AddressResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | NotFoundException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  ValidateE911AddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateE911AddressRequest,

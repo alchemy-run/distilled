@@ -3782,6 +3782,13 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelFlowExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels active runs for a flow.
  *
@@ -3808,12 +3815,7 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
 export const cancelFlowExecutions: API.OperationMethod<
   CancelFlowExecutionsRequest,
   CancelFlowExecutionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelFlowExecutionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelFlowExecutionsRequest,
@@ -3826,6 +3828,13 @@ export const cancelFlowExecutions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateConnectorProfileError =
+  | ConflictException
+  | ConnectorAuthenticationException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new connector profile associated with your Amazon Web Services account. There is
  * a soft quota of 100 connector profiles per Amazon Web Services account. If you need more
@@ -3836,12 +3845,7 @@ export const cancelFlowExecutions: API.OperationMethod<
 export const createConnectorProfile: API.OperationMethod<
   CreateConnectorProfileRequest,
   CreateConnectorProfileResponse,
-  | ConflictException
-  | ConnectorAuthenticationException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateConnectorProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorProfileRequest,
@@ -3854,6 +3858,16 @@ export const createConnectorProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateFlowError =
+  | AccessDeniedException
+  | ConflictException
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables your application to create a new flow using Amazon AppFlow. You must create
  * a connector profile before calling this API. Please note that the Request Syntax below shows
@@ -3864,15 +3878,7 @@ export const createConnectorProfile: API.OperationMethod<
 export const createFlow: API.OperationMethod<
   CreateFlowRequest,
   CreateFlowResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ConnectorAuthenticationException
-  | ConnectorServerException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateFlowError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowRequest,
@@ -3888,16 +3894,18 @@ export const createFlow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConnectorProfileError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables you to delete an existing connector profile.
  */
 export const deleteConnectorProfile: API.OperationMethod<
   DeleteConnectorProfileRequest,
   DeleteConnectorProfileResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteConnectorProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorProfileRequest,
@@ -3908,6 +3916,11 @@ export const deleteConnectorProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteFlowError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can
  * delete flows one at a time.
@@ -3915,10 +3928,7 @@ export const deleteConnectorProfile: API.OperationMethod<
 export const deleteFlow: API.OperationMethod<
   DeleteFlowRequest,
   DeleteFlowResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteFlowError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowRequest,
@@ -3929,6 +3939,11 @@ export const deleteFlow: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeConnectorError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the given custom connector registered in your Amazon Web Services account. This
  * API can be used for custom connectors that are registered in your account and also for Amazon
@@ -3937,10 +3952,7 @@ export const deleteFlow: API.OperationMethod<
 export const describeConnector: API.OperationMethod<
   DescribeConnectorRequest,
   DescribeConnectorResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeConnectorError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorRequest,
@@ -3951,6 +3963,13 @@ export const describeConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeConnectorEntityError =
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides details regarding the entity used with the connector, with a description of the
  * data model for each field in that entity.
@@ -3958,12 +3977,7 @@ export const describeConnector: API.OperationMethod<
 export const describeConnectorEntity: API.OperationMethod<
   DescribeConnectorEntityRequest,
   DescribeConnectorEntityResponse,
-  | ConnectorAuthenticationException
-  | ConnectorServerException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeConnectorEntityError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorEntityRequest,
@@ -3976,6 +3990,10 @@ export const describeConnectorEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeConnectorProfilesError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of `connector-profile` details matching the provided
  * `connector-profile` names and `connector-types`. Both input lists are
@@ -3987,21 +4005,21 @@ export const describeConnectorEntity: API.OperationMethod<
 export const describeConnectorProfiles: API.OperationMethod<
   DescribeConnectorProfilesRequest,
   DescribeConnectorProfilesResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeConnectorProfilesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConnectorProfilesRequest,
   ) => stream.Stream<
     DescribeConnectorProfilesResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeConnectorProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConnectorProfilesRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeConnectorProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4014,6 +4032,10 @@ export const describeConnectorProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeConnectorsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the connectors vended by Amazon AppFlow for specified connector types. If
  * you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response
@@ -4023,21 +4045,21 @@ export const describeConnectorProfiles: API.OperationMethod<
 export const describeConnectors: API.OperationMethod<
   DescribeConnectorsRequest,
   DescribeConnectorsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeConnectorsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConnectorsRequest,
   ) => stream.Stream<
     DescribeConnectorsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeConnectorsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConnectorsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeConnectorsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4050,49 +4072,49 @@ export const describeConnectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeFlowError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provides a description of the specified flow.
  */
 export const describeFlow: API.OperationMethod<
   DescribeFlowRequest,
   DescribeFlowResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  DescribeFlowError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlowRequest,
   output: DescribeFlowResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type DescribeFlowExecutionRecordsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Fetches the execution history of the flow.
  */
 export const describeFlowExecutionRecords: API.OperationMethod<
   DescribeFlowExecutionRecordsRequest,
   DescribeFlowExecutionRecordsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeFlowExecutionRecordsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFlowExecutionRecordsRequest,
   ) => stream.Stream<
     DescribeFlowExecutionRecordsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeFlowExecutionRecordsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFlowExecutionRecordsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    DescribeFlowExecutionRecordsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4109,6 +4131,13 @@ export const describeFlowExecutionRecords: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListConnectorEntitiesError =
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of available connector entities supported by Amazon AppFlow. For
  * example, you can query Salesforce for *Account* and
@@ -4118,12 +4147,7 @@ export const describeFlowExecutionRecords: API.OperationMethod<
 export const listConnectorEntities: API.OperationMethod<
   ListConnectorEntitiesRequest,
   ListConnectorEntitiesResponse,
-  | ConnectorAuthenticationException
-  | ConnectorServerException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListConnectorEntitiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectorEntitiesRequest,
@@ -4136,6 +4160,10 @@ export const listConnectorEntities: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConnectorsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of all registered custom connectors in your Amazon Web Services account.
  * This API lists only custom connectors registered in this account, not the Amazon Web Services
@@ -4144,21 +4172,21 @@ export const listConnectorEntities: API.OperationMethod<
 export const listConnectors: API.OperationMethod<
   ListConnectorsRequest,
   ListConnectorsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListConnectorsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     ListConnectorsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListConnectorsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    ListConnectorsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4171,27 +4199,31 @@ export const listConnectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFlowsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the flows associated with your account.
  */
 export const listFlows: API.OperationMethod<
   ListFlowsRequest,
   ListFlowsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListFlowsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowsRequest,
   ) => stream.Stream<
     ListFlowsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListFlowsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    ListFlowsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4204,16 +4236,18 @@ export const listFlows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the tags that are associated with a specified flow.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -4224,14 +4258,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Registers a new custom connector with your Amazon Web Services account. Before you can
- * register the connector, you must deploy the associated AWS lambda function in your
- * account.
- */
-export const registerConnector: API.OperationMethod<
-  RegisterConnectorRequest,
-  RegisterConnectorResponse,
+export type RegisterConnectorError =
   | AccessDeniedException
   | ConflictException
   | ConnectorAuthenticationException
@@ -4241,7 +4268,16 @@ export const registerConnector: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers a new custom connector with your Amazon Web Services account. Before you can
+ * register the connector, you must deploy the associated AWS lambda function in your
+ * account.
+ */
+export const registerConnector: API.OperationMethod<
+  RegisterConnectorRequest,
+  RegisterConnectorResponse,
+  RegisterConnectorError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterConnectorRequest,
@@ -4258,6 +4294,12 @@ export const registerConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResetConnectorMetadataCacheError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Resets metadata about your connector entities that Amazon AppFlow stored in its
  * cache. Use this action when you want Amazon AppFlow to return the latest information
@@ -4271,11 +4313,7 @@ export const registerConnector: API.OperationMethod<
 export const resetConnectorMetadataCache: API.OperationMethod<
   ResetConnectorMetadataCacheRequest,
   ResetConnectorMetadataCacheResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ResetConnectorMetadataCacheError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetConnectorMetadataCacheRequest,
@@ -4287,6 +4325,12 @@ export const resetConnectorMetadataCache: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartFlowError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Activates an existing flow. For on-demand flows, this operation runs the flow
  * immediately. For schedule and event-triggered flows, this operation activates the flow.
@@ -4294,11 +4338,7 @@ export const resetConnectorMetadataCache: API.OperationMethod<
 export const startFlow: API.OperationMethod<
   StartFlowRequest,
   StartFlowResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  StartFlowError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowRequest,
@@ -4310,6 +4350,12 @@ export const startFlow: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type StopFlowError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deactivates the existing flow. For on-demand flows, this operation returns an
  * `unsupportedOperationException` error message. For schedule and event-triggered
@@ -4318,11 +4364,7 @@ export const startFlow: API.OperationMethod<
 export const stopFlow: API.OperationMethod<
   StopFlowRequest,
   StopFlowResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StopFlowError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFlowRequest,
@@ -4334,16 +4376,18 @@ export const stopFlow: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Applies a tag to the specified flow.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4354,6 +4398,11 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UnregisterConnectorError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Unregisters the custom connector registered in your account that matches the connector
  * label provided in the request.
@@ -4361,10 +4410,7 @@ export const tagResource: API.OperationMethod<
 export const unregisterConnector: API.OperationMethod<
   UnregisterConnectorRequest,
   UnregisterConnectorResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UnregisterConnectorError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnregisterConnectorRequest,
@@ -4375,16 +4421,18 @@ export const unregisterConnector: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from the specified flow.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4395,18 +4443,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConnectorProfileError =
+  | ConflictException
+  | ConnectorAuthenticationException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a given connector profile associated with your account.
  */
 export const updateConnectorProfile: API.OperationMethod<
   UpdateConnectorProfileRequest,
   UpdateConnectorProfileResponse,
-  | ConflictException
-  | ConnectorAuthenticationException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateConnectorProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorProfileRequest,
@@ -4419,6 +4469,17 @@ export const updateConnectorProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConnectorRegistrationError =
+  | AccessDeniedException
+  | ConflictException
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a custom connector that you've previously registered. This operation updates the
  * connector with one of the following:
@@ -4430,16 +4491,7 @@ export const updateConnectorProfile: API.OperationMethod<
 export const updateConnectorRegistration: API.OperationMethod<
   UpdateConnectorRegistrationRequest,
   UpdateConnectorRegistrationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ConnectorAuthenticationException
-  | ConnectorServerException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateConnectorRegistrationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorRegistrationRequest,
@@ -4456,12 +4508,7 @@ export const updateConnectorRegistration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing flow.
- */
-export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
-  UpdateFlowResponse,
+export type UpdateFlowError =
   | AccessDeniedException
   | ConflictException
   | ConnectorAuthenticationException
@@ -4470,7 +4517,14 @@ export const updateFlow: API.OperationMethod<
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing flow.
+ */
+export const updateFlow: API.OperationMethod<
+  UpdateFlowRequest,
+  UpdateFlowResponse,
+  UpdateFlowError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowRequest,

@@ -1642,6 +1642,15 @@ export class InvalidResourcePolicyException extends S.TaggedErrorClass<InvalidRe
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the
  * applications created inside the environment, regardless of the account that creates the
@@ -1657,14 +1666,7 @@ export class InvalidResourcePolicyException extends S.TaggedErrorClass<InvalidRe
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1679,6 +1681,15 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all
  * Refactor Spaces applications, services, and routes created within the environment. They are referred
@@ -1695,14 +1706,7 @@ export const createApplication: API.OperationMethod<
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentRequest,
   CreateEnvironmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
@@ -1717,6 +1721,15 @@ export const createEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRouteError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of the service resource is always the
  * environment owner, regardless of which account creates the route. Routes target a service in
@@ -1790,14 +1803,7 @@ export const createEnvironment: API.OperationMethod<
 export const createRoute: API.OperationMethod<
   CreateRouteRequest,
   CreateRouteResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteRequest,
@@ -1812,6 +1818,15 @@ export const createRoute: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateServiceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the
  * environment owner, regardless of which account in the environment creates the service.
@@ -1826,14 +1841,7 @@ export const createRoute: API.OperationMethod<
 export const createService: API.OperationMethod<
   CreateServiceRequest,
   CreateServiceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
@@ -1848,6 +1856,14 @@ export const createService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first
  * delete any services or routes within the application.
@@ -1855,13 +1871,7 @@ export const createService: API.OperationMethod<
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -1875,6 +1885,14 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first
  * delete any applications and services within the environment.
@@ -1882,13 +1900,7 @@ export const deleteApplication: API.OperationMethod<
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
@@ -1902,18 +1914,20 @@ export const deleteEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the resource policy set for the environment.
  */
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -1926,19 +1940,21 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
- */
-export const deleteRoute: API.OperationMethod<
-  DeleteRouteRequest,
-  DeleteRouteResponse,
+export type DeleteRouteError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
+ */
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteRequest,
+  DeleteRouteResponse,
+  DeleteRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteRequest,
@@ -1952,19 +1968,21 @@ export const deleteRoute: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
- */
-export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
-  DeleteServiceResponse,
+export type DeleteServiceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
+ */
+export const deleteService: API.OperationMethod<
+  DeleteServiceRequest,
+  DeleteServiceResponse,
+  DeleteServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
@@ -1978,18 +1996,20 @@ export const deleteService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
   GetApplicationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -2002,18 +2022,20 @@ export const getApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentRequest,
   GetEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
@@ -2026,18 +2048,20 @@ export const getEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the resource-based permission policy that is set for the given environment.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -2050,18 +2074,20 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRouteError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const getRoute: API.OperationMethod<
   GetRouteRequest,
   GetRouteResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteRequest,
@@ -2074,18 +2100,20 @@ export const getRoute: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
  */
 export const getService: API.OperationMethod<
   GetServiceRequest,
   GetServiceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRequest,
@@ -2098,12 +2126,7 @@ export const getService: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
- */
-export const listApplications: API.OperationMethod<
-  ListApplicationsRequest,
-  ListApplicationsResponse,
+export type ListApplicationsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2111,35 +2134,28 @@ export const listApplications: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
+ */
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ApplicationSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2161,6 +2177,13 @@ export const listApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller
  * account.
@@ -2168,36 +2191,21 @@ export const listApplications: API.OperationMethod<
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   ListEnvironmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     ListEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     EnvironmentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2217,6 +2225,13 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEnvironmentVpcsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the
  * environment.
@@ -2224,36 +2239,21 @@ export const listEnvironments: API.OperationMethod<
 export const listEnvironmentVpcs: API.OperationMethod<
   ListEnvironmentVpcsRequest,
   ListEnvironmentVpcsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentVpcsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentVpcsRequest,
   ) => stream.Stream<
     ListEnvironmentVpcsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentVpcsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentVpcsRequest,
   ) => stream.Stream<
     EnvironmentVpc,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentVpcsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2273,12 +2273,7 @@ export const listEnvironmentVpcs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
- */
-export const listRoutes: API.OperationMethod<
-  ListRoutesRequest,
-  ListRoutesResponse,
+export type ListRoutesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2286,35 +2281,28 @@ export const listRoutes: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
+ */
+export const listRoutes: API.OperationMethod<
+  ListRoutesRequest,
+  ListRoutesResponse,
+  ListRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutesRequest,
   ) => stream.Stream<
     ListRoutesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutesRequest,
   ) => stream.Stream<
     RouteSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRoutesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2336,12 +2324,7 @@ export const listRoutes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
- */
-export const listServices: API.OperationMethod<
-  ListServicesRequest,
-  ListServicesResponse,
+export type ListServicesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2349,35 +2332,28 @@ export const listServices: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
+ */
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  ListServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
     ListServicesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesRequest,
   ) => stream.Stream<
     ServiceSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2399,6 +2375,11 @@ export const listServices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags of a resource. The caller account must be the same as the resource’s
  * `OwnerAccountId`. Listing tags in other accounts is not supported.
@@ -2406,10 +2387,7 @@ export const listServices: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2420,6 +2398,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidResourcePolicyException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy
  * must contain the same actions and condition statements as the
@@ -2429,13 +2415,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidResourcePolicyException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -2449,6 +2429,11 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the tags of a given resource. Tags are metadata which can be used to manage a
  * resource. To tag a resource, the caller account must be the same as the resource’s
@@ -2460,10 +2445,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2474,6 +2456,11 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
  * manage a resource. To untag a resource, the caller account must be the same as the resource’s
@@ -2482,10 +2469,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2496,18 +2480,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateRouteError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const updateRoute: API.OperationMethod<
   UpdateRouteRequest,
   UpdateRouteResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteRequest,

@@ -3086,19 +3086,21 @@ export class WorkUnitsNotReadyYetException extends S.TaggedErrorClass<WorkUnitsN
 ) {}
 
 //# Operations
-/**
- * Attaches one or more LF-tags to an existing resource.
- */
-export const addLFTagsToResource: API.OperationMethod<
-  AddLFTagsToResourceRequest,
-  AddLFTagsToResourceResponse,
+export type AddLFTagsToResourceError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attaches one or more LF-tags to an existing resource.
+ */
+export const addLFTagsToResource: API.OperationMethod<
+  AddLFTagsToResourceRequest,
+  AddLFTagsToResourceResponse,
+  AddLFTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddLFTagsToResourceRequest,
@@ -3112,6 +3114,13 @@ export const addLFTagsToResource: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type AssumeDecoratedRoleWithSAMLError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions.
  * Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session.
@@ -3133,12 +3142,7 @@ export const addLFTagsToResource: API.OperationMethod<
 export const assumeDecoratedRoleWithSAML: API.OperationMethod<
   AssumeDecoratedRoleWithSAMLRequest,
   AssumeDecoratedRoleWithSAMLResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  AssumeDecoratedRoleWithSAMLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeDecoratedRoleWithSAMLRequest,
@@ -3151,38 +3155,41 @@ export const assumeDecoratedRoleWithSAML: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type BatchGrantPermissionsError =
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Batch operation to grant permissions to the principal.
  */
 export const batchGrantPermissions: API.OperationMethod<
   BatchGrantPermissionsRequest,
   BatchGrantPermissionsResponse,
-  InvalidInputException | OperationTimeoutException | CommonErrors,
+  BatchGrantPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGrantPermissionsRequest,
   output: BatchGrantPermissionsResponse,
   errors: [InvalidInputException, OperationTimeoutException],
 }));
+export type BatchRevokePermissionsError =
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Batch operation to revoke permissions from the principal.
  */
 export const batchRevokePermissions: API.OperationMethod<
   BatchRevokePermissionsRequest,
   BatchRevokePermissionsResponse,
-  InvalidInputException | OperationTimeoutException | CommonErrors,
+  BatchRevokePermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRevokePermissionsRequest,
   output: BatchRevokePermissionsResponse,
   errors: [InvalidInputException, OperationTimeoutException],
 }));
-/**
- * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
- */
-export const cancelTransaction: API.OperationMethod<
-  CancelTransactionRequest,
-  CancelTransactionResponse,
+export type CancelTransactionError =
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
@@ -3190,7 +3197,14 @@ export const cancelTransaction: API.OperationMethod<
   | OperationTimeoutException
   | TransactionCommitInProgressException
   | TransactionCommittedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
+ */
+export const cancelTransaction: API.OperationMethod<
+  CancelTransactionRequest,
+  CancelTransactionResponse,
+  CancelTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTransactionRequest,
@@ -3205,19 +3219,21 @@ export const cancelTransaction: API.OperationMethod<
     TransactionCommittedException,
   ],
 }));
-/**
- * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
- */
-export const commitTransaction: API.OperationMethod<
-  CommitTransactionRequest,
-  CommitTransactionResponse,
+export type CommitTransactionError =
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
   | TransactionCanceledException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
+ */
+export const commitTransaction: API.OperationMethod<
+  CommitTransactionRequest,
+  CommitTransactionResponse,
+  CommitTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CommitTransactionRequest,
@@ -3231,12 +3247,7 @@ export const commitTransaction: API.OperationMethod<
     TransactionCanceledException,
   ],
 }));
-/**
- * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
- */
-export const createDataCellsFilter: API.OperationMethod<
-  CreateDataCellsFilterRequest,
-  CreateDataCellsFilterResponse,
+export type CreateDataCellsFilterError =
   | AccessDeniedException
   | AlreadyExistsException
   | EntityNotFoundException
@@ -3244,7 +3255,14 @@ export const createDataCellsFilter: API.OperationMethod<
   | InvalidInputException
   | OperationTimeoutException
   | ResourceNumberLimitExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
+ */
+export const createDataCellsFilter: API.OperationMethod<
+  CreateDataCellsFilterRequest,
+  CreateDataCellsFilterResponse,
+  CreateDataCellsFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataCellsFilterRequest,
@@ -3259,19 +3277,21 @@ export const createDataCellsFilter: API.OperationMethod<
     ResourceNumberLimitExceededException,
   ],
 }));
-/**
- * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
- */
-export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  CreateLakeFormationIdentityCenterConfigurationRequest,
-  CreateLakeFormationIdentityCenterConfigurationResponse,
+export type CreateLakeFormationIdentityCenterConfigurationError =
   | AccessDeniedException
   | AlreadyExistsException
   | ConcurrentModificationException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
+ */
+export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  CreateLakeFormationIdentityCenterConfigurationRequest,
+  CreateLakeFormationIdentityCenterConfigurationResponse,
+  CreateLakeFormationIdentityCenterConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLakeFormationIdentityCenterConfigurationRequest,
@@ -3285,12 +3305,7 @@ export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod
     OperationTimeoutException,
   ],
 }));
-/**
- * Enforce Lake Formation permissions for the given databases, tables, and principals.
- */
-export const createLakeFormationOptIn: API.OperationMethod<
-  CreateLakeFormationOptInRequest,
-  CreateLakeFormationOptInResponse,
+export type CreateLakeFormationOptInError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -3298,7 +3313,14 @@ export const createLakeFormationOptIn: API.OperationMethod<
   | InvalidInputException
   | OperationTimeoutException
   | ResourceNumberLimitExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enforce Lake Formation permissions for the given databases, tables, and principals.
+ */
+export const createLakeFormationOptIn: API.OperationMethod<
+  CreateLakeFormationOptInRequest,
+  CreateLakeFormationOptInResponse,
+  CreateLakeFormationOptInError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLakeFormationOptInRequest,
@@ -3313,19 +3335,21 @@ export const createLakeFormationOptIn: API.OperationMethod<
     ResourceNumberLimitExceededException,
   ],
 }));
-/**
- * Creates an LF-tag with the specified name and values.
- */
-export const createLFTag: API.OperationMethod<
-  CreateLFTagRequest,
-  CreateLFTagResponse,
+export type CreateLFTagError =
   | AccessDeniedException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
   | ResourceNumberLimitExceededException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an LF-tag with the specified name and values.
+ */
+export const createLFTag: API.OperationMethod<
+  CreateLFTagRequest,
+  CreateLFTagResponse,
+  CreateLFTagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLFTagRequest,
@@ -3339,6 +3363,14 @@ export const createLFTag: API.OperationMethod<
     ResourceNumberLimitExceededException,
   ],
 }));
+export type CreateLFTagExpressionError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors;
 /**
  * Creates a new LF-Tag expression with the provided name, description, catalog ID, and
  * expression body. This call fails if a LF-Tag expression with the same name already exists in
@@ -3353,13 +3385,7 @@ export const createLFTag: API.OperationMethod<
 export const createLFTagExpression: API.OperationMethod<
   CreateLFTagExpressionRequest,
   CreateLFTagExpressionResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNumberLimitExceededException
-  | CommonErrors,
+  CreateLFTagExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLFTagExpressionRequest,
@@ -3373,18 +3399,20 @@ export const createLFTagExpression: API.OperationMethod<
     ResourceNumberLimitExceededException,
   ],
 }));
+export type DeleteDataCellsFilterError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Deletes a data cell filter.
  */
 export const deleteDataCellsFilter: API.OperationMethod<
   DeleteDataCellsFilterRequest,
   DeleteDataCellsFilterResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DeleteDataCellsFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataCellsFilterRequest,
@@ -3397,19 +3425,21 @@ export const deleteDataCellsFilter: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
-/**
- * Deletes an IAM Identity Center connection with Lake Formation.
- */
-export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  DeleteLakeFormationIdentityCenterConfigurationRequest,
-  DeleteLakeFormationIdentityCenterConfigurationResponse,
+export type DeleteLakeFormationIdentityCenterConfigurationError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an IAM Identity Center connection with Lake Formation.
+ */
+export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  DeleteLakeFormationIdentityCenterConfigurationRequest,
+  DeleteLakeFormationIdentityCenterConfigurationResponse,
+  DeleteLakeFormationIdentityCenterConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLakeFormationIdentityCenterConfigurationRequest,
@@ -3423,19 +3453,21 @@ export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod
     OperationTimeoutException,
   ],
 }));
-/**
- * Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
- */
-export const deleteLakeFormationOptIn: API.OperationMethod<
-  DeleteLakeFormationOptInRequest,
-  DeleteLakeFormationOptInResponse,
+export type DeleteLakeFormationOptInError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
+ */
+export const deleteLakeFormationOptIn: API.OperationMethod<
+  DeleteLakeFormationOptInRequest,
+  DeleteLakeFormationOptInResponse,
+  DeleteLakeFormationOptInError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLakeFormationOptInRequest,
@@ -3449,6 +3481,13 @@ export const deleteLakeFormationOptIn: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type DeleteLFTagError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't
  * exist. When you delete an LF-Tag:
@@ -3461,12 +3500,7 @@ export const deleteLakeFormationOptIn: API.OperationMethod<
 export const deleteLFTag: API.OperationMethod<
   DeleteLFTagRequest,
   DeleteLFTagResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DeleteLFTagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLFTagRequest,
@@ -3479,6 +3513,13 @@ export const deleteLFTag: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type DeleteLFTagExpressionError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Deletes the LF-Tag expression. The caller must be a data lake admin or have `DROP` permissions on the LF-Tag expression.
  * Deleting a LF-Tag expression will also delete all `LFTagPolicy` permissions referencing the LF-Tag expression.
@@ -3486,12 +3527,7 @@ export const deleteLFTag: API.OperationMethod<
 export const deleteLFTagExpression: API.OperationMethod<
   DeleteLFTagExpressionRequest,
   DeleteLFTagExpressionResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DeleteLFTagExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLFTagExpressionRequest,
@@ -3504,6 +3540,16 @@ export const deleteLFTagExpression: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type DeleteObjectsOnCancelError =
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | TransactionCanceledException
+  | TransactionCommittedException
+  | CommonErrors;
 /**
  * For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted
  * if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.
@@ -3515,15 +3561,7 @@ export const deleteLFTagExpression: API.OperationMethod<
 export const deleteObjectsOnCancel: API.OperationMethod<
   DeleteObjectsOnCancelRequest,
   DeleteObjectsOnCancelResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNotReadyException
-  | TransactionCanceledException
-  | TransactionCommittedException
-  | CommonErrors,
+  DeleteObjectsOnCancelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectsOnCancelRequest,
@@ -3539,6 +3577,12 @@ export const deleteObjectsOnCancel: API.OperationMethod<
     TransactionCommittedException,
   ],
 }));
+export type DeregisterResourceError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Deregisters the resource as managed by the Data Catalog.
  *
@@ -3547,11 +3591,7 @@ export const deleteObjectsOnCancel: API.OperationMethod<
 export const deregisterResource: API.OperationMethod<
   DeregisterResourceRequest,
   DeregisterResourceResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DeregisterResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterResourceRequest,
@@ -3563,18 +3603,20 @@ export const deregisterResource: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type DescribeLakeFormationIdentityCenterConfigurationError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Retrieves the instance ARN and application ARN for the connection.
  */
 export const describeLakeFormationIdentityCenterConfiguration: API.OperationMethod<
   DescribeLakeFormationIdentityCenterConfigurationRequest,
   DescribeLakeFormationIdentityCenterConfigurationResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DescribeLakeFormationIdentityCenterConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLakeFormationIdentityCenterConfigurationRequest,
@@ -3587,17 +3629,19 @@ export const describeLakeFormationIdentityCenterConfiguration: API.OperationMeth
     OperationTimeoutException,
   ],
 }));
+export type DescribeResourceError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Retrieves the current data access role for the given resource registered in Lake Formation.
  */
 export const describeResource: API.OperationMethod<
   DescribeResourceRequest,
   DescribeResourceResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DescribeResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourceRequest,
@@ -3609,17 +3653,19 @@ export const describeResource: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type DescribeTransactionError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns the details of a single transaction.
  */
 export const describeTransaction: API.OperationMethod<
   DescribeTransactionRequest,
   DescribeTransactionResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  DescribeTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTransactionRequest,
@@ -3631,6 +3677,15 @@ export const describeTransaction: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type ExtendTransactionError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | TransactionCanceledException
+  | TransactionCommitInProgressException
+  | TransactionCommittedException
+  | CommonErrors;
 /**
  * Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted.
  *
@@ -3639,14 +3694,7 @@ export const describeTransaction: API.OperationMethod<
 export const extendTransaction: API.OperationMethod<
   ExtendTransactionRequest,
   ExtendTransactionResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | TransactionCanceledException
-  | TransactionCommitInProgressException
-  | TransactionCommittedException
-  | CommonErrors,
+  ExtendTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExtendTransactionRequest,
@@ -3661,18 +3709,20 @@ export const extendTransaction: API.OperationMethod<
     TransactionCommittedException,
   ],
 }));
+export type GetDataCellsFilterError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns a data cells filter.
  */
 export const getDataCellsFilter: API.OperationMethod<
   GetDataCellsFilterRequest,
   GetDataCellsFilterResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  GetDataCellsFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataCellsFilterRequest,
@@ -3685,16 +3735,18 @@ export const getDataCellsFilter: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type GetDataLakePrincipalError =
+  | AccessDeniedException
+  | InternalServiceException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns the identity of the invoking principal.
  */
 export const getDataLakePrincipal: API.OperationMethod<
   GetDataLakePrincipalRequest,
   GetDataLakePrincipalResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | OperationTimeoutException
-  | CommonErrors,
+  GetDataLakePrincipalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataLakePrincipalRequest,
@@ -3705,16 +3757,18 @@ export const getDataLakePrincipal: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type GetDataLakeSettingsError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
  */
 export const getDataLakeSettings: API.OperationMethod<
   GetDataLakeSettingsRequest,
   GetDataLakeSettingsResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
+  GetDataLakeSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataLakeSettingsRequest,
@@ -3725,6 +3779,12 @@ export const getDataLakeSettings: API.OperationMethod<
     InvalidInputException,
   ],
 }));
+export type GetEffectivePermissionsForPathError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns the Lake Formation permissions for a specified table or database resource located
  * at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables if the catalog is encrypted.
@@ -3732,33 +3792,21 @@ export const getDataLakeSettings: API.OperationMethod<
 export const getEffectivePermissionsForPath: API.OperationMethod<
   GetEffectivePermissionsForPathRequest,
   GetEffectivePermissionsForPathResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  GetEffectivePermissionsForPathError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEffectivePermissionsForPathRequest,
   ) => stream.Stream<
     GetEffectivePermissionsForPathResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    GetEffectivePermissionsForPathError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetEffectivePermissionsForPathRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    GetEffectivePermissionsForPathError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3776,18 +3824,20 @@ export const getEffectivePermissionsForPath: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetLFTagError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns an LF-tag definition.
  */
 export const getLFTag: API.OperationMethod<
   GetLFTagRequest,
   GetLFTagResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  GetLFTagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLFTagRequest,
@@ -3800,18 +3850,20 @@ export const getLFTag: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type GetLFTagExpressionError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
  */
 export const getLFTagExpression: API.OperationMethod<
   GetLFTagExpressionRequest,
   GetLFTagExpressionResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  GetLFTagExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLFTagExpressionRequest,
@@ -3824,16 +3876,18 @@ export const getLFTagExpression: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type GetQueryStateError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
  */
 export const getQueryState: API.OperationMethod<
   GetQueryStateRequest,
   GetQueryStateResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
+  GetQueryStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryStateRequest,
@@ -3844,19 +3898,21 @@ export const getQueryState: API.OperationMethod<
     InvalidInputException,
   ],
 }));
-/**
- * Retrieves statistics on the planning and execution of a query.
- */
-export const getQueryStatistics: API.OperationMethod<
-  GetQueryStatisticsRequest,
-  GetQueryStatisticsResponse,
+export type GetQueryStatisticsError =
   | AccessDeniedException
   | ExpiredException
   | InternalServiceException
   | InvalidInputException
   | StatisticsNotReadyYetException
   | ThrottledException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves statistics on the planning and execution of a query.
+ */
+export const getQueryStatistics: API.OperationMethod<
+  GetQueryStatisticsRequest,
+  GetQueryStatisticsResponse,
+  GetQueryStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryStatisticsRequest,
@@ -3870,19 +3926,21 @@ export const getQueryStatistics: API.OperationMethod<
     ThrottledException,
   ],
 }));
-/**
- * Returns the LF-tags applied to a resource.
- */
-export const getResourceLFTags: API.OperationMethod<
-  GetResourceLFTagsRequest,
-  GetResourceLFTagsResponse,
+export type GetResourceLFTagsError =
   | AccessDeniedException
   | EntityNotFoundException
   | GlueEncryptionException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the LF-tags applied to a resource.
+ */
+export const getResourceLFTags: API.OperationMethod<
+  GetResourceLFTagsRequest,
+  GetResourceLFTagsResponse,
+  GetResourceLFTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceLFTagsRequest,
@@ -3896,12 +3954,7 @@ export const getResourceLFTags: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
-/**
- * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
- */
-export const getTableObjects: API.OperationMethod<
-  GetTableObjectsRequest,
-  GetTableObjectsResponse,
+export type GetTableObjectsError =
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
@@ -3909,35 +3962,28 @@ export const getTableObjects: API.OperationMethod<
   | ResourceNotReadyException
   | TransactionCanceledException
   | TransactionCommittedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
+ */
+export const getTableObjects: API.OperationMethod<
+  GetTableObjectsRequest,
+  GetTableObjectsResponse,
+  GetTableObjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetTableObjectsRequest,
   ) => stream.Stream<
     GetTableObjectsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | TransactionCanceledException
-    | TransactionCommittedException
-    | CommonErrors,
+    GetTableObjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetTableObjectsRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | TransactionCanceledException
-    | TransactionCommittedException
-    | CommonErrors,
+    GetTableObjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3958,6 +4004,15 @@ export const getTableObjects: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetTemporaryDataLocationCredentialsError =
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and
  * the caller's authorized access level.
@@ -3981,14 +4036,7 @@ export const getTableObjects: API.OperationMethod<
 export const getTemporaryDataLocationCredentials: API.OperationMethod<
   GetTemporaryDataLocationCredentialsRequest,
   GetTemporaryDataLocationCredentialsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | EntityNotFoundException
-  | GlueEncryptionException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  GetTemporaryDataLocationCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemporaryDataLocationCredentialsRequest,
@@ -4003,19 +4051,21 @@ export const getTemporaryDataLocationCredentials: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
-/**
- * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
- */
-export const getTemporaryGluePartitionCredentials: API.OperationMethod<
-  GetTemporaryGluePartitionCredentialsRequest,
-  GetTemporaryGluePartitionCredentialsResponse,
+export type GetTemporaryGluePartitionCredentialsError =
   | AccessDeniedException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
   | PermissionTypeMismatchException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
+ */
+export const getTemporaryGluePartitionCredentials: API.OperationMethod<
+  GetTemporaryGluePartitionCredentialsRequest,
+  GetTemporaryGluePartitionCredentialsResponse,
+  GetTemporaryGluePartitionCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemporaryGluePartitionCredentialsRequest,
@@ -4029,6 +4079,14 @@ export const getTemporaryGluePartitionCredentials: API.OperationMethod<
     PermissionTypeMismatchException,
   ],
 }));
+export type GetTemporaryGlueTableCredentialsError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | PermissionTypeMismatchException
+  | CommonErrors;
 /**
  * Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
  *
@@ -4037,13 +4095,7 @@ export const getTemporaryGluePartitionCredentials: API.OperationMethod<
 export const getTemporaryGlueTableCredentials: API.OperationMethod<
   GetTemporaryGlueTableCredentialsRequest,
   GetTemporaryGlueTableCredentialsResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | PermissionTypeMismatchException
-  | CommonErrors,
+  GetTemporaryGlueTableCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemporaryGlueTableCredentialsRequest,
@@ -4057,18 +4109,20 @@ export const getTemporaryGlueTableCredentials: API.OperationMethod<
     PermissionTypeMismatchException,
   ],
 }));
+export type GetWorkUnitResultsError =
+  | AccessDeniedException
+  | ExpiredException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
  */
 export const getWorkUnitResults: API.OperationMethod<
   GetWorkUnitResultsRequest,
   GetWorkUnitResultsResponse,
-  | AccessDeniedException
-  | ExpiredException
-  | InternalServiceException
-  | InvalidInputException
-  | ThrottledException
-  | CommonErrors,
+  GetWorkUnitResultsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkUnitResultsRequest,
@@ -4081,42 +4135,34 @@ export const getWorkUnitResults: API.OperationMethod<
     ThrottledException,
   ],
 }));
+export type GetWorkUnitsError =
+  | AccessDeniedException
+  | ExpiredException
+  | InternalServiceException
+  | InvalidInputException
+  | WorkUnitsNotReadyYetException
+  | CommonErrors;
 /**
  * Retrieves the work units generated by the `StartQueryPlanning` operation.
  */
 export const getWorkUnits: API.OperationMethod<
   GetWorkUnitsRequest,
   GetWorkUnitsResponse,
-  | AccessDeniedException
-  | ExpiredException
-  | InternalServiceException
-  | InvalidInputException
-  | WorkUnitsNotReadyYetException
-  | CommonErrors,
+  GetWorkUnitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetWorkUnitsRequest,
   ) => stream.Stream<
     GetWorkUnitsResponse,
-    | AccessDeniedException
-    | ExpiredException
-    | InternalServiceException
-    | InvalidInputException
-    | WorkUnitsNotReadyYetException
-    | CommonErrors,
+    GetWorkUnitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetWorkUnitsRequest,
   ) => stream.Stream<
     WorkUnitRange,
-    | AccessDeniedException
-    | ExpiredException
-    | InternalServiceException
-    | InvalidInputException
-    | WorkUnitsNotReadyYetException
-    | CommonErrors,
+    GetWorkUnitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4136,6 +4182,11 @@ export const getWorkUnits: API.OperationMethod<
     pageSize: "PageSize",
   } as const,
 }));
+export type GrantPermissionsError =
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
  *
@@ -4144,10 +4195,7 @@ export const getWorkUnits: API.OperationMethod<
 export const grantPermissions: API.OperationMethod<
   GrantPermissionsRequest,
   GrantPermissionsResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InvalidInputException
-  | CommonErrors,
+  GrantPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GrantPermissionsRequest,
@@ -4158,39 +4206,33 @@ export const grantPermissions: API.OperationMethod<
     InvalidInputException,
   ],
 }));
+export type ListDataCellsFilterError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Lists all the data cell filters on a table.
  */
 export const listDataCellsFilter: API.OperationMethod<
   ListDataCellsFilterRequest,
   ListDataCellsFilterResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListDataCellsFilterError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataCellsFilterRequest,
   ) => stream.Stream<
     ListDataCellsFilterResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListDataCellsFilterError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataCellsFilterRequest,
   ) => stream.Stream<
     DataCellsFilter,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListDataCellsFilterError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4209,39 +4251,33 @@ export const listDataCellsFilter: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLakeFormationOptInsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
  */
 export const listLakeFormationOptIns: API.OperationMethod<
   ListLakeFormationOptInsRequest,
   ListLakeFormationOptInsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListLakeFormationOptInsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLakeFormationOptInsRequest,
   ) => stream.Stream<
     ListLakeFormationOptInsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListLakeFormationOptInsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLakeFormationOptInsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListLakeFormationOptInsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4259,42 +4295,34 @@ export const listLakeFormationOptIns: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLFTagExpressionsError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
  */
 export const listLFTagExpressions: API.OperationMethod<
   ListLFTagExpressionsRequest,
   ListLFTagExpressionsResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListLFTagExpressionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLFTagExpressionsRequest,
   ) => stream.Stream<
     ListLFTagExpressionsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListLFTagExpressionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLFTagExpressionsRequest,
   ) => stream.Stream<
     LFTagExpression,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListLFTagExpressionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4314,42 +4342,34 @@ export const listLFTagExpressions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLFTagsError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Lists LF-tags that the requester has permission to view.
  */
 export const listLFTags: API.OperationMethod<
   ListLFTagsRequest,
   ListLFTagsResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListLFTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLFTagsRequest,
   ) => stream.Stream<
     ListLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListLFTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLFTagsRequest,
   ) => stream.Stream<
     LFTagPair,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListLFTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4369,6 +4389,11 @@ export const listLFTags: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPermissionsError =
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
  *
@@ -4381,30 +4406,21 @@ export const listLFTags: API.OperationMethod<
 export const listPermissions: API.OperationMethod<
   ListPermissionsRequest,
   ListPermissionsResponse,
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPermissionsRequest,
   ) => stream.Stream<
     ListPermissionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPermissionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4421,36 +4437,32 @@ export const listPermissions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourcesError =
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Lists the resources registered to be managed by the Data Catalog.
  */
 export const listResources: API.OperationMethod<
   ListResourcesRequest,
   ListResourcesResponse,
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesRequest,
   ) => stream.Stream<
     ListResourcesResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4467,39 +4479,33 @@ export const listResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTableStorageOptimizersError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Returns the configuration of all storage optimizers associated with a specified table.
  */
 export const listTableStorageOptimizers: API.OperationMethod<
   ListTableStorageOptimizersRequest,
   ListTableStorageOptimizersResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
+  ListTableStorageOptimizersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTableStorageOptimizersRequest,
   ) => stream.Stream<
     ListTableStorageOptimizersResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
+    ListTableStorageOptimizersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTableStorageOptimizersRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
+    ListTableStorageOptimizersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4517,6 +4523,11 @@ export const listTableStorageOptimizers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTransactionsError =
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
  *
@@ -4525,30 +4536,21 @@ export const listTableStorageOptimizers: API.OperationMethod<
 export const listTransactions: API.OperationMethod<
   ListTransactionsRequest,
   ListTransactionsResponse,
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  ListTransactionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTransactionsRequest,
   ) => stream.Stream<
     ListTransactionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListTransactionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTransactionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    ListTransactionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4565,6 +4567,10 @@ export const listTransactions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutDataLakeSettingsError =
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions.
  *
@@ -4573,13 +4579,22 @@ export const listTransactions: API.OperationMethod<
 export const putDataLakeSettings: API.OperationMethod<
   PutDataLakeSettingsRequest,
   PutDataLakeSettingsResponse,
-  InternalServiceException | InvalidInputException | CommonErrors,
+  PutDataLakeSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDataLakeSettingsRequest,
   output: PutDataLakeSettingsResponse,
   errors: [InternalServiceException, InvalidInputException],
 }));
+export type RegisterResourceError =
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors;
 /**
  * Registers the resource as managed by the Data Catalog.
  *
@@ -4597,14 +4612,7 @@ export const putDataLakeSettings: API.OperationMethod<
 export const registerResource: API.OperationMethod<
   RegisterResourceRequest,
   RegisterResourceResponse,
-  | AccessDeniedException
-  | AlreadyExistsException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNumberLimitExceededException
-  | CommonErrors,
+  RegisterResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterResourceRequest,
@@ -4619,12 +4627,7 @@ export const registerResource: API.OperationMethod<
     ResourceNumberLimitExceededException,
   ],
 }));
-/**
- * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
- */
-export const removeLFTagsFromResource: API.OperationMethod<
-  RemoveLFTagsFromResourceRequest,
-  RemoveLFTagsFromResourceResponse,
+export type RemoveLFTagsFromResourceError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4632,7 +4635,14 @@ export const removeLFTagsFromResource: API.OperationMethod<
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
+ */
+export const removeLFTagsFromResource: API.OperationMethod<
+  RemoveLFTagsFromResourceRequest,
+  RemoveLFTagsFromResourceResponse,
+  RemoveLFTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveLFTagsFromResourceRequest,
@@ -4647,16 +4657,18 @@ export const removeLFTagsFromResource: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type RevokePermissionsError =
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
  */
 export const revokePermissions: API.OperationMethod<
   RevokePermissionsRequest,
   RevokePermissionsResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InvalidInputException
-  | CommonErrors,
+  RevokePermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokePermissionsRequest,
@@ -4667,45 +4679,35 @@ export const revokePermissions: API.OperationMethod<
     InvalidInputException,
   ],
 }));
-/**
- * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
- */
-export const searchDatabasesByLFTags: API.OperationMethod<
-  SearchDatabasesByLFTagsRequest,
-  SearchDatabasesByLFTagsResponse,
+export type SearchDatabasesByLFTagsError =
   | AccessDeniedException
   | EntityNotFoundException
   | GlueEncryptionException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
+ */
+export const searchDatabasesByLFTags: API.OperationMethod<
+  SearchDatabasesByLFTagsRequest,
+  SearchDatabasesByLFTagsResponse,
+  SearchDatabasesByLFTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchDatabasesByLFTagsRequest,
   ) => stream.Stream<
     SearchDatabasesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    SearchDatabasesByLFTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchDatabasesByLFTagsRequest,
   ) => stream.Stream<
     TaggedDatabase,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    SearchDatabasesByLFTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4726,45 +4728,35 @@ export const searchDatabasesByLFTags: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
- */
-export const searchTablesByLFTags: API.OperationMethod<
-  SearchTablesByLFTagsRequest,
-  SearchTablesByLFTagsResponse,
+export type SearchTablesByLFTagsError =
   | AccessDeniedException
   | EntityNotFoundException
   | GlueEncryptionException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
+ */
+export const searchTablesByLFTags: API.OperationMethod<
+  SearchTablesByLFTagsRequest,
+  SearchTablesByLFTagsResponse,
+  SearchTablesByLFTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchTablesByLFTagsRequest,
   ) => stream.Stream<
     SearchTablesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    SearchTablesByLFTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchTablesByLFTagsRequest,
   ) => stream.Stream<
     TaggedTable,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
+    SearchTablesByLFTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4785,6 +4777,12 @@ export const searchTablesByLFTags: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartQueryPlanningError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottledException
+  | CommonErrors;
 /**
  * Submits a request to process a query statement.
  *
@@ -4793,11 +4791,7 @@ export const searchTablesByLFTags: API.OperationMethod<
 export const startQueryPlanning: API.OperationMethod<
   StartQueryPlanningRequest,
   StartQueryPlanningResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidInputException
-  | ThrottledException
-  | CommonErrors,
+  StartQueryPlanningError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQueryPlanningRequest,
@@ -4809,32 +4803,38 @@ export const startQueryPlanning: API.OperationMethod<
     ThrottledException,
   ],
 }));
+export type StartTransactionError =
+  | InternalServiceException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
  */
 export const startTransaction: API.OperationMethod<
   StartTransactionRequest,
   StartTransactionResponse,
-  InternalServiceException | OperationTimeoutException | CommonErrors,
+  StartTransactionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTransactionRequest,
   output: StartTransactionResponse,
   errors: [InternalServiceException, OperationTimeoutException],
 }));
-/**
- * Updates a data cell filter.
- */
-export const updateDataCellsFilter: API.OperationMethod<
-  UpdateDataCellsFilterRequest,
-  UpdateDataCellsFilterResponse,
+export type UpdateDataCellsFilterError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a data cell filter.
+ */
+export const updateDataCellsFilter: API.OperationMethod<
+  UpdateDataCellsFilterRequest,
+  UpdateDataCellsFilterResponse,
+  UpdateDataCellsFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataCellsFilterRequest,
@@ -4848,19 +4848,21 @@ export const updateDataCellsFilter: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
-/**
- * Updates the IAM Identity Center connection parameters.
- */
-export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  UpdateLakeFormationIdentityCenterConfigurationRequest,
-  UpdateLakeFormationIdentityCenterConfigurationResponse,
+export type UpdateLakeFormationIdentityCenterConfigurationError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the IAM Identity Center connection parameters.
+ */
+export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  UpdateLakeFormationIdentityCenterConfigurationRequest,
+  UpdateLakeFormationIdentityCenterConfigurationResponse,
+  UpdateLakeFormationIdentityCenterConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLakeFormationIdentityCenterConfigurationRequest,
@@ -4874,19 +4876,21 @@ export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod
     OperationTimeoutException,
   ],
 }));
-/**
- * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
- */
-export const updateLFTag: API.OperationMethod<
-  UpdateLFTagRequest,
-  UpdateLFTagResponse,
+export type UpdateLFTagError =
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
+ */
+export const updateLFTag: API.OperationMethod<
+  UpdateLFTagRequest,
+  UpdateLFTagResponse,
+  UpdateLFTagError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLFTagRequest,
@@ -4900,6 +4904,14 @@ export const updateLFTag: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
+export type UpdateLFTagExpressionError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors;
 /**
  * Updates the name of the LF-Tag expression to the new description and expression body provided.
  * Updating a LF-Tag expression immediately changes the permission boundaries of all existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
@@ -4907,13 +4919,7 @@ export const updateLFTag: API.OperationMethod<
 export const updateLFTagExpression: API.OperationMethod<
   UpdateLFTagExpressionRequest,
   UpdateLFTagExpressionResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNumberLimitExceededException
-  | CommonErrors,
+  UpdateLFTagExpressionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLFTagExpressionRequest,
@@ -4927,17 +4933,19 @@ export const updateLFTagExpression: API.OperationMethod<
     ResourceNumberLimitExceededException,
   ],
 }));
+export type UpdateResourceError =
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
 /**
  * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
  */
 export const updateResource: API.OperationMethod<
   UpdateResourceRequest,
   UpdateResourceResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
+  UpdateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceRequest,
@@ -4949,12 +4957,7 @@ export const updateResource: API.OperationMethod<
     OperationTimeoutException,
   ],
 }));
-/**
- * Updates the manifest of Amazon S3 objects that make up the specified governed table.
- */
-export const updateTableObjects: API.OperationMethod<
-  UpdateTableObjectsRequest,
-  UpdateTableObjectsResponse,
+export type UpdateTableObjectsError =
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
@@ -4964,7 +4967,14 @@ export const updateTableObjects: API.OperationMethod<
   | TransactionCanceledException
   | TransactionCommitInProgressException
   | TransactionCommittedException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the manifest of Amazon S3 objects that make up the specified governed table.
+ */
+export const updateTableObjects: API.OperationMethod<
+  UpdateTableObjectsRequest,
+  UpdateTableObjectsResponse,
+  UpdateTableObjectsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableObjectsRequest,
@@ -4981,17 +4991,19 @@ export const updateTableObjects: API.OperationMethod<
     TransactionCommittedException,
   ],
 }));
+export type UpdateTableStorageOptimizerError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Updates the configuration of the storage optimizers for a table.
  */
 export const updateTableStorageOptimizer: API.OperationMethod<
   UpdateTableStorageOptimizerRequest,
   UpdateTableStorageOptimizerResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
+  UpdateTableStorageOptimizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableStorageOptimizerRequest,

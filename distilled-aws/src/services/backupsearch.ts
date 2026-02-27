@@ -841,6 +841,9 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListSearchJobBackupsError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job.
  *
@@ -851,21 +854,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const listSearchJobBackups: API.OperationMethod<
   ListSearchJobBackupsInput,
   ListSearchJobBackupsOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListSearchJobBackupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSearchJobBackupsInput,
   ) => stream.Stream<
     ListSearchJobBackupsOutput,
-    ResourceNotFoundException | CommonErrors,
+    ListSearchJobBackupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchJobBackupsInput,
   ) => stream.Stream<
     SearchJobBackupsResult,
-    ResourceNotFoundException | CommonErrors,
+    ListSearchJobBackupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -879,27 +882,30 @@ export const listSearchJobBackups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSearchJobResultsError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation returns a list of a specified search job.
  */
 export const listSearchJobResults: API.OperationMethod<
   ListSearchJobResultsInput,
   ListSearchJobResultsOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListSearchJobResultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSearchJobResultsInput,
   ) => stream.Stream<
     ListSearchJobResultsOutput,
-    ResourceNotFoundException | CommonErrors,
+    ListSearchJobResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchJobResultsInput,
   ) => stream.Stream<
     ResultItem,
-    ResourceNotFoundException | CommonErrors,
+    ListSearchJobResultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -913,45 +919,53 @@ export const listSearchJobResults: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation returns the tags for a resource type.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation puts tags on the resource you indicate.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type StartSearchJobError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters.
  *
@@ -960,10 +974,7 @@ export const untagResource: API.OperationMethod<
 export const startSearchJob: API.OperationMethod<
   StartSearchJobInput,
   StartSearchJobOutput,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  StartSearchJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSearchJobInput,
@@ -974,19 +985,24 @@ export const startSearchJob: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetSearchJobError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation retrieves metadata of a search job, including its progress.
  */
 export const getSearchJob: API.OperationMethod<
   GetSearchJobInput,
   GetSearchJobOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetSearchJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSearchJobInput,
   output: GetSearchJobOutput,
   errors: [ResourceNotFoundException],
 }));
+export type StopSearchJobError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operations ends a search job.
  *
@@ -995,34 +1011,35 @@ export const getSearchJob: API.OperationMethod<
 export const stopSearchJob: API.OperationMethod<
   StopSearchJobInput,
   StopSearchJobOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  StopSearchJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSearchJobInput,
   output: StopSearchJobOutput,
   errors: [ConflictException, ResourceNotFoundException],
 }));
+export type ListSearchJobsError = CommonErrors;
 /**
  * This operation returns a list of search jobs belonging to an account.
  */
 export const listSearchJobs: API.OperationMethod<
   ListSearchJobsInput,
   ListSearchJobsOutput,
-  CommonErrors,
+  ListSearchJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSearchJobsInput,
   ) => stream.Stream<
     ListSearchJobsOutput,
-    CommonErrors,
+    ListSearchJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchJobsInput,
   ) => stream.Stream<
     SearchJobSummary,
-    CommonErrors,
+    ListSearchJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1036,16 +1053,18 @@ export const listSearchJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartSearchResultExportJobError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * This operations starts a job to export the results of search job to a designated S3 bucket.
  */
 export const startSearchResultExportJob: API.OperationMethod<
   StartSearchResultExportJobInput,
   StartSearchResultExportJobOutput,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  StartSearchResultExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSearchResultExportJobInput,
@@ -1056,6 +1075,9 @@ export const startSearchResultExportJob: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type GetSearchResultExportJobError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation retrieves the metadata of an export job.
  *
@@ -1066,34 +1088,38 @@ export const startSearchResultExportJob: API.OperationMethod<
 export const getSearchResultExportJob: API.OperationMethod<
   GetSearchResultExportJobInput,
   GetSearchResultExportJobOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetSearchResultExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSearchResultExportJobInput,
   output: GetSearchResultExportJobOutput,
   errors: [ResourceNotFoundException],
 }));
+export type ListSearchResultExportJobsError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * This operation exports search results of a search job to a specified destination S3 bucket.
  */
 export const listSearchResultExportJobs: API.OperationMethod<
   ListSearchResultExportJobsInput,
   ListSearchResultExportJobsOutput,
-  ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+  ListSearchResultExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSearchResultExportJobsInput,
   ) => stream.Stream<
     ListSearchResultExportJobsOutput,
-    ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+    ListSearchResultExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchResultExportJobsInput,
   ) => stream.Stream<
     ExportJobSummary,
-    ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+    ListSearchResultExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

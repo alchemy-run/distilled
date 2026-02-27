@@ -1261,12 +1261,7 @@ export class SubnetInUse extends S.TaggedErrorClass<SubnetInUse>()(
 ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 
 //# Operations
-/**
- * Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
- */
-export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
-  CreateClusterResponse,
+export type CreateClusterError =
   | ClusterAlreadyExistsFault
   | ClusterQuotaForCustomerExceededFault
   | InsufficientClusterCapacityFault
@@ -1282,7 +1277,14 @@ export const createCluster: API.OperationMethod<
   | ServiceQuotaExceededException
   | SubnetGroupNotFoundFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
+ */
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
+  CreateClusterResponse,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -1305,6 +1307,14 @@ export const createCluster: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
+export type CreateParameterGroupError =
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupAlreadyExistsFault
+  | ParameterGroupQuotaExceededFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Creates a new parameter group. A parameter group is a collection of parameters that
  * you apply to all of the nodes in a DAX cluster.
@@ -1312,13 +1322,7 @@ export const createCluster: API.OperationMethod<
 export const createParameterGroup: API.OperationMethod<
   CreateParameterGroupRequest,
   CreateParameterGroupResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupAlreadyExistsFault
-  | ParameterGroupQuotaExceededFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  CreateParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateParameterGroupRequest,
@@ -1332,19 +1336,21 @@ export const createParameterGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
-/**
- * Creates a new subnet group.
- */
-export const createSubnetGroup: API.OperationMethod<
-  CreateSubnetGroupRequest,
-  CreateSubnetGroupResponse,
+export type CreateSubnetGroupError =
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupAlreadyExistsFault
   | SubnetGroupQuotaExceededFault
   | SubnetNotAllowedFault
   | SubnetQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new subnet group.
+ */
+export const createSubnetGroup: API.OperationMethod<
+  CreateSubnetGroupRequest,
+  CreateSubnetGroupResponse,
+  CreateSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubnetGroupRequest,
@@ -1358,6 +1364,14 @@ export const createSubnetGroup: API.OperationMethod<
     SubnetQuotaExceededFault,
   ],
 }));
+export type DecreaseReplicationFactorError =
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | NodeNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Removes one or more nodes from a DAX cluster.
  *
@@ -1368,13 +1382,7 @@ export const createSubnetGroup: API.OperationMethod<
 export const decreaseReplicationFactor: API.OperationMethod<
   DecreaseReplicationFactorRequest,
   DecreaseReplicationFactorResponse,
-  | ClusterNotFoundFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | NodeNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DecreaseReplicationFactorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecreaseReplicationFactorRequest,
@@ -1388,6 +1396,13 @@ export const decreaseReplicationFactor: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DeleteClusterError =
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Deletes a previously provisioned DAX cluster.
  * *DeleteCluster* deletes all associated nodes, node endpoints and
@@ -1398,12 +1413,7 @@ export const decreaseReplicationFactor: API.OperationMethod<
 export const deleteCluster: API.OperationMethod<
   DeleteClusterRequest,
   DeleteClusterResponse,
-  | ClusterNotFoundFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -1416,6 +1426,13 @@ export const deleteCluster: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DeleteParameterGroupError =
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified parameter group. You cannot delete a parameter group if it is
  * associated with any DAX clusters.
@@ -1423,12 +1440,7 @@ export const deleteCluster: API.OperationMethod<
 export const deleteParameterGroup: API.OperationMethod<
   DeleteParameterGroupRequest,
   DeleteParameterGroupResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DeleteParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteParameterGroupRequest,
@@ -1441,6 +1453,11 @@ export const deleteParameterGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DeleteSubnetGroupError =
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupInUseFault
+  | SubnetGroupNotFoundFault
+  | CommonErrors;
 /**
  * Deletes a subnet group.
  *
@@ -1450,10 +1467,7 @@ export const deleteParameterGroup: API.OperationMethod<
 export const deleteSubnetGroup: API.OperationMethod<
   DeleteSubnetGroupRequest,
   DeleteSubnetGroupResponse,
-  | ServiceLinkedRoleNotFoundFault
-  | SubnetGroupInUseFault
-  | SubnetGroupNotFoundFault
-  | CommonErrors,
+  DeleteSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubnetGroupRequest,
@@ -1464,6 +1478,12 @@ export const deleteSubnetGroup: API.OperationMethod<
     SubnetGroupNotFoundFault,
   ],
 }));
+export type DescribeClustersError =
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about all provisioned DAX clusters if no cluster identifier is
  * specified, or about a specific DAX cluster if a cluster identifier is
@@ -1486,11 +1506,7 @@ export const deleteSubnetGroup: API.OperationMethod<
 export const describeClusters: API.OperationMethod<
   DescribeClustersRequest,
   DescribeClustersResponse,
-  | ClusterNotFoundFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeClustersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClustersRequest,
@@ -1502,6 +1518,11 @@ export const describeClusters: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeDefaultParametersError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns the default system parameter information for the DAX caching
  * software.
@@ -1509,10 +1530,7 @@ export const describeClusters: API.OperationMethod<
 export const describeDefaultParameters: API.OperationMethod<
   DescribeDefaultParametersRequest,
   DescribeDefaultParametersResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeDefaultParametersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDefaultParametersRequest,
@@ -1523,6 +1541,11 @@ export const describeDefaultParameters: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeEventsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns events related to DAX clusters and parameter groups. You can
  * obtain events specific to a particular DAX cluster or parameter group by
@@ -1534,10 +1557,7 @@ export const describeDefaultParameters: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsRequest,
   DescribeEventsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventsRequest,
@@ -1548,6 +1568,12 @@ export const describeEvents: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeParameterGroupsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of parameter group descriptions. If a parameter group name is
  * specified, the list will contain only the descriptions for that group.
@@ -1555,11 +1581,7 @@ export const describeEvents: API.OperationMethod<
 export const describeParameterGroups: API.OperationMethod<
   DescribeParameterGroupsRequest,
   DescribeParameterGroupsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeParameterGroupsRequest,
@@ -1571,17 +1593,19 @@ export const describeParameterGroups: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeParametersError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular parameter group.
  */
 export const describeParameters: API.OperationMethod<
   DescribeParametersRequest,
   DescribeParametersResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeParametersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeParametersRequest,
@@ -1593,6 +1617,10 @@ export const describeParameters: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeSubnetGroupsError =
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of subnet group descriptions. If a subnet group name is specified,
  * the list will contain only the description of that group.
@@ -1600,19 +1628,14 @@ export const describeParameters: API.OperationMethod<
 export const describeSubnetGroups: API.OperationMethod<
   DescribeSubnetGroupsRequest,
   DescribeSubnetGroupsResponse,
-  ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
+  DescribeSubnetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSubnetGroupsRequest,
   output: DescribeSubnetGroupsResponse,
   errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupNotFoundFault],
 }));
-/**
- * Adds one or more nodes to a DAX cluster.
- */
-export const increaseReplicationFactor: API.OperationMethod<
-  IncreaseReplicationFactorRequest,
-  IncreaseReplicationFactorResponse,
+export type IncreaseReplicationFactorError =
   | ClusterNotFoundFault
   | InsufficientClusterCapacityFault
   | InvalidClusterStateFault
@@ -1622,7 +1645,14 @@ export const increaseReplicationFactor: API.OperationMethod<
   | NodeQuotaForClusterExceededFault
   | NodeQuotaForCustomerExceededFault
   | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds one or more nodes to a DAX cluster.
+ */
+export const increaseReplicationFactor: API.OperationMethod<
+  IncreaseReplicationFactorRequest,
+  IncreaseReplicationFactorResponse,
+  IncreaseReplicationFactorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IncreaseReplicationFactorRequest,
@@ -1639,6 +1669,14 @@ export const increaseReplicationFactor: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type ListTagsError =
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * List all of the tags for a DAX cluster. You can call
  * `ListTags` up to 10 times per second, per account.
@@ -1646,13 +1684,7 @@ export const increaseReplicationFactor: API.OperationMethod<
 export const listTags: API.OperationMethod<
   ListTagsRequest,
   ListTagsResponse,
-  | ClusterNotFoundFault
-  | InvalidARNFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  ListTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
@@ -1666,6 +1698,14 @@ export const listTags: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type RebootNodeError =
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | NodeNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Reboots a single node of a DAX cluster. The reboot action takes
  * place as soon as possible. During the reboot, the node status is set to
@@ -1677,13 +1717,7 @@ export const listTags: API.OperationMethod<
 export const rebootNode: API.OperationMethod<
   RebootNodeRequest,
   RebootNodeResponse,
-  | ClusterNotFoundFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | NodeNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  RebootNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootNodeRequest,
@@ -1697,6 +1731,15 @@ export const rebootNode: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type TagResourceError =
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | CommonErrors;
 /**
  * Associates a set of tags with a DAX resource.
  * You can call `TagResource` up to
@@ -1705,14 +1748,7 @@ export const rebootNode: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ClusterNotFoundFault
-  | InvalidARNFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1727,13 +1763,7 @@ export const tagResource: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
-/**
- * Removes the association of tags from a DAX resource. You can call
- * `UntagResource` up to 5 times per second, per account.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | ClusterNotFoundFault
   | InvalidARNFault
   | InvalidClusterStateFault
@@ -1741,7 +1771,15 @@ export const untagResource: API.OperationMethod<
   | InvalidParameterValueException
   | ServiceLinkedRoleNotFoundFault
   | TagNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association of tags from a DAX resource. You can call
+ * `UntagResource` up to 5 times per second, per account.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1756,6 +1794,15 @@ export const untagResource: API.OperationMethod<
     TagNotFoundFault,
   ],
 }));
+export type UpdateClusterError =
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the settings for a DAX cluster. You can use this action to
  * change one or more cluster configuration parameters by specifying the parameters and the
@@ -1764,14 +1811,7 @@ export const untagResource: API.OperationMethod<
 export const updateCluster: API.OperationMethod<
   UpdateClusterRequest,
   UpdateClusterResponse,
-  | ClusterNotFoundFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -1786,6 +1826,13 @@ export const updateCluster: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type UpdateParameterGroupError =
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a parameter group. You can modify up to 20 parameters in
  * a single request by submitting a list parameter name and value pairs.
@@ -1793,12 +1840,7 @@ export const updateCluster: API.OperationMethod<
 export const updateParameterGroup: API.OperationMethod<
   UpdateParameterGroupRequest,
   UpdateParameterGroupResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  UpdateParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateParameterGroupRequest,
@@ -1811,19 +1853,21 @@ export const updateParameterGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
-/**
- * Modifies an existing subnet group.
- */
-export const updateSubnetGroup: API.OperationMethod<
-  UpdateSubnetGroupRequest,
-  UpdateSubnetGroupResponse,
+export type UpdateSubnetGroupError =
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupNotFoundFault
   | SubnetInUse
   | SubnetNotAllowedFault
   | SubnetQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies an existing subnet group.
+ */
+export const updateSubnetGroup: API.OperationMethod<
+  UpdateSubnetGroupRequest,
+  UpdateSubnetGroupResponse,
+  UpdateSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubnetGroupRequest,

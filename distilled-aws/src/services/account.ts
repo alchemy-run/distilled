@@ -679,17 +679,19 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type PutAccountNameError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the account name of the specified account. To use this API, IAM principals must have the `account:PutAccountName` IAM permission.
  */
 export const putAccountName: API.OperationMethod<
   PutAccountNameRequest,
   PutAccountNameResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  PutAccountNameError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountNameRequest,
@@ -701,17 +703,19 @@ export const putAccountName: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccountInformationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the `account:GetAccountInformation` IAM permission.
  */
 export const getAccountInformation: API.OperationMethod<
   GetAccountInformationRequest,
   GetAccountInformationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetAccountInformationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountInformationRequest,
@@ -723,6 +727,12 @@ export const getAccountInformation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutAlternateContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the specified alternate contact attached to an Amazon Web Services account.
  *
@@ -733,11 +743,7 @@ export const getAccountInformation: API.OperationMethod<
 export const putAlternateContact: API.OperationMethod<
   PutAlternateContactRequest,
   PutAlternateContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  PutAlternateContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAlternateContactRequest,
@@ -749,6 +755,13 @@ export const putAlternateContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAlternateContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the specified alternate contact attached to an Amazon Web Services account.
  *
@@ -759,12 +772,7 @@ export const putAlternateContact: API.OperationMethod<
 export const getAlternateContact: API.OperationMethod<
   GetAlternateContactRequest,
   GetAlternateContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetAlternateContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAlternateContactRequest,
@@ -777,6 +785,13 @@ export const getAlternateContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAlternateContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified alternate contact from an Amazon Web Services account.
  *
@@ -787,12 +802,7 @@ export const getAlternateContact: API.OperationMethod<
 export const deleteAlternateContact: API.OperationMethod<
   DeleteAlternateContactRequest,
   DeleteAlternateContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  DeleteAlternateContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlternateContactRequest,
@@ -805,19 +815,21 @@ export const deleteAlternateContact: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
- */
-export const getGovCloudAccountInformation: API.OperationMethod<
-  GetGovCloudAccountInformationRequest,
-  GetGovCloudAccountInformationResponse,
+export type GetGovCloudAccountInformationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ResourceUnavailableException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
+ */
+export const getGovCloudAccountInformation: API.OperationMethod<
+  GetGovCloudAccountInformationRequest,
+  GetGovCloudAccountInformationResponse,
+  GetGovCloudAccountInformationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGovCloudAccountInformationRequest,
@@ -831,6 +843,12 @@ export const getGovCloudAccountInformation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutContactInformationError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the primary contact information of an Amazon Web Services account.
  *
@@ -839,11 +857,7 @@ export const getGovCloudAccountInformation: API.OperationMethod<
 export const putContactInformation: API.OperationMethod<
   PutContactInformationRequest,
   PutContactInformationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  PutContactInformationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutContactInformationRequest,
@@ -855,6 +869,13 @@ export const putContactInformation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetContactInformationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the primary contact information of an Amazon Web Services account.
  *
@@ -863,12 +884,7 @@ export const putContactInformation: API.OperationMethod<
 export const getContactInformation: API.OperationMethod<
   GetContactInformationRequest,
   GetContactInformationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetContactInformationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactInformationRequest,
@@ -881,19 +897,21 @@ export const getContactInformation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
- */
-export const acceptPrimaryEmailUpdate: API.OperationMethod<
-  AcceptPrimaryEmailUpdateRequest,
-  AcceptPrimaryEmailUpdateResponse,
+export type AcceptPrimaryEmailUpdateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
+ */
+export const acceptPrimaryEmailUpdate: API.OperationMethod<
+  AcceptPrimaryEmailUpdateRequest,
+  AcceptPrimaryEmailUpdateResponse,
+  AcceptPrimaryEmailUpdateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptPrimaryEmailUpdateRequest,
@@ -907,18 +925,20 @@ export const acceptPrimaryEmailUpdate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPrimaryEmailError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the primary email address for the specified account.
  */
 export const getPrimaryEmail: API.OperationMethod<
   GetPrimaryEmailRequest,
   GetPrimaryEmailResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetPrimaryEmailError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPrimaryEmailRequest,
@@ -931,19 +951,21 @@ export const getPrimaryEmail: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts the process to update the primary email address for the specified account.
- */
-export const startPrimaryEmailUpdate: API.OperationMethod<
-  StartPrimaryEmailUpdateRequest,
-  StartPrimaryEmailUpdateResponse,
+export type StartPrimaryEmailUpdateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the process to update the primary email address for the specified account.
+ */
+export const startPrimaryEmailUpdate: API.OperationMethod<
+  StartPrimaryEmailUpdateRequest,
+  StartPrimaryEmailUpdateResponse,
+  StartPrimaryEmailUpdateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPrimaryEmailUpdateRequest,
@@ -957,6 +979,13 @@ export const startPrimaryEmailUpdate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisableRegionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disables (opts-out) a particular Region for an account.
  *
@@ -965,12 +994,7 @@ export const startPrimaryEmailUpdate: API.OperationMethod<
 export const disableRegion: API.OperationMethod<
   DisableRegionRequest,
   DisableRegionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  DisableRegionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRegionRequest,
@@ -983,18 +1007,20 @@ export const disableRegion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EnableRegionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables (opts-in) a particular Region for an account.
  */
 export const enableRegion: API.OperationMethod<
   EnableRegionRequest,
   EnableRegionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  EnableRegionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRegionRequest,
@@ -1007,17 +1033,19 @@ export const enableRegion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRegionOptStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the opt-in status of a particular Region.
  */
 export const getRegionOptStatus: API.OperationMethod<
   GetRegionOptStatusRequest,
   GetRegionOptStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  GetRegionOptStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegionOptStatusRequest,
@@ -1029,39 +1057,33 @@ export const getRegionOptStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRegionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the `region-opt-status-contains` parameter.
  */
 export const listRegions: API.OperationMethod<
   ListRegionsRequest,
   ListRegionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
+  ListRegionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRegionsRequest,
   ) => stream.Stream<
     ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListRegionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRegionsRequest,
   ) => stream.Stream<
     Region,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
+    ListRegionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

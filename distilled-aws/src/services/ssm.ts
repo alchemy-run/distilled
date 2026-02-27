@@ -11636,6 +11636,13 @@ export class ResourceDataSyncConflictException extends S.TaggedErrorClass<Resour
 ) {}
 
 //# Operations
+export type AddTagsToResourceError =
+  | InternalServerError
+  | InvalidResourceId
+  | InvalidResourceType
+  | TooManyTagsError
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Adds or overwrites one or more tags for the specified resource. *Tags*
  * are metadata that you can assign to your automations, documents, managed nodes, maintenance
@@ -11671,12 +11678,7 @@ export class ResourceDataSyncConflictException extends S.TaggedErrorClass<Resour
 export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceRequest,
   AddTagsToResourceResult,
-  | InternalServerError
-  | InvalidResourceId
-  | InvalidResourceType
-  | TooManyTagsError
-  | TooManyUpdates
-  | CommonErrors,
+  AddTagsToResourceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
@@ -11689,6 +11691,14 @@ export const addTagsToResource: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type AssociateOpsItemRelatedItemError =
+  | InternalServerError
+  | OpsItemConflictException
+  | OpsItemInvalidParameterException
+  | OpsItemLimitExceededException
+  | OpsItemNotFoundException
+  | OpsItemRelatedItemAlreadyExistsException
+  | CommonErrors;
 /**
  * Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can associate an
  * Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are tools in
@@ -11697,13 +11707,7 @@ export const addTagsToResource: API.OperationMethod<
 export const associateOpsItemRelatedItem: API.OperationMethod<
   AssociateOpsItemRelatedItemRequest,
   AssociateOpsItemRelatedItemResponse,
-  | InternalServerError
-  | OpsItemConflictException
-  | OpsItemInvalidParameterException
-  | OpsItemLimitExceededException
-  | OpsItemNotFoundException
-  | OpsItemRelatedItemAlreadyExistsException
-  | CommonErrors,
+  AssociateOpsItemRelatedItemError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateOpsItemRelatedItemRequest,
@@ -11717,6 +11721,12 @@ export const associateOpsItemRelatedItem: API.OperationMethod<
     OpsItemRelatedItemAlreadyExistsException,
   ],
 }));
+export type CancelCommandError =
+  | DuplicateInstanceId
+  | InternalServerError
+  | InvalidCommandId
+  | InvalidInstanceId
+  | CommonErrors;
 /**
  * Attempts to cancel the command specified by the Command ID. There is no guarantee that the
  * command will be terminated and the underlying process stopped.
@@ -11724,11 +11734,7 @@ export const associateOpsItemRelatedItem: API.OperationMethod<
 export const cancelCommand: API.OperationMethod<
   CancelCommandRequest,
   CancelCommandResult,
-  | DuplicateInstanceId
-  | InternalServerError
-  | InvalidCommandId
-  | InvalidInstanceId
-  | CommonErrors,
+  CancelCommandError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCommandRequest,
@@ -11740,6 +11746,10 @@ export const cancelCommand: API.OperationMethod<
     InvalidInstanceId,
   ],
 }));
+export type CancelMaintenanceWindowExecutionError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Stops a maintenance window execution that is already in progress and cancels any tasks in
  * the window that haven't already starting running. Tasks already in progress will continue to
@@ -11748,13 +11758,17 @@ export const cancelCommand: API.OperationMethod<
 export const cancelMaintenanceWindowExecution: API.OperationMethod<
   CancelMaintenanceWindowExecutionRequest,
   CancelMaintenanceWindowExecutionResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  CancelMaintenanceWindowExecutionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMaintenanceWindowExecutionRequest,
   output: CancelMaintenanceWindowExecutionResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type CreateActivationError =
+  | InternalServerError
+  | InvalidParameters
+  | CommonErrors;
 /**
  * Generates an activation code and activation ID you can use to register your on-premises
  * servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with
@@ -11769,13 +11783,28 @@ export const cancelMaintenanceWindowExecution: API.OperationMethod<
 export const createActivation: API.OperationMethod<
   CreateActivationRequest,
   CreateActivationResult,
-  InternalServerError | InvalidParameters | CommonErrors,
+  CreateActivationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateActivationRequest,
   output: CreateActivationResult,
   errors: [InternalServerError, InvalidParameters],
 }));
+export type CreateAssociationError =
+  | AssociationAlreadyExists
+  | AssociationLimitExceeded
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentVersion
+  | InvalidInstanceId
+  | InvalidOutputLocation
+  | InvalidParameters
+  | InvalidSchedule
+  | InvalidTag
+  | InvalidTarget
+  | InvalidTargetMaps
+  | UnsupportedPlatformType
+  | CommonErrors;
 /**
  * A State Manager association defines the state that you want to maintain on your managed
  * nodes. For example, an association can specify that anti-virus software must be installed and
@@ -11791,20 +11820,7 @@ export const createActivation: API.OperationMethod<
 export const createAssociation: API.OperationMethod<
   CreateAssociationRequest,
   CreateAssociationResult,
-  | AssociationAlreadyExists
-  | AssociationLimitExceeded
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentVersion
-  | InvalidInstanceId
-  | InvalidOutputLocation
-  | InvalidParameters
-  | InvalidSchedule
-  | InvalidTag
-  | InvalidTarget
-  | InvalidTargetMaps
-  | UnsupportedPlatformType
-  | CommonErrors,
+  CreateAssociationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssociationRequest,
@@ -11825,6 +11841,20 @@ export const createAssociation: API.OperationMethod<
     UnsupportedPlatformType,
   ],
 }));
+export type CreateAssociationBatchError =
+  | AssociationLimitExceeded
+  | DuplicateInstanceId
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentVersion
+  | InvalidInstanceId
+  | InvalidOutputLocation
+  | InvalidParameters
+  | InvalidSchedule
+  | InvalidTarget
+  | InvalidTargetMaps
+  | UnsupportedPlatformType
+  | CommonErrors;
 /**
  * Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes
  * or targets.
@@ -11839,19 +11869,7 @@ export const createAssociation: API.OperationMethod<
 export const createAssociationBatch: API.OperationMethod<
   CreateAssociationBatchRequest,
   CreateAssociationBatchResult,
-  | AssociationLimitExceeded
-  | DuplicateInstanceId
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentVersion
-  | InvalidInstanceId
-  | InvalidOutputLocation
-  | InvalidParameters
-  | InvalidSchedule
-  | InvalidTarget
-  | InvalidTargetMaps
-  | UnsupportedPlatformType
-  | CommonErrors,
+  CreateAssociationBatchError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssociationBatchRequest,
@@ -11871,6 +11889,16 @@ export const createAssociationBatch: API.OperationMethod<
     UnsupportedPlatformType,
   ],
 }));
+export type CreateDocumentError =
+  | DocumentAlreadyExists
+  | DocumentLimitExceeded
+  | InternalServerError
+  | InvalidDocumentContent
+  | InvalidDocumentSchemaVersion
+  | MaxDocumentSizeExceeded
+  | NoLongerSupportedException
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs
  * on your managed nodes. For more information about SSM documents, including information about
@@ -11880,15 +11908,7 @@ export const createAssociationBatch: API.OperationMethod<
 export const createDocument: API.OperationMethod<
   CreateDocumentRequest,
   CreateDocumentResult,
-  | DocumentAlreadyExists
-  | DocumentLimitExceeded
-  | InternalServerError
-  | InvalidDocumentContent
-  | InvalidDocumentSchemaVersion
-  | MaxDocumentSizeExceeded
-  | NoLongerSupportedException
-  | TooManyUpdates
-  | CommonErrors,
+  CreateDocumentError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDocumentRequest,
@@ -11904,6 +11924,11 @@ export const createDocument: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type CreateMaintenanceWindowError =
+  | IdempotentParameterMismatch
+  | InternalServerError
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Creates a new maintenance window.
  *
@@ -11917,10 +11942,7 @@ export const createDocument: API.OperationMethod<
 export const createMaintenanceWindow: API.OperationMethod<
   CreateMaintenanceWindowRequest,
   CreateMaintenanceWindowResult,
-  | IdempotentParameterMismatch
-  | InternalServerError
-  | ResourceLimitExceededException
-  | CommonErrors,
+  CreateMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMaintenanceWindowRequest,
@@ -11931,6 +11953,13 @@ export const createMaintenanceWindow: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type CreateOpsItemError =
+  | InternalServerError
+  | OpsItemAccessDeniedException
+  | OpsItemAlreadyExistsException
+  | OpsItemInvalidParameterException
+  | OpsItemLimitExceededException
+  | CommonErrors;
 /**
  * Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
@@ -11943,12 +11972,7 @@ export const createMaintenanceWindow: API.OperationMethod<
 export const createOpsItem: API.OperationMethod<
   CreateOpsItemRequest,
   CreateOpsItemResponse,
-  | InternalServerError
-  | OpsItemAccessDeniedException
-  | OpsItemAlreadyExistsException
-  | OpsItemInvalidParameterException
-  | OpsItemLimitExceededException
-  | CommonErrors,
+  CreateOpsItemError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOpsItemRequest,
@@ -11961,6 +11985,13 @@ export const createOpsItem: API.OperationMethod<
     OpsItemLimitExceededException,
   ],
 }));
+export type CreateOpsMetadataError =
+  | InternalServerError
+  | OpsMetadataAlreadyExistsException
+  | OpsMetadataInvalidArgumentException
+  | OpsMetadataLimitExceededException
+  | OpsMetadataTooManyUpdatesException
+  | CommonErrors;
 /**
  * If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify
  * information about the new application, including the application type.
@@ -11968,12 +11999,7 @@ export const createOpsItem: API.OperationMethod<
 export const createOpsMetadata: API.OperationMethod<
   CreateOpsMetadataRequest,
   CreateOpsMetadataResult,
-  | InternalServerError
-  | OpsMetadataAlreadyExistsException
-  | OpsMetadataInvalidArgumentException
-  | OpsMetadataLimitExceededException
-  | OpsMetadataTooManyUpdatesException
-  | CommonErrors,
+  CreateOpsMetadataError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOpsMetadataRequest,
@@ -11986,6 +12012,11 @@ export const createOpsMetadata: API.OperationMethod<
     OpsMetadataTooManyUpdatesException,
   ],
 }));
+export type CreatePatchBaselineError =
+  | IdempotentParameterMismatch
+  | InternalServerError
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Creates a patch baseline.
  *
@@ -11995,10 +12026,7 @@ export const createOpsMetadata: API.OperationMethod<
 export const createPatchBaseline: API.OperationMethod<
   CreatePatchBaselineRequest,
   CreatePatchBaselineResult,
-  | IdempotentParameterMismatch
-  | InternalServerError
-  | ResourceLimitExceededException
-  | CommonErrors,
+  CreatePatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePatchBaselineRequest,
@@ -12009,6 +12037,12 @@ export const createPatchBaseline: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type CreateResourceDataSyncError =
+  | InternalServerError
+  | ResourceDataSyncAlreadyExistsException
+  | ResourceDataSyncCountExceededException
+  | ResourceDataSyncInvalidConfigurationException
+  | CommonErrors;
 /**
  * A resource data sync helps you view data from multiple sources in a single location.
  * Amazon Web Services Systems Manager offers two types of resource data sync: `SyncToDestination` and
@@ -12037,11 +12071,7 @@ export const createPatchBaseline: API.OperationMethod<
 export const createResourceDataSync: API.OperationMethod<
   CreateResourceDataSyncRequest,
   CreateResourceDataSyncResult,
-  | InternalServerError
-  | ResourceDataSyncAlreadyExistsException
-  | ResourceDataSyncCountExceededException
-  | ResourceDataSyncInvalidConfigurationException
-  | CommonErrors,
+  CreateResourceDataSyncError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceDataSyncRequest,
@@ -12053,6 +12083,12 @@ export const createResourceDataSync: API.OperationMethod<
     ResourceDataSyncInvalidConfigurationException,
   ],
 }));
+export type DeleteActivationError =
+  | InternalServerError
+  | InvalidActivation
+  | InvalidActivationId
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Deletes an activation. You aren't required to delete an activation. If you delete an
  * activation, you can no longer use it to register additional managed nodes. Deleting an activation
@@ -12061,11 +12097,7 @@ export const createResourceDataSync: API.OperationMethod<
 export const deleteActivation: API.OperationMethod<
   DeleteActivationRequest,
   DeleteActivationResult,
-  | InternalServerError
-  | InvalidActivation
-  | InvalidActivationId
-  | TooManyUpdates
-  | CommonErrors,
+  DeleteActivationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActivationRequest,
@@ -12077,6 +12109,13 @@ export const deleteActivation: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type DeleteAssociationError =
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidDocument
+  | InvalidInstanceId
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed
  * node. If you created the association by using the `Targets` parameter, then you must
@@ -12090,12 +12129,7 @@ export const deleteActivation: API.OperationMethod<
 export const deleteAssociation: API.OperationMethod<
   DeleteAssociationRequest,
   DeleteAssociationResult,
-  | AssociationDoesNotExist
-  | InternalServerError
-  | InvalidDocument
-  | InvalidInstanceId
-  | TooManyUpdates
-  | CommonErrors,
+  DeleteAssociationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssociationRequest,
@@ -12108,6 +12142,13 @@ export const deleteAssociation: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type DeleteDocumentError =
+  | AssociatedInstances
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentOperation
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the
  * document.
@@ -12117,12 +12158,7 @@ export const deleteAssociation: API.OperationMethod<
 export const deleteDocument: API.OperationMethod<
   DeleteDocumentRequest,
   DeleteDocumentResult,
-  | AssociatedInstances
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentOperation
-  | TooManyUpdates
-  | CommonErrors,
+  DeleteDocumentError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDocumentRequest,
@@ -12135,6 +12171,13 @@ export const deleteDocument: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type DeleteInventoryError =
+  | InternalServerError
+  | InvalidDeleteInventoryParametersException
+  | InvalidInventoryRequestException
+  | InvalidOptionException
+  | InvalidTypeNameException
+  | CommonErrors;
 /**
  * Delete a custom inventory type or the data associated with a custom Inventory type. Deleting
  * a custom inventory type is also referred to as deleting a custom inventory schema.
@@ -12142,12 +12185,7 @@ export const deleteDocument: API.OperationMethod<
 export const deleteInventory: API.OperationMethod<
   DeleteInventoryRequest,
   DeleteInventoryResult,
-  | InternalServerError
-  | InvalidDeleteInventoryParametersException
-  | InvalidInventoryRequestException
-  | InvalidOptionException
-  | InvalidTypeNameException
-  | CommonErrors,
+  DeleteInventoryError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInventoryRequest,
@@ -12160,19 +12198,24 @@ export const deleteInventory: API.OperationMethod<
     InvalidTypeNameException,
   ],
 }));
+export type DeleteMaintenanceWindowError = InternalServerError | CommonErrors;
 /**
  * Deletes a maintenance window.
  */
 export const deleteMaintenanceWindow: API.OperationMethod<
   DeleteMaintenanceWindowRequest,
   DeleteMaintenanceWindowResult,
-  InternalServerError | CommonErrors,
+  DeleteMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMaintenanceWindowRequest,
   output: DeleteMaintenanceWindowResult,
   errors: [InternalServerError],
 }));
+export type DeleteOpsItemError =
+  | InternalServerError
+  | OpsItemInvalidParameterException
+  | CommonErrors;
 /**
  * Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to
  * delete an OpsItem.
@@ -12199,23 +12242,25 @@ export const deleteMaintenanceWindow: API.OperationMethod<
 export const deleteOpsItem: API.OperationMethod<
   DeleteOpsItemRequest,
   DeleteOpsItemResponse,
-  InternalServerError | OpsItemInvalidParameterException | CommonErrors,
+  DeleteOpsItemError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOpsItemRequest,
   output: DeleteOpsItemResponse,
   errors: [InternalServerError, OpsItemInvalidParameterException],
 }));
+export type DeleteOpsMetadataError =
+  | InternalServerError
+  | OpsMetadataInvalidArgumentException
+  | OpsMetadataNotFoundException
+  | CommonErrors;
 /**
  * Delete OpsMetadata related to an application.
  */
 export const deleteOpsMetadata: API.OperationMethod<
   DeleteOpsMetadataRequest,
   DeleteOpsMetadataResult,
-  | InternalServerError
-  | OpsMetadataInvalidArgumentException
-  | OpsMetadataNotFoundException
-  | CommonErrors,
+  DeleteOpsMetadataError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOpsMetadataRequest,
@@ -12226,6 +12271,10 @@ export const deleteOpsMetadata: API.OperationMethod<
     OpsMetadataNotFoundException,
   ],
 }));
+export type DeleteParameterError =
+  | InternalServerError
+  | ParameterNotFound
+  | CommonErrors;
 /**
  * Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds
  * to create a parameter with the same name.
@@ -12233,13 +12282,14 @@ export const deleteOpsMetadata: API.OperationMethod<
 export const deleteParameter: API.OperationMethod<
   DeleteParameterRequest,
   DeleteParameterResult,
-  InternalServerError | ParameterNotFound | CommonErrors,
+  DeleteParameterError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteParameterRequest,
   output: DeleteParameterResult,
   errors: [InternalServerError, ParameterNotFound],
 }));
+export type DeleteParametersError = InternalServerError | CommonErrors;
 /**
  * Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to
  * create a parameter with the same name.
@@ -12247,26 +12297,35 @@ export const deleteParameter: API.OperationMethod<
 export const deleteParameters: API.OperationMethod<
   DeleteParametersRequest,
   DeleteParametersResult,
-  InternalServerError | CommonErrors,
+  DeleteParametersError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteParametersRequest,
   output: DeleteParametersResult,
   errors: [InternalServerError],
 }));
+export type DeletePatchBaselineError =
+  | InternalServerError
+  | ResourceInUseException
+  | CommonErrors;
 /**
  * Deletes a patch baseline.
  */
 export const deletePatchBaseline: API.OperationMethod<
   DeletePatchBaselineRequest,
   DeletePatchBaselineResult,
-  InternalServerError | ResourceInUseException | CommonErrors,
+  DeletePatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePatchBaselineRequest,
   output: DeletePatchBaselineResult,
   errors: [InternalServerError, ResourceInUseException],
 }));
+export type DeleteResourceDataSyncError =
+  | InternalServerError
+  | ResourceDataSyncInvalidConfigurationException
+  | ResourceDataSyncNotFoundException
+  | CommonErrors;
 /**
  * Deletes a resource data sync configuration. After the configuration is deleted, changes to
  * data on managed nodes are no longer synced to or from the target. Deleting a sync configuration
@@ -12275,10 +12334,7 @@ export const deletePatchBaseline: API.OperationMethod<
 export const deleteResourceDataSync: API.OperationMethod<
   DeleteResourceDataSyncRequest,
   DeleteResourceDataSyncResult,
-  | InternalServerError
-  | ResourceDataSyncInvalidConfigurationException
-  | ResourceDataSyncNotFoundException
-  | CommonErrors,
+  DeleteResourceDataSyncError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceDataSyncRequest,
@@ -12289,6 +12345,14 @@ export const deleteResourceDataSync: API.OperationMethod<
     ResourceDataSyncNotFoundException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | InternalServerError
+  | MalformedResourcePolicyDocumentException
+  | ResourceNotFoundException
+  | ResourcePolicyConflictException
+  | ResourcePolicyInvalidParameterException
+  | ResourcePolicyNotFoundException
+  | CommonErrors;
 /**
  * Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following
  * resources support Systems Manager resource policies.
@@ -12304,13 +12368,7 @@ export const deleteResourceDataSync: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | InternalServerError
-  | MalformedResourcePolicyDocumentException
-  | ResourceNotFoundException
-  | ResourcePolicyConflictException
-  | ResourcePolicyInvalidParameterException
-  | ResourcePolicyNotFoundException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -12324,6 +12382,10 @@ export const deleteResourcePolicy: API.OperationMethod<
     ResourcePolicyNotFoundException,
   ],
 }));
+export type DeregisterManagedInstanceError =
+  | InternalServerError
+  | InvalidInstanceId
+  | CommonErrors;
 /**
  * Removes the server or virtual machine from the list of registered servers.
  *
@@ -12337,55 +12399,70 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deregisterManagedInstance: API.OperationMethod<
   DeregisterManagedInstanceRequest,
   DeregisterManagedInstanceResult,
-  InternalServerError | InvalidInstanceId | CommonErrors,
+  DeregisterManagedInstanceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterManagedInstanceRequest,
   output: DeregisterManagedInstanceResult,
   errors: [InternalServerError, InvalidInstanceId],
 }));
+export type DeregisterPatchBaselineForPatchGroupError =
+  | InternalServerError
+  | InvalidResourceId
+  | CommonErrors;
 /**
  * Removes a patch group from a patch baseline.
  */
 export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
   DeregisterPatchBaselineForPatchGroupRequest,
   DeregisterPatchBaselineForPatchGroupResult,
-  InternalServerError | InvalidResourceId | CommonErrors,
+  DeregisterPatchBaselineForPatchGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterPatchBaselineForPatchGroupRequest,
   output: DeregisterPatchBaselineForPatchGroupResult,
   errors: [InternalServerError, InvalidResourceId],
 }));
+export type DeregisterTargetFromMaintenanceWindowError =
+  | DoesNotExistException
+  | InternalServerError
+  | TargetInUseException
+  | CommonErrors;
 /**
  * Removes a target from a maintenance window.
  */
 export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
   DeregisterTargetFromMaintenanceWindowRequest,
   DeregisterTargetFromMaintenanceWindowResult,
-  | DoesNotExistException
-  | InternalServerError
-  | TargetInUseException
-  | CommonErrors,
+  DeregisterTargetFromMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTargetFromMaintenanceWindowRequest,
   output: DeregisterTargetFromMaintenanceWindowResult,
   errors: [DoesNotExistException, InternalServerError, TargetInUseException],
 }));
+export type DeregisterTaskFromMaintenanceWindowError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Removes a task from a maintenance window.
  */
 export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
   DeregisterTaskFromMaintenanceWindowRequest,
   DeregisterTaskFromMaintenanceWindowResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  DeregisterTaskFromMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTaskFromMaintenanceWindowRequest,
   output: DeregisterTaskFromMaintenanceWindowResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type DescribeActivationsError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Describes details about the activation, such as the date and time the activation was
  * created, its expiration date, the Identity and Access Management (IAM) role assigned to
@@ -12395,21 +12472,21 @@ export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
 export const describeActivations: API.OperationMethod<
   DescribeActivationsRequest,
   DescribeActivationsResult,
-  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  DescribeActivationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeActivationsRequest,
   ) => stream.Stream<
     DescribeActivationsResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    DescribeActivationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeActivationsRequest,
   ) => stream.Stream<
     Activation,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    DescribeActivationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12423,6 +12500,13 @@ export const describeActivations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAssociationError =
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidAssociationVersion
+  | InvalidDocument
+  | InvalidInstanceId
+  | CommonErrors;
 /**
  * Describes the association for the specified target or managed node. If you created the
  * association by using the `Targets` parameter, then you must retrieve the association
@@ -12431,12 +12515,7 @@ export const describeActivations: API.OperationMethod<
 export const describeAssociation: API.OperationMethod<
   DescribeAssociationRequest,
   DescribeAssociationResult,
-  | AssociationDoesNotExist
-  | InternalServerError
-  | InvalidAssociationVersion
-  | InvalidDocument
-  | InvalidInstanceId
-  | CommonErrors,
+  DescribeAssociationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssociationRequest,
@@ -12449,36 +12528,32 @@ export const describeAssociation: API.OperationMethod<
     InvalidInstanceId,
   ],
 }));
+export type DescribeAssociationExecutionsError =
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Views all executions for a specific association ID.
  */
 export const describeAssociationExecutions: API.OperationMethod<
   DescribeAssociationExecutionsRequest,
   DescribeAssociationExecutionsResult,
-  | AssociationDoesNotExist
-  | InternalServerError
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeAssociationExecutionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAssociationExecutionsRequest,
   ) => stream.Stream<
     DescribeAssociationExecutionsResult,
-    | AssociationDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAssociationExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAssociationExecutionsRequest,
   ) => stream.Stream<
     AssociationExecution,
-    | AssociationDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAssociationExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12492,39 +12567,33 @@ export const describeAssociationExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAssociationExecutionTargetsError =
+  | AssociationDoesNotExist
+  | AssociationExecutionDoesNotExist
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Views information about a specific execution of a specific association.
  */
 export const describeAssociationExecutionTargets: API.OperationMethod<
   DescribeAssociationExecutionTargetsRequest,
   DescribeAssociationExecutionTargetsResult,
-  | AssociationDoesNotExist
-  | AssociationExecutionDoesNotExist
-  | InternalServerError
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeAssociationExecutionTargetsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAssociationExecutionTargetsRequest,
   ) => stream.Stream<
     DescribeAssociationExecutionTargetsResult,
-    | AssociationDoesNotExist
-    | AssociationExecutionDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAssociationExecutionTargetsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAssociationExecutionTargetsRequest,
   ) => stream.Stream<
     AssociationExecutionTarget,
-    | AssociationDoesNotExist
-    | AssociationExecutionDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAssociationExecutionTargetsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12543,39 +12612,33 @@ export const describeAssociationExecutionTargets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAutomationExecutionsError =
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterValue
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Provides details about all active and terminated Automation executions.
  */
 export const describeAutomationExecutions: API.OperationMethod<
   DescribeAutomationExecutionsRequest,
   DescribeAutomationExecutionsResult,
-  | InternalServerError
-  | InvalidFilterKey
-  | InvalidFilterValue
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeAutomationExecutionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAutomationExecutionsRequest,
   ) => stream.Stream<
     DescribeAutomationExecutionsResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAutomationExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAutomationExecutionsRequest,
   ) => stream.Stream<
     AutomationExecutionMetadata,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAutomationExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12594,6 +12657,13 @@ export const describeAutomationExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAutomationStepExecutionsError =
+  | AutomationExecutionNotFoundException
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterValue
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Information about all active and terminated step executions in an Automation
  * workflow.
@@ -12601,36 +12671,21 @@ export const describeAutomationExecutions: API.OperationMethod<
 export const describeAutomationStepExecutions: API.OperationMethod<
   DescribeAutomationStepExecutionsRequest,
   DescribeAutomationStepExecutionsResult,
-  | AutomationExecutionNotFoundException
-  | InternalServerError
-  | InvalidFilterKey
-  | InvalidFilterValue
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeAutomationStepExecutionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAutomationStepExecutionsRequest,
   ) => stream.Stream<
     DescribeAutomationStepExecutionsResult,
-    | AutomationExecutionNotFoundException
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAutomationStepExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAutomationStepExecutionsRequest,
   ) => stream.Stream<
     StepExecution,
-    | AutomationExecutionNotFoundException
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeAutomationStepExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12650,6 +12705,7 @@ export const describeAutomationStepExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAvailablePatchesError = InternalServerError | CommonErrors;
 /**
  * Lists all patches eligible to be included in a patch baseline.
  *
@@ -12659,21 +12715,21 @@ export const describeAutomationStepExecutions: API.OperationMethod<
 export const describeAvailablePatches: API.OperationMethod<
   DescribeAvailablePatchesRequest,
   DescribeAvailablePatchesResult,
-  InternalServerError | CommonErrors,
+  DescribeAvailablePatchesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAvailablePatchesRequest,
   ) => stream.Stream<
     DescribeAvailablePatchesResult,
-    InternalServerError | CommonErrors,
+    DescribeAvailablePatchesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAvailablePatchesRequest,
   ) => stream.Stream<
     Patch,
-    InternalServerError | CommonErrors,
+    DescribeAvailablePatchesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12687,19 +12743,31 @@ export const describeAvailablePatches: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeDocumentError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentVersion
+  | CommonErrors;
 /**
  * Describes the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const describeDocument: API.OperationMethod<
   DescribeDocumentRequest,
   DescribeDocumentResult,
-  InternalServerError | InvalidDocument | InvalidDocumentVersion | CommonErrors,
+  DescribeDocumentError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDocumentRequest,
   output: DescribeDocumentResult,
   errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
 }));
+export type DescribeDocumentPermissionError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentOperation
+  | InvalidNextToken
+  | InvalidPermissionType
+  | CommonErrors;
 /**
  * Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the
  * document, you are the owner. If a document is shared, it can either be shared privately (by
@@ -12708,12 +12776,7 @@ export const describeDocument: API.OperationMethod<
 export const describeDocumentPermission: API.OperationMethod<
   DescribeDocumentPermissionRequest,
   DescribeDocumentPermissionResponse,
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentOperation
-  | InvalidNextToken
-  | InvalidPermissionType
-  | CommonErrors,
+  DescribeDocumentPermissionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDocumentPermissionRequest,
@@ -12726,27 +12789,32 @@ export const describeDocumentPermission: API.OperationMethod<
     InvalidPermissionType,
   ],
 }));
+export type DescribeEffectiveInstanceAssociationsError =
+  | InternalServerError
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * All associations for the managed nodes.
  */
 export const describeEffectiveInstanceAssociations: API.OperationMethod<
   DescribeEffectiveInstanceAssociationsRequest,
   DescribeEffectiveInstanceAssociationsResult,
-  InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+  DescribeEffectiveInstanceAssociationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEffectiveInstanceAssociationsRequest,
   ) => stream.Stream<
     DescribeEffectiveInstanceAssociationsResult,
-    InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+    DescribeEffectiveInstanceAssociationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEffectiveInstanceAssociationsRequest,
   ) => stream.Stream<
     InstanceAssociation,
-    InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+    DescribeEffectiveInstanceAssociationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12760,6 +12828,12 @@ export const describeEffectiveInstanceAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeEffectivePatchesForPatchBaselineError =
+  | DoesNotExistException
+  | InternalServerError
+  | InvalidResourceId
+  | UnsupportedOperatingSystem
+  | CommonErrors;
 /**
  * Retrieves the current effective patches (the patch and the approval state) for the specified
  * patch baseline. Applies to patch baselines for Windows only.
@@ -12767,33 +12841,21 @@ export const describeEffectiveInstanceAssociations: API.OperationMethod<
 export const describeEffectivePatchesForPatchBaseline: API.OperationMethod<
   DescribeEffectivePatchesForPatchBaselineRequest,
   DescribeEffectivePatchesForPatchBaselineResult,
-  | DoesNotExistException
-  | InternalServerError
-  | InvalidResourceId
-  | UnsupportedOperatingSystem
-  | CommonErrors,
+  DescribeEffectivePatchesForPatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEffectivePatchesForPatchBaselineRequest,
   ) => stream.Stream<
     DescribeEffectivePatchesForPatchBaselineResult,
-    | DoesNotExistException
-    | InternalServerError
-    | InvalidResourceId
-    | UnsupportedOperatingSystem
-    | CommonErrors,
+    DescribeEffectivePatchesForPatchBaselineError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEffectivePatchesForPatchBaselineRequest,
   ) => stream.Stream<
     EffectivePatch,
-    | DoesNotExistException
-    | InternalServerError
-    | InvalidResourceId
-    | UnsupportedOperatingSystem
-    | CommonErrors,
+    DescribeEffectivePatchesForPatchBaselineError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12812,27 +12874,32 @@ export const describeEffectivePatchesForPatchBaseline: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInstanceAssociationsStatusError =
+  | InternalServerError
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * The status of the associations for the managed nodes.
  */
 export const describeInstanceAssociationsStatus: API.OperationMethod<
   DescribeInstanceAssociationsStatusRequest,
   DescribeInstanceAssociationsStatusResult,
-  InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+  DescribeInstanceAssociationsStatusError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstanceAssociationsStatusRequest,
   ) => stream.Stream<
     DescribeInstanceAssociationsStatusResult,
-    InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+    DescribeInstanceAssociationsStatusError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstanceAssociationsStatusRequest,
   ) => stream.Stream<
     InstanceAssociationStatusInfo,
-    InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+    DescribeInstanceAssociationsStatusError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12846,6 +12913,13 @@ export const describeInstanceAssociationsStatus: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInstanceInformationError =
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidInstanceInformationFilterValue
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Provides information about one or more of your managed nodes, including the operating system
  * platform, SSM Agent version, association status, and IP address. This operation does not return
@@ -12862,36 +12936,21 @@ export const describeInstanceAssociationsStatus: API.OperationMethod<
 export const describeInstanceInformation: API.OperationMethod<
   DescribeInstanceInformationRequest,
   DescribeInstanceInformationResult,
-  | InternalServerError
-  | InvalidFilterKey
-  | InvalidInstanceId
-  | InvalidInstanceInformationFilterValue
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeInstanceInformationError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstanceInformationRequest,
   ) => stream.Stream<
     DescribeInstanceInformationResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidInstanceInformationFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInstanceInformationError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstanceInformationRequest,
   ) => stream.Stream<
     InstanceInformation,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidInstanceInformationFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInstanceInformationError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12911,6 +12970,12 @@ export const describeInstanceInformation: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInstancePatchesError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Retrieves information about the patches on the specified managed node and their state
  * relative to the patch baseline being used for the node.
@@ -12918,33 +12983,21 @@ export const describeInstanceInformation: API.OperationMethod<
 export const describeInstancePatches: API.OperationMethod<
   DescribeInstancePatchesRequest,
   DescribeInstancePatchesResult,
-  | InternalServerError
-  | InvalidFilter
-  | InvalidInstanceId
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeInstancePatchesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstancePatchesRequest,
   ) => stream.Stream<
     DescribeInstancePatchesResult,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInstancePatchesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstancePatchesRequest,
   ) => stream.Stream<
     PatchComplianceData,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInstancePatchesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12963,27 +13016,31 @@ export const describeInstancePatches: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInstancePatchStatesError =
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Retrieves the high-level patch state of one or more managed nodes.
  */
 export const describeInstancePatchStates: API.OperationMethod<
   DescribeInstancePatchStatesRequest,
   DescribeInstancePatchStatesResult,
-  InternalServerError | InvalidNextToken | CommonErrors,
+  DescribeInstancePatchStatesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstancePatchStatesRequest,
   ) => stream.Stream<
     DescribeInstancePatchStatesResult,
-    InternalServerError | InvalidNextToken | CommonErrors,
+    DescribeInstancePatchStatesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstancePatchStatesRequest,
   ) => stream.Stream<
     InstancePatchState,
-    InternalServerError | InvalidNextToken | CommonErrors,
+    DescribeInstancePatchStatesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12997,6 +13054,11 @@ export const describeInstancePatchStates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInstancePatchStatesForPatchGroupError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Retrieves the high-level patch state for the managed nodes in the specified patch
  * group.
@@ -13004,21 +13066,21 @@ export const describeInstancePatchStates: API.OperationMethod<
 export const describeInstancePatchStatesForPatchGroup: API.OperationMethod<
   DescribeInstancePatchStatesForPatchGroupRequest,
   DescribeInstancePatchStatesForPatchGroupResult,
-  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  DescribeInstancePatchStatesForPatchGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstancePatchStatesForPatchGroupRequest,
   ) => stream.Stream<
     DescribeInstancePatchStatesForPatchGroupResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    DescribeInstancePatchStatesForPatchGroupError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstancePatchStatesForPatchGroupRequest,
   ) => stream.Stream<
     InstancePatchState,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    DescribeInstancePatchStatesForPatchGroupError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13032,13 +13094,7 @@ export const describeInstancePatchStatesForPatchGroup: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * An API operation used by the Systems Manager console to display information about Systems Manager managed
- * nodes.
- */
-export const describeInstanceProperties: API.OperationMethod<
-  DescribeInstancePropertiesRequest,
-  DescribeInstancePropertiesResult,
+export type DescribeInstancePropertiesError =
   | InternalServerError
   | InvalidActivationId
   | InvalidDocument
@@ -13046,35 +13102,29 @@ export const describeInstanceProperties: API.OperationMethod<
   | InvalidInstanceId
   | InvalidInstancePropertyFilterValue
   | InvalidNextToken
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * An API operation used by the Systems Manager console to display information about Systems Manager managed
+ * nodes.
+ */
+export const describeInstanceProperties: API.OperationMethod<
+  DescribeInstancePropertiesRequest,
+  DescribeInstancePropertiesResult,
+  DescribeInstancePropertiesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInstancePropertiesRequest,
   ) => stream.Stream<
     DescribeInstancePropertiesResult,
-    | InternalServerError
-    | InvalidActivationId
-    | InvalidDocument
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidInstancePropertyFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInstancePropertiesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstancePropertiesRequest,
   ) => stream.Stream<
     InstanceProperty,
-    | InternalServerError
-    | InvalidActivationId
-    | InvalidDocument
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidInstancePropertyFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInstancePropertiesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13096,36 +13146,32 @@ export const describeInstanceProperties: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInventoryDeletionsError =
+  | InternalServerError
+  | InvalidDeletionIdException
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Describes a specific delete inventory operation.
  */
 export const describeInventoryDeletions: API.OperationMethod<
   DescribeInventoryDeletionsRequest,
   DescribeInventoryDeletionsResult,
-  | InternalServerError
-  | InvalidDeletionIdException
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeInventoryDeletionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInventoryDeletionsRequest,
   ) => stream.Stream<
     DescribeInventoryDeletionsResult,
-    | InternalServerError
-    | InvalidDeletionIdException
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInventoryDeletionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInventoryDeletionsRequest,
   ) => stream.Stream<
     InventoryDeletionStatusItem,
-    | InternalServerError
-    | InvalidDeletionIdException
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeInventoryDeletionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13139,6 +13185,9 @@ export const describeInventoryDeletions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowExecutionsError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * Lists the executions of a maintenance window. This includes information about when the
  * maintenance window was scheduled to be active, and information about tasks registered and run
@@ -13147,21 +13196,21 @@ export const describeInventoryDeletions: API.OperationMethod<
 export const describeMaintenanceWindowExecutions: API.OperationMethod<
   DescribeMaintenanceWindowExecutionsRequest,
   DescribeMaintenanceWindowExecutionsResult,
-  InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowExecutionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowExecutionsRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowExecutionsResult,
-    InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowExecutionsRequest,
   ) => stream.Stream<
     MaintenanceWindowExecution,
-    InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowExecutionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13175,6 +13224,10 @@ export const describeMaintenanceWindowExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowExecutionTaskInvocationsError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves the individual task executions (one per target) for a particular task run as part
  * of a maintenance window execution.
@@ -13182,21 +13235,21 @@ export const describeMaintenanceWindowExecutions: API.OperationMethod<
 export const describeMaintenanceWindowExecutionTaskInvocations: API.OperationMethod<
   DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
   DescribeMaintenanceWindowExecutionTaskInvocationsResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowExecutionTaskInvocationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowExecutionTaskInvocationsResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowExecutionTaskInvocationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
   ) => stream.Stream<
     MaintenanceWindowExecutionTaskInvocationIdentity,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowExecutionTaskInvocationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13210,27 +13263,31 @@ export const describeMaintenanceWindowExecutionTaskInvocations: API.OperationMet
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowExecutionTasksError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * For a given maintenance window execution, lists the tasks that were run.
  */
 export const describeMaintenanceWindowExecutionTasks: API.OperationMethod<
   DescribeMaintenanceWindowExecutionTasksRequest,
   DescribeMaintenanceWindowExecutionTasksResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowExecutionTasksError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowExecutionTasksRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowExecutionTasksResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowExecutionTasksError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowExecutionTasksRequest,
   ) => stream.Stream<
     MaintenanceWindowExecutionTaskIdentity,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowExecutionTasksError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13244,27 +13301,30 @@ export const describeMaintenanceWindowExecutionTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowsError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves the maintenance windows in an Amazon Web Services account.
  */
 export const describeMaintenanceWindows: API.OperationMethod<
   DescribeMaintenanceWindowsRequest,
   DescribeMaintenanceWindowsResult,
-  InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowsRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowsResult,
-    InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowsRequest,
   ) => stream.Stream<
     MaintenanceWindowIdentity,
-    InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13278,27 +13338,31 @@ export const describeMaintenanceWindows: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowScheduleError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves information about upcoming executions of a maintenance window.
  */
 export const describeMaintenanceWindowSchedule: API.OperationMethod<
   DescribeMaintenanceWindowScheduleRequest,
   DescribeMaintenanceWindowScheduleResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowScheduleError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowScheduleRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowScheduleResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowScheduleError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowScheduleRequest,
   ) => stream.Stream<
     ScheduledWindowExecution,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowScheduleError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13312,6 +13376,9 @@ export const describeMaintenanceWindowSchedule: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowsForTargetError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves information about the maintenance window targets or tasks that a managed node is
  * associated with.
@@ -13319,21 +13386,21 @@ export const describeMaintenanceWindowSchedule: API.OperationMethod<
 export const describeMaintenanceWindowsForTarget: API.OperationMethod<
   DescribeMaintenanceWindowsForTargetRequest,
   DescribeMaintenanceWindowsForTargetResult,
-  InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowsForTargetError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowsForTargetRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowsForTargetResult,
-    InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowsForTargetError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowsForTargetRequest,
   ) => stream.Stream<
     MaintenanceWindowIdentityForTarget,
-    InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowsForTargetError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13347,27 +13414,31 @@ export const describeMaintenanceWindowsForTarget: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowTargetsError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Lists the targets registered with the maintenance window.
  */
 export const describeMaintenanceWindowTargets: API.OperationMethod<
   DescribeMaintenanceWindowTargetsRequest,
   DescribeMaintenanceWindowTargetsResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowTargetsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowTargetsRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowTargetsResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowTargetsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowTargetsRequest,
   ) => stream.Stream<
     MaintenanceWindowTarget,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowTargetsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13381,6 +13452,10 @@ export const describeMaintenanceWindowTargets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMaintenanceWindowTasksError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Lists the tasks in a maintenance window.
  *
@@ -13392,21 +13467,21 @@ export const describeMaintenanceWindowTargets: API.OperationMethod<
 export const describeMaintenanceWindowTasks: API.OperationMethod<
   DescribeMaintenanceWindowTasksRequest,
   DescribeMaintenanceWindowTasksResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  DescribeMaintenanceWindowTasksError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMaintenanceWindowTasksRequest,
   ) => stream.Stream<
     DescribeMaintenanceWindowTasksResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowTasksError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMaintenanceWindowTasksRequest,
   ) => stream.Stream<
     MaintenanceWindowTask,
-    DoesNotExistException | InternalServerError | CommonErrors,
+    DescribeMaintenanceWindowTasksError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13420,6 +13495,7 @@ export const describeMaintenanceWindowTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeOpsItemsError = InternalServerError | CommonErrors;
 /**
  * Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
@@ -13432,21 +13508,21 @@ export const describeMaintenanceWindowTasks: API.OperationMethod<
 export const describeOpsItems: API.OperationMethod<
   DescribeOpsItemsRequest,
   DescribeOpsItemsResponse,
-  InternalServerError | CommonErrors,
+  DescribeOpsItemsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOpsItemsRequest,
   ) => stream.Stream<
     DescribeOpsItemsResponse,
-    InternalServerError | CommonErrors,
+    DescribeOpsItemsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOpsItemsRequest,
   ) => stream.Stream<
     OpsItemSummary,
-    InternalServerError | CommonErrors,
+    DescribeOpsItemsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13460,6 +13536,13 @@ export const describeOpsItems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeParametersError =
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterOption
+  | InvalidFilterValue
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable
  * the Shared option.
@@ -13483,36 +13566,21 @@ export const describeOpsItems: API.OperationMethod<
 export const describeParameters: API.OperationMethod<
   DescribeParametersRequest,
   DescribeParametersResult,
-  | InternalServerError
-  | InvalidFilterKey
-  | InvalidFilterOption
-  | InvalidFilterValue
-  | InvalidNextToken
-  | CommonErrors,
+  DescribeParametersError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeParametersRequest,
   ) => stream.Stream<
     DescribeParametersResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterOption
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeParametersError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeParametersRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterOption
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
+    DescribeParametersError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13531,27 +13599,28 @@ export const describeParameters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePatchBaselinesError = InternalServerError | CommonErrors;
 /**
  * Lists the patch baselines in your Amazon Web Services account.
  */
 export const describePatchBaselines: API.OperationMethod<
   DescribePatchBaselinesRequest,
   DescribePatchBaselinesResult,
-  InternalServerError | CommonErrors,
+  DescribePatchBaselinesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePatchBaselinesRequest,
   ) => stream.Stream<
     DescribePatchBaselinesResult,
-    InternalServerError | CommonErrors,
+    DescribePatchBaselinesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePatchBaselinesRequest,
   ) => stream.Stream<
     PatchBaselineIdentity,
-    InternalServerError | CommonErrors,
+    DescribePatchBaselinesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13565,27 +13634,28 @@ export const describePatchBaselines: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePatchGroupsError = InternalServerError | CommonErrors;
 /**
  * Lists all patch groups that have been registered with patch baselines.
  */
 export const describePatchGroups: API.OperationMethod<
   DescribePatchGroupsRequest,
   DescribePatchGroupsResult,
-  InternalServerError | CommonErrors,
+  DescribePatchGroupsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePatchGroupsRequest,
   ) => stream.Stream<
     DescribePatchGroupsResult,
-    InternalServerError | CommonErrors,
+    DescribePatchGroupsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePatchGroupsRequest,
   ) => stream.Stream<
     PatchGroupPatchBaselineMapping,
-    InternalServerError | CommonErrors,
+    DescribePatchGroupsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13599,19 +13669,24 @@ export const describePatchGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribePatchGroupStateError =
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Returns high-level aggregated patch compliance state information for a patch group.
  */
 export const describePatchGroupState: API.OperationMethod<
   DescribePatchGroupStateRequest,
   DescribePatchGroupStateResult,
-  InternalServerError | InvalidNextToken | CommonErrors,
+  DescribePatchGroupStateError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePatchGroupStateRequest,
   output: DescribePatchGroupStateResult,
   errors: [InternalServerError, InvalidNextToken],
 }));
+export type DescribePatchPropertiesError = InternalServerError | CommonErrors;
 /**
  * Lists the properties of available patches organized by product, product family,
  * classification, severity, and other properties of available patches. You can use the reported
@@ -13675,21 +13750,21 @@ export const describePatchGroupState: API.OperationMethod<
 export const describePatchProperties: API.OperationMethod<
   DescribePatchPropertiesRequest,
   DescribePatchPropertiesResult,
-  InternalServerError | CommonErrors,
+  DescribePatchPropertiesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePatchPropertiesRequest,
   ) => stream.Stream<
     DescribePatchPropertiesResult,
-    InternalServerError | CommonErrors,
+    DescribePatchPropertiesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePatchPropertiesRequest,
   ) => stream.Stream<
     { [key: string]: string | undefined },
-    InternalServerError | CommonErrors,
+    DescribePatchPropertiesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13703,6 +13778,11 @@ export const describePatchProperties: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeSessionsError =
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Retrieves a list of all active sessions (both connected and disconnected) or terminated
  * sessions from the past 30 days.
@@ -13710,21 +13790,21 @@ export const describePatchProperties: API.OperationMethod<
 export const describeSessions: API.OperationMethod<
   DescribeSessionsRequest,
   DescribeSessionsResponse,
-  InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+  DescribeSessionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSessionsRequest,
   ) => stream.Stream<
     DescribeSessionsResponse,
-    InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+    DescribeSessionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSessionsRequest,
   ) => stream.Stream<
     Session,
-    InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+    DescribeSessionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13738,6 +13818,13 @@ export const describeSessions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DisassociateOpsItemRelatedItemError =
+  | InternalServerError
+  | OpsItemConflictException
+  | OpsItemInvalidParameterException
+  | OpsItemNotFoundException
+  | OpsItemRelatedItemAssociationNotFoundException
+  | CommonErrors;
 /**
  * Deletes the association between an OpsItem and a related item. For example, this API
  * operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in
@@ -13746,12 +13833,7 @@ export const describeSessions: API.OperationMethod<
 export const disassociateOpsItemRelatedItem: API.OperationMethod<
   DisassociateOpsItemRelatedItemRequest,
   DisassociateOpsItemRelatedItemResponse,
-  | InternalServerError
-  | OpsItemConflictException
-  | OpsItemInvalidParameterException
-  | OpsItemNotFoundException
-  | OpsItemRelatedItemAssociationNotFoundException
-  | CommonErrors,
+  DisassociateOpsItemRelatedItemError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateOpsItemRelatedItemRequest,
@@ -13764,18 +13846,20 @@ export const disassociateOpsItemRelatedItem: API.OperationMethod<
     OpsItemRelatedItemAssociationNotFoundException,
   ],
 }));
+export type GetAccessTokenError =
+  | AccessDeniedException
+  | InternalServerError
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a credentials set to be used with just-in-time node access.
  */
 export const getAccessToken: API.OperationMethod<
   GetAccessTokenRequest,
   GetAccessTokenResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccessTokenError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessTokenRequest,
@@ -13788,19 +13872,29 @@ export const getAccessToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAutomationExecutionError =
+  | AutomationExecutionNotFoundException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Get detailed information about a particular Automation execution.
  */
 export const getAutomationExecution: API.OperationMethod<
   GetAutomationExecutionRequest,
   GetAutomationExecutionResult,
-  AutomationExecutionNotFoundException | InternalServerError | CommonErrors,
+  GetAutomationExecutionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomationExecutionRequest,
   output: GetAutomationExecutionResult,
   errors: [AutomationExecutionNotFoundException, InternalServerError],
 }));
+export type GetCalendarStateError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentType
+  | UnsupportedCalendarException
+  | CommonErrors;
 /**
  * Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If
  * you specify a time, `GetCalendarState` returns the state of the calendar at that
@@ -13817,11 +13911,7 @@ export const getAutomationExecution: API.OperationMethod<
 export const getCalendarState: API.OperationMethod<
   GetCalendarStateRequest,
   GetCalendarStateResponse,
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentType
-  | UnsupportedCalendarException
-  | CommonErrors,
+  GetCalendarStateError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCalendarStateRequest,
@@ -13833,6 +13923,13 @@ export const getCalendarState: API.OperationMethod<
     UnsupportedCalendarException,
   ],
 }));
+export type GetCommandInvocationError =
+  | InternalServerError
+  | InvalidCommandId
+  | InvalidInstanceId
+  | InvalidPluginName
+  | InvocationDoesNotExist
+  | CommonErrors;
 /**
  * Returns detailed information about command execution for an invocation or plugin. The Run
  * Command API follows an eventual consistency model, due to the distributed nature of the system
@@ -13848,12 +13945,7 @@ export const getCalendarState: API.OperationMethod<
 export const getCommandInvocation: API.OperationMethod<
   GetCommandInvocationRequest,
   GetCommandInvocationResult,
-  | InternalServerError
-  | InvalidCommandId
-  | InvalidInstanceId
-  | InvalidPluginName
-  | InvocationDoesNotExist
-  | CommonErrors,
+  GetCommandInvocationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommandInvocationRequest,
@@ -13866,6 +13958,7 @@ export const getCommandInvocation: API.OperationMethod<
     InvocationDoesNotExist,
   ],
 }));
+export type GetConnectionStatusError = InternalServerError | CommonErrors;
 /**
  * Retrieves the Session Manager connection status for a managed node to determine whether it is running
  * and ready to receive Session Manager connections.
@@ -13873,13 +13966,14 @@ export const getCommandInvocation: API.OperationMethod<
 export const getConnectionStatus: API.OperationMethod<
   GetConnectionStatusRequest,
   GetConnectionStatusResponse,
-  InternalServerError | CommonErrors,
+  GetConnectionStatusError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionStatusRequest,
   output: GetConnectionStatusResponse,
   errors: [InternalServerError],
 }));
+export type GetDefaultPatchBaselineError = InternalServerError | CommonErrors;
 /**
  * Retrieves the default patch baseline. Amazon Web Services Systems Manager supports creating multiple default patch
  * baselines. For example, you can create a default patch baseline for each operating system.
@@ -13890,13 +13984,18 @@ export const getConnectionStatus: API.OperationMethod<
 export const getDefaultPatchBaseline: API.OperationMethod<
   GetDefaultPatchBaselineRequest,
   GetDefaultPatchBaselineResult,
-  InternalServerError | CommonErrors,
+  GetDefaultPatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultPatchBaselineRequest,
   output: GetDefaultPatchBaselineResult,
   errors: [InternalServerError],
 }));
+export type GetDeployablePatchSnapshotForInstanceError =
+  | InternalServerError
+  | UnsupportedFeatureRequiredException
+  | UnsupportedOperatingSystem
+  | CommonErrors;
 /**
  * Retrieves the current snapshot for the patch baseline the managed node uses. This API is
  * primarily used by the `AWS-RunPatchBaseline` Systems Manager document (SSM document).
@@ -13910,10 +14009,7 @@ export const getDefaultPatchBaseline: API.OperationMethod<
 export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
   GetDeployablePatchSnapshotForInstanceRequest,
   GetDeployablePatchSnapshotForInstanceResult,
-  | InternalServerError
-  | UnsupportedFeatureRequiredException
-  | UnsupportedOperatingSystem
-  | CommonErrors,
+  GetDeployablePatchSnapshotForInstanceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeployablePatchSnapshotForInstanceRequest,
@@ -13924,19 +14020,28 @@ export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
     UnsupportedOperatingSystem,
   ],
 }));
+export type GetDocumentError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentVersion
+  | CommonErrors;
 /**
  * Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const getDocument: API.OperationMethod<
   GetDocumentRequest,
   GetDocumentResult,
-  InternalServerError | InvalidDocument | InvalidDocumentVersion | CommonErrors,
+  GetDocumentError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentRequest,
   output: GetDocumentResult,
   errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
 }));
+export type GetExecutionPreviewError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Initiates the process of retrieving an existing preview that shows the effects that running
  * a specified Automation runbook would have on the targeted resources.
@@ -13944,20 +14049,14 @@ export const getDocument: API.OperationMethod<
 export const getExecutionPreview: API.OperationMethod<
   GetExecutionPreviewRequest,
   GetExecutionPreviewResponse,
-  InternalServerError | ResourceNotFoundException | CommonErrors,
+  GetExecutionPreviewError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExecutionPreviewRequest,
   output: GetExecutionPreviewResponse,
   errors: [InternalServerError, ResourceNotFoundException],
 }));
-/**
- * Query inventory information. This includes managed node status, such as `Stopped`
- * or `Terminated`.
- */
-export const getInventory: API.OperationMethod<
-  GetInventoryRequest,
-  GetInventoryResult,
+export type GetInventoryError =
   | InternalServerError
   | InvalidAggregatorException
   | InvalidFilter
@@ -13965,35 +14064,29 @@ export const getInventory: API.OperationMethod<
   | InvalidNextToken
   | InvalidResultAttributeException
   | InvalidTypeNameException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Query inventory information. This includes managed node status, such as `Stopped`
+ * or `Terminated`.
+ */
+export const getInventory: API.OperationMethod<
+  GetInventoryRequest,
+  GetInventoryResult,
+  GetInventoryError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetInventoryRequest,
   ) => stream.Stream<
     GetInventoryResult,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidInventoryGroupException
-    | InvalidNextToken
-    | InvalidResultAttributeException
-    | InvalidTypeNameException
-    | CommonErrors,
+    GetInventoryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetInventoryRequest,
   ) => stream.Stream<
     InventoryResultEntity,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidInventoryGroupException
-    | InvalidNextToken
-    | InvalidResultAttributeException
-    | InvalidTypeNameException
-    | CommonErrors,
+    GetInventoryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14015,6 +14108,11 @@ export const getInventory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetInventorySchemaError =
+  | InternalServerError
+  | InvalidNextToken
+  | InvalidTypeNameException
+  | CommonErrors;
 /**
  * Return a list of inventory type names for the account, or return a list of attribute names
  * for a specific Inventory item type.
@@ -14022,30 +14120,21 @@ export const getInventory: API.OperationMethod<
 export const getInventorySchema: API.OperationMethod<
   GetInventorySchemaRequest,
   GetInventorySchemaResult,
-  | InternalServerError
-  | InvalidNextToken
-  | InvalidTypeNameException
-  | CommonErrors,
+  GetInventorySchemaError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetInventorySchemaRequest,
   ) => stream.Stream<
     GetInventorySchemaResult,
-    | InternalServerError
-    | InvalidNextToken
-    | InvalidTypeNameException
-    | CommonErrors,
+    GetInventorySchemaError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetInventorySchemaRequest,
   ) => stream.Stream<
     InventoryItemSchema,
-    | InternalServerError
-    | InvalidNextToken
-    | InvalidTypeNameException
-    | CommonErrors,
+    GetInventorySchemaError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14059,32 +14148,44 @@ export const getInventorySchema: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetMaintenanceWindowError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves a maintenance window.
  */
 export const getMaintenanceWindow: API.OperationMethod<
   GetMaintenanceWindowRequest,
   GetMaintenanceWindowResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  GetMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMaintenanceWindowRequest,
   output: GetMaintenanceWindowResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type GetMaintenanceWindowExecutionError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves details about a specific a maintenance window execution.
  */
 export const getMaintenanceWindowExecution: API.OperationMethod<
   GetMaintenanceWindowExecutionRequest,
   GetMaintenanceWindowExecutionResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  GetMaintenanceWindowExecutionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMaintenanceWindowExecutionRequest,
   output: GetMaintenanceWindowExecutionResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type GetMaintenanceWindowExecutionTaskError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves the details about a specific task run as part of a maintenance window
  * execution.
@@ -14092,26 +14193,34 @@ export const getMaintenanceWindowExecution: API.OperationMethod<
 export const getMaintenanceWindowExecutionTask: API.OperationMethod<
   GetMaintenanceWindowExecutionTaskRequest,
   GetMaintenanceWindowExecutionTaskResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  GetMaintenanceWindowExecutionTaskError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMaintenanceWindowExecutionTaskRequest,
   output: GetMaintenanceWindowExecutionTaskResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type GetMaintenanceWindowExecutionTaskInvocationError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves information about a specific task running on a specific target.
  */
 export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
   GetMaintenanceWindowExecutionTaskInvocationRequest,
   GetMaintenanceWindowExecutionTaskInvocationResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  GetMaintenanceWindowExecutionTaskInvocationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMaintenanceWindowExecutionTaskInvocationRequest,
   output: GetMaintenanceWindowExecutionTaskInvocationResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type GetMaintenanceWindowTaskError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves the details of a maintenance window task.
  *
@@ -14125,13 +14234,18 @@ export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
 export const getMaintenanceWindowTask: API.OperationMethod<
   GetMaintenanceWindowTaskRequest,
   GetMaintenanceWindowTaskResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  GetMaintenanceWindowTaskError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMaintenanceWindowTaskRequest,
   output: GetMaintenanceWindowTaskResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type GetOpsItemError =
+  | InternalServerError
+  | OpsItemAccessDeniedException
+  | OpsItemNotFoundException
+  | CommonErrors;
 /**
  * Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information,
  * see Set
@@ -14145,10 +14259,7 @@ export const getMaintenanceWindowTask: API.OperationMethod<
 export const getOpsItem: API.OperationMethod<
   GetOpsItemRequest,
   GetOpsItemResponse,
-  | InternalServerError
-  | OpsItemAccessDeniedException
-  | OpsItemNotFoundException
-  | CommonErrors,
+  GetOpsItemError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpsItemRequest,
@@ -14159,16 +14270,18 @@ export const getOpsItem: API.OperationMethod<
     OpsItemNotFoundException,
   ],
 }));
+export type GetOpsMetadataError =
+  | InternalServerError
+  | OpsMetadataInvalidArgumentException
+  | OpsMetadataNotFoundException
+  | CommonErrors;
 /**
  * View operational metadata related to an application in Application Manager.
  */
 export const getOpsMetadata: API.OperationMethod<
   GetOpsMetadataRequest,
   GetOpsMetadataResult,
-  | InternalServerError
-  | OpsMetadataInvalidArgumentException
-  | OpsMetadataNotFoundException
-  | CommonErrors,
+  GetOpsMetadataError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpsMetadataRequest,
@@ -14179,6 +14292,14 @@ export const getOpsMetadata: API.OperationMethod<
     OpsMetadataNotFoundException,
   ],
 }));
+export type GetOpsSummaryError =
+  | InternalServerError
+  | InvalidAggregatorException
+  | InvalidFilter
+  | InvalidNextToken
+  | InvalidTypeNameException
+  | ResourceDataSyncNotFoundException
+  | CommonErrors;
 /**
  * View a summary of operations metadata (OpsData) based on specified filters and aggregators.
  * OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as
@@ -14188,39 +14309,21 @@ export const getOpsMetadata: API.OperationMethod<
 export const getOpsSummary: API.OperationMethod<
   GetOpsSummaryRequest,
   GetOpsSummaryResult,
-  | InternalServerError
-  | InvalidAggregatorException
-  | InvalidFilter
-  | InvalidNextToken
-  | InvalidTypeNameException
-  | ResourceDataSyncNotFoundException
-  | CommonErrors,
+  GetOpsSummaryError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOpsSummaryRequest,
   ) => stream.Stream<
     GetOpsSummaryResult,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidNextToken
-    | InvalidTypeNameException
-    | ResourceDataSyncNotFoundException
-    | CommonErrors,
+    GetOpsSummaryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetOpsSummaryRequest,
   ) => stream.Stream<
     OpsEntity,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidNextToken
-    | InvalidTypeNameException
-    | ResourceDataSyncNotFoundException
-    | CommonErrors,
+    GetOpsSummaryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14241,6 +14344,12 @@ export const getOpsSummary: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetParameterError =
+  | InternalServerError
+  | InvalidKeyId
+  | ParameterNotFound
+  | ParameterVersionNotFound
+  | CommonErrors;
 /**
  * Get information about a single parameter by specifying the parameter name.
  *
@@ -14253,11 +14362,7 @@ export const getOpsSummary: API.OperationMethod<
 export const getParameter: API.OperationMethod<
   GetParameterRequest,
   GetParameterResult,
-  | InternalServerError
-  | InvalidKeyId
-  | ParameterNotFound
-  | ParameterVersionNotFound
-  | CommonErrors,
+  GetParameterError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParameterRequest,
@@ -14269,6 +14374,12 @@ export const getParameter: API.OperationMethod<
     ParameterVersionNotFound,
   ],
 }));
+export type GetParameterHistoryError =
+  | InternalServerError
+  | InvalidKeyId
+  | InvalidNextToken
+  | ParameterNotFound
+  | CommonErrors;
 /**
  * Retrieves the history of all changes to a parameter.
  *
@@ -14284,33 +14395,21 @@ export const getParameter: API.OperationMethod<
 export const getParameterHistory: API.OperationMethod<
   GetParameterHistoryRequest,
   GetParameterHistoryResult,
-  | InternalServerError
-  | InvalidKeyId
-  | InvalidNextToken
-  | ParameterNotFound
-  | CommonErrors,
+  GetParameterHistoryError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetParameterHistoryRequest,
   ) => stream.Stream<
     GetParameterHistoryResult,
-    | InternalServerError
-    | InvalidKeyId
-    | InvalidNextToken
-    | ParameterNotFound
-    | CommonErrors,
+    GetParameterHistoryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetParameterHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerError
-    | InvalidKeyId
-    | InvalidNextToken
-    | ParameterNotFound
-    | CommonErrors,
+    GetParameterHistoryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14328,6 +14427,10 @@ export const getParameterHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetParametersError =
+  | InternalServerError
+  | InvalidKeyId
+  | CommonErrors;
 /**
  * Get information about one or more parameters by specifying multiple parameter names.
  *
@@ -14341,13 +14444,21 @@ export const getParameterHistory: API.OperationMethod<
 export const getParameters: API.OperationMethod<
   GetParametersRequest,
   GetParametersResult,
-  InternalServerError | InvalidKeyId | CommonErrors,
+  GetParametersError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParametersRequest,
   output: GetParametersResult,
   errors: [InternalServerError, InvalidKeyId],
 }));
+export type GetParametersByPathError =
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterOption
+  | InvalidFilterValue
+  | InvalidKeyId
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Retrieve information about one or more parameters under a specified level in a hierarchy.
  *
@@ -14365,39 +14476,21 @@ export const getParameters: API.OperationMethod<
 export const getParametersByPath: API.OperationMethod<
   GetParametersByPathRequest,
   GetParametersByPathResult,
-  | InternalServerError
-  | InvalidFilterKey
-  | InvalidFilterOption
-  | InvalidFilterValue
-  | InvalidKeyId
-  | InvalidNextToken
-  | CommonErrors,
+  GetParametersByPathError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetParametersByPathRequest,
   ) => stream.Stream<
     GetParametersByPathResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterOption
-    | InvalidFilterValue
-    | InvalidKeyId
-    | InvalidNextToken
-    | CommonErrors,
+    GetParametersByPathError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetParametersByPathRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterOption
-    | InvalidFilterValue
-    | InvalidKeyId
-    | InvalidNextToken
-    | CommonErrors,
+    GetParametersByPathError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14417,65 +14510,66 @@ export const getParametersByPath: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetPatchBaselineError =
+  | DoesNotExistException
+  | InternalServerError
+  | InvalidResourceId
+  | CommonErrors;
 /**
  * Retrieves information about a patch baseline.
  */
 export const getPatchBaseline: API.OperationMethod<
   GetPatchBaselineRequest,
   GetPatchBaselineResult,
-  | DoesNotExistException
-  | InternalServerError
-  | InvalidResourceId
-  | CommonErrors,
+  GetPatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPatchBaselineRequest,
   output: GetPatchBaselineResult,
   errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
 }));
+export type GetPatchBaselineForPatchGroupError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * Retrieves the patch baseline that should be used for the specified patch group.
  */
 export const getPatchBaselineForPatchGroup: API.OperationMethod<
   GetPatchBaselineForPatchGroupRequest,
   GetPatchBaselineForPatchGroupResult,
-  InternalServerError | CommonErrors,
+  GetPatchBaselineForPatchGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPatchBaselineForPatchGroupRequest,
   output: GetPatchBaselineForPatchGroupResult,
   errors: [InternalServerError],
 }));
+export type GetResourcePoliciesError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | ResourcePolicyInvalidParameterException
+  | CommonErrors;
 /**
  * Returns an array of the `Policy` object.
  */
 export const getResourcePolicies: API.OperationMethod<
   GetResourcePoliciesRequest,
   GetResourcePoliciesResponse,
-  | InternalServerError
-  | ResourceNotFoundException
-  | ResourcePolicyInvalidParameterException
-  | CommonErrors,
+  GetResourcePoliciesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
     GetResourcePoliciesResponse,
-    | InternalServerError
-    | ResourceNotFoundException
-    | ResourcePolicyInvalidParameterException
-    | CommonErrors,
+    GetResourcePoliciesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
     GetResourcePoliciesResponseEntry,
-    | InternalServerError
-    | ResourceNotFoundException
-    | ResourcePolicyInvalidParameterException
-    | CommonErrors,
+    GetResourcePoliciesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14493,6 +14587,10 @@ export const getResourcePolicies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetServiceSettingError =
+  | InternalServerError
+  | ServiceSettingNotFound
+  | CommonErrors;
 /**
  * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
  * defines how a user interacts with or uses a service or a feature of a service. For example, if an
@@ -14513,13 +14611,20 @@ export const getResourcePolicies: API.OperationMethod<
 export const getServiceSetting: API.OperationMethod<
   GetServiceSettingRequest,
   GetServiceSettingResult,
-  InternalServerError | ServiceSettingNotFound | CommonErrors,
+  GetServiceSettingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingRequest,
   output: GetServiceSettingResult,
   errors: [InternalServerError, ServiceSettingNotFound],
 }));
+export type LabelParameterVersionError =
+  | InternalServerError
+  | ParameterNotFound
+  | ParameterVersionLabelLimitExceeded
+  | ParameterVersionNotFound
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * A parameter label is a user-defined alias to help you manage different versions of a
  * parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and
@@ -14557,12 +14662,7 @@ export const getServiceSetting: API.OperationMethod<
 export const labelParameterVersion: API.OperationMethod<
   LabelParameterVersionRequest,
   LabelParameterVersionResult,
-  | InternalServerError
-  | ParameterNotFound
-  | ParameterVersionLabelLimitExceeded
-  | ParameterVersionNotFound
-  | TooManyUpdates
-  | CommonErrors,
+  LabelParameterVersionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LabelParameterVersionRequest,
@@ -14575,6 +14675,10 @@ export const labelParameterVersion: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type ListAssociationsError =
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You
  * can limit the results to a specific State Manager association document or managed node by
@@ -14583,21 +14687,21 @@ export const labelParameterVersion: API.OperationMethod<
 export const listAssociations: API.OperationMethod<
   ListAssociationsRequest,
   ListAssociationsResult,
-  InternalServerError | InvalidNextToken | CommonErrors,
+  ListAssociationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociationsRequest,
   ) => stream.Stream<
     ListAssociationsResult,
-    InternalServerError | InvalidNextToken | CommonErrors,
+    ListAssociationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociationsRequest,
   ) => stream.Stream<
     Association,
-    InternalServerError | InvalidNextToken | CommonErrors,
+    ListAssociationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14611,36 +14715,32 @@ export const listAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAssociationVersionsError =
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Retrieves all versions of an association for a specific association ID.
  */
 export const listAssociationVersions: API.OperationMethod<
   ListAssociationVersionsRequest,
   ListAssociationVersionsResult,
-  | AssociationDoesNotExist
-  | InternalServerError
-  | InvalidNextToken
-  | CommonErrors,
+  ListAssociationVersionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociationVersionsRequest,
   ) => stream.Stream<
     ListAssociationVersionsResult,
-    | AssociationDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
+    ListAssociationVersionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociationVersionsRequest,
   ) => stream.Stream<
     AssociationVersionInfo,
-    | AssociationDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
+    ListAssociationVersionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14654,6 +14754,13 @@ export const listAssociationVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCommandInvocationsError =
+  | InternalServerError
+  | InvalidCommandId
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * An invocation is copy of a command sent to a specific managed node. A command can apply to
  * one or more managed nodes. A command invocation applies to one managed node. For example, if a
@@ -14664,36 +14771,21 @@ export const listAssociationVersions: API.OperationMethod<
 export const listCommandInvocations: API.OperationMethod<
   ListCommandInvocationsRequest,
   ListCommandInvocationsResult,
-  | InternalServerError
-  | InvalidCommandId
-  | InvalidFilterKey
-  | InvalidInstanceId
-  | InvalidNextToken
-  | CommonErrors,
+  ListCommandInvocationsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommandInvocationsRequest,
   ) => stream.Stream<
     ListCommandInvocationsResult,
-    | InternalServerError
-    | InvalidCommandId
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
+    ListCommandInvocationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCommandInvocationsRequest,
   ) => stream.Stream<
     CommandInvocation,
-    | InternalServerError
-    | InvalidCommandId
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
+    ListCommandInvocationsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14713,42 +14805,34 @@ export const listCommandInvocations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCommandsError =
+  | InternalServerError
+  | InvalidCommandId
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Lists the commands requested by users of the Amazon Web Services account.
  */
 export const listCommands: API.OperationMethod<
   ListCommandsRequest,
   ListCommandsResult,
-  | InternalServerError
-  | InvalidCommandId
-  | InvalidFilterKey
-  | InvalidInstanceId
-  | InvalidNextToken
-  | CommonErrors,
+  ListCommandsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommandsRequest,
   ) => stream.Stream<
     ListCommandsResult,
-    | InternalServerError
-    | InvalidCommandId
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
+    ListCommandsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCommandsRequest,
   ) => stream.Stream<
     Command,
-    | InternalServerError
-    | InvalidCommandId
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
+    ListCommandsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14768,6 +14852,13 @@ export const listCommands: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListComplianceItemsError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | InvalidResourceId
+  | InvalidResourceType
+  | CommonErrors;
 /**
  * For a specified resource ID, this API operation returns a list of compliance statuses for
  * different resource types. Currently, you can only specify one resource ID per call. List results
@@ -14776,36 +14867,21 @@ export const listCommands: API.OperationMethod<
 export const listComplianceItems: API.OperationMethod<
   ListComplianceItemsRequest,
   ListComplianceItemsResult,
-  | InternalServerError
-  | InvalidFilter
-  | InvalidNextToken
-  | InvalidResourceId
-  | InvalidResourceType
-  | CommonErrors,
+  ListComplianceItemsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComplianceItemsRequest,
   ) => stream.Stream<
     ListComplianceItemsResult,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidNextToken
-    | InvalidResourceId
-    | InvalidResourceType
-    | CommonErrors,
+    ListComplianceItemsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListComplianceItemsRequest,
   ) => stream.Stream<
     ComplianceItem,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidNextToken
-    | InvalidResourceId
-    | InvalidResourceType
-    | CommonErrors,
+    ListComplianceItemsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14825,6 +14901,11 @@ export const listComplianceItems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListComplianceSummariesError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Returns a summary count of compliant and non-compliant resources for a compliance type. For
  * example, this call can return State Manager associations, patches, or custom compliance types
@@ -14833,21 +14914,21 @@ export const listComplianceItems: API.OperationMethod<
 export const listComplianceSummaries: API.OperationMethod<
   ListComplianceSummariesRequest,
   ListComplianceSummariesResult,
-  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  ListComplianceSummariesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComplianceSummariesRequest,
   ) => stream.Stream<
     ListComplianceSummariesResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    ListComplianceSummariesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListComplianceSummariesRequest,
   ) => stream.Stream<
     ComplianceSummaryItem,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    ListComplianceSummariesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14861,6 +14942,12 @@ export const listComplianceSummaries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDocumentMetadataHistoryError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentVersion
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can
  * continue to use the service as normal. For more information, see
@@ -14871,11 +14958,7 @@ export const listComplianceSummaries: API.OperationMethod<
 export const listDocumentMetadataHistory: API.OperationMethod<
   ListDocumentMetadataHistoryRequest,
   ListDocumentMetadataHistoryResponse,
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentVersion
-  | InvalidNextToken
-  | CommonErrors,
+  ListDocumentMetadataHistoryError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDocumentMetadataHistoryRequest,
@@ -14887,6 +14970,11 @@ export const listDocumentMetadataHistory: API.OperationMethod<
     InvalidNextToken,
   ],
 }));
+export type ListDocumentsError =
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can
  * limit the results of this request by using a filter.
@@ -14894,21 +14982,21 @@ export const listDocumentMetadataHistory: API.OperationMethod<
 export const listDocuments: API.OperationMethod<
   ListDocumentsRequest,
   ListDocumentsResult,
-  InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+  ListDocumentsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDocumentsRequest,
   ) => stream.Stream<
     ListDocumentsResult,
-    InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+    ListDocumentsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDocumentsRequest,
   ) => stream.Stream<
     DocumentIdentifier,
-    InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+    ListDocumentsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14922,27 +15010,32 @@ export const listDocuments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDocumentVersionsError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * List all versions for a document.
  */
 export const listDocumentVersions: API.OperationMethod<
   ListDocumentVersionsRequest,
   ListDocumentVersionsResult,
-  InternalServerError | InvalidDocument | InvalidNextToken | CommonErrors,
+  ListDocumentVersionsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDocumentVersionsRequest,
   ) => stream.Stream<
     ListDocumentVersionsResult,
-    InternalServerError | InvalidDocument | InvalidNextToken | CommonErrors,
+    ListDocumentVersionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDocumentVersionsRequest,
   ) => stream.Stream<
     DocumentVersionInfo,
-    InternalServerError | InvalidDocument | InvalidNextToken | CommonErrors,
+    ListDocumentVersionsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14956,18 +15049,20 @@ export const listDocumentVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListInventoryEntriesError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidInstanceId
+  | InvalidNextToken
+  | InvalidTypeNameException
+  | CommonErrors;
 /**
  * A list of inventory items returned by the request.
  */
 export const listInventoryEntries: API.OperationMethod<
   ListInventoryEntriesRequest,
   ListInventoryEntriesResult,
-  | InternalServerError
-  | InvalidFilter
-  | InvalidInstanceId
-  | InvalidNextToken
-  | InvalidTypeNameException
-  | CommonErrors,
+  ListInventoryEntriesError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInventoryEntriesRequest,
@@ -14980,44 +15075,32 @@ export const listInventoryEntries: API.OperationMethod<
     InvalidTypeNameException,
   ],
 }));
+export type ListNodesError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | ResourceDataSyncNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Takes in filters and returns a list of managed nodes matching the filter criteria.
  */
 export const listNodes: API.OperationMethod<
   ListNodesRequest,
   ListNodesResult,
-  | InternalServerError
-  | InvalidFilter
-  | InvalidNextToken
-  | ResourceDataSyncNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListNodesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
     ListNodesResult,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidNextToken
-    | ResourceDataSyncNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListNodesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNodesRequest,
-  ) => stream.Stream<
-    Node,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidNextToken
-    | ResourceDataSyncNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+  ) => stream.Stream<Node, ListNodesError, Creds | Rgn | HttpClient.HttpClient>;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNodesRequest,
   output: ListNodesResult,
@@ -15035,6 +15118,14 @@ export const listNodes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNodesSummaryError =
+  | InternalServerError
+  | InvalidAggregatorException
+  | InvalidFilter
+  | InvalidNextToken
+  | ResourceDataSyncNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Generates a summary of managed instance/node metadata based on the filters and aggregators
  * you specify. Results are grouped by the input aggregator you specify.
@@ -15042,39 +15133,21 @@ export const listNodes: API.OperationMethod<
 export const listNodesSummary: API.OperationMethod<
   ListNodesSummaryRequest,
   ListNodesSummaryResult,
-  | InternalServerError
-  | InvalidAggregatorException
-  | InvalidFilter
-  | InvalidNextToken
-  | ResourceDataSyncNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListNodesSummaryError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodesSummaryRequest,
   ) => stream.Stream<
     ListNodesSummaryResult,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidNextToken
-    | ResourceDataSyncNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListNodesSummaryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNodesSummaryRequest,
   ) => stream.Stream<
     { [key: string]: string | undefined },
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidNextToken
-    | ResourceDataSyncNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListNodesSummaryError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -15095,6 +15168,12 @@ export const listNodesSummary: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOpsItemEventsError =
+  | InternalServerError
+  | OpsItemInvalidParameterException
+  | OpsItemLimitExceededException
+  | OpsItemNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can
  * limit the results to events associated with specific OpsItems by specifying a filter.
@@ -15102,33 +15181,21 @@ export const listNodesSummary: API.OperationMethod<
 export const listOpsItemEvents: API.OperationMethod<
   ListOpsItemEventsRequest,
   ListOpsItemEventsResponse,
-  | InternalServerError
-  | OpsItemInvalidParameterException
-  | OpsItemLimitExceededException
-  | OpsItemNotFoundException
-  | CommonErrors,
+  ListOpsItemEventsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOpsItemEventsRequest,
   ) => stream.Stream<
     ListOpsItemEventsResponse,
-    | InternalServerError
-    | OpsItemInvalidParameterException
-    | OpsItemLimitExceededException
-    | OpsItemNotFoundException
-    | CommonErrors,
+    ListOpsItemEventsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListOpsItemEventsRequest,
   ) => stream.Stream<
     OpsItemEventSummary,
-    | InternalServerError
-    | OpsItemInvalidParameterException
-    | OpsItemLimitExceededException
-    | OpsItemNotFoundException
-    | CommonErrors,
+    ListOpsItemEventsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -15147,6 +15214,10 @@ export const listOpsItemEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOpsItemRelatedItemsError =
+  | InternalServerError
+  | OpsItemInvalidParameterException
+  | CommonErrors;
 /**
  * Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a
  * tool in Amazon Web Services Systems Manager.
@@ -15154,21 +15225,21 @@ export const listOpsItemEvents: API.OperationMethod<
 export const listOpsItemRelatedItems: API.OperationMethod<
   ListOpsItemRelatedItemsRequest,
   ListOpsItemRelatedItemsResponse,
-  InternalServerError | OpsItemInvalidParameterException | CommonErrors,
+  ListOpsItemRelatedItemsError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOpsItemRelatedItemsRequest,
   ) => stream.Stream<
     ListOpsItemRelatedItemsResponse,
-    InternalServerError | OpsItemInvalidParameterException | CommonErrors,
+    ListOpsItemRelatedItemsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListOpsItemRelatedItemsRequest,
   ) => stream.Stream<
     OpsItemRelatedItemSummary,
-    InternalServerError | OpsItemInvalidParameterException | CommonErrors,
+    ListOpsItemRelatedItemsError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -15182,6 +15253,10 @@ export const listOpsItemRelatedItems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOpsMetadataError =
+  | InternalServerError
+  | OpsMetadataInvalidArgumentException
+  | CommonErrors;
 /**
  * Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or
  * blobs.
@@ -15189,21 +15264,21 @@ export const listOpsItemRelatedItems: API.OperationMethod<
 export const listOpsMetadata: API.OperationMethod<
   ListOpsMetadataRequest,
   ListOpsMetadataResult,
-  InternalServerError | OpsMetadataInvalidArgumentException | CommonErrors,
+  ListOpsMetadataError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOpsMetadataRequest,
   ) => stream.Stream<
     ListOpsMetadataResult,
-    InternalServerError | OpsMetadataInvalidArgumentException | CommonErrors,
+    ListOpsMetadataError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListOpsMetadataRequest,
   ) => stream.Stream<
     OpsMetadata,
-    InternalServerError | OpsMetadataInvalidArgumentException | CommonErrors,
+    ListOpsMetadataError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -15217,6 +15292,11 @@ export const listOpsMetadata: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceComplianceSummariesError =
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | CommonErrors;
 /**
  * Returns a resource-level summary count. The summary includes information about compliant and
  * non-compliant statuses and detailed compliance-item severity counts, according to the filter
@@ -15225,21 +15305,21 @@ export const listOpsMetadata: API.OperationMethod<
 export const listResourceComplianceSummaries: API.OperationMethod<
   ListResourceComplianceSummariesRequest,
   ListResourceComplianceSummariesResult,
-  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  ListResourceComplianceSummariesError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceComplianceSummariesRequest,
   ) => stream.Stream<
     ListResourceComplianceSummariesResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    ListResourceComplianceSummariesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceComplianceSummariesRequest,
   ) => stream.Stream<
     ResourceComplianceSummaryItem,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+    ListResourceComplianceSummariesError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -15253,6 +15333,11 @@ export const listResourceComplianceSummaries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceDataSyncError =
+  | InternalServerError
+  | InvalidNextToken
+  | ResourceDataSyncInvalidConfigurationException
+  | CommonErrors;
 /**
  * Lists your resource data sync configurations. Includes information about the last time a
  * sync attempted to start, the last sync status, and the last time a sync successfully
@@ -15268,30 +15353,21 @@ export const listResourceComplianceSummaries: API.OperationMethod<
 export const listResourceDataSync: API.OperationMethod<
   ListResourceDataSyncRequest,
   ListResourceDataSyncResult,
-  | InternalServerError
-  | InvalidNextToken
-  | ResourceDataSyncInvalidConfigurationException
-  | CommonErrors,
+  ListResourceDataSyncError,
   Creds | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceDataSyncRequest,
   ) => stream.Stream<
     ListResourceDataSyncResult,
-    | InternalServerError
-    | InvalidNextToken
-    | ResourceDataSyncInvalidConfigurationException
-    | CommonErrors,
+    ListResourceDataSyncError,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceDataSyncRequest,
   ) => stream.Stream<
     ResourceDataSyncItem,
-    | InternalServerError
-    | InvalidNextToken
-    | ResourceDataSyncInvalidConfigurationException
-    | CommonErrors,
+    ListResourceDataSyncError,
     Creds | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -15309,6 +15385,11 @@ export const listResourceDataSync: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerError
+  | InvalidResourceId
+  | InvalidResourceType
+  | CommonErrors;
 /**
  * Returns a list of the tags assigned to the specified resource.
  *
@@ -15317,13 +15398,20 @@ export const listResourceDataSync: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  InternalServerError | InvalidResourceId | InvalidResourceType | CommonErrors,
+  ListTagsForResourceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResult,
   errors: [InternalServerError, InvalidResourceId, InvalidResourceType],
 }));
+export type ModifyDocumentPermissionError =
+  | DocumentLimitExceeded
+  | DocumentPermissionLimit
+  | InternalServerError
+  | InvalidDocument
+  | InvalidPermissionType
+  | CommonErrors;
 /**
  * Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document
  * privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If
@@ -15333,12 +15421,7 @@ export const listTagsForResource: API.OperationMethod<
 export const modifyDocumentPermission: API.OperationMethod<
   ModifyDocumentPermissionRequest,
   ModifyDocumentPermissionResponse,
-  | DocumentLimitExceeded
-  | DocumentPermissionLimit
-  | InternalServerError
-  | InvalidDocument
-  | InvalidPermissionType
-  | CommonErrors,
+  ModifyDocumentPermissionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDocumentPermissionRequest,
@@ -15351,6 +15434,15 @@ export const modifyDocumentPermission: API.OperationMethod<
     InvalidPermissionType,
   ],
 }));
+export type PutComplianceItemsError =
+  | ComplianceTypeCountLimitExceededException
+  | InternalServerError
+  | InvalidItemContentException
+  | InvalidResourceId
+  | InvalidResourceType
+  | ItemSizeLimitExceededException
+  | TotalSizeLimitExceededException
+  | CommonErrors;
 /**
  * Registers a compliance type and other compliance details on a designated resource. This
  * operation lets you register custom compliance details with a resource. This call overwrites
@@ -15403,14 +15495,7 @@ export const modifyDocumentPermission: API.OperationMethod<
 export const putComplianceItems: API.OperationMethod<
   PutComplianceItemsRequest,
   PutComplianceItemsResult,
-  | ComplianceTypeCountLimitExceededException
-  | InternalServerError
-  | InvalidItemContentException
-  | InvalidResourceId
-  | InvalidResourceType
-  | ItemSizeLimitExceededException
-  | TotalSizeLimitExceededException
-  | CommonErrors,
+  PutComplianceItemsError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutComplianceItemsRequest,
@@ -15425,14 +15510,7 @@ export const putComplianceItems: API.OperationMethod<
     TotalSizeLimitExceededException,
   ],
 }));
-/**
- * Bulk update custom inventory items on one or more managed nodes. The request adds an
- * inventory item, if it doesn't already exist, or updates an inventory item, if it does
- * exist.
- */
-export const putInventory: API.OperationMethod<
-  PutInventoryRequest,
-  PutInventoryResult,
+export type PutInventoryError =
   | CustomSchemaCountLimitExceededException
   | InternalServerError
   | InvalidInstanceId
@@ -15445,7 +15523,16 @@ export const putInventory: API.OperationMethod<
   | TotalSizeLimitExceededException
   | UnsupportedInventoryItemContextException
   | UnsupportedInventorySchemaVersionException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Bulk update custom inventory items on one or more managed nodes. The request adds an
+ * inventory item, if it doesn't already exist, or updates an inventory item, if it does
+ * exist.
+ */
+export const putInventory: API.OperationMethod<
+  PutInventoryRequest,
+  PutInventoryResult,
+  PutInventoryError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInventoryRequest,
@@ -15465,12 +15552,7 @@ export const putInventory: API.OperationMethod<
     UnsupportedInventorySchemaVersionException,
   ],
 }));
-/**
- * Create or update a parameter in Parameter Store.
- */
-export const putParameter: API.OperationMethod<
-  PutParameterRequest,
-  PutParameterResult,
+export type PutParameterError =
   | HierarchyLevelLimitExceededException
   | HierarchyTypeMismatchException
   | IncompatiblePolicyException
@@ -15486,7 +15568,14 @@ export const putParameter: API.OperationMethod<
   | PoliciesLimitExceededException
   | TooManyUpdates
   | UnsupportedParameterType
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create or update a parameter in Parameter Store.
+ */
+export const putParameter: API.OperationMethod<
+  PutParameterRequest,
+  PutParameterResult,
+  PutParameterError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutParameterRequest,
@@ -15509,6 +15598,15 @@ export const putParameter: API.OperationMethod<
     UnsupportedParameterType,
   ],
 }));
+export type PutResourcePolicyError =
+  | InternalServerError
+  | MalformedResourcePolicyDocumentException
+  | ResourceNotFoundException
+  | ResourcePolicyConflictException
+  | ResourcePolicyInvalidParameterException
+  | ResourcePolicyLimitExceededException
+  | ResourcePolicyNotFoundException
+  | CommonErrors;
 /**
  * Creates or updates a Systems Manager resource policy. A resource policy helps you to define the
  * IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources.
@@ -15541,14 +15639,7 @@ export const putParameter: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | InternalServerError
-  | MalformedResourcePolicyDocumentException
-  | ResourceNotFoundException
-  | ResourcePolicyConflictException
-  | ResourcePolicyInvalidParameterException
-  | ResourcePolicyLimitExceededException
-  | ResourcePolicyNotFoundException
-  | CommonErrors,
+  PutResourcePolicyError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -15563,6 +15654,11 @@ export const putResourcePolicy: API.OperationMethod<
     ResourcePolicyNotFoundException,
   ],
 }));
+export type RegisterDefaultPatchBaselineError =
+  | DoesNotExistException
+  | InternalServerError
+  | InvalidResourceId
+  | CommonErrors;
 /**
  * Defines the default patch baseline for the relevant operating system.
  *
@@ -15574,28 +15670,27 @@ export const putResourcePolicy: API.OperationMethod<
 export const registerDefaultPatchBaseline: API.OperationMethod<
   RegisterDefaultPatchBaselineRequest,
   RegisterDefaultPatchBaselineResult,
-  | DoesNotExistException
-  | InternalServerError
-  | InvalidResourceId
-  | CommonErrors,
+  RegisterDefaultPatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDefaultPatchBaselineRequest,
   output: RegisterDefaultPatchBaselineResult,
   errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
 }));
+export type RegisterPatchBaselineForPatchGroupError =
+  | AlreadyExistsException
+  | DoesNotExistException
+  | InternalServerError
+  | InvalidResourceId
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Registers a patch baseline for a patch group.
  */
 export const registerPatchBaselineForPatchGroup: API.OperationMethod<
   RegisterPatchBaselineForPatchGroupRequest,
   RegisterPatchBaselineForPatchGroupResult,
-  | AlreadyExistsException
-  | DoesNotExistException
-  | InternalServerError
-  | InvalidResourceId
-  | ResourceLimitExceededException
-  | CommonErrors,
+  RegisterPatchBaselineForPatchGroupError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterPatchBaselineForPatchGroupRequest,
@@ -15608,17 +15703,19 @@ export const registerPatchBaselineForPatchGroup: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type RegisterTargetWithMaintenanceWindowError =
+  | DoesNotExistException
+  | IdempotentParameterMismatch
+  | InternalServerError
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Registers a target with a maintenance window.
  */
 export const registerTargetWithMaintenanceWindow: API.OperationMethod<
   RegisterTargetWithMaintenanceWindowRequest,
   RegisterTargetWithMaintenanceWindowResult,
-  | DoesNotExistException
-  | IdempotentParameterMismatch
-  | InternalServerError
-  | ResourceLimitExceededException
-  | CommonErrors,
+  RegisterTargetWithMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTargetWithMaintenanceWindowRequest,
@@ -15630,18 +15727,20 @@ export const registerTargetWithMaintenanceWindow: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type RegisterTaskWithMaintenanceWindowError =
+  | DoesNotExistException
+  | FeatureNotAvailableException
+  | IdempotentParameterMismatch
+  | InternalServerError
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Adds a new task to a maintenance window.
  */
 export const registerTaskWithMaintenanceWindow: API.OperationMethod<
   RegisterTaskWithMaintenanceWindowRequest,
   RegisterTaskWithMaintenanceWindowResult,
-  | DoesNotExistException
-  | FeatureNotAvailableException
-  | IdempotentParameterMismatch
-  | InternalServerError
-  | ResourceLimitExceededException
-  | CommonErrors,
+  RegisterTaskWithMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTaskWithMaintenanceWindowRequest,
@@ -15654,17 +15753,19 @@ export const registerTaskWithMaintenanceWindow: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type RemoveTagsFromResourceError =
+  | InternalServerError
+  | InvalidResourceId
+  | InvalidResourceType
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Removes tag keys from the specified resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceRequest,
   RemoveTagsFromResourceResult,
-  | InternalServerError
-  | InvalidResourceId
-  | InvalidResourceType
-  | TooManyUpdates
-  | CommonErrors,
+  RemoveTagsFromResourceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceRequest,
@@ -15676,6 +15777,11 @@ export const removeTagsFromResource: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type ResetServiceSettingError =
+  | InternalServerError
+  | ServiceSettingNotFound
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
  * defines how a user interacts with or uses a service or a feature of a service. For example, if an
@@ -15697,13 +15803,17 @@ export const removeTagsFromResource: API.OperationMethod<
 export const resetServiceSetting: API.OperationMethod<
   ResetServiceSettingRequest,
   ResetServiceSettingResult,
-  InternalServerError | ServiceSettingNotFound | TooManyUpdates | CommonErrors,
+  ResetServiceSettingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetServiceSettingRequest,
   output: ResetServiceSettingResult,
   errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
 }));
+export type ResumeSessionError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Reconnects a session to a managed node after it has been disconnected. Connections can be
  * resumed for disconnected sessions, but not terminated sessions.
@@ -15714,13 +15824,19 @@ export const resetServiceSetting: API.OperationMethod<
 export const resumeSession: API.OperationMethod<
   ResumeSessionRequest,
   ResumeSessionResponse,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  ResumeSessionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeSessionRequest,
   output: ResumeSessionResponse,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type SendAutomationSignalError =
+  | AutomationExecutionNotFoundException
+  | AutomationStepNotFoundException
+  | InternalServerError
+  | InvalidAutomationSignalException
+  | CommonErrors;
 /**
  * Sends a signal to an Automation execution to change the current behavior or status of the
  * execution.
@@ -15728,11 +15844,7 @@ export const resumeSession: API.OperationMethod<
 export const sendAutomationSignal: API.OperationMethod<
   SendAutomationSignalRequest,
   SendAutomationSignalResult,
-  | AutomationExecutionNotFoundException
-  | AutomationStepNotFoundException
-  | InternalServerError
-  | InvalidAutomationSignalException
-  | CommonErrors,
+  SendAutomationSignalError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendAutomationSignalRequest,
@@ -15744,12 +15856,7 @@ export const sendAutomationSignal: API.OperationMethod<
     InvalidAutomationSignalException,
   ],
 }));
-/**
- * Runs commands on one or more managed nodes.
- */
-export const sendCommand: API.OperationMethod<
-  SendCommandRequest,
-  SendCommandResult,
+export type SendCommandError =
   | DuplicateInstanceId
   | InternalServerError
   | InvalidDocument
@@ -15761,7 +15868,14 @@ export const sendCommand: API.OperationMethod<
   | InvalidRole
   | MaxDocumentSizeExceeded
   | UnsupportedPlatformType
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Runs commands on one or more managed nodes.
+ */
+export const sendCommand: API.OperationMethod<
+  SendCommandRequest,
+  SendCommandResult,
+  SendCommandError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendCommandRequest,
@@ -15780,19 +15894,21 @@ export const sendCommand: API.OperationMethod<
     UnsupportedPlatformType,
   ],
 }));
-/**
- * Starts the workflow for just-in-time node access sessions.
- */
-export const startAccessRequest: API.OperationMethod<
-  StartAccessRequestRequest,
-  StartAccessRequestResponse,
+export type StartAccessRequestError =
   | AccessDeniedException
   | InternalServerError
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the workflow for just-in-time node access sessions.
+ */
+export const startAccessRequest: API.OperationMethod<
+  StartAccessRequestRequest,
+  StartAccessRequestResponse,
+  StartAccessRequestError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAccessRequestRequest,
@@ -15806,6 +15922,10 @@ export const startAccessRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartAssociationsOnceError =
+  | AssociationDoesNotExist
+  | InvalidAssociation
+  | CommonErrors;
 /**
  * Runs an association immediately and only one time. This operation can be helpful when
  * troubleshooting associations.
@@ -15813,19 +15933,14 @@ export const startAccessRequest: API.OperationMethod<
 export const startAssociationsOnce: API.OperationMethod<
   StartAssociationsOnceRequest,
   StartAssociationsOnceResult,
-  AssociationDoesNotExist | InvalidAssociation | CommonErrors,
+  StartAssociationsOnceError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAssociationsOnceRequest,
   output: StartAssociationsOnceResult,
   errors: [AssociationDoesNotExist, InvalidAssociation],
 }));
-/**
- * Initiates execution of an Automation runbook.
- */
-export const startAutomationExecution: API.OperationMethod<
-  StartAutomationExecutionRequest,
-  StartAutomationExecutionResult,
+export type StartAutomationExecutionError =
   | AutomationDefinitionNotFoundException
   | AutomationDefinitionVersionNotFoundException
   | AutomationExecutionLimitExceededException
@@ -15833,7 +15948,14 @@ export const startAutomationExecution: API.OperationMethod<
   | InternalServerError
   | InvalidAutomationExecutionParametersException
   | InvalidTarget
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates execution of an Automation runbook.
+ */
+export const startAutomationExecution: API.OperationMethod<
+  StartAutomationExecutionRequest,
+  StartAutomationExecutionResult,
+  StartAutomationExecutionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAutomationExecutionRequest,
@@ -15848,6 +15970,16 @@ export const startAutomationExecution: API.OperationMethod<
     InvalidTarget,
   ],
 }));
+export type StartChangeRequestExecutionError =
+  | AutomationDefinitionNotApprovedException
+  | AutomationDefinitionNotFoundException
+  | AutomationDefinitionVersionNotFoundException
+  | AutomationExecutionLimitExceededException
+  | IdempotentParameterMismatch
+  | InternalServerError
+  | InvalidAutomationExecutionParametersException
+  | NoLongerSupportedException
+  | CommonErrors;
 /**
  * Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can
  * continue to use the service as normal. For more information, see
@@ -15860,15 +15992,7 @@ export const startAutomationExecution: API.OperationMethod<
 export const startChangeRequestExecution: API.OperationMethod<
   StartChangeRequestExecutionRequest,
   StartChangeRequestExecutionResult,
-  | AutomationDefinitionNotApprovedException
-  | AutomationDefinitionNotFoundException
-  | AutomationDefinitionVersionNotFoundException
-  | AutomationExecutionLimitExceededException
-  | IdempotentParameterMismatch
-  | InternalServerError
-  | InvalidAutomationExecutionParametersException
-  | NoLongerSupportedException
-  | CommonErrors,
+  StartChangeRequestExecutionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChangeRequestExecutionRequest,
@@ -15884,6 +16008,10 @@ export const startChangeRequestExecution: API.OperationMethod<
     NoLongerSupportedException,
   ],
 }));
+export type StartExecutionPreviewError =
+  | InternalServerError
+  | ValidationException
+  | CommonErrors;
 /**
  * Initiates the process of creating a preview showing the effects that running a specified
  * Automation runbook would have on the targeted resources.
@@ -15891,13 +16019,18 @@ export const startChangeRequestExecution: API.OperationMethod<
 export const startExecutionPreview: API.OperationMethod<
   StartExecutionPreviewRequest,
   StartExecutionPreviewResponse,
-  InternalServerError | ValidationException | CommonErrors,
+  StartExecutionPreviewError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExecutionPreviewRequest,
   output: StartExecutionPreviewResponse,
   errors: [InternalServerError, ValidationException],
 }));
+export type StartSessionError =
+  | InternalServerError
+  | InvalidDocument
+  | TargetNotConnected
+  | CommonErrors;
 /**
  * Initiates a connection to a target (for example, a managed node) for a Session Manager session.
  * Returns a URL and token that can be used to open a WebSocket connection for sending input and
@@ -15913,23 +16046,25 @@ export const startExecutionPreview: API.OperationMethod<
 export const startSession: API.OperationMethod<
   StartSessionRequest,
   StartSessionResponse,
-  InternalServerError | InvalidDocument | TargetNotConnected | CommonErrors,
+  StartSessionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSessionRequest,
   output: StartSessionResponse,
   errors: [InternalServerError, InvalidDocument, TargetNotConnected],
 }));
+export type StopAutomationExecutionError =
+  | AutomationExecutionNotFoundException
+  | InternalServerError
+  | InvalidAutomationStatusUpdateException
+  | CommonErrors;
 /**
  * Stop an Automation that is currently running.
  */
 export const stopAutomationExecution: API.OperationMethod<
   StopAutomationExecutionRequest,
   StopAutomationExecutionResult,
-  | AutomationExecutionNotFoundException
-  | InternalServerError
-  | InvalidAutomationStatusUpdateException
-  | CommonErrors,
+  StopAutomationExecutionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAutomationExecutionRequest,
@@ -15940,6 +16075,7 @@ export const stopAutomationExecution: API.OperationMethod<
     InvalidAutomationStatusUpdateException,
   ],
 }));
+export type TerminateSessionError = InternalServerError | CommonErrors;
 /**
  * Permanently ends a session and closes the data connection between the Session Manager client and
  * SSM Agent on the managed node. A terminated session can't be resumed.
@@ -15947,13 +16083,19 @@ export const stopAutomationExecution: API.OperationMethod<
 export const terminateSession: API.OperationMethod<
   TerminateSessionRequest,
   TerminateSessionResponse,
-  InternalServerError | CommonErrors,
+  TerminateSessionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateSessionRequest,
   output: TerminateSessionResponse,
   errors: [InternalServerError],
 }));
+export type UnlabelParameterVersionError =
+  | InternalServerError
+  | ParameterNotFound
+  | ParameterVersionNotFound
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Remove a label or labels from a parameter.
  *
@@ -15964,11 +16106,7 @@ export const terminateSession: API.OperationMethod<
 export const unlabelParameterVersion: API.OperationMethod<
   UnlabelParameterVersionRequest,
   UnlabelParameterVersionResult,
-  | InternalServerError
-  | ParameterNotFound
-  | ParameterVersionNotFound
-  | TooManyUpdates
-  | CommonErrors,
+  UnlabelParameterVersionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlabelParameterVersionRequest,
@@ -15980,6 +16118,21 @@ export const unlabelParameterVersion: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type UpdateAssociationError =
+  | AssociationDoesNotExist
+  | AssociationVersionLimitExceeded
+  | InternalServerError
+  | InvalidAssociationVersion
+  | InvalidDocument
+  | InvalidDocumentVersion
+  | InvalidOutputLocation
+  | InvalidParameters
+  | InvalidSchedule
+  | InvalidTarget
+  | InvalidTargetMaps
+  | InvalidUpdate
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Updates an association. You can update the association name and version, the document
  * version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you
@@ -16003,20 +16156,7 @@ export const unlabelParameterVersion: API.OperationMethod<
 export const updateAssociation: API.OperationMethod<
   UpdateAssociationRequest,
   UpdateAssociationResult,
-  | AssociationDoesNotExist
-  | AssociationVersionLimitExceeded
-  | InternalServerError
-  | InvalidAssociationVersion
-  | InvalidDocument
-  | InvalidDocumentVersion
-  | InvalidOutputLocation
-  | InvalidParameters
-  | InvalidSchedule
-  | InvalidTarget
-  | InvalidTargetMaps
-  | InvalidUpdate
-  | TooManyUpdates
-  | CommonErrors,
+  UpdateAssociationError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssociationRequest,
@@ -16037,6 +16177,14 @@ export const updateAssociation: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type UpdateAssociationStatusError =
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidDocument
+  | InvalidInstanceId
+  | StatusUnchanged
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified
  * managed node.
@@ -16048,13 +16196,7 @@ export const updateAssociation: API.OperationMethod<
 export const updateAssociationStatus: API.OperationMethod<
   UpdateAssociationStatusRequest,
   UpdateAssociationStatusResult,
-  | AssociationDoesNotExist
-  | InternalServerError
-  | InvalidDocument
-  | InvalidInstanceId
-  | StatusUnchanged
-  | TooManyUpdates
-  | CommonErrors,
+  UpdateAssociationStatusError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssociationStatusRequest,
@@ -16068,12 +16210,7 @@ export const updateAssociationStatus: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
-/**
- * Updates one or more values for an SSM document.
- */
-export const updateDocument: API.OperationMethod<
-  UpdateDocumentRequest,
-  UpdateDocumentResult,
+export type UpdateDocumentError =
   | DocumentVersionLimitExceeded
   | DuplicateDocumentContent
   | DuplicateDocumentVersionName
@@ -16084,7 +16221,14 @@ export const updateDocument: API.OperationMethod<
   | InvalidDocumentSchemaVersion
   | InvalidDocumentVersion
   | MaxDocumentSizeExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates one or more values for an SSM document.
+ */
+export const updateDocument: API.OperationMethod<
+  UpdateDocumentRequest,
+  UpdateDocumentResult,
+  UpdateDocumentError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDocumentRequest,
@@ -16102,6 +16246,12 @@ export const updateDocument: API.OperationMethod<
     MaxDocumentSizeExceeded,
   ],
 }));
+export type UpdateDocumentDefaultVersionError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentSchemaVersion
+  | InvalidDocumentVersion
+  | CommonErrors;
 /**
  * Set the default version of a document.
  *
@@ -16112,11 +16262,7 @@ export const updateDocument: API.OperationMethod<
 export const updateDocumentDefaultVersion: API.OperationMethod<
   UpdateDocumentDefaultVersionRequest,
   UpdateDocumentDefaultVersionResult,
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentSchemaVersion
-  | InvalidDocumentVersion
-  | CommonErrors,
+  UpdateDocumentDefaultVersionError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDocumentDefaultVersionRequest,
@@ -16128,6 +16274,13 @@ export const updateDocumentDefaultVersion: API.OperationMethod<
     InvalidDocumentVersion,
   ],
 }));
+export type UpdateDocumentMetadataError =
+  | InternalServerError
+  | InvalidDocument
+  | InvalidDocumentOperation
+  | InvalidDocumentVersion
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can
  * continue to use the service as normal. For more information, see
@@ -16139,12 +16292,7 @@ export const updateDocumentDefaultVersion: API.OperationMethod<
 export const updateDocumentMetadata: API.OperationMethod<
   UpdateDocumentMetadataRequest,
   UpdateDocumentMetadataResponse,
-  | InternalServerError
-  | InvalidDocument
-  | InvalidDocumentOperation
-  | InvalidDocumentVersion
-  | TooManyUpdates
-  | CommonErrors,
+  UpdateDocumentMetadataError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDocumentMetadataRequest,
@@ -16157,6 +16305,10 @@ export const updateDocumentMetadata: API.OperationMethod<
     TooManyUpdates,
   ],
 }));
+export type UpdateMaintenanceWindowError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Updates an existing maintenance window. Only specified parameters are modified.
  *
@@ -16170,13 +16322,17 @@ export const updateDocumentMetadata: API.OperationMethod<
 export const updateMaintenanceWindow: API.OperationMethod<
   UpdateMaintenanceWindowRequest,
   UpdateMaintenanceWindowResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  UpdateMaintenanceWindowError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMaintenanceWindowRequest,
   output: UpdateMaintenanceWindowResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type UpdateMaintenanceWindowTargetError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Modifies the target of an existing maintenance window. You
  * can change the following:
@@ -16199,13 +16355,17 @@ export const updateMaintenanceWindow: API.OperationMethod<
 export const updateMaintenanceWindowTarget: API.OperationMethod<
   UpdateMaintenanceWindowTargetRequest,
   UpdateMaintenanceWindowTargetResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  UpdateMaintenanceWindowTargetError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMaintenanceWindowTargetRequest,
   output: UpdateMaintenanceWindowTargetResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type UpdateMaintenanceWindowTaskError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Modifies a task assigned to a maintenance window. You can't change the task type, but you
  * can change the following values:
@@ -16247,13 +16407,17 @@ export const updateMaintenanceWindowTarget: API.OperationMethod<
 export const updateMaintenanceWindowTask: API.OperationMethod<
   UpdateMaintenanceWindowTaskRequest,
   UpdateMaintenanceWindowTaskResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  UpdateMaintenanceWindowTaskError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMaintenanceWindowTaskRequest,
   output: UpdateMaintenanceWindowTaskResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type UpdateManagedInstanceRoleError =
+  | InternalServerError
+  | InvalidInstanceId
+  | CommonErrors;
 /**
  * Changes the Identity and Access Management (IAM) role that is assigned to the
  * on-premises server, edge device, or virtual machines (VM). IAM roles are first
@@ -16262,13 +16426,22 @@ export const updateMaintenanceWindowTask: API.OperationMethod<
 export const updateManagedInstanceRole: API.OperationMethod<
   UpdateManagedInstanceRoleRequest,
   UpdateManagedInstanceRoleResult,
-  InternalServerError | InvalidInstanceId | CommonErrors,
+  UpdateManagedInstanceRoleError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateManagedInstanceRoleRequest,
   output: UpdateManagedInstanceRoleResult,
   errors: [InternalServerError, InvalidInstanceId],
 }));
+export type UpdateOpsItemError =
+  | InternalServerError
+  | OpsItemAccessDeniedException
+  | OpsItemAlreadyExistsException
+  | OpsItemConflictException
+  | OpsItemInvalidParameterException
+  | OpsItemLimitExceededException
+  | OpsItemNotFoundException
+  | CommonErrors;
 /**
  * Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
@@ -16281,14 +16454,7 @@ export const updateManagedInstanceRole: API.OperationMethod<
 export const updateOpsItem: API.OperationMethod<
   UpdateOpsItemRequest,
   UpdateOpsItemResponse,
-  | InternalServerError
-  | OpsItemAccessDeniedException
-  | OpsItemAlreadyExistsException
-  | OpsItemConflictException
-  | OpsItemInvalidParameterException
-  | OpsItemLimitExceededException
-  | OpsItemNotFoundException
-  | CommonErrors,
+  UpdateOpsItemError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOpsItemRequest,
@@ -16303,18 +16469,20 @@ export const updateOpsItem: API.OperationMethod<
     OpsItemNotFoundException,
   ],
 }));
+export type UpdateOpsMetadataError =
+  | InternalServerError
+  | OpsMetadataInvalidArgumentException
+  | OpsMetadataKeyLimitExceededException
+  | OpsMetadataNotFoundException
+  | OpsMetadataTooManyUpdatesException
+  | CommonErrors;
 /**
  * Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
  */
 export const updateOpsMetadata: API.OperationMethod<
   UpdateOpsMetadataRequest,
   UpdateOpsMetadataResult,
-  | InternalServerError
-  | OpsMetadataInvalidArgumentException
-  | OpsMetadataKeyLimitExceededException
-  | OpsMetadataNotFoundException
-  | OpsMetadataTooManyUpdatesException
-  | CommonErrors,
+  UpdateOpsMetadataError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOpsMetadataRequest,
@@ -16327,6 +16495,10 @@ export const updateOpsMetadata: API.OperationMethod<
     OpsMetadataTooManyUpdatesException,
   ],
 }));
+export type UpdatePatchBaselineError =
+  | DoesNotExistException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Modifies an existing patch baseline. Fields not specified in the request are left
  * unchanged.
@@ -16337,13 +16509,19 @@ export const updateOpsMetadata: API.OperationMethod<
 export const updatePatchBaseline: API.OperationMethod<
   UpdatePatchBaselineRequest,
   UpdatePatchBaselineResult,
-  DoesNotExistException | InternalServerError | CommonErrors,
+  UpdatePatchBaselineError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePatchBaselineRequest,
   output: UpdatePatchBaselineResult,
   errors: [DoesNotExistException, InternalServerError],
 }));
+export type UpdateResourceDataSyncError =
+  | InternalServerError
+  | ResourceDataSyncConflictException
+  | ResourceDataSyncInvalidConfigurationException
+  | ResourceDataSyncNotFoundException
+  | CommonErrors;
 /**
  * Update a resource data sync. After you create a resource data sync for a Region, you can't
  * change the account options for that sync. For example, if you create a sync in the us-east-2
@@ -16358,11 +16536,7 @@ export const updatePatchBaseline: API.OperationMethod<
 export const updateResourceDataSync: API.OperationMethod<
   UpdateResourceDataSyncRequest,
   UpdateResourceDataSyncResult,
-  | InternalServerError
-  | ResourceDataSyncConflictException
-  | ResourceDataSyncInvalidConfigurationException
-  | ResourceDataSyncNotFoundException
-  | CommonErrors,
+  UpdateResourceDataSyncError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceDataSyncRequest,
@@ -16374,6 +16548,11 @@ export const updateResourceDataSync: API.OperationMethod<
     ResourceDataSyncNotFoundException,
   ],
 }));
+export type UpdateServiceSettingError =
+  | InternalServerError
+  | ServiceSettingNotFound
+  | TooManyUpdates
+  | CommonErrors;
 /**
  * `ServiceSetting` is an account-level setting for an Amazon Web Services service. This setting
  * defines how a user interacts with or uses a service or a feature of a service. For example, if an
@@ -16394,7 +16573,7 @@ export const updateResourceDataSync: API.OperationMethod<
 export const updateServiceSetting: API.OperationMethod<
   UpdateServiceSettingRequest,
   UpdateServiceSettingResult,
-  InternalServerError | ServiceSettingNotFound | TooManyUpdates | CommonErrors,
+  UpdateServiceSettingError,
   Creds | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceSettingRequest,

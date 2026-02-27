@@ -5635,6 +5635,11 @@ export class ResourceNotFound extends S.TaggedErrorClass<ResourceNotFound>()(
 ) {}
 
 //# Operations
+export type AssociateFileSystemAliasesError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system.
  * A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to
@@ -5652,13 +5657,20 @@ export class ResourceNotFound extends S.TaggedErrorClass<ResourceNotFound>()(
 export const associateFileSystemAliases: API.OperationMethod<
   AssociateFileSystemAliasesRequest,
   AssociateFileSystemAliasesResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  AssociateFileSystemAliasesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFileSystemAliasesRequest,
   output: AssociateFileSystemAliasesResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
+export type CancelDataRepositoryTaskError =
+  | BadRequest
+  | DataRepositoryTaskEnded
+  | DataRepositoryTaskNotFound
+  | InternalServerError
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the
  * `PENDING` or `EXECUTING` state. When you cancel an export task, Amazon FSx
@@ -5676,12 +5688,7 @@ export const associateFileSystemAliases: API.OperationMethod<
 export const cancelDataRepositoryTask: API.OperationMethod<
   CancelDataRepositoryTaskRequest,
   CancelDataRepositoryTaskResponse,
-  | BadRequest
-  | DataRepositoryTaskEnded
-  | DataRepositoryTaskNotFound
-  | InternalServerError
-  | UnsupportedOperation
-  | CommonErrors,
+  CancelDataRepositoryTaskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDataRepositoryTaskRequest,
@@ -5694,6 +5701,19 @@ export const cancelDataRepositoryTask: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type CopyBackupError =
+  | BackupNotFound
+  | BadRequest
+  | IncompatibleParameterError
+  | IncompatibleRegionForMultiAZ
+  | InternalServerError
+  | InvalidDestinationKmsKey
+  | InvalidRegion
+  | InvalidSourceKmsKey
+  | ServiceLimitExceeded
+  | SourceBackupUnavailable
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Copies an existing backup within the same Amazon Web Services account to another Amazon Web Services Region
  * (cross-Region copy) or within the same Amazon Web Services Region (in-Region copy). You can have up to five
@@ -5724,18 +5744,7 @@ export const cancelDataRepositoryTask: API.OperationMethod<
 export const copyBackup: API.OperationMethod<
   CopyBackupRequest,
   CopyBackupResponse,
-  | BackupNotFound
-  | BadRequest
-  | IncompatibleParameterError
-  | IncompatibleRegionForMultiAZ
-  | InternalServerError
-  | InvalidDestinationKmsKey
-  | InvalidRegion
-  | InvalidSourceKmsKey
-  | ServiceLimitExceeded
-  | SourceBackupUnavailable
-  | UnsupportedOperation
-  | CommonErrors,
+  CopyBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyBackupRequest,
@@ -5754,6 +5763,12 @@ export const copyBackup: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type CopySnapshotAndUpdateVolumeError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User
  * Guide.
@@ -5761,11 +5776,7 @@ export const copyBackup: API.OperationMethod<
 export const copySnapshotAndUpdateVolume: API.OperationMethod<
   CopySnapshotAndUpdateVolumeRequest,
   CopySnapshotAndUpdateVolumeResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | CommonErrors,
+  CopySnapshotAndUpdateVolumeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotAndUpdateVolumeRequest,
@@ -5777,6 +5788,17 @@ export const copySnapshotAndUpdateVolume: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type CreateAndAttachS3AccessPointError =
+  | AccessPointAlreadyOwnedByYou
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidAccessPoint
+  | InvalidRequest
+  | TooManyAccessPoints
+  | UnsupportedOperation
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the
  * volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information,
@@ -5804,16 +5826,7 @@ export const copySnapshotAndUpdateVolume: API.OperationMethod<
 export const createAndAttachS3AccessPoint: API.OperationMethod<
   CreateAndAttachS3AccessPointRequest,
   CreateAndAttachS3AccessPointResponse,
-  | AccessPointAlreadyOwnedByYou
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | InvalidAccessPoint
-  | InvalidRequest
-  | TooManyAccessPoints
-  | UnsupportedOperation
-  | VolumeNotFound
-  | CommonErrors,
+  CreateAndAttachS3AccessPointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAndAttachS3AccessPointRequest,
@@ -5830,6 +5843,16 @@ export const createAndAttachS3AccessPoint: API.OperationMethod<
     VolumeNotFound,
   ],
 }));
+export type CreateBackupError =
+  | BackupInProgress
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Creates a backup of an existing Amazon FSx for Windows File Server file
  * system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP
@@ -5882,15 +5905,7 @@ export const createAndAttachS3AccessPoint: API.OperationMethod<
 export const createBackup: API.OperationMethod<
   CreateBackupRequest,
   CreateBackupResponse,
-  | BackupInProgress
-  | BadRequest
-  | FileSystemNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | UnsupportedOperation
-  | VolumeNotFound
-  | CommonErrors,
+  CreateBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackupRequest,
@@ -5906,6 +5921,14 @@ export const createBackup: API.OperationMethod<
     VolumeNotFound,
   ],
 }));
+export type CreateDataRepositoryAssociationError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Creates an Amazon FSx for Lustre data repository association (DRA). A data
  * repository association is a link between a directory on the file system and
@@ -5928,13 +5951,7 @@ export const createBackup: API.OperationMethod<
 export const createDataRepositoryAssociation: API.OperationMethod<
   CreateDataRepositoryAssociationRequest,
   CreateDataRepositoryAssociationResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | UnsupportedOperation
-  | CommonErrors,
+  CreateDataRepositoryAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataRepositoryAssociationRequest,
@@ -5948,6 +5965,15 @@ export const createDataRepositoryAssociation: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type CreateDataRepositoryTaskError =
+  | BadRequest
+  | DataRepositoryTaskExecuting
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Creates an Amazon FSx for Lustre data repository task.
  * A `CreateDataRepositoryTask` operation will fail if a data
@@ -5971,14 +5997,7 @@ export const createDataRepositoryAssociation: API.OperationMethod<
 export const createDataRepositoryTask: API.OperationMethod<
   CreateDataRepositoryTaskRequest,
   CreateDataRepositoryTaskResponse,
-  | BadRequest
-  | DataRepositoryTaskExecuting
-  | FileSystemNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | UnsupportedOperation
-  | CommonErrors,
+  CreateDataRepositoryTaskError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataRepositoryTaskRequest,
@@ -5993,6 +6012,15 @@ export const createDataRepositoryTask: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type CreateFileCacheError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidNetworkSettings
+  | InvalidPerUnitStorageThroughput
+  | MissingFileCacheConfiguration
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Creates a new Amazon File Cache resource.
  *
@@ -6018,14 +6046,7 @@ export const createDataRepositoryTask: API.OperationMethod<
 export const createFileCache: API.OperationMethod<
   CreateFileCacheRequest,
   CreateFileCacheResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | InvalidNetworkSettings
-  | InvalidPerUnitStorageThroughput
-  | MissingFileCacheConfiguration
-  | ServiceLimitExceeded
-  | CommonErrors,
+  CreateFileCacheError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileCacheRequest,
@@ -6040,6 +6061,18 @@ export const createFileCache: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type CreateFileSystemError =
+  | ActiveDirectoryError
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidExportPath
+  | InvalidImportPath
+  | InvalidNetworkSettings
+  | InvalidPerUnitStorageThroughput
+  | MissingFileSystemConfiguration
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Creates a new, empty Amazon FSx file system. You can create the following supported
  * Amazon FSx file systems using the `CreateFileSystem` API operation:
@@ -6082,17 +6115,7 @@ export const createFileCache: API.OperationMethod<
 export const createFileSystem: API.OperationMethod<
   CreateFileSystemRequest,
   CreateFileSystemResponse,
-  | ActiveDirectoryError
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | InvalidExportPath
-  | InvalidImportPath
-  | InvalidNetworkSettings
-  | InvalidPerUnitStorageThroughput
-  | MissingFileSystemConfiguration
-  | ServiceLimitExceeded
-  | CommonErrors,
+  CreateFileSystemError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileSystemRequest,
@@ -6110,6 +6133,17 @@ export const createFileSystem: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type CreateFileSystemFromBackupError =
+  | ActiveDirectoryError
+  | BackupNotFound
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidNetworkSettings
+  | InvalidPerUnitStorageThroughput
+  | MissingFileSystemConfiguration
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Creates a new Amazon FSx for Lustre, Amazon FSx for Windows File
  * Server, or Amazon FSx for OpenZFS file system from an existing Amazon FSx backup.
@@ -6146,16 +6180,7 @@ export const createFileSystem: API.OperationMethod<
 export const createFileSystemFromBackup: API.OperationMethod<
   CreateFileSystemFromBackupRequest,
   CreateFileSystemFromBackupResponse,
-  | ActiveDirectoryError
-  | BackupNotFound
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | InvalidNetworkSettings
-  | InvalidPerUnitStorageThroughput
-  | MissingFileSystemConfiguration
-  | ServiceLimitExceeded
-  | CommonErrors,
+  CreateFileSystemFromBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileSystemFromBackupRequest,
@@ -6172,6 +6197,12 @@ export const createFileSystemFromBackup: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type CreateSnapshotError =
+  | BadRequest
+  | InternalServerError
+  | ServiceLimitExceeded
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With
  * snapshots, you can easily undo file changes and compare file versions by restoring the
@@ -6204,11 +6235,7 @@ export const createFileSystemFromBackup: API.OperationMethod<
 export const createSnapshot: API.OperationMethod<
   CreateSnapshotRequest,
   CreateSnapshotResponse,
-  | BadRequest
-  | InternalServerError
-  | ServiceLimitExceeded
-  | VolumeNotFound
-  | CommonErrors,
+  CreateSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
@@ -6220,12 +6247,7 @@ export const createSnapshot: API.OperationMethod<
     VolumeNotFound,
   ],
 }));
-/**
- * Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
- */
-export const createStorageVirtualMachine: API.OperationMethod<
-  CreateStorageVirtualMachineRequest,
-  CreateStorageVirtualMachineResponse,
+export type CreateStorageVirtualMachineError =
   | ActiveDirectoryError
   | BadRequest
   | FileSystemNotFound
@@ -6233,7 +6255,14 @@ export const createStorageVirtualMachine: API.OperationMethod<
   | InternalServerError
   | ServiceLimitExceeded
   | UnsupportedOperation
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
+ */
+export const createStorageVirtualMachine: API.OperationMethod<
+  CreateStorageVirtualMachineRequest,
+  CreateStorageVirtualMachineResponse,
+  CreateStorageVirtualMachineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStorageVirtualMachineRequest,
@@ -6248,12 +6277,7 @@ export const createStorageVirtualMachine: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
-/**
- * Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
- */
-export const createVolume: API.OperationMethod<
-  CreateVolumeRequest,
-  CreateVolumeResponse,
+export type CreateVolumeError =
   | BadRequest
   | FileSystemNotFound
   | IncompatibleParameterError
@@ -6262,7 +6286,14 @@ export const createVolume: API.OperationMethod<
   | ServiceLimitExceeded
   | StorageVirtualMachineNotFound
   | UnsupportedOperation
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
+ */
+export const createVolume: API.OperationMethod<
+  CreateVolumeRequest,
+  CreateVolumeResponse,
+  CreateVolumeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeRequest,
@@ -6278,13 +6309,7 @@ export const createVolume: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
-/**
- * Creates a new Amazon FSx for NetApp ONTAP volume from an
- * existing Amazon FSx volume backup.
- */
-export const createVolumeFromBackup: API.OperationMethod<
-  CreateVolumeFromBackupRequest,
-  CreateVolumeFromBackupResponse,
+export type CreateVolumeFromBackupError =
   | BackupNotFound
   | BadRequest
   | FileSystemNotFound
@@ -6293,7 +6318,15 @@ export const createVolumeFromBackup: API.OperationMethod<
   | MissingVolumeConfiguration
   | ServiceLimitExceeded
   | StorageVirtualMachineNotFound
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon FSx for NetApp ONTAP volume from an
+ * existing Amazon FSx volume backup.
+ */
+export const createVolumeFromBackup: API.OperationMethod<
+  CreateVolumeFromBackupRequest,
+  CreateVolumeFromBackupResponse,
+  CreateVolumeFromBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeFromBackupRequest,
@@ -6309,6 +6342,15 @@ export const createVolumeFromBackup: API.OperationMethod<
     StorageVirtualMachineNotFound,
   ],
 }));
+export type DeleteBackupError =
+  | BackupBeingCopied
+  | BackupInProgress
+  | BackupNotFound
+  | BackupRestoring
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | CommonErrors;
 /**
  * Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and
  * its data is gone.
@@ -6322,14 +6364,7 @@ export const createVolumeFromBackup: API.OperationMethod<
 export const deleteBackup: API.OperationMethod<
   DeleteBackupRequest,
   DeleteBackupResponse,
-  | BackupBeingCopied
-  | BackupInProgress
-  | BackupNotFound
-  | BackupRestoring
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | CommonErrors,
+  DeleteBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackupRequest,
@@ -6344,6 +6379,13 @@ export const deleteBackup: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type DeleteDataRepositoryAssociationError =
+  | BadRequest
+  | DataRepositoryAssociationNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Deletes a data repository association on an Amazon FSx for Lustre
  * file system. Deleting the data repository association unlinks the
@@ -6356,12 +6398,7 @@ export const deleteBackup: API.OperationMethod<
 export const deleteDataRepositoryAssociation: API.OperationMethod<
   DeleteDataRepositoryAssociationRequest,
   DeleteDataRepositoryAssociationResponse,
-  | BadRequest
-  | DataRepositoryAssociationNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | CommonErrors,
+  DeleteDataRepositoryAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataRepositoryAssociationRequest,
@@ -6374,6 +6411,13 @@ export const deleteDataRepositoryAssociation: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type DeleteFileCacheError =
+  | BadRequest
+  | FileCacheNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data
  * is gone.
@@ -6391,12 +6435,7 @@ export const deleteDataRepositoryAssociation: API.OperationMethod<
 export const deleteFileCache: API.OperationMethod<
   DeleteFileCacheRequest,
   DeleteFileCacheResponse,
-  | BadRequest
-  | FileCacheNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | CommonErrors,
+  DeleteFileCacheError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileCacheRequest,
@@ -6409,6 +6448,13 @@ export const deleteFileCache: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type DeleteFileSystemError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Deletes a file system. After deletion, the file system no longer exists, and its data
  * is gone. Any existing automatic backups and snapshots are also deleted.
@@ -6460,12 +6506,7 @@ export const deleteFileCache: API.OperationMethod<
 export const deleteFileSystem: API.OperationMethod<
   DeleteFileSystemRequest,
   DeleteFileSystemResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | CommonErrors,
+  DeleteFileSystemError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileSystemRequest,
@@ -6478,6 +6519,11 @@ export const deleteFileSystem: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type DeleteSnapshotError =
+  | BadRequest
+  | InternalServerError
+  | SnapshotNotFound
+  | CommonErrors;
 /**
  * Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer
  * exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a
@@ -6489,13 +6535,19 @@ export const deleteFileSystem: API.OperationMethod<
 export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotRequest,
   DeleteSnapshotResponse,
-  BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
+  DeleteSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResponse,
   errors: [BadRequest, InternalServerError, SnapshotNotFound],
 }));
+export type DeleteStorageVirtualMachineError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | CommonErrors;
 /**
  * Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior
  * to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
@@ -6503,11 +6555,7 @@ export const deleteSnapshot: API.OperationMethod<
 export const deleteStorageVirtualMachine: API.OperationMethod<
   DeleteStorageVirtualMachineRequest,
   DeleteStorageVirtualMachineResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | StorageVirtualMachineNotFound
-  | CommonErrors,
+  DeleteStorageVirtualMachineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStorageVirtualMachineRequest,
@@ -6519,6 +6567,13 @@ export const deleteStorageVirtualMachine: API.OperationMethod<
     StorageVirtualMachineNotFound,
   ],
 }));
+export type DeleteVolumeError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS
  * volume.
@@ -6526,12 +6581,7 @@ export const deleteStorageVirtualMachine: API.OperationMethod<
 export const deleteVolume: API.OperationMethod<
   DeleteVolumeRequest,
   DeleteVolumeResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | VolumeNotFound
-  | CommonErrors,
+  DeleteVolumeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
@@ -6544,6 +6594,13 @@ export const deleteVolume: API.OperationMethod<
     VolumeNotFound,
   ],
 }));
+export type DescribeBackupsError =
+  | BackupNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Returns the description of a specific Amazon FSx backup, if a
  * `BackupIds` value is provided for that backup. Otherwise, it returns all
@@ -6574,36 +6631,21 @@ export const deleteVolume: API.OperationMethod<
 export const describeBackups: API.OperationMethod<
   DescribeBackupsRequest,
   DescribeBackupsResponse,
-  | BackupNotFound
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | VolumeNotFound
-  | CommonErrors,
+  DescribeBackupsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBackupsRequest,
   ) => stream.Stream<
     DescribeBackupsResponse,
-    | BackupNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | VolumeNotFound
-    | CommonErrors,
+    DescribeBackupsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBackupsRequest,
   ) => stream.Stream<
     unknown,
-    | BackupNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | VolumeNotFound
-    | CommonErrors,
+    DescribeBackupsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6622,6 +6664,13 @@ export const describeBackups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeDataRepositoryAssociationsError =
+  | BadRequest
+  | DataRepositoryAssociationNotFound
+  | FileSystemNotFound
+  | InternalServerError
+  | InvalidDataRepositoryType
+  | CommonErrors;
 /**
  * Returns the description of specific Amazon FSx for Lustre or Amazon File Cache
  * data repository associations, if one or more `AssociationIds` values
@@ -6648,36 +6697,21 @@ export const describeBackups: API.OperationMethod<
 export const describeDataRepositoryAssociations: API.OperationMethod<
   DescribeDataRepositoryAssociationsRequest,
   DescribeDataRepositoryAssociationsResponse,
-  | BadRequest
-  | DataRepositoryAssociationNotFound
-  | FileSystemNotFound
-  | InternalServerError
-  | InvalidDataRepositoryType
-  | CommonErrors,
+  DescribeDataRepositoryAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDataRepositoryAssociationsRequest,
   ) => stream.Stream<
     DescribeDataRepositoryAssociationsResponse,
-    | BadRequest
-    | DataRepositoryAssociationNotFound
-    | FileSystemNotFound
-    | InternalServerError
-    | InvalidDataRepositoryType
-    | CommonErrors,
+    DescribeDataRepositoryAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataRepositoryAssociationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequest
-    | DataRepositoryAssociationNotFound
-    | FileSystemNotFound
-    | InternalServerError
-    | InvalidDataRepositoryType
-    | CommonErrors,
+    DescribeDataRepositoryAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6696,6 +6730,12 @@ export const describeDataRepositoryAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeDataRepositoryTasksError =
+  | BadRequest
+  | DataRepositoryTaskNotFound
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if
  * one or more `TaskIds` values are provided in the request, or if filters are used in the request.
@@ -6712,33 +6752,21 @@ export const describeDataRepositoryAssociations: API.OperationMethod<
 export const describeDataRepositoryTasks: API.OperationMethod<
   DescribeDataRepositoryTasksRequest,
   DescribeDataRepositoryTasksResponse,
-  | BadRequest
-  | DataRepositoryTaskNotFound
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors,
+  DescribeDataRepositoryTasksError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDataRepositoryTasksRequest,
   ) => stream.Stream<
     DescribeDataRepositoryTasksResponse,
-    | BadRequest
-    | DataRepositoryTaskNotFound
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
+    DescribeDataRepositoryTasksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataRepositoryTasksRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequest
-    | DataRepositoryTaskNotFound
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
+    DescribeDataRepositoryTasksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6756,6 +6784,11 @@ export const describeDataRepositoryTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeFileCachesError =
+  | BadRequest
+  | FileCacheNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the description of a specific Amazon File Cache resource, if a
  * `FileCacheIds` value is provided for that cache. Otherwise, it
@@ -6788,21 +6821,21 @@ export const describeDataRepositoryTasks: API.OperationMethod<
 export const describeFileCaches: API.OperationMethod<
   DescribeFileCachesRequest,
   DescribeFileCachesResponse,
-  BadRequest | FileCacheNotFound | InternalServerError | CommonErrors,
+  DescribeFileCachesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFileCachesRequest,
   ) => stream.Stream<
     DescribeFileCachesResponse,
-    BadRequest | FileCacheNotFound | InternalServerError | CommonErrors,
+    DescribeFileCachesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFileCachesRequest,
   ) => stream.Stream<
     unknown,
-    BadRequest | FileCacheNotFound | InternalServerError | CommonErrors,
+    DescribeFileCachesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6815,6 +6848,11 @@ export const describeFileCaches: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeFileSystemAliasesError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of
  * all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction
@@ -6823,21 +6861,21 @@ export const describeFileCaches: API.OperationMethod<
 export const describeFileSystemAliases: API.OperationMethod<
   DescribeFileSystemAliasesRequest,
   DescribeFileSystemAliasesResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DescribeFileSystemAliasesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFileSystemAliasesRequest,
   ) => stream.Stream<
     DescribeFileSystemAliasesResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeFileSystemAliasesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFileSystemAliasesRequest,
   ) => stream.Stream<
     unknown,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeFileSystemAliasesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6850,6 +6888,11 @@ export const describeFileSystemAliases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeFileSystemsError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the description of specific Amazon FSx file systems, if a
  * `FileSystemIds` value is provided for that file system. Otherwise, it
@@ -6882,21 +6925,21 @@ export const describeFileSystemAliases: API.OperationMethod<
 export const describeFileSystems: API.OperationMethod<
   DescribeFileSystemsRequest,
   DescribeFileSystemsResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DescribeFileSystemsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFileSystemsRequest,
   ) => stream.Stream<
     DescribeFileSystemsResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeFileSystemsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFileSystemsRequest,
   ) => stream.Stream<
     unknown,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeFileSystemsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6909,6 +6952,12 @@ export const describeFileSystems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeS3AccessPointAttachmentsError =
+  | BadRequest
+  | InternalServerError
+  | S3AccessPointAttachmentNotFound
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Describes one or more S3 access points attached to Amazon FSx volumes.
  *
@@ -6919,33 +6968,21 @@ export const describeFileSystems: API.OperationMethod<
 export const describeS3AccessPointAttachments: API.OperationMethod<
   DescribeS3AccessPointAttachmentsRequest,
   DescribeS3AccessPointAttachmentsResponse,
-  | BadRequest
-  | InternalServerError
-  | S3AccessPointAttachmentNotFound
-  | UnsupportedOperation
-  | CommonErrors,
+  DescribeS3AccessPointAttachmentsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeS3AccessPointAttachmentsRequest,
   ) => stream.Stream<
     DescribeS3AccessPointAttachmentsResponse,
-    | BadRequest
-    | InternalServerError
-    | S3AccessPointAttachmentNotFound
-    | UnsupportedOperation
-    | CommonErrors,
+    DescribeS3AccessPointAttachmentsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeS3AccessPointAttachmentsRequest,
   ) => stream.Stream<
     S3AccessPointAttachment,
-    | BadRequest
-    | InternalServerError
-    | S3AccessPointAttachmentNotFound
-    | UnsupportedOperation
-    | CommonErrors,
+    DescribeS3AccessPointAttachmentsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6964,6 +7001,10 @@ export const describeS3AccessPointAttachments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeSharedVpcConfigurationError =
+  | BadRequest
+  | InternalServerError
+  | CommonErrors;
 /**
  * Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
  * private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
@@ -6971,13 +7012,18 @@ export const describeS3AccessPointAttachments: API.OperationMethod<
 export const describeSharedVpcConfiguration: API.OperationMethod<
   DescribeSharedVpcConfigurationRequest,
   DescribeSharedVpcConfigurationResponse,
-  BadRequest | InternalServerError | CommonErrors,
+  DescribeSharedVpcConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSharedVpcConfigurationRequest,
   output: DescribeSharedVpcConfigurationResponse,
   errors: [BadRequest, InternalServerError],
 }));
+export type DescribeSnapshotsError =
+  | BadRequest
+  | InternalServerError
+  | SnapshotNotFound
+  | CommonErrors;
 /**
  * Returns the description of specific Amazon FSx for OpenZFS snapshots, if a
  * `SnapshotIds` value is provided. Otherwise, this operation returns all
@@ -7009,21 +7055,21 @@ export const describeSharedVpcConfiguration: API.OperationMethod<
 export const describeSnapshots: API.OperationMethod<
   DescribeSnapshotsRequest,
   DescribeSnapshotsResponse,
-  BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
+  DescribeSnapshotsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
     DescribeSnapshotsResponse,
-    BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
+    DescribeSnapshotsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
     Snapshot,
-    BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
+    DescribeSnapshotsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7037,36 +7083,32 @@ export const describeSnapshots: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeStorageVirtualMachinesError =
+  | BadRequest
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | CommonErrors;
 /**
  * Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs).
  */
 export const describeStorageVirtualMachines: API.OperationMethod<
   DescribeStorageVirtualMachinesRequest,
   DescribeStorageVirtualMachinesResponse,
-  | BadRequest
-  | InternalServerError
-  | StorageVirtualMachineNotFound
-  | CommonErrors,
+  DescribeStorageVirtualMachinesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeStorageVirtualMachinesRequest,
   ) => stream.Stream<
     DescribeStorageVirtualMachinesResponse,
-    | BadRequest
-    | InternalServerError
-    | StorageVirtualMachineNotFound
-    | CommonErrors,
+    DescribeStorageVirtualMachinesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeStorageVirtualMachinesRequest,
   ) => stream.Stream<
     StorageVirtualMachine,
-    | BadRequest
-    | InternalServerError
-    | StorageVirtualMachineNotFound
-    | CommonErrors,
+    DescribeStorageVirtualMachinesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7080,6 +7122,11 @@ export const describeStorageVirtualMachines: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeVolumesError =
+  | BadRequest
+  | InternalServerError
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Describes one or more Amazon FSx for NetApp ONTAP or Amazon FSx for
  * OpenZFS volumes.
@@ -7087,21 +7134,21 @@ export const describeStorageVirtualMachines: API.OperationMethod<
 export const describeVolumes: API.OperationMethod<
   DescribeVolumesRequest,
   DescribeVolumesResponse,
-  BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
+  DescribeVolumesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeVolumesRequest,
   ) => stream.Stream<
     DescribeVolumesResponse,
-    BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
+    DescribeVolumesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeVolumesRequest,
   ) => stream.Stream<
     Volume,
-    BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
+    DescribeVolumesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7115,6 +7162,13 @@ export const describeVolumes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DetachAndDeleteS3AccessPointError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | S3AccessPointAttachmentNotFound
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point.
  *
@@ -7127,12 +7181,7 @@ export const describeVolumes: API.OperationMethod<
 export const detachAndDeleteS3AccessPoint: API.OperationMethod<
   DetachAndDeleteS3AccessPointRequest,
   DetachAndDeleteS3AccessPointResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | S3AccessPointAttachmentNotFound
-  | UnsupportedOperation
-  | CommonErrors,
+  DetachAndDeleteS3AccessPointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachAndDeleteS3AccessPointRequest,
@@ -7145,6 +7194,11 @@ export const detachAndDeleteS3AccessPoint: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type DisassociateFileSystemAliasesError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases
  * from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not
@@ -7160,13 +7214,20 @@ export const detachAndDeleteS3AccessPoint: API.OperationMethod<
 export const disassociateFileSystemAliases: API.OperationMethod<
   DisassociateFileSystemAliasesRequest,
   DisassociateFileSystemAliasesResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DisassociateFileSystemAliasesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFileSystemAliasesRequest,
   output: DisassociateFileSystemAliasesResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
+export type ListTagsForResourceError =
+  | BadRequest
+  | InternalServerError
+  | NotServiceResourceError
+  | ResourceDoesNotSupportTagging
+  | ResourceNotFound
+  | CommonErrors;
 /**
  * Lists tags for Amazon FSx resources.
  *
@@ -7195,36 +7256,21 @@ export const disassociateFileSystemAliases: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequest
-  | InternalServerError
-  | NotServiceResourceError
-  | ResourceDoesNotSupportTagging
-  | ResourceNotFound
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | BadRequest
-    | InternalServerError
-    | NotServiceResourceError
-    | ResourceDoesNotSupportTagging
-    | ResourceNotFound
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequest
-    | InternalServerError
-    | NotServiceResourceError
-    | ResourceDoesNotSupportTagging
-    | ResourceNotFound
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7243,6 +7289,13 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ReleaseFileSystemNfsV3LocksError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Releases the file system lock from an Amazon FSx for OpenZFS file
  * system.
@@ -7250,12 +7303,7 @@ export const listTagsForResource: API.OperationMethod<
 export const releaseFileSystemNfsV3Locks: API.OperationMethod<
   ReleaseFileSystemNfsV3LocksRequest,
   ReleaseFileSystemNfsV3LocksResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | CommonErrors,
+  ReleaseFileSystemNfsV3LocksError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseFileSystemNfsV3LocksRequest,
@@ -7268,6 +7316,11 @@ export const releaseFileSystemNfsV3Locks: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
+export type RestoreVolumeFromSnapshotError =
+  | BadRequest
+  | InternalServerError
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Returns an Amazon FSx for OpenZFS volume to the state saved by the specified
  * snapshot.
@@ -7275,13 +7328,18 @@ export const releaseFileSystemNfsV3Locks: API.OperationMethod<
 export const restoreVolumeFromSnapshot: API.OperationMethod<
   RestoreVolumeFromSnapshotRequest,
   RestoreVolumeFromSnapshotResponse,
-  BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
+  RestoreVolumeFromSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreVolumeFromSnapshotRequest,
   output: RestoreVolumeFromSnapshotResponse,
   errors: [BadRequest, InternalServerError, VolumeNotFound],
 }));
+export type StartMisconfiguredStateRecoveryError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to
  * initiate the process of Amazon FSx attempting to reconnect to the file system.
@@ -7289,25 +7347,27 @@ export const restoreVolumeFromSnapshot: API.OperationMethod<
 export const startMisconfiguredStateRecovery: API.OperationMethod<
   StartMisconfiguredStateRecoveryRequest,
   StartMisconfiguredStateRecoveryResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  StartMisconfiguredStateRecoveryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMisconfiguredStateRecoveryRequest,
   output: StartMisconfiguredStateRecoveryResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
+export type TagResourceError =
+  | BadRequest
+  | InternalServerError
+  | NotServiceResourceError
+  | ResourceDoesNotSupportTagging
+  | ResourceNotFound
+  | CommonErrors;
 /**
  * Tags an Amazon FSx resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequest
-  | InternalServerError
-  | NotServiceResourceError
-  | ResourceDoesNotSupportTagging
-  | ResourceNotFound
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7320,18 +7380,20 @@ export const tagResource: API.OperationMethod<
     ResourceNotFound,
   ],
 }));
+export type UntagResourceError =
+  | BadRequest
+  | InternalServerError
+  | NotServiceResourceError
+  | ResourceDoesNotSupportTagging
+  | ResourceNotFound
+  | CommonErrors;
 /**
  * This action removes a tag from an Amazon FSx resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequest
-  | InternalServerError
-  | NotServiceResourceError
-  | ResourceDoesNotSupportTagging
-  | ResourceNotFound
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -7344,6 +7406,13 @@ export const untagResource: API.OperationMethod<
     ResourceNotFound,
   ],
 }));
+export type UpdateDataRepositoryAssociationError =
+  | BadRequest
+  | DataRepositoryAssociationNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | CommonErrors;
 /**
  * Updates the configuration of an existing data repository association
  * on an Amazon FSx for Lustre file system. Data repository associations
@@ -7353,12 +7422,7 @@ export const untagResource: API.OperationMethod<
 export const updateDataRepositoryAssociation: API.OperationMethod<
   UpdateDataRepositoryAssociationRequest,
   UpdateDataRepositoryAssociationResponse,
-  | BadRequest
-  | DataRepositoryAssociationNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | ServiceLimitExceeded
-  | CommonErrors,
+  UpdateDataRepositoryAssociationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataRepositoryAssociationRequest,
@@ -7371,13 +7435,7 @@ export const updateDataRepositoryAssociation: API.OperationMethod<
     ServiceLimitExceeded,
   ],
 }));
-/**
- * Updates the configuration of an existing Amazon File Cache resource.
- * You can update multiple properties in a single request.
- */
-export const updateFileCache: API.OperationMethod<
-  UpdateFileCacheRequest,
-  UpdateFileCacheResponse,
+export type UpdateFileCacheError =
   | BadRequest
   | FileCacheNotFound
   | IncompatibleParameterError
@@ -7385,7 +7443,15 @@ export const updateFileCache: API.OperationMethod<
   | MissingFileCacheConfiguration
   | ServiceLimitExceeded
   | UnsupportedOperation
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing Amazon File Cache resource.
+ * You can update multiple properties in a single request.
+ */
+export const updateFileCache: API.OperationMethod<
+  UpdateFileCacheRequest,
+  UpdateFileCacheResponse,
+  UpdateFileCacheError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileCacheRequest,
@@ -7400,6 +7466,16 @@ export const updateFileCache: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type UpdateFileSystemError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidNetworkSettings
+  | MissingFileSystemConfiguration
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Use this operation to update the configuration of an existing Amazon FSx file
  * system. You can update multiple properties in a single request.
@@ -7511,15 +7587,7 @@ export const updateFileCache: API.OperationMethod<
 export const updateFileSystem: API.OperationMethod<
   UpdateFileSystemRequest,
   UpdateFileSystemResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | IncompatibleParameterError
-  | InternalServerError
-  | InvalidNetworkSettings
-  | MissingFileSystemConfiguration
-  | ServiceLimitExceeded
-  | UnsupportedOperation
-  | CommonErrors,
+  UpdateFileSystemError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileSystemRequest,
@@ -7535,6 +7603,11 @@ export const updateFileSystem: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type UpdateSharedVpcConfigurationError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | CommonErrors;
 /**
  * Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
  * private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User
@@ -7549,38 +7622,45 @@ export const updateFileSystem: API.OperationMethod<
 export const updateSharedVpcConfiguration: API.OperationMethod<
   UpdateSharedVpcConfigurationRequest,
   UpdateSharedVpcConfigurationResponse,
-  BadRequest | IncompatibleParameterError | InternalServerError | CommonErrors,
+  UpdateSharedVpcConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSharedVpcConfigurationRequest,
   output: UpdateSharedVpcConfigurationResponse,
   errors: [BadRequest, IncompatibleParameterError, InternalServerError],
 }));
+export type UpdateSnapshotError =
+  | BadRequest
+  | InternalServerError
+  | SnapshotNotFound
+  | CommonErrors;
 /**
  * Updates the name of an Amazon FSx for OpenZFS snapshot.
  */
 export const updateSnapshot: API.OperationMethod<
   UpdateSnapshotRequest,
   UpdateSnapshotResponse,
-  BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
+  UpdateSnapshotError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSnapshotRequest,
   output: UpdateSnapshotResponse,
   errors: [BadRequest, InternalServerError, SnapshotNotFound],
 }));
+export type UpdateStorageVirtualMachineError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | UnsupportedOperation
+  | CommonErrors;
 /**
  * Updates an FSx for ONTAP storage virtual machine (SVM).
  */
 export const updateStorageVirtualMachine: API.OperationMethod<
   UpdateStorageVirtualMachineRequest,
   UpdateStorageVirtualMachineResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | StorageVirtualMachineNotFound
-  | UnsupportedOperation
-  | CommonErrors,
+  UpdateStorageVirtualMachineError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStorageVirtualMachineRequest,
@@ -7593,18 +7673,20 @@ export const updateStorageVirtualMachine: API.OperationMethod<
     UnsupportedOperation,
   ],
 }));
+export type UpdateVolumeError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | MissingVolumeConfiguration
+  | VolumeNotFound
+  | CommonErrors;
 /**
  * Updates the configuration of an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
  */
 export const updateVolume: API.OperationMethod<
   UpdateVolumeRequest,
   UpdateVolumeResponse,
-  | BadRequest
-  | IncompatibleParameterError
-  | InternalServerError
-  | MissingVolumeConfiguration
-  | VolumeNotFound
-  | CommonErrors,
+  UpdateVolumeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVolumeRequest,

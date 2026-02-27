@@ -3488,17 +3488,19 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CalculateIsolinesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use the `CalculateIsolines` action to find service areas that can be reached in a given threshold of time, distance.
  */
 export const calculateIsolines: API.OperationMethod<
   CalculateIsolinesRequest,
   CalculateIsolinesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CalculateIsolinesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateIsolinesRequest,
@@ -3510,17 +3512,19 @@ export const calculateIsolines: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CalculateRouteMatrixError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use `CalculateRouteMatrix` to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
  */
 export const calculateRouteMatrix: API.OperationMethod<
   CalculateRouteMatrixRequest,
   CalculateRouteMatrixResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CalculateRouteMatrixError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateRouteMatrixRequest,
@@ -3532,17 +3536,19 @@ export const calculateRouteMatrix: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CalculateRoutesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * `CalculateRoutes` computes routes given the following required parameters: `Origin` and `Destination`.
  */
 export const calculateRoutes: API.OperationMethod<
   CalculateRoutesRequest,
   CalculateRoutesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CalculateRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateRoutesRequest,
@@ -3554,17 +3560,19 @@ export const calculateRoutes: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type OptimizeWaypointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * `OptimizeWaypoints` calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
  */
 export const optimizeWaypoints: API.OperationMethod<
   OptimizeWaypointsRequest,
   OptimizeWaypointsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  OptimizeWaypointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OptimizeWaypointsRequest,
@@ -3576,17 +3584,19 @@ export const optimizeWaypoints: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SnapToRoadsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * `SnapToRoads` matches GPS trace to roads most likely traveled on.
  */
 export const snapToRoads: API.OperationMethod<
   SnapToRoadsRequest,
   SnapToRoadsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SnapToRoadsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SnapToRoadsRequest,

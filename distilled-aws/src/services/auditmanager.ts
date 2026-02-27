@@ -338,12 +338,12 @@ export const Delegation = S.suspend(() =>
 ).annotate({ identifier: "Delegation" }) as any as S.Schema<Delegation>;
 export type Delegations = Delegation[];
 export const Delegations = S.Array(Delegation);
-export interface BatchCreateDelegationByAssessmentError {
+export interface BatchCreateDelegationByAssessmentError_ {
   createDelegationRequest?: CreateDelegationRequest;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchCreateDelegationByAssessmentError = S.suspend(() =>
+export const BatchCreateDelegationByAssessmentError_ = S.suspend(() =>
   S.Struct({
     createDelegationRequest: S.optional(CreateDelegationRequest),
     errorCode: S.optional(S.String),
@@ -351,15 +351,15 @@ export const BatchCreateDelegationByAssessmentError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchCreateDelegationByAssessmentError",
-}) as any as S.Schema<BatchCreateDelegationByAssessmentError>;
+}) as any as S.Schema<BatchCreateDelegationByAssessmentError_>;
 export type BatchCreateDelegationByAssessmentErrors =
-  BatchCreateDelegationByAssessmentError[];
+  BatchCreateDelegationByAssessmentError_[];
 export const BatchCreateDelegationByAssessmentErrors = S.Array(
-  BatchCreateDelegationByAssessmentError,
+  BatchCreateDelegationByAssessmentError_,
 );
 export interface BatchCreateDelegationByAssessmentResponse {
   delegations?: Delegation[];
-  errors?: BatchCreateDelegationByAssessmentError[];
+  errors?: BatchCreateDelegationByAssessmentError_[];
 }
 export const BatchCreateDelegationByAssessmentResponse = S.suspend(() =>
   S.Struct({
@@ -392,12 +392,12 @@ export const BatchDeleteDelegationByAssessmentRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchDeleteDelegationByAssessmentRequest",
 }) as any as S.Schema<BatchDeleteDelegationByAssessmentRequest>;
-export interface BatchDeleteDelegationByAssessmentError {
+export interface BatchDeleteDelegationByAssessmentError_ {
   delegationId?: string;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchDeleteDelegationByAssessmentError = S.suspend(() =>
+export const BatchDeleteDelegationByAssessmentError_ = S.suspend(() =>
   S.Struct({
     delegationId: S.optional(S.String),
     errorCode: S.optional(S.String),
@@ -405,14 +405,14 @@ export const BatchDeleteDelegationByAssessmentError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteDelegationByAssessmentError",
-}) as any as S.Schema<BatchDeleteDelegationByAssessmentError>;
+}) as any as S.Schema<BatchDeleteDelegationByAssessmentError_>;
 export type BatchDeleteDelegationByAssessmentErrors =
-  BatchDeleteDelegationByAssessmentError[];
+  BatchDeleteDelegationByAssessmentError_[];
 export const BatchDeleteDelegationByAssessmentErrors = S.Array(
-  BatchDeleteDelegationByAssessmentError,
+  BatchDeleteDelegationByAssessmentError_,
 );
 export interface BatchDeleteDelegationByAssessmentResponse {
-  errors?: BatchDeleteDelegationByAssessmentError[];
+  errors?: BatchDeleteDelegationByAssessmentError_[];
 }
 export const BatchDeleteDelegationByAssessmentResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchDeleteDelegationByAssessmentErrors) }),
@@ -499,12 +499,12 @@ export const BatchImportEvidenceToAssessmentControlRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchImportEvidenceToAssessmentControlRequest",
 }) as any as S.Schema<BatchImportEvidenceToAssessmentControlRequest>;
-export interface BatchImportEvidenceToAssessmentControlError {
+export interface BatchImportEvidenceToAssessmentControlError_ {
   manualEvidence?: ManualEvidence;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchImportEvidenceToAssessmentControlError = S.suspend(() =>
+export const BatchImportEvidenceToAssessmentControlError_ = S.suspend(() =>
   S.Struct({
     manualEvidence: S.optional(ManualEvidence),
     errorCode: S.optional(S.String),
@@ -512,14 +512,14 @@ export const BatchImportEvidenceToAssessmentControlError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchImportEvidenceToAssessmentControlError",
-}) as any as S.Schema<BatchImportEvidenceToAssessmentControlError>;
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlError_>;
 export type BatchImportEvidenceToAssessmentControlErrors =
-  BatchImportEvidenceToAssessmentControlError[];
+  BatchImportEvidenceToAssessmentControlError_[];
 export const BatchImportEvidenceToAssessmentControlErrors = S.Array(
-  BatchImportEvidenceToAssessmentControlError,
+  BatchImportEvidenceToAssessmentControlError_,
 );
 export interface BatchImportEvidenceToAssessmentControlResponse {
-  errors?: BatchImportEvidenceToAssessmentControlError[];
+  errors?: BatchImportEvidenceToAssessmentControlError_[];
 }
 export const BatchImportEvidenceToAssessmentControlResponse = S.suspend(() =>
   S.Struct({
@@ -3436,6 +3436,12 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type AssociateAssessmentReportEvidenceFolderError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates an evidence folder to an assessment report in an Audit Manager
  * assessment.
@@ -3443,11 +3449,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
   AssociateAssessmentReportEvidenceFolderRequest,
   AssociateAssessmentReportEvidenceFolderResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AssociateAssessmentReportEvidenceFolderError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAssessmentReportEvidenceFolderRequest,
@@ -3459,6 +3461,12 @@ export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchAssociateAssessmentReportEvidenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a list of evidence to an assessment report in an Audit Manager
  * assessment.
@@ -3466,11 +3474,7 @@ export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
 export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
   BatchAssociateAssessmentReportEvidenceRequest,
   BatchAssociateAssessmentReportEvidenceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchAssociateAssessmentReportEvidenceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateAssessmentReportEvidenceRequest,
@@ -3482,17 +3486,19 @@ export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchCreateDelegationByAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a batch of delegations for an assessment in Audit Manager.
  */
 export const batchCreateDelegationByAssessment: API.OperationMethod<
   BatchCreateDelegationByAssessmentRequest,
   BatchCreateDelegationByAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchCreateDelegationByAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateDelegationByAssessmentRequest,
@@ -3504,17 +3510,19 @@ export const batchCreateDelegationByAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDeleteDelegationByAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a batch of delegations for an assessment in Audit Manager.
  */
 export const batchDeleteDelegationByAssessment: API.OperationMethod<
   BatchDeleteDelegationByAssessmentRequest,
   BatchDeleteDelegationByAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteDelegationByAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDelegationByAssessmentRequest,
@@ -3526,17 +3534,19 @@ export const batchDeleteDelegationByAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDisassociateAssessmentReportEvidenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a list of evidence from an assessment report in Audit Manager.
  */
 export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
   BatchDisassociateAssessmentReportEvidenceRequest,
   BatchDisassociateAssessmentReportEvidenceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchDisassociateAssessmentReportEvidenceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateAssessmentReportEvidenceRequest,
@@ -3548,6 +3558,13 @@ export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchImportEvidenceToAssessmentControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds one or more pieces of evidence to a control in an Audit Manager assessment.
  *
@@ -3573,12 +3590,7 @@ export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
 export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
   BatchImportEvidenceToAssessmentControlRequest,
   BatchImportEvidenceToAssessmentControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchImportEvidenceToAssessmentControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchImportEvidenceToAssessmentControlRequest,
@@ -3591,19 +3603,21 @@ export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an assessment in Audit Manager.
- */
-export const createAssessment: API.OperationMethod<
-  CreateAssessmentRequest,
-  CreateAssessmentResponse,
+export type CreateAssessmentError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an assessment in Audit Manager.
+ */
+export const createAssessment: API.OperationMethod<
+  CreateAssessmentRequest,
+  CreateAssessmentResponse,
+  CreateAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssessmentRequest,
@@ -3617,18 +3631,20 @@ export const createAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAssessmentFrameworkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a custom framework in Audit Manager.
  */
 export const createAssessmentFramework: API.OperationMethod<
   CreateAssessmentFrameworkRequest,
   CreateAssessmentFrameworkResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateAssessmentFrameworkError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssessmentFrameworkRequest,
@@ -3641,17 +3657,19 @@ export const createAssessmentFramework: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAssessmentReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an assessment report for the specified assessment.
  */
 export const createAssessmentReport: API.OperationMethod<
   CreateAssessmentReportRequest,
   CreateAssessmentReportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateAssessmentReportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssessmentReportRequest,
@@ -3663,18 +3681,20 @@ export const createAssessmentReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new custom control in Audit Manager.
  */
 export const createControl: API.OperationMethod<
   CreateControlRequest,
   CreateControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateControlRequest,
@@ -3687,17 +3707,19 @@ export const createControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an assessment in Audit Manager.
  */
 export const deleteAssessment: API.OperationMethod<
   DeleteAssessmentRequest,
   DeleteAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentRequest,
@@ -3709,17 +3731,19 @@ export const deleteAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssessmentFrameworkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a custom framework in Audit Manager.
  */
 export const deleteAssessmentFramework: API.OperationMethod<
   DeleteAssessmentFrameworkRequest,
   DeleteAssessmentFrameworkResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssessmentFrameworkError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentFrameworkRequest,
@@ -3731,17 +3755,19 @@ export const deleteAssessmentFramework: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssessmentFrameworkShareError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a share request for a custom framework in Audit Manager.
  */
 export const deleteAssessmentFrameworkShare: API.OperationMethod<
   DeleteAssessmentFrameworkShareRequest,
   DeleteAssessmentFrameworkShareResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssessmentFrameworkShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentFrameworkShareRequest,
@@ -3753,6 +3779,12 @@ export const deleteAssessmentFrameworkShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssessmentReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an assessment report in Audit Manager.
  *
@@ -3779,11 +3811,7 @@ export const deleteAssessmentFrameworkShare: API.OperationMethod<
 export const deleteAssessmentReport: API.OperationMethod<
   DeleteAssessmentReportRequest,
   DeleteAssessmentReportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssessmentReportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentReportRequest,
@@ -3795,6 +3823,12 @@ export const deleteAssessmentReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a custom control in Audit Manager.
  *
@@ -3806,11 +3840,7 @@ export const deleteAssessmentReport: API.OperationMethod<
 export const deleteControl: API.OperationMethod<
   DeleteControlRequest,
   DeleteControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteControlRequest,
@@ -3822,6 +3852,12 @@ export const deleteControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeregisterAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deregisters an account in Audit Manager.
  *
@@ -3836,11 +3872,7 @@ export const deleteControl: API.OperationMethod<
 export const deregisterAccount: API.OperationMethod<
   DeregisterAccountRequest,
   DeregisterAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeregisterAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterAccountRequest,
@@ -3852,6 +3884,12 @@ export const deregisterAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeregisterOrganizationAdminAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified Amazon Web Services account as a delegated administrator for
  * Audit Manager.
@@ -3910,11 +3948,7 @@ export const deregisterAccount: API.OperationMethod<
 export const deregisterOrganizationAdminAccount: API.OperationMethod<
   DeregisterOrganizationAdminAccountRequest,
   DeregisterOrganizationAdminAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeregisterOrganizationAdminAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterOrganizationAdminAccountRequest,
@@ -3926,17 +3960,19 @@ export const deregisterOrganizationAdminAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateAssessmentReportEvidenceFolderError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates an evidence folder from the specified assessment report in Audit Manager.
  */
 export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
   DisassociateAssessmentReportEvidenceFolderRequest,
   DisassociateAssessmentReportEvidenceFolderResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DisassociateAssessmentReportEvidenceFolderError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAssessmentReportEvidenceFolderRequest,
@@ -3948,30 +3984,33 @@ export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccountStatusError = InternalServerException | CommonErrors;
 /**
  * Gets the registration status of an account in Audit Manager.
  */
 export const getAccountStatus: API.OperationMethod<
   GetAccountStatusRequest,
   GetAccountStatusResponse,
-  InternalServerException | CommonErrors,
+  GetAccountStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountStatusRequest,
   output: GetAccountStatusResponse,
   errors: [InternalServerException],
 }));
+export type GetAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specified assessment.
  */
 export const getAssessment: API.OperationMethod<
   GetAssessmentRequest,
   GetAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentRequest,
@@ -3983,17 +4022,19 @@ export const getAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssessmentFrameworkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specified framework.
  */
 export const getAssessmentFramework: API.OperationMethod<
   GetAssessmentFrameworkRequest,
   GetAssessmentFrameworkResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssessmentFrameworkError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentFrameworkRequest,
@@ -4005,17 +4046,19 @@ export const getAssessmentFramework: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssessmentReportUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the URL of an assessment report in Audit Manager.
  */
 export const getAssessmentReportUrl: API.OperationMethod<
   GetAssessmentReportUrlRequest,
   GetAssessmentReportUrlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssessmentReportUrlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentReportUrlRequest,
@@ -4027,39 +4070,33 @@ export const getAssessmentReportUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetChangeLogsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of changelogs from Audit Manager.
  */
 export const getChangeLogs: API.OperationMethod<
   GetChangeLogsRequest,
   GetChangeLogsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetChangeLogsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetChangeLogsRequest,
   ) => stream.Stream<
     GetChangeLogsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetChangeLogsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetChangeLogsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetChangeLogsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4077,17 +4114,19 @@ export const getChangeLogs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specified control.
  */
 export const getControl: API.OperationMethod<
   GetControlRequest,
   GetControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetControlRequest,
@@ -4099,36 +4138,32 @@ export const getControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDelegationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of delegations from an audit owner to a delegate.
  */
 export const getDelegations: API.OperationMethod<
   GetDelegationsRequest,
   GetDelegationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  GetDelegationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDelegationsRequest,
   ) => stream.Stream<
     GetDelegationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    GetDelegationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetDelegationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    GetDelegationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4141,17 +4176,19 @@ export const getDelegations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetEvidenceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specified evidence item.
  */
 export const getEvidence: API.OperationMethod<
   GetEvidenceRequest,
   GetEvidenceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEvidenceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvidenceRequest,
@@ -4163,39 +4200,33 @@ export const getEvidence: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEvidenceByEvidenceFolderError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all evidence from a specified evidence folder in Audit Manager.
  */
 export const getEvidenceByEvidenceFolder: API.OperationMethod<
   GetEvidenceByEvidenceFolderRequest,
   GetEvidenceByEvidenceFolderResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEvidenceByEvidenceFolderError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEvidenceByEvidenceFolderRequest,
   ) => stream.Stream<
     GetEvidenceByEvidenceFolderResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetEvidenceByEvidenceFolderError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetEvidenceByEvidenceFolderRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetEvidenceByEvidenceFolderError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4213,6 +4244,12 @@ export const getEvidenceByEvidenceFolder: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetEvidenceFileUploadUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a presigned Amazon S3 URL that can be used to upload a file as manual
  * evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User
@@ -4232,11 +4269,7 @@ export const getEvidenceByEvidenceFolder: API.OperationMethod<
 export const getEvidenceFileUploadUrl: API.OperationMethod<
   GetEvidenceFileUploadUrlRequest,
   GetEvidenceFileUploadUrlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEvidenceFileUploadUrlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvidenceFileUploadUrlRequest,
@@ -4248,17 +4281,19 @@ export const getEvidenceFileUploadUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEvidenceFolderError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an evidence folder from a specified assessment in Audit Manager.
  */
 export const getEvidenceFolder: API.OperationMethod<
   GetEvidenceFolderRequest,
   GetEvidenceFolderResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEvidenceFolderError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvidenceFolderRequest,
@@ -4270,39 +4305,33 @@ export const getEvidenceFolder: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEvidenceFoldersByAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the evidence folders from a specified assessment in Audit Manager.
  */
 export const getEvidenceFoldersByAssessment: API.OperationMethod<
   GetEvidenceFoldersByAssessmentRequest,
   GetEvidenceFoldersByAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEvidenceFoldersByAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEvidenceFoldersByAssessmentRequest,
   ) => stream.Stream<
     GetEvidenceFoldersByAssessmentResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetEvidenceFoldersByAssessmentError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetEvidenceFoldersByAssessmentRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetEvidenceFoldersByAssessmentError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4320,6 +4349,12 @@ export const getEvidenceFoldersByAssessment: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetEvidenceFoldersByAssessmentControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of evidence folders that are associated with a specified control in an
  * Audit Manager assessment.
@@ -4327,33 +4362,21 @@ export const getEvidenceFoldersByAssessment: API.OperationMethod<
 export const getEvidenceFoldersByAssessmentControl: API.OperationMethod<
   GetEvidenceFoldersByAssessmentControlRequest,
   GetEvidenceFoldersByAssessmentControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEvidenceFoldersByAssessmentControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEvidenceFoldersByAssessmentControlRequest,
   ) => stream.Stream<
     GetEvidenceFoldersByAssessmentControlResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetEvidenceFoldersByAssessmentControlError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetEvidenceFoldersByAssessmentControlRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetEvidenceFoldersByAssessmentControlError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4371,30 +4394,36 @@ export const getEvidenceFoldersByAssessmentControl: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Gets the latest analytics data for all your current active assessments.
  */
 export const getInsights: API.OperationMethod<
   GetInsightsRequest,
   GetInsightsResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  GetInsightsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightsRequest,
   output: GetInsightsResponse,
   errors: [AccessDeniedException, InternalServerException],
 }));
+export type GetInsightsByAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the latest analytics data for a specific active assessment.
  */
 export const getInsightsByAssessment: API.OperationMethod<
   GetInsightsByAssessmentRequest,
   GetInsightsByAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetInsightsByAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightsByAssessmentRequest,
@@ -4406,6 +4435,12 @@ export const getInsightsByAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOrganizationAdminAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the name of the delegated Amazon Web Services administrator account for a specified
  * organization.
@@ -4413,11 +4448,7 @@ export const getInsightsByAssessment: API.OperationMethod<
 export const getOrganizationAdminAccount: API.OperationMethod<
   GetOrganizationAdminAccountRequest,
   GetOrganizationAdminAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetOrganizationAdminAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationAdminAccountRequest,
@@ -4429,6 +4460,11 @@ export const getOrganizationAdminAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServicesInScopeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of the Amazon Web Services services from which Audit Manager can collect
  * evidence.
@@ -4446,29 +4482,36 @@ export const getOrganizationAdminAccount: API.OperationMethod<
 export const getServicesInScope: API.OperationMethod<
   GetServicesInScopeRequest,
   GetServicesInScopeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  GetServicesInScopeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServicesInScopeRequest,
   output: GetServicesInScopeResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
+export type GetSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Gets the settings for a specified Amazon Web Services account.
  */
 export const getSettings: API.OperationMethod<
   GetSettingsRequest,
   GetSettingsResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  GetSettingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingsRequest,
   output: GetSettingsResponse,
   errors: [AccessDeniedException, InternalServerException],
 }));
+export type ListAssessmentControlInsightsByControlDomainError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the latest analytics data for controls within a specific control domain and a
  * specific active assessment.
@@ -4481,33 +4524,21 @@ export const getSettings: API.OperationMethod<
 export const listAssessmentControlInsightsByControlDomain: API.OperationMethod<
   ListAssessmentControlInsightsByControlDomainRequest,
   ListAssessmentControlInsightsByControlDomainResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssessmentControlInsightsByControlDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentControlInsightsByControlDomainRequest,
   ) => stream.Stream<
     ListAssessmentControlInsightsByControlDomainResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentControlInsightsByControlDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentControlInsightsByControlDomainRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentControlInsightsByControlDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4525,6 +4556,11 @@ export const listAssessmentControlInsightsByControlDomain: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentFrameworksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the frameworks that are available in the Audit Manager framework
  * library.
@@ -4532,30 +4568,21 @@ export const listAssessmentControlInsightsByControlDomain: API.OperationMethod<
 export const listAssessmentFrameworks: API.OperationMethod<
   ListAssessmentFrameworksRequest,
   ListAssessmentFrameworksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListAssessmentFrameworksError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentFrameworksRequest,
   ) => stream.Stream<
     ListAssessmentFrameworksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentFrameworksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentFrameworksRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentFrameworksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4568,36 +4595,32 @@ export const listAssessmentFrameworks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentFrameworkShareRequestsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of sent or received share requests for custom frameworks in Audit Manager.
  */
 export const listAssessmentFrameworkShareRequests: API.OperationMethod<
   ListAssessmentFrameworkShareRequestsRequest,
   ListAssessmentFrameworkShareRequestsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListAssessmentFrameworkShareRequestsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentFrameworkShareRequestsRequest,
   ) => stream.Stream<
     ListAssessmentFrameworkShareRequestsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentFrameworkShareRequestsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentFrameworkShareRequestsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentFrameworkShareRequestsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4610,36 +4633,32 @@ export const listAssessmentFrameworkShareRequests: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentReportsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of assessment reports created in Audit Manager.
  */
 export const listAssessmentReports: API.OperationMethod<
   ListAssessmentReportsRequest,
   ListAssessmentReportsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListAssessmentReportsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentReportsRequest,
   ) => stream.Stream<
     ListAssessmentReportsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentReportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentReportsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentReportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4652,36 +4671,32 @@ export const listAssessmentReports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of current and past assessments from Audit Manager.
  */
 export const listAssessments: API.OperationMethod<
   ListAssessmentsRequest,
   ListAssessmentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListAssessmentsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentsRequest,
   ) => stream.Stream<
     ListAssessmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAssessmentsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4694,6 +4709,12 @@ export const listAssessments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListControlDomainInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the latest analytics data for control domains across all of your active
  * assessments.
@@ -4713,33 +4734,21 @@ export const listAssessments: API.OperationMethod<
 export const listControlDomainInsights: API.OperationMethod<
   ListControlDomainInsightsRequest,
   ListControlDomainInsightsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListControlDomainInsightsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlDomainInsightsRequest,
   ) => stream.Stream<
     ListControlDomainInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListControlDomainInsightsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListControlDomainInsightsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListControlDomainInsightsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4757,6 +4766,12 @@ export const listControlDomainInsights: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListControlDomainInsightsByAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists analytics data for control domains within a specified active assessment.
  *
@@ -4775,33 +4790,21 @@ export const listControlDomainInsights: API.OperationMethod<
 export const listControlDomainInsightsByAssessment: API.OperationMethod<
   ListControlDomainInsightsByAssessmentRequest,
   ListControlDomainInsightsByAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListControlDomainInsightsByAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlDomainInsightsByAssessmentRequest,
   ) => stream.Stream<
     ListControlDomainInsightsByAssessmentResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListControlDomainInsightsByAssessmentError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListControlDomainInsightsByAssessmentRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListControlDomainInsightsByAssessmentError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4819,6 +4822,12 @@ export const listControlDomainInsightsByAssessment: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListControlInsightsByControlDomainError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the latest analytics data for controls within a specific control domain across all
  * active assessments.
@@ -4831,33 +4840,21 @@ export const listControlDomainInsightsByAssessment: API.OperationMethod<
 export const listControlInsightsByControlDomain: API.OperationMethod<
   ListControlInsightsByControlDomainRequest,
   ListControlInsightsByControlDomainResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListControlInsightsByControlDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlInsightsByControlDomainRequest,
   ) => stream.Stream<
     ListControlInsightsByControlDomainResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListControlInsightsByControlDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListControlInsightsByControlDomainRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListControlInsightsByControlDomainError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4875,36 +4872,32 @@ export const listControlInsightsByControlDomain: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListControlsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of controls from Audit Manager.
  */
 export const listControls: API.OperationMethod<
   ListControlsRequest,
   ListControlsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListControlsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlsRequest,
   ) => stream.Stream<
     ListControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListControlsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListControlsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListControlsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4917,6 +4910,11 @@ export const listControls: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListKeywordsForDataSourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of keywords that are pre-mapped to the specified control data
  * source.
@@ -4924,30 +4922,21 @@ export const listControls: API.OperationMethod<
 export const listKeywordsForDataSource: API.OperationMethod<
   ListKeywordsForDataSourceRequest,
   ListKeywordsForDataSourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListKeywordsForDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeywordsForDataSourceRequest,
   ) => stream.Stream<
     ListKeywordsForDataSourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListKeywordsForDataSourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListKeywordsForDataSourceRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListKeywordsForDataSourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4960,36 +4949,32 @@ export const listKeywordsForDataSource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListNotificationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all Audit Manager notifications.
  */
 export const listNotifications: API.OperationMethod<
   ListNotificationsRequest,
   ListNotificationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationsRequest,
   ) => stream.Stream<
     ListNotificationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5002,16 +4987,18 @@ export const listNotifications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags for the specified resource in Audit Manager.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -5022,18 +5009,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables Audit Manager for the specified Amazon Web Services account.
  */
 export const registerAccount: API.OperationMethod<
   RegisterAccountRequest,
   RegisterAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RegisterAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAccountRequest,
@@ -5046,6 +5035,13 @@ export const registerAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterOrganizationAdminAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables an Amazon Web Services account within the organization as the delegated
  * administrator for Audit Manager.
@@ -5053,12 +5049,7 @@ export const registerAccount: API.OperationMethod<
 export const registerOrganizationAdminAccount: API.OperationMethod<
   RegisterOrganizationAdminAccountRequest,
   RegisterOrganizationAdminAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RegisterOrganizationAdminAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOrganizationAdminAccountRequest,
@@ -5071,6 +5062,12 @@ export const registerOrganizationAdminAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartAssessmentFrameworkShareError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a share request for a custom framework in Audit Manager.
  *
@@ -5111,11 +5108,7 @@ export const registerOrganizationAdminAccount: API.OperationMethod<
 export const startAssessmentFrameworkShare: API.OperationMethod<
   StartAssessmentFrameworkShareRequest,
   StartAssessmentFrameworkShareResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartAssessmentFrameworkShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAssessmentFrameworkShareRequest,
@@ -5127,16 +5120,18 @@ export const startAssessmentFrameworkShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags the specified resource in Audit Manager.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5147,16 +5142,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from a resource in Audit Manager.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5167,19 +5164,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Edits an Audit Manager assessment.
- */
-export const updateAssessment: API.OperationMethod<
-  UpdateAssessmentRequest,
-  UpdateAssessmentResponse,
+export type UpdateAssessmentError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Edits an Audit Manager assessment.
+ */
+export const updateAssessment: API.OperationMethod<
+  UpdateAssessmentRequest,
+  UpdateAssessmentResponse,
+  UpdateAssessmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentRequest,
@@ -5193,17 +5192,19 @@ export const updateAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAssessmentControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a control within an assessment in Audit Manager.
  */
 export const updateAssessmentControl: API.OperationMethod<
   UpdateAssessmentControlRequest,
   UpdateAssessmentControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssessmentControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentControlRequest,
@@ -5215,17 +5216,19 @@ export const updateAssessmentControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAssessmentControlSetStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the status of a control set in an Audit Manager assessment.
  */
 export const updateAssessmentControlSetStatus: API.OperationMethod<
   UpdateAssessmentControlSetStatusRequest,
   UpdateAssessmentControlSetStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssessmentControlSetStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentControlSetStatusRequest,
@@ -5237,18 +5240,20 @@ export const updateAssessmentControlSetStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAssessmentFrameworkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a custom framework in Audit Manager.
  */
 export const updateAssessmentFramework: API.OperationMethod<
   UpdateAssessmentFrameworkRequest,
   UpdateAssessmentFrameworkResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssessmentFrameworkError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentFrameworkRequest,
@@ -5261,18 +5266,20 @@ export const updateAssessmentFramework: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAssessmentFrameworkShareError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a share request for a custom framework in Audit Manager.
  */
 export const updateAssessmentFrameworkShare: API.OperationMethod<
   UpdateAssessmentFrameworkShareRequest,
   UpdateAssessmentFrameworkShareResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssessmentFrameworkShareError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentFrameworkShareRequest,
@@ -5285,18 +5292,20 @@ export const updateAssessmentFrameworkShare: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAssessmentStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the status of an assessment in Audit Manager.
  */
 export const updateAssessmentStatus: API.OperationMethod<
   UpdateAssessmentStatusRequest,
   UpdateAssessmentStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssessmentStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentStatusRequest,
@@ -5309,17 +5318,19 @@ export const updateAssessmentStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a custom control in Audit Manager.
  */
 export const updateControl: API.OperationMethod<
   UpdateControlRequest,
   UpdateControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateControlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateControlRequest,
@@ -5331,33 +5342,37 @@ export const updateControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates Audit Manager settings for the current account.
  */
 export const updateSettings: API.OperationMethod<
   UpdateSettingsRequest,
   UpdateSettingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  UpdateSettingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsRequest,
   output: UpdateSettingsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
+export type ValidateAssessmentReportIntegrityError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Validates the integrity of an assessment report in Audit Manager.
  */
 export const validateAssessmentReportIntegrity: API.OperationMethod<
   ValidateAssessmentReportIntegrityRequest,
   ValidateAssessmentReportIntegrityResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ValidateAssessmentReportIntegrityError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateAssessmentReportIntegrityRequest,

@@ -1830,6 +1830,13 @@ export class AgentsAlreadyRunningAssessmentException extends S.TaggedErrorClass<
 ) {}
 
 //# Operations
+export type AddAttributesToFindingsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Assigns attributes (key and value pairs) to the findings that are specified by the
  * ARNs of the findings.
@@ -1837,12 +1844,7 @@ export class AgentsAlreadyRunningAssessmentException extends S.TaggedErrorClass<
 export const addAttributesToFindings: API.OperationMethod<
   AddAttributesToFindingsRequest,
   AddAttributesToFindingsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  AddAttributesToFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddAttributesToFindingsRequest,
@@ -1855,6 +1857,15 @@ export const addAttributesToFindings: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type CreateAssessmentTargetError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Creates a new assessment target using the ARN of the resource group that is generated
  * by CreateResourceGroup. If resourceGroupArn is not specified, all EC2
@@ -1868,14 +1879,7 @@ export const addAttributesToFindings: API.OperationMethod<
 export const createAssessmentTarget: API.OperationMethod<
   CreateAssessmentTargetRequest,
   CreateAssessmentTargetResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidCrossAccountRoleException
-  | InvalidInputException
-  | LimitExceededException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  CreateAssessmentTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssessmentTargetRequest,
@@ -1890,6 +1894,14 @@ export const createAssessmentTarget: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type CreateAssessmentTemplateError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Creates an assessment template for the assessment target that is specified by the ARN
  * of the assessment target. If the service-linked role isn’t already registered, this action also creates and
@@ -1899,13 +1911,7 @@ export const createAssessmentTarget: API.OperationMethod<
 export const createAssessmentTemplate: API.OperationMethod<
   CreateAssessmentTemplateRequest,
   CreateAssessmentTemplateResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | LimitExceededException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  CreateAssessmentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssessmentTemplateRequest,
@@ -1919,6 +1925,14 @@ export const createAssessmentTemplate: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type CreateExclusionsPreviewError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | PreviewGenerationInProgressException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Starts the generation of an exclusions preview for the specified assessment template.
  * The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can
@@ -1927,13 +1941,7 @@ export const createAssessmentTemplate: API.OperationMethod<
 export const createExclusionsPreview: API.OperationMethod<
   CreateExclusionsPreviewRequest,
   CreateExclusionsPreviewResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | PreviewGenerationInProgressException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  CreateExclusionsPreviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExclusionsPreviewRequest,
@@ -1947,6 +1955,13 @@ export const createExclusionsPreview: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type CreateResourceGroupError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | LimitExceededException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Creates a resource group using the specified set of tags (key and value pairs) that
  * are used to select the EC2 instances to be included in an Amazon Inspector assessment
@@ -1956,12 +1971,7 @@ export const createExclusionsPreview: API.OperationMethod<
 export const createResourceGroup: API.OperationMethod<
   CreateResourceGroupRequest,
   CreateResourceGroupResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | LimitExceededException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  CreateResourceGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceGroupRequest,
@@ -1974,6 +1984,14 @@ export const createResourceGroup: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type DeleteAssessmentRunError =
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Deletes the assessment run that is specified by the ARN of the assessment
  * run.
@@ -1981,13 +1999,7 @@ export const createResourceGroup: API.OperationMethod<
 export const deleteAssessmentRun: API.OperationMethod<
   DeleteAssessmentRunRequest,
   DeleteAssessmentRunResponse,
-  | AccessDeniedException
-  | AssessmentRunInProgressException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  DeleteAssessmentRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentRunRequest,
@@ -2001,6 +2013,14 @@ export const deleteAssessmentRun: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type DeleteAssessmentTargetError =
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Deletes the assessment target that is specified by the ARN of the assessment
  * target.
@@ -2008,13 +2028,7 @@ export const deleteAssessmentRun: API.OperationMethod<
 export const deleteAssessmentTarget: API.OperationMethod<
   DeleteAssessmentTargetRequest,
   DeleteAssessmentTargetResponse,
-  | AccessDeniedException
-  | AssessmentRunInProgressException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  DeleteAssessmentTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentTargetRequest,
@@ -2028,6 +2042,14 @@ export const deleteAssessmentTarget: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type DeleteAssessmentTemplateError =
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Deletes the assessment template that is specified by the ARN of the assessment
  * template.
@@ -2035,13 +2057,7 @@ export const deleteAssessmentTarget: API.OperationMethod<
 export const deleteAssessmentTemplate: API.OperationMethod<
   DeleteAssessmentTemplateRequest,
   DeleteAssessmentTemplateResponse,
-  | AccessDeniedException
-  | AssessmentRunInProgressException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  DeleteAssessmentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentTemplateRequest,
@@ -2055,6 +2071,10 @@ export const deleteAssessmentTemplate: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type DescribeAssessmentRunsError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the assessment runs that are specified by the ARNs of the assessment
  * runs.
@@ -2062,13 +2082,17 @@ export const deleteAssessmentTemplate: API.OperationMethod<
 export const describeAssessmentRuns: API.OperationMethod<
   DescribeAssessmentRunsRequest,
   DescribeAssessmentRunsResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeAssessmentRunsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssessmentRunsRequest,
   output: DescribeAssessmentRunsResponse,
   errors: [InternalException, InvalidInputException],
 }));
+export type DescribeAssessmentTargetsError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the assessment targets that are specified by the ARNs of the assessment
  * targets.
@@ -2076,13 +2100,17 @@ export const describeAssessmentRuns: API.OperationMethod<
 export const describeAssessmentTargets: API.OperationMethod<
   DescribeAssessmentTargetsRequest,
   DescribeAssessmentTargetsResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeAssessmentTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssessmentTargetsRequest,
   output: DescribeAssessmentTargetsResponse,
   errors: [InternalException, InvalidInputException],
 }));
+export type DescribeAssessmentTemplatesError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the assessment templates that are specified by the ARNs of the assessment
  * templates.
@@ -2090,13 +2118,16 @@ export const describeAssessmentTargets: API.OperationMethod<
 export const describeAssessmentTemplates: API.OperationMethod<
   DescribeAssessmentTemplatesRequest,
   DescribeAssessmentTemplatesResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeAssessmentTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssessmentTemplatesRequest,
   output: DescribeAssessmentTemplatesResponse,
   errors: [InternalException, InvalidInputException],
 }));
+export type DescribeCrossAccountAccessRoleError =
+  | InternalException
+  | CommonErrors;
 /**
  * Describes the IAM role that enables Amazon Inspector to access your AWS
  * account.
@@ -2104,39 +2135,51 @@ export const describeAssessmentTemplates: API.OperationMethod<
 export const describeCrossAccountAccessRole: API.OperationMethod<
   DescribeCrossAccountAccessRoleRequest,
   DescribeCrossAccountAccessRoleResponse,
-  InternalException | CommonErrors,
+  DescribeCrossAccountAccessRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCrossAccountAccessRoleRequest,
   output: DescribeCrossAccountAccessRoleResponse,
   errors: [InternalException],
 }));
+export type DescribeExclusionsError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the exclusions that are specified by the exclusions' ARNs.
  */
 export const describeExclusions: API.OperationMethod<
   DescribeExclusionsRequest,
   DescribeExclusionsResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeExclusionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExclusionsRequest,
   output: DescribeExclusionsResponse,
   errors: [InternalException, InvalidInputException],
 }));
+export type DescribeFindingsError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the findings that are specified by the ARNs of the findings.
  */
 export const describeFindings: API.OperationMethod<
   DescribeFindingsRequest,
   DescribeFindingsResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFindingsRequest,
   output: DescribeFindingsResponse,
   errors: [InternalException, InvalidInputException],
 }));
+export type DescribeResourceGroupsError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the resource groups that are specified by the ARNs of the resource
  * groups.
@@ -2144,13 +2187,17 @@ export const describeFindings: API.OperationMethod<
 export const describeResourceGroups: API.OperationMethod<
   DescribeResourceGroupsRequest,
   DescribeResourceGroupsResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeResourceGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourceGroupsRequest,
   output: DescribeResourceGroupsResponse,
   errors: [InternalException, InvalidInputException],
 }));
+export type DescribeRulesPackagesError =
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Describes the rules packages that are specified by the ARNs of the rules
  * packages.
@@ -2158,20 +2205,14 @@ export const describeResourceGroups: API.OperationMethod<
 export const describeRulesPackages: API.OperationMethod<
   DescribeRulesPackagesRequest,
   DescribeRulesPackagesResponse,
-  InternalException | InvalidInputException | CommonErrors,
+  DescribeRulesPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRulesPackagesRequest,
   output: DescribeRulesPackagesResponse,
   errors: [InternalException, InvalidInputException],
 }));
-/**
- * Produces an assessment report that includes detailed and comprehensive results of a
- * specified assessment run.
- */
-export const getAssessmentReport: API.OperationMethod<
-  GetAssessmentReportRequest,
-  GetAssessmentReportResponse,
+export type GetAssessmentReportError =
   | AccessDeniedException
   | AssessmentRunInProgressException
   | InternalException
@@ -2179,7 +2220,15 @@ export const getAssessmentReport: API.OperationMethod<
   | NoSuchEntityException
   | ServiceTemporarilyUnavailableException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Produces an assessment report that includes detailed and comprehensive results of a
+ * specified assessment run.
+ */
+export const getAssessmentReport: API.OperationMethod<
+  GetAssessmentReportRequest,
+  GetAssessmentReportResponse,
+  GetAssessmentReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentReportRequest,
@@ -2194,6 +2243,12 @@ export const getAssessmentReport: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type GetExclusionsPreviewError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by
  * the preview token. You can obtain the preview token by running the CreateExclusionsPreview
@@ -2202,33 +2257,21 @@ export const getAssessmentReport: API.OperationMethod<
 export const getExclusionsPreview: API.OperationMethod<
   GetExclusionsPreviewRequest,
   GetExclusionsPreviewResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  GetExclusionsPreviewError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetExclusionsPreviewRequest,
   ) => stream.Stream<
     GetExclusionsPreviewResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    GetExclusionsPreviewError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetExclusionsPreviewRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    GetExclusionsPreviewError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2246,6 +2289,12 @@ export const getExclusionsPreview: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetTelemetryMetadataError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Information about the data that is collected for the specified assessment
  * run.
@@ -2253,11 +2302,7 @@ export const getExclusionsPreview: API.OperationMethod<
 export const getTelemetryMetadata: API.OperationMethod<
   GetTelemetryMetadataRequest,
   GetTelemetryMetadataResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  GetTelemetryMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTelemetryMetadataRequest,
@@ -2269,6 +2314,12 @@ export const getTelemetryMetadata: API.OperationMethod<
     NoSuchEntityException,
   ],
 }));
+export type ListAssessmentRunAgentsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Lists the agents of the assessment runs that are specified by the ARNs of the
  * assessment runs.
@@ -2276,33 +2327,21 @@ export const getTelemetryMetadata: API.OperationMethod<
 export const listAssessmentRunAgents: API.OperationMethod<
   ListAssessmentRunAgentsRequest,
   ListAssessmentRunAgentsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListAssessmentRunAgentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentRunAgentsRequest,
   ) => stream.Stream<
     ListAssessmentRunAgentsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListAssessmentRunAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentRunAgentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListAssessmentRunAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2320,6 +2359,12 @@ export const listAssessmentRunAgents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentRunsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Lists the assessment runs that correspond to the assessment templates that are
  * specified by the ARNs of the assessment templates.
@@ -2327,33 +2372,21 @@ export const listAssessmentRunAgents: API.OperationMethod<
 export const listAssessmentRuns: API.OperationMethod<
   ListAssessmentRunsRequest,
   ListAssessmentRunsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListAssessmentRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentRunsRequest,
   ) => stream.Stream<
     ListAssessmentRunsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListAssessmentRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentRunsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListAssessmentRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2371,6 +2404,11 @@ export const listAssessmentRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentTargetsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Lists the ARNs of the assessment targets within this AWS account. For more
  * information about assessment targets, see Amazon Inspector Assessment
@@ -2379,30 +2417,21 @@ export const listAssessmentRuns: API.OperationMethod<
 export const listAssessmentTargets: API.OperationMethod<
   ListAssessmentTargetsRequest,
   ListAssessmentTargetsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | CommonErrors,
+  ListAssessmentTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentTargetsRequest,
   ) => stream.Stream<
     ListAssessmentTargetsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | CommonErrors,
+    ListAssessmentTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentTargetsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | CommonErrors,
+    ListAssessmentTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2415,6 +2444,12 @@ export const listAssessmentTargets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssessmentTemplatesError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Lists the assessment templates that correspond to the assessment targets that are
  * specified by the ARNs of the assessment targets.
@@ -2422,33 +2457,21 @@ export const listAssessmentTargets: API.OperationMethod<
 export const listAssessmentTemplates: API.OperationMethod<
   ListAssessmentTemplatesRequest,
   ListAssessmentTemplatesResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListAssessmentTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssessmentTemplatesRequest,
   ) => stream.Stream<
     ListAssessmentTemplatesResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListAssessmentTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssessmentTemplatesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListAssessmentTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2466,6 +2489,12 @@ export const listAssessmentTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEventSubscriptionsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Lists all the event subscriptions for the assessment template that is specified by
  * the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
@@ -2473,33 +2502,21 @@ export const listAssessmentTemplates: API.OperationMethod<
 export const listEventSubscriptions: API.OperationMethod<
   ListEventSubscriptionsRequest,
   ListEventSubscriptionsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListEventSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventSubscriptionsRequest,
   ) => stream.Stream<
     ListEventSubscriptionsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventSubscriptionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2517,39 +2534,33 @@ export const listEventSubscriptions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExclusionsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * List exclusions that are generated by the assessment run.
  */
 export const listExclusions: API.OperationMethod<
   ListExclusionsRequest,
   ListExclusionsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListExclusionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExclusionsRequest,
   ) => stream.Stream<
     ListExclusionsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListExclusionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExclusionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListExclusionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2567,6 +2578,12 @@ export const listExclusions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFindingsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Lists findings that are generated by the assessment runs that are specified by the
  * ARNs of the assessment runs.
@@ -2574,33 +2591,21 @@ export const listExclusions: API.OperationMethod<
 export const listFindings: API.OperationMethod<
   ListFindingsRequest,
   ListFindingsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     ListFindingsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2618,36 +2623,32 @@ export const listFindings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRulesPackagesError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | CommonErrors;
 /**
  * Lists all available Amazon Inspector rules packages.
  */
 export const listRulesPackages: API.OperationMethod<
   ListRulesPackagesRequest,
   ListRulesPackagesResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | CommonErrors,
+  ListRulesPackagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRulesPackagesRequest,
   ) => stream.Stream<
     ListRulesPackagesResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | CommonErrors,
+    ListRulesPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesPackagesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | CommonErrors,
+    ListRulesPackagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2660,17 +2661,19 @@ export const listRulesPackages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Lists all tags associated with an assessment template.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2682,6 +2685,13 @@ export const listTagsForResource: API.OperationMethod<
     NoSuchEntityException,
   ],
 }));
+export type PreviewAgentsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors;
 /**
  * Previews the agents installed on the EC2 instances that are part of the specified
  * assessment target.
@@ -2689,36 +2699,21 @@ export const listTagsForResource: API.OperationMethod<
 export const previewAgents: API.OperationMethod<
   PreviewAgentsRequest,
   PreviewAgentsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidCrossAccountRoleException
-  | InvalidInputException
-  | NoSuchEntityException
-  | CommonErrors,
+  PreviewAgentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: PreviewAgentsRequest,
   ) => stream.Stream<
     PreviewAgentsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidCrossAccountRoleException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    PreviewAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: PreviewAgentsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalException
-    | InvalidCrossAccountRoleException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
+    PreviewAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2737,6 +2732,13 @@ export const previewAgents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RegisterCrossAccountAccessRoleError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
  * perform security assessments.
@@ -2744,12 +2746,7 @@ export const previewAgents: API.OperationMethod<
 export const registerCrossAccountAccessRole: API.OperationMethod<
   RegisterCrossAccountAccessRoleRequest,
   RegisterCrossAccountAccessRoleResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidCrossAccountRoleException
-  | InvalidInputException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  RegisterCrossAccountAccessRoleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCrossAccountAccessRoleRequest,
@@ -2762,6 +2759,13 @@ export const registerCrossAccountAccessRole: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type RemoveAttributesFromFindingsError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Removes entire attributes (key and value pairs) from the findings that are specified
  * by the ARNs of the findings where an attribute with the specified key exists.
@@ -2769,12 +2773,7 @@ export const registerCrossAccountAccessRole: API.OperationMethod<
 export const removeAttributesFromFindings: API.OperationMethod<
   RemoveAttributesFromFindingsRequest,
   RemoveAttributesFromFindingsResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  RemoveAttributesFromFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAttributesFromFindingsRequest,
@@ -2787,6 +2786,13 @@ export const removeAttributesFromFindings: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type SetTagsForResourceError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Sets tags (key and value pairs) to the assessment template that is specified by the
  * ARN of the assessment template.
@@ -2794,12 +2800,7 @@ export const removeAttributesFromFindings: API.OperationMethod<
 export const setTagsForResource: API.OperationMethod<
   SetTagsForResourceRequest,
   SetTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  SetTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTagsForResourceRequest,
@@ -2812,14 +2813,7 @@ export const setTagsForResource: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
-/**
- * Starts the assessment run specified by the ARN of the assessment template. For this
- * API to function properly, you must not exceed the limit of running up to 500 concurrent
- * agents per AWS account.
- */
-export const startAssessmentRun: API.OperationMethod<
-  StartAssessmentRunRequest,
-  StartAssessmentRunResponse,
+export type StartAssessmentRunError =
   | AccessDeniedException
   | AgentsAlreadyRunningAssessmentException
   | InternalException
@@ -2828,7 +2822,16 @@ export const startAssessmentRun: API.OperationMethod<
   | LimitExceededException
   | NoSuchEntityException
   | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the assessment run specified by the ARN of the assessment template. For this
+ * API to function properly, you must not exceed the limit of running up to 500 concurrent
+ * agents per AWS account.
+ */
+export const startAssessmentRun: API.OperationMethod<
+  StartAssessmentRunRequest,
+  StartAssessmentRunResponse,
+  StartAssessmentRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAssessmentRunRequest,
@@ -2844,6 +2847,13 @@ export const startAssessmentRun: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type StopAssessmentRunError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Stops the assessment run that is specified by the ARN of the assessment
  * run.
@@ -2851,12 +2861,7 @@ export const startAssessmentRun: API.OperationMethod<
 export const stopAssessmentRun: API.OperationMethod<
   StopAssessmentRunRequest,
   StopAssessmentRunResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  StopAssessmentRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAssessmentRunRequest,
@@ -2869,6 +2874,14 @@ export const stopAssessmentRun: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type SubscribeToEventError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Enables the process of sending Amazon Simple Notification Service (SNS) notifications
  * about a specified event to a specified SNS topic.
@@ -2876,13 +2889,7 @@ export const stopAssessmentRun: API.OperationMethod<
 export const subscribeToEvent: API.OperationMethod<
   SubscribeToEventRequest,
   SubscribeToEventResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | LimitExceededException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  SubscribeToEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeToEventRequest,
@@ -2896,6 +2903,13 @@ export const subscribeToEvent: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type UnsubscribeFromEventError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Disables the process of sending Amazon Simple Notification Service (SNS)
  * notifications about a specified event to a specified SNS topic.
@@ -2903,12 +2917,7 @@ export const subscribeToEvent: API.OperationMethod<
 export const unsubscribeFromEvent: API.OperationMethod<
   UnsubscribeFromEventRequest,
   UnsubscribeFromEventResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  UnsubscribeFromEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeFromEventRequest,
@@ -2921,6 +2930,13 @@ export const unsubscribeFromEvent: API.OperationMethod<
     ServiceTemporarilyUnavailableException,
   ],
 }));
+export type UpdateAssessmentTargetError =
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | CommonErrors;
 /**
  * Updates the assessment target that is specified by the ARN of the assessment
  * target.
@@ -2931,12 +2947,7 @@ export const unsubscribeFromEvent: API.OperationMethod<
 export const updateAssessmentTarget: API.OperationMethod<
   UpdateAssessmentTargetRequest,
   UpdateAssessmentTargetResponse,
-  | AccessDeniedException
-  | InternalException
-  | InvalidInputException
-  | NoSuchEntityException
-  | ServiceTemporarilyUnavailableException
-  | CommonErrors,
+  UpdateAssessmentTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentTargetRequest,

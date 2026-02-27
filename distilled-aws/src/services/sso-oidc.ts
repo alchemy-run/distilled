@@ -426,14 +426,7 @@ export class InvalidRedirectUriException extends S.TaggedErrorClass<InvalidRedir
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Creates and returns access and refresh tokens for clients that are authenticated using
- * client secrets. The access token can be used to fetch short-lived credentials for the assigned
- * AWS accounts or to access application APIs using `bearer` authentication.
- */
-export const createToken: API.OperationMethod<
-  CreateTokenRequest,
-  CreateTokenResponse,
+export type CreateTokenError =
   | AccessDeniedException
   | AuthorizationPendingException
   | ExpiredTokenException
@@ -445,7 +438,16 @@ export const createToken: API.OperationMethod<
   | SlowDownException
   | UnauthorizedClientException
   | UnsupportedGrantTypeException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates and returns access and refresh tokens for clients that are authenticated using
+ * client secrets. The access token can be used to fetch short-lived credentials for the assigned
+ * AWS accounts or to access application APIs using `bearer` authentication.
+ */
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
+  CreateTokenResponse,
+  CreateTokenError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
@@ -464,18 +466,7 @@ export const createToken: API.OperationMethod<
     UnsupportedGrantTypeException,
   ],
 }));
-/**
- * Creates and returns access and refresh tokens for authorized client applications that are
- * authenticated using any IAM entity, such as a service
- * role or user. These tokens might contain defined scopes that specify permissions such as `read:profile` or `write:data`. Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetch short-lived credentials for the assigned
- * Amazon Web Services accounts or to access application APIs using `bearer` authentication.
- *
- * This API is used with Signature Version 4. For more information, see Amazon Web Services Signature
- * Version 4 for API Requests.
- */
-export const createTokenWithIAM: API.OperationMethod<
-  CreateTokenWithIAMRequest,
-  CreateTokenWithIAMResponse,
+export type CreateTokenWithIAMError =
   | AccessDeniedException
   | AuthorizationPendingException
   | ExpiredTokenException
@@ -488,7 +479,20 @@ export const createTokenWithIAM: API.OperationMethod<
   | SlowDownException
   | UnauthorizedClientException
   | UnsupportedGrantTypeException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates and returns access and refresh tokens for authorized client applications that are
+ * authenticated using any IAM entity, such as a service
+ * role or user. These tokens might contain defined scopes that specify permissions such as `read:profile` or `write:data`. Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetch short-lived credentials for the assigned
+ * Amazon Web Services accounts or to access application APIs using `bearer` authentication.
+ *
+ * This API is used with Signature Version 4. For more information, see Amazon Web Services Signature
+ * Version 4 for API Requests.
+ */
+export const createTokenWithIAM: API.OperationMethod<
+  CreateTokenWithIAMRequest,
+  CreateTokenWithIAMResponse,
+  CreateTokenWithIAMError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenWithIAMRequest,
@@ -508,6 +512,15 @@ export const createTokenWithIAM: API.OperationMethod<
     UnsupportedGrantTypeException,
   ],
 }));
+export type RegisterClientError =
+  | InternalServerException
+  | InvalidClientMetadataException
+  | InvalidRedirectUriException
+  | InvalidRequestException
+  | InvalidScopeException
+  | SlowDownException
+  | UnsupportedGrantTypeException
+  | CommonErrors;
 /**
  * Registers a public client with IAM Identity Center. This allows clients to perform authorization using
  * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
@@ -516,14 +529,7 @@ export const createTokenWithIAM: API.OperationMethod<
 export const registerClient: API.OperationMethod<
   RegisterClientRequest,
   RegisterClientResponse,
-  | InternalServerException
-  | InvalidClientMetadataException
-  | InvalidRedirectUriException
-  | InvalidRequestException
-  | InvalidScopeException
-  | SlowDownException
-  | UnsupportedGrantTypeException
-  | CommonErrors,
+  RegisterClientError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterClientRequest,
@@ -538,6 +544,13 @@ export const registerClient: API.OperationMethod<
     UnsupportedGrantTypeException,
   ],
 }));
+export type StartDeviceAuthorizationError =
+  | InternalServerException
+  | InvalidClientException
+  | InvalidRequestException
+  | SlowDownException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Initiates device authorization by requesting a pair of verification codes from the
  * authorization service.
@@ -545,12 +558,7 @@ export const registerClient: API.OperationMethod<
 export const startDeviceAuthorization: API.OperationMethod<
   StartDeviceAuthorizationRequest,
   StartDeviceAuthorizationResponse,
-  | InternalServerException
-  | InvalidClientException
-  | InvalidRequestException
-  | SlowDownException
-  | UnauthorizedClientException
-  | CommonErrors,
+  StartDeviceAuthorizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeviceAuthorizationRequest,

@@ -1043,12 +1043,7 @@ export class InvalidCampaignStateException extends S.TaggedErrorClass<InvalidCam
 ).pipe(C.withConflictError) {}
 
 //# Operations
-/**
- * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
- */
-export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
-  CreateCampaignResponse,
+export type CreateCampaignError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1056,7 +1051,14 @@ export const createCampaign: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
+ */
+export const createCampaign: API.OperationMethod<
+  CreateCampaignRequest,
+  CreateCampaignResponse,
+  CreateCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
@@ -1071,17 +1073,19 @@ export const createCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCampaignError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a campaign from the specified Amazon Connect account.
  */
 export const deleteCampaign: API.OperationMethod<
   DeleteCampaignRequest,
   DeleteCampaignResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
@@ -1093,19 +1097,21 @@ export const deleteCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a connect instance config from the specified AWS account.
- */
-export const deleteConnectInstanceConfig: API.OperationMethod<
-  DeleteConnectInstanceConfigRequest,
-  DeleteConnectInstanceConfigResponse,
+export type DeleteConnectInstanceConfigError =
   | AccessDeniedException
   | InternalServerException
   | InvalidStateException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a connect instance config from the specified AWS account.
+ */
+export const deleteConnectInstanceConfig: API.OperationMethod<
+  DeleteConnectInstanceConfigRequest,
+  DeleteConnectInstanceConfigResponse,
+  DeleteConnectInstanceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectInstanceConfigRequest,
@@ -1119,18 +1125,20 @@ export const deleteConnectInstanceConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInstanceOnboardingJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
 export const deleteInstanceOnboardingJob: API.OperationMethod<
   DeleteInstanceOnboardingJobRequest,
   DeleteInstanceOnboardingJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteInstanceOnboardingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceOnboardingJobRequest,
@@ -1143,17 +1151,19 @@ export const deleteInstanceOnboardingJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeCampaignError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specific campaign.
  */
 export const describeCampaign: API.OperationMethod<
   DescribeCampaignRequest,
   DescribeCampaignResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCampaignRequest,
@@ -1165,18 +1175,20 @@ export const describeCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCampaignStateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get state of a campaign for the specified Amazon Connect account.
  */
 export const getCampaignState: API.OperationMethod<
   GetCampaignStateRequest,
   GetCampaignStateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCampaignStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignStateRequest,
@@ -1189,17 +1201,19 @@ export const getCampaignState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCampaignStateBatchError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get state of campaigns for the specified Amazon Connect account.
  */
 export const getCampaignStateBatch: API.OperationMethod<
   GetCampaignStateBatchRequest,
   GetCampaignStateBatchResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCampaignStateBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignStateBatchRequest,
@@ -1211,17 +1225,19 @@ export const getCampaignStateBatch: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectInstanceConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the specific Connect instance config.
  */
 export const getConnectInstanceConfig: API.OperationMethod<
   GetConnectInstanceConfigRequest,
   GetConnectInstanceConfigResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetConnectInstanceConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectInstanceConfigRequest,
@@ -1233,17 +1249,19 @@ export const getConnectInstanceConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetInstanceOnboardingJobStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the specific instance onboarding job status.
  */
 export const getInstanceOnboardingJobStatus: API.OperationMethod<
   GetInstanceOnboardingJobStatusRequest,
   GetInstanceOnboardingJobStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetInstanceOnboardingJobStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceOnboardingJobStatusRequest,
@@ -1255,36 +1273,32 @@ export const getInstanceOnboardingJobStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCampaignsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
 export const listCampaigns: API.OperationMethod<
   ListCampaignsRequest,
   ListCampaignsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListCampaignsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
     ListCampaignsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
     CampaignSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1298,18 +1312,20 @@ export const listCampaigns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1322,12 +1338,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Pauses a campaign for the specified Amazon Connect account.
- */
-export const pauseCampaign: API.OperationMethod<
-  PauseCampaignRequest,
-  PauseCampaignResponse,
+export type PauseCampaignError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1335,7 +1346,14 @@ export const pauseCampaign: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Pauses a campaign for the specified Amazon Connect account.
+ */
+export const pauseCampaign: API.OperationMethod<
+  PauseCampaignRequest,
+  PauseCampaignResponse,
+  PauseCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseCampaignRequest,
@@ -1350,12 +1368,7 @@ export const pauseCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
- */
-export const putDialRequestBatch: API.OperationMethod<
-  PutDialRequestBatchRequest,
-  PutDialRequestBatchResponse,
+export type PutDialRequestBatchError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1363,7 +1376,14 @@ export const putDialRequestBatch: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
+ */
+export const putDialRequestBatch: API.OperationMethod<
+  PutDialRequestBatchRequest,
+  PutDialRequestBatchResponse,
+  PutDialRequestBatchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDialRequestBatchRequest,
@@ -1378,12 +1398,7 @@ export const putDialRequestBatch: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops a campaign for the specified Amazon Connect account.
- */
-export const resumeCampaign: API.OperationMethod<
-  ResumeCampaignRequest,
-  ResumeCampaignResponse,
+export type ResumeCampaignError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1391,7 +1406,14 @@ export const resumeCampaign: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a campaign for the specified Amazon Connect account.
+ */
+export const resumeCampaign: API.OperationMethod<
+  ResumeCampaignRequest,
+  ResumeCampaignResponse,
+  ResumeCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeCampaignRequest,
@@ -1406,12 +1428,7 @@ export const resumeCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a campaign for the specified Amazon Connect account.
- */
-export const startCampaign: API.OperationMethod<
-  StartCampaignRequest,
-  StartCampaignResponse,
+export type StartCampaignError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1419,7 +1436,14 @@ export const startCampaign: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a campaign for the specified Amazon Connect account.
+ */
+export const startCampaign: API.OperationMethod<
+  StartCampaignRequest,
+  StartCampaignResponse,
+  StartCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCampaignRequest,
@@ -1434,19 +1458,21 @@ export const startCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Onboard the specific Amazon Connect instance to Connect Campaigns.
- */
-export const startInstanceOnboardingJob: API.OperationMethod<
-  StartInstanceOnboardingJobRequest,
-  StartInstanceOnboardingJobResponse,
+export type StartInstanceOnboardingJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Onboard the specific Amazon Connect instance to Connect Campaigns.
+ */
+export const startInstanceOnboardingJob: API.OperationMethod<
+  StartInstanceOnboardingJobRequest,
+  StartInstanceOnboardingJobResponse,
+  StartInstanceOnboardingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInstanceOnboardingJobRequest,
@@ -1460,12 +1486,7 @@ export const startInstanceOnboardingJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stops a campaign for the specified Amazon Connect account.
- */
-export const stopCampaign: API.OperationMethod<
-  StopCampaignRequest,
-  StopCampaignResponse,
+export type StopCampaignError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1473,7 +1494,14 @@ export const stopCampaign: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a campaign for the specified Amazon Connect account.
+ */
+export const stopCampaign: API.OperationMethod<
+  StopCampaignRequest,
+  StopCampaignResponse,
+  StopCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCampaignRequest,
@@ -1488,18 +1516,20 @@ export const stopCampaign: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tag a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1512,18 +1542,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Untag a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1536,18 +1568,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateCampaignDialerConfigError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the dialer config of a campaign. This API is idempotent.
  */
 export const updateCampaignDialerConfig: API.OperationMethod<
   UpdateCampaignDialerConfigRequest,
   UpdateCampaignDialerConfigResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateCampaignDialerConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignDialerConfigRequest,
@@ -1560,18 +1594,20 @@ export const updateCampaignDialerConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateCampaignNameError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the name of a campaign. This API is idempotent.
  */
 export const updateCampaignName: API.OperationMethod<
   UpdateCampaignNameRequest,
   UpdateCampaignNameResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateCampaignNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignNameRequest,
@@ -1584,19 +1620,21 @@ export const updateCampaignName: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the outbound call config of a campaign. This API is idempotent.
- */
-export const updateCampaignOutboundCallConfig: API.OperationMethod<
-  UpdateCampaignOutboundCallConfigRequest,
-  UpdateCampaignOutboundCallConfigResponse,
+export type UpdateCampaignOutboundCallConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the outbound call config of a campaign. This API is idempotent.
+ */
+export const updateCampaignOutboundCallConfig: API.OperationMethod<
+  UpdateCampaignOutboundCallConfigRequest,
+  UpdateCampaignOutboundCallConfigResponse,
+  UpdateCampaignOutboundCallConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignOutboundCallConfigRequest,

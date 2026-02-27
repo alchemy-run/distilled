@@ -2539,6 +2539,11 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type GetAgentTaskResponseUrlError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For use by AWS Ground Station Agent and shouldn't be called directly.
  *
@@ -2547,10 +2552,7 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 export const getAgentTaskResponseUrl: API.OperationMethod<
   GetAgentTaskResponseUrlRequest,
   GetAgentTaskResponseUrlResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetAgentTaskResponseUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentTaskResponseUrlRequest,
@@ -2561,16 +2563,18 @@ export const getAgentTaskResponseUrl: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMinuteUsageError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the number of reserved minutes used by account.
  */
 export const getMinuteUsage: API.OperationMethod<
   GetMinuteUsageRequest,
   GetMinuteUsageResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMinuteUsageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMinuteUsageRequest,
@@ -2581,16 +2585,18 @@ export const getMinuteUsage: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListTagsForResourceError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2601,16 +2607,18 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Assigns a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2621,16 +2629,18 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deassigns a resource tag.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2641,6 +2651,11 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RegisterAgentError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For use by AWS Ground Station Agent and shouldn't be called directly.
  *
@@ -2649,10 +2664,7 @@ export const untagResource: API.OperationMethod<
 export const registerAgent: API.OperationMethod<
   RegisterAgentRequest,
   RegisterAgentResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RegisterAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAgentRequest,
@@ -2663,6 +2675,11 @@ export const registerAgent: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetAgentConfigurationError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For use by AWS Ground Station Agent and shouldn't be called directly.
  *
@@ -2671,10 +2688,7 @@ export const registerAgent: API.OperationMethod<
 export const getAgentConfiguration: API.OperationMethod<
   GetAgentConfigurationRequest,
   GetAgentConfigurationResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetAgentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentConfigurationRequest,
@@ -2685,6 +2699,11 @@ export const getAgentConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateAgentStatusError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * For use by AWS Ground Station Agent and shouldn't be called directly.
  *
@@ -2693,10 +2712,7 @@ export const getAgentConfiguration: API.OperationMethod<
 export const updateAgentStatus: API.OperationMethod<
   UpdateAgentStatusRequest,
   UpdateAgentStatusResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateAgentStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentStatusRequest,
@@ -2707,6 +2723,12 @@ export const updateAgentStatus: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateConfigError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a `Config` with the specified `configData` parameters.
  *
@@ -2715,11 +2737,7 @@ export const updateAgentStatus: API.OperationMethod<
 export const createConfig: API.OperationMethod<
   CreateConfigRequest,
   ConfigIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigRequest,
@@ -2731,6 +2749,11 @@ export const createConfig: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetConfigError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns `Config` information.
  *
@@ -2739,10 +2762,7 @@ export const createConfig: API.OperationMethod<
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
   GetConfigResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
@@ -2753,6 +2773,11 @@ export const getConfig: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateConfigError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the `Config` used when scheduling contacts.
  *
@@ -2761,10 +2786,7 @@ export const getConfig: API.OperationMethod<
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
   ConfigIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigRequest,
@@ -2775,16 +2797,18 @@ export const updateConfig: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteConfigError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a `Config`.
  */
 export const deleteConfig: API.OperationMethod<
   DeleteConfigRequest,
   ConfigIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigRequest,
@@ -2795,36 +2819,32 @@ export const deleteConfig: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListConfigsError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of `Config` objects.
  */
 export const listConfigs: API.OperationMethod<
   ListConfigsRequest,
   ListConfigsResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigsRequest,
   ) => stream.Stream<
     ListConfigsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigsRequest,
   ) => stream.Stream<
     ConfigListItem,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2842,17 +2862,19 @@ export const listConfigs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ReserveContactError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Reserves a contact using specified parameters.
  */
 export const reserveContact: API.OperationMethod<
   ReserveContactRequest,
   ContactIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ReserveContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReserveContactRequest,
@@ -2864,16 +2886,18 @@ export const reserveContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeContactError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes an existing contact.
  */
 export const describeContact: API.OperationMethod<
   DescribeContactRequest,
   DescribeContactResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactRequest,
@@ -2884,6 +2908,11 @@ export const describeContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CancelContactError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Cancels or stops a contact with a specified contact ID based on its position in the contact lifecycle.
  *
@@ -2896,10 +2925,7 @@ export const describeContact: API.OperationMethod<
 export const cancelContact: API.OperationMethod<
   CancelContactRequest,
   ContactIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CancelContactError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelContactRequest,
@@ -2910,6 +2936,11 @@ export const cancelContact: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListContactsError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of contacts.
  *
@@ -2918,30 +2949,21 @@ export const cancelContact: API.OperationMethod<
 export const listContacts: API.OperationMethod<
   ListContactsRequest,
   ListContactsResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListContactsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContactsRequest,
   ) => stream.Stream<
     ListContactsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListContactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContactsRequest,
   ) => stream.Stream<
     ContactData,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListContactsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2959,6 +2981,11 @@ export const listContacts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateDataflowEndpointGroupError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a `DataflowEndpoint` group containing the specified list of ` DataflowEndpoint` objects.
  *
@@ -2969,10 +2996,7 @@ export const listContacts: API.OperationMethod<
 export const createDataflowEndpointGroup: API.OperationMethod<
   CreateDataflowEndpointGroupRequest,
   DataflowEndpointGroupIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateDataflowEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataflowEndpointGroupRequest,
@@ -2983,16 +3007,18 @@ export const createDataflowEndpointGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetDataflowEndpointGroupError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the dataflow endpoint group.
  */
 export const getDataflowEndpointGroup: API.OperationMethod<
   GetDataflowEndpointGroupRequest,
   GetDataflowEndpointGroupResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetDataflowEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataflowEndpointGroupRequest,
@@ -3003,16 +3029,18 @@ export const getDataflowEndpointGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDataflowEndpointGroupError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a dataflow endpoint group.
  */
 export const deleteDataflowEndpointGroup: API.OperationMethod<
   DeleteDataflowEndpointGroupRequest,
   DataflowEndpointGroupIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDataflowEndpointGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataflowEndpointGroupRequest,
@@ -3023,36 +3051,32 @@ export const deleteDataflowEndpointGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListDataflowEndpointGroupsError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of `DataflowEndpoint` groups.
  */
 export const listDataflowEndpointGroups: API.OperationMethod<
   ListDataflowEndpointGroupsRequest,
   ListDataflowEndpointGroupsResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListDataflowEndpointGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataflowEndpointGroupsRequest,
   ) => stream.Stream<
     ListDataflowEndpointGroupsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListDataflowEndpointGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataflowEndpointGroupsRequest,
   ) => stream.Stream<
     DataflowEndpointListItem,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListDataflowEndpointGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3070,6 +3094,12 @@ export const listDataflowEndpointGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateDataflowEndpointGroupV2Error =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a `DataflowEndpoint` group containing the specified list of Ground Station Agent based endpoints.
  *
@@ -3080,11 +3110,7 @@ export const listDataflowEndpointGroups: API.OperationMethod<
 export const createDataflowEndpointGroupV2: API.OperationMethod<
   CreateDataflowEndpointGroupV2Request,
   CreateDataflowEndpointGroupV2Response,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateDataflowEndpointGroupV2Error,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataflowEndpointGroupV2Request,
@@ -3096,16 +3122,18 @@ export const createDataflowEndpointGroupV2: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateEphemerisError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Create an ephemeris with your specified EphemerisData.
  */
 export const createEphemeris: API.OperationMethod<
   CreateEphemerisRequest,
   EphemerisIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateEphemerisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEphemerisRequest,
@@ -3116,16 +3144,18 @@ export const createEphemeris: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeEphemerisError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieve information about an existing ephemeris.
  */
 export const describeEphemeris: API.OperationMethod<
   DescribeEphemerisRequest,
   DescribeEphemerisResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeEphemerisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEphemerisRequest,
@@ -3136,16 +3166,18 @@ export const describeEphemeris: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateEphemerisError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Update an existing ephemeris.
  */
 export const updateEphemeris: API.OperationMethod<
   UpdateEphemerisRequest,
   EphemerisIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateEphemerisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEphemerisRequest,
@@ -3156,17 +3188,19 @@ export const updateEphemeris: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteEphemerisError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Delete an ephemeris.
  */
 export const deleteEphemeris: API.OperationMethod<
   DeleteEphemerisRequest,
   EphemerisIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteEphemerisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEphemerisRequest,
@@ -3178,36 +3212,32 @@ export const deleteEphemeris: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListEphemeridesError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * List your existing ephemerides.
  */
 export const listEphemerides: API.OperationMethod<
   ListEphemeridesRequest,
   ListEphemeridesResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListEphemeridesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEphemeridesRequest,
   ) => stream.Stream<
     ListEphemeridesResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListEphemeridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEphemeridesRequest,
   ) => stream.Stream<
     EphemerisItem,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListEphemeridesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3225,36 +3255,32 @@ export const listEphemerides: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListGroundStationsError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of ground stations.
  */
 export const listGroundStations: API.OperationMethod<
   ListGroundStationsRequest,
   ListGroundStationsResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListGroundStationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroundStationsRequest,
   ) => stream.Stream<
     ListGroundStationsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListGroundStationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroundStationsRequest,
   ) => stream.Stream<
     GroundStationData,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListGroundStationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3272,6 +3298,11 @@ export const listGroundStations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateMissionProfileError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a mission profile.
  *
@@ -3280,10 +3311,7 @@ export const listGroundStations: API.OperationMethod<
 export const createMissionProfile: API.OperationMethod<
   CreateMissionProfileRequest,
   MissionProfileIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateMissionProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMissionProfileRequest,
@@ -3294,16 +3322,18 @@ export const createMissionProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMissionProfileError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a mission profile.
  */
 export const getMissionProfile: API.OperationMethod<
   GetMissionProfileRequest,
   GetMissionProfileResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMissionProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMissionProfileRequest,
@@ -3314,6 +3344,11 @@ export const getMissionProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateMissionProfileError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a mission profile.
  *
@@ -3322,10 +3357,7 @@ export const getMissionProfile: API.OperationMethod<
 export const updateMissionProfile: API.OperationMethod<
   UpdateMissionProfileRequest,
   MissionProfileIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateMissionProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMissionProfileRequest,
@@ -3336,16 +3368,18 @@ export const updateMissionProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteMissionProfileError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a mission profile.
  */
 export const deleteMissionProfile: API.OperationMethod<
   DeleteMissionProfileRequest,
   MissionProfileIdResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteMissionProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMissionProfileRequest,
@@ -3356,36 +3390,32 @@ export const deleteMissionProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListMissionProfilesError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of mission profiles.
  */
 export const listMissionProfiles: API.OperationMethod<
   ListMissionProfilesRequest,
   ListMissionProfilesResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListMissionProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMissionProfilesRequest,
   ) => stream.Stream<
     ListMissionProfilesResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListMissionProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMissionProfilesRequest,
   ) => stream.Stream<
     MissionProfileListItem,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListMissionProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3403,16 +3433,18 @@ export const listMissionProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetSatelliteError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a satellite.
  */
 export const getSatellite: API.OperationMethod<
   GetSatelliteRequest,
   GetSatelliteResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSatelliteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSatelliteRequest,
@@ -3423,36 +3455,32 @@ export const getSatellite: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListSatellitesError =
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of satellites.
  */
 export const listSatellites: API.OperationMethod<
   ListSatellitesRequest,
   ListSatellitesResponse,
-  | DependencyException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListSatellitesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSatellitesRequest,
   ) => stream.Stream<
     ListSatellitesResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSatellitesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSatellitesRequest,
   ) => stream.Stream<
     SatelliteListItem,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSatellitesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

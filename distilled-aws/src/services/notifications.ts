@@ -2144,42 +2144,34 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListManagedNotificationChannelAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Account contacts and Channels associated with a `ManagedNotificationConfiguration`, in paginated format.
  */
 export const listManagedNotificationChannelAssociations: API.OperationMethod<
   ListManagedNotificationChannelAssociationsRequest,
   ListManagedNotificationChannelAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedNotificationChannelAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedNotificationChannelAssociationsRequest,
   ) => stream.Stream<
     ListManagedNotificationChannelAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationChannelAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedNotificationChannelAssociationsRequest,
   ) => stream.Stream<
     ManagedNotificationChannelAssociationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationChannelAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2199,42 +2191,34 @@ export const listManagedNotificationChannelAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMemberAccountsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of member accounts associated with a notification configuration.
  */
 export const listMemberAccounts: API.OperationMethod<
   ListMemberAccountsRequest,
   ListMemberAccountsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMemberAccountsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMemberAccountsRequest,
   ) => stream.Stream<
     ListMemberAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMemberAccountsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListMemberAccountsRequest,
   ) => stream.Stream<
     MemberAccount,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMemberAccountsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2254,6 +2238,13 @@ export const listMemberAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  *
@@ -2264,12 +2255,7 @@ export const listMemberAccounts: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2282,6 +2268,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags the resource with a tag key and value.
  *
@@ -2292,12 +2285,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2310,6 +2298,13 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Untags a resource with a specified Amazon Resource Name (ARN).
  *
@@ -2318,12 +2313,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2336,12 +2326,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a delivery Channel with a particular `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
- */
-export const associateChannel: API.OperationMethod<
-  AssociateChannelRequest,
-  AssociateChannelResponse,
+export type AssociateChannelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2349,7 +2334,14 @@ export const associateChannel: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a delivery Channel with a particular `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
+ */
+export const associateChannel: API.OperationMethod<
+  AssociateChannelRequest,
+  AssociateChannelResponse,
+  AssociateChannelError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateChannelRequest,
@@ -2364,18 +2356,20 @@ export const associateChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateChannelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a Channel from a specified `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateChannel: API.OperationMethod<
   DisassociateChannelRequest,
   DisassociateChannelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateChannelError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateChannelRequest,
@@ -2388,42 +2382,34 @@ export const disassociateChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChannelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Channels for a `NotificationConfiguration`.
  */
 export const listChannels: API.OperationMethod<
   ListChannelsRequest,
   ListChannelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListChannelsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ChannelArn,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2443,12 +2429,7 @@ export const listChannels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an `EventRule` that is associated with a specified `NotificationConfiguration`.
- */
-export const createEventRule: API.OperationMethod<
-  CreateEventRuleRequest,
-  CreateEventRuleResponse,
+export type CreateEventRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2456,7 +2437,14 @@ export const createEventRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an `EventRule` that is associated with a specified `NotificationConfiguration`.
+ */
+export const createEventRule: API.OperationMethod<
+  CreateEventRuleRequest,
+  CreateEventRuleResponse,
+  CreateEventRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventRuleRequest,
@@ -2471,19 +2459,21 @@ export const createEventRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing `EventRule`.
- */
-export const updateEventRule: API.OperationMethod<
-  UpdateEventRuleRequest,
-  UpdateEventRuleResponse,
+export type UpdateEventRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing `EventRule`.
+ */
+export const updateEventRule: API.OperationMethod<
+  UpdateEventRuleRequest,
+  UpdateEventRuleResponse,
+  UpdateEventRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventRuleRequest,
@@ -2497,18 +2487,20 @@ export const updateEventRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEventRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a specified `EventRule`.
  */
 export const getEventRule: API.OperationMethod<
   GetEventRuleRequest,
   GetEventRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEventRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventRuleRequest,
@@ -2521,19 +2513,21 @@ export const getEventRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an `EventRule`.
- */
-export const deleteEventRule: API.OperationMethod<
-  DeleteEventRuleRequest,
-  DeleteEventRuleResponse,
+export type DeleteEventRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an `EventRule`.
+ */
+export const deleteEventRule: API.OperationMethod<
+  DeleteEventRuleRequest,
+  DeleteEventRuleResponse,
+  DeleteEventRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventRuleRequest,
@@ -2547,42 +2541,34 @@ export const deleteEventRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEventRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of `EventRules` according to specified filters, in reverse chronological order (newest first).
  */
 export const listEventRules: API.OperationMethod<
   ListEventRulesRequest,
   ListEventRulesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEventRulesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventRulesRequest,
   ) => stream.Stream<
     ListEventRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEventRulesRequest,
   ) => stream.Stream<
     EventRuleStructure,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2602,12 +2588,7 @@ export const listEventRules: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Associates an Account Contact with a particular `ManagedNotificationConfiguration`.
- */
-export const associateManagedNotificationAccountContact: API.OperationMethod<
-  AssociateManagedNotificationAccountContactRequest,
-  AssociateManagedNotificationAccountContactResponse,
+export type AssociateManagedNotificationAccountContactError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2615,7 +2596,14 @@ export const associateManagedNotificationAccountContact: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates an Account Contact with a particular `ManagedNotificationConfiguration`.
+ */
+export const associateManagedNotificationAccountContact: API.OperationMethod<
+  AssociateManagedNotificationAccountContactRequest,
+  AssociateManagedNotificationAccountContactResponse,
+  AssociateManagedNotificationAccountContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateManagedNotificationAccountContactRequest,
@@ -2630,19 +2618,21 @@ export const associateManagedNotificationAccountContact: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates an Account Contact with a particular `ManagedNotificationConfiguration`.
- */
-export const disassociateManagedNotificationAccountContact: API.OperationMethod<
-  DisassociateManagedNotificationAccountContactRequest,
-  DisassociateManagedNotificationAccountContactResponse,
+export type DisassociateManagedNotificationAccountContactError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates an Account Contact with a particular `ManagedNotificationConfiguration`.
+ */
+export const disassociateManagedNotificationAccountContact: API.OperationMethod<
+  DisassociateManagedNotificationAccountContactRequest,
+  DisassociateManagedNotificationAccountContactResponse,
+  DisassociateManagedNotificationAccountContactError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateManagedNotificationAccountContactRequest,
@@ -2656,6 +2646,15 @@ export const disassociateManagedNotificationAccountContact: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociateManagedNotificationAdditionalChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates an additional Channel with a particular `ManagedNotificationConfiguration`.
  *
@@ -2664,14 +2663,7 @@ export const disassociateManagedNotificationAccountContact: API.OperationMethod<
 export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
   AssociateManagedNotificationAdditionalChannelRequest,
   AssociateManagedNotificationAdditionalChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateManagedNotificationAdditionalChannelError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateManagedNotificationAdditionalChannelRequest,
@@ -2686,6 +2678,13 @@ export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateManagedNotificationAdditionalChannelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates an additional Channel from a particular `ManagedNotificationConfiguration`.
  *
@@ -2694,12 +2693,7 @@ export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
 export const disassociateManagedNotificationAdditionalChannel: API.OperationMethod<
   DisassociateManagedNotificationAdditionalChannelRequest,
   DisassociateManagedNotificationAdditionalChannelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateManagedNotificationAdditionalChannelError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateManagedNotificationAdditionalChannelRequest,
@@ -2712,18 +2706,20 @@ export const disassociateManagedNotificationAdditionalChannel: API.OperationMeth
     ValidationException,
   ],
 }));
+export type GetManagedNotificationChildEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the child event of a specific given `ManagedNotificationEvent`.
  */
 export const getManagedNotificationChildEvent: API.OperationMethod<
   GetManagedNotificationChildEventRequest,
   GetManagedNotificationChildEventResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetManagedNotificationChildEventError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedNotificationChildEventRequest,
@@ -2736,39 +2732,33 @@ export const getManagedNotificationChildEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListManagedNotificationChildEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of `ManagedNotificationChildEvents` for a specified aggregate `ManagedNotificationEvent`, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationChildEvents: API.OperationMethod<
   ListManagedNotificationChildEventsRequest,
   ListManagedNotificationChildEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedNotificationChildEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedNotificationChildEventsRequest,
   ) => stream.Stream<
     ListManagedNotificationChildEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationChildEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedNotificationChildEventsRequest,
   ) => stream.Stream<
     ManagedNotificationChildEventOverview,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationChildEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2787,18 +2777,20 @@ export const listManagedNotificationChildEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetManagedNotificationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a specified `ManagedNotificationConfiguration`.
  */
 export const getManagedNotificationConfiguration: API.OperationMethod<
   GetManagedNotificationConfigurationRequest,
   GetManagedNotificationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetManagedNotificationConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedNotificationConfigurationRequest,
@@ -2811,39 +2803,33 @@ export const getManagedNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListManagedNotificationConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationConfigurations: API.OperationMethod<
   ListManagedNotificationConfigurationsRequest,
   ListManagedNotificationConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedNotificationConfigurationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedNotificationConfigurationsRequest,
   ) => stream.Stream<
     ListManagedNotificationConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationConfigurationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedNotificationConfigurationsRequest,
   ) => stream.Stream<
     ManagedNotificationConfigurationStructure,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationConfigurationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2862,18 +2848,20 @@ export const listManagedNotificationConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetManagedNotificationEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a specified `ManagedNotificationEvent`.
  */
 export const getManagedNotificationEvent: API.OperationMethod<
   GetManagedNotificationEventRequest,
   GetManagedNotificationEventResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetManagedNotificationEventError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedNotificationEventRequest,
@@ -2886,39 +2874,33 @@ export const getManagedNotificationEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListManagedNotificationEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationEvents: API.OperationMethod<
   ListManagedNotificationEventsRequest,
   ListManagedNotificationEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedNotificationEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedNotificationEventsRequest,
   ) => stream.Stream<
     ListManagedNotificationEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedNotificationEventsRequest,
   ) => stream.Stream<
     ManagedNotificationEventOverview,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedNotificationEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2937,19 +2919,21 @@ export const listManagedNotificationEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new `NotificationConfiguration`.
- */
-export const createNotificationConfiguration: API.OperationMethod<
-  CreateNotificationConfigurationRequest,
-  CreateNotificationConfigurationResponse,
+export type CreateNotificationConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new `NotificationConfiguration`.
+ */
+export const createNotificationConfiguration: API.OperationMethod<
+  CreateNotificationConfigurationRequest,
+  CreateNotificationConfigurationResponse,
+  CreateNotificationConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotificationConfigurationRequest,
@@ -2963,19 +2947,21 @@ export const createNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a `NotificationConfiguration`.
- */
-export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationRequest,
-  UpdateNotificationConfigurationResponse,
+export type UpdateNotificationConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a `NotificationConfiguration`.
+ */
+export const updateNotificationConfiguration: API.OperationMethod<
+  UpdateNotificationConfigurationRequest,
+  UpdateNotificationConfigurationResponse,
+  UpdateNotificationConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationConfigurationRequest,
@@ -2989,18 +2975,20 @@ export const updateNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNotificationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a specified `NotificationConfiguration`.
  */
 export const getNotificationConfiguration: API.OperationMethod<
   GetNotificationConfigurationRequest,
   GetNotificationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetNotificationConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationConfigurationRequest,
@@ -3013,19 +3001,21 @@ export const getNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a `NotificationConfiguration`.
- */
-export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationRequest,
-  DeleteNotificationConfigurationResponse,
+export type DeleteNotificationConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a `NotificationConfiguration`.
+ */
+export const deleteNotificationConfiguration: API.OperationMethod<
+  DeleteNotificationConfigurationRequest,
+  DeleteNotificationConfigurationResponse,
+  DeleteNotificationConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotificationConfigurationRequest,
@@ -3039,39 +3029,33 @@ export const deleteNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListNotificationConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
  */
 export const listNotificationConfigurations: API.OperationMethod<
   ListNotificationConfigurationsRequest,
   ListNotificationConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationConfigurationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationConfigurationsRequest,
   ) => stream.Stream<
     ListNotificationConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationConfigurationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationConfigurationsRequest,
   ) => stream.Stream<
     NotificationConfigurationStructure,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationConfigurationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3090,6 +3074,13 @@ export const listNotificationConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetNotificationEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a specified `NotificationEvent`.
  *
@@ -3098,12 +3089,7 @@ export const listNotificationConfigurations: API.OperationMethod<
 export const getNotificationEvent: API.OperationMethod<
   GetNotificationEventRequest,
   GetNotificationEventResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetNotificationEventError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationEventRequest,
@@ -3116,6 +3102,12 @@ export const getNotificationEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListNotificationEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of `NotificationEvents` according to specified filters, in reverse chronological order (newest first).
  *
@@ -3124,33 +3116,21 @@ export const getNotificationEvent: API.OperationMethod<
 export const listNotificationEvents: API.OperationMethod<
   ListNotificationEventsRequest,
   ListNotificationEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationEventsRequest,
   ) => stream.Stream<
     ListNotificationEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationEventsRequest,
   ) => stream.Stream<
     NotificationEventOverview,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3169,6 +3149,14 @@ export const listNotificationEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RegisterNotificationHubError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Registers a `NotificationConfiguration` in the specified Region.
  *
@@ -3177,13 +3165,7 @@ export const listNotificationEvents: API.OperationMethod<
 export const registerNotificationHub: API.OperationMethod<
   RegisterNotificationHubRequest,
   RegisterNotificationHubResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RegisterNotificationHubError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterNotificationHubRequest,
@@ -3197,6 +3179,14 @@ export const registerNotificationHub: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeregisterNotificationHubError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deregisters a `NotificationConfiguration` in the specified Region.
  *
@@ -3205,13 +3195,7 @@ export const registerNotificationHub: API.OperationMethod<
 export const deregisterNotificationHub: API.OperationMethod<
   DeregisterNotificationHubRequest,
   DeregisterNotificationHubResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeregisterNotificationHubError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterNotificationHubRequest,
@@ -3225,39 +3209,33 @@ export const deregisterNotificationHub: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListNotificationHubsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of `NotificationHubs`.
  */
 export const listNotificationHubs: API.OperationMethod<
   ListNotificationHubsRequest,
   ListNotificationHubsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationHubsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationHubsRequest,
   ) => stream.Stream<
     ListNotificationHubsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationHubsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationHubsRequest,
   ) => stream.Stream<
     NotificationHubOverview,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationHubsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3276,12 +3254,7 @@ export const listNotificationHubs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Enables service trust between User Notifications and Amazon Web Services Organizations.
- */
-export const enableNotificationsAccessForOrganization: API.OperationMethod<
-  EnableNotificationsAccessForOrganizationRequest,
-  EnableNotificationsAccessForOrganizationResponse,
+export type EnableNotificationsAccessForOrganizationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3289,7 +3262,14 @@ export const enableNotificationsAccessForOrganization: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables service trust between User Notifications and Amazon Web Services Organizations.
+ */
+export const enableNotificationsAccessForOrganization: API.OperationMethod<
+  EnableNotificationsAccessForOrganizationRequest,
+  EnableNotificationsAccessForOrganizationResponse,
+  EnableNotificationsAccessForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableNotificationsAccessForOrganizationRequest,
@@ -3304,17 +3284,19 @@ export const enableNotificationsAccessForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNotificationsAccessForOrganizationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
  */
 export const getNotificationsAccessForOrganization: API.OperationMethod<
   GetNotificationsAccessForOrganizationRequest,
   GetNotificationsAccessForOrganizationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetNotificationsAccessForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationsAccessForOrganizationRequest,
@@ -3326,12 +3308,7 @@ export const getNotificationsAccessForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disables service trust between User Notifications and Amazon Web Services Organizations.
- */
-export const disableNotificationsAccessForOrganization: API.OperationMethod<
-  DisableNotificationsAccessForOrganizationRequest,
-  DisableNotificationsAccessForOrganizationResponse,
+export type DisableNotificationsAccessForOrganizationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3339,7 +3316,14 @@ export const disableNotificationsAccessForOrganization: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables service trust between User Notifications and Amazon Web Services Organizations.
+ */
+export const disableNotificationsAccessForOrganization: API.OperationMethod<
+  DisableNotificationsAccessForOrganizationRequest,
+  DisableNotificationsAccessForOrganizationResponse,
+  DisableNotificationsAccessForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableNotificationsAccessForOrganizationRequest,
@@ -3354,12 +3338,7 @@ export const disableNotificationsAccessForOrganization: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates an organizational unit with a notification configuration.
- */
-export const associateOrganizationalUnit: API.OperationMethod<
-  AssociateOrganizationalUnitRequest,
-  AssociateOrganizationalUnitResponse,
+export type AssociateOrganizationalUnitError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3367,7 +3346,14 @@ export const associateOrganizationalUnit: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates an organizational unit with a notification configuration.
+ */
+export const associateOrganizationalUnit: API.OperationMethod<
+  AssociateOrganizationalUnitRequest,
+  AssociateOrganizationalUnitResponse,
+  AssociateOrganizationalUnitError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateOrganizationalUnitRequest,
@@ -3382,18 +3368,20 @@ export const associateOrganizationalUnit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateOrganizationalUnitError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association between an organizational unit and a notification configuration.
  */
 export const disassociateOrganizationalUnit: API.OperationMethod<
   DisassociateOrganizationalUnitRequest,
   DisassociateOrganizationalUnitResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateOrganizationalUnitError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateOrganizationalUnitRequest,
@@ -3406,42 +3394,34 @@ export const disassociateOrganizationalUnit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListOrganizationalUnitsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of organizational units associated with a notification configuration.
  */
 export const listOrganizationalUnits: API.OperationMethod<
   ListOrganizationalUnitsRequest,
   ListOrganizationalUnitsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOrganizationalUnitsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOrganizationalUnitsRequest,
   ) => stream.Stream<
     ListOrganizationalUnitsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationalUnitsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationalUnitsRequest,
   ) => stream.Stream<
     OrganizationalUnitId,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOrganizationalUnitsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

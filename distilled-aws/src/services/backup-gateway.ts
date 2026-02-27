@@ -895,6 +895,7 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags applied to the resource identified by its Amazon Resource Name
  * (ARN).
@@ -902,39 +903,42 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Tag the resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes tags from the resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException],
 }));
+export type CreateGatewayError = CommonErrors;
 /**
  * Creates a backup gateway. After you create a gateway, you can associate it with a server
  * using the `AssociateGatewayToServer` operation.
@@ -942,13 +946,14 @@ export const untagResource: API.OperationMethod<
 export const createGateway: API.OperationMethod<
   CreateGatewayInput,
   CreateGatewayOutput,
-  CommonErrors,
+  CreateGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayInput,
   output: CreateGatewayOutput,
   errors: [],
 }));
+export type GetGatewayError = ResourceNotFoundException | CommonErrors;
 /**
  * By providing the ARN (Amazon Resource Name), this
  * API returns the gateway.
@@ -956,13 +961,17 @@ export const createGateway: API.OperationMethod<
 export const getGateway: API.OperationMethod<
   GetGatewayInput,
   GetGatewayOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayInput,
   output: GetGatewayOutput,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateGatewayInformationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name
  * (ARN) of the gateway in your request.
@@ -970,47 +979,49 @@ export const getGateway: API.OperationMethod<
 export const updateGatewayInformation: API.OperationMethod<
   UpdateGatewayInformationInput,
   UpdateGatewayInformationOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  UpdateGatewayInformationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayInformationInput,
   output: UpdateGatewayInformationOutput,
   errors: [ConflictException, ResourceNotFoundException],
 }));
+export type DeleteGatewayError = ResourceNotFoundException | CommonErrors;
 /**
  * Deletes a backup gateway.
  */
 export const deleteGateway: API.OperationMethod<
   DeleteGatewayInput,
   DeleteGatewayOutput,
-  ResourceNotFoundException | CommonErrors,
+  DeleteGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayInput,
   output: DeleteGatewayOutput,
   errors: [ResourceNotFoundException],
 }));
+export type ListGatewaysError = CommonErrors;
 /**
  * Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
  */
 export const listGateways: API.OperationMethod<
   ListGatewaysInput,
   ListGatewaysOutput,
-  CommonErrors,
+  ListGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGatewaysInput,
   ) => stream.Stream<
     ListGatewaysOutput,
-    CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysInput,
   ) => stream.Stream<
     Gateway,
-    CommonErrors,
+    ListGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1024,6 +1035,7 @@ export const listGateways: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type AssociateGatewayToServerError = ConflictException | CommonErrors;
 /**
  * Associates a backup gateway with your server. After you complete the association process,
  * you can back up and restore your VMs through the gateway.
@@ -1031,13 +1043,17 @@ export const listGateways: API.OperationMethod<
 export const associateGatewayToServer: API.OperationMethod<
   AssociateGatewayToServerInput,
   AssociateGatewayToServerOutput,
-  ConflictException | CommonErrors,
+  AssociateGatewayToServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateGatewayToServerInput,
   output: AssociateGatewayToServerOutput,
   errors: [ConflictException],
 }));
+export type DisassociateGatewayFromServerError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates a backup gateway from the specified server. After the disassociation process
  * finishes, the gateway can no longer access the virtual machines on the server.
@@ -1045,26 +1061,34 @@ export const associateGatewayToServer: API.OperationMethod<
 export const disassociateGatewayFromServer: API.OperationMethod<
   DisassociateGatewayFromServerInput,
   DisassociateGatewayFromServerOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  DisassociateGatewayFromServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateGatewayFromServerInput,
   output: DisassociateGatewayFromServerOutput,
   errors: [ConflictException, ResourceNotFoundException],
 }));
+export type PutMaintenanceStartTimeError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Set the maintenance start time for a gateway.
  */
 export const putMaintenanceStartTime: API.OperationMethod<
   PutMaintenanceStartTimeInput,
   PutMaintenanceStartTimeOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  PutMaintenanceStartTimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMaintenanceStartTimeInput,
   output: PutMaintenanceStartTimeOutput,
   errors: [ConflictException, ResourceNotFoundException],
 }));
+export type TestHypervisorConfigurationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Tests your hypervisor configuration to validate that backup gateway can connect with the
  * hypervisor and its resources.
@@ -1072,13 +1096,16 @@ export const putMaintenanceStartTime: API.OperationMethod<
 export const testHypervisorConfiguration: API.OperationMethod<
   TestHypervisorConfigurationInput,
   TestHypervisorConfigurationOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  TestHypervisorConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestHypervisorConfigurationInput,
   output: TestHypervisorConfigurationOutput,
   errors: [ConflictException, ResourceNotFoundException],
 }));
+export type UpdateGatewaySoftwareNowError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the gateway virtual machine (VM) software.
  * The request immediately triggers the software update.
@@ -1090,13 +1117,16 @@ export const testHypervisorConfiguration: API.OperationMethod<
 export const updateGatewaySoftwareNow: API.OperationMethod<
   UpdateGatewaySoftwareNowInput,
   UpdateGatewaySoftwareNowOutput,
-  ResourceNotFoundException | CommonErrors,
+  UpdateGatewaySoftwareNowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewaySoftwareNowInput,
   output: UpdateGatewaySoftwareNowOutput,
   errors: [ResourceNotFoundException],
 }));
+export type PutBandwidthRateLimitScheduleError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This action sets the bandwidth rate limit schedule for a specified gateway.
  * By default, gateways do not have a bandwidth rate limit schedule, which means
@@ -1106,13 +1136,16 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
 export const putBandwidthRateLimitSchedule: API.OperationMethod<
   PutBandwidthRateLimitScheduleInput,
   PutBandwidthRateLimitScheduleOutput,
-  ResourceNotFoundException | CommonErrors,
+  PutBandwidthRateLimitScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBandwidthRateLimitScheduleInput,
   output: PutBandwidthRateLimitScheduleOutput,
   errors: [ResourceNotFoundException],
 }));
+export type GetBandwidthRateLimitScheduleError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the bandwidth rate limit schedule for a specified gateway.
  * By default, gateways do not have bandwidth rate limit schedules, which means
@@ -1122,26 +1155,31 @@ export const putBandwidthRateLimitSchedule: API.OperationMethod<
 export const getBandwidthRateLimitSchedule: API.OperationMethod<
   GetBandwidthRateLimitScheduleInput,
   GetBandwidthRateLimitScheduleOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetBandwidthRateLimitScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBandwidthRateLimitScheduleInput,
   output: GetBandwidthRateLimitScheduleOutput,
   errors: [ResourceNotFoundException],
 }));
+export type ImportHypervisorConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | CommonErrors;
 /**
  * Connect to a hypervisor by importing its configuration.
  */
 export const importHypervisorConfiguration: API.OperationMethod<
   ImportHypervisorConfigurationInput,
   ImportHypervisorConfigurationOutput,
-  AccessDeniedException | ConflictException | CommonErrors,
+  ImportHypervisorConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportHypervisorConfigurationInput,
   output: ImportHypervisorConfigurationOutput,
   errors: [AccessDeniedException, ConflictException],
 }));
+export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
 /**
  * This action requests information about the specified hypervisor to which the gateway will connect.
  * A hypervisor is hardware, software, or firmware that creates and manages virtual machines,
@@ -1150,13 +1188,18 @@ export const importHypervisorConfiguration: API.OperationMethod<
 export const getHypervisor: API.OperationMethod<
   GetHypervisorInput,
   GetHypervisorOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetHypervisorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHypervisorInput,
   output: GetHypervisorOutput,
   errors: [ResourceNotFoundException],
 }));
+export type UpdateHypervisorError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a hypervisor metadata, including its host, username, and password. Specify which
  * hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your
@@ -1165,53 +1208,53 @@ export const getHypervisor: API.OperationMethod<
 export const updateHypervisor: API.OperationMethod<
   UpdateHypervisorInput,
   UpdateHypervisorOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateHypervisorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHypervisorInput,
   output: UpdateHypervisorOutput,
   errors: [AccessDeniedException, ConflictException, ResourceNotFoundException],
 }));
+export type DeleteHypervisorError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a hypervisor.
  */
 export const deleteHypervisor: API.OperationMethod<
   DeleteHypervisorInput,
   DeleteHypervisorOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteHypervisorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHypervisorInput,
   output: DeleteHypervisorOutput,
   errors: [AccessDeniedException, ConflictException, ResourceNotFoundException],
 }));
+export type ListHypervisorsError = CommonErrors;
 /**
  * Lists your hypervisors.
  */
 export const listHypervisors: API.OperationMethod<
   ListHypervisorsInput,
   ListHypervisorsOutput,
-  CommonErrors,
+  ListHypervisorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHypervisorsInput,
   ) => stream.Stream<
     ListHypervisorsOutput,
-    CommonErrors,
+    ListHypervisorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHypervisorsInput,
   ) => stream.Stream<
     Hypervisor,
-    CommonErrors,
+    ListHypervisorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1225,19 +1268,28 @@ export const listHypervisors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartVirtualMachinesMetadataSyncError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This action sends a request to sync metadata across the specified virtual machines.
  */
 export const startVirtualMachinesMetadataSync: API.OperationMethod<
   StartVirtualMachinesMetadataSyncInput,
   StartVirtualMachinesMetadataSyncOutput,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  StartVirtualMachinesMetadataSyncError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartVirtualMachinesMetadataSyncInput,
   output: StartVirtualMachinesMetadataSyncOutput,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type PutHypervisorPropertyMappingsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This action sets the property mappings for the specified hypervisor.
  * A hypervisor property mapping displays the relationship of entity properties
@@ -1246,16 +1298,16 @@ export const startVirtualMachinesMetadataSync: API.OperationMethod<
 export const putHypervisorPropertyMappings: API.OperationMethod<
   PutHypervisorPropertyMappingsInput,
   PutHypervisorPropertyMappingsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutHypervisorPropertyMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutHypervisorPropertyMappingsInput,
   output: PutHypervisorPropertyMappingsOutput,
   errors: [AccessDeniedException, ConflictException, ResourceNotFoundException],
 }));
+export type GetHypervisorPropertyMappingsError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This action retrieves the property mappings for the specified hypervisor.
  * A hypervisor property mapping displays the relationship of entity properties
@@ -1264,47 +1316,49 @@ export const putHypervisorPropertyMappings: API.OperationMethod<
 export const getHypervisorPropertyMappings: API.OperationMethod<
   GetHypervisorPropertyMappingsInput,
   GetHypervisorPropertyMappingsOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetHypervisorPropertyMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHypervisorPropertyMappingsInput,
   output: GetHypervisorPropertyMappingsOutput,
   errors: [ResourceNotFoundException],
 }));
+export type GetVirtualMachineError = ResourceNotFoundException | CommonErrors;
 /**
  * By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
  */
 export const getVirtualMachine: API.OperationMethod<
   GetVirtualMachineInput,
   GetVirtualMachineOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetVirtualMachineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVirtualMachineInput,
   output: GetVirtualMachineOutput,
   errors: [ResourceNotFoundException],
 }));
+export type ListVirtualMachinesError = CommonErrors;
 /**
  * Lists your virtual machines.
  */
 export const listVirtualMachines: API.OperationMethod<
   ListVirtualMachinesInput,
   ListVirtualMachinesOutput,
-  CommonErrors,
+  ListVirtualMachinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVirtualMachinesInput,
   ) => stream.Stream<
     ListVirtualMachinesOutput,
-    CommonErrors,
+    ListVirtualMachinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualMachinesInput,
   ) => stream.Stream<
     VirtualMachine,
-    CommonErrors,
+    ListVirtualMachinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

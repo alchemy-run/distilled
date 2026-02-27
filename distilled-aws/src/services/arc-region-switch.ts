@@ -1897,6 +1897,10 @@ export class IllegalStateException extends S.TaggedErrorClass<IllegalStateExcept
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ApprovePlanExecutionStepError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval.
  *
@@ -1905,13 +1909,17 @@ export class IllegalStateException extends S.TaggedErrorClass<IllegalStateExcept
 export const approvePlanExecutionStep: API.OperationMethod<
   ApprovePlanExecutionStepRequest,
   ApprovePlanExecutionStepResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  ApprovePlanExecutionStepError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApprovePlanExecutionStepRequest,
   output: ApprovePlanExecutionStepResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type CancelPlanExecutionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Cancels an in-progress plan execution. This operation stops the execution of the plan and prevents any further steps from being processed.
  *
@@ -1920,34 +1928,38 @@ export const approvePlanExecutionStep: API.OperationMethod<
 export const cancelPlanExecution: API.OperationMethod<
   CancelPlanExecutionRequest,
   CancelPlanExecutionResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  CancelPlanExecutionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelPlanExecutionRequest,
   output: CancelPlanExecutionResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type GetPlanEvaluationStatusError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
  */
 export const getPlanEvaluationStatus: API.OperationMethod<
   GetPlanEvaluationStatusRequest,
   GetPlanEvaluationStatusResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  GetPlanEvaluationStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPlanEvaluationStatusRequest,
   ) => stream.Stream<
     GetPlanEvaluationStatusResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    GetPlanEvaluationStatusError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetPlanEvaluationStatusRequest,
   ) => stream.Stream<
     ResourceWarning,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    GetPlanEvaluationStatusError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1961,27 +1973,31 @@ export const getPlanEvaluationStatus: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetPlanExecutionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
  */
 export const getPlanExecution: API.OperationMethod<
   GetPlanExecutionRequest,
   GetPlanExecutionResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  GetPlanExecutionError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPlanExecutionRequest,
   ) => stream.Stream<
     GetPlanExecutionResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    GetPlanExecutionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetPlanExecutionRequest,
   ) => stream.Stream<
     StepState,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    GetPlanExecutionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1995,40 +2011,48 @@ export const getPlanExecution: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetPlanInRegionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
  */
 export const getPlanInRegion: API.OperationMethod<
   GetPlanInRegionRequest,
   GetPlanInRegionResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  GetPlanInRegionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlanInRegionRequest,
   output: GetPlanInRegionResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type ListPlanExecutionEventsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
  */
 export const listPlanExecutionEvents: API.OperationMethod<
   ListPlanExecutionEventsRequest,
   ListPlanExecutionEventsResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  ListPlanExecutionEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlanExecutionEventsRequest,
   ) => stream.Stream<
     ListPlanExecutionEventsResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    ListPlanExecutionEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlanExecutionEventsRequest,
   ) => stream.Stream<
     ExecutionEvent,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    ListPlanExecutionEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2042,27 +2066,31 @@ export const listPlanExecutionEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPlanExecutionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
  */
 export const listPlanExecutions: API.OperationMethod<
   ListPlanExecutionsRequest,
   ListPlanExecutionsResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  ListPlanExecutionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlanExecutionsRequest,
   ) => stream.Stream<
     ListPlanExecutionsResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    ListPlanExecutionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlanExecutionsRequest,
   ) => stream.Stream<
     AbbreviatedExecution,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
+    ListPlanExecutionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2076,27 +2104,28 @@ export const listPlanExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPlansInRegionError = AccessDeniedException | CommonErrors;
 /**
  * Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
  */
 export const listPlansInRegion: API.OperationMethod<
   ListPlansInRegionRequest,
   ListPlansInRegionResponse,
-  AccessDeniedException | CommonErrors,
+  ListPlansInRegionError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlansInRegionRequest,
   ) => stream.Stream<
     ListPlansInRegionResponse,
-    AccessDeniedException | CommonErrors,
+    ListPlansInRegionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlansInRegionRequest,
   ) => stream.Stream<
     AbbreviatedPlan,
-    AccessDeniedException | CommonErrors,
+    ListPlansInRegionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2110,36 +2139,32 @@ export const listPlansInRegion: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRoute53HealthChecksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * List the Amazon Route 53 health checks.
  */
 export const listRoute53HealthChecks: API.OperationMethod<
   ListRoute53HealthChecksRequest,
   ListRoute53HealthChecksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListRoute53HealthChecksError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoute53HealthChecksRequest,
   ) => stream.Stream<
     ListRoute53HealthChecksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListRoute53HealthChecksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRoute53HealthChecksRequest,
   ) => stream.Stream<
     Route53HealthCheck,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListRoute53HealthChecksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2157,39 +2182,33 @@ export const listRoute53HealthChecks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRoute53HealthChecksInRegionError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
  */
 export const listRoute53HealthChecksInRegion: API.OperationMethod<
   ListRoute53HealthChecksInRegionRequest,
   ListRoute53HealthChecksInRegionResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListRoute53HealthChecksInRegionError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoute53HealthChecksInRegionRequest,
   ) => stream.Stream<
     ListRoute53HealthChecksInRegionResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListRoute53HealthChecksInRegionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRoute53HealthChecksInRegionRequest,
   ) => stream.Stream<
     Route53HealthCheck,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListRoute53HealthChecksInRegionError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2208,6 +2227,12 @@ export const listRoute53HealthChecksInRegion: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartPlanExecutionError =
+  | AccessDeniedException
+  | IllegalArgumentException
+  | IllegalStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts the execution of a Region switch plan. You can execute a plan in either `graceful` or `ungraceful` mode.
  *
@@ -2216,11 +2241,7 @@ export const listRoute53HealthChecksInRegion: API.OperationMethod<
 export const startPlanExecution: API.OperationMethod<
   StartPlanExecutionRequest,
   StartPlanExecutionResponse,
-  | AccessDeniedException
-  | IllegalArgumentException
-  | IllegalStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartPlanExecutionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPlanExecutionRequest,
@@ -2232,16 +2253,18 @@ export const startPlanExecution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdatePlanExecutionError =
+  | AccessDeniedException
+  | IllegalStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
  */
 export const updatePlanExecution: API.OperationMethod<
   UpdatePlanExecutionRequest,
   UpdatePlanExecutionResponse,
-  | AccessDeniedException
-  | IllegalStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdatePlanExecutionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlanExecutionRequest,
@@ -2252,19 +2275,24 @@ export const updatePlanExecution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdatePlanExecutionStepError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
  */
 export const updatePlanExecutionStep: API.OperationMethod<
   UpdatePlanExecutionStepRequest,
   UpdatePlanExecutionStepResponse,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  UpdatePlanExecutionStepError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlanExecutionStepRequest,
   output: UpdatePlanExecutionStepResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type CreatePlanError = CommonErrors;
 /**
  * Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another.
  *
@@ -2273,39 +2301,45 @@ export const updatePlanExecutionStep: API.OperationMethod<
 export const createPlan: API.OperationMethod<
   CreatePlanRequest,
   CreatePlanResponse,
-  CommonErrors,
+  CreatePlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlanRequest,
   output: CreatePlanResponse,
   errors: [],
 }));
+export type GetPlanError = ResourceNotFoundException | CommonErrors;
 /**
  * Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
  */
 export const getPlan: API.OperationMethod<
   GetPlanRequest,
   GetPlanResponse,
-  ResourceNotFoundException | CommonErrors,
+  GetPlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlanRequest,
   output: GetPlanResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UpdatePlanError = ResourceNotFoundException | CommonErrors;
 /**
  * Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
  */
 export const updatePlan: API.OperationMethod<
   UpdatePlanRequest,
   UpdatePlanResponse,
-  ResourceNotFoundException | CommonErrors,
+  UpdatePlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlanRequest,
   output: UpdatePlanResponse,
   errors: [ResourceNotFoundException],
 }));
+export type DeletePlanError =
+  | IllegalStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a Region switch plan. You must specify the ARN of the plan to delete.
  *
@@ -2314,34 +2348,35 @@ export const updatePlan: API.OperationMethod<
 export const deletePlan: API.OperationMethod<
   DeletePlanRequest,
   DeletePlanResponse,
-  IllegalStateException | ResourceNotFoundException | CommonErrors,
+  DeletePlanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePlanRequest,
   output: DeletePlanResponse,
   errors: [IllegalStateException, ResourceNotFoundException],
 }));
+export type ListPlansError = CommonErrors;
 /**
  * Lists all Region switch plans in your Amazon Web Services account.
  */
 export const listPlans: API.OperationMethod<
   ListPlansRequest,
   ListPlansResponse,
-  CommonErrors,
+  ListPlansError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlansRequest,
   ) => stream.Stream<
     ListPlansResponse,
-    CommonErrors,
+    ListPlansError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlansRequest,
   ) => stream.Stream<
     AbbreviatedPlan,
-    CommonErrors,
+    ListPlansError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2355,39 +2390,51 @@ export const listPlans: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the tags attached to a Region switch resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes tags from a Region switch resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

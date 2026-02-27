@@ -498,6 +498,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetGlyphsError = CommonErrors;
 /**
  * `GetGlyphs` returns the map's glyphs.
  *
@@ -506,13 +507,14 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const getGlyphs: API.OperationMethod<
   GetGlyphsRequest,
   GetGlyphsResponse,
-  CommonErrors,
+  GetGlyphsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlyphsRequest,
   output: GetGlyphsResponse,
   errors: [],
 }));
+export type GetSpritesError = CommonErrors;
 /**
  * `GetSprites` returns the map's sprites.
  *
@@ -521,13 +523,19 @@ export const getGlyphs: API.OperationMethod<
 export const getSprites: API.OperationMethod<
   GetSpritesRequest,
   GetSpritesResponse,
-  CommonErrors,
+  GetSpritesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpritesRequest,
   output: GetSpritesResponse,
   errors: [],
 }));
+export type GetStaticMapError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * `GetStaticMap` provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
  *
@@ -542,11 +550,7 @@ export const getSprites: API.OperationMethod<
 export const getStaticMap: API.OperationMethod<
   GetStaticMapRequest,
   GetStaticMapResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetStaticMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStaticMapRequest,
@@ -558,6 +562,7 @@ export const getStaticMap: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStyleDescriptorError = CommonErrors;
 /**
  * `GetStyleDescriptor` returns information about the style.
  *
@@ -566,13 +571,20 @@ export const getStaticMap: API.OperationMethod<
 export const getStyleDescriptor: API.OperationMethod<
   GetStyleDescriptorRequest,
   GetStyleDescriptorResponse,
-  CommonErrors,
+  GetStyleDescriptorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStyleDescriptorRequest,
   output: GetStyleDescriptorResponse,
   errors: [],
 }));
+export type GetTileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * `GetTile` returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
  *
@@ -581,12 +593,7 @@ export const getStyleDescriptor: API.OperationMethod<
 export const getTile: API.OperationMethod<
   GetTileRequest,
   GetTileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTileRequest,

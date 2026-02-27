@@ -1592,6 +1592,15 @@ export class ReplicationAlreadyExists extends S.TaggedErrorClass<ReplicationAlre
 ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
 
 //# Operations
+export type CreateAccessPointError =
+  | AccessPointAlreadyExists
+  | AccessPointLimitExceeded
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an EFS access point. An access point is an application-specific view
  * into an EFS file system that applies an operating system user and group, and a file
@@ -1620,14 +1629,7 @@ export class ReplicationAlreadyExists extends S.TaggedErrorClass<ReplicationAlre
 export const createAccessPoint: API.OperationMethod<
   CreateAccessPointRequest,
   AccessPointDescription,
-  | AccessPointAlreadyExists
-  | AccessPointLimitExceeded
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InternalServerError
-  | ThrottlingException
-  | CommonErrors,
+  CreateAccessPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPointRequest,
@@ -1642,6 +1644,15 @@ export const createAccessPoint: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateFileSystemError =
+  | BadRequest
+  | FileSystemAlreadyExists
+  | FileSystemLimitExceeded
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ThroughputLimitExceeded
+  | UnsupportedAvailabilityZone
+  | CommonErrors;
 /**
  * Creates a new, empty file system. The operation requires a creation token in the
  * request that Amazon EFS uses to ensure idempotent creation (calling the operation with same
@@ -1708,14 +1719,7 @@ export const createAccessPoint: API.OperationMethod<
 export const createFileSystem: API.OperationMethod<
   CreateFileSystemRequest,
   FileSystemDescription,
-  | BadRequest
-  | FileSystemAlreadyExists
-  | FileSystemLimitExceeded
-  | InsufficientThroughputCapacity
-  | InternalServerError
-  | ThroughputLimitExceeded
-  | UnsupportedAvailabilityZone
-  | CommonErrors,
+  CreateFileSystemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileSystemRequest,
@@ -1730,6 +1734,21 @@ export const createFileSystem: API.OperationMethod<
     UnsupportedAvailabilityZone,
   ],
 }));
+export type CreateMountTargetError =
+  | AvailabilityZonesMismatch
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | IpAddressInUse
+  | MountTargetConflict
+  | NetworkInterfaceLimitExceeded
+  | NoFreeAddressesInSubnet
+  | SecurityGroupLimitExceeded
+  | SecurityGroupNotFound
+  | SubnetNotFound
+  | UnsupportedAvailabilityZone
+  | CommonErrors;
 /**
  * Creates a mount target for a file system. You can then mount the file system on EC2
  * instances by using the mount target.
@@ -1847,20 +1866,7 @@ export const createFileSystem: API.OperationMethod<
 export const createMountTarget: API.OperationMethod<
   CreateMountTargetRequest,
   MountTargetDescription,
-  | AvailabilityZonesMismatch
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InternalServerError
-  | IpAddressInUse
-  | MountTargetConflict
-  | NetworkInterfaceLimitExceeded
-  | NoFreeAddressesInSubnet
-  | SecurityGroupLimitExceeded
-  | SecurityGroupNotFound
-  | SubnetNotFound
-  | UnsupportedAvailabilityZone
-  | CommonErrors,
+  CreateMountTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMountTargetRequest,
@@ -1881,6 +1887,19 @@ export const createMountTarget: API.OperationMethod<
     UnsupportedAvailabilityZone,
   ],
 }));
+export type CreateReplicationConfigurationError =
+  | BadRequest
+  | ConflictException
+  | FileSystemLimitExceeded
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ReplicationNotFound
+  | ThroughputLimitExceeded
+  | UnsupportedAvailabilityZone
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a replication conﬁguration to either a new or existing EFS file system.
  * For more information, see Amazon EFS replication in the Amazon EFS User
@@ -1908,18 +1927,7 @@ export const createMountTarget: API.OperationMethod<
 export const createReplicationConfiguration: API.OperationMethod<
   CreateReplicationConfigurationRequest,
   ReplicationConfigurationDescription,
-  | BadRequest
-  | ConflictException
-  | FileSystemLimitExceeded
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InsufficientThroughputCapacity
-  | InternalServerError
-  | ReplicationNotFound
-  | ThroughputLimitExceeded
-  | UnsupportedAvailabilityZone
-  | ValidationException
-  | CommonErrors,
+  CreateReplicationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicationConfigurationRequest,
@@ -1938,6 +1946,11 @@ export const createReplicationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTagsError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * DEPRECATED - `CreateTags` is deprecated and not maintained. To create tags for EFS
  * resources, use the API action.
@@ -1953,13 +1966,18 @@ export const createReplicationConfiguration: API.OperationMethod<
 export const createTags: API.OperationMethod<
   CreateTagsRequest,
   CreateTagsResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  CreateTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
   output: CreateTagsResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
+export type DeleteAccessPointError =
+  | AccessPointNotFound
+  | BadRequest
+  | InternalServerError
+  | CommonErrors;
 /**
  * Deletes the specified access point. After deletion is complete, new clients can no
  * longer connect to the access points. Clients connected to the access point at the time of
@@ -1970,13 +1988,19 @@ export const createTags: API.OperationMethod<
 export const deleteAccessPoint: API.OperationMethod<
   DeleteAccessPointRequest,
   DeleteAccessPointResponse,
-  AccessPointNotFound | BadRequest | InternalServerError | CommonErrors,
+  DeleteAccessPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointRequest,
   output: DeleteAccessPointResponse,
   errors: [AccessPointNotFound, BadRequest, InternalServerError],
 }));
+export type DeleteFileSystemError =
+  | BadRequest
+  | FileSystemInUse
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Deletes a file system, permanently severing access to its contents. Upon return, the
  * file system no longer exists and you can't access any contents of the deleted file
@@ -2003,11 +2027,7 @@ export const deleteAccessPoint: API.OperationMethod<
 export const deleteFileSystem: API.OperationMethod<
   DeleteFileSystemRequest,
   DeleteFileSystemResponse,
-  | BadRequest
-  | FileSystemInUse
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors,
+  DeleteFileSystemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileSystemRequest,
@@ -2019,6 +2039,12 @@ export const deleteFileSystem: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type DeleteFileSystemPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | CommonErrors;
 /**
  * Deletes the `FileSystemPolicy` for the specified file system.
  * The default `FileSystemPolicy` goes into effect once the existing policy is deleted.
@@ -2029,11 +2055,7 @@ export const deleteFileSystem: API.OperationMethod<
 export const deleteFileSystemPolicy: API.OperationMethod<
   DeleteFileSystemPolicyRequest,
   DeleteFileSystemPolicyResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InternalServerError
-  | CommonErrors,
+  DeleteFileSystemPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileSystemPolicyRequest,
@@ -2045,6 +2067,12 @@ export const deleteFileSystemPolicy: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type DeleteMountTargetError =
+  | BadRequest
+  | DependencyTimeout
+  | InternalServerError
+  | MountTargetNotFound
+  | CommonErrors;
 /**
  * Deletes the specified mount target.
  *
@@ -2073,11 +2101,7 @@ export const deleteFileSystemPolicy: API.OperationMethod<
 export const deleteMountTarget: API.OperationMethod<
   DeleteMountTargetRequest,
   DeleteMountTargetResponse,
-  | BadRequest
-  | DependencyTimeout
-  | InternalServerError
-  | MountTargetNotFound
-  | CommonErrors,
+  DeleteMountTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMountTargetRequest,
@@ -2089,6 +2113,12 @@ export const deleteMountTarget: API.OperationMethod<
     MountTargetNotFound,
   ],
 }));
+export type DeleteReplicationConfigurationError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | ReplicationNotFound
+  | CommonErrors;
 /**
  * Deletes a replication configuration. Deleting a replication configuration ends the
  * replication process. After a replication configuration is deleted, the destination file system
@@ -2101,11 +2131,7 @@ export const deleteMountTarget: API.OperationMethod<
 export const deleteReplicationConfiguration: API.OperationMethod<
   DeleteReplicationConfigurationRequest,
   DeleteReplicationConfigurationResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | ReplicationNotFound
-  | CommonErrors,
+  DeleteReplicationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicationConfigurationRequest,
@@ -2117,6 +2143,11 @@ export const deleteReplicationConfiguration: API.OperationMethod<
     ReplicationNotFound,
   ],
 }));
+export type DeleteTagsError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * DEPRECATED - `DeleteTags` is deprecated and not maintained. To remove tags from EFS
  * resources, use the API action.
@@ -2132,13 +2163,19 @@ export const deleteReplicationConfiguration: API.OperationMethod<
 export const deleteTags: API.OperationMethod<
   DeleteTagsRequest,
   DeleteTagsResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DeleteTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
+export type DescribeAccessPointsError =
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the description of a specific Amazon EFS access point if the
  * `AccessPointId` is provided. If you provide an EFS
@@ -2151,33 +2188,21 @@ export const deleteTags: API.OperationMethod<
 export const describeAccessPoints: API.OperationMethod<
   DescribeAccessPointsRequest,
   DescribeAccessPointsResponse,
-  | AccessPointNotFound
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors,
+  DescribeAccessPointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAccessPointsRequest,
   ) => stream.Stream<
     DescribeAccessPointsResponse,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
+    DescribeAccessPointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAccessPointsRequest,
   ) => stream.Stream<
     AccessPointDescription,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
+    DescribeAccessPointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2196,31 +2221,36 @@ export const describeAccessPoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeAccountPreferencesError =
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
 export const describeAccountPreferences: API.OperationMethod<
   DescribeAccountPreferencesRequest,
   DescribeAccountPreferencesResponse,
-  InternalServerError | CommonErrors,
+  DescribeAccountPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountPreferencesRequest,
   output: DescribeAccountPreferencesResponse,
   errors: [InternalServerError],
 }));
+export type DescribeBackupPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | PolicyNotFound
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the backup policy for the specified EFS file system.
  */
 export const describeBackupPolicy: API.OperationMethod<
   DescribeBackupPolicyRequest,
   BackupPolicyDescription,
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | PolicyNotFound
-  | ValidationException
-  | CommonErrors,
+  DescribeBackupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBackupPolicyRequest,
@@ -2233,6 +2263,12 @@ export const describeBackupPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFileSystemPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | PolicyNotFound
+  | CommonErrors;
 /**
  * Returns the `FileSystemPolicy` for the specified EFS file
  * system.
@@ -2242,17 +2278,18 @@ export const describeBackupPolicy: API.OperationMethod<
 export const describeFileSystemPolicy: API.OperationMethod<
   DescribeFileSystemPolicyRequest,
   FileSystemPolicyDescription,
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | PolicyNotFound
-  | CommonErrors,
+  DescribeFileSystemPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFileSystemPolicyRequest,
   output: FileSystemPolicyDescription,
   errors: [BadRequest, FileSystemNotFound, InternalServerError, PolicyNotFound],
 }));
+export type DescribeFileSystemsError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the description of a specific Amazon EFS file system if either the file system
  * `CreationToken` or the `FileSystemId` is provided. Otherwise, it
@@ -2282,21 +2319,21 @@ export const describeFileSystemPolicy: API.OperationMethod<
 export const describeFileSystems: API.OperationMethod<
   DescribeFileSystemsRequest,
   DescribeFileSystemsResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DescribeFileSystemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeFileSystemsRequest,
   ) => stream.Stream<
     DescribeFileSystemsResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeFileSystemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFileSystemsRequest,
   ) => stream.Stream<
     FileSystemDescription,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeFileSystemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2310,6 +2347,11 @@ export const describeFileSystems: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type DescribeLifecycleConfigurationError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the current `LifecycleConfiguration` object for the specified
  * EFS file system. Lifecycle management uses the `LifecycleConfiguration`
@@ -2323,13 +2365,20 @@ export const describeFileSystems: API.OperationMethod<
 export const describeLifecycleConfiguration: API.OperationMethod<
   DescribeLifecycleConfigurationRequest,
   LifecycleConfigurationDescription,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DescribeLifecycleConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLifecycleConfigurationRequest,
   output: LifecycleConfigurationDescription,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
 }));
+export type DescribeMountTargetsError =
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | MountTargetNotFound
+  | CommonErrors;
 /**
  * Returns the descriptions of all the current mount targets, or a specific mount target,
  * for a file system. When requesting all of the current mount targets, the order of mount
@@ -2343,36 +2392,21 @@ export const describeLifecycleConfiguration: API.OperationMethod<
 export const describeMountTargets: API.OperationMethod<
   DescribeMountTargetsRequest,
   DescribeMountTargetsResponse,
-  | AccessPointNotFound
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | MountTargetNotFound
-  | CommonErrors,
+  DescribeMountTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMountTargetsRequest,
   ) => stream.Stream<
     DescribeMountTargetsResponse,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | MountTargetNotFound
-    | CommonErrors,
+    DescribeMountTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMountTargetsRequest,
   ) => stream.Stream<
     MountTargetDescription,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | MountTargetNotFound
-    | CommonErrors,
+    DescribeMountTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2392,6 +2426,12 @@ export const describeMountTargets: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type DescribeMountTargetSecurityGroupsError =
+  | BadRequest
+  | IncorrectMountTargetState
+  | InternalServerError
+  | MountTargetNotFound
+  | CommonErrors;
 /**
  * Returns the security groups currently in effect for a mount target. This operation
  * requires that the network interface of the mount target has been created and the lifecycle
@@ -2408,11 +2448,7 @@ export const describeMountTargets: API.OperationMethod<
 export const describeMountTargetSecurityGroups: API.OperationMethod<
   DescribeMountTargetSecurityGroupsRequest,
   DescribeMountTargetSecurityGroupsResponse,
-  | BadRequest
-  | IncorrectMountTargetState
-  | InternalServerError
-  | MountTargetNotFound
-  | CommonErrors,
+  DescribeMountTargetSecurityGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMountTargetSecurityGroupsRequest,
@@ -2424,6 +2460,13 @@ export const describeMountTargetSecurityGroups: API.OperationMethod<
     MountTargetNotFound,
   ],
 }));
+export type DescribeReplicationConfigurationsError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | ReplicationNotFound
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the replication configuration for a specific file system. If a file system is
  * not specified, all of the replication configurations for the Amazon Web Services account in an
@@ -2432,36 +2475,21 @@ export const describeMountTargetSecurityGroups: API.OperationMethod<
 export const describeReplicationConfigurations: API.OperationMethod<
   DescribeReplicationConfigurationsRequest,
   DescribeReplicationConfigurationsResponse,
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | ReplicationNotFound
-  | ValidationException
-  | CommonErrors,
+  DescribeReplicationConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReplicationConfigurationsRequest,
   ) => stream.Stream<
     DescribeReplicationConfigurationsResponse,
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | ReplicationNotFound
-    | ValidationException
-    | CommonErrors,
+    DescribeReplicationConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationConfigurationsRequest,
   ) => stream.Stream<
     ReplicationConfigurationDescription,
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | ReplicationNotFound
-    | ValidationException
-    | CommonErrors,
+    DescribeReplicationConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2481,6 +2509,11 @@ export const describeReplicationConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeTagsError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * DEPRECATED - The `DescribeTags` action is deprecated and not maintained. To view
  * tags associated with EFS resources, use the `ListTagsForResource` API
@@ -2496,21 +2529,21 @@ export const describeReplicationConfigurations: API.OperationMethod<
 export const describeTags: API.OperationMethod<
   DescribeTagsRequest,
   DescribeTagsResponse,
-  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  DescribeTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
     DescribeTagsResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
     Tag,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+    DescribeTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2524,6 +2557,12 @@ export const describeTags: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Lists all tags for a top-level EFS resource. You must provide the ID of the
  * resource that you want to retrieve the tags for.
@@ -2533,33 +2572,21 @@ export const describeTags: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessPointNotFound
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     unknown,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2577,6 +2604,14 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ModifyMountTargetSecurityGroupsError =
+  | BadRequest
+  | IncorrectMountTargetState
+  | InternalServerError
+  | MountTargetNotFound
+  | SecurityGroupLimitExceeded
+  | SecurityGroupNotFound
+  | CommonErrors;
 /**
  * Modifies the set of security groups in effect for a mount target.
  *
@@ -2598,13 +2633,7 @@ export const listTagsForResource: API.OperationMethod<
 export const modifyMountTargetSecurityGroups: API.OperationMethod<
   ModifyMountTargetSecurityGroupsRequest,
   ModifyMountTargetSecurityGroupsResponse,
-  | BadRequest
-  | IncorrectMountTargetState
-  | InternalServerError
-  | MountTargetNotFound
-  | SecurityGroupLimitExceeded
-  | SecurityGroupNotFound
-  | CommonErrors,
+  ModifyMountTargetSecurityGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyMountTargetSecurityGroupsRequest,
@@ -2618,6 +2647,10 @@ export const modifyMountTargetSecurityGroups: API.OperationMethod<
     SecurityGroupNotFound,
   ],
 }));
+export type PutAccountPreferencesError =
+  | BadRequest
+  | InternalServerError
+  | CommonErrors;
 /**
  * Use this operation to set the account preference in the current Amazon Web Services Region
  * to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new
@@ -2632,25 +2665,27 @@ export const modifyMountTargetSecurityGroups: API.OperationMethod<
 export const putAccountPreferences: API.OperationMethod<
   PutAccountPreferencesRequest,
   PutAccountPreferencesResponse,
-  BadRequest | InternalServerError | CommonErrors,
+  PutAccountPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountPreferencesRequest,
   output: PutAccountPreferencesResponse,
   errors: [BadRequest, InternalServerError],
 }));
+export type PutBackupPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
  */
 export const putBackupPolicy: API.OperationMethod<
   PutBackupPolicyRequest,
   BackupPolicyDescription,
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InternalServerError
-  | ValidationException
-  | CommonErrors,
+  PutBackupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBackupPolicyRequest,
@@ -2663,6 +2698,13 @@ export const putBackupPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutFileSystemPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | InvalidPolicyException
+  | CommonErrors;
 /**
  * Applies an Amazon EFS
  * `FileSystemPolicy` to an Amazon EFS file system. A file system policy is an
@@ -2680,12 +2722,7 @@ export const putBackupPolicy: API.OperationMethod<
 export const putFileSystemPolicy: API.OperationMethod<
   PutFileSystemPolicyRequest,
   FileSystemPolicyDescription,
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InternalServerError
-  | InvalidPolicyException
-  | CommonErrors,
+  PutFileSystemPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFileSystemPolicyRequest,
@@ -2698,6 +2735,12 @@ export const putFileSystemPolicy: API.OperationMethod<
     InvalidPolicyException,
   ],
 }));
+export type PutLifecycleConfigurationError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | CommonErrors;
 /**
  * Use this action to manage storage for your file system. A
  * `LifecycleConfiguration` consists of one or more `LifecyclePolicy`
@@ -2756,11 +2799,7 @@ export const putFileSystemPolicy: API.OperationMethod<
 export const putLifecycleConfiguration: API.OperationMethod<
   PutLifecycleConfigurationRequest,
   LifecycleConfigurationDescription,
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InternalServerError
-  | CommonErrors,
+  PutLifecycleConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecycleConfigurationRequest,
@@ -2772,6 +2811,12 @@ export const putLifecycleConfiguration: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type TagResourceError =
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Creates a tag for an EFS resource. You can create tags for EFS file
  * systems and access points using this API operation.
@@ -2781,11 +2826,7 @@ export const putLifecycleConfiguration: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessPointNotFound
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2797,6 +2838,12 @@ export const tagResource: API.OperationMethod<
     InternalServerError,
   ],
 }));
+export type UntagResourceError =
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
 /**
  * Removes tags from an EFS resource. You can remove tags from EFS file
  * systems and access points using this API operation.
@@ -2806,11 +2853,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessPointNotFound
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2822,13 +2865,7 @@ export const untagResource: API.OperationMethod<
     InternalServerError,
   ],
 }));
-/**
- * Updates the throughput mode or the amount of provisioned throughput of an existing file
- * system.
- */
-export const updateFileSystem: API.OperationMethod<
-  UpdateFileSystemRequest,
-  FileSystemDescription,
+export type UpdateFileSystemError =
   | BadRequest
   | FileSystemNotFound
   | IncorrectFileSystemLifeCycleState
@@ -2836,7 +2873,15 @@ export const updateFileSystem: API.OperationMethod<
   | InternalServerError
   | ThroughputLimitExceeded
   | TooManyRequests
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the throughput mode or the amount of provisioned throughput of an existing file
+ * system.
+ */
+export const updateFileSystem: API.OperationMethod<
+  UpdateFileSystemRequest,
+  FileSystemDescription,
+  UpdateFileSystemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileSystemRequest,
@@ -2851,6 +2896,16 @@ export const updateFileSystem: API.OperationMethod<
     TooManyRequests,
   ],
 }));
+export type UpdateFileSystemProtectionError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ReplicationAlreadyExists
+  | ThroughputLimitExceeded
+  | TooManyRequests
+  | CommonErrors;
 /**
  * Updates protection on the file system.
  *
@@ -2860,15 +2915,7 @@ export const updateFileSystem: API.OperationMethod<
 export const updateFileSystemProtection: API.OperationMethod<
   UpdateFileSystemProtectionRequest,
   FileSystemProtectionDescription,
-  | BadRequest
-  | FileSystemNotFound
-  | IncorrectFileSystemLifeCycleState
-  | InsufficientThroughputCapacity
-  | InternalServerError
-  | ReplicationAlreadyExists
-  | ThroughputLimitExceeded
-  | TooManyRequests
-  | CommonErrors,
+  UpdateFileSystemProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileSystemProtectionRequest,

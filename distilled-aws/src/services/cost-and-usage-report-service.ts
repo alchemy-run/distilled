@@ -374,6 +374,10 @@ export class ReportLimitReachedException extends S.TaggedErrorClass<ReportLimitR
 ) {}
 
 //# Operations
+export type DeleteReportDefinitionError =
+  | InternalErrorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified report. Any tags associated with the report are also
  * deleted.
@@ -381,34 +385,37 @@ export class ReportLimitReachedException extends S.TaggedErrorClass<ReportLimitR
 export const deleteReportDefinition: API.OperationMethod<
   DeleteReportDefinitionRequest,
   DeleteReportDefinitionResponse,
-  InternalErrorException | ValidationException | CommonErrors,
+  DeleteReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportDefinitionRequest,
   output: DeleteReportDefinitionResponse,
   errors: [InternalErrorException, ValidationException],
 }));
+export type DescribeReportDefinitionsError =
+  | InternalErrorException
+  | CommonErrors;
 /**
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
 export const describeReportDefinitions: API.OperationMethod<
   DescribeReportDefinitionsRequest,
   DescribeReportDefinitionsResponse,
-  InternalErrorException | CommonErrors,
+  DescribeReportDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReportDefinitionsRequest,
   ) => stream.Stream<
     DescribeReportDefinitionsResponse,
-    InternalErrorException | CommonErrors,
+    DescribeReportDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReportDefinitionsRequest,
   ) => stream.Stream<
     unknown,
-    InternalErrorException | CommonErrors,
+    DescribeReportDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -421,16 +428,18 @@ export const describeReportDefinitions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags associated with the specified report definition.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalErrorException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -441,31 +450,37 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ModifyReportDefinitionError =
+  | InternalErrorException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you to programmatically update your report preferences.
  */
 export const modifyReportDefinition: API.OperationMethod<
   ModifyReportDefinitionRequest,
   ModifyReportDefinitionResponse,
-  InternalErrorException | ValidationException | CommonErrors,
+  ModifyReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyReportDefinitionRequest,
   output: ModifyReportDefinitionResponse,
   errors: [InternalErrorException, ValidationException],
 }));
+export type PutReportDefinitionError =
+  | DuplicateReportNameException
+  | InternalErrorException
+  | ReportLimitReachedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new report using the description that you provide.
  */
 export const putReportDefinition: API.OperationMethod<
   PutReportDefinitionRequest,
   PutReportDefinitionResponse,
-  | DuplicateReportNameException
-  | InternalErrorException
-  | ReportLimitReachedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutReportDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutReportDefinitionRequest,
@@ -478,16 +493,18 @@ export const putReportDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a set of tags with a report definition.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalErrorException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -498,16 +515,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalErrorException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a set of tags from a report definition.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalErrorException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

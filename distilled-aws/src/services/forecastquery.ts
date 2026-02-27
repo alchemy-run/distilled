@@ -195,6 +195,13 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type QueryForecastError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a forecast for a single item, filtered by the supplied criteria.
  *
@@ -214,12 +221,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const queryForecast: API.OperationMethod<
   QueryForecastRequest,
   QueryForecastResponse,
-  | InvalidInputException
-  | InvalidNextTokenException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  QueryForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryForecastRequest,
@@ -232,18 +234,20 @@ export const queryForecast: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type QueryWhatIfForecastError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a what-if forecast.
  */
 export const queryWhatIfForecast: API.OperationMethod<
   QueryWhatIfForecastRequest,
   QueryWhatIfForecastResponse,
-  | InvalidInputException
-  | InvalidNextTokenException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  QueryWhatIfForecastError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryWhatIfForecastRequest,

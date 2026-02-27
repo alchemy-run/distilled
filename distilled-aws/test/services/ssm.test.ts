@@ -8,7 +8,7 @@
  */
 
 import { expect } from "@effect/vitest";
-import { Effect } from "effect";
+import { Effect, Schedule } from "effect";
 import {
   createMaintenanceWindow,
   deleteMaintenanceWindow,
@@ -208,14 +208,17 @@ test(
     // Delete
     yield* deleteMaintenanceWindow({ WindowId: windowId });
 
-    // Verify deleted (should throw DoesNotExistException)
-    const stillExists = yield* getMaintenanceWindow({
-      WindowId: windowId,
-    }).pipe(
-      Effect.map(() => true),
-      Effect.catch(() => Effect.succeed(false)),
+    // Verify deleted — retry to account for propagation delay
+    yield* getMaintenanceWindow({ WindowId: windowId }).pipe(
+      Effect.flatMap(() => Effect.fail("still-exists" as const)),
+      Effect.catch((e) =>
+        e === "still-exists" ? Effect.fail(e) : Effect.void,
+      ),
+      Effect.retry(
+        Schedule.exponential("500 millis").pipe(
+          Schedule.compose(Schedule.recurs(10)),
+        ),
+      ),
     );
-
-    expect(stillExists).toBe(false);
   }),
 );

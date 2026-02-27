@@ -2906,25 +2906,24 @@ export class SubnetInUse extends S.TaggedErrorClass<SubnetInUse>()(
 ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 
 //# Operations
+export type BatchUpdateClusterError =
+  | InvalidParameterValueException
+  | ServiceUpdateNotFoundFault
+  | CommonErrors;
 /**
  * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
  */
 export const batchUpdateCluster: API.OperationMethod<
   BatchUpdateClusterRequest,
   BatchUpdateClusterResponse,
-  InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
+  BatchUpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateClusterRequest,
   output: BatchUpdateClusterResponse,
   errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
 }));
-/**
- * Makes a copy of an existing snapshot.
- */
-export const copySnapshot: API.OperationMethod<
-  CopySnapshotRequest,
-  CopySnapshotResponse,
+export type CopySnapshotError =
   | InvalidParameterCombinationException
   | InvalidParameterValueException
   | InvalidSnapshotStateFault
@@ -2933,7 +2932,14 @@ export const copySnapshot: API.OperationMethod<
   | SnapshotNotFoundFault
   | SnapshotQuotaExceededFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Makes a copy of an existing snapshot.
+ */
+export const copySnapshot: API.OperationMethod<
+  CopySnapshotRequest,
+  CopySnapshotResponse,
+  CopySnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotRequest,
@@ -2949,12 +2955,7 @@ export const copySnapshot: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
-/**
- * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
- */
-export const createACL: API.OperationMethod<
-  CreateACLRequest,
-  CreateACLResponse,
+export type CreateACLError =
   | ACLAlreadyExistsFault
   | ACLQuotaExceededFault
   | DefaultUserRequired
@@ -2962,7 +2963,14 @@ export const createACL: API.OperationMethod<
   | InvalidParameterValueException
   | TagQuotaPerResourceExceeded
   | UserNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
+ */
+export const createACL: API.OperationMethod<
+  CreateACLRequest,
+  CreateACLResponse,
+  CreateACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateACLRequest,
@@ -2977,12 +2985,7 @@ export const createACL: API.OperationMethod<
     UserNotFoundFault,
   ],
 }));
-/**
- * Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
- */
-export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
-  CreateClusterResponse,
+export type CreateClusterError =
   | ACLNotFoundFault
   | ClusterAlreadyExistsFault
   | ClusterQuotaForCustomerExceededFault
@@ -3001,7 +3004,14 @@ export const createCluster: API.OperationMethod<
   | ShardsPerClusterQuotaExceededFault
   | SubnetGroupNotFoundFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
+ */
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
+  CreateClusterResponse,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -3027,19 +3037,21 @@ export const createCluster: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
-/**
- * Creates a new multi-Region cluster.
- */
-export const createMultiRegionCluster: API.OperationMethod<
-  CreateMultiRegionClusterRequest,
-  CreateMultiRegionClusterResponse,
+export type CreateMultiRegionClusterError =
   | ClusterQuotaForCustomerExceededFault
   | InvalidParameterCombinationException
   | InvalidParameterValueException
   | MultiRegionClusterAlreadyExistsFault
   | MultiRegionParameterGroupNotFoundFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new multi-Region cluster.
+ */
+export const createMultiRegionCluster: API.OperationMethod<
+  CreateMultiRegionClusterRequest,
+  CreateMultiRegionClusterResponse,
+  CreateMultiRegionClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMultiRegionClusterRequest,
@@ -3053,13 +3065,7 @@ export const createMultiRegionCluster: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
-/**
- * Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For
- * more information, see Configuring engine parameters using parameter groups.
- */
-export const createParameterGroup: API.OperationMethod<
-  CreateParameterGroupRequest,
-  CreateParameterGroupResponse,
+export type CreateParameterGroupError =
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
   | InvalidParameterValueException
@@ -3067,7 +3073,15 @@ export const createParameterGroup: API.OperationMethod<
   | ParameterGroupQuotaExceededFault
   | ServiceLinkedRoleNotFoundFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For
+ * more information, see Configuring engine parameters using parameter groups.
+ */
+export const createParameterGroup: API.OperationMethod<
+  CreateParameterGroupRequest,
+  CreateParameterGroupResponse,
+  CreateParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateParameterGroupRequest,
@@ -3082,12 +3096,7 @@ export const createParameterGroup: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
-/**
- * Creates a copy of an entire cluster at a specific moment in time.
- */
-export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
-  CreateSnapshotResponse,
+export type CreateSnapshotError =
   | ClusterNotFoundFault
   | InvalidClusterStateFault
   | InvalidParameterCombinationException
@@ -3096,7 +3105,14 @@ export const createSnapshot: API.OperationMethod<
   | SnapshotAlreadyExistsFault
   | SnapshotQuotaExceededFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a copy of an entire cluster at a specific moment in time.
+ */
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
+  CreateSnapshotResponse,
+  CreateSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
@@ -3112,6 +3128,15 @@ export const createSnapshot: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
+export type CreateSubnetGroupError =
+  | InvalidSubnet
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupAlreadyExistsFault
+  | SubnetGroupQuotaExceededFault
+  | SubnetNotAllowedFault
+  | SubnetQuotaExceededFault
+  | TagQuotaPerResourceExceeded
+  | CommonErrors;
 /**
  * Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment.
  *
@@ -3121,14 +3146,7 @@ export const createSnapshot: API.OperationMethod<
 export const createSubnetGroup: API.OperationMethod<
   CreateSubnetGroupRequest,
   CreateSubnetGroupResponse,
-  | InvalidSubnet
-  | ServiceLinkedRoleNotFoundFault
-  | SubnetGroupAlreadyExistsFault
-  | SubnetGroupQuotaExceededFault
-  | SubnetNotAllowedFault
-  | SubnetQuotaExceededFault
-  | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  CreateSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubnetGroupRequest,
@@ -3143,19 +3161,21 @@ export const createSubnetGroup: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
-/**
- * Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
- */
-export const createUser: API.OperationMethod<
-  CreateUserRequest,
-  CreateUserResponse,
+export type CreateUserError =
   | DuplicateUserNameFault
   | InvalidParameterCombinationException
   | InvalidParameterValueException
   | TagQuotaPerResourceExceeded
   | UserAlreadyExistsFault
   | UserQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
+ */
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
+  CreateUserResponse,
+  CreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -3169,16 +3189,18 @@ export const createUser: API.OperationMethod<
     UserQuotaExceededFault,
   ],
 }));
+export type DeleteACLError =
+  | ACLNotFoundFault
+  | InvalidACLStateFault
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const deleteACL: API.OperationMethod<
   DeleteACLRequest,
   DeleteACLResponse,
-  | ACLNotFoundFault
-  | InvalidACLStateFault
-  | InvalidParameterValueException
-  | CommonErrors,
+  DeleteACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteACLRequest,
@@ -3189,6 +3211,14 @@ export const deleteACL: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type DeleteClusterError =
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotAlreadyExistsFault
+  | CommonErrors;
 /**
  * Deletes a cluster. It also deletes all associated nodes and node endpoints.
  *
@@ -3198,13 +3228,7 @@ export const deleteACL: API.OperationMethod<
 export const deleteCluster: API.OperationMethod<
   DeleteClusterRequest,
   DeleteClusterResponse,
-  | ClusterNotFoundFault
-  | InvalidClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | SnapshotAlreadyExistsFault
-  | CommonErrors,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -3218,16 +3242,18 @@ export const deleteCluster: API.OperationMethod<
     SnapshotAlreadyExistsFault,
   ],
 }));
+export type DeleteMultiRegionClusterError =
+  | InvalidMultiRegionClusterStateFault
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an existing multi-Region cluster.
  */
 export const deleteMultiRegionCluster: API.OperationMethod<
   DeleteMultiRegionClusterRequest,
   DeleteMultiRegionClusterResponse,
-  | InvalidMultiRegionClusterStateFault
-  | InvalidParameterValueException
-  | MultiRegionClusterNotFoundFault
-  | CommonErrors,
+  DeleteMultiRegionClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMultiRegionClusterRequest,
@@ -3238,6 +3264,13 @@ export const deleteMultiRegionCluster: API.OperationMethod<
     MultiRegionClusterNotFoundFault,
   ],
 }));
+export type DeleteParameterGroupError =
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters.
  * You cannot delete the default parameter groups in your account.
@@ -3245,12 +3278,7 @@ export const deleteMultiRegionCluster: API.OperationMethod<
 export const deleteParameterGroup: API.OperationMethod<
   DeleteParameterGroupRequest,
   DeleteParameterGroupResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DeleteParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteParameterGroupRequest,
@@ -3263,18 +3291,20 @@ export const deleteParameterGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DeleteSnapshotError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidSnapshotStateFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
  */
 export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotRequest,
   DeleteSnapshotResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | InvalidSnapshotStateFault
-  | ServiceLinkedRoleNotFoundFault
-  | SnapshotNotFoundFault
-  | CommonErrors,
+  DeleteSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
@@ -3287,16 +3317,18 @@ export const deleteSnapshot: API.OperationMethod<
     SnapshotNotFoundFault,
   ],
 }));
+export type DeleteSubnetGroupError =
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupInUseFault
+  | SubnetGroupNotFoundFault
+  | CommonErrors;
 /**
  * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
  */
 export const deleteSubnetGroup: API.OperationMethod<
   DeleteSubnetGroupRequest,
   DeleteSubnetGroupResponse,
-  | ServiceLinkedRoleNotFoundFault
-  | SubnetGroupInUseFault
-  | SubnetGroupNotFoundFault
-  | CommonErrors,
+  DeleteSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubnetGroupRequest,
@@ -3307,16 +3339,18 @@ export const deleteSubnetGroup: API.OperationMethod<
     SubnetGroupNotFoundFault,
   ],
 }));
+export type DeleteUserError =
+  | InvalidParameterValueException
+  | InvalidUserStateFault
+  | UserNotFoundFault
+  | CommonErrors;
 /**
  * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
  */
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | InvalidParameterValueException
-  | InvalidUserStateFault
-  | UserNotFoundFault
-  | CommonErrors,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -3327,27 +3361,31 @@ export const deleteUser: API.OperationMethod<
     UserNotFoundFault,
   ],
 }));
+export type DescribeACLsError =
+  | ACLNotFoundFault
+  | InvalidParameterCombinationException
+  | CommonErrors;
 /**
  * Returns a list of ACLs.
  */
 export const describeACLs: API.OperationMethod<
   DescribeACLsRequest,
   DescribeACLsResponse,
-  ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
+  DescribeACLsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeACLsRequest,
   ) => stream.Stream<
     DescribeACLsResponse,
-    ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
+    DescribeACLsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeACLsRequest,
   ) => stream.Stream<
     ACL,
-    ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
+    DescribeACLsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3361,39 +3399,33 @@ export const describeACLs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeClustersError =
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
  */
 export const describeClusters: API.OperationMethod<
   DescribeClustersRequest,
   DescribeClustersResponse,
-  | ClusterNotFoundFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeClustersRequest,
   ) => stream.Stream<
     DescribeClustersResponse,
-    | ClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClustersRequest,
   ) => stream.Stream<
     Cluster,
-    | ClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3412,36 +3444,32 @@ export const describeClusters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeEngineVersionsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of the available Redis OSS engine versions.
  */
 export const describeEngineVersions: API.OperationMethod<
   DescribeEngineVersionsRequest,
   DescribeEngineVersionsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEngineVersionsRequest,
   ) => stream.Stream<
     DescribeEngineVersionsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineVersionsRequest,
   ) => stream.Stream<
     EngineVersionInfo,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3459,6 +3487,11 @@ export const describeEngineVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeEventsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.
  *
@@ -3467,30 +3500,21 @@ export const describeEngineVersions: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsRequest,
   DescribeEventsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsRequest,
   ) => stream.Stream<
     DescribeEventsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsRequest,
   ) => stream.Stream<
     Event,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3508,39 +3532,33 @@ export const describeEvents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMultiRegionClustersError =
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | CommonErrors;
 /**
  * Returns details about one or more multi-Region clusters.
  */
 export const describeMultiRegionClusters: API.OperationMethod<
   DescribeMultiRegionClustersRequest,
   DescribeMultiRegionClustersResponse,
-  | ClusterNotFoundFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MultiRegionClusterNotFoundFault
-  | CommonErrors,
+  DescribeMultiRegionClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMultiRegionClustersRequest,
   ) => stream.Stream<
     DescribeMultiRegionClustersResponse,
-    | ClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | MultiRegionClusterNotFoundFault
-    | CommonErrors,
+    DescribeMultiRegionClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMultiRegionClustersRequest,
   ) => stream.Stream<
     MultiRegionCluster,
-    | ClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | MultiRegionClusterNotFoundFault
-    | CommonErrors,
+    DescribeMultiRegionClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3559,17 +3577,19 @@ export const describeMultiRegionClusters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMultiRegionParameterGroupsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of multi-region parameter groups.
  */
 export const describeMultiRegionParameterGroups: API.OperationMethod<
   DescribeMultiRegionParameterGroupsRequest,
   DescribeMultiRegionParameterGroupsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MultiRegionParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeMultiRegionParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMultiRegionParameterGroupsRequest,
@@ -3581,17 +3601,19 @@ export const describeMultiRegionParameterGroups: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeMultiRegionParametersError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular multi-region parameter group.
  */
 export const describeMultiRegionParameters: API.OperationMethod<
   DescribeMultiRegionParametersRequest,
   DescribeMultiRegionParametersResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MultiRegionParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeMultiRegionParametersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMultiRegionParametersRequest,
@@ -3603,39 +3625,33 @@ export const describeMultiRegionParameters: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type DescribeParameterGroupsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
  */
 export const describeParameterGroups: API.OperationMethod<
   DescribeParameterGroupsRequest,
   DescribeParameterGroupsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeParameterGroupsRequest,
   ) => stream.Stream<
     DescribeParameterGroupsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ParameterGroupNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeParameterGroupsRequest,
   ) => stream.Stream<
     ParameterGroup,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ParameterGroupNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3654,39 +3670,33 @@ export const describeParameterGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeParametersError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular parameter group.
  */
 export const describeParameters: API.OperationMethod<
   DescribeParametersRequest,
   DescribeParametersResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeParametersRequest,
   ) => stream.Stream<
     DescribeParametersResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ParameterGroupNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeParametersRequest,
   ) => stream.Stream<
     Parameter,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ParameterGroupNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3705,39 +3715,33 @@ export const describeParameters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeReservedNodesError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedNodeNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about reserved nodes for this account, or about a specified reserved node.
  */
 export const describeReservedNodes: API.OperationMethod<
   DescribeReservedNodesRequest,
   DescribeReservedNodesResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ReservedNodeNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeReservedNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedNodesRequest,
   ) => stream.Stream<
     DescribeReservedNodesResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedNodeNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeReservedNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedNodesRequest,
   ) => stream.Stream<
     ReservedNode,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedNodeNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeReservedNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3756,39 +3760,33 @@ export const describeReservedNodes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeReservedNodesOfferingsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedNodesOfferingNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Lists available reserved node offerings.
  */
 export const describeReservedNodesOfferings: API.OperationMethod<
   DescribeReservedNodesOfferingsRequest,
   DescribeReservedNodesOfferingsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ReservedNodesOfferingNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  DescribeReservedNodesOfferingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedNodesOfferingsRequest,
   ) => stream.Stream<
     DescribeReservedNodesOfferingsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedNodesOfferingNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeReservedNodesOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedNodesOfferingsRequest,
   ) => stream.Stream<
     ReservedNodesOffering,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedNodesOfferingNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
+    DescribeReservedNodesOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3807,33 +3805,31 @@ export const describeReservedNodesOfferings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeServiceUpdatesError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns details of the service updates.
  */
 export const describeServiceUpdates: API.OperationMethod<
   DescribeServiceUpdatesRequest,
   DescribeServiceUpdatesResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | CommonErrors,
+  DescribeServiceUpdatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeServiceUpdatesRequest,
   ) => stream.Stream<
     DescribeServiceUpdatesResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeServiceUpdatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeServiceUpdatesRequest,
   ) => stream.Stream<
     ServiceUpdate,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeServiceUpdatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3850,6 +3846,12 @@ export const describeServiceUpdates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeSnapshotsError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,
  * or just the snapshots associated with a particular cluster.
@@ -3857,33 +3859,21 @@ export const describeServiceUpdates: API.OperationMethod<
 export const describeSnapshots: API.OperationMethod<
   DescribeSnapshotsRequest,
   DescribeSnapshotsResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | SnapshotNotFoundFault
-  | CommonErrors,
+  DescribeSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
     DescribeSnapshotsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | SnapshotNotFoundFault
-    | CommonErrors,
+    DescribeSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
     Snapshot,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | SnapshotNotFoundFault
-    | CommonErrors,
+    DescribeSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3902,27 +3892,31 @@ export const describeSnapshots: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeSubnetGroupsError =
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
  */
 export const describeSubnetGroups: API.OperationMethod<
   DescribeSubnetGroupsRequest,
   DescribeSubnetGroupsResponse,
-  ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
+  DescribeSubnetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSubnetGroupsRequest,
   ) => stream.Stream<
     DescribeSubnetGroupsResponse,
-    ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
+    DescribeSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSubnetGroupsRequest,
   ) => stream.Stream<
     SubnetGroup,
-    ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
+    DescribeSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3936,27 +3930,31 @@ export const describeSubnetGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeUsersError =
+  | InvalidParameterCombinationException
+  | UserNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of users.
  */
 export const describeUsers: API.OperationMethod<
   DescribeUsersRequest,
   DescribeUsersResponse,
-  InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
+  DescribeUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeUsersRequest,
   ) => stream.Stream<
     DescribeUsersResponse,
-    InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
+    DescribeUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeUsersRequest,
   ) => stream.Stream<
     User,
-    InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
+    DescribeUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3970,13 +3968,7 @@ export const describeUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating
- * a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
- */
-export const failoverShard: API.OperationMethod<
-  FailoverShardRequest,
-  FailoverShardResponse,
+export type FailoverShardError =
   | APICallRateForCustomerExceededFault
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -3985,7 +3977,15 @@ export const failoverShard: API.OperationMethod<
   | InvalidParameterValueException
   | ShardNotFoundFault
   | TestFailoverNotAvailableFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating
+ * a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
+ */
+export const failoverShard: API.OperationMethod<
+  FailoverShardRequest,
+  FailoverShardResponse,
+  FailoverShardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverShardRequest,
@@ -4001,16 +4001,18 @@ export const failoverShard: API.OperationMethod<
     TestFailoverNotAvailableFault,
   ],
 }));
+export type ListAllowedMultiRegionClusterUpdatesError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | CommonErrors;
 /**
  * Lists the allowed updates for a multi-Region cluster.
  */
 export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
   ListAllowedMultiRegionClusterUpdatesRequest,
   ListAllowedMultiRegionClusterUpdatesResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MultiRegionClusterNotFoundFault
-  | CommonErrors,
+  ListAllowedMultiRegionClusterUpdatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAllowedMultiRegionClusterUpdatesRequest,
@@ -4021,6 +4023,12 @@ export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
     MultiRegionClusterNotFoundFault,
   ],
 }));
+export type ListAllowedNodeTypeUpdatesError =
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Lists all available node types that you can scale to from your cluster's current node type.
  *
@@ -4029,11 +4037,7 @@ export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
 export const listAllowedNodeTypeUpdates: API.OperationMethod<
   ListAllowedNodeTypeUpdatesRequest,
   ListAllowedNodeTypeUpdatesResponse,
-  | ClusterNotFoundFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  ListAllowedNodeTypeUpdatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAllowedNodeTypeUpdatesRequest,
@@ -4045,14 +4049,7 @@ export const listAllowedNodeTypeUpdates: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
-/**
- * Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
- *
- * When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
- */
-export const listTags: API.OperationMethod<
-  ListTagsRequest,
-  ListTagsResponse,
+export type ListTagsError =
   | ACLNotFoundFault
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -4064,7 +4061,16 @@ export const listTags: API.OperationMethod<
   | SnapshotNotFoundFault
   | SubnetGroupNotFoundFault
   | UserNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
+ *
+ * When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
+ */
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
+  ListTagsResponse,
+  ListTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
@@ -4083,12 +4089,7 @@ export const listTags: API.OperationMethod<
     UserNotFoundFault,
   ],
 }));
-/**
- * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
- */
-export const purchaseReservedNodesOffering: API.OperationMethod<
-  PurchaseReservedNodesOfferingRequest,
-  PurchaseReservedNodesOfferingResponse,
+export type PurchaseReservedNodesOfferingError =
   | InvalidParameterCombinationException
   | InvalidParameterValueException
   | ReservedNodeAlreadyExistsFault
@@ -4096,7 +4097,14 @@ export const purchaseReservedNodesOffering: API.OperationMethod<
   | ReservedNodesOfferingNotFoundFault
   | ServiceLinkedRoleNotFoundFault
   | TagQuotaPerResourceExceeded
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
+ */
+export const purchaseReservedNodesOffering: API.OperationMethod<
+  PurchaseReservedNodesOfferingRequest,
+  PurchaseReservedNodesOfferingResponse,
+  PurchaseReservedNodesOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseReservedNodesOfferingRequest,
@@ -4111,18 +4119,20 @@ export const purchaseReservedNodesOffering: API.OperationMethod<
     TagQuotaPerResourceExceeded,
   ],
 }));
+export type ResetParameterGroupError =
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
  */
 export const resetParameterGroup: API.OperationMethod<
   ResetParameterGroupRequest,
   ResetParameterGroupResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  ResetParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetParameterGroupRequest,
@@ -4135,6 +4145,21 @@ export const resetParameterGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
+export type TagResourceError =
+  | ACLNotFoundFault
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | SubnetGroupNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | UserNotFoundFault
+  | CommonErrors;
 /**
  * Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
  *
@@ -4149,20 +4174,7 @@ export const resetParameterGroup: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ACLNotFoundFault
-  | ClusterNotFoundFault
-  | InvalidARNFault
-  | InvalidClusterStateFault
-  | InvalidParameterValueException
-  | MultiRegionClusterNotFoundFault
-  | MultiRegionParameterGroupNotFoundFault
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | SnapshotNotFoundFault
-  | SubnetGroupNotFoundFault
-  | TagQuotaPerResourceExceeded
-  | UserNotFoundFault
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4183,6 +4195,21 @@ export const tagResource: API.OperationMethod<
     UserNotFoundFault,
   ],
 }));
+export type UntagResourceError =
+  | ACLNotFoundFault
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | SubnetGroupNotFoundFault
+  | TagNotFoundFault
+  | UserNotFoundFault
+  | CommonErrors;
 /**
  * Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
  *
@@ -4197,20 +4224,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ACLNotFoundFault
-  | ClusterNotFoundFault
-  | InvalidARNFault
-  | InvalidClusterStateFault
-  | InvalidParameterValueException
-  | MultiRegionClusterNotFoundFault
-  | MultiRegionParameterGroupNotFoundFault
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | SnapshotNotFoundFault
-  | SubnetGroupNotFoundFault
-  | TagNotFoundFault
-  | UserNotFoundFault
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4231,12 +4245,7 @@ export const untagResource: API.OperationMethod<
     UserNotFoundFault,
   ],
 }));
-/**
- * Changes the list of users that belong to the Access Control List.
- */
-export const updateACL: API.OperationMethod<
-  UpdateACLRequest,
-  UpdateACLResponse,
+export type UpdateACLError =
   | ACLNotFoundFault
   | DefaultUserRequired
   | DuplicateUserNameFault
@@ -4244,7 +4253,14 @@ export const updateACL: API.OperationMethod<
   | InvalidParameterCombinationException
   | InvalidParameterValueException
   | UserNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes the list of users that belong to the Access Control List.
+ */
+export const updateACL: API.OperationMethod<
+  UpdateACLRequest,
+  UpdateACLResponse,
+  UpdateACLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateACLRequest,
@@ -4259,12 +4275,7 @@ export const updateACL: API.OperationMethod<
     UserNotFoundFault,
   ],
 }));
-/**
- * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
- */
-export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
-  UpdateClusterResponse,
+export type UpdateClusterError =
   | ACLNotFoundFault
   | ClusterNotFoundFault
   | ClusterQuotaForCustomerExceededFault
@@ -4281,7 +4292,14 @@ export const updateCluster: API.OperationMethod<
   | ParameterGroupNotFoundFault
   | ServiceLinkedRoleNotFoundFault
   | ShardsPerClusterQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
+ */
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
+  UpdateClusterResponse,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -4305,18 +4323,20 @@ export const updateCluster: API.OperationMethod<
     ShardsPerClusterQuotaExceededFault,
   ],
 }));
+export type UpdateMultiRegionClusterError =
+  | InvalidMultiRegionClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Updates the configuration of an existing multi-Region cluster.
  */
 export const updateMultiRegionCluster: API.OperationMethod<
   UpdateMultiRegionClusterRequest,
   UpdateMultiRegionClusterResponse,
-  | InvalidMultiRegionClusterStateFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MultiRegionClusterNotFoundFault
-  | MultiRegionParameterGroupNotFoundFault
-  | CommonErrors,
+  UpdateMultiRegionClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMultiRegionClusterRequest,
@@ -4329,18 +4349,20 @@ export const updateMultiRegionCluster: API.OperationMethod<
     MultiRegionParameterGroupNotFoundFault,
   ],
 }));
+export type UpdateParameterGroupError =
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors;
 /**
  * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
  */
 export const updateParameterGroup: API.OperationMethod<
   UpdateParameterGroupRequest,
   UpdateParameterGroupResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterGroupStateFault
-  | InvalidParameterValueException
-  | ParameterGroupNotFoundFault
-  | ServiceLinkedRoleNotFoundFault
-  | CommonErrors,
+  UpdateParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateParameterGroupRequest,
@@ -4353,19 +4375,21 @@ export const updateParameterGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
   ],
 }));
-/**
- * Updates a subnet group. For more information, see Updating a subnet group
- */
-export const updateSubnetGroup: API.OperationMethod<
-  UpdateSubnetGroupRequest,
-  UpdateSubnetGroupResponse,
+export type UpdateSubnetGroupError =
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupNotFoundFault
   | SubnetInUse
   | SubnetNotAllowedFault
   | SubnetQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a subnet group. For more information, see Updating a subnet group
+ */
+export const updateSubnetGroup: API.OperationMethod<
+  UpdateSubnetGroupRequest,
+  UpdateSubnetGroupResponse,
+  UpdateSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubnetGroupRequest,
@@ -4379,17 +4403,19 @@ export const updateSubnetGroup: API.OperationMethod<
     SubnetQuotaExceededFault,
   ],
 }));
+export type UpdateUserError =
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidUserStateFault
+  | UserNotFoundFault
+  | CommonErrors;
 /**
  * Changes user password(s) and/or access string.
  */
 export const updateUser: API.OperationMethod<
   UpdateUserRequest,
   UpdateUserResponse,
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | InvalidUserStateFault
-  | UserNotFoundFault
-  | CommonErrors,
+  UpdateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,

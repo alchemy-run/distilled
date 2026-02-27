@@ -578,6 +578,17 @@ export class UnsupportedStreamMediaTypeException extends S.TaggedErrorClass<Unsu
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetClipError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidCodecPrivateDataException
+  | InvalidMediaFrameException
+  | MissingCodecPrivateDataException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UnsupportedStreamMediaTypeException
+  | CommonErrors;
 /**
  * Downloads an MP4 file (clip) containing the archived, on-demand media from the
  * specified video stream over the specified time range.
@@ -620,16 +631,7 @@ export class UnsupportedStreamMediaTypeException extends S.TaggedErrorClass<Unsu
 export const getClip: API.OperationMethod<
   GetClipInput,
   GetClipOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidCodecPrivateDataException
-  | InvalidMediaFrameException
-  | MissingCodecPrivateDataException
-  | NoDataRetentionException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | UnsupportedStreamMediaTypeException
-  | CommonErrors,
+  GetClipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClipInput,
@@ -646,6 +648,16 @@ export const getClip: API.OperationMethod<
     UnsupportedStreamMediaTypeException,
   ],
 }));
+export type GetDASHStreamingSessionURLError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidCodecPrivateDataException
+  | MissingCodecPrivateDataException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UnsupportedStreamMediaTypeException
+  | CommonErrors;
 /**
  * Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You
  * can then open the URL in a media player to view the stream contents.
@@ -774,15 +786,7 @@ export const getClip: API.OperationMethod<
 export const getDASHStreamingSessionURL: API.OperationMethod<
   GetDASHStreamingSessionURLInput,
   GetDASHStreamingSessionURLOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidCodecPrivateDataException
-  | MissingCodecPrivateDataException
-  | NoDataRetentionException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | UnsupportedStreamMediaTypeException
-  | CommonErrors,
+  GetDASHStreamingSessionURLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDASHStreamingSessionURLInput,
@@ -798,6 +802,16 @@ export const getDASHStreamingSessionURL: API.OperationMethod<
     UnsupportedStreamMediaTypeException,
   ],
 }));
+export type GetHLSStreamingSessionURLError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidCodecPrivateDataException
+  | MissingCodecPrivateDataException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UnsupportedStreamMediaTypeException
+  | CommonErrors;
 /**
  * Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL
  * in a browser or media player to view the stream contents.
@@ -966,15 +980,7 @@ export const getDASHStreamingSessionURL: API.OperationMethod<
 export const getHLSStreamingSessionURL: API.OperationMethod<
   GetHLSStreamingSessionURLInput,
   GetHLSStreamingSessionURLOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidCodecPrivateDataException
-  | MissingCodecPrivateDataException
-  | NoDataRetentionException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | UnsupportedStreamMediaTypeException
-  | CommonErrors,
+  GetHLSStreamingSessionURLError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHLSStreamingSessionURLInput,
@@ -990,6 +996,13 @@ export const getHLSStreamingSessionURL: API.OperationMethod<
     UnsupportedStreamMediaTypeException,
   ],
 }));
+export type GetImagesError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a list of images corresponding to each timestamp for a given time range,
  * sampling interval, and image format configuration.
@@ -997,36 +1010,21 @@ export const getHLSStreamingSessionURL: API.OperationMethod<
 export const getImages: API.OperationMethod<
   GetImagesInput,
   GetImagesOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NoDataRetentionException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetImagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetImagesInput,
   ) => stream.Stream<
     GetImagesOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NoDataRetentionException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    GetImagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetImagesInput,
   ) => stream.Stream<
     Image,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NoDataRetentionException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    GetImagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1046,6 +1044,12 @@ export const getImages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetMediaForFragmentListError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets media for a list of fragments (specified by fragment number) from the archived
  * data in an Amazon Kinesis video stream.
@@ -1079,11 +1083,7 @@ export const getImages: API.OperationMethod<
 export const getMediaForFragmentList: API.OperationMethod<
   GetMediaForFragmentListInput,
   GetMediaForFragmentListOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMediaForFragmentListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaForFragmentListInput,
@@ -1095,6 +1095,12 @@ export const getMediaForFragmentList: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListFragmentsError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of Fragment objects from the specified stream and
  * timestamp range within the archived data.
@@ -1130,33 +1136,21 @@ export const getMediaForFragmentList: API.OperationMethod<
 export const listFragments: API.OperationMethod<
   ListFragmentsInput,
   ListFragmentsOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListFragmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFragmentsInput,
   ) => stream.Stream<
     ListFragmentsOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListFragmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFragmentsInput,
   ) => stream.Stream<
     Fragment,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListFragmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

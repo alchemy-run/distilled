@@ -1241,12 +1241,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
- */
-export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
-  CreateClusterResponse,
+export type CreateClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1254,7 +1249,14 @@ export const createCluster: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
+ */
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
+  CreateClusterResponse,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -1269,12 +1271,7 @@ export const createCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
- */
-export const createControlPanel: API.OperationMethod<
-  CreateControlPanelRequest,
-  CreateControlPanelResponse,
+export type CreateControlPanelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1282,7 +1279,14 @@ export const createControlPanel: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
+ */
+export const createControlPanel: API.OperationMethod<
+  CreateControlPanelRequest,
+  CreateControlPanelResponse,
+  CreateControlPanelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateControlPanelRequest,
@@ -1297,6 +1301,15 @@ export const createControlPanel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRoutingControlError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new routing control.
  *
@@ -1307,14 +1320,7 @@ export const createControlPanel: API.OperationMethod<
 export const createRoutingControl: API.OperationMethod<
   CreateRoutingControlRequest,
   CreateRoutingControlResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRoutingControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoutingControlRequest,
@@ -1329,6 +1335,10 @@ export const createRoutingControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSafetyRuleError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a safety rule in a control panel. Safety rules let you add safeguards around changing routing control states, and for enabling and disabling routing controls, to help prevent unexpected outcomes.
  *
@@ -1343,26 +1353,28 @@ export const createRoutingControl: API.OperationMethod<
 export const createSafetyRule: API.OperationMethod<
   CreateSafetyRuleRequest,
   CreateSafetyRuleResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  CreateSafetyRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSafetyRuleRequest,
   output: CreateSafetyRuleResponse,
   errors: [InternalServerException, ValidationException],
 }));
-/**
- * Delete a cluster.
- */
-export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
-  DeleteClusterResponse,
+export type DeleteClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a cluster.
+ */
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
+  DeleteClusterResponse,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -1376,19 +1388,21 @@ export const deleteCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a control panel.
- */
-export const deleteControlPanel: API.OperationMethod<
-  DeleteControlPanelRequest,
-  DeleteControlPanelResponse,
+export type DeleteControlPanelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a control panel.
+ */
+export const deleteControlPanel: API.OperationMethod<
+  DeleteControlPanelRequest,
+  DeleteControlPanelResponse,
+  DeleteControlPanelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteControlPanelRequest,
@@ -1402,19 +1416,21 @@ export const deleteControlPanel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a routing control.
- */
-export const deleteRoutingControl: API.OperationMethod<
-  DeleteRoutingControlRequest,
-  DeleteRoutingControlResponse,
+export type DeleteRoutingControlError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a routing control.
+ */
+export const deleteRoutingControl: API.OperationMethod<
+  DeleteRoutingControlRequest,
+  DeleteRoutingControlResponse,
+  DeleteRoutingControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoutingControlRequest,
@@ -1428,6 +1444,11 @@ export const deleteRoutingControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSafetyRuleError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a safety rule.
  * />
@@ -1435,10 +1456,7 @@ export const deleteRoutingControl: API.OperationMethod<
 export const deleteSafetyRule: API.OperationMethod<
   DeleteSafetyRuleRequest,
   DeleteSafetyRuleResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSafetyRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSafetyRuleRequest,
@@ -1449,19 +1467,21 @@ export const deleteSafetyRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
- */
-export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
-  DescribeClusterResponse,
+export type DescribeClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
+ */
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
+  DescribeClusterResponse,
+  DescribeClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
@@ -1475,19 +1495,21 @@ export const describeCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Displays details about a control panel.
- */
-export const describeControlPanel: API.OperationMethod<
-  DescribeControlPanelRequest,
-  DescribeControlPanelResponse,
+export type DescribeControlPanelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Displays details about a control panel.
+ */
+export const describeControlPanel: API.OperationMethod<
+  DescribeControlPanelRequest,
+  DescribeControlPanelResponse,
+  DescribeControlPanelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeControlPanelRequest,
@@ -1501,6 +1523,14 @@ export const describeControlPanel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeRoutingControlError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays details about a routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
  *
@@ -1509,13 +1539,7 @@ export const describeControlPanel: API.OperationMethod<
 export const describeRoutingControl: API.OperationMethod<
   DescribeRoutingControlRequest,
   DescribeRoutingControlResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeRoutingControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRoutingControlRequest,
@@ -1529,62 +1553,66 @@ export const describeRoutingControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSafetyRuleError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a safety rule.
  */
 export const describeSafetyRule: API.OperationMethod<
   DescribeSafetyRuleRequest,
   DescribeSafetyRuleResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeSafetyRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSafetyRuleRequest,
   output: DescribeSafetyRuleResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetResourcePolicyError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Get information about the resource policy for a cluster.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type ListAssociatedRoute53HealthChecksError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
  */
 export const listAssociatedRoute53HealthChecks: API.OperationMethod<
   ListAssociatedRoute53HealthChecksRequest,
   ListAssociatedRoute53HealthChecksResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssociatedRoute53HealthChecksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedRoute53HealthChecksRequest,
   ) => stream.Stream<
     ListAssociatedRoute53HealthChecksResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedRoute53HealthChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedRoute53HealthChecksRequest,
   ) => stream.Stream<
     __stringMax36PatternS,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedRoute53HealthChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1602,42 +1630,34 @@ export const listAssociatedRoute53HealthChecks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListClustersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an array of all the clusters in an account.
  */
 export const listClusters: API.OperationMethod<
   ListClustersRequest,
   ListClustersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ListClustersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
   ) => stream.Stream<
     Cluster,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1657,42 +1677,34 @@ export const listClusters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListControlPanelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an array of control panels in an account or in a cluster.
  */
 export const listControlPanels: API.OperationMethod<
   ListControlPanelsRequest,
   ListControlPanelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListControlPanelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlPanelsRequest,
   ) => stream.Stream<
     ListControlPanelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListControlPanelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListControlPanelsRequest,
   ) => stream.Stream<
     ControlPanel,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListControlPanelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1712,42 +1724,34 @@ export const listControlPanels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRoutingControlsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
  */
 export const listRoutingControls: API.OperationMethod<
   ListRoutingControlsRequest,
   ListRoutingControlsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRoutingControlsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutingControlsRequest,
   ) => stream.Stream<
     ListRoutingControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRoutingControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutingControlsRequest,
   ) => stream.Stream<
     RoutingControl,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRoutingControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1767,42 +1771,34 @@ export const listRoutingControls: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSafetyRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
  */
 export const listSafetyRules: API.OperationMethod<
   ListSafetyRulesRequest,
   ListSafetyRulesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSafetyRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSafetyRulesRequest,
   ) => stream.Stream<
     ListSafetyRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSafetyRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSafetyRulesRequest,
   ) => stream.Stream<
     Rule,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSafetyRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1822,16 +1818,18 @@ export const listSafetyRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1842,16 +1840,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1862,16 +1862,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1882,19 +1884,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing cluster. You can only update the network type of a cluster.
- */
-export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
-  UpdateClusterResponse,
+export type UpdateClusterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing cluster. You can only update the network type of a cluster.
+ */
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
+  UpdateClusterResponse,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -1908,19 +1912,21 @@ export const updateCluster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
- */
-export const updateControlPanel: API.OperationMethod<
-  UpdateControlPanelRequest,
-  UpdateControlPanelResponse,
+export type UpdateControlPanelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
+ */
+export const updateControlPanel: API.OperationMethod<
+  UpdateControlPanelRequest,
+  UpdateControlPanelResponse,
+  UpdateControlPanelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateControlPanelRequest,
@@ -1934,19 +1940,21 @@ export const updateControlPanel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
- */
-export const updateRoutingControl: API.OperationMethod<
-  UpdateRoutingControlRequest,
-  UpdateRoutingControlResponse,
+export type UpdateRoutingControlError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
+ */
+export const updateRoutingControl: API.OperationMethod<
+  UpdateRoutingControlRequest,
+  UpdateRoutingControlResponse,
+  UpdateRoutingControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoutingControlRequest,
@@ -1960,16 +1968,18 @@ export const updateRoutingControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSafetyRuleError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
  */
 export const updateSafetyRule: API.OperationMethod<
   UpdateSafetyRuleRequest,
   UpdateSafetyRuleResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSafetyRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSafetyRuleRequest,

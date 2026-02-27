@@ -6079,19 +6079,29 @@ export class BlockedException extends S.TaggedErrorClass<BlockedException>()(
 ) {}
 
 //# Operations
+export type DeleteAccountSettingError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Disables an account setting for a specified user, role, or the root user for an account.
  */
 export const deleteAccountSetting: API.OperationMethod<
   DeleteAccountSettingRequest,
   DeleteAccountSettingResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  DeleteAccountSettingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountSettingRequest,
   output: DeleteAccountSettingResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type DeregisterTaskDefinitionError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as `INACTIVE`. Existing tasks and services that reference an `INACTIVE` task definition continue to run without disruption. Existing services that reference an `INACTIVE` task definition can still scale up or down by modifying the service's desired count. If you want to delete a task definition revision, you must first deregister the task definition revision.
  *
@@ -6104,13 +6114,18 @@ export const deleteAccountSetting: API.OperationMethod<
 export const deregisterTaskDefinition: API.OperationMethod<
   DeregisterTaskDefinitionRequest,
   DeregisterTaskDefinitionResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  DeregisterTaskDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTaskDefinitionRequest,
   output: DeregisterTaskDefinitionResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type DescribeTaskDefinitionError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes a task definition. You can specify a `family` and `revision` to find information about a specific task definition, or you can simply specify the family to find the latest `ACTIVE` revision in that family.
  *
@@ -6119,13 +6134,17 @@ export const deregisterTaskDefinition: API.OperationMethod<
 export const describeTaskDefinition: API.OperationMethod<
   DescribeTaskDefinitionRequest,
   DescribeTaskDefinitionResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  DescribeTaskDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTaskDefinitionRequest,
   output: DescribeTaskDefinitionResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type DiscoverPollEndpointError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
  *
@@ -6134,40 +6153,39 @@ export const describeTaskDefinition: API.OperationMethod<
 export const discoverPollEndpoint: API.OperationMethod<
   DiscoverPollEndpointRequest,
   DiscoverPollEndpointResponse,
-  ClientException | ServerException | CommonErrors,
+  DiscoverPollEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverPollEndpointRequest,
   output: DiscoverPollEndpointResponse,
   errors: [ClientException, ServerException],
 }));
+export type ListAccountSettingsError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the account settings for a specified principal.
  */
 export const listAccountSettings: API.OperationMethod<
   ListAccountSettingsRequest,
   ListAccountSettingsResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  ListAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountSettingsRequest,
   ) => stream.Stream<
     ListAccountSettingsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListAccountSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountSettingsRequest,
   ) => stream.Stream<
     Setting,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListAccountSettingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6181,39 +6199,33 @@ export const listAccountSettings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListServicesByNamespaceError =
+  | ClientException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * This operation lists all of the services that are associated with a Cloud Map namespace. This list might include services in different clusters. In contrast, `ListServices` can only list services in one cluster at a time. If you need to filter the list of services in a single cluster by various parameters, use `ListServices`. For more information, see Service Connect in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const listServicesByNamespace: API.OperationMethod<
   ListServicesByNamespaceRequest,
   ListServicesByNamespaceResponse,
-  | ClientException
-  | InvalidParameterException
-  | NamespaceNotFoundException
-  | ServerException
-  | CommonErrors,
+  ListServicesByNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicesByNamespaceRequest,
   ) => stream.Stream<
     ListServicesByNamespaceResponse,
-    | ClientException
-    | InvalidParameterException
-    | NamespaceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListServicesByNamespaceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesByNamespaceRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | NamespaceNotFoundException
-    | ServerException
-    | CommonErrors,
+    ListServicesByNamespaceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6232,17 +6244,19 @@ export const listServicesByNamespace: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * List the tags for an Amazon ECS resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -6254,6 +6268,11 @@ export const listTagsForResource: API.OperationMethod<
     ServerException,
   ],
 }));
+export type ListTaskDefinitionFamiliesError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of task definition families that are registered to your account. This list includes task definition families that no longer have any `ACTIVE` task definition revisions.
  *
@@ -6262,27 +6281,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listTaskDefinitionFamilies: API.OperationMethod<
   ListTaskDefinitionFamiliesRequest,
   ListTaskDefinitionFamiliesResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  ListTaskDefinitionFamiliesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTaskDefinitionFamiliesRequest,
   ) => stream.Stream<
     ListTaskDefinitionFamiliesResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListTaskDefinitionFamiliesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTaskDefinitionFamiliesRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListTaskDefinitionFamiliesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6296,6 +6309,11 @@ export const listTaskDefinitionFamilies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutAccountSettingError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Modifies an account setting. Account settings are set on a per-Region basis.
  *
@@ -6304,38 +6322,45 @@ export const listTaskDefinitionFamilies: API.OperationMethod<
 export const putAccountSetting: API.OperationMethod<
   PutAccountSettingRequest,
   PutAccountSettingResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  PutAccountSettingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSettingRequest,
   output: PutAccountSettingResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type PutAccountSettingDefaultError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Modifies an account setting for all users on an account for whom no individual account setting has been specified. Account settings are set on a per-Region basis.
  */
 export const putAccountSettingDefault: API.OperationMethod<
   PutAccountSettingDefaultRequest,
   PutAccountSettingDefaultResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  PutAccountSettingDefaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSettingDefaultRequest,
   output: PutAccountSettingDefaultResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type TagResourceError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -6348,18 +6373,20 @@ export const tagResource: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UntagResourceError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -6372,12 +6399,7 @@ export const untagResource: API.OperationMethod<
     ServerException,
   ],
 }));
-/**
- * Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined `FARGATE` and `FARGATE_SPOT` capacity providers.
- */
-export const createCapacityProvider: API.OperationMethod<
-  CreateCapacityProviderRequest,
-  CreateCapacityProviderResponse,
+export type CreateCapacityProviderError =
   | ClientException
   | ClusterNotFoundException
   | InvalidParameterException
@@ -6385,7 +6407,14 @@ export const createCapacityProvider: API.OperationMethod<
   | ServerException
   | UnsupportedFeatureException
   | UpdateInProgressException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined `FARGATE` and `FARGATE_SPOT` capacity providers.
+ */
+export const createCapacityProvider: API.OperationMethod<
+  CreateCapacityProviderRequest,
+  CreateCapacityProviderResponse,
+  CreateCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapacityProviderRequest,
@@ -6400,6 +6429,13 @@ export const createCapacityProvider: API.OperationMethod<
     UpdateInProgressException,
   ],
 }));
+export type UpdateCapacityProviderError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Modifies the parameters for a capacity provider.
  *
@@ -6408,12 +6444,7 @@ export const createCapacityProvider: API.OperationMethod<
 export const updateCapacityProvider: API.OperationMethod<
   UpdateCapacityProviderRequest,
   UpdateCapacityProviderResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  UpdateCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapacityProviderRequest,
@@ -6426,6 +6457,13 @@ export const updateCapacityProvider: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DeleteCapacityProviderError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Deletes the specified capacity provider.
  *
@@ -6436,12 +6474,7 @@ export const updateCapacityProvider: API.OperationMethod<
 export const deleteCapacityProvider: API.OperationMethod<
   DeleteCapacityProviderRequest,
   DeleteCapacityProviderResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  DeleteCapacityProviderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCapacityProviderRequest,
@@ -6454,18 +6487,20 @@ export const deleteCapacityProvider: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DescribeCapacityProvidersError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Describes one or more of your capacity providers.
  */
 export const describeCapacityProviders: API.OperationMethod<
   DescribeCapacityProvidersRequest,
   DescribeCapacityProvidersResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  DescribeCapacityProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCapacityProvidersRequest,
@@ -6478,18 +6513,20 @@ export const describeCapacityProviders: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type UpdateClusterError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates the cluster.
  */
 export const updateCluster: API.OperationMethod<
   UpdateClusterRequest,
   UpdateClusterResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | NamespaceNotFoundException
-  | ServerException
-  | CommonErrors,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -6502,14 +6539,7 @@ export const updateCluster: API.OperationMethod<
     ServerException,
   ],
 }));
-/**
- * Deletes the specified cluster. The cluster transitions to the `INACTIVE` state. Clusters with an `INACTIVE` status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on `INACTIVE` clusters persisting.
- *
- * You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
- */
-export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
-  DeleteClusterResponse,
+export type DeleteClusterError =
   | ClientException
   | ClusterContainsCapacityProviderException
   | ClusterContainsContainerInstancesException
@@ -6519,7 +6549,16 @@ export const deleteCluster: API.OperationMethod<
   | InvalidParameterException
   | ServerException
   | UpdateInProgressException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified cluster. The cluster transitions to the `INACTIVE` state. Clusters with an `INACTIVE` status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on `INACTIVE` clusters persisting.
+ *
+ * You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
+ */
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
+  DeleteClusterResponse,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -6536,6 +6575,14 @@ export const deleteCluster: API.OperationMethod<
     UpdateInProgressException,
   ],
 }));
+export type PutClusterCapacityProvidersError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ServerException
+  | UpdateInProgressException
+  | CommonErrors;
 /**
  * Modifies the available capacity providers and the default capacity provider strategy for a cluster.
  *
@@ -6548,13 +6595,7 @@ export const deleteCluster: API.OperationMethod<
 export const putClusterCapacityProviders: API.OperationMethod<
   PutClusterCapacityProvidersRequest,
   PutClusterCapacityProvidersResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ServerException
-  | UpdateInProgressException
-  | CommonErrors,
+  PutClusterCapacityProvidersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutClusterCapacityProvidersRequest,
@@ -6568,17 +6609,19 @@ export const putClusterCapacityProviders: API.OperationMethod<
     UpdateInProgressException,
   ],
 }));
+export type UpdateClusterSettingsError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Modifies the settings to use for a cluster.
  */
 export const updateClusterSettings: API.OperationMethod<
   UpdateClusterSettingsRequest,
   UpdateClusterSettingsResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  UpdateClusterSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterSettingsRequest,
@@ -6590,6 +6633,12 @@ export const updateClusterSettings: API.OperationMethod<
     ServerException,
   ],
 }));
+export type CreateClusterError =
+  | ClientException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates a new Amazon ECS cluster. By default, your account receives a `default` cluster when you launch your first container instance. However, you can create your own cluster with a unique name.
  *
@@ -6598,11 +6647,7 @@ export const updateClusterSettings: API.OperationMethod<
 export const createCluster: API.OperationMethod<
   CreateClusterRequest,
   CreateClusterResponse,
-  | ClientException
-  | InvalidParameterException
-  | NamespaceNotFoundException
-  | ServerException
-  | CommonErrors,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -6614,6 +6659,12 @@ export const createCluster: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeregisterContainerInstanceError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Deregisters an Amazon ECS container instance from the specified cluster. This instance is no longer available to run tasks.
  *
@@ -6626,11 +6677,7 @@ export const createCluster: API.OperationMethod<
 export const deregisterContainerInstance: API.OperationMethod<
   DeregisterContainerInstanceRequest,
   DeregisterContainerInstanceResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  DeregisterContainerInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterContainerInstanceRequest,
@@ -6642,6 +6689,11 @@ export const deregisterContainerInstance: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeClustersError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes one or more of your clusters.
  *
@@ -6650,13 +6702,21 @@ export const deregisterContainerInstance: API.OperationMethod<
 export const describeClusters: API.OperationMethod<
   DescribeClustersRequest,
   DescribeClustersResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  DescribeClustersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClustersRequest,
   output: DescribeClustersResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type ExecuteCommandError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | TargetNotConnectedException
+  | CommonErrors;
 /**
  * Runs a command remotely on a container within a task.
  *
@@ -6667,13 +6727,7 @@ export const describeClusters: API.OperationMethod<
 export const executeCommand: API.OperationMethod<
   ExecuteCommandRequest,
   ExecuteCommandResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | TargetNotConnectedException
-  | CommonErrors,
+  ExecuteCommandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteCommandRequest,
@@ -6687,27 +6741,31 @@ export const executeCommand: API.OperationMethod<
     TargetNotConnectedException,
   ],
 }));
+export type ListAttributesError =
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | CommonErrors;
 /**
  * Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, `ListAttributes` returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value. You can do this, for example, to see which container instances in a cluster are running a Linux AMI (`ecs.os-type=linux`).
  */
 export const listAttributes: API.OperationMethod<
   ListAttributesRequest,
   ListAttributesResponse,
-  ClusterNotFoundException | InvalidParameterException | CommonErrors,
+  ListAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAttributesRequest,
   ) => stream.Stream<
     ListAttributesResponse,
-    ClusterNotFoundException | InvalidParameterException | CommonErrors,
+    ListAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttributesRequest,
   ) => stream.Stream<
     Attribute,
-    ClusterNotFoundException | InvalidParameterException | CommonErrors,
+    ListAttributesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6721,33 +6779,32 @@ export const listAttributes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListClustersError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of existing clusters.
  */
 export const listClusters: API.OperationMethod<
   ListClustersRequest,
   ListClustersResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ListClustersResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6761,39 +6818,33 @@ export const listClusters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListContainerInstancesError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of container instances in a specified cluster. You can filter the results of a `ListContainerInstances` operation with cluster query language statements inside the `filter` parameter. For more information, see Cluster Query Language in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const listContainerInstances: API.OperationMethod<
   ListContainerInstancesRequest,
   ListContainerInstancesResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  ListContainerInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListContainerInstancesRequest,
   ) => stream.Stream<
     ListContainerInstancesResponse,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListContainerInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContainerInstancesRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListContainerInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6812,6 +6863,12 @@ export const listContainerInstances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SubmitAttachmentStateChangesError =
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
  *
@@ -6820,11 +6877,7 @@ export const listContainerInstances: API.OperationMethod<
 export const submitAttachmentStateChanges: API.OperationMethod<
   SubmitAttachmentStateChangesRequest,
   SubmitAttachmentStateChangesResponse,
-  | AccessDeniedException
-  | ClientException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  SubmitAttachmentStateChangesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitAttachmentStateChangesRequest,
@@ -6836,6 +6889,11 @@ export const submitAttachmentStateChanges: API.OperationMethod<
     ServerException,
   ],
 }));
+export type SubmitContainerStateChangeError =
+  | AccessDeniedException
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
  *
@@ -6844,13 +6902,19 @@ export const submitAttachmentStateChanges: API.OperationMethod<
 export const submitContainerStateChange: API.OperationMethod<
   SubmitContainerStateChangeRequest,
   SubmitContainerStateChangeResponse,
-  AccessDeniedException | ClientException | ServerException | CommonErrors,
+  SubmitContainerStateChangeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitContainerStateChangeRequest,
   output: SubmitContainerStateChangeResponse,
   errors: [AccessDeniedException, ClientException, ServerException],
 }));
+export type SubmitTaskStateChangeError =
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
  *
@@ -6859,11 +6923,7 @@ export const submitContainerStateChange: API.OperationMethod<
 export const submitTaskStateChange: API.OperationMethod<
   SubmitTaskStateChangeRequest,
   SubmitTaskStateChangeResponse,
-  | AccessDeniedException
-  | ClientException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  SubmitTaskStateChangeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitTaskStateChangeRequest,
@@ -6875,16 +6935,18 @@ export const submitTaskStateChange: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DeleteAttributesError =
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | TargetNotFoundException
+  | CommonErrors;
 /**
  * Deletes one or more custom attributes from an Amazon ECS resource.
  */
 export const deleteAttributes: API.OperationMethod<
   DeleteAttributesRequest,
   DeleteAttributesResponse,
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | TargetNotFoundException
-  | CommonErrors,
+  DeleteAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttributesRequest,
@@ -6895,17 +6957,19 @@ export const deleteAttributes: API.OperationMethod<
     TargetNotFoundException,
   ],
 }));
+export type DescribeContainerInstancesError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes one or more container instances. Returns metadata about each container instance requested.
  */
 export const describeContainerInstances: API.OperationMethod<
   DescribeContainerInstancesRequest,
   DescribeContainerInstancesResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  DescribeContainerInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContainerInstancesRequest,
@@ -6917,6 +6981,13 @@ export const describeContainerInstances: API.OperationMethod<
     ServerException,
   ],
 }));
+export type ListTasksError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task.
  *
@@ -6925,36 +6996,21 @@ export const describeContainerInstances: API.OperationMethod<
 export const listTasks: API.OperationMethod<
   ListTasksRequest,
   ListTasksResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotFoundException
-  | CommonErrors,
+  ListTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTasksRequest,
   ) => stream.Stream<
     ListTasksResponse,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | ServiceNotFoundException
-    | CommonErrors,
+    ListTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTasksRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | ServiceNotFoundException
-    | CommonErrors,
+    ListTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6974,17 +7030,19 @@ export const listTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutAttributesError =
+  | AttributeLimitExceededException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | TargetNotFoundException
+  | CommonErrors;
 /**
  * Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const putAttributes: API.OperationMethod<
   PutAttributesRequest,
   PutAttributesResponse,
-  | AttributeLimitExceededException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | TargetNotFoundException
-  | CommonErrors,
+  PutAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAttributesRequest,
@@ -6996,6 +7054,11 @@ export const putAttributes: API.OperationMethod<
     TargetNotFoundException,
   ],
 }));
+export type RegisterContainerInstanceError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
  *
@@ -7004,13 +7067,22 @@ export const putAttributes: API.OperationMethod<
 export const registerContainerInstance: API.OperationMethod<
   RegisterContainerInstanceRequest,
   RegisterContainerInstanceResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  RegisterContainerInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterContainerInstanceRequest,
   output: RegisterContainerInstanceResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type UpdateContainerAgentError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | MissingVersionException
+  | NoUpdateAvailableException
+  | ServerException
+  | UpdateInProgressException
+  | CommonErrors;
 /**
  * Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system.
  *
@@ -7023,14 +7095,7 @@ export const registerContainerInstance: API.OperationMethod<
 export const updateContainerAgent: API.OperationMethod<
   UpdateContainerAgentRequest,
   UpdateContainerAgentResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | MissingVersionException
-  | NoUpdateAvailableException
-  | ServerException
-  | UpdateInProgressException
-  | CommonErrors,
+  UpdateContainerAgentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContainerAgentRequest,
@@ -7045,6 +7110,12 @@ export const updateContainerAgent: API.OperationMethod<
     UpdateInProgressException,
   ],
 }));
+export type UpdateContainerInstancesStateError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Modifies the status of an Amazon ECS container instance.
  *
@@ -7069,11 +7140,7 @@ export const updateContainerAgent: API.OperationMethod<
 export const updateContainerInstancesState: API.OperationMethod<
   UpdateContainerInstancesStateRequest,
   UpdateContainerInstancesStateResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  UpdateContainerInstancesStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContainerInstancesStateRequest,
@@ -7085,6 +7152,15 @@ export const updateContainerInstancesState: API.OperationMethod<
     ServerException,
   ],
 }));
+export type DescribeServiceDeploymentsError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Describes one or more of your service deployments.
  *
@@ -7093,14 +7169,7 @@ export const updateContainerInstancesState: API.OperationMethod<
 export const describeServiceDeployments: API.OperationMethod<
   DescribeServiceDeploymentsRequest,
   DescribeServiceDeploymentsResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  DescribeServiceDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceDeploymentsRequest,
@@ -7115,12 +7184,7 @@ export const describeServiceDeployments: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
-/**
- * Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
- */
-export const updateServicePrimaryTaskSet: API.OperationMethod<
-  UpdateServicePrimaryTaskSetRequest,
-  UpdateServicePrimaryTaskSetResponse,
+export type UpdateServicePrimaryTaskSetError =
   | AccessDeniedException
   | ClientException
   | ClusterNotFoundException
@@ -7130,7 +7194,14 @@ export const updateServicePrimaryTaskSet: API.OperationMethod<
   | ServiceNotFoundException
   | TaskSetNotFoundException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
+ */
+export const updateServicePrimaryTaskSet: API.OperationMethod<
+  UpdateServicePrimaryTaskSetRequest,
+  UpdateServicePrimaryTaskSetResponse,
+  UpdateServicePrimaryTaskSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServicePrimaryTaskSetRequest,
@@ -7147,6 +7218,16 @@ export const updateServicePrimaryTaskSet: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type CreateExpressGatewayServiceError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Creates an Express service that simplifies deploying containerized web applications on Amazon ECS with managed Amazon Web Services infrastructure. This operation provisions and configures Application Load Balancers, target groups, security groups, and auto-scaling policies automatically.
  *
@@ -7157,15 +7238,7 @@ export const updateServicePrimaryTaskSet: API.OperationMethod<
 export const createExpressGatewayService: API.OperationMethod<
   CreateExpressGatewayServiceRequest,
   CreateExpressGatewayServiceResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | PlatformTaskDefinitionIncompatibilityException
-  | PlatformUnknownException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  CreateExpressGatewayServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExpressGatewayServiceRequest,
@@ -7181,6 +7254,17 @@ export const createExpressGatewayService: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type CreateServiceError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the `desiredCount`, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, use UpdateService.
  *
@@ -7279,16 +7363,7 @@ export const createExpressGatewayService: API.OperationMethod<
 export const createService: API.OperationMethod<
   CreateServiceRequest,
   CreateServiceResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | NamespaceNotFoundException
-  | PlatformTaskDefinitionIncompatibilityException
-  | PlatformUnknownException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  CreateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
@@ -7305,6 +7380,16 @@ export const createService: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DeleteExpressGatewayServiceError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Deletes an Express service and removes all associated Amazon Web Services resources. This operation stops service tasks, removes the Application Load Balancer, target groups, security groups, auto-scaling policies, and other managed infrastructure components.
  *
@@ -7315,15 +7400,7 @@ export const createService: API.OperationMethod<
 export const deleteExpressGatewayService: API.OperationMethod<
   DeleteExpressGatewayServiceRequest,
   DeleteExpressGatewayServiceResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotActiveException
-  | ServiceNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  DeleteExpressGatewayServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExpressGatewayServiceRequest,
@@ -7339,6 +7416,13 @@ export const deleteExpressGatewayService: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DeleteServiceError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see UpdateService.
  *
@@ -7349,12 +7433,7 @@ export const deleteExpressGatewayService: API.OperationMethod<
 export const deleteService: API.OperationMethod<
   DeleteServiceRequest,
   DeleteServiceResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotFoundException
-  | CommonErrors,
+  DeleteServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
@@ -7367,6 +7446,15 @@ export const deleteService: API.OperationMethod<
     ServiceNotFoundException,
   ],
 }));
+export type DescribeExpressGatewayServiceError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Retrieves detailed information about an Express service, including current status, configuration, managed infrastructure, and service revisions.
  *
@@ -7377,14 +7465,7 @@ export const deleteService: API.OperationMethod<
 export const describeExpressGatewayService: API.OperationMethod<
   DescribeExpressGatewayServiceRequest,
   DescribeExpressGatewayServiceResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  DescribeExpressGatewayServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExpressGatewayServiceRequest,
@@ -7399,17 +7480,19 @@ export const describeExpressGatewayService: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DescribeServicesError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes the specified services running in your cluster.
  */
 export const describeServices: API.OperationMethod<
   DescribeServicesRequest,
   DescribeServicesResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  DescribeServicesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServicesRequest,
@@ -7421,6 +7504,14 @@ export const describeServices: API.OperationMethod<
     ServerException,
   ],
 }));
+export type ListServiceDeploymentsError =
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * This operation lists all the service deployments that meet the specified filter criteria.
  *
@@ -7431,13 +7522,7 @@ export const describeServices: API.OperationMethod<
 export const listServiceDeployments: API.OperationMethod<
   ListServiceDeploymentsRequest,
   ListServiceDeploymentsResponse,
-  | AccessDeniedException
-  | ClientException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  ListServiceDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListServiceDeploymentsRequest,
@@ -7451,39 +7536,33 @@ export const listServiceDeployments: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type ListServicesError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
  */
 export const listServices: API.OperationMethod<
   ListServicesRequest,
   ListServicesResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  ListServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
     ListServicesResponse,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7502,6 +7581,15 @@ export const listServices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StopServiceDeploymentError =
+  | AccessDeniedException
+  | ClientException
+  | ConflictException
+  | InvalidParameterException
+  | ServerException
+  | ServiceDeploymentNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Stops an ongoing service deployment.
  *
@@ -7516,14 +7604,7 @@ export const listServices: API.OperationMethod<
 export const stopServiceDeployment: API.OperationMethod<
   StopServiceDeploymentRequest,
   StopServiceDeploymentResponse,
-  | AccessDeniedException
-  | ClientException
-  | ConflictException
-  | InvalidParameterException
-  | ServerException
-  | ServiceDeploymentNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  StopServiceDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopServiceDeploymentRequest,
@@ -7538,6 +7619,16 @@ export const stopServiceDeployment: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type UpdateExpressGatewayServiceError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Updates an existing Express service configuration. Modifies container settings, resource allocation, auto-scaling configuration, and other service parameters without recreating the service.
  *
@@ -7548,15 +7639,7 @@ export const stopServiceDeployment: API.OperationMethod<
 export const updateExpressGatewayService: API.OperationMethod<
   UpdateExpressGatewayServiceRequest,
   UpdateExpressGatewayServiceResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotActiveException
-  | ServiceNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  UpdateExpressGatewayServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExpressGatewayServiceRequest,
@@ -7572,6 +7655,19 @@ export const updateExpressGatewayService: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type UpdateServiceError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Modifies the parameters of a service.
  *
@@ -7620,18 +7716,7 @@ export const updateExpressGatewayService: API.OperationMethod<
 export const updateService: API.OperationMethod<
   UpdateServiceRequest,
   UpdateServiceResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | NamespaceNotFoundException
-  | PlatformTaskDefinitionIncompatibilityException
-  | PlatformUnknownException
-  | ServerException
-  | ServiceNotActiveException
-  | ServiceNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  UpdateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
@@ -7650,6 +7735,15 @@ export const updateService: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DescribeServiceRevisionsError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Describes one or more service revisions.
  *
@@ -7660,14 +7754,7 @@ export const updateService: API.OperationMethod<
 export const describeServiceRevisions: API.OperationMethod<
   DescribeServiceRevisionsRequest,
   DescribeServiceRevisionsResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | ServiceNotFoundException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  DescribeServiceRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceRevisionsRequest,
@@ -7682,6 +7769,12 @@ export const describeServiceRevisions: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type DeleteTaskDefinitionsError =
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes one or more task definitions.
  *
@@ -7698,11 +7791,7 @@ export const describeServiceRevisions: API.OperationMethod<
 export const deleteTaskDefinitions: API.OperationMethod<
   DeleteTaskDefinitionsRequest,
   DeleteTaskDefinitionsResponse,
-  | AccessDeniedException
-  | ClientException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  DeleteTaskDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaskDefinitionsRequest,
@@ -7714,33 +7803,32 @@ export const deleteTaskDefinitions: API.OperationMethod<
     ServerException,
   ],
 }));
+export type ListTaskDefinitionsError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of task definitions that are registered to your account. You can filter the results by family name with the `familyPrefix` parameter or by status with the `status` parameter.
  */
 export const listTaskDefinitions: API.OperationMethod<
   ListTaskDefinitionsRequest,
   ListTaskDefinitionsResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  ListTaskDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTaskDefinitionsRequest,
   ) => stream.Stream<
     ListTaskDefinitionsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListTaskDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTaskDefinitionsRequest,
   ) => stream.Stream<
     string,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
+    ListTaskDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7754,6 +7842,11 @@ export const listTaskDefinitions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RegisterTaskDefinitionError =
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Registers a new task definition from the supplied `family` and `containerDefinitions`. Optionally, you can add data volumes to your containers with the `volumes` parameter. For more information about task definition parameters and defaults, see Amazon ECS Task Definitions in the *Amazon Elastic Container Service Developer Guide*.
  *
@@ -7764,13 +7857,19 @@ export const listTaskDefinitions: API.OperationMethod<
 export const registerTaskDefinition: API.OperationMethod<
   RegisterTaskDefinitionRequest,
   RegisterTaskDefinitionResponse,
-  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  RegisterTaskDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTaskDefinitionRequest,
   output: RegisterTaskDefinitionResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
 }));
+export type DescribeTasksError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes a specified task or tasks.
  *
@@ -7781,11 +7880,7 @@ export const registerTaskDefinition: API.OperationMethod<
 export const describeTasks: API.OperationMethod<
   DescribeTasksRequest,
   DescribeTasksResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  DescribeTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTasksRequest,
@@ -7797,12 +7892,7 @@ export const describeTasks: API.OperationMethod<
     ServerException,
   ],
 }));
-/**
- * Retrieves the protection status of tasks in an Amazon ECS service.
- */
-export const getTaskProtection: API.OperationMethod<
-  GetTaskProtectionRequest,
-  GetTaskProtectionResponse,
+export type GetTaskProtectionError =
   | AccessDeniedException
   | ClientException
   | ClusterNotFoundException
@@ -7810,7 +7900,14 @@ export const getTaskProtection: API.OperationMethod<
   | ResourceNotFoundException
   | ServerException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the protection status of tasks in an Amazon ECS service.
+ */
+export const getTaskProtection: API.OperationMethod<
+  GetTaskProtectionRequest,
+  GetTaskProtectionResponse,
+  GetTaskProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskProtectionRequest,
@@ -7825,6 +7922,18 @@ export const getTaskProtection: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type RunTaskError =
+  | AccessDeniedException
+  | BlockedException
+  | ClientException
+  | ClusterNotFoundException
+  | ConflictException
+  | InvalidParameterException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Starts a new task using the specified task definition.
  *
@@ -7859,17 +7968,7 @@ export const getTaskProtection: API.OperationMethod<
 export const runTask: API.OperationMethod<
   RunTaskRequest,
   RunTaskResponse,
-  | AccessDeniedException
-  | BlockedException
-  | ClientException
-  | ClusterNotFoundException
-  | ConflictException
-  | InvalidParameterException
-  | PlatformTaskDefinitionIncompatibilityException
-  | PlatformUnknownException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  RunTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunTaskRequest,
@@ -7887,6 +7986,13 @@ export const runTask: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type StartTaskError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Starts a new task from the specified task definition on the specified container instance or instances.
  *
@@ -7901,12 +8007,7 @@ export const runTask: API.OperationMethod<
 export const startTask: API.OperationMethod<
   StartTaskRequest,
   StartTaskResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  StartTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTaskRequest,
@@ -7919,6 +8020,12 @@ export const startTask: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
+export type StopTaskError =
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors;
 /**
  * Stops a running task. Any tags associated with the task will be deleted.
  *
@@ -7931,11 +8038,7 @@ export const startTask: API.OperationMethod<
 export const stopTask: API.OperationMethod<
   StopTaskRequest,
   StopTaskResponse,
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors,
+  StopTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTaskRequest,
@@ -7947,6 +8050,15 @@ export const stopTask: API.OperationMethod<
     ServerException,
   ],
 }));
+export type UpdateTaskProtectionError =
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | UnsupportedFeatureException
+  | CommonErrors;
 /**
  * Updates the protection status of a task. You can set `protectionEnabled` to `true` to protect your task from termination during scale-in events from Service Autoscaling or deployments.
  *
@@ -7963,14 +8075,7 @@ export const stopTask: API.OperationMethod<
 export const updateTaskProtection: API.OperationMethod<
   UpdateTaskProtectionRequest,
   UpdateTaskProtectionResponse,
-  | AccessDeniedException
-  | ClientException
-  | ClusterNotFoundException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServerException
-  | UnsupportedFeatureException
-  | CommonErrors,
+  UpdateTaskProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskProtectionRequest,
@@ -7985,12 +8090,7 @@ export const updateTaskProtection: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
-/**
- * Modifies a task set. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
- */
-export const updateTaskSet: API.OperationMethod<
-  UpdateTaskSetRequest,
-  UpdateTaskSetResponse,
+export type UpdateTaskSetError =
   | AccessDeniedException
   | ClientException
   | ClusterNotFoundException
@@ -8000,7 +8100,14 @@ export const updateTaskSet: API.OperationMethod<
   | ServiceNotFoundException
   | TaskSetNotFoundException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies a task set. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
+ */
+export const updateTaskSet: API.OperationMethod<
+  UpdateTaskSetRequest,
+  UpdateTaskSetResponse,
+  UpdateTaskSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskSetRequest,
@@ -8017,12 +8124,7 @@ export const updateTaskSet: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
-/**
- * Deletes a specified task set within a service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the *Amazon Elastic Container Service Developer Guide*.
- */
-export const deleteTaskSet: API.OperationMethod<
-  DeleteTaskSetRequest,
-  DeleteTaskSetResponse,
+export type DeleteTaskSetError =
   | AccessDeniedException
   | ClientException
   | ClusterNotFoundException
@@ -8032,7 +8134,14 @@ export const deleteTaskSet: API.OperationMethod<
   | ServiceNotFoundException
   | TaskSetNotFoundException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a specified task set within a service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the *Amazon Elastic Container Service Developer Guide*.
+ */
+export const deleteTaskSet: API.OperationMethod<
+  DeleteTaskSetRequest,
+  DeleteTaskSetResponse,
+  DeleteTaskSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaskSetRequest,
@@ -8049,16 +8158,7 @@ export const deleteTaskSet: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
-/**
- * Create a task set in the specified cluster and service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the *Amazon Elastic Container Service Developer Guide*.
- *
- * On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.
- *
- * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the *Amazon Elastic Container Service Developer Guide*.
- */
-export const createTaskSet: API.OperationMethod<
-  CreateTaskSetRequest,
-  CreateTaskSetResponse,
+export type CreateTaskSetError =
   | AccessDeniedException
   | ClientException
   | ClusterNotFoundException
@@ -8070,7 +8170,18 @@ export const createTaskSet: API.OperationMethod<
   | ServiceNotActiveException
   | ServiceNotFoundException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a task set in the specified cluster and service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the *Amazon Elastic Container Service Developer Guide*.
+ *
+ * On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.
+ *
+ * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the *Amazon Elastic Container Service Developer Guide*.
+ */
+export const createTaskSet: API.OperationMethod<
+  CreateTaskSetRequest,
+  CreateTaskSetResponse,
+  CreateTaskSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskSetRequest,
@@ -8089,12 +8200,7 @@ export const createTaskSet: API.OperationMethod<
     UnsupportedFeatureException,
   ],
 }));
-/**
- * Describes the task sets in the specified cluster and service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
- */
-export const describeTaskSets: API.OperationMethod<
-  DescribeTaskSetsRequest,
-  DescribeTaskSetsResponse,
+export type DescribeTaskSetsError =
   | AccessDeniedException
   | ClientException
   | ClusterNotFoundException
@@ -8103,7 +8209,14 @@ export const describeTaskSets: API.OperationMethod<
   | ServiceNotActiveException
   | ServiceNotFoundException
   | UnsupportedFeatureException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describes the task sets in the specified cluster and service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
+ */
+export const describeTaskSets: API.OperationMethod<
+  DescribeTaskSetsRequest,
+  DescribeTaskSetsResponse,
+  DescribeTaskSetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTaskSetsRequest,

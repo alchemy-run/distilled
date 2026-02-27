@@ -96,6 +96,8 @@ class SdkFile extends ServiceMap.Service<
     // Map of structure names to their "soft required" members
     // (members with @clientOptional + @required that should appear required in output types)
     softRequiredMembers: Map<string, { memberName: string; tsType: string }[]>;
+    // Set of operation error type names (e.g., "CreateFleetError") for conflict detection
+    operationErrorTypeNames: Set<string>;
   }
 >()("SdkFile") {}
 
@@ -559,9 +561,21 @@ const shapeToTsType = (
         // IntEnums generate S.Literal schemas with type aliases
         return name;
 
-      case "structure":
-        // Use the generated interface name
+      case "structure": {
+        // Use the generated interface name, applying rename if it conflicts with an operation error type
+        const isErrorShape = sdkFile.errorShapeIds.has(shapeId);
+        const isOpInput = sdkFile.operationInputTraits.has(name);
+        const isOpOutput = sdkFile.operationOutputTraits.has(name);
+        if (
+          !isErrorShape &&
+          !isOpInput &&
+          !isOpOutput &&
+          sdkFile.operationErrorTypeNames.has(name)
+        ) {
+          return `${name}_`;
+        }
         return name;
+      }
 
       case "list": {
         // For lists, get the element type and return an array type
@@ -1015,6 +1029,52 @@ function collectSensitiveShapeIds(model: SmithyModel): Set<string> {
   return sensitiveShapeIds;
 }
 
+function collectOperationErrorTypeNames(model: SmithyModel): Set<string> {
+  const errorTypeNames = new Set<string>();
+  const serviceShape = Object.values(model.shapes).find(
+    (s) => s.type === "service",
+  ) as ServiceShape | undefined;
+  if (!serviceShape) return errorTypeNames;
+
+  const allOperationIds: string[] = [];
+
+  for (const op of serviceShape.operations ?? []) {
+    allOperationIds.push(op.target);
+  }
+
+  const collectResourceOperations = (resourceTarget: string) => {
+    const resourceShape = model.shapes[resourceTarget];
+    if (!resourceShape || resourceShape.type !== "resource") return;
+    const resource =
+      resourceShape as typeof import("./model-schema.ts").ResourceShape.Type;
+    if (resource.create) allOperationIds.push(resource.create.target);
+    if (resource.put) allOperationIds.push(resource.put.target);
+    if (resource.read) allOperationIds.push(resource.read.target);
+    if (resource.update) allOperationIds.push(resource.update.target);
+    if (resource.delete) allOperationIds.push(resource.delete.target);
+    if (resource.list) allOperationIds.push(resource.list.target);
+    for (const op of resource.operations ?? []) {
+      allOperationIds.push(op.target);
+    }
+    for (const op of resource.collectionOperations ?? []) {
+      allOperationIds.push(op.target);
+    }
+    for (const nestedResource of resource.resources ?? []) {
+      collectResourceOperations(nestedResource.target);
+    }
+  };
+
+  for (const resource of serviceShape.resources ?? []) {
+    collectResourceOperations(resource.target);
+  }
+
+  for (const operationId of new Set(allOperationIds)) {
+    errorTypeNames.add(`${formatName(operationId)}Error`);
+  }
+
+  return errorTypeNames;
+}
+
 // Collect members that have both @clientOptional and @required traits
 // These are "soft required" - optional for inputs but should appear required in output types
 function collectSoftRequiredMembers(
@@ -1224,8 +1284,9 @@ const convertShapeToSchema: (
       ModelService | SdkFile
     >,
     deps: string[],
+    nameOverride?: string,
   ) {
-    const tsName = getSchemaName();
+    const tsName = nameOverride ?? getSchemaName();
     yield* Deferred.succeed(deferredValue, tsName);
     const definition = yield* definitionEffect;
 
@@ -1600,6 +1661,16 @@ const convertShapeToSchema: (
                 sdkFile.operationOutputTraits.get(currentSchemaName);
               const isOperationOutput = opOutputTraits !== undefined;
 
+              // Rename supporting structs that conflict with operation error type aliases
+              const hasErrorTypeConflict =
+                !isErrorShape &&
+                !isOperationInput &&
+                !isOperationOutput &&
+                sdkFile.operationErrorTypeNames.has(currentSchemaName);
+              const exportedName = hasErrorTypeConflict
+                ? `${currentSchemaName}_`
+                : currentSchemaName;
+
               const membersEffect = Effect.all(
                 Object.entries(s.members).map(([memberName, member]) =>
                   Effect.gen(function* () {
@@ -1932,13 +2003,14 @@ const convertShapeToSchema: (
 
                     // Generate interface + suspend(struct) pattern
                     // Trait annotations inside suspend, identifier outside
-                    const interfaceDef = `export interface ${currentSchemaName} { ${interfaceFields} }`;
-                    const schemaDef = `export const ${currentSchemaName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${currentSchemaName}>;`;
+                    const interfaceDef = `export interface ${exportedName} { ${interfaceFields} }`;
+                    const schemaDef = `export const ${exportedName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${exportedName}>;`;
 
                     return `${interfaceDef}\n${schemaDef}`;
                   }),
                 ),
                 memberTargets,
+                hasErrorTypeConflict ? exportedName : undefined,
               );
             },
           ),
@@ -2694,12 +2766,14 @@ const generateClient = Effect.fn(function* (
           ? `{ input: ${input}, output: ${output}, errors: ${operationErrors}, pagination: ${JSON.stringify(paginatedTrait)} as const }`
           : `{ input: ${input}, output: ${output}, errors: ${operationErrors} }`;
 
-        // Build the error union type for the function signature
+        // Build the error type alias for the function signature
         // Errors include operation-specific errors plus common API errors
-        const errorUnion =
+        const errorTypeName = `${formatName(operationShapeName)}Error`;
+        const allErrorNames =
           errorNames.length > 0
-            ? `${errorNames.join(" | ")} | ${sdkFile.commonErrorsRef}`
-            : `${sdkFile.commonErrorsRef}`;
+            ? [...errorNames, sdkFile.commonErrorsRef]
+            : [sdkFile.commonErrorsRef];
+        const errorTypeAlias = `export type ${errorTypeName} =\n  | ${allErrorNames.join("\n  | ")};\n`;
 
         // Explicit type annotations are required to avoid TypeScript resolving internal imports
         // in emitted .d.ts files, which would break type portability for consumers
@@ -2834,18 +2908,19 @@ const generateClient = Effect.fn(function* (
               }
             }
           }
-          typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorUnion}, ${depsType}> & {
-  pages: (input: ${input}) => stream.Stream<${output}, ${errorUnion}, ${depsType}>;
-  items: (input: ${input}) => stream.Stream<${itemType}, ${errorUnion}, ${depsType}>;
+          typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}> & {
+  pages: (input: ${input}) => stream.Stream<${output}, ${errorTypeName}, ${depsType}>;
+  items: (input: ${input}) => stream.Stream<${itemType}, ${errorTypeName}, ${depsType}>;
 }`;
         } else {
-          typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorUnion}, ${depsType}>`;
+          typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}>`;
         }
 
         yield* sdkFile.operations.pipe(
           Ref.update(
             (c) =>
               c +
+              errorTypeAlias +
               operationComment +
               `export const ${exportedName}: ${typeAnnotation} = /*@__PURE__*/ /*#__PURE__*/ ${apiFn}(() => (${metaObject}));\n`,
           ),
@@ -3015,6 +3090,7 @@ const generateClient = Effect.fn(function* (
   const operationOutputTraits = collectOperationOutputTraits(model);
   const inputEventStreamShapeIds = collectInputEventStreamShapeIds(model);
   const sensitiveShapeIds = collectSensitiveShapeIds(model);
+  const operationErrorTypeNames = collectOperationErrorTypeNames(model);
 
   // Extract service-level information
   const serviceShape = Object.values(model.shapes).find(
@@ -3092,6 +3168,7 @@ const generateClient = Effect.fn(function* (
       inputEventStreamShapeIds,
       sensitiveShapeIds,
       softRequiredMembers: collectSoftRequiredMembers(model),
+      operationErrorTypeNames,
     }),
     Effect.provideService(ModelService, model),
   );

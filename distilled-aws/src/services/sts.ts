@@ -807,6 +807,12 @@ export class SessionDurationEscalationException extends S.TaggedErrorClass<Sessi
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type AssumeRoleError =
+  | ExpiredTokenException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | CommonErrors;
 /**
  * Returns a set of temporary security credentials that you can use to access Amazon Web Services
  * resources. These temporary credentials consist of an access key ID, a secret access key,
@@ -905,11 +911,7 @@ export class SessionDurationEscalationException extends S.TaggedErrorClass<Sessi
 export const assumeRole: API.OperationMethod<
   AssumeRoleRequest,
   AssumeRoleResponse,
-  | ExpiredTokenException
-  | MalformedPolicyDocumentException
-  | PackedPolicyTooLargeException
-  | RegionDisabledException
-  | CommonErrors,
+  AssumeRoleError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRoleRequest,
@@ -921,6 +923,14 @@ export const assumeRole: API.OperationMethod<
     RegionDisabledException,
   ],
 }));
+export type AssumeRoleWithSAMLError =
+  | ExpiredTokenException
+  | IDPRejectedClaimException
+  | InvalidIdentityTokenException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | CommonErrors;
 /**
  * Returns a set of temporary security credentials for users who have been authenticated
  * via a SAML authentication response. This operation provides a mechanism for tying an
@@ -1050,13 +1060,7 @@ export const assumeRole: API.OperationMethod<
 export const assumeRoleWithSAML: API.OperationMethod<
   AssumeRoleWithSAMLRequest,
   AssumeRoleWithSAMLResponse,
-  | ExpiredTokenException
-  | IDPRejectedClaimException
-  | InvalidIdentityTokenException
-  | MalformedPolicyDocumentException
-  | PackedPolicyTooLargeException
-  | RegionDisabledException
-  | CommonErrors,
+  AssumeRoleWithSAMLError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRoleWithSAMLRequest,
@@ -1070,6 +1074,15 @@ export const assumeRoleWithSAML: API.OperationMethod<
     RegionDisabledException,
   ],
 }));
+export type AssumeRoleWithWebIdentityError =
+  | ExpiredTokenException
+  | IDPCommunicationErrorException
+  | IDPRejectedClaimException
+  | InvalidIdentityTokenException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | CommonErrors;
 /**
  * Returns a set of temporary security credentials for users who have been authenticated in
  * a mobile or web application with a web identity provider. Example providers include the
@@ -1193,14 +1206,7 @@ export const assumeRoleWithSAML: API.OperationMethod<
 export const assumeRoleWithWebIdentity: API.OperationMethod<
   AssumeRoleWithWebIdentityRequest,
   AssumeRoleWithWebIdentityResponse,
-  | ExpiredTokenException
-  | IDPCommunicationErrorException
-  | IDPRejectedClaimException
-  | InvalidIdentityTokenException
-  | MalformedPolicyDocumentException
-  | PackedPolicyTooLargeException
-  | RegionDisabledException
-  | CommonErrors,
+  AssumeRoleWithWebIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRoleWithWebIdentityRequest,
@@ -1215,6 +1221,10 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
     RegionDisabledException,
   ],
 }));
+export type AssumeRootError =
+  | ExpiredTokenException
+  | RegionDisabledException
+  | CommonErrors;
 /**
  * Returns a set of short term credentials you can use to perform privileged tasks on a
  * member account in your organization. You must use credentials from an Organizations management
@@ -1241,13 +1251,16 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
 export const assumeRoot: API.OperationMethod<
   AssumeRootRequest,
   AssumeRootResponse,
-  ExpiredTokenException | RegionDisabledException | CommonErrors,
+  AssumeRootError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRootRequest,
   output: AssumeRootResponse,
   errors: [ExpiredTokenException, RegionDisabledException],
 }));
+export type DecodeAuthorizationMessageError =
+  | InvalidAuthorizationMessageException
+  | CommonErrors;
 /**
  * Decodes additional information about the authorization status of a request from an
  * encoded message returned in response to an Amazon Web Services request.
@@ -1284,13 +1297,14 @@ export const assumeRoot: API.OperationMethod<
 export const decodeAuthorizationMessage: API.OperationMethod<
   DecodeAuthorizationMessageRequest,
   DecodeAuthorizationMessageResponse,
-  InvalidAuthorizationMessageException | CommonErrors,
+  DecodeAuthorizationMessageError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecodeAuthorizationMessageRequest,
   output: DecodeAuthorizationMessageResponse,
   errors: [InvalidAuthorizationMessageException],
 }));
+export type GetAccessKeyInfoError = CommonErrors;
 /**
  * Returns the account identifier for the specified access key ID.
  *
@@ -1316,13 +1330,14 @@ export const decodeAuthorizationMessage: API.OperationMethod<
 export const getAccessKeyInfo: API.OperationMethod<
   GetAccessKeyInfoRequest,
   GetAccessKeyInfoResponse,
-  CommonErrors,
+  GetAccessKeyInfoError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessKeyInfoRequest,
   output: GetAccessKeyInfoResponse,
   errors: [],
 }));
+export type GetCallerIdentityError = CommonErrors;
 /**
  * Returns details about the IAM user or role whose credentials are used to
  * call the operation.
@@ -1337,13 +1352,18 @@ export const getAccessKeyInfo: API.OperationMethod<
 export const getCallerIdentity: API.OperationMethod<
   GetCallerIdentityRequest,
   GetCallerIdentityResponse,
-  CommonErrors,
+  GetCallerIdentityError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCallerIdentityRequest,
   output: GetCallerIdentityResponse,
   errors: [],
 }));
+export type GetDelegatedAccessTokenError =
+  | ExpiredTradeInTokenException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | CommonErrors;
 /**
  * Exchanges a trade-in token for temporary Amazon Web Services credentials with the permissions
  * associated with the assumed principal. This operation allows you to obtain credentials for
@@ -1353,10 +1373,7 @@ export const getCallerIdentity: API.OperationMethod<
 export const getDelegatedAccessToken: API.OperationMethod<
   GetDelegatedAccessTokenRequest,
   GetDelegatedAccessTokenResponse,
-  | ExpiredTradeInTokenException
-  | PackedPolicyTooLargeException
-  | RegionDisabledException
-  | CommonErrors,
+  GetDelegatedAccessTokenError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDelegatedAccessTokenRequest,
@@ -1367,6 +1384,11 @@ export const getDelegatedAccessToken: API.OperationMethod<
     RegionDisabledException,
   ],
 }));
+export type GetFederationTokenError =
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | CommonErrors;
 /**
  * Returns a set of temporary security credentials (consisting of an access key ID, a
  * secret access key, and a security token) for a user. A typical use is in a proxy
@@ -1463,10 +1485,7 @@ export const getDelegatedAccessToken: API.OperationMethod<
 export const getFederationToken: API.OperationMethod<
   GetFederationTokenRequest,
   GetFederationTokenResponse,
-  | MalformedPolicyDocumentException
-  | PackedPolicyTooLargeException
-  | RegionDisabledException
-  | CommonErrors,
+  GetFederationTokenError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFederationTokenRequest,
@@ -1477,6 +1496,7 @@ export const getFederationToken: API.OperationMethod<
     RegionDisabledException,
   ],
 }));
+export type GetSessionTokenError = RegionDisabledException | CommonErrors;
 /**
  * Returns a set of temporary credentials for an Amazon Web Services account or IAM user.
  * The credentials consist of an access key ID, a secret access key, and a security token.
@@ -1537,13 +1557,18 @@ export const getFederationToken: API.OperationMethod<
 export const getSessionToken: API.OperationMethod<
   GetSessionTokenRequest,
   GetSessionTokenResponse,
-  RegionDisabledException | CommonErrors,
+  GetSessionTokenError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionTokenRequest,
   output: GetSessionTokenResponse,
   errors: [RegionDisabledException],
 }));
+export type GetWebIdentityTokenError =
+  | JWTPayloadSizeExceededException
+  | OutboundWebIdentityFederationDisabledException
+  | SessionDurationEscalationException
+  | CommonErrors;
 /**
  * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.
  * The returned JWT can be used to authenticate with external services that support OIDC discovery.
@@ -1552,10 +1577,7 @@ export const getSessionToken: API.OperationMethod<
 export const getWebIdentityToken: API.OperationMethod<
   GetWebIdentityTokenRequest,
   GetWebIdentityTokenResponse,
-  | JWTPayloadSizeExceededException
-  | OutboundWebIdentityFederationDisabledException
-  | SessionDurationEscalationException
-  | CommonErrors,
+  GetWebIdentityTokenError,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebIdentityTokenRequest,

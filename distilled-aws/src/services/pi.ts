@@ -983,6 +983,11 @@ export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedExce
 ) {}
 
 //# Operations
+export type CreatePerformanceAnalysisReportError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Creates a new performance analysis report for a specific time period for the
  * DB instance.
@@ -990,10 +995,7 @@ export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedExce
 export const createPerformanceAnalysisReport: API.OperationMethod<
   CreatePerformanceAnalysisReportRequest,
   CreatePerformanceAnalysisReportResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  CreatePerformanceAnalysisReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePerformanceAnalysisReportRequest,
@@ -1004,16 +1006,18 @@ export const createPerformanceAnalysisReport: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type DeletePerformanceAnalysisReportError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Deletes a performance analysis report.
  */
 export const deletePerformanceAnalysisReport: API.OperationMethod<
   DeletePerformanceAnalysisReportRequest,
   DeletePerformanceAnalysisReportResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  DeletePerformanceAnalysisReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePerformanceAnalysisReportRequest,
@@ -1024,6 +1028,11 @@ export const deletePerformanceAnalysisReport: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type DescribeDimensionKeysError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * For a specific time period, retrieve the top `N` dimension keys for a metric.
  *
@@ -1033,30 +1042,21 @@ export const deletePerformanceAnalysisReport: API.OperationMethod<
 export const describeDimensionKeys: API.OperationMethod<
   DescribeDimensionKeysRequest,
   DescribeDimensionKeysResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  DescribeDimensionKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDimensionKeysRequest,
   ) => stream.Stream<
     DescribeDimensionKeysResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    DescribeDimensionKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDimensionKeysRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    DescribeDimensionKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1073,6 +1073,11 @@ export const describeDimensionKeys: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetDimensionKeyDetailsError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID,
  * `GetDimensionKeyDetails` retrieves the full text of the dimension `db.sql.statement` associated with this ID.
@@ -1082,10 +1087,7 @@ export const describeDimensionKeys: API.OperationMethod<
 export const getDimensionKeyDetails: API.OperationMethod<
   GetDimensionKeyDetailsRequest,
   GetDimensionKeyDetailsResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  GetDimensionKeyDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDimensionKeyDetailsRequest,
@@ -1096,6 +1098,11 @@ export const getDimensionKeyDetails: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type GetPerformanceAnalysisReportError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Retrieves the report including the report ID, status, time details, and the insights
  * with recommendations. The report status can be `RUNNING`,
@@ -1105,10 +1112,7 @@ export const getDimensionKeyDetails: API.OperationMethod<
 export const getPerformanceAnalysisReport: API.OperationMethod<
   GetPerformanceAnalysisReportRequest,
   GetPerformanceAnalysisReportResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  GetPerformanceAnalysisReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPerformanceAnalysisReportRequest,
@@ -1119,6 +1123,11 @@ export const getPerformanceAnalysisReport: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type GetResourceMetadataError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Retrieve the metadata for different features. For example, the metadata might indicate
  * that a feature is turned on or off on a specific DB instance.
@@ -1126,10 +1135,7 @@ export const getPerformanceAnalysisReport: API.OperationMethod<
 export const getResourceMetadata: API.OperationMethod<
   GetResourceMetadataRequest,
   GetResourceMetadataResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  GetResourceMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceMetadataRequest,
@@ -1140,6 +1146,11 @@ export const getResourceMetadata: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type GetResourceMetricsError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide
  * specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for
@@ -1151,30 +1162,21 @@ export const getResourceMetadata: API.OperationMethod<
 export const getResourceMetrics: API.OperationMethod<
   GetResourceMetricsRequest,
   GetResourceMetricsResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  GetResourceMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetResourceMetricsRequest,
   ) => stream.Stream<
     GetResourceMetricsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    GetResourceMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetResourceMetricsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    GetResourceMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1191,36 +1193,32 @@ export const getResourceMetrics: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAvailableResourceDimensionsError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
  */
 export const listAvailableResourceDimensions: API.OperationMethod<
   ListAvailableResourceDimensionsRequest,
   ListAvailableResourceDimensionsResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  ListAvailableResourceDimensionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAvailableResourceDimensionsRequest,
   ) => stream.Stream<
     ListAvailableResourceDimensionsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListAvailableResourceDimensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAvailableResourceDimensionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListAvailableResourceDimensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1237,36 +1235,32 @@ export const listAvailableResourceDimensions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAvailableResourceMetricsError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Retrieve metrics of the specified types that can be queried for a specified DB instance.
  */
 export const listAvailableResourceMetrics: API.OperationMethod<
   ListAvailableResourceMetricsRequest,
   ListAvailableResourceMetricsResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  ListAvailableResourceMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAvailableResourceMetricsRequest,
   ) => stream.Stream<
     ListAvailableResourceMetricsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListAvailableResourceMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAvailableResourceMetricsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListAvailableResourceMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1283,36 +1277,32 @@ export const listAvailableResourceMetrics: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPerformanceAnalysisReportsError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
  */
 export const listPerformanceAnalysisReports: API.OperationMethod<
   ListPerformanceAnalysisReportsRequest,
   ListPerformanceAnalysisReportsResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  ListPerformanceAnalysisReportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPerformanceAnalysisReportsRequest,
   ) => stream.Stream<
     ListPerformanceAnalysisReportsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListPerformanceAnalysisReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPerformanceAnalysisReportsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListPerformanceAnalysisReportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1329,16 +1319,18 @@ export const listPerformanceAnalysisReports: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1349,16 +1341,18 @@ export const listTagsForResource: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type TagResourceError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Adds metadata tags to the Amazon RDS Performance Insights resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1369,16 +1363,18 @@ export const tagResource: API.OperationMethod<
     NotAuthorizedException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Deletes the metadata tags from the Amazon RDS Performance Insights resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

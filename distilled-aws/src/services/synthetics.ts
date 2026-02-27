@@ -1419,6 +1419,13 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type AssociateResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a canary with a group. Using groups can help you with
  * managing and automating your canaries, and you can also view aggregated run results and statistics
@@ -1429,12 +1436,7 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 export const associateResource: API.OperationMethod<
   AssociateResourceRequest,
   AssociateResourceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  AssociateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceRequest,
@@ -1447,6 +1449,11 @@ export const associateResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCanaryError =
+  | InternalServerException
+  | RequestEntityTooLargeException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the
  * outside-in. Canaries help you check the availability and latency of your web services and
@@ -1469,10 +1476,7 @@ export const associateResource: API.OperationMethod<
 export const createCanary: API.OperationMethod<
   CreateCanaryRequest,
   CreateCanaryResponse,
-  | InternalServerException
-  | RequestEntityTooLargeException
-  | ValidationException
-  | CommonErrors,
+  CreateCanaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCanaryRequest,
@@ -1483,6 +1487,12 @@ export const createCanary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGroupError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a group which you can use to associate canaries with each other, including cross-Region
  * canaries. Using groups can help you with
@@ -1504,11 +1514,7 @@ export const createCanary: API.OperationMethod<
 export const createGroup: API.OperationMethod<
   CreateGroupRequest,
   CreateGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
@@ -1520,6 +1526,12 @@ export const createGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCanaryError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Permanently deletes the specified canary.
  *
@@ -1551,11 +1563,7 @@ export const createGroup: API.OperationMethod<
 export const deleteCanary: API.OperationMethod<
   DeleteCanaryRequest,
   DeleteCanaryResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteCanaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCanaryRequest,
@@ -1567,6 +1575,12 @@ export const deleteCanary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group,
  * they are not deleted when you delete the group.
@@ -1577,11 +1591,7 @@ export const deleteCanary: API.OperationMethod<
 export const deleteGroup: API.OperationMethod<
   DeleteGroupRequest,
   DeleteGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
@@ -1593,6 +1603,10 @@ export const deleteGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeCanariesError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns a list of the canaries in your account, along with full details
  * about each canary.
@@ -1610,21 +1624,21 @@ export const deleteGroup: API.OperationMethod<
 export const describeCanaries: API.OperationMethod<
   DescribeCanariesRequest,
   DescribeCanariesResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeCanariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeCanariesRequest,
   ) => stream.Stream<
     DescribeCanariesResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeCanariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCanariesRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeCanariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1637,6 +1651,10 @@ export const describeCanaries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeCanariesLastRunError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to see information from the most recent run of each canary that you have created.
  *
@@ -1653,21 +1671,21 @@ export const describeCanaries: API.OperationMethod<
 export const describeCanariesLastRun: API.OperationMethod<
   DescribeCanariesLastRunRequest,
   DescribeCanariesLastRunResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeCanariesLastRunError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeCanariesLastRunRequest,
   ) => stream.Stream<
     DescribeCanariesLastRunResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeCanariesLastRunError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCanariesLastRunRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeCanariesLastRunError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1680,6 +1698,10 @@ export const describeCanariesLastRun: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeRuntimeVersionsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Synthetics canary runtime versions. For more information,
  * see
@@ -1688,21 +1710,21 @@ export const describeCanariesLastRun: API.OperationMethod<
 export const describeRuntimeVersions: API.OperationMethod<
   DescribeRuntimeVersionsRequest,
   DescribeRuntimeVersionsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DescribeRuntimeVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeRuntimeVersionsRequest,
   ) => stream.Stream<
     DescribeRuntimeVersionsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeRuntimeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRuntimeVersionsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    DescribeRuntimeVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1715,17 +1737,19 @@ export const describeRuntimeVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DisassociateResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a canary from a group. You must run this operation in the Region where the canary exists.
  */
 export const disassociateResource: API.OperationMethod<
   DisassociateResourceRequest,
   DisassociateResourceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DisassociateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResourceRequest,
@@ -1737,6 +1761,10 @@ export const disassociateResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCanaryError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves complete information about one canary. You must specify
  * the name of the canary that you want. To get a list of canaries
@@ -1745,43 +1773,39 @@ export const disassociateResource: API.OperationMethod<
 export const getCanary: API.OperationMethod<
   GetCanaryRequest,
   GetCanaryResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  GetCanaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCanaryRequest,
   output: GetCanaryResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type GetCanaryRunsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of runs for a specified canary.
  */
 export const getCanaryRuns: API.OperationMethod<
   GetCanaryRunsRequest,
   GetCanaryRunsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetCanaryRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCanaryRunsRequest,
   ) => stream.Stream<
     GetCanaryRunsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetCanaryRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCanaryRunsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    GetCanaryRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1798,6 +1822,12 @@ export const getCanaryRuns: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about one group. Groups are a global resource, so you can use this operation from
  * any Region.
@@ -1805,11 +1835,7 @@ export const getCanaryRuns: API.OperationMethod<
 export const getGroup: API.OperationMethod<
   GetGroupRequest,
   GetGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
@@ -1821,6 +1847,11 @@ export const getGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAssociatedGroupsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the groups that the specified canary is associated with. The canary
  * that you specify must be in the current Region.
@@ -1828,30 +1859,21 @@ export const getGroup: API.OperationMethod<
 export const listAssociatedGroups: API.OperationMethod<
   ListAssociatedGroupsRequest,
   ListAssociatedGroupsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssociatedGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedGroupsRequest,
   ) => stream.Stream<
     ListAssociatedGroupsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1868,39 +1890,33 @@ export const listAssociatedGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupResourcesError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
 export const listGroupResources: API.OperationMethod<
   ListGroupResourcesRequest,
   ListGroupResourcesResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListGroupResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupResourcesRequest,
   ) => stream.Stream<
     ListGroupResourcesResponse,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListGroupResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupResourcesRequest,
   ) => stream.Stream<
     unknown,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListGroupResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1918,6 +1934,10 @@ export const listGroupResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListGroupsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups
  * from all Regions are returned.
@@ -1925,21 +1945,21 @@ export const listGroupResources: API.OperationMethod<
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     ListGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1952,18 +1972,20 @@ export const listGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Displays the tags associated with a canary or group.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1976,6 +1998,12 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartCanaryError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to run a canary that has already been created.
  * The frequency of the canary runs is determined by the value of the canary's `Schedule`. To see a canary's schedule,
@@ -1984,11 +2012,7 @@ export const listTagsForResource: API.OperationMethod<
 export const startCanary: API.OperationMethod<
   StartCanaryRequest,
   StartCanaryResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartCanaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCanaryRequest,
@@ -2000,18 +2024,20 @@ export const startCanary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartCanaryDryRunError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to start a dry run for a canary that has already been created
  */
 export const startCanaryDryRun: API.OperationMethod<
   StartCanaryDryRunRequest,
   StartCanaryDryRunResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartCanaryDryRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCanaryDryRunRequest,
@@ -2024,6 +2050,12 @@ export const startCanaryDryRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopCanaryError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the canary to prevent all future runs. If the canary is currently running,the
  * run that is in progress completes on its own, publishes metrics, and uploads artifacts, but
@@ -2035,11 +2067,7 @@ export const startCanaryDryRun: API.OperationMethod<
 export const stopCanary: API.OperationMethod<
   StopCanaryRequest,
   StopCanaryResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopCanaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCanaryRequest,
@@ -2051,6 +2079,13 @@ export const stopCanary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified canary or group.
  *
@@ -2072,12 +2107,7 @@ export const stopCanary: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2090,18 +2120,20 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalFailureException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2114,6 +2146,14 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateCanaryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestEntityTooLargeException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of a canary that has already been created.
  *
@@ -2131,13 +2171,7 @@ export const untagResource: API.OperationMethod<
 export const updateCanary: API.OperationMethod<
   UpdateCanaryRequest,
   UpdateCanaryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | RequestEntityTooLargeException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateCanaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCanaryRequest,

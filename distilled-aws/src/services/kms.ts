@@ -2857,6 +2857,13 @@ export class KMSInvalidMacException extends S.TaggedErrorClass<KMSInvalidMacExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelKeyDeletionError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS
  * key is `Disabled`. To enable the KMS key, use EnableKey.
@@ -2879,12 +2886,7 @@ export class KMSInvalidMacException extends S.TaggedErrorClass<KMSInvalidMacExce
 export const cancelKeyDeletion: API.OperationMethod<
   CancelKeyDeletionRequest,
   CancelKeyDeletionResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  CancelKeyDeletionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelKeyDeletionRequest,
@@ -2897,6 +2899,13 @@ export const cancelKeyDeletion: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type ConnectCustomKeyStoreError =
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | CommonErrors;
 /**
  * Connects or reconnects a custom key store to its backing key store. For an CloudHSM key
  * store, `ConnectCustomKeyStore` connects the key store to its associated CloudHSM
@@ -2984,12 +2993,7 @@ export const cancelKeyDeletion: API.OperationMethod<
 export const connectCustomKeyStore: API.OperationMethod<
   ConnectCustomKeyStoreRequest,
   ConnectCustomKeyStoreResponse,
-  | CloudHsmClusterInvalidConfigurationException
-  | CloudHsmClusterNotActiveException
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | KMSInternalException
-  | CommonErrors,
+  ConnectCustomKeyStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConnectCustomKeyStoreRequest,
@@ -3002,6 +3006,15 @@ export const connectCustomKeyStore: API.OperationMethod<
     KMSInternalException,
   ],
 }));
+export type CreateAliasError =
+  | AlreadyExistsException
+  | DependencyTimeoutException
+  | InvalidAliasNameException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Creates a friendly name for a KMS key.
  *
@@ -3052,14 +3065,7 @@ export const connectCustomKeyStore: API.OperationMethod<
 export const createAlias: API.OperationMethod<
   CreateAliasRequest,
   CreateAliasResponse,
-  | AlreadyExistsException
-  | DependencyTimeoutException
-  | InvalidAliasNameException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  CreateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasRequest,
@@ -3074,6 +3080,25 @@ export const createAlias: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type CreateCustomKeyStoreError =
+  | CloudHsmClusterInUseException
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CloudHsmClusterNotFoundException
+  | CustomKeyStoreNameInUseException
+  | IncorrectTrustAnchorException
+  | KMSInternalException
+  | LimitExceededException
+  | XksProxyIncorrectAuthenticationCredentialException
+  | XksProxyInvalidConfigurationException
+  | XksProxyInvalidResponseException
+  | XksProxyUriEndpointInUseException
+  | XksProxyUriInUseException
+  | XksProxyUriUnreachableException
+  | XksProxyVpcEndpointServiceInUseException
+  | XksProxyVpcEndpointServiceInvalidConfigurationException
+  | XksProxyVpcEndpointServiceNotFoundException
+  | CommonErrors;
 /**
  * Creates a custom key store backed by a key store that you own and manage. When you use a
  * KMS key in a custom key store for a cryptographic operation, the cryptographic operation is
@@ -3152,24 +3177,7 @@ export const createAlias: API.OperationMethod<
 export const createCustomKeyStore: API.OperationMethod<
   CreateCustomKeyStoreRequest,
   CreateCustomKeyStoreResponse,
-  | CloudHsmClusterInUseException
-  | CloudHsmClusterInvalidConfigurationException
-  | CloudHsmClusterNotActiveException
-  | CloudHsmClusterNotFoundException
-  | CustomKeyStoreNameInUseException
-  | IncorrectTrustAnchorException
-  | KMSInternalException
-  | LimitExceededException
-  | XksProxyIncorrectAuthenticationCredentialException
-  | XksProxyInvalidConfigurationException
-  | XksProxyInvalidResponseException
-  | XksProxyUriEndpointInUseException
-  | XksProxyUriInUseException
-  | XksProxyUriUnreachableException
-  | XksProxyVpcEndpointServiceInUseException
-  | XksProxyVpcEndpointServiceInvalidConfigurationException
-  | XksProxyVpcEndpointServiceNotFoundException
-  | CommonErrors,
+  CreateCustomKeyStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomKeyStoreRequest,
@@ -3194,6 +3202,17 @@ export const createCustomKeyStore: API.OperationMethod<
     XksProxyVpcEndpointServiceNotFoundException,
   ],
 }));
+export type CreateGrantError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Adds a grant to a KMS key.
  *
@@ -3250,16 +3269,7 @@ export const createCustomKeyStore: API.OperationMethod<
 export const createGrant: API.OperationMethod<
   CreateGrantRequest,
   CreateGrantResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidArnException
-  | InvalidGrantTokenException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  CreateGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGrantRequest,
@@ -3276,6 +3286,21 @@ export const createGrant: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type CreateKeyError =
+  | CloudHsmClusterInvalidConfigurationException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | TagException
+  | UnsupportedOperationException
+  | XksKeyAlreadyInUseException
+  | XksKeyInvalidConfigurationException
+  | XksKeyNotFoundException
+  | CommonErrors;
 /**
  * Creates a unique customer managed KMS key in your Amazon Web Services account and Region.
  * You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services
@@ -3446,20 +3471,7 @@ export const createGrant: API.OperationMethod<
 export const createKey: API.OperationMethod<
   CreateKeyRequest,
   CreateKeyResponse,
-  | CloudHsmClusterInvalidConfigurationException
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | TagException
-  | UnsupportedOperationException
-  | XksKeyAlreadyInUseException
-  | XksKeyInvalidConfigurationException
-  | XksKeyNotFoundException
-  | CommonErrors,
+  CreateKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyRequest,
@@ -3480,6 +3492,19 @@ export const createKey: API.OperationMethod<
     XksKeyNotFoundException,
   ],
 }));
+export type DecryptError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | IncorrectKeyException
+  | InvalidCiphertextException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Decrypts ciphertext that was encrypted by a KMS key using any of the following
  * operations:
@@ -3555,18 +3580,7 @@ export const createKey: API.OperationMethod<
 export const decrypt: API.OperationMethod<
   DecryptRequest,
   DecryptResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | IncorrectKeyException
-  | InvalidCiphertextException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  DecryptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecryptRequest,
@@ -3585,6 +3599,12 @@ export const decrypt: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteAliasError =
+  | DependencyTimeoutException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified alias.
  *
@@ -3624,11 +3644,7 @@ export const decrypt: API.OperationMethod<
 export const deleteAlias: API.OperationMethod<
   DeleteAliasRequest,
   DeleteAliasResponse,
-  | DependencyTimeoutException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  DeleteAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasRequest,
@@ -3640,6 +3656,12 @@ export const deleteAlias: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DeleteCustomKeyStoreError =
+  | CustomKeyStoreHasCMKsException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | CommonErrors;
 /**
  * Deletes a custom key store. This operation does not affect any backing elements of the
  * custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key
@@ -3694,11 +3716,7 @@ export const deleteAlias: API.OperationMethod<
 export const deleteCustomKeyStore: API.OperationMethod<
   DeleteCustomKeyStoreRequest,
   DeleteCustomKeyStoreResponse,
-  | CustomKeyStoreHasCMKsException
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | KMSInternalException
-  | CommonErrors,
+  DeleteCustomKeyStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomKeyStoreRequest,
@@ -3710,6 +3728,14 @@ export const deleteCustomKeyStore: API.OperationMethod<
     KMSInternalException,
   ],
 }));
+export type DeleteImportedKeyMaterialError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Deletes key material that was previously imported. This operation makes the specified KMS
  * key temporarily unusable. To restore the usability of the KMS key, reimport the same key
@@ -3750,13 +3776,7 @@ export const deleteCustomKeyStore: API.OperationMethod<
 export const deleteImportedKeyMaterial: API.OperationMethod<
   DeleteImportedKeyMaterialRequest,
   DeleteImportedKeyMaterialResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteImportedKeyMaterialError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImportedKeyMaterialRequest,
@@ -3770,6 +3790,17 @@ export const deleteImportedKeyMaterial: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeriveSharedSecretError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Derives a shared secret using a key agreement algorithm.
  *
@@ -3849,16 +3880,7 @@ export const deleteImportedKeyMaterial: API.OperationMethod<
 export const deriveSharedSecret: API.OperationMethod<
   DeriveSharedSecretRequest,
   DeriveSharedSecretResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  DeriveSharedSecretError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeriveSharedSecretRequest,
@@ -3875,6 +3897,11 @@ export const deriveSharedSecret: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DescribeCustomKeyStoresError =
+  | CustomKeyStoreNotFoundException
+  | InvalidMarkerException
+  | KMSInternalException
+  | CommonErrors;
 /**
  * Gets information about custom key stores in the account and Region.
  *
@@ -3929,30 +3956,21 @@ export const deriveSharedSecret: API.OperationMethod<
 export const describeCustomKeyStores: API.OperationMethod<
   DescribeCustomKeyStoresRequest,
   DescribeCustomKeyStoresResponse,
-  | CustomKeyStoreNotFoundException
-  | InvalidMarkerException
-  | KMSInternalException
-  | CommonErrors,
+  DescribeCustomKeyStoresError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeCustomKeyStoresRequest,
   ) => stream.Stream<
     DescribeCustomKeyStoresResponse,
-    | CustomKeyStoreNotFoundException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
+    DescribeCustomKeyStoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCustomKeyStoresRequest,
   ) => stream.Stream<
     CustomKeyStoresListEntry,
-    | CustomKeyStoreNotFoundException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
+    DescribeCustomKeyStoresError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3970,6 +3988,12 @@ export const describeCustomKeyStores: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeKeyError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Provides detailed information about a KMS key. You can run `DescribeKey` on a
  * customer
@@ -4032,11 +4056,7 @@ export const describeCustomKeyStores: API.OperationMethod<
 export const describeKey: API.OperationMethod<
   DescribeKeyRequest,
   DescribeKeyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | NotFoundException
-  | CommonErrors,
+  DescribeKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeKeyRequest,
@@ -4048,6 +4068,13 @@ export const describeKey: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DisableKeyError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS
  * key for cryptographic operations.
@@ -4070,12 +4097,7 @@ export const describeKey: API.OperationMethod<
 export const disableKey: API.OperationMethod<
   DisableKeyRequest,
   DisableKeyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  DisableKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableKeyRequest,
@@ -4088,6 +4110,15 @@ export const disableKey: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type DisableKeyRotationError =
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Disables automatic rotation of the key material of the specified symmetric encryption KMS
  * key.
@@ -4126,14 +4157,7 @@ export const disableKey: API.OperationMethod<
 export const disableKeyRotation: API.OperationMethod<
   DisableKeyRotationRequest,
   DisableKeyRotationResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DisableKeyRotationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableKeyRotationRequest,
@@ -4148,6 +4172,11 @@ export const disableKeyRotation: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DisconnectCustomKeyStoreError =
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | CommonErrors;
 /**
  * Disconnects the custom key store from its backing key store. This operation disconnects an
  * CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from
@@ -4193,10 +4222,7 @@ export const disableKeyRotation: API.OperationMethod<
 export const disconnectCustomKeyStore: API.OperationMethod<
   DisconnectCustomKeyStoreRequest,
   DisconnectCustomKeyStoreResponse,
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | KMSInternalException
-  | CommonErrors,
+  DisconnectCustomKeyStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisconnectCustomKeyStoreRequest,
@@ -4207,6 +4233,14 @@ export const disconnectCustomKeyStore: API.OperationMethod<
     KMSInternalException,
   ],
 }));
+export type EnableKeyError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Sets the key state of a KMS key to enabled. This allows you to use the KMS key for
  * cryptographic operations.
@@ -4226,13 +4260,7 @@ export const disconnectCustomKeyStore: API.OperationMethod<
 export const enableKey: API.OperationMethod<
   EnableKeyRequest,
   EnableKeyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  EnableKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableKeyRequest,
@@ -4246,6 +4274,15 @@ export const enableKey: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type EnableKeyRotationError =
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Enables automatic rotation of the key material of the specified symmetric encryption KMS
  * key.
@@ -4304,14 +4341,7 @@ export const enableKey: API.OperationMethod<
 export const enableKeyRotation: API.OperationMethod<
   EnableKeyRotationRequest,
   EnableKeyRotationResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  EnableKeyRotationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableKeyRotationRequest,
@@ -4326,6 +4356,17 @@ export const enableKeyRotation: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type EncryptError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a symmetric or
  * asymmetric KMS key with a `KeyUsage` of `ENCRYPT_DECRYPT`.
@@ -4400,16 +4441,7 @@ export const enableKeyRotation: API.OperationMethod<
 export const encrypt: API.OperationMethod<
   EncryptRequest,
   EncryptResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  EncryptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EncryptRequest,
@@ -4426,6 +4458,17 @@ export const encrypt: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GenerateDataKeyError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns a unique symmetric data key for use outside of KMS. This operation returns a
  * plaintext copy of the data key and a copy that is encrypted under a symmetric encryption KMS
@@ -4518,16 +4561,7 @@ export const encrypt: API.OperationMethod<
 export const generateDataKey: API.OperationMethod<
   GenerateDataKeyRequest,
   GenerateDataKeyResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  GenerateDataKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataKeyRequest,
@@ -4544,6 +4578,18 @@ export const generateDataKey: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GenerateDataKeyPairError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns a unique asymmetric data key pair for use outside of KMS. This operation returns
  * a plaintext public key, a plaintext private key, and a copy of the private key that is
@@ -4622,17 +4668,7 @@ export const generateDataKey: API.OperationMethod<
 export const generateDataKeyPair: API.OperationMethod<
   GenerateDataKeyPairRequest,
   GenerateDataKeyPairResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GenerateDataKeyPairError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataKeyPairRequest,
@@ -4650,6 +4686,18 @@ export const generateDataKeyPair: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GenerateDataKeyPairWithoutPlaintextError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns a unique asymmetric data key pair for use outside of KMS. This operation returns
  * a plaintext public key and a copy of the private key that is encrypted under the symmetric
@@ -4709,17 +4757,7 @@ export const generateDataKeyPair: API.OperationMethod<
 export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
   GenerateDataKeyPairWithoutPlaintextRequest,
   GenerateDataKeyPairWithoutPlaintextResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GenerateDataKeyPairWithoutPlaintextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataKeyPairWithoutPlaintextRequest,
@@ -4737,6 +4775,17 @@ export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GenerateDataKeyWithoutPlaintextError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns a unique symmetric data key for use outside of KMS. This operation returns a
  * data key that is encrypted under a symmetric encryption KMS key that you specify. The bytes in
@@ -4809,16 +4858,7 @@ export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
 export const generateDataKeyWithoutPlaintext: API.OperationMethod<
   GenerateDataKeyWithoutPlaintextRequest,
   GenerateDataKeyWithoutPlaintextResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  GenerateDataKeyWithoutPlaintextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataKeyWithoutPlaintextRequest,
@@ -4835,6 +4875,16 @@ export const generateDataKeyWithoutPlaintext: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GenerateMacError =
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Generates a hash-based message authentication code (HMAC) for a message using an HMAC KMS
  * key and a MAC algorithm that the key supports. HMAC KMS keys and the HMAC algorithms that
@@ -4872,15 +4922,7 @@ export const generateDataKeyWithoutPlaintext: API.OperationMethod<
 export const generateMac: API.OperationMethod<
   GenerateMacRequest,
   GenerateMacResponse,
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  GenerateMacError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMacRequest,
@@ -4896,6 +4938,13 @@ export const generateMac: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GenerateRandomError =
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | DependencyTimeoutException
+  | KMSInternalException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns a random byte string that is cryptographically secure.
  *
@@ -4927,12 +4976,7 @@ export const generateMac: API.OperationMethod<
 export const generateRandom: API.OperationMethod<
   GenerateRandomRequest,
   GenerateRandomResponse,
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | DependencyTimeoutException
-  | KMSInternalException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GenerateRandomError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateRandomRequest,
@@ -4945,6 +4989,13 @@ export const generateRandom: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetKeyPolicyError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets a key policy attached to the specified KMS key.
  *
@@ -4960,12 +5011,7 @@ export const generateRandom: API.OperationMethod<
 export const getKeyPolicy: API.OperationMethod<
   GetKeyPolicyRequest,
   GetKeyPolicyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  GetKeyPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyPolicyRequest,
@@ -4978,6 +5024,14 @@ export const getKeyPolicy: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type GetKeyRotationStatusError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Provides detailed information about the rotation status for a KMS key, including whether
  * automatic
@@ -5036,13 +5090,7 @@ export const getKeyPolicy: API.OperationMethod<
 export const getKeyRotationStatus: API.OperationMethod<
   GetKeyRotationStatusRequest,
   GetKeyRotationStatusResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetKeyRotationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyRotationStatusRequest,
@@ -5056,6 +5104,14 @@ export const getKeyRotationStatus: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetParametersForImportError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns the public key and an import token you need to import or reimport key material for
  * a KMS key.
@@ -5126,13 +5182,7 @@ export const getKeyRotationStatus: API.OperationMethod<
 export const getParametersForImport: API.OperationMethod<
   GetParametersForImportRequest,
   GetParametersForImportResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetParametersForImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParametersForImportRequest,
@@ -5146,6 +5196,18 @@ export const getParametersForImport: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type GetPublicKeyError =
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric
  * KMS key, which never leaves KMS unencrypted, callers with `kms:GetPublicKey`
@@ -5199,17 +5261,7 @@ export const getParametersForImport: API.OperationMethod<
 export const getPublicKey: API.OperationMethod<
   GetPublicKeyRequest,
   GetPublicKeyResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  GetPublicKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeyRequest,
@@ -5227,6 +5279,18 @@ export const getPublicKey: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type ImportKeyMaterialError =
+  | DependencyTimeoutException
+  | ExpiredImportTokenException
+  | IncorrectKeyMaterialException
+  | InvalidArnException
+  | InvalidCiphertextException
+  | InvalidImportTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Imports or reimports key material into an existing KMS key that was created without key
  * material. You can also use this operation to set or update the expiration model and expiration
@@ -5346,17 +5410,7 @@ export const getPublicKey: API.OperationMethod<
 export const importKeyMaterial: API.OperationMethod<
   ImportKeyMaterialRequest,
   ImportKeyMaterialResponse,
-  | DependencyTimeoutException
-  | ExpiredImportTokenException
-  | IncorrectKeyMaterialException
-  | InvalidArnException
-  | InvalidCiphertextException
-  | InvalidImportTokenException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ImportKeyMaterialError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyMaterialRequest,
@@ -5374,6 +5428,13 @@ export const importKeyMaterial: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type ListAliasesError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets a list of aliases in the caller's Amazon Web Services account and region. For more information
  * about aliases, see CreateAlias.
@@ -5414,36 +5475,21 @@ export const importKeyMaterial: API.OperationMethod<
 export const listAliases: API.OperationMethod<
   ListAliasesRequest,
   ListAliasesResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | InvalidMarkerException
-  | KMSInternalException
-  | NotFoundException
-  | CommonErrors,
+  ListAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
     ListAliasesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAliasesRequest,
   ) => stream.Stream<
     AliasListEntry,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
+    ListAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5463,6 +5509,15 @@ export const listAliases: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListGrantsError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | InvalidMarkerException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets a list of all grants for the specified KMS key.
  *
@@ -5502,42 +5557,21 @@ export const listAliases: API.OperationMethod<
 export const listGrants: API.OperationMethod<
   ListGrantsRequest,
   ListGrantsResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | InvalidGrantIdException
-  | InvalidMarkerException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  ListGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGrantsRequest,
   ) => stream.Stream<
     ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidGrantIdException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
+    ListGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGrantsRequest,
   ) => stream.Stream<
     GrantListEntry,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidGrantIdException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
+    ListGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5559,6 +5593,13 @@ export const listGrants: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListKeyPoliciesError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Gets the names of the key policies that are attached to a KMS key. This operation is
  * designed to get policy names that you can use in a GetKeyPolicy operation.
@@ -5580,36 +5621,21 @@ export const listGrants: API.OperationMethod<
 export const listKeyPolicies: API.OperationMethod<
   ListKeyPoliciesRequest,
   ListKeyPoliciesResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  ListKeyPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeyPoliciesRequest,
   ) => stream.Stream<
     ListKeyPoliciesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
+    ListKeyPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeyPoliciesRequest,
   ) => stream.Stream<
     PolicyNameType,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
+    ListKeyPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5629,6 +5655,14 @@ export const listKeyPolicies: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListKeyRotationsError =
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Returns information about the key materials associated with the specified KMS key. You can
  * use the optional `IncludeKeyMaterial` parameter to control which key materials are
@@ -5664,39 +5698,21 @@ export const listKeyPolicies: API.OperationMethod<
 export const listKeyRotations: API.OperationMethod<
   ListKeyRotationsRequest,
   ListKeyRotationsResponse,
-  | InvalidArnException
-  | InvalidMarkerException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ListKeyRotationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeyRotationsRequest,
   ) => stream.Stream<
     ListKeyRotationsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListKeyRotationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeyRotationsRequest,
   ) => stream.Stream<
     RotationsListEntry,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
+    ListKeyRotationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5717,6 +5733,11 @@ export const listKeyRotations: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListKeysError =
+  | DependencyTimeoutException
+  | InvalidMarkerException
+  | KMSInternalException
+  | CommonErrors;
 /**
  * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
  *
@@ -5740,30 +5761,21 @@ export const listKeyRotations: API.OperationMethod<
 export const listKeys: API.OperationMethod<
   ListKeysRequest,
   ListKeysResponse,
-  | DependencyTimeoutException
-  | InvalidMarkerException
-  | KMSInternalException
-  | CommonErrors,
+  ListKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeysRequest,
   ) => stream.Stream<
     ListKeysResponse,
-    | DependencyTimeoutException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeysRequest,
   ) => stream.Stream<
     KeyListEntry,
-    | DependencyTimeoutException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5781,6 +5793,12 @@ export const listKeys: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListResourceTagsError =
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns all tags on the specified KMS key.
  *
@@ -5809,33 +5827,21 @@ export const listKeys: API.OperationMethod<
 export const listResourceTags: API.OperationMethod<
   ListResourceTagsRequest,
   ListResourceTagsResponse,
-  | InvalidArnException
-  | InvalidMarkerException
-  | KMSInternalException
-  | NotFoundException
-  | CommonErrors,
+  ListResourceTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceTagsRequest,
   ) => stream.Stream<
     ListResourceTagsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
+    ListResourceTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceTagsRequest,
   ) => stream.Stream<
     Tag,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
+    ListResourceTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5854,6 +5860,13 @@ export const listResourceTags: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListRetirableGrantsError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Returns information about all grants in the Amazon Web Services account and Region that have the
  * specified retiring principal.
@@ -5900,36 +5913,21 @@ export const listResourceTags: API.OperationMethod<
 export const listRetirableGrants: API.OperationMethod<
   ListRetirableGrantsRequest,
   ListGrantsResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | InvalidMarkerException
-  | KMSInternalException
-  | NotFoundException
-  | CommonErrors,
+  ListRetirableGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRetirableGrantsRequest,
   ) => stream.Stream<
     ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
+    ListRetirableGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRetirableGrantsRequest,
   ) => stream.Stream<
     GrantListEntry,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
+    ListRetirableGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5949,6 +5947,16 @@ export const listRetirableGrants: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type PutKeyPolicyError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Attaches a key policy to the specified KMS key.
  *
@@ -5971,15 +5979,7 @@ export const listRetirableGrants: API.OperationMethod<
 export const putKeyPolicy: API.OperationMethod<
   PutKeyPolicyRequest,
   PutKeyPolicyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  PutKeyPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKeyPolicyRequest,
@@ -5995,6 +5995,19 @@ export const putKeyPolicy: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type ReEncryptError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | IncorrectKeyException
+  | InvalidCiphertextException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Decrypts ciphertext and then reencrypts it entirely within KMS. You can use this
  * operation to change the KMS key under which data is encrypted, such as when you manually rotate a
@@ -6073,18 +6086,7 @@ export const putKeyPolicy: API.OperationMethod<
 export const reEncrypt: API.OperationMethod<
   ReEncryptRequest,
   ReEncryptResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | IncorrectKeyException
-  | InvalidCiphertextException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  ReEncryptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReEncryptRequest,
@@ -6103,6 +6105,18 @@ export const reEncrypt: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type ReplicateKeyError =
+  | AlreadyExistsException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NotFoundException
+  | TagException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Replicates a multi-Region key into the specified Region. This operation creates a
  * multi-Region replica key based on a multi-Region primary key in a different Region of the same
@@ -6179,17 +6193,7 @@ export const reEncrypt: API.OperationMethod<
 export const replicateKey: API.OperationMethod<
   ReplicateKeyRequest,
   ReplicateKeyResponse,
-  | AlreadyExistsException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | NotFoundException
-  | TagException
-  | UnsupportedOperationException
-  | CommonErrors,
+  ReplicateKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplicateKeyRequest,
@@ -6207,6 +6211,16 @@ export const replicateKey: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type RetireGrantError =
+  | DependencyTimeoutException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | InvalidGrantTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes a grant. Typically, you retire a grant when you no longer need its permissions. To
  * identify the grant to retire, use a grant token, or both the grant ID and a
@@ -6247,15 +6261,7 @@ export const replicateKey: API.OperationMethod<
 export const retireGrant: API.OperationMethod<
   RetireGrantRequest,
   RetireGrantResponse,
-  | DependencyTimeoutException
-  | DryRunOperationException
-  | InvalidArnException
-  | InvalidGrantIdException
-  | InvalidGrantTokenException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  RetireGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetireGrantRequest,
@@ -6271,6 +6277,15 @@ export const retireGrant: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type RevokeGrantError =
+  | DependencyTimeoutException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified grant. You revoke a grant to terminate the permissions that the
  * grant allows. For more information, see Retiring and revoking grants in the
@@ -6310,14 +6325,7 @@ export const retireGrant: API.OperationMethod<
 export const revokeGrant: API.OperationMethod<
   RevokeGrantRequest,
   RevokeGrantResponse,
-  | DependencyTimeoutException
-  | DryRunOperationException
-  | InvalidArnException
-  | InvalidGrantIdException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  RevokeGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeGrantRequest,
@@ -6332,6 +6340,17 @@ export const revokeGrant: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type RotateKeyOnDemandError =
+  | ConflictException
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Immediately initiates rotation of the key material of the specified symmetric encryption
  * KMS key.
@@ -6392,16 +6411,7 @@ export const revokeGrant: API.OperationMethod<
 export const rotateKeyOnDemand: API.OperationMethod<
   RotateKeyOnDemandRequest,
   RotateKeyOnDemandResponse,
-  | ConflictException
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  RotateKeyOnDemandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateKeyOnDemandRequest,
@@ -6418,6 +6428,13 @@ export const rotateKeyOnDemand: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type ScheduleKeyDeletionError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30
  * days, but you can specify a waiting period of 7-30 days. When this operation is successful,
@@ -6477,12 +6494,7 @@ export const rotateKeyOnDemand: API.OperationMethod<
 export const scheduleKeyDeletion: API.OperationMethod<
   ScheduleKeyDeletionRequest,
   ScheduleKeyDeletionResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  ScheduleKeyDeletionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleKeyDeletionRequest,
@@ -6495,6 +6507,17 @@ export const scheduleKeyDeletion: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type SignError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Creates a digital
  * signature for a message or message digest by using the private key in an asymmetric
@@ -6551,16 +6574,7 @@ export const scheduleKeyDeletion: API.OperationMethod<
 export const sign: API.OperationMethod<
   SignRequest,
   SignResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  SignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignRequest,
@@ -6577,6 +6591,14 @@ export const sign: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | TagException
+  | CommonErrors;
 /**
  * Adds or edits tags on a customer managed key.
  *
@@ -6620,13 +6642,7 @@ export const sign: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | TagException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -6640,6 +6656,13 @@ export const tagResource: API.OperationMethod<
     TagException,
   ],
 }));
+export type UntagResourceError =
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | TagException
+  | CommonErrors;
 /**
  * Deletes tags from a customer managed key. To delete a
  * tag, specify the tag key and the KMS key.
@@ -6677,12 +6700,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | TagException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -6695,6 +6713,13 @@ export const untagResource: API.OperationMethod<
     TagException,
   ],
 }));
+export type UpdateAliasError =
+  | DependencyTimeoutException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Associates an existing KMS alias with a different KMS key. Each alias is associated with
  * only one KMS key at a time, although a KMS key can have multiple aliases. The alias and the
@@ -6749,12 +6774,7 @@ export const untagResource: API.OperationMethod<
 export const updateAlias: API.OperationMethod<
   UpdateAliasRequest,
   UpdateAliasResponse,
-  | DependencyTimeoutException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
+  UpdateAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasRequest,
@@ -6767,6 +6787,25 @@ export const updateAlias: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdateCustomKeyStoreError =
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CloudHsmClusterNotFoundException
+  | CloudHsmClusterNotRelatedException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNameInUseException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | XksProxyIncorrectAuthenticationCredentialException
+  | XksProxyInvalidConfigurationException
+  | XksProxyInvalidResponseException
+  | XksProxyUriEndpointInUseException
+  | XksProxyUriInUseException
+  | XksProxyUriUnreachableException
+  | XksProxyVpcEndpointServiceInUseException
+  | XksProxyVpcEndpointServiceInvalidConfigurationException
+  | XksProxyVpcEndpointServiceNotFoundException
+  | CommonErrors;
 /**
  * Changes the properties of a custom key store. You can use this operation to change the
  * properties of an CloudHSM key store or an external key store.
@@ -6855,24 +6894,7 @@ export const updateAlias: API.OperationMethod<
 export const updateCustomKeyStore: API.OperationMethod<
   UpdateCustomKeyStoreRequest,
   UpdateCustomKeyStoreResponse,
-  | CloudHsmClusterInvalidConfigurationException
-  | CloudHsmClusterNotActiveException
-  | CloudHsmClusterNotFoundException
-  | CloudHsmClusterNotRelatedException
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNameInUseException
-  | CustomKeyStoreNotFoundException
-  | KMSInternalException
-  | XksProxyIncorrectAuthenticationCredentialException
-  | XksProxyInvalidConfigurationException
-  | XksProxyInvalidResponseException
-  | XksProxyUriEndpointInUseException
-  | XksProxyUriInUseException
-  | XksProxyUriUnreachableException
-  | XksProxyVpcEndpointServiceInUseException
-  | XksProxyVpcEndpointServiceInvalidConfigurationException
-  | XksProxyVpcEndpointServiceNotFoundException
-  | CommonErrors,
+  UpdateCustomKeyStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomKeyStoreRequest,
@@ -6897,6 +6919,13 @@ export const updateCustomKeyStore: API.OperationMethod<
     XksProxyVpcEndpointServiceNotFoundException,
   ],
 }));
+export type UpdateKeyDescriptionError =
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey.
  *
@@ -6919,12 +6948,7 @@ export const updateCustomKeyStore: API.OperationMethod<
 export const updateKeyDescription: API.OperationMethod<
   UpdateKeyDescriptionRequest,
   UpdateKeyDescriptionResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  UpdateKeyDescriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeyDescriptionRequest,
@@ -6937,6 +6961,14 @@ export const updateKeyDescription: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type UpdatePrimaryRegionError =
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * Changes the primary key of a multi-Region key.
  *
@@ -7003,13 +7035,7 @@ export const updateKeyDescription: API.OperationMethod<
 export const updatePrimaryRegion: API.OperationMethod<
   UpdatePrimaryRegionRequest,
   UpdatePrimaryRegionResponse,
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdatePrimaryRegionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePrimaryRegionRequest,
@@ -7023,6 +7049,18 @@ export const updatePrimaryRegion: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type VerifyError =
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidSignatureException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Verifies a digital signature that was generated by the Sign operation.
  *
@@ -7070,17 +7108,7 @@ export const updatePrimaryRegion: API.OperationMethod<
 export const verify: API.OperationMethod<
   VerifyRequest,
   VerifyResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidSignatureException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  VerifyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyRequest,
@@ -7098,6 +7126,17 @@ export const verify: API.OperationMethod<
     NotFoundException,
   ],
 }));
+export type VerifyMacError =
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidMacException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC
  * KMS key, and MAC algorithm. To verify the HMAC, `VerifyMac` computes an HMAC using
@@ -7129,16 +7168,7 @@ export const verify: API.OperationMethod<
 export const verifyMac: API.OperationMethod<
   VerifyMacRequest,
   VerifyMacResponse,
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidMacException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
+  VerifyMacError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyMacRequest,

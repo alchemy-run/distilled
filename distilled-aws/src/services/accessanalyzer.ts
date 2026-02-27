@@ -3071,18 +3071,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ApplyArchiveRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
  */
 export const applyArchiveRule: API.OperationMethod<
   ApplyArchiveRuleRequest,
   ApplyArchiveRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ApplyArchiveRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyArchiveRuleRequest,
@@ -3095,17 +3097,19 @@ export const applyArchiveRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelPolicyGenerationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the requested policy generation.
  */
 export const cancelPolicyGeneration: API.OperationMethod<
   CancelPolicyGenerationRequest,
   CancelPolicyGenerationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelPolicyGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelPolicyGenerationRequest,
@@ -3117,19 +3121,21 @@ export const cancelPolicyGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Checks whether the specified access isn't allowed by a policy.
- */
-export const checkAccessNotGranted: API.OperationMethod<
-  CheckAccessNotGrantedRequest,
-  CheckAccessNotGrantedResponse,
+export type CheckAccessNotGrantedError =
   | AccessDeniedException
   | InternalServerException
   | InvalidParameterException
   | ThrottlingException
   | UnprocessableEntityException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Checks whether the specified access isn't allowed by a policy.
+ */
+export const checkAccessNotGranted: API.OperationMethod<
+  CheckAccessNotGrantedRequest,
+  CheckAccessNotGrantedResponse,
+  CheckAccessNotGrantedError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckAccessNotGrantedRequest,
@@ -3143,6 +3149,14 @@ export const checkAccessNotGranted: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CheckNoNewAccessError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterException
+  | ThrottlingException
+  | UnprocessableEntityException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks whether new access is allowed for an updated policy when compared to the existing policy.
  *
@@ -3151,13 +3165,7 @@ export const checkAccessNotGranted: API.OperationMethod<
 export const checkNoNewAccess: API.OperationMethod<
   CheckNoNewAccessRequest,
   CheckNoNewAccessResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidParameterException
-  | ThrottlingException
-  | UnprocessableEntityException
-  | ValidationException
-  | CommonErrors,
+  CheckNoNewAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckNoNewAccessRequest,
@@ -3171,19 +3179,21 @@ export const checkNoNewAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Checks whether a resource policy can grant public access to the specified resource type.
- */
-export const checkNoPublicAccess: API.OperationMethod<
-  CheckNoPublicAccessRequest,
-  CheckNoPublicAccessResponse,
+export type CheckNoPublicAccessError =
   | AccessDeniedException
   | InternalServerException
   | InvalidParameterException
   | ThrottlingException
   | UnprocessableEntityException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Checks whether a resource policy can grant public access to the specified resource type.
+ */
+export const checkNoPublicAccess: API.OperationMethod<
+  CheckNoPublicAccessRequest,
+  CheckNoPublicAccessResponse,
+  CheckNoPublicAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckNoPublicAccessRequest,
@@ -3197,12 +3207,7 @@ export const checkNoPublicAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
- */
-export const createAccessPreview: API.OperationMethod<
-  CreateAccessPreviewRequest,
-  CreateAccessPreviewResponse,
+export type CreateAccessPreviewError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3210,7 +3215,14 @@ export const createAccessPreview: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
+ */
+export const createAccessPreview: API.OperationMethod<
+  CreateAccessPreviewRequest,
+  CreateAccessPreviewResponse,
+  CreateAccessPreviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPreviewRequest,
@@ -3225,17 +3237,19 @@ export const createAccessPreview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GenerateFindingRecommendationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a recommendation for an unused permissions finding.
  */
 export const generateFindingRecommendation: API.OperationMethod<
   GenerateFindingRecommendationRequest,
   GenerateFindingRecommendationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GenerateFindingRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateFindingRecommendationRequest,
@@ -3247,18 +3261,20 @@ export const generateFindingRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccessPreviewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an access preview for the specified analyzer.
  */
 export const getAccessPreview: API.OperationMethod<
   GetAccessPreviewRequest,
   GetAccessPreviewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccessPreviewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPreviewRequest,
@@ -3271,6 +3287,13 @@ export const getAccessPreview: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAnalyzedResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a resource that was analyzed.
  *
@@ -3279,12 +3302,7 @@ export const getAccessPreview: API.OperationMethod<
 export const getAnalyzedResource: API.OperationMethod<
   GetAnalyzedResourceRequest,
   GetAnalyzedResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAnalyzedResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyzedResourceRequest,
@@ -3297,6 +3315,13 @@ export const getAnalyzedResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFindingError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified finding. GetFinding and GetFindingV2 both use `access-analyzer:GetFinding` in the `Action` element of an IAM policy statement. You must have permission to perform the `access-analyzer:GetFinding` action.
  *
@@ -3305,12 +3330,7 @@ export const getAnalyzedResource: API.OperationMethod<
 export const getFinding: API.OperationMethod<
   GetFindingRequest,
   GetFindingResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFindingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingRequest,
@@ -3323,42 +3343,34 @@ export const getFinding: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFindingRecommendationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a finding recommendation for the specified analyzer.
  */
 export const getFindingRecommendation: API.OperationMethod<
   GetFindingRecommendationRequest,
   GetFindingRecommendationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFindingRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFindingRecommendationRequest,
   ) => stream.Stream<
     GetFindingRecommendationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFindingRecommendationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFindingRecommendationRequest,
   ) => stream.Stream<
     RecommendedStep,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFindingRecommendationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3378,18 +3390,20 @@ export const getFindingRecommendation: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetFindingsStatisticsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
  */
 export const getFindingsStatistics: API.OperationMethod<
   GetFindingsStatisticsRequest,
   GetFindingsStatisticsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFindingsStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingsStatisticsRequest,
@@ -3402,42 +3416,34 @@ export const getFindingsStatistics: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFindingV2Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified finding. GetFinding and GetFindingV2 both use `access-analyzer:GetFinding` in the `Action` element of an IAM policy statement. You must have permission to perform the `access-analyzer:GetFinding` action.
  */
 export const getFindingV2: API.OperationMethod<
   GetFindingV2Request,
   GetFindingV2Response,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFindingV2Error,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFindingV2Request,
   ) => stream.Stream<
     GetFindingV2Response,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFindingV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFindingV2Request,
   ) => stream.Stream<
     FindingDetails,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetFindingV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3457,17 +3463,19 @@ export const getFindingV2: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetGeneratedPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the policy that was generated using `StartPolicyGeneration`.
  */
 export const getGeneratedPolicy: API.OperationMethod<
   GetGeneratedPolicyRequest,
   GetGeneratedPolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGeneratedPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeneratedPolicyRequest,
@@ -3479,45 +3487,35 @@ export const getGeneratedPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves a list of access preview findings generated by the specified access preview.
- */
-export const listAccessPreviewFindings: API.OperationMethod<
-  ListAccessPreviewFindingsRequest,
-  ListAccessPreviewFindingsResponse,
+export type ListAccessPreviewFindingsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves a list of access preview findings generated by the specified access preview.
+ */
+export const listAccessPreviewFindings: API.OperationMethod<
+  ListAccessPreviewFindingsRequest,
+  ListAccessPreviewFindingsResponse,
+  ListAccessPreviewFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPreviewFindingsRequest,
   ) => stream.Stream<
     ListAccessPreviewFindingsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessPreviewFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPreviewFindingsRequest,
   ) => stream.Stream<
     AccessPreviewFinding,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessPreviewFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3538,42 +3536,34 @@ export const listAccessPreviewFindings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAccessPreviewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of access previews for the specified analyzer.
  */
 export const listAccessPreviews: API.OperationMethod<
   ListAccessPreviewsRequest,
   ListAccessPreviewsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccessPreviewsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccessPreviewsRequest,
   ) => stream.Stream<
     ListAccessPreviewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessPreviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPreviewsRequest,
   ) => stream.Stream<
     AccessPreviewSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccessPreviewsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3593,42 +3583,34 @@ export const listAccessPreviews: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAnalyzedResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer.
  */
 export const listAnalyzedResources: API.OperationMethod<
   ListAnalyzedResourcesRequest,
   ListAnalyzedResourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAnalyzedResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnalyzedResourcesRequest,
   ) => stream.Stream<
     ListAnalyzedResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnalyzedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnalyzedResourcesRequest,
   ) => stream.Stream<
     AnalyzedResourceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnalyzedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3648,6 +3630,13 @@ export const listAnalyzedResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFindingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use `access-analyzer:ListFindings` in the `Action` element of an IAM policy statement. You must have permission to perform the `access-analyzer:ListFindings` action.
  *
@@ -3658,36 +3647,21 @@ export const listAnalyzedResources: API.OperationMethod<
 export const listFindings: API.OperationMethod<
   ListFindingsRequest,
   ListFindingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     ListFindingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     FindingSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3707,6 +3681,13 @@ export const listFindings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFindingsV2Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use `access-analyzer:ListFindings` in the `Action` element of an IAM policy statement. You must have permission to perform the `access-analyzer:ListFindings` action.
  *
@@ -3715,36 +3696,21 @@ export const listFindings: API.OperationMethod<
 export const listFindingsV2: API.OperationMethod<
   ListFindingsV2Request,
   ListFindingsV2Response,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFindingsV2Error,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingsV2Request,
   ) => stream.Stream<
     ListFindingsV2Response,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingsV2Request,
   ) => stream.Stream<
     FindingSummaryV2,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsV2Error,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3764,39 +3730,33 @@ export const listFindingsV2: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPolicyGenerationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the policy generations requested in the last seven days.
  */
 export const listPolicyGenerations: API.OperationMethod<
   ListPolicyGenerationsRequest,
   ListPolicyGenerationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPolicyGenerationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyGenerationsRequest,
   ) => stream.Stream<
     ListPolicyGenerationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGenerationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyGenerationsRequest,
   ) => stream.Stream<
     PolicyGeneration,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGenerationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3815,18 +3775,20 @@ export const listPolicyGenerations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of tags applied to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3839,19 +3801,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts the policy generation request.
- */
-export const startPolicyGeneration: API.OperationMethod<
-  StartPolicyGenerationRequest,
-  StartPolicyGenerationResponse,
+export type StartPolicyGenerationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the policy generation request.
+ */
+export const startPolicyGeneration: API.OperationMethod<
+  StartPolicyGenerationRequest,
+  StartPolicyGenerationResponse,
+  StartPolicyGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPolicyGenerationRequest,
@@ -3865,6 +3829,13 @@ export const startPolicyGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartResourceScanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Immediately starts a scan of the policies applied to the specified resource.
  *
@@ -3873,12 +3844,7 @@ export const startPolicyGeneration: API.OperationMethod<
 export const startResourceScan: API.OperationMethod<
   StartResourceScanRequest,
   StartResourceScanResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartResourceScanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartResourceScanRequest,
@@ -3891,18 +3857,20 @@ export const startResourceScan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a tag to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3915,18 +3883,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3939,18 +3909,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateFindingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the status for the specified findings.
  */
 export const updateFindings: API.OperationMethod<
   UpdateFindingsRequest,
   UpdateFindingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFindingsRequest,
@@ -3963,39 +3935,33 @@ export const updateFindings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ValidatePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
  */
 export const validatePolicy: API.OperationMethod<
   ValidatePolicyRequest,
   ValidatePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ValidatePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ValidatePolicyRequest,
   ) => stream.Stream<
     ValidatePolicyResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ValidatePolicyError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ValidatePolicyRequest,
   ) => stream.Stream<
     ValidatePolicyFinding,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ValidatePolicyError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4014,19 +3980,21 @@ export const validatePolicy: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an analyzer for your account.
- */
-export const createAnalyzer: API.OperationMethod<
-  CreateAnalyzerRequest,
-  CreateAnalyzerResponse,
+export type CreateAnalyzerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an analyzer for your account.
+ */
+export const createAnalyzer: API.OperationMethod<
+  CreateAnalyzerRequest,
+  CreateAnalyzerResponse,
+  CreateAnalyzerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAnalyzerRequest,
@@ -4040,18 +4008,20 @@ export const createAnalyzer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAnalyzerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified analyzer.
  */
 export const getAnalyzer: API.OperationMethod<
   GetAnalyzerRequest,
   GetAnalyzerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAnalyzerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyzerRequest,
@@ -4064,6 +4034,14 @@ export const getAnalyzer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAnalyzerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the configuration of an existing analyzer.
  *
@@ -4072,13 +4050,7 @@ export const getAnalyzer: API.OperationMethod<
 export const updateAnalyzer: API.OperationMethod<
   UpdateAnalyzerRequest,
   UpdateAnalyzerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAnalyzerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAnalyzerRequest,
@@ -4092,18 +4064,20 @@ export const updateAnalyzer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAnalyzerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
  */
 export const deleteAnalyzer: API.OperationMethod<
   DeleteAnalyzerRequest,
   DeleteAnalyzerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAnalyzerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAnalyzerRequest,
@@ -4116,39 +4090,33 @@ export const deleteAnalyzer: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAnalyzersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of analyzers.
  */
 export const listAnalyzers: API.OperationMethod<
   ListAnalyzersRequest,
   ListAnalyzersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAnalyzersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnalyzersRequest,
   ) => stream.Stream<
     ListAnalyzersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnalyzersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnalyzersRequest,
   ) => stream.Stream<
     AnalyzerSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnalyzersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4167,6 +4135,15 @@ export const listAnalyzers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateArchiveRuleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule.
  *
@@ -4175,14 +4152,7 @@ export const listAnalyzers: API.OperationMethod<
 export const createArchiveRule: API.OperationMethod<
   CreateArchiveRuleRequest,
   CreateArchiveRuleResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateArchiveRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateArchiveRuleRequest,
@@ -4197,6 +4167,13 @@ export const createArchiveRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetArchiveRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about an archive rule.
  *
@@ -4205,12 +4182,7 @@ export const createArchiveRule: API.OperationMethod<
 export const getArchiveRule: API.OperationMethod<
   GetArchiveRuleRequest,
   GetArchiveRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetArchiveRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetArchiveRuleRequest,
@@ -4223,18 +4195,20 @@ export const getArchiveRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateArchiveRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the criteria and values for the specified archive rule.
  */
 export const updateArchiveRule: API.OperationMethod<
   UpdateArchiveRuleRequest,
   UpdateArchiveRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateArchiveRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateArchiveRuleRequest,
@@ -4247,18 +4221,20 @@ export const updateArchiveRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteArchiveRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified archive rule.
  */
 export const deleteArchiveRule: API.OperationMethod<
   DeleteArchiveRuleRequest,
   DeleteArchiveRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteArchiveRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArchiveRuleRequest,
@@ -4271,39 +4247,33 @@ export const deleteArchiveRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListArchiveRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of archive rules created for the specified analyzer.
  */
 export const listArchiveRules: API.OperationMethod<
   ListArchiveRulesRequest,
   ListArchiveRulesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListArchiveRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListArchiveRulesRequest,
   ) => stream.Stream<
     ListArchiveRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListArchiveRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListArchiveRulesRequest,
   ) => stream.Stream<
     ArchiveRuleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListArchiveRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

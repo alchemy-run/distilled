@@ -838,43 +838,50 @@ export class RestApiServerException extends S.TaggedErrorClass<RestApiServerExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateCliTokenError = ResourceNotFoundException | CommonErrors;
 /**
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
  */
 export const createCliToken: API.OperationMethod<
   CreateCliTokenRequest,
   CreateCliTokenResponse,
-  ResourceNotFoundException | CommonErrors,
+  CreateCliTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCliTokenRequest,
   output: CreateCliTokenResponse,
   errors: [ResourceNotFoundException],
 }));
+export type CreateEnvironmentError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentInput,
   CreateEnvironmentOutput,
-  InternalServerException | ValidationException | CommonErrors,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
   output: CreateEnvironmentOutput,
   errors: [InternalServerException, ValidationException],
 }));
+export type CreateWebLoginTokenError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
  */
 export const createWebLoginToken: API.OperationMethod<
   CreateWebLoginTokenRequest,
   CreateWebLoginTokenResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateWebLoginTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebLoginTokenRequest,
@@ -886,16 +893,18 @@ export const createWebLoginToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentInput,
   DeleteEnvironmentOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentInput,
@@ -906,16 +915,18 @@ export const deleteEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentInput,
   GetEnvironmentOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentInput,
@@ -926,6 +937,14 @@ export const getEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type InvokeRestApiError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | RestApiClientException
+  | RestApiServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Invokes the Apache Airflow REST API on the webserver with the specified inputs. To
  * learn more, see Using the Apache Airflow REST API
@@ -933,13 +952,7 @@ export const getEnvironment: API.OperationMethod<
 export const invokeRestApi: API.OperationMethod<
   InvokeRestApiRequest,
   InvokeRestApiResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | RestApiClientException
-  | RestApiServerException
-  | ValidationException
-  | CommonErrors,
+  InvokeRestApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeRestApiRequest,
@@ -953,27 +966,31 @@ export const invokeRestApi: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsInput,
   ListEnvironmentsOutput,
-  InternalServerException | ValidationException | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
     ListEnvironmentsOutput,
-    InternalServerException | ValidationException | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
     EnvironmentName,
-    InternalServerException | ValidationException | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -987,16 +1004,18 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -1007,29 +1026,35 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PublishMetricsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
  */
 export const publishMetrics: API.OperationMethod<
   PublishMetricsInput,
   PublishMetricsOutput,
-  InternalServerException | ValidationException | CommonErrors,
+  PublishMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishMetricsInput,
   output: PublishMetricsOutput,
   errors: [InternalServerException, ValidationException],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1040,16 +1065,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1060,16 +1087,18 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEnvironmentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentInput,
   UpdateEnvironmentOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentInput,

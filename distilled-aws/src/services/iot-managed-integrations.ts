@@ -4426,12 +4426,7 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Returns the IoT managed integrations custom endpoint.
- */
-export const getCustomEndpoint: API.OperationMethod<
-  GetCustomEndpointRequest,
-  GetCustomEndpointResponse,
+export type GetCustomEndpointError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -4439,7 +4434,14 @@ export const getCustomEndpoint: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the IoT managed integrations custom endpoint.
+ */
+export const getCustomEndpoint: API.OperationMethod<
+  GetCustomEndpointRequest,
+  GetCustomEndpointResponse,
+  GetCustomEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomEndpointRequest,
@@ -4454,17 +4456,19 @@ export const getCustomEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Lists the tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -4476,12 +4480,7 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
- */
-export const registerCustomEndpoint: API.OperationMethod<
-  RegisterCustomEndpointRequest,
-  RegisterCustomEndpointResponse,
+export type RegisterCustomEndpointError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4489,7 +4488,14 @@ export const registerCustomEndpoint: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
+ */
+export const registerCustomEndpoint: API.OperationMethod<
+  RegisterCustomEndpointRequest,
+  RegisterCustomEndpointResponse,
+  RegisterCustomEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCustomEndpointRequest,
@@ -4504,19 +4510,21 @@ export const registerCustomEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Relays third-party device events for a connector such as a new device or a device state change event.
- */
-export const sendConnectorEvent: API.OperationMethod<
-  SendConnectorEventRequest,
-  SendConnectorEventResponse,
+export type SendConnectorEventError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Relays third-party device events for a connector such as a new device or a device state change event.
+ */
+export const sendConnectorEvent: API.OperationMethod<
+  SendConnectorEventRequest,
+  SendConnectorEventResponse,
+  SendConnectorEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendConnectorEventRequest,
@@ -4530,18 +4538,20 @@ export const sendConnectorEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ConflictException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Adds tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ConflictException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4554,18 +4564,20 @@ export const tagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
+export type UntagResourceError =
+  | ConflictException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Removes tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ConflictException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | UnauthorizedException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4578,12 +4590,7 @@ export const untagResource: API.OperationMethod<
     UnauthorizedException,
   ],
 }));
-/**
- * Creates a new account association via the destination id.
- */
-export const createAccountAssociation: API.OperationMethod<
-  CreateAccountAssociationRequest,
-  CreateAccountAssociationResponse,
+export type CreateAccountAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4592,7 +4599,14 @@ export const createAccountAssociation: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new account association via the destination id.
+ */
+export const createAccountAssociation: API.OperationMethod<
+  CreateAccountAssociationRequest,
+  CreateAccountAssociationResponse,
+  CreateAccountAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountAssociationRequest,
@@ -4608,19 +4622,21 @@ export const createAccountAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get an account association for an Amazon Web Services account linked to a customer-managed destination.
- */
-export const getAccountAssociation: API.OperationMethod<
-  GetAccountAssociationRequest,
-  GetAccountAssociationResponse,
+export type GetAccountAssociationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get an account association for an Amazon Web Services account linked to a customer-managed destination.
+ */
+export const getAccountAssociation: API.OperationMethod<
+  GetAccountAssociationRequest,
+  GetAccountAssociationResponse,
+  GetAccountAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountAssociationRequest,
@@ -4634,12 +4650,7 @@ export const getAccountAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the properties of an existing account association.
- */
-export const updateAccountAssociation: API.OperationMethod<
-  UpdateAccountAssociationRequest,
-  UpdateAccountAssociationResponse,
+export type UpdateAccountAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4647,7 +4658,14 @@ export const updateAccountAssociation: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of an existing account association.
+ */
+export const updateAccountAssociation: API.OperationMethod<
+  UpdateAccountAssociationRequest,
+  UpdateAccountAssociationResponse,
+  UpdateAccountAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountAssociationRequest,
@@ -4662,6 +4680,14 @@ export const updateAccountAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAccountAssociationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove a third-party account association for an end user.
  *
@@ -4670,13 +4696,7 @@ export const updateAccountAssociation: API.OperationMethod<
 export const deleteAccountAssociation: API.OperationMethod<
   DeleteAccountAssociationRequest,
   DeleteAccountAssociationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAccountAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountAssociationRequest,
@@ -4690,42 +4710,34 @@ export const deleteAccountAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAccountAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all account associations, with optional filtering by connector destination ID.
  */
 export const listAccountAssociations: API.OperationMethod<
   ListAccountAssociationsRequest,
   ListAccountAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountAssociationsRequest,
   ) => stream.Stream<
     ListAccountAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountAssociationsRequest,
   ) => stream.Stream<
     AccountAssociationItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4745,12 +4757,7 @@ export const listAccountAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Initiates a refresh of an existing account association to update its authorization and connection status.
- */
-export const startAccountAssociationRefresh: API.OperationMethod<
-  StartAccountAssociationRefreshRequest,
-  StartAccountAssociationRefreshResponse,
+export type StartAccountAssociationRefreshError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4758,7 +4765,14 @@ export const startAccountAssociationRefresh: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a refresh of an existing account association to update its authorization and connection status.
+ */
+export const startAccountAssociationRefresh: API.OperationMethod<
+  StartAccountAssociationRefreshRequest,
+  StartAccountAssociationRefreshResponse,
+  StartAccountAssociationRefreshError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAccountAssociationRefreshRequest,
@@ -4773,18 +4787,20 @@ export const startAccountAssociationRefresh: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCloudConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a C2C (cloud-to-cloud) connector.
  */
 export const createCloudConnector: API.OperationMethod<
   CreateCloudConnectorRequest,
   CreateCloudConnectorResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCloudConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCloudConnectorRequest,
@@ -4797,18 +4813,20 @@ export const createCloudConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCloudConnectorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get configuration details for a cloud connector.
  */
 export const getCloudConnector: API.OperationMethod<
   GetCloudConnectorRequest,
   GetCloudConnectorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCloudConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudConnectorRequest,
@@ -4821,19 +4839,21 @@ export const getCloudConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update an existing cloud connector.
- */
-export const updateCloudConnector: API.OperationMethod<
-  UpdateCloudConnectorRequest,
-  UpdateCloudConnectorResponse,
+export type UpdateCloudConnectorError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update an existing cloud connector.
+ */
+export const updateCloudConnector: API.OperationMethod<
+  UpdateCloudConnectorRequest,
+  UpdateCloudConnectorResponse,
+  UpdateCloudConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCloudConnectorRequest,
@@ -4847,19 +4867,21 @@ export const updateCloudConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a cloud connector.
- */
-export const deleteCloudConnector: API.OperationMethod<
-  DeleteCloudConnectorRequest,
-  DeleteCloudConnectorResponse,
+export type DeleteCloudConnectorError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a cloud connector.
+ */
+export const deleteCloudConnector: API.OperationMethod<
+  DeleteCloudConnectorRequest,
+  DeleteCloudConnectorResponse,
+  DeleteCloudConnectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCloudConnectorRequest,
@@ -4873,39 +4895,33 @@ export const deleteCloudConnector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCloudConnectorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and `type`.
  */
 export const listCloudConnectors: API.OperationMethod<
   ListCloudConnectorsRequest,
   ListCloudConnectorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCloudConnectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCloudConnectorsRequest,
   ) => stream.Stream<
     ListCloudConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCloudConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCloudConnectorsRequest,
   ) => stream.Stream<
     ConnectorItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCloudConnectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4924,12 +4940,7 @@ export const listCloudConnectors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
- */
-export const createConnectorDestination: API.OperationMethod<
-  CreateConnectorDestinationRequest,
-  CreateConnectorDestinationResponse,
+export type CreateConnectorDestinationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4937,7 +4948,14 @@ export const createConnectorDestination: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+ */
+export const createConnectorDestination: API.OperationMethod<
+  CreateConnectorDestinationRequest,
+  CreateConnectorDestinationResponse,
+  CreateConnectorDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorDestinationRequest,
@@ -4952,18 +4970,20 @@ export const createConnectorDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectorDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get connector destination details linked to a cloud-to-cloud (C2C) connector.
  */
 export const getConnectorDestination: API.OperationMethod<
   GetConnectorDestinationRequest,
   GetConnectorDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConnectorDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorDestinationRequest,
@@ -4976,18 +4996,20 @@ export const getConnectorDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConnectorDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the properties of an existing connector destination.
  */
 export const updateConnectorDestination: API.OperationMethod<
   UpdateConnectorDestinationRequest,
   UpdateConnectorDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateConnectorDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorDestinationRequest,
@@ -5000,6 +5022,13 @@ export const updateConnectorDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConnectorDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a connector destination linked to a cloud-to-cloud (C2C) connector.
  *
@@ -5008,12 +5037,7 @@ export const updateConnectorDestination: API.OperationMethod<
 export const deleteConnectorDestination: API.OperationMethod<
   DeleteConnectorDestinationRequest,
   DeleteConnectorDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteConnectorDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorDestinationRequest,
@@ -5026,39 +5050,33 @@ export const deleteConnectorDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConnectorDestinationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all connector destinations, with optional filtering by cloud connector ID.
  */
 export const listConnectorDestinations: API.OperationMethod<
   ListConnectorDestinationsRequest,
   ListConnectorDestinationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConnectorDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectorDestinationsRequest,
   ) => stream.Stream<
     ListConnectorDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectorDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorDestinationsRequest,
   ) => stream.Stream<
     ConnectorDestinationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectorDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5077,6 +5095,15 @@ export const listConnectorDestinations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateCredentialLockerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a credential locker.
  *
@@ -5085,14 +5112,7 @@ export const listConnectorDestinations: API.OperationMethod<
 export const createCredentialLocker: API.OperationMethod<
   CreateCredentialLockerRequest,
   CreateCredentialLockerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCredentialLockerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCredentialLockerRequest,
@@ -5107,19 +5127,21 @@ export const createCredentialLocker: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get information on an existing credential locker
- */
-export const getCredentialLocker: API.OperationMethod<
-  GetCredentialLockerRequest,
-  GetCredentialLockerResponse,
+export type GetCredentialLockerError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get information on an existing credential locker
+ */
+export const getCredentialLocker: API.OperationMethod<
+  GetCredentialLockerRequest,
+  GetCredentialLockerResponse,
+  GetCredentialLockerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCredentialLockerRequest,
@@ -5133,6 +5155,14 @@ export const getCredentialLocker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCredentialLockerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a credential locker.
  *
@@ -5141,13 +5171,7 @@ export const getCredentialLocker: API.OperationMethod<
 export const deleteCredentialLocker: API.OperationMethod<
   DeleteCredentialLockerRequest,
   DeleteCredentialLockerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCredentialLockerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCredentialLockerRequest,
@@ -5161,42 +5185,34 @@ export const deleteCredentialLocker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCredentialLockersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List information on an existing credential locker.
  */
 export const listCredentialLockers: API.OperationMethod<
   ListCredentialLockersRequest,
   ListCredentialLockersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCredentialLockersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCredentialLockersRequest,
   ) => stream.Stream<
     ListCredentialLockersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCredentialLockersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCredentialLockersRequest,
   ) => stream.Stream<
     CredentialLockerSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCredentialLockersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5216,18 +5232,20 @@ export const listCredentialLockers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateDestinationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
  */
 export const createDestination: API.OperationMethod<
   CreateDestinationRequest,
   CreateDestinationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDestinationRequest,
@@ -5240,18 +5258,20 @@ export const createDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a notification destination specified by name.
  */
 export const deleteDestination: API.OperationMethod<
   DeleteDestinationRequest,
   DeleteDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDestinationRequest,
@@ -5264,18 +5284,20 @@ export const deleteDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a destination by name.
  */
 export const getDestination: API.OperationMethod<
   GetDestinationRequest,
   GetDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDestinationRequest,
@@ -5288,39 +5310,33 @@ export const getDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDestinationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all notification destinations.
  */
 export const listDestinations: API.OperationMethod<
   ListDestinationsRequest,
   ListDestinationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDestinationsRequest,
   ) => stream.Stream<
     ListDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDestinationsRequest,
   ) => stream.Stream<
     DestinationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5339,18 +5355,20 @@ export const listDestinations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type UpdateDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a destination specified by name.
  */
 export const updateDestination: API.OperationMethod<
   UpdateDestinationRequest,
   UpdateDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDestinationRequest,
@@ -5363,12 +5381,7 @@ export const updateDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
- */
-export const startDeviceDiscovery: API.OperationMethod<
-  StartDeviceDiscoveryRequest,
-  StartDeviceDiscoveryResponse,
+export type StartDeviceDiscoveryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -5377,7 +5390,14 @@ export const startDeviceDiscovery: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
+ */
+export const startDeviceDiscovery: API.OperationMethod<
+  StartDeviceDiscoveryRequest,
+  StartDeviceDiscoveryResponse,
+  StartDeviceDiscoveryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeviceDiscoveryRequest,
@@ -5393,12 +5413,7 @@ export const startDeviceDiscovery: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get the current state of a device discovery.
- */
-export const getDeviceDiscovery: API.OperationMethod<
-  GetDeviceDiscoveryRequest,
-  GetDeviceDiscoveryResponse,
+export type GetDeviceDiscoveryError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -5406,7 +5421,14 @@ export const getDeviceDiscovery: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the current state of a device discovery.
+ */
+export const getDeviceDiscovery: API.OperationMethod<
+  GetDeviceDiscoveryRequest,
+  GetDeviceDiscoveryResponse,
+  GetDeviceDiscoveryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceDiscoveryRequest,
@@ -5421,45 +5443,35 @@ export const getDeviceDiscovery: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists all device discovery tasks, with optional filtering by type and status.
- */
-export const listDeviceDiscoveries: API.OperationMethod<
-  ListDeviceDiscoveriesRequest,
-  ListDeviceDiscoveriesResponse,
+export type ListDeviceDiscoveriesError =
   | AccessDeniedException
   | InternalServerException
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all device discovery tasks, with optional filtering by type and status.
+ */
+export const listDeviceDiscoveries: API.OperationMethod<
+  ListDeviceDiscoveriesRequest,
+  ListDeviceDiscoveriesResponse,
+  ListDeviceDiscoveriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeviceDiscoveriesRequest,
   ) => stream.Stream<
     ListDeviceDiscoveriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListDeviceDiscoveriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeviceDiscoveriesRequest,
   ) => stream.Stream<
     DeviceDiscoverySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListDeviceDiscoveriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5480,12 +5492,7 @@ export const listDeviceDiscoveries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists all devices discovered during a specific device discovery task.
- */
-export const listDiscoveredDevices: API.OperationMethod<
-  ListDiscoveredDevicesRequest,
-  ListDiscoveredDevicesResponse,
+export type ListDiscoveredDevicesError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -5493,35 +5500,28 @@ export const listDiscoveredDevices: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all devices discovered during a specific device discovery task.
+ */
+export const listDiscoveredDevices: API.OperationMethod<
+  ListDiscoveredDevicesRequest,
+  ListDiscoveredDevicesResponse,
+  ListDiscoveredDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDiscoveredDevicesRequest,
   ) => stream.Stream<
     ListDiscoveredDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListDiscoveredDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDiscoveredDevicesRequest,
   ) => stream.Stream<
     DiscoveredDeviceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListDiscoveredDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5543,19 +5543,21 @@ export const listDiscoveredDevices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Set the event log configuration for the account, resource type, or specific resource.
- */
-export const createEventLogConfiguration: API.OperationMethod<
-  CreateEventLogConfigurationRequest,
-  CreateEventLogConfigurationResponse,
+export type CreateEventLogConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Set the event log configuration for the account, resource type, or specific resource.
+ */
+export const createEventLogConfiguration: API.OperationMethod<
+  CreateEventLogConfigurationRequest,
+  CreateEventLogConfigurationResponse,
+  CreateEventLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventLogConfigurationRequest,
@@ -5569,18 +5571,20 @@ export const createEventLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEventLogConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an event log configuration.
  */
 export const deleteEventLogConfiguration: API.OperationMethod<
   DeleteEventLogConfigurationRequest,
   DeleteEventLogConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEventLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventLogConfigurationRequest,
@@ -5593,18 +5597,20 @@ export const deleteEventLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEventLogConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get an event log configuration.
  */
 export const getEventLogConfiguration: API.OperationMethod<
   GetEventLogConfigurationRequest,
   GetEventLogConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEventLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventLogConfigurationRequest,
@@ -5617,39 +5623,33 @@ export const getEventLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEventLogConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all event log configurations for an account.
  */
 export const listEventLogConfigurations: API.OperationMethod<
   ListEventLogConfigurationsRequest,
   ListEventLogConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEventLogConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventLogConfigurationsRequest,
   ) => stream.Stream<
     ListEventLogConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventLogConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventLogConfigurationsRequest,
   ) => stream.Stream<
     EventLogConfigurationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventLogConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5668,18 +5668,20 @@ export const listEventLogConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type UpdateEventLogConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update an event log configuration by log configuration ID.
  */
 export const updateEventLogConfiguration: API.OperationMethod<
   UpdateEventLogConfigurationRequest,
   UpdateEventLogConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEventLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventLogConfigurationRequest,
@@ -5692,19 +5694,21 @@ export const updateEventLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get a hub configuration.
- */
-export const getHubConfiguration: API.OperationMethod<
-  GetHubConfigurationRequest,
-  GetHubConfigurationResponse,
+export type GetHubConfigurationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get a hub configuration.
+ */
+export const getHubConfiguration: API.OperationMethod<
+  GetHubConfigurationRequest,
+  GetHubConfigurationResponse,
+  GetHubConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHubConfigurationRequest,
@@ -5718,19 +5722,21 @@ export const getHubConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a hub configuration.
- */
-export const putHubConfiguration: API.OperationMethod<
-  PutHubConfigurationRequest,
-  PutHubConfigurationResponse,
+export type PutHubConfigurationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a hub configuration.
+ */
+export const putHubConfiguration: API.OperationMethod<
+  PutHubConfigurationRequest,
+  PutHubConfigurationResponse,
+  PutHubConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutHubConfigurationRequest,
@@ -5744,12 +5750,7 @@ export const putHubConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the *AWS IoT SiteWise User Guide*.
- */
-export const getDefaultEncryptionConfiguration: API.OperationMethod<
-  GetDefaultEncryptionConfigurationRequest,
-  GetDefaultEncryptionConfigurationResponse,
+export type GetDefaultEncryptionConfigurationError =
   | AccessDeniedException
   | InternalFailureException
   | ResourceNotFoundException
@@ -5757,7 +5758,14 @@ export const getDefaultEncryptionConfiguration: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the *AWS IoT SiteWise User Guide*.
+ */
+export const getDefaultEncryptionConfiguration: API.OperationMethod<
+  GetDefaultEncryptionConfigurationRequest,
+  GetDefaultEncryptionConfigurationResponse,
+  GetDefaultEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultEncryptionConfigurationRequest,
@@ -5772,12 +5780,7 @@ export const getDefaultEncryptionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
- */
-export const putDefaultEncryptionConfiguration: API.OperationMethod<
-  PutDefaultEncryptionConfigurationRequest,
-  PutDefaultEncryptionConfigurationResponse,
+export type PutDefaultEncryptionConfigurationError =
   | AccessDeniedException
   | InternalFailureException
   | ResourceNotFoundException
@@ -5785,7 +5788,14 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
+ */
+export const putDefaultEncryptionConfiguration: API.OperationMethod<
+  PutDefaultEncryptionConfigurationRequest,
+  PutDefaultEncryptionConfigurationResponse,
+  PutDefaultEncryptionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDefaultEncryptionConfigurationRequest,
@@ -5800,19 +5810,21 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deregister an account association from a managed thing.
- */
-export const deregisterAccountAssociation: API.OperationMethod<
-  DeregisterAccountAssociationRequest,
-  DeregisterAccountAssociationResponse,
+export type DeregisterAccountAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deregister an account association from a managed thing.
+ */
+export const deregisterAccountAssociation: API.OperationMethod<
+  DeregisterAccountAssociationRequest,
+  DeregisterAccountAssociationResponse,
+  DeregisterAccountAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterAccountAssociationRequest,
@@ -5826,39 +5838,33 @@ export const deregisterAccountAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListManagedThingAccountAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all account associations for a specific managed thing.
  */
 export const listManagedThingAccountAssociations: API.OperationMethod<
   ListManagedThingAccountAssociationsRequest,
   ListManagedThingAccountAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListManagedThingAccountAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedThingAccountAssociationsRequest,
   ) => stream.Stream<
     ListManagedThingAccountAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedThingAccountAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedThingAccountAssociationsRequest,
   ) => stream.Stream<
     ManagedThingAssociation,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListManagedThingAccountAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5877,19 +5883,21 @@ export const listManagedThingAccountAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
- */
-export const registerAccountAssociation: API.OperationMethod<
-  RegisterAccountAssociationRequest,
-  RegisterAccountAssociationResponse,
+export type RegisterAccountAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
+ */
+export const registerAccountAssociation: API.OperationMethod<
+  RegisterAccountAssociationRequest,
+  RegisterAccountAssociationResponse,
+  RegisterAccountAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAccountAssociationRequest,
@@ -5903,12 +5911,7 @@ export const registerAccountAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Send the command to the device represented by the managed thing.
- */
-export const sendManagedThingCommand: API.OperationMethod<
-  SendManagedThingCommandRequest,
-  SendManagedThingCommandResponse,
+export type SendManagedThingCommandError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -5916,7 +5919,14 @@ export const sendManagedThingCommand: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Send the command to the device represented by the managed thing.
+ */
+export const sendManagedThingCommand: API.OperationMethod<
+  SendManagedThingCommandRequest,
+  SendManagedThingCommandResponse,
+  SendManagedThingCommandError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendManagedThingCommandRequest,
@@ -5931,12 +5941,7 @@ export const sendManagedThingCommand: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
- */
-export const createManagedThing: API.OperationMethod<
-  CreateManagedThingRequest,
-  CreateManagedThingResponse,
+export type CreateManagedThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -5945,7 +5950,14 @@ export const createManagedThing: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
+ */
+export const createManagedThing: API.OperationMethod<
+  CreateManagedThingRequest,
+  CreateManagedThingResponse,
+  CreateManagedThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateManagedThingRequest,
@@ -5961,12 +5973,7 @@ export const createManagedThing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get details of a managed thing including its attributes and capabilities.
- */
-export const getManagedThing: API.OperationMethod<
-  GetManagedThingRequest,
-  GetManagedThingResponse,
+export type GetManagedThingError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -5974,7 +5981,14 @@ export const getManagedThing: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details of a managed thing including its attributes and capabilities.
+ */
+export const getManagedThing: API.OperationMethod<
+  GetManagedThingRequest,
+  GetManagedThingResponse,
+  GetManagedThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingRequest,
@@ -5989,12 +6003,7 @@ export const getManagedThing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the attributes and capabilities associated with a managed thing.
- */
-export const updateManagedThing: API.OperationMethod<
-  UpdateManagedThingRequest,
-  UpdateManagedThingResponse,
+export type UpdateManagedThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6003,7 +6012,14 @@ export const updateManagedThing: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the attributes and capabilities associated with a managed thing.
+ */
+export const updateManagedThing: API.OperationMethod<
+  UpdateManagedThingRequest,
+  UpdateManagedThingResponse,
+  UpdateManagedThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateManagedThingRequest,
@@ -6019,12 +6035,7 @@ export const updateManagedThing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to `PENDING`. It is not possible to remove a cloud-to-cloud device.
- */
-export const deleteManagedThing: API.OperationMethod<
-  DeleteManagedThingRequest,
-  DeleteManagedThingResponse,
+export type DeleteManagedThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6033,7 +6044,14 @@ export const deleteManagedThing: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to `PENDING`. It is not possible to remove a cloud-to-cloud device.
+ */
+export const deleteManagedThing: API.OperationMethod<
+  DeleteManagedThingRequest,
+  DeleteManagedThingResponse,
+  DeleteManagedThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteManagedThingRequest,
@@ -6049,45 +6067,35 @@ export const deleteManagedThing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Listing all managed things with provision for filters.
- */
-export const listManagedThings: API.OperationMethod<
-  ListManagedThingsRequest,
-  ListManagedThingsResponse,
+export type ListManagedThingsError =
   | AccessDeniedException
   | InternalServerException
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Listing all managed things with provision for filters.
+ */
+export const listManagedThings: API.OperationMethod<
+  ListManagedThingsRequest,
+  ListManagedThingsResponse,
+  ListManagedThingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedThingsRequest,
   ) => stream.Stream<
     ListManagedThingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListManagedThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedThingsRequest,
   ) => stream.Stream<
     ManagedThingSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListManagedThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6108,12 +6116,7 @@ export const listManagedThings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Get the capabilities for a managed thing using the device ID.
- */
-export const getManagedThingCapabilities: API.OperationMethod<
-  GetManagedThingCapabilitiesRequest,
-  GetManagedThingCapabilitiesResponse,
+export type GetManagedThingCapabilitiesError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -6121,7 +6124,14 @@ export const getManagedThingCapabilities: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the capabilities for a managed thing using the device ID.
+ */
+export const getManagedThingCapabilities: API.OperationMethod<
+  GetManagedThingCapabilitiesRequest,
+  GetManagedThingCapabilitiesResponse,
+  GetManagedThingCapabilitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingCapabilitiesRequest,
@@ -6136,12 +6146,7 @@ export const getManagedThingCapabilities: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves the certificate PEM for a managed IoT thing.
- */
-export const getManagedThingCertificate: API.OperationMethod<
-  GetManagedThingCertificateRequest,
-  GetManagedThingCertificateResponse,
+export type GetManagedThingCertificateError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -6149,7 +6154,14 @@ export const getManagedThingCertificate: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the certificate PEM for a managed IoT thing.
+ */
+export const getManagedThingCertificate: API.OperationMethod<
+  GetManagedThingCertificateRequest,
+  GetManagedThingCertificateResponse,
+  GetManagedThingCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingCertificateRequest,
@@ -6164,12 +6176,7 @@ export const getManagedThingCertificate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get the connectivity status of a managed thing.
- */
-export const getManagedThingConnectivityData: API.OperationMethod<
-  GetManagedThingConnectivityDataRequest,
-  GetManagedThingConnectivityDataResponse,
+export type GetManagedThingConnectivityDataError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -6177,7 +6184,14 @@ export const getManagedThingConnectivityData: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the connectivity status of a managed thing.
+ */
+export const getManagedThingConnectivityData: API.OperationMethod<
+  GetManagedThingConnectivityDataRequest,
+  GetManagedThingConnectivityDataResponse,
+  GetManagedThingConnectivityDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingConnectivityDataRequest,
@@ -6192,6 +6206,15 @@ export const getManagedThingConnectivityData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetManagedThingMetaDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the metadata information for a managed thing.
  *
@@ -6200,14 +6223,7 @@ export const getManagedThingConnectivityData: API.OperationMethod<
 export const getManagedThingMetaData: API.OperationMethod<
   GetManagedThingMetaDataRequest,
   GetManagedThingMetaDataResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | ValidationException
-  | CommonErrors,
+  GetManagedThingMetaDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingMetaDataRequest,
@@ -6222,12 +6238,7 @@ export const getManagedThingMetaData: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * List schemas associated with a managed thing.
- */
-export const listManagedThingSchemas: API.OperationMethod<
-  ListManagedThingSchemasRequest,
-  ListManagedThingSchemasResponse,
+export type ListManagedThingSchemasError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -6235,35 +6246,28 @@ export const listManagedThingSchemas: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List schemas associated with a managed thing.
+ */
+export const listManagedThingSchemas: API.OperationMethod<
+  ListManagedThingSchemasRequest,
+  ListManagedThingSchemasResponse,
+  ListManagedThingSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedThingSchemasRequest,
   ) => stream.Stream<
     ListManagedThingSchemasResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListManagedThingSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedThingSchemasRequest,
   ) => stream.Stream<
     ManagedThingSchemaListItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListManagedThingSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6285,12 +6289,7 @@ export const listManagedThingSchemas: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns the managed thing state for the given device Id.
- */
-export const getManagedThingState: API.OperationMethod<
-  GetManagedThingStateRequest,
-  GetManagedThingStateResponse,
+export type GetManagedThingStateError =
   | AccessDeniedException
   | InternalFailureException
   | ResourceNotFoundException
@@ -6298,7 +6297,14 @@ export const getManagedThingState: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the managed thing state for the given device Id.
+ */
+export const getManagedThingState: API.OperationMethod<
+  GetManagedThingStateRequest,
+  GetManagedThingStateResponse,
+  GetManagedThingStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingStateRequest,
@@ -6313,18 +6319,20 @@ export const getManagedThingState: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateNotificationConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
  */
 export const createNotificationConfiguration: API.OperationMethod<
   CreateNotificationConfigurationRequest,
   CreateNotificationConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotificationConfigurationRequest,
@@ -6337,18 +6345,20 @@ export const createNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteNotificationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a notification configuration.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
   DeleteNotificationConfigurationRequest,
   DeleteNotificationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotificationConfigurationRequest,
@@ -6361,18 +6371,20 @@ export const deleteNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNotificationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a notification configuration for a specified event type.
  */
 export const getNotificationConfiguration: API.OperationMethod<
   GetNotificationConfigurationRequest,
   GetNotificationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationConfigurationRequest,
@@ -6385,39 +6397,33 @@ export const getNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListNotificationConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all notification configurations.
  */
 export const listNotificationConfigurations: API.OperationMethod<
   ListNotificationConfigurationsRequest,
   ListNotificationConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationConfigurationsRequest,
   ) => stream.Stream<
     ListNotificationConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationConfigurationsRequest,
   ) => stream.Stream<
     NotificationConfigurationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6436,18 +6442,20 @@ export const listNotificationConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type UpdateNotificationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a notification configuration.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
   UpdateNotificationConfigurationRequest,
   UpdateNotificationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationConfigurationRequest,
@@ -6460,18 +6468,20 @@ export const updateNotificationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateOtaTaskConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a configuraiton for the over-the-air (OTA) task.
  */
 export const createOtaTaskConfiguration: API.OperationMethod<
   CreateOtaTaskConfigurationRequest,
   CreateOtaTaskConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateOtaTaskConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOtaTaskConfigurationRequest,
@@ -6484,18 +6494,20 @@ export const createOtaTaskConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOtaTaskConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete the over-the-air (OTA) task configuration.
  */
 export const deleteOtaTaskConfiguration: API.OperationMethod<
   DeleteOtaTaskConfigurationRequest,
   DeleteOtaTaskConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteOtaTaskConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOtaTaskConfigurationRequest,
@@ -6508,18 +6520,20 @@ export const deleteOtaTaskConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOtaTaskConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a configuraiton for the over-the-air (OTA) task.
  */
 export const getOtaTaskConfiguration: API.OperationMethod<
   GetOtaTaskConfigurationRequest,
   GetOtaTaskConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOtaTaskConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOtaTaskConfigurationRequest,
@@ -6532,39 +6546,33 @@ export const getOtaTaskConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListOtaTaskConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all of the over-the-air (OTA) task configurations.
  */
 export const listOtaTaskConfigurations: API.OperationMethod<
   ListOtaTaskConfigurationsRequest,
   ListOtaTaskConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOtaTaskConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOtaTaskConfigurationsRequest,
   ) => stream.Stream<
     ListOtaTaskConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOtaTaskConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOtaTaskConfigurationsRequest,
   ) => stream.Stream<
     OtaTaskConfigurationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOtaTaskConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6583,12 +6591,7 @@ export const listOtaTaskConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Create an over-the-air (OTA) task to target a device.
- */
-export const createOtaTask: API.OperationMethod<
-  CreateOtaTaskRequest,
-  CreateOtaTaskResponse,
+export type CreateOtaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6596,7 +6599,14 @@ export const createOtaTask: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create an over-the-air (OTA) task to target a device.
+ */
+export const createOtaTask: API.OperationMethod<
+  CreateOtaTaskRequest,
+  CreateOtaTaskResponse,
+  CreateOtaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOtaTaskRequest,
@@ -6611,18 +6621,20 @@ export const createOtaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOtaTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get details of the over-the-air (OTA) task by its task id.
  */
 export const getOtaTask: API.OperationMethod<
   GetOtaTaskRequest,
   GetOtaTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOtaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOtaTaskRequest,
@@ -6635,18 +6647,20 @@ export const getOtaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateOtaTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update an over-the-air (OTA) task.
  */
 export const updateOtaTask: API.OperationMethod<
   UpdateOtaTaskRequest,
   UpdateOtaTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateOtaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOtaTaskRequest,
@@ -6659,19 +6673,21 @@ export const updateOtaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete the over-the-air (OTA) task.
- */
-export const deleteOtaTask: API.OperationMethod<
-  DeleteOtaTaskRequest,
-  DeleteOtaTaskResponse,
+export type DeleteOtaTaskError =
   | AccessDeniedException
   | InternalServerException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the over-the-air (OTA) task.
+ */
+export const deleteOtaTask: API.OperationMethod<
+  DeleteOtaTaskRequest,
+  DeleteOtaTaskResponse,
+  DeleteOtaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOtaTaskRequest,
@@ -6685,42 +6701,34 @@ export const deleteOtaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListOtaTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all of the over-the-air (OTA) tasks.
  */
 export const listOtaTasks: API.OperationMethod<
   ListOtaTasksRequest,
   ListOtaTasksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOtaTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOtaTasksRequest,
   ) => stream.Stream<
     ListOtaTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOtaTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOtaTasksRequest,
   ) => stream.Stream<
     OtaTaskSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOtaTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6740,42 +6748,34 @@ export const listOtaTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOtaTaskExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all of the over-the-air (OTA) task executions.
  */
 export const listOtaTaskExecutions: API.OperationMethod<
   ListOtaTaskExecutionsRequest,
   ListOtaTaskExecutionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOtaTaskExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOtaTaskExecutionsRequest,
   ) => stream.Stream<
     ListOtaTaskExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOtaTaskExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOtaTaskExecutionsRequest,
   ) => stream.Stream<
     OtaTaskExecutionSummaries,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOtaTaskExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6795,12 +6795,7 @@ export const listOtaTaskExecutions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
- */
-export const createProvisioningProfile: API.OperationMethod<
-  CreateProvisioningProfileRequest,
-  CreateProvisioningProfileResponse,
+export type CreateProvisioningProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -6809,7 +6804,14 @@ export const createProvisioningProfile: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
+ */
+export const createProvisioningProfile: API.OperationMethod<
+  CreateProvisioningProfileRequest,
+  CreateProvisioningProfileResponse,
+  CreateProvisioningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProvisioningProfileRequest,
@@ -6825,12 +6827,7 @@ export const createProvisioningProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get a provisioning profile by template name.
- */
-export const getProvisioningProfile: API.OperationMethod<
-  GetProvisioningProfileRequest,
-  GetProvisioningProfileResponse,
+export type GetProvisioningProfileError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -6838,7 +6835,14 @@ export const getProvisioningProfile: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get a provisioning profile by template name.
+ */
+export const getProvisioningProfile: API.OperationMethod<
+  GetProvisioningProfileRequest,
+  GetProvisioningProfileResponse,
+  GetProvisioningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProvisioningProfileRequest,
@@ -6853,12 +6857,7 @@ export const getProvisioningProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a provisioning profile.
- */
-export const deleteProvisioningProfile: API.OperationMethod<
-  DeleteProvisioningProfileRequest,
-  DeleteProvisioningProfileResponse,
+export type DeleteProvisioningProfileError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -6866,7 +6865,14 @@ export const deleteProvisioningProfile: API.OperationMethod<
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a provisioning profile.
+ */
+export const deleteProvisioningProfile: API.OperationMethod<
+  DeleteProvisioningProfileRequest,
+  DeleteProvisioningProfileResponse,
+  DeleteProvisioningProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProvisioningProfileRequest,
@@ -6881,45 +6887,35 @@ export const deleteProvisioningProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * List the provisioning profiles within the Amazon Web Services account.
- */
-export const listProvisioningProfiles: API.OperationMethod<
-  ListProvisioningProfilesRequest,
-  ListProvisioningProfilesResponse,
+export type ListProvisioningProfilesError =
   | AccessDeniedException
   | InternalServerException
   | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the provisioning profiles within the Amazon Web Services account.
+ */
+export const listProvisioningProfiles: API.OperationMethod<
+  ListProvisioningProfilesRequest,
+  ListProvisioningProfilesResponse,
+  ListProvisioningProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProvisioningProfilesRequest,
   ) => stream.Stream<
     ListProvisioningProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListProvisioningProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisioningProfilesRequest,
   ) => stream.Stream<
     ProvisioningProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
+    ListProvisioningProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6940,18 +6936,20 @@ export const listProvisioningProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetRuntimeLogConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the runtime log configuration for a specific managed thing.
  */
 export const getRuntimeLogConfiguration: API.OperationMethod<
   GetRuntimeLogConfigurationRequest,
   GetRuntimeLogConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRuntimeLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuntimeLogConfigurationRequest,
@@ -6964,18 +6962,20 @@ export const getRuntimeLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRuntimeLogConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set the runtime log configuration for a specific managed thing.
  */
 export const putRuntimeLogConfiguration: API.OperationMethod<
   PutRuntimeLogConfigurationRequest,
   PutRuntimeLogConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutRuntimeLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRuntimeLogConfigurationRequest,
@@ -6988,18 +6988,20 @@ export const putRuntimeLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResetRuntimeLogConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Reset a runtime log configuration for a specific managed thing.
  */
 export const resetRuntimeLogConfiguration: API.OperationMethod<
   ResetRuntimeLogConfigurationRequest,
   ResetRuntimeLogConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetRuntimeLogConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetRuntimeLogConfigurationRequest,
@@ -7012,12 +7014,7 @@ export const resetRuntimeLogConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets a schema version with the provided information.
- */
-export const getSchemaVersion: API.OperationMethod<
-  GetSchemaVersionRequest,
-  GetSchemaVersionResponse,
+export type GetSchemaVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -7025,7 +7022,14 @@ export const getSchemaVersion: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets a schema version with the provided information.
+ */
+export const getSchemaVersion: API.OperationMethod<
+  GetSchemaVersionRequest,
+  GetSchemaVersionResponse,
+  GetSchemaVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaVersionRequest,
@@ -7040,45 +7044,35 @@ export const getSchemaVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists schema versions with the provided information.
- */
-export const listSchemaVersions: API.OperationMethod<
-  ListSchemaVersionsRequest,
-  ListSchemaVersionsResponse,
+export type ListSchemaVersionsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists schema versions with the provided information.
+ */
+export const listSchemaVersions: API.OperationMethod<
+  ListSchemaVersionsRequest,
+  ListSchemaVersionsResponse,
+  ListSchemaVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemaVersionsRequest,
   ) => stream.Stream<
     ListSchemaVersionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSchemaVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemaVersionsRequest,
   ) => stream.Stream<
     SchemaVersionListItem,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSchemaVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -2818,6 +2818,7 @@ export class InvalidFormatFault extends S.TaggedErrorClass<InvalidFormatFault>()
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DeleteAlarmMuteRuleError = CommonErrors;
 /**
  * Deletes a specific alarm mute rule.
  *
@@ -2832,13 +2833,14 @@ export class InvalidFormatFault extends S.TaggedErrorClass<InvalidFormatFault>()
 export const deleteAlarmMuteRule: API.OperationMethod<
   DeleteAlarmMuteRuleInput,
   DeleteAlarmMuteRuleResponse,
-  CommonErrors,
+  DeleteAlarmMuteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmMuteRuleInput,
   output: DeleteAlarmMuteRuleResponse,
   errors: [],
 }));
+export type DeleteAlarmsError = ResourceNotFound | CommonErrors;
 /**
  * Deletes the specified alarms. You can delete up to 100 alarms in one operation.
  * However, this total can include no more than one composite alarm. For example, you could
@@ -2866,13 +2868,20 @@ export const deleteAlarmMuteRule: API.OperationMethod<
 export const deleteAlarms: API.OperationMethod<
   DeleteAlarmsInput,
   DeleteAlarmsResponse,
-  ResourceNotFound | CommonErrors,
+  DeleteAlarmsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmsInput,
   output: DeleteAlarmsResponse,
   errors: [ResourceNotFound],
 }));
+export type DeleteAnomalyDetectorError =
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified anomaly detection model from your account. For more information
  * about how to delete an anomaly detection model, see Deleting an anomaly detection model in the CloudWatch User
@@ -2881,12 +2890,7 @@ export const deleteAlarms: API.OperationMethod<
 export const deleteAnomalyDetector: API.OperationMethod<
   DeleteAnomalyDetectorInput,
   DeleteAnomalyDetectorOutput,
-  | InternalServiceFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteAnomalyDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAnomalyDetectorInput,
@@ -2899,6 +2903,12 @@ export const deleteAnomalyDetector: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDashboardsError =
+  | ConflictException
+  | DashboardNotFoundError
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Deletes all dashboards that you specify. You can specify up to 100 dashboards to
  * delete. If there is an error during this call, no dashboards are deleted.
@@ -2906,11 +2916,7 @@ export const deleteAnomalyDetector: API.OperationMethod<
 export const deleteDashboards: API.OperationMethod<
   DeleteDashboardsInput,
   DeleteDashboardsOutput,
-  | ConflictException
-  | DashboardNotFoundError
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | CommonErrors,
+  DeleteDashboardsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardsInput,
@@ -2922,6 +2928,10 @@ export const deleteDashboards: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type DeleteInsightRulesError =
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Permanently deletes the specified Contributor Insights rules.
  *
@@ -2931,25 +2941,25 @@ export const deleteDashboards: API.OperationMethod<
 export const deleteInsightRules: API.OperationMethod<
   DeleteInsightRulesInput,
   DeleteInsightRulesOutput,
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  DeleteInsightRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInsightRulesInput,
   output: DeleteInsightRulesOutput,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
 }));
+export type DeleteMetricStreamError =
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Permanently deletes the metric stream that you specify.
  */
 export const deleteMetricStream: API.OperationMethod<
   DeleteMetricStreamInput,
   DeleteMetricStreamOutput,
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  DeleteMetricStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMetricStreamInput,
@@ -2960,19 +2970,24 @@ export const deleteMetricStream: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type DescribeAlarmContributorsError =
+  | InvalidNextToken
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the information of the current alarm contributors that are in `ALARM` state. This operation returns details about the individual time series that contribute to the alarm's state.
  */
 export const describeAlarmContributors: API.OperationMethod<
   DescribeAlarmContributorsInput,
   DescribeAlarmContributorsOutput,
-  InvalidNextToken | ResourceNotFoundException | CommonErrors,
+  DescribeAlarmContributorsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlarmContributorsInput,
   output: DescribeAlarmContributorsOutput,
   errors: [InvalidNextToken, ResourceNotFoundException],
 }));
+export type DescribeAlarmHistoryError = InvalidNextToken | CommonErrors;
 /**
  * Retrieves the history for the specified alarm. You can filter the results by date
  * range or item type. If an alarm name is not specified, the histories for either all
@@ -2988,21 +3003,21 @@ export const describeAlarmContributors: API.OperationMethod<
 export const describeAlarmHistory: API.OperationMethod<
   DescribeAlarmHistoryInput,
   DescribeAlarmHistoryOutput,
-  InvalidNextToken | CommonErrors,
+  DescribeAlarmHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAlarmHistoryInput,
   ) => stream.Stream<
     DescribeAlarmHistoryOutput,
-    InvalidNextToken | CommonErrors,
+    DescribeAlarmHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAlarmHistoryInput,
   ) => stream.Stream<
     AlarmHistoryItem,
-    InvalidNextToken | CommonErrors,
+    DescribeAlarmHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3016,6 +3031,7 @@ export const describeAlarmHistory: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeAlarmsError = InvalidNextToken | CommonErrors;
 /**
  * Retrieves the specified alarms. You can filter the results by specifying a prefix
  * for the alarm name, the alarm state, or a prefix for any action.
@@ -3028,21 +3044,21 @@ export const describeAlarmHistory: API.OperationMethod<
 export const describeAlarms: API.OperationMethod<
   DescribeAlarmsInput,
   DescribeAlarmsOutput,
-  InvalidNextToken | CommonErrors,
+  DescribeAlarmsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAlarmsInput,
   ) => stream.Stream<
     DescribeAlarmsOutput,
-    InvalidNextToken | CommonErrors,
+    DescribeAlarmsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAlarmsInput,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | CommonErrors,
+    DescribeAlarmsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3055,6 +3071,7 @@ export const describeAlarms: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeAlarmsForMetricError = CommonErrors;
 /**
  * Retrieves the alarms for the specified metric. To filter the results, specify a
  * statistic, period, or unit.
@@ -3066,13 +3083,19 @@ export const describeAlarms: API.OperationMethod<
 export const describeAlarmsForMetric: API.OperationMethod<
   DescribeAlarmsForMetricInput,
   DescribeAlarmsForMetricOutput,
-  CommonErrors,
+  DescribeAlarmsForMetricError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlarmsForMetricInput,
   output: DescribeAlarmsForMetricOutput,
   errors: [],
 }));
+export type DescribeAnomalyDetectorsError =
+  | InternalServiceFault
+  | InvalidNextToken
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Lists the anomaly detection models that you have created in your account. For single
  * metric anomaly detectors, you can list all of the models in your account or filter the
@@ -3084,33 +3107,21 @@ export const describeAlarmsForMetric: API.OperationMethod<
 export const describeAnomalyDetectors: API.OperationMethod<
   DescribeAnomalyDetectorsInput,
   DescribeAnomalyDetectorsOutput,
-  | InternalServiceFault
-  | InvalidNextToken
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | CommonErrors,
+  DescribeAnomalyDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAnomalyDetectorsInput,
   ) => stream.Stream<
     DescribeAnomalyDetectorsOutput,
-    | InternalServiceFault
-    | InvalidNextToken
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeAnomalyDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAnomalyDetectorsInput,
   ) => stream.Stream<
     AnomalyDetector,
-    | InternalServiceFault
-    | InvalidNextToken
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
+    DescribeAnomalyDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3129,6 +3140,7 @@ export const describeAnomalyDetectors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeInsightRulesError = InvalidNextToken | CommonErrors;
 /**
  * Returns a list of all the Contributor Insights rules in your account.
  *
@@ -3138,21 +3150,21 @@ export const describeAnomalyDetectors: API.OperationMethod<
 export const describeInsightRules: API.OperationMethod<
   DescribeInsightRulesInput,
   DescribeInsightRulesOutput,
-  InvalidNextToken | CommonErrors,
+  DescribeInsightRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeInsightRulesInput,
   ) => stream.Stream<
     DescribeInsightRulesOutput,
-    InvalidNextToken | CommonErrors,
+    DescribeInsightRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInsightRulesInput,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | CommonErrors,
+    DescribeInsightRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3165,6 +3177,7 @@ export const describeInsightRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DisableAlarmActionsError = CommonErrors;
 /**
  * Disables the actions for the specified alarms. When an alarm's actions are
  * disabled, the alarm actions do not execute when the alarm state changes.
@@ -3172,13 +3185,17 @@ export const describeInsightRules: API.OperationMethod<
 export const disableAlarmActions: API.OperationMethod<
   DisableAlarmActionsInput,
   DisableAlarmActionsResponse,
-  CommonErrors,
+  DisableAlarmActionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableAlarmActionsInput,
   output: DisableAlarmActionsResponse,
   errors: [],
 }));
+export type DisableInsightRulesError =
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Disables the specified Contributor Insights rules. When rules are disabled, they do
  * not analyze log groups and do not incur costs.
@@ -3186,28 +3203,32 @@ export const disableAlarmActions: API.OperationMethod<
 export const disableInsightRules: API.OperationMethod<
   DisableInsightRulesInput,
   DisableInsightRulesOutput,
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  DisableInsightRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableInsightRulesInput,
   output: DisableInsightRulesOutput,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
 }));
+export type EnableAlarmActionsError = CommonErrors;
 /**
  * Enables the actions for the specified alarms.
  */
 export const enableAlarmActions: API.OperationMethod<
   EnableAlarmActionsInput,
   EnableAlarmActionsResponse,
-  CommonErrors,
+  EnableAlarmActionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAlarmActionsInput,
   output: EnableAlarmActionsResponse,
   errors: [],
 }));
+export type EnableInsightRulesError =
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Enables the specified Contributor Insights rules. When rules are enabled, they
  * immediately begin analyzing log data.
@@ -3215,10 +3236,7 @@ export const enableAlarmActions: API.OperationMethod<
 export const enableInsightRules: API.OperationMethod<
   EnableInsightRulesInput,
   EnableInsightRulesOutput,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  EnableInsightRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableInsightRulesInput,
@@ -3229,6 +3247,7 @@ export const enableInsightRules: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type GetAlarmMuteRuleError = ResourceNotFoundException | CommonErrors;
 /**
  * Retrieves details for a specific alarm mute rule.
  *
@@ -3249,13 +3268,18 @@ export const enableInsightRules: API.OperationMethod<
 export const getAlarmMuteRule: API.OperationMethod<
   GetAlarmMuteRuleInput,
   GetAlarmMuteRuleOutput,
-  ResourceNotFoundException | CommonErrors,
+  GetAlarmMuteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAlarmMuteRuleInput,
   output: GetAlarmMuteRuleOutput,
   errors: [ResourceNotFoundException],
 }));
+export type GetDashboardError =
+  | DashboardNotFoundError
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Displays the details of the dashboard that you specify.
  *
@@ -3266,10 +3290,7 @@ export const getAlarmMuteRule: API.OperationMethod<
 export const getDashboard: API.OperationMethod<
   GetDashboardInput,
   GetDashboardOutput,
-  | DashboardNotFoundError
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | CommonErrors,
+  GetDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDashboardInput,
@@ -3280,6 +3301,11 @@ export const getDashboard: API.OperationMethod<
     InvalidParameterValueException,
   ],
 }));
+export type GetInsightRuleReportError =
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation returns the time series data collected by a Contributor Insights rule.
  * The data includes the identity and number of contributors to the log group.
@@ -3317,10 +3343,7 @@ export const getDashboard: API.OperationMethod<
 export const getInsightRuleReport: API.OperationMethod<
   GetInsightRuleReportInput,
   GetInsightRuleReportOutput,
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetInsightRuleReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightRuleReportInput,
@@ -3331,6 +3354,7 @@ export const getInsightRuleReport: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMetricDataError = InvalidNextToken | CommonErrors;
 /**
  * You can use the `GetMetricData` API to retrieve CloudWatch metric
  * values. The operation can also include a CloudWatch Metrics Insights query, and
@@ -3400,21 +3424,21 @@ export const getInsightRuleReport: API.OperationMethod<
 export const getMetricData: API.OperationMethod<
   GetMetricDataInput,
   GetMetricDataOutput,
-  InvalidNextToken | CommonErrors,
+  GetMetricDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetMetricDataInput,
   ) => stream.Stream<
     GetMetricDataOutput,
-    InvalidNextToken | CommonErrors,
+    GetMetricDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetMetricDataInput,
   ) => stream.Stream<
     unknown,
-    InvalidNextToken | CommonErrors,
+    GetMetricDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3427,6 +3451,12 @@ export const getMetricData: API.OperationMethod<
     pageSize: "MaxDatapoints",
   } as const,
 }));
+export type GetMetricStatisticsError =
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Gets statistics for the specified metric.
  *
@@ -3487,11 +3517,7 @@ export const getMetricData: API.OperationMethod<
 export const getMetricStatistics: API.OperationMethod<
   GetMetricStatisticsInput,
   GetMetricStatisticsOutput,
-  | InternalServiceFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  GetMetricStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricStatisticsInput,
@@ -3503,18 +3529,20 @@ export const getMetricStatistics: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type GetMetricStreamError =
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns information about the metric stream that you specify.
  */
 export const getMetricStream: API.OperationMethod<
   GetMetricStreamInput,
   GetMetricStreamOutput,
-  | InternalServiceFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMetricStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricStreamInput,
@@ -3527,6 +3555,7 @@ export const getMetricStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetMetricWidgetImageError = CommonErrors;
 /**
  * You can use the `GetMetricWidgetImage` API to retrieve a snapshot graph
  * of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this
@@ -3547,13 +3576,17 @@ export const getMetricStream: API.OperationMethod<
 export const getMetricWidgetImage: API.OperationMethod<
   GetMetricWidgetImageInput,
   GetMetricWidgetImageOutput,
-  CommonErrors,
+  GetMetricWidgetImageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricWidgetImageInput,
   output: GetMetricWidgetImageOutput,
   errors: [],
 }));
+export type ListAlarmMuteRulesError =
+  | InvalidNextToken
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists alarm mute rules in your Amazon Web Services account and region.
  *
@@ -3568,21 +3601,21 @@ export const getMetricWidgetImage: API.OperationMethod<
 export const listAlarmMuteRules: API.OperationMethod<
   ListAlarmMuteRulesInput,
   ListAlarmMuteRulesOutput,
-  InvalidNextToken | ResourceNotFoundException | CommonErrors,
+  ListAlarmMuteRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAlarmMuteRulesInput,
   ) => stream.Stream<
     ListAlarmMuteRulesOutput,
-    InvalidNextToken | ResourceNotFoundException | CommonErrors,
+    ListAlarmMuteRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAlarmMuteRulesInput,
   ) => stream.Stream<
     AlarmMuteRuleSummary,
-    InvalidNextToken | ResourceNotFoundException | CommonErrors,
+    ListAlarmMuteRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3596,6 +3629,10 @@ export const listAlarmMuteRules: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type ListDashboardsError =
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * Returns a list of the dashboards for your account. If you include
  * `DashboardNamePrefix`, only those dashboards with names starting with the
@@ -3609,21 +3646,21 @@ export const listAlarmMuteRules: API.OperationMethod<
 export const listDashboards: API.OperationMethod<
   ListDashboardsInput,
   ListDashboardsOutput,
-  InternalServiceFault | InvalidParameterValueException | CommonErrors,
+  ListDashboardsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDashboardsInput,
   ) => stream.Stream<
     ListDashboardsOutput,
-    InternalServiceFault | InvalidParameterValueException | CommonErrors,
+    ListDashboardsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDashboardsInput,
   ) => stream.Stream<
     DashboardEntry,
-    InternalServiceFault | InvalidParameterValueException | CommonErrors,
+    ListDashboardsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3636,6 +3673,11 @@ export const listDashboards: API.OperationMethod<
     items: "DashboardEntries",
   } as const,
 }));
+export type ListManagedInsightRulesError =
+  | InvalidNextToken
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Returns a list that contains the number of managed Contributor Insights rules in your
  * account.
@@ -3643,30 +3685,21 @@ export const listDashboards: API.OperationMethod<
 export const listManagedInsightRules: API.OperationMethod<
   ListManagedInsightRulesInput,
   ListManagedInsightRulesOutput,
-  | InvalidNextToken
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  ListManagedInsightRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedInsightRulesInput,
   ) => stream.Stream<
     ListManagedInsightRulesOutput,
-    | InvalidNextToken
-    | InvalidParameterValueException
-    | MissingRequiredParameterException
-    | CommonErrors,
+    ListManagedInsightRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedInsightRulesInput,
   ) => stream.Stream<
     unknown,
-    | InvalidNextToken
-    | InvalidParameterValueException
-    | MissingRequiredParameterException
-    | CommonErrors,
+    ListManagedInsightRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3683,6 +3716,10 @@ export const listManagedInsightRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMetricsError =
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | CommonErrors;
 /**
  * List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data.
  *
@@ -3702,21 +3739,21 @@ export const listManagedInsightRules: API.OperationMethod<
 export const listMetrics: API.OperationMethod<
   ListMetricsInput,
   ListMetricsOutput,
-  InternalServiceFault | InvalidParameterValueException | CommonErrors,
+  ListMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetricsInput,
   ) => stream.Stream<
     ListMetricsOutput,
-    InternalServiceFault | InvalidParameterValueException | CommonErrors,
+    ListMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricsInput,
   ) => stream.Stream<
     unknown,
-    InternalServiceFault | InvalidParameterValueException | CommonErrors,
+    ListMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3725,39 +3762,33 @@ export const listMetrics: API.OperationMethod<
   errors: [InternalServiceFault, InvalidParameterValueException],
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
 }));
+export type ListMetricStreamsError =
+  | InternalServiceFault
+  | InvalidNextToken
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Returns a list of metric streams in this account.
  */
 export const listMetricStreams: API.OperationMethod<
   ListMetricStreamsInput,
   ListMetricStreamsOutput,
-  | InternalServiceFault
-  | InvalidNextToken
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  ListMetricStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetricStreamsInput,
   ) => stream.Stream<
     ListMetricStreamsOutput,
-    | InternalServiceFault
-    | InvalidNextToken
-    | InvalidParameterValueException
-    | MissingRequiredParameterException
-    | CommonErrors,
+    ListMetricStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricStreamsInput,
   ) => stream.Stream<
     unknown,
-    | InternalServiceFault
-    | InvalidNextToken
-    | InvalidParameterValueException
-    | MissingRequiredParameterException
-    | CommonErrors,
+    ListMetricStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3775,6 +3806,11 @@ export const listMetricStreams: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Displays the tags associated with a CloudWatch resource. Currently, alarms and
  * Contributor Insights rules support tagging.
@@ -3782,10 +3818,7 @@ export const listMetricStreams: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -3796,6 +3829,7 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutAlarmMuteRuleError = LimitExceededFault | CommonErrors;
 /**
  * Creates or updates an alarm mute rule.
  *
@@ -3816,13 +3850,20 @@ export const listTagsForResource: API.OperationMethod<
 export const putAlarmMuteRule: API.OperationMethod<
   PutAlarmMuteRuleInput,
   PutAlarmMuteRuleResponse,
-  LimitExceededFault | CommonErrors,
+  PutAlarmMuteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAlarmMuteRuleInput,
   output: PutAlarmMuteRuleResponse,
   errors: [LimitExceededFault],
 }));
+export type PutAnomalyDetectorError =
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Creates an anomaly detection model for a CloudWatch metric. You can use the model to
  * display a band of expected normal values when the metric is graphed.
@@ -3837,12 +3878,7 @@ export const putAlarmMuteRule: API.OperationMethod<
 export const putAnomalyDetector: API.OperationMethod<
   PutAnomalyDetectorInput,
   PutAnomalyDetectorOutput,
-  | InternalServiceFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  PutAnomalyDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAnomalyDetectorInput,
@@ -3855,6 +3891,7 @@ export const putAnomalyDetector: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type PutCompositeAlarmError = LimitExceededFault | CommonErrors;
 /**
  * Creates or updates a *composite alarm*. When you create a composite
  * alarm, you specify a rule expression for the alarm that takes into account the alarm
@@ -3916,13 +3953,18 @@ export const putAnomalyDetector: API.OperationMethod<
 export const putCompositeAlarm: API.OperationMethod<
   PutCompositeAlarmInput,
   PutCompositeAlarmResponse,
-  LimitExceededFault | CommonErrors,
+  PutCompositeAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCompositeAlarmInput,
   output: PutCompositeAlarmResponse,
   errors: [LimitExceededFault],
 }));
+export type PutDashboardError =
+  | ConflictException
+  | DashboardInvalidInputError
+  | InternalServiceFault
+  | CommonErrors;
 /**
  * Creates a dashboard if it does not already exist, or updates an existing dashboard.
  * If you update a dashboard, the entire contents are replaced with what you specify
@@ -3947,16 +3989,18 @@ export const putCompositeAlarm: API.OperationMethod<
 export const putDashboard: API.OperationMethod<
   PutDashboardInput,
   PutDashboardOutput,
-  | ConflictException
-  | DashboardInvalidInputError
-  | InternalServiceFault
-  | CommonErrors,
+  PutDashboardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDashboardInput,
   output: PutDashboardOutput,
   errors: [ConflictException, DashboardInvalidInputError, InternalServiceFault],
 }));
+export type PutInsightRuleError =
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs
  * log group, enabling you to find contributor data for the log events in that log group.
@@ -3969,10 +4013,7 @@ export const putDashboard: API.OperationMethod<
 export const putInsightRule: API.OperationMethod<
   PutInsightRuleInput,
   PutInsightRuleOutput,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  PutInsightRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInsightRuleInput,
@@ -3983,6 +4024,10 @@ export const putInsightRule: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type PutManagedInsightRulesError =
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Creates a managed Contributor Insights rule for a specified Amazon Web Services
  * resource. When you enable a managed rule, you create a Contributor Insights rule that
@@ -3996,15 +4041,14 @@ export const putInsightRule: API.OperationMethod<
 export const putManagedInsightRules: API.OperationMethod<
   PutManagedInsightRulesInput,
   PutManagedInsightRulesOutput,
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  PutManagedInsightRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutManagedInsightRulesInput,
   output: PutManagedInsightRulesOutput,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
 }));
+export type PutMetricAlarmError = LimitExceededFault | CommonErrors;
 /**
  * Creates or updates an alarm and associates it with the specified metric, metric
  * math expression, anomaly detection model, or Metrics Insights query. For more
@@ -4058,13 +4102,19 @@ export const putManagedInsightRules: API.OperationMethod<
 export const putMetricAlarm: API.OperationMethod<
   PutMetricAlarmInput,
   PutMetricAlarmResponse,
-  LimitExceededFault | CommonErrors,
+  PutMetricAlarmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricAlarmInput,
   output: PutMetricAlarmResponse,
   errors: [LimitExceededFault],
 }));
+export type PutMetricDataError =
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the
  * specified metric. If the specified metric does not exist, CloudWatch creates the metric.
@@ -4123,11 +4173,7 @@ export const putMetricAlarm: API.OperationMethod<
 export const putMetricData: API.OperationMethod<
   PutMetricDataInput,
   PutMetricDataResponse,
-  | InternalServiceFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  PutMetricDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricDataInput,
@@ -4139,6 +4185,13 @@ export const putMetricData: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type PutMetricStreamError =
+  | ConcurrentModificationException
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Creates or updates a metric stream. Metric streams can automatically stream CloudWatch
  * metrics to Amazon Web Services destinations, including Amazon S3, and to many third-party
@@ -4179,12 +4232,7 @@ export const putMetricData: API.OperationMethod<
 export const putMetricStream: API.OperationMethod<
   PutMetricStreamInput,
   PutMetricStreamOutput,
-  | ConcurrentModificationException
-  | InternalServiceFault
-  | InvalidParameterCombinationException
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  PutMetricStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricStreamInput,
@@ -4197,6 +4245,10 @@ export const putMetricStream: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type SetAlarmStateError =
+  | InvalidFormatFault
+  | ResourceNotFound
+  | CommonErrors;
 /**
  * Temporarily sets the state of an alarm for testing purposes. When the updated state
  * differs from the previous value, the action configured for the appropriate state is
@@ -4221,23 +4273,25 @@ export const putMetricStream: API.OperationMethod<
 export const setAlarmState: API.OperationMethod<
   SetAlarmStateInput,
   SetAlarmStateResponse,
-  InvalidFormatFault | ResourceNotFound | CommonErrors,
+  SetAlarmStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetAlarmStateInput,
   output: SetAlarmStateResponse,
   errors: [InvalidFormatFault, ResourceNotFound],
 }));
+export type StartMetricStreamsError =
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Starts the streaming of metrics for one or more of your metric streams.
  */
 export const startMetricStreams: API.OperationMethod<
   StartMetricStreamsInput,
   StartMetricStreamsOutput,
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  StartMetricStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetricStreamsInput,
@@ -4248,16 +4302,18 @@ export const startMetricStreams: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type StopMetricStreamsError =
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors;
 /**
  * Stops the streaming of metrics for one or more of your metric streams.
  */
 export const stopMetricStreams: API.OperationMethod<
   StopMetricStreamsInput,
   StopMetricStreamsOutput,
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | MissingRequiredParameterException
-  | CommonErrors,
+  StopMetricStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMetricStreamsInput,
@@ -4268,6 +4324,13 @@ export const stopMetricStreams: API.OperationMethod<
     MissingRequiredParameterException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified CloudWatch resource.
  * Currently, the only CloudWatch resources that can be tagged are alarms and Contributor
@@ -4291,12 +4354,7 @@ export const stopMetricStreams: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ConcurrentModificationException
-  | ConflictException
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4309,18 +4367,20 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | ConcurrentModificationException
-  | ConflictException
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,

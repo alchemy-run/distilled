@@ -1749,6 +1749,13 @@ export class RequestTimeoutException extends S.TaggedErrorClass<RequestTimeoutEx
 ).pipe(C.withTimeoutError) {}
 
 //# Operations
+export type AbortMultipartUploadError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation aborts a multipart upload identified by the upload ID.
  *
@@ -1772,12 +1779,7 @@ export class RequestTimeoutException extends S.TaggedErrorClass<RequestTimeoutEx
 export const abortMultipartUpload: API.OperationMethod<
   AbortMultipartUploadInput,
   AbortMultipartUploadResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  AbortMultipartUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AbortMultipartUploadInput,
@@ -1790,6 +1792,13 @@ export const abortMultipartUpload: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type AbortVaultLockError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation aborts the vault locking process if the vault lock is not in the
  * `Locked` state. If the vault lock is in the `Locked` state when
@@ -1811,12 +1820,7 @@ export const abortMultipartUpload: API.OperationMethod<
 export const abortVaultLock: API.OperationMethod<
   AbortVaultLockInput,
   AbortVaultLockResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  AbortVaultLockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AbortVaultLockInput,
@@ -1829,6 +1833,14 @@ export const abortVaultLock: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type AddTagsToVaultError =
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation adds the specified tags to a vault. Each tag is composed of a key and
  * a value. Each vault can have up to 10 tags. If your request would cause the tag limit for
@@ -1839,13 +1851,7 @@ export const abortVaultLock: API.OperationMethod<
 export const addTagsToVault: API.OperationMethod<
   AddTagsToVaultInput,
   AddTagsToVaultResponse,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  AddTagsToVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToVaultInput,
@@ -1859,6 +1865,13 @@ export const addTagsToVault: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CompleteMultipartUploadError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * You call this operation to inform Amazon Glacier (Glacier) that all the archive parts have been
  * uploaded and that Glacier can now assemble the archive from the uploaded parts.
@@ -1903,12 +1916,7 @@ export const addTagsToVault: API.OperationMethod<
 export const completeMultipartUpload: API.OperationMethod<
   CompleteMultipartUploadInput,
   ArchiveCreationOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CompleteMultipartUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteMultipartUploadInput,
@@ -1921,6 +1929,13 @@ export const completeMultipartUpload: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CompleteVaultLockError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation completes the vault locking process by transitioning the vault lock
  * from the `InProgress` state to the `Locked` state, which causes the
@@ -1942,12 +1957,7 @@ export const completeMultipartUpload: API.OperationMethod<
 export const completeVaultLock: API.OperationMethod<
   CompleteVaultLockInput,
   CompleteVaultLockResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CompleteVaultLockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteVaultLockInput,
@@ -1960,6 +1970,13 @@ export const completeVaultLock: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreateVaultError =
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation creates a new vault with the specified name. The name of the vault
  * must be unique within a region for an AWS account. You can create up to 1,000 vaults per
@@ -1987,12 +2004,7 @@ export const completeVaultLock: API.OperationMethod<
 export const createVault: API.OperationMethod<
   CreateVaultInput,
   CreateVaultOutput,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVaultInput,
@@ -2005,6 +2017,13 @@ export const createVault: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteArchiveError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation deletes an archive from a vault. Subsequent requests to initiate a
  * retrieval of this archive will fail. Archive retrievals that are in progress for this
@@ -2034,12 +2053,7 @@ export const createVault: API.OperationMethod<
 export const deleteArchive: API.OperationMethod<
   DeleteArchiveInput,
   DeleteArchiveResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArchiveInput,
@@ -2052,6 +2066,13 @@ export const deleteArchive: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteVaultError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation deletes a vault. Amazon Glacier will delete a vault only if there are
  * no archives in the vault as of the last inventory and there have been no writes to the
@@ -2078,12 +2099,7 @@ export const deleteArchive: API.OperationMethod<
 export const deleteVault: API.OperationMethod<
   DeleteVaultInput,
   DeleteVaultResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVaultInput,
@@ -2096,6 +2112,13 @@ export const deleteVault: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteVaultAccessPolicyError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation deletes the access policy associated with the specified vault. The
  * operation is eventually consistent; that is, it might take some time for Amazon Glacier to
@@ -2109,12 +2132,7 @@ export const deleteVault: API.OperationMethod<
 export const deleteVaultAccessPolicy: API.OperationMethod<
   DeleteVaultAccessPolicyInput,
   DeleteVaultAccessPolicyResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteVaultAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVaultAccessPolicyInput,
@@ -2127,6 +2145,13 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteVaultNotificationsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation deletes the notification configuration set for a vault. The operation
  * is eventually consistent; that is, it might take some time for Amazon Glacier to completely
@@ -2146,12 +2171,7 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
 export const deleteVaultNotifications: API.OperationMethod<
   DeleteVaultNotificationsInput,
   DeleteVaultNotificationsResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteVaultNotificationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVaultNotificationsInput,
@@ -2164,6 +2184,13 @@ export const deleteVaultNotifications: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeJobError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation returns information about a job you previously initiated, including
  * the job initiation date, the user who initiated the job, the job status code/message and
@@ -2191,12 +2218,7 @@ export const deleteVaultNotifications: API.OperationMethod<
 export const describeJob: API.OperationMethod<
   DescribeJobInput,
   GlacierJobDescription,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobInput,
@@ -2209,6 +2231,13 @@ export const describeJob: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeVaultError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation returns information about a vault, including the vault's Amazon
  * Resource Name (ARN), the date the vault was created, the number of archives it contains,
@@ -2233,12 +2262,7 @@ export const describeJob: API.OperationMethod<
 export const describeVault: API.OperationMethod<
   DescribeVaultInput,
   DescribeVaultOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVaultInput,
@@ -2251,6 +2275,12 @@ export const describeVault: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetDataRetrievalPolicyError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation returns the current data retrieval policy for the account and region
  * specified in the GET request. For more information about data retrieval policies, see
@@ -2259,11 +2289,7 @@ export const describeVault: API.OperationMethod<
 export const getDataRetrievalPolicy: API.OperationMethod<
   GetDataRetrievalPolicyInput,
   GetDataRetrievalPolicyOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetDataRetrievalPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataRetrievalPolicyInput,
@@ -2275,6 +2301,13 @@ export const getDataRetrievalPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetJobOutputError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation downloads the output of the job you initiated using InitiateJob. Depending on the job type you specified when you initiated the
  * job, the output will be either the content of an archive or a vault inventory.
@@ -2320,12 +2353,7 @@ export const getDataRetrievalPolicy: API.OperationMethod<
 export const getJobOutput: API.OperationMethod<
   GetJobOutputInput,
   GetJobOutputOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetJobOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobOutputInput,
@@ -2338,6 +2366,13 @@ export const getJobOutput: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetVaultAccessPolicyError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation retrieves the `access-policy` subresource set on the vault;
  * for more information on setting this subresource, see Set Vault Access Policy
@@ -2349,12 +2384,7 @@ export const getJobOutput: API.OperationMethod<
 export const getVaultAccessPolicy: API.OperationMethod<
   GetVaultAccessPolicyInput,
   GetVaultAccessPolicyOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetVaultAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVaultAccessPolicyInput,
@@ -2367,6 +2397,13 @@ export const getVaultAccessPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetVaultLockError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation retrieves the following attributes from the `lock-policy`
  * subresource set on the specified vault:
@@ -2395,12 +2432,7 @@ export const getVaultAccessPolicy: API.OperationMethod<
 export const getVaultLock: API.OperationMethod<
   GetVaultLockInput,
   GetVaultLockOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetVaultLockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVaultLockInput,
@@ -2413,6 +2445,13 @@ export const getVaultLock: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetVaultNotificationsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation retrieves the `notification-configuration` subresource of
  * the specified vault.
@@ -2435,12 +2474,7 @@ export const getVaultLock: API.OperationMethod<
 export const getVaultNotifications: API.OperationMethod<
   GetVaultNotificationsInput,
   GetVaultNotificationsOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetVaultNotificationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVaultNotificationsInput,
@@ -2453,6 +2487,15 @@ export const getVaultNotifications: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type InitiateJobError =
+  | InsufficientCapacityException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | PolicyEnforcedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation initiates a job of the specified type, which can be a select, an archival retrieval,
  * or a vault retrieval. For more information about using this operation,
@@ -2462,14 +2505,7 @@ export const getVaultNotifications: API.OperationMethod<
 export const initiateJob: API.OperationMethod<
   InitiateJobInput,
   InitiateJobOutput,
-  | InsufficientCapacityException
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | PolicyEnforcedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  InitiateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateJobInput,
@@ -2484,6 +2520,13 @@ export const initiateJob: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type InitiateMultipartUploadError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation initiates a multipart upload. Amazon Glacier creates a multipart
  * upload resource and returns its ID in the response. The multipart upload ID is used in
@@ -2522,12 +2565,7 @@ export const initiateJob: API.OperationMethod<
 export const initiateMultipartUpload: API.OperationMethod<
   InitiateMultipartUploadInput,
   InitiateMultipartUploadOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  InitiateMultipartUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateMultipartUploadInput,
@@ -2540,6 +2578,13 @@ export const initiateMultipartUpload: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type InitiateVaultLockError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation initiates the vault locking process by doing the following:
  *
@@ -2577,12 +2622,7 @@ export const initiateMultipartUpload: API.OperationMethod<
 export const initiateVaultLock: API.OperationMethod<
   InitiateVaultLockInput,
   InitiateVaultLockOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  InitiateVaultLockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateVaultLockInput,
@@ -2595,6 +2635,13 @@ export const initiateVaultLock: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListJobsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation lists jobs for a vault, including jobs that are in-progress and jobs
  * that have recently finished. The List Job operation returns a list of these jobs sorted by job initiation
@@ -2634,36 +2681,21 @@ export const initiateVaultLock: API.OperationMethod<
 export const listJobs: API.OperationMethod<
   ListJobsInput,
   ListJobsOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsInput,
   ) => stream.Stream<
     ListJobsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsInput,
   ) => stream.Stream<
     GlacierJobDescription,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2683,6 +2715,13 @@ export const listJobs: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListMultipartUploadsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation lists in-progress multipart uploads for the specified vault. An
  * in-progress multipart upload is a multipart upload that has been initiated by an InitiateMultipartUpload request, but has not yet been completed or aborted.
@@ -2714,36 +2753,21 @@ export const listJobs: API.OperationMethod<
 export const listMultipartUploads: API.OperationMethod<
   ListMultipartUploadsInput,
   ListMultipartUploadsOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListMultipartUploadsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMultipartUploadsInput,
   ) => stream.Stream<
     ListMultipartUploadsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListMultipartUploadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMultipartUploadsInput,
   ) => stream.Stream<
     UploadListElement,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListMultipartUploadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2763,6 +2787,13 @@ export const listMultipartUploads: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListPartsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation lists the parts of an archive that have been uploaded in a specific
  * multipart upload. You can make this request at any time during an in-progress multipart
@@ -2791,36 +2822,21 @@ export const listMultipartUploads: API.OperationMethod<
 export const listParts: API.OperationMethod<
   ListPartsInput,
   ListPartsOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListPartsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPartsInput,
   ) => stream.Stream<
     ListPartsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPartsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPartsInput,
   ) => stream.Stream<
     PartListElement,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListPartsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2840,6 +2856,12 @@ export const listParts: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListProvisionedCapacityError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation lists the provisioned capacity units for the specified AWS
  * account.
@@ -2847,11 +2869,7 @@ export const listParts: API.OperationMethod<
 export const listProvisionedCapacity: API.OperationMethod<
   ListProvisionedCapacityInput,
   ListProvisionedCapacityOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListProvisionedCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProvisionedCapacityInput,
@@ -2863,6 +2881,13 @@ export const listProvisionedCapacity: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListTagsForVaultError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation lists all the tags attached to a vault. The operation returns an empty
  * map if there are no tags. For more information about tags, see Tagging Amazon Glacier
@@ -2871,12 +2896,7 @@ export const listProvisionedCapacity: API.OperationMethod<
 export const listTagsForVault: API.OperationMethod<
   ListTagsForVaultInput,
   ListTagsForVaultOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListTagsForVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForVaultInput,
@@ -2889,6 +2909,13 @@ export const listTagsForVault: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListVaultsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation lists all vaults owned by the calling user's account. The list
  * returned in the response is ASCII-sorted by vault name.
@@ -2914,36 +2941,21 @@ export const listTagsForVault: API.OperationMethod<
 export const listVaults: API.OperationMethod<
   ListVaultsInput,
   ListVaultsOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListVaultsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListVaultsInput,
   ) => stream.Stream<
     ListVaultsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListVaultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVaultsInput,
   ) => stream.Stream<
     DescribeVaultOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListVaultsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2963,18 +2975,20 @@ export const listVaults: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type PurchaseProvisionedCapacityError =
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation purchases a provisioned capacity unit for an AWS account.
  */
 export const purchaseProvisionedCapacity: API.OperationMethod<
   PurchaseProvisionedCapacityInput,
   PurchaseProvisionedCapacityOutput,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PurchaseProvisionedCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseProvisionedCapacityInput,
@@ -2987,6 +3001,13 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type RemoveTagsFromVaultError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation removes one or more tags from the set of tags attached to a vault. For
  * more information about tags, see Tagging Amazon Glacier Resources.
@@ -2996,12 +3017,7 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
 export const removeTagsFromVault: API.OperationMethod<
   RemoveTagsFromVaultInput,
   RemoveTagsFromVaultResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  RemoveTagsFromVaultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromVaultInput,
@@ -3014,6 +3030,12 @@ export const removeTagsFromVault: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type SetDataRetrievalPolicyError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation sets and then enacts a data retrieval policy in the region specified
  * in the PUT request. You can set one policy per region for an AWS account. The policy is
@@ -3026,11 +3048,7 @@ export const removeTagsFromVault: API.OperationMethod<
 export const setDataRetrievalPolicy: API.OperationMethod<
   SetDataRetrievalPolicyInput,
   SetDataRetrievalPolicyResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  SetDataRetrievalPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDataRetrievalPolicyInput,
@@ -3042,6 +3060,13 @@ export const setDataRetrievalPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type SetVaultAccessPolicyError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation configures an access policy for a vault and will overwrite an existing
  * policy. To configure a vault access policy, send a PUT request to the
@@ -3053,12 +3078,7 @@ export const setDataRetrievalPolicy: API.OperationMethod<
 export const setVaultAccessPolicy: API.OperationMethod<
   SetVaultAccessPolicyInput,
   SetVaultAccessPolicyResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  SetVaultAccessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetVaultAccessPolicyInput,
@@ -3071,6 +3091,13 @@ export const setVaultAccessPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type SetVaultNotificationsError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation configures notifications that will be sent when specific events happen
  * to a vault. By default, you don't get any notifications.
@@ -3107,12 +3134,7 @@ export const setVaultAccessPolicy: API.OperationMethod<
 export const setVaultNotifications: API.OperationMethod<
   SetVaultNotificationsInput,
   SetVaultNotificationsResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  SetVaultNotificationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetVaultNotificationsInput,
@@ -3125,6 +3147,14 @@ export const setVaultNotifications: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type UploadArchiveError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation adds an archive to a vault. This is a synchronous operation, and for a
  * successful upload, your data is durably persisted. Amazon Glacier returns the archive ID in
@@ -3163,13 +3193,7 @@ export const setVaultNotifications: API.OperationMethod<
 export const uploadArchive: API.OperationMethod<
   UploadArchiveInput,
   ArchiveCreationOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | RequestTimeoutException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UploadArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadArchiveInput,
@@ -3183,6 +3207,14 @@ export const uploadArchive: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type UploadMultipartPartError =
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation uploads a part of an archive. You can upload archive parts in any
  * order. You can also upload them in parallel. You can upload up to 10,000 parts for a
@@ -3230,13 +3262,7 @@ export const uploadArchive: API.OperationMethod<
 export const uploadMultipartPart: API.OperationMethod<
   UploadMultipartPartInput,
   UploadMultipartPartOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | RequestTimeoutException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UploadMultipartPartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMultipartPartInput,

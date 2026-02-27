@@ -869,6 +869,10 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateSuiteDefinitionError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Device Advisor test suite.
  *
@@ -877,13 +881,17 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 export const createSuiteDefinition: API.OperationMethod<
   CreateSuiteDefinitionRequest,
   CreateSuiteDefinitionResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  CreateSuiteDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSuiteDefinitionRequest,
   output: CreateSuiteDefinitionResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type DeleteSuiteDefinitionError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a Device Advisor test suite.
  *
@@ -892,23 +900,25 @@ export const createSuiteDefinition: API.OperationMethod<
 export const deleteSuiteDefinition: API.OperationMethod<
   DeleteSuiteDefinitionRequest,
   DeleteSuiteDefinitionResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  DeleteSuiteDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSuiteDefinitionRequest,
   output: DeleteSuiteDefinitionResponse,
   errors: [InternalServerException, ValidationException],
 }));
+export type GetEndpointError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about an Device Advisor endpoint.
  */
 export const getEndpoint: API.OperationMethod<
   GetEndpointRequest,
   GetEndpointResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEndpointRequest,
@@ -919,6 +929,11 @@ export const getEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSuiteDefinitionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a Device Advisor test suite.
  *
@@ -927,10 +942,7 @@ export const getEndpoint: API.OperationMethod<
 export const getSuiteDefinition: API.OperationMethod<
   GetSuiteDefinitionRequest,
   GetSuiteDefinitionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSuiteDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteDefinitionRequest,
@@ -941,6 +953,11 @@ export const getSuiteDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSuiteRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a Device Advisor test suite run.
  *
@@ -949,10 +966,7 @@ export const getSuiteDefinition: API.OperationMethod<
 export const getSuiteRun: API.OperationMethod<
   GetSuiteRunRequest,
   GetSuiteRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSuiteRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteRunRequest,
@@ -963,6 +977,11 @@ export const getSuiteRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSuiteRunReportError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a report download link for a successful Device Advisor qualifying test suite run.
  *
@@ -971,10 +990,7 @@ export const getSuiteRun: API.OperationMethod<
 export const getSuiteRunReport: API.OperationMethod<
   GetSuiteRunReportRequest,
   GetSuiteRunReportResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSuiteRunReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteRunReportRequest,
@@ -985,6 +1001,10 @@ export const getSuiteRunReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSuiteDefinitionsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Device Advisor test suites you have created.
  *
@@ -993,21 +1013,21 @@ export const getSuiteRunReport: API.OperationMethod<
 export const listSuiteDefinitions: API.OperationMethod<
   ListSuiteDefinitionsRequest,
   ListSuiteDefinitionsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListSuiteDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSuiteDefinitionsRequest,
   ) => stream.Stream<
     ListSuiteDefinitionsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListSuiteDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSuiteDefinitionsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    ListSuiteDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1020,6 +1040,10 @@ export const listSuiteDefinitions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSuiteRunsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists runs of the specified Device Advisor test suite. You can list all runs of the test
  * suite, or the runs of a specific version of the test suite.
@@ -1029,21 +1053,21 @@ export const listSuiteDefinitions: API.OperationMethod<
 export const listSuiteRuns: API.OperationMethod<
   ListSuiteRunsRequest,
   ListSuiteRunsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListSuiteRunsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSuiteRunsRequest,
   ) => stream.Stream<
     ListSuiteRunsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListSuiteRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSuiteRunsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    ListSuiteRunsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1056,6 +1080,11 @@ export const listSuiteRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags attached to an IoT Device Advisor resource.
  *
@@ -1064,10 +1093,7 @@ export const listSuiteRuns: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1078,6 +1104,11 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartSuiteRunError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a Device Advisor test suite run.
  *
@@ -1086,16 +1117,18 @@ export const listTagsForResource: API.OperationMethod<
 export const startSuiteRun: API.OperationMethod<
   StartSuiteRunRequest,
   StartSuiteRunResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  StartSuiteRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSuiteRunRequest,
   output: StartSuiteRunResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
 }));
+export type StopSuiteRunError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops a Device Advisor test suite run that is currently running.
  *
@@ -1104,10 +1137,7 @@ export const startSuiteRun: API.OperationMethod<
 export const stopSuiteRun: API.OperationMethod<
   StopSuiteRunRequest,
   StopSuiteRunResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopSuiteRunError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSuiteRunRequest,
@@ -1118,6 +1148,11 @@ export const stopSuiteRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds to and modifies existing tags of an IoT Device Advisor resource.
  *
@@ -1126,10 +1161,7 @@ export const stopSuiteRun: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1140,6 +1172,11 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from an IoT Device Advisor resource.
  *
@@ -1148,10 +1185,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1162,6 +1196,10 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSuiteDefinitionError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a Device Advisor test suite.
  *
@@ -1170,7 +1208,7 @@ export const untagResource: API.OperationMethod<
 export const updateSuiteDefinition: API.OperationMethod<
   UpdateSuiteDefinitionRequest,
   UpdateSuiteDefinitionResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  UpdateSuiteDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSuiteDefinitionRequest,

@@ -186,19 +186,28 @@ export class MessageRejected extends S.TaggedErrorClass<MessageRejected>()(
 ) {}
 
 //# Operations
+export type GetRawMessageContentError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the raw content of an in-transit email message, in MIME format.
  */
 export const getRawMessageContent: API.OperationMethod<
   GetRawMessageContentRequest,
   GetRawMessageContentResponse,
-  ResourceNotFoundException | CommonErrors,
+  GetRawMessageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRawMessageContentRequest,
   output: GetRawMessageContentResponse,
   errors: [ResourceNotFoundException],
 }));
+export type PutRawMessageContentError =
+  | InvalidContentLocation
+  | MessageFrozen
+  | MessageRejected
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the raw content of an in-transit email message, in MIME format.
  *
@@ -215,11 +224,7 @@ export const getRawMessageContent: API.OperationMethod<
 export const putRawMessageContent: API.OperationMethod<
   PutRawMessageContentRequest,
   PutRawMessageContentResponse,
-  | InvalidContentLocation
-  | MessageFrozen
-  | MessageRejected
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutRawMessageContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRawMessageContentRequest,

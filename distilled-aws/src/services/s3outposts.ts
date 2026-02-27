@@ -375,6 +375,15 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateEndpointError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OutpostOfflineException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an endpoint and associates it with the specified Outpost.
  *
@@ -389,14 +398,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export const createEndpoint: API.OperationMethod<
   CreateEndpointRequest,
   CreateEndpointResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | OutpostOfflineException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointRequest,
@@ -411,6 +413,14 @@ export const createEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | OutpostOfflineException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an endpoint.
  *
@@ -425,13 +435,7 @@ export const createEndpoint: API.OperationMethod<
 export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointRequest,
   DeleteEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OutpostOfflineException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointRequest,
@@ -445,6 +449,13 @@ export const deleteEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEndpointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists endpoints associated with the specified Outpost.
  *
@@ -457,36 +468,21 @@ export const deleteEndpoint: API.OperationMethod<
 export const listEndpoints: API.OperationMethod<
   ListEndpointsRequest,
   ListEndpointsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEndpointsRequest,
   ) => stream.Stream<
     ListEndpointsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEndpointsRequest,
   ) => stream.Stream<
     Endpoint,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -506,6 +502,12 @@ export const listEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOutpostsWithS3Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account.
  * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
@@ -514,33 +516,21 @@ export const listEndpoints: API.OperationMethod<
 export const listOutpostsWithS3: API.OperationMethod<
   ListOutpostsWithS3Request,
   ListOutpostsWithS3Result,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOutpostsWithS3Error,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOutpostsWithS3Request,
   ) => stream.Stream<
     ListOutpostsWithS3Result,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOutpostsWithS3Error,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOutpostsWithS3Request,
   ) => stream.Stream<
     Outpost,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOutpostsWithS3Error,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -559,6 +549,13 @@ export const listOutpostsWithS3: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSharedEndpointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM).
  *
@@ -571,36 +568,21 @@ export const listOutpostsWithS3: API.OperationMethod<
 export const listSharedEndpoints: API.OperationMethod<
   ListSharedEndpointsRequest,
   ListSharedEndpointsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSharedEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSharedEndpointsRequest,
   ) => stream.Stream<
     ListSharedEndpointsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSharedEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSharedEndpointsRequest,
   ) => stream.Stream<
     Endpoint,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSharedEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

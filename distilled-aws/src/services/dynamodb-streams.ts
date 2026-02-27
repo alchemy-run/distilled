@@ -659,6 +659,10 @@ export class TrimmedDataAccessException extends S.TaggedErrorClass<TrimmedDataAc
 ) {}
 
 //# Operations
+export type DescribeStreamError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.
  *
@@ -673,13 +677,20 @@ export class TrimmedDataAccessException extends S.TaggedErrorClass<TrimmedDataAc
 export const describeStream: API.OperationMethod<
   DescribeStreamInput,
   DescribeStreamOutput,
-  InternalServerError | ResourceNotFoundException | CommonErrors,
+  DescribeStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamInput,
   output: DescribeStreamOutput,
   errors: [InternalServerError, ResourceNotFoundException],
 }));
+export type GetRecordsError =
+  | ExpiredIteratorException
+  | InternalServerError
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TrimmedDataAccessException
+  | CommonErrors;
 /**
  * Retrieves the stream records from a given shard.
  *
@@ -695,12 +706,7 @@ export const describeStream: API.OperationMethod<
 export const getRecords: API.OperationMethod<
   GetRecordsInput,
   GetRecordsOutput,
-  | ExpiredIteratorException
-  | InternalServerError
-  | LimitExceededException
-  | ResourceNotFoundException
-  | TrimmedDataAccessException
-  | CommonErrors,
+  GetRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordsInput,
@@ -713,6 +719,11 @@ export const getRecords: API.OperationMethod<
     TrimmedDataAccessException,
   ],
 }));
+export type GetShardIteratorError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | TrimmedDataAccessException
+  | CommonErrors;
 /**
  * Returns a shard iterator. A shard iterator provides information
  * about how to retrieve the stream records from within a shard. Use
@@ -725,10 +736,7 @@ export const getRecords: API.OperationMethod<
 export const getShardIterator: API.OperationMethod<
   GetShardIteratorInput,
   GetShardIteratorOutput,
-  | InternalServerError
-  | ResourceNotFoundException
-  | TrimmedDataAccessException
-  | CommonErrors,
+  GetShardIteratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShardIteratorInput,
@@ -739,6 +747,10 @@ export const getShardIterator: API.OperationMethod<
     TrimmedDataAccessException,
   ],
 }));
+export type ListStreamsError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns an array of stream ARNs associated with the current account and endpoint. If the
  * `TableName` parameter is present, then `ListStreams` will return only the
@@ -749,7 +761,7 @@ export const getShardIterator: API.OperationMethod<
 export const listStreams: API.OperationMethod<
   ListStreamsInput,
   ListStreamsOutput,
-  InternalServerError | ResourceNotFoundException | CommonErrors,
+  ListStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStreamsInput,

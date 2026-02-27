@@ -1486,6 +1486,11 @@ export class ListenerNotFoundException extends S.TaggedErrorClass<ListenerNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddTagsError =
+  | AccessPointNotFoundException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags.
  *
@@ -1498,10 +1503,7 @@ export class ListenerNotFoundException extends S.TaggedErrorClass<ListenerNotFou
 export const addTags: API.OperationMethod<
   AddTagsInput,
   AddTagsOutput,
-  | AccessPointNotFoundException
-  | DuplicateTagKeysException
-  | TooManyTagsException
-  | CommonErrors,
+  AddTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
@@ -1512,6 +1514,11 @@ export const addTags: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type ApplySecurityGroupsToLoadBalancerError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | InvalidSecurityGroupException
+  | CommonErrors;
 /**
  * Associates one or more security groups with your load balancer in a virtual private cloud (VPC). The specified security groups override the previously associated security groups.
  *
@@ -1521,10 +1528,7 @@ export const addTags: API.OperationMethod<
 export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
   ApplySecurityGroupsToLoadBalancerInput,
   ApplySecurityGroupsToLoadBalancerOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | InvalidSecurityGroupException
-  | CommonErrors,
+  ApplySecurityGroupsToLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplySecurityGroupsToLoadBalancerInput,
@@ -1535,6 +1539,12 @@ export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
     InvalidSecurityGroupException,
   ],
 }));
+export type AttachLoadBalancerToSubnetsError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | InvalidSubnetException
+  | SubnetNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more subnets to the set of configured subnets for the specified load balancer.
  *
@@ -1545,11 +1555,7 @@ export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
 export const attachLoadBalancerToSubnets: API.OperationMethod<
   AttachLoadBalancerToSubnetsInput,
   AttachLoadBalancerToSubnetsOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | InvalidSubnetException
-  | SubnetNotFoundException
-  | CommonErrors,
+  AttachLoadBalancerToSubnetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachLoadBalancerToSubnetsInput,
@@ -1561,6 +1567,9 @@ export const attachLoadBalancerToSubnets: API.OperationMethod<
     SubnetNotFoundException,
   ],
 }));
+export type ConfigureHealthCheckError =
+  | AccessPointNotFoundException
+  | CommonErrors;
 /**
  * Specifies the health check settings to use when evaluating the health state of your EC2 instances.
  *
@@ -1570,13 +1579,19 @@ export const attachLoadBalancerToSubnets: API.OperationMethod<
 export const configureHealthCheck: API.OperationMethod<
   ConfigureHealthCheckInput,
   ConfigureHealthCheckOutput,
-  AccessPointNotFoundException | CommonErrors,
+  ConfigureHealthCheckError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureHealthCheckInput,
   output: ConfigureHealthCheckOutput,
   errors: [AccessPointNotFoundException],
 }));
+export type CreateAppCookieStickinessPolicyError =
+  | AccessPointNotFoundException
+  | DuplicatePolicyNameException
+  | InvalidConfigurationRequestException
+  | TooManyPoliciesException
+  | CommonErrors;
 /**
  * Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners.
  *
@@ -1594,11 +1609,7 @@ export const configureHealthCheck: API.OperationMethod<
 export const createAppCookieStickinessPolicy: API.OperationMethod<
   CreateAppCookieStickinessPolicyInput,
   CreateAppCookieStickinessPolicyOutput,
-  | AccessPointNotFoundException
-  | DuplicatePolicyNameException
-  | InvalidConfigurationRequestException
-  | TooManyPoliciesException
-  | CommonErrors,
+  CreateAppCookieStickinessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppCookieStickinessPolicyInput,
@@ -1610,6 +1621,12 @@ export const createAppCookieStickinessPolicy: API.OperationMethod<
     TooManyPoliciesException,
   ],
 }));
+export type CreateLBCookieStickinessPolicyError =
+  | AccessPointNotFoundException
+  | DuplicatePolicyNameException
+  | InvalidConfigurationRequestException
+  | TooManyPoliciesException
+  | CommonErrors;
 /**
  * Generates a stickiness policy with sticky session lifetimes controlled by the lifetime of the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners.
  *
@@ -1624,11 +1641,7 @@ export const createAppCookieStickinessPolicy: API.OperationMethod<
 export const createLBCookieStickinessPolicy: API.OperationMethod<
   CreateLBCookieStickinessPolicyInput,
   CreateLBCookieStickinessPolicyOutput,
-  | AccessPointNotFoundException
-  | DuplicatePolicyNameException
-  | InvalidConfigurationRequestException
-  | TooManyPoliciesException
-  | CommonErrors,
+  CreateLBCookieStickinessPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLBCookieStickinessPolicyInput,
@@ -1640,6 +1653,20 @@ export const createLBCookieStickinessPolicy: API.OperationMethod<
     TooManyPoliciesException,
   ],
 }));
+export type CreateLoadBalancerError =
+  | CertificateNotFoundException
+  | DuplicateAccessPointNameException
+  | DuplicateTagKeysException
+  | InvalidConfigurationRequestException
+  | InvalidSchemeException
+  | InvalidSecurityGroupException
+  | InvalidSubnetException
+  | OperationNotPermittedException
+  | SubnetNotFoundException
+  | TooManyAccessPointsException
+  | TooManyTagsException
+  | UnsupportedProtocolException
+  | CommonErrors;
 /**
  * Creates a Classic Load Balancer.
  *
@@ -1660,19 +1687,7 @@ export const createLBCookieStickinessPolicy: API.OperationMethod<
 export const createLoadBalancer: API.OperationMethod<
   CreateAccessPointInput,
   CreateAccessPointOutput,
-  | CertificateNotFoundException
-  | DuplicateAccessPointNameException
-  | DuplicateTagKeysException
-  | InvalidConfigurationRequestException
-  | InvalidSchemeException
-  | InvalidSecurityGroupException
-  | InvalidSubnetException
-  | OperationNotPermittedException
-  | SubnetNotFoundException
-  | TooManyAccessPointsException
-  | TooManyTagsException
-  | UnsupportedProtocolException
-  | CommonErrors,
+  CreateLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPointInput,
@@ -1692,6 +1707,13 @@ export const createLoadBalancer: API.OperationMethod<
     UnsupportedProtocolException,
   ],
 }));
+export type CreateLoadBalancerListenersError =
+  | AccessPointNotFoundException
+  | CertificateNotFoundException
+  | DuplicateListenerException
+  | InvalidConfigurationRequestException
+  | UnsupportedProtocolException
+  | CommonErrors;
 /**
  * Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener.
  *
@@ -1701,12 +1723,7 @@ export const createLoadBalancer: API.OperationMethod<
 export const createLoadBalancerListeners: API.OperationMethod<
   CreateLoadBalancerListenerInput,
   CreateLoadBalancerListenerOutput,
-  | AccessPointNotFoundException
-  | CertificateNotFoundException
-  | DuplicateListenerException
-  | InvalidConfigurationRequestException
-  | UnsupportedProtocolException
-  | CommonErrors,
+  CreateLoadBalancerListenersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoadBalancerListenerInput,
@@ -1719,6 +1736,13 @@ export const createLoadBalancerListeners: API.OperationMethod<
     UnsupportedProtocolException,
   ],
 }));
+export type CreateLoadBalancerPolicyError =
+  | AccessPointNotFoundException
+  | DuplicatePolicyNameException
+  | InvalidConfigurationRequestException
+  | PolicyTypeNotFoundException
+  | TooManyPoliciesException
+  | CommonErrors;
 /**
  * Creates a policy with the specified attributes for the specified load balancer.
  *
@@ -1727,12 +1751,7 @@ export const createLoadBalancerListeners: API.OperationMethod<
 export const createLoadBalancerPolicy: API.OperationMethod<
   CreateLoadBalancerPolicyInput,
   CreateLoadBalancerPolicyOutput,
-  | AccessPointNotFoundException
-  | DuplicatePolicyNameException
-  | InvalidConfigurationRequestException
-  | PolicyTypeNotFoundException
-  | TooManyPoliciesException
-  | CommonErrors,
+  CreateLoadBalancerPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoadBalancerPolicyInput,
@@ -1745,6 +1764,7 @@ export const createLoadBalancerPolicy: API.OperationMethod<
     TooManyPoliciesException,
   ],
 }));
+export type DeleteLoadBalancerError = CommonErrors;
 /**
  * Deletes the specified load balancer.
  *
@@ -1756,41 +1776,50 @@ export const createLoadBalancerPolicy: API.OperationMethod<
 export const deleteLoadBalancer: API.OperationMethod<
   DeleteAccessPointInput,
   DeleteAccessPointOutput,
-  CommonErrors,
+  DeleteLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointInput,
   output: DeleteAccessPointOutput,
   errors: [],
 }));
+export type DeleteLoadBalancerListenersError =
+  | AccessPointNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified listeners from the specified load balancer.
  */
 export const deleteLoadBalancerListeners: API.OperationMethod<
   DeleteLoadBalancerListenerInput,
   DeleteLoadBalancerListenerOutput,
-  AccessPointNotFoundException | CommonErrors,
+  DeleteLoadBalancerListenersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerListenerInput,
   output: DeleteLoadBalancerListenerOutput,
   errors: [AccessPointNotFoundException],
 }));
+export type DeleteLoadBalancerPolicyError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | CommonErrors;
 /**
  * Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
  */
 export const deleteLoadBalancerPolicy: API.OperationMethod<
   DeleteLoadBalancerPolicyInput,
   DeleteLoadBalancerPolicyOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | CommonErrors,
+  DeleteLoadBalancerPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerPolicyInput,
   output: DeleteLoadBalancerPolicyOutput,
   errors: [AccessPointNotFoundException, InvalidConfigurationRequestException],
 }));
+export type DeregisterInstancesFromLoadBalancerError =
+  | AccessPointNotFoundException
+  | InvalidEndPointException
+  | CommonErrors;
 /**
  * Deregisters the specified instances from the specified load balancer. After the instance is deregistered, it no longer receives traffic from the load balancer.
  *
@@ -1802,13 +1831,14 @@ export const deleteLoadBalancerPolicy: API.OperationMethod<
 export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
   DeregisterEndPointsInput,
   DeregisterEndPointsOutput,
-  AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
+  DeregisterInstancesFromLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterEndPointsInput,
   output: DeregisterEndPointsOutput,
   errors: [AccessPointNotFoundException, InvalidEndPointException],
 }));
+export type DescribeAccountLimitsError = CommonErrors;
 /**
  * Describes the current Elastic Load Balancing resource limits for your AWS account.
  *
@@ -1818,35 +1848,41 @@ export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
 export const describeAccountLimits: API.OperationMethod<
   DescribeAccountLimitsInput,
   DescribeAccountLimitsOutput,
-  CommonErrors,
+  DescribeAccountLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountLimitsInput,
   output: DescribeAccountLimitsOutput,
   errors: [],
 }));
+export type DescribeInstanceHealthError =
+  | AccessPointNotFoundException
+  | InvalidEndPointException
+  | CommonErrors;
 /**
  * Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
  */
 export const describeInstanceHealth: API.OperationMethod<
   DescribeEndPointStateInput,
   DescribeEndPointStateOutput,
-  AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
+  DescribeInstanceHealthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndPointStateInput,
   output: DescribeEndPointStateOutput,
   errors: [AccessPointNotFoundException, InvalidEndPointException],
 }));
+export type DescribeLoadBalancerAttributesError =
+  | AccessPointNotFoundException
+  | LoadBalancerAttributeNotFoundException
+  | CommonErrors;
 /**
  * Describes the attributes for the specified load balancer.
  */
 export const describeLoadBalancerAttributes: API.OperationMethod<
   DescribeLoadBalancerAttributesInput,
   DescribeLoadBalancerAttributesOutput,
-  | AccessPointNotFoundException
-  | LoadBalancerAttributeNotFoundException
-  | CommonErrors,
+  DescribeLoadBalancerAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLoadBalancerAttributesInput,
@@ -1856,6 +1892,10 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
     LoadBalancerAttributeNotFoundException,
   ],
 }));
+export type DescribeLoadBalancerPoliciesError =
+  | AccessPointNotFoundException
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified policies.
  *
@@ -1867,13 +1907,16 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
 export const describeLoadBalancerPolicies: API.OperationMethod<
   DescribeLoadBalancerPoliciesInput,
   DescribeLoadBalancerPoliciesOutput,
-  AccessPointNotFoundException | PolicyNotFoundException | CommonErrors,
+  DescribeLoadBalancerPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLoadBalancerPoliciesInput,
   output: DescribeLoadBalancerPoliciesOutput,
   errors: [AccessPointNotFoundException, PolicyNotFoundException],
 }));
+export type DescribeLoadBalancerPolicyTypesError =
+  | PolicyTypeNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified load balancer policy types or all load balancer policy types.
  *
@@ -1889,34 +1932,38 @@ export const describeLoadBalancerPolicies: API.OperationMethod<
 export const describeLoadBalancerPolicyTypes: API.OperationMethod<
   DescribeLoadBalancerPolicyTypesInput,
   DescribeLoadBalancerPolicyTypesOutput,
-  PolicyTypeNotFoundException | CommonErrors,
+  DescribeLoadBalancerPolicyTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLoadBalancerPolicyTypesInput,
   output: DescribeLoadBalancerPolicyTypesOutput,
   errors: [PolicyTypeNotFoundException],
 }));
+export type DescribeLoadBalancersError =
+  | AccessPointNotFoundException
+  | DependencyThrottleException
+  | CommonErrors;
 /**
  * Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
  */
 export const describeLoadBalancers: API.OperationMethod<
   DescribeAccessPointsInput,
   DescribeAccessPointsOutput,
-  AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
+  DescribeLoadBalancersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAccessPointsInput,
   ) => stream.Stream<
     DescribeAccessPointsOutput,
-    AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
+    DescribeLoadBalancersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAccessPointsInput,
   ) => stream.Stream<
     LoadBalancerDescription,
-    AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
+    DescribeLoadBalancersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1929,19 +1976,24 @@ export const describeLoadBalancers: API.OperationMethod<
     items: "LoadBalancerDescriptions",
   } as const,
 }));
+export type DescribeTagsError = AccessPointNotFoundException | CommonErrors;
 /**
  * Describes the tags associated with the specified load balancers.
  */
 export const describeTags: API.OperationMethod<
   DescribeTagsInput,
   DescribeTagsOutput,
-  AccessPointNotFoundException | CommonErrors,
+  DescribeTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagsInput,
   output: DescribeTagsOutput,
   errors: [AccessPointNotFoundException],
 }));
+export type DetachLoadBalancerFromSubnetsError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | CommonErrors;
 /**
  * Removes the specified subnets from the set of configured subnets for the load balancer.
  *
@@ -1952,15 +2004,17 @@ export const describeTags: API.OperationMethod<
 export const detachLoadBalancerFromSubnets: API.OperationMethod<
   DetachLoadBalancerFromSubnetsInput,
   DetachLoadBalancerFromSubnetsOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | CommonErrors,
+  DetachLoadBalancerFromSubnetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachLoadBalancerFromSubnetsInput,
   output: DetachLoadBalancerFromSubnetsOutput,
   errors: [AccessPointNotFoundException, InvalidConfigurationRequestException],
 }));
+export type DisableAvailabilityZonesForLoadBalancerError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | CommonErrors;
 /**
  * Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer
  * in EC2-Classic or a default VPC.
@@ -1978,15 +2032,16 @@ export const detachLoadBalancerFromSubnets: API.OperationMethod<
 export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   RemoveAvailabilityZonesInput,
   RemoveAvailabilityZonesOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | CommonErrors,
+  DisableAvailabilityZonesForLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAvailabilityZonesInput,
   output: RemoveAvailabilityZonesOutput,
   errors: [AccessPointNotFoundException, InvalidConfigurationRequestException],
 }));
+export type EnableAvailabilityZonesForLoadBalancerError =
+  | AccessPointNotFoundException
+  | CommonErrors;
 /**
  * Adds the specified Availability Zones to the set of Availability Zones for the specified load balancer
  * in EC2-Classic or a default VPC.
@@ -2000,13 +2055,18 @@ export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
 export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   AddAvailabilityZonesInput,
   AddAvailabilityZonesOutput,
-  AccessPointNotFoundException | CommonErrors,
+  EnableAvailabilityZonesForLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddAvailabilityZonesInput,
   output: AddAvailabilityZonesOutput,
   errors: [AccessPointNotFoundException],
 }));
+export type ModifyLoadBalancerAttributesError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | LoadBalancerAttributeNotFoundException
+  | CommonErrors;
 /**
  * Modifies the attributes of the specified load balancer.
  *
@@ -2027,10 +2087,7 @@ export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
 export const modifyLoadBalancerAttributes: API.OperationMethod<
   ModifyLoadBalancerAttributesInput,
   ModifyLoadBalancerAttributesOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | LoadBalancerAttributeNotFoundException
-  | CommonErrors,
+  ModifyLoadBalancerAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyLoadBalancerAttributesInput,
@@ -2041,6 +2098,10 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
     LoadBalancerAttributeNotFoundException,
   ],
 }));
+export type RegisterInstancesWithLoadBalancerError =
+  | AccessPointNotFoundException
+  | InvalidEndPointException
+  | CommonErrors;
 /**
  * Adds the specified instances to the specified load balancer.
  *
@@ -2065,26 +2126,34 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
 export const registerInstancesWithLoadBalancer: API.OperationMethod<
   RegisterEndPointsInput,
   RegisterEndPointsOutput,
-  AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
+  RegisterInstancesWithLoadBalancerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterEndPointsInput,
   output: RegisterEndPointsOutput,
   errors: [AccessPointNotFoundException, InvalidEndPointException],
 }));
+export type RemoveTagsError = AccessPointNotFoundException | CommonErrors;
 /**
  * Removes one or more tags from the specified load balancer.
  */
 export const removeTags: API.OperationMethod<
   RemoveTagsInput,
   RemoveTagsOutput,
-  AccessPointNotFoundException | CommonErrors,
+  RemoveTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsInput,
   output: RemoveTagsOutput,
   errors: [AccessPointNotFoundException],
 }));
+export type SetLoadBalancerListenerSSLCertificateError =
+  | AccessPointNotFoundException
+  | CertificateNotFoundException
+  | InvalidConfigurationRequestException
+  | ListenerNotFoundException
+  | UnsupportedProtocolException
+  | CommonErrors;
 /**
  * Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port.
  *
@@ -2095,12 +2164,7 @@ export const removeTags: API.OperationMethod<
 export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
   SetLoadBalancerListenerSSLCertificateInput,
   SetLoadBalancerListenerSSLCertificateOutput,
-  | AccessPointNotFoundException
-  | CertificateNotFoundException
-  | InvalidConfigurationRequestException
-  | ListenerNotFoundException
-  | UnsupportedProtocolException
-  | CommonErrors,
+  SetLoadBalancerListenerSSLCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLoadBalancerListenerSSLCertificateInput,
@@ -2113,6 +2177,11 @@ export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
     UnsupportedProtocolException,
   ],
 }));
+export type SetLoadBalancerPoliciesForBackendServerError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies.
  * At this time, only the back-end server authentication policy type can be applied to the instance ports; this policy type is composed of multiple public key policies.
@@ -2131,10 +2200,7 @@ export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
 export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
   SetLoadBalancerPoliciesForBackendServerInput,
   SetLoadBalancerPoliciesForBackendServerOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | PolicyNotFoundException
-  | CommonErrors,
+  SetLoadBalancerPoliciesForBackendServerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLoadBalancerPoliciesForBackendServerInput,
@@ -2145,6 +2211,12 @@ export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
     PolicyNotFoundException,
   ],
 }));
+export type SetLoadBalancerPoliciesOfListenerError =
+  | AccessPointNotFoundException
+  | InvalidConfigurationRequestException
+  | ListenerNotFoundException
+  | PolicyNotFoundException
+  | CommonErrors;
 /**
  * Replaces the current set of policies for the specified load balancer port with the specified set of policies.
  *
@@ -2159,11 +2231,7 @@ export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
 export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
   SetLoadBalancerPoliciesOfListenerInput,
   SetLoadBalancerPoliciesOfListenerOutput,
-  | AccessPointNotFoundException
-  | InvalidConfigurationRequestException
-  | ListenerNotFoundException
-  | PolicyNotFoundException
-  | CommonErrors,
+  SetLoadBalancerPoliciesOfListenerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLoadBalancerPoliciesOfListenerInput,

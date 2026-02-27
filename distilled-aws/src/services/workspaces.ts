@@ -5124,6 +5124,13 @@ export class WorkspacesDefaultRoleNotFoundException extends S.TaggedErrorClass<W
 ) {}
 
 //# Operations
+export type AcceptAccountLinkInvitationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Accepts the account link invitation.
  *
@@ -5132,12 +5139,7 @@ export class WorkspacesDefaultRoleNotFoundException extends S.TaggedErrorClass<W
 export const acceptAccountLinkInvitation: API.OperationMethod<
   AcceptAccountLinkInvitationRequest,
   AcceptAccountLinkInvitationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AcceptAccountLinkInvitationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptAccountLinkInvitationRequest,
@@ -5150,6 +5152,14 @@ export const acceptAccountLinkInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociateConnectionAliasError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceAssociatedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates the specified connection alias with the specified directory to enable
  * cross-Region redirection. For more information, see Cross-Region
@@ -5162,13 +5172,7 @@ export const acceptAccountLinkInvitation: API.OperationMethod<
 export const associateConnectionAlias: API.OperationMethod<
   AssociateConnectionAliasRequest,
   AssociateConnectionAliasResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceAssociatedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AssociateConnectionAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateConnectionAliasRequest,
@@ -5182,19 +5186,21 @@ export const associateConnectionAlias: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Associates the specified IP access control group with the specified directory.
- */
-export const associateIpGroups: API.OperationMethod<
-  AssociateIpGroupsRequest,
-  AssociateIpGroupsResult,
+export type AssociateIpGroupsError =
   | AccessDeniedException
   | InvalidParameterValuesException
   | InvalidResourceStateException
   | OperationNotSupportedException
   | ResourceLimitExceededException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates the specified IP access control group with the specified directory.
+ */
+export const associateIpGroups: API.OperationMethod<
+  AssociateIpGroupsRequest,
+  AssociateIpGroupsResult,
+  AssociateIpGroupsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateIpGroupsRequest,
@@ -5208,12 +5214,7 @@ export const associateIpGroups: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Associates the specified application to the specified WorkSpace.
- */
-export const associateWorkspaceApplication: API.OperationMethod<
-  AssociateWorkspaceApplicationRequest,
-  AssociateWorkspaceApplicationResult,
+export type AssociateWorkspaceApplicationError =
   | AccessDeniedException
   | ApplicationNotSupportedException
   | ComputeNotCompatibleException
@@ -5224,7 +5225,14 @@ export const associateWorkspaceApplication: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceInUseException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates the specified application to the specified WorkSpace.
+ */
+export const associateWorkspaceApplication: API.OperationMethod<
+  AssociateWorkspaceApplicationRequest,
+  AssociateWorkspaceApplicationResult,
+  AssociateWorkspaceApplicationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWorkspaceApplicationRequest,
@@ -5242,6 +5250,13 @@ export const associateWorkspaceApplication: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type AuthorizeIpRulesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds one or more rules to the specified IP access control group.
  *
@@ -5251,12 +5266,7 @@ export const associateWorkspaceApplication: API.OperationMethod<
 export const authorizeIpRules: API.OperationMethod<
   AuthorizeIpRulesRequest,
   AuthorizeIpRulesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AuthorizeIpRulesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeIpRulesRequest,
@@ -5269,6 +5279,15 @@ export const authorizeIpRules: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CopyWorkspaceImageError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Copies the specified image from the specified Region to the current Region. For more
  * information about copying images, see Copy a Custom WorkSpaces
@@ -5285,14 +5304,7 @@ export const authorizeIpRules: API.OperationMethod<
 export const copyWorkspaceImage: API.OperationMethod<
   CopyWorkspaceImageRequest,
   CopyWorkspaceImageResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  CopyWorkspaceImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyWorkspaceImageRequest,
@@ -5307,17 +5319,19 @@ export const copyWorkspaceImage: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
+export type CreateAccountLinkInvitationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates the account link invitation.
  */
 export const createAccountLinkInvitation: API.OperationMethod<
   CreateAccountLinkInvitationRequest,
   CreateAccountLinkInvitationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  CreateAccountLinkInvitationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountLinkInvitationRequest,
@@ -5329,6 +5343,13 @@ export const createAccountLinkInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateConnectClientAddInError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceAlreadyExistsException
+  | ResourceCreationFailedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a client-add-in for Amazon Connect within a directory. You can create only
  * one Amazon Connect client add-in within a directory.
@@ -5338,12 +5359,7 @@ export const createAccountLinkInvitation: API.OperationMethod<
 export const createConnectClientAddIn: API.OperationMethod<
   CreateConnectClientAddInRequest,
   CreateConnectClientAddInResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceAlreadyExistsException
-  | ResourceCreationFailedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateConnectClientAddInError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectClientAddInRequest,
@@ -5356,6 +5372,14 @@ export const createConnectClientAddIn: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateConnectionAliasError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Creates the specified connection alias for use with cross-Region redirection. For more
  * information, see Cross-Region
@@ -5364,13 +5388,7 @@ export const createConnectClientAddIn: API.OperationMethod<
 export const createConnectionAlias: API.OperationMethod<
   CreateConnectionAliasRequest,
   CreateConnectionAliasResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | CommonErrors,
+  CreateConnectionAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionAliasRequest,
@@ -5384,6 +5402,13 @@ export const createConnectionAlias: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type CreateIpGroupError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceAlreadyExistsException
+  | ResourceCreationFailedException
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Creates an IP access control group.
  *
@@ -5400,12 +5425,7 @@ export const createConnectionAlias: API.OperationMethod<
 export const createIpGroup: API.OperationMethod<
   CreateIpGroupRequest,
   CreateIpGroupResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceAlreadyExistsException
-  | ResourceCreationFailedException
-  | ResourceLimitExceededException
-  | CommonErrors,
+  CreateIpGroupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIpGroupRequest,
@@ -5418,18 +5438,20 @@ export const createIpGroup: API.OperationMethod<
     ResourceLimitExceededException,
   ],
 }));
+export type CreateStandbyWorkspacesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a standby WorkSpace in a secondary Region.
  */
 export const createStandbyWorkspaces: API.OperationMethod<
   CreateStandbyWorkspacesRequest,
   CreateStandbyWorkspacesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateStandbyWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStandbyWorkspacesRequest,
@@ -5442,16 +5464,18 @@ export const createStandbyWorkspaces: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateTagsError =
+  | InvalidParameterValuesException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates the specified tags for the specified WorkSpaces resource.
  */
 export const createTags: API.OperationMethod<
   CreateTagsRequest,
   CreateTagsResult,
-  | InvalidParameterValuesException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
@@ -5462,6 +5486,15 @@ export const createTags: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateUpdatedWorkspaceImageError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a new updated WorkSpace image based on the specified source image. The new
  * updated WorkSpace image has the latest drivers and other updates required by the
@@ -5483,14 +5516,7 @@ export const createTags: API.OperationMethod<
 export const createUpdatedWorkspaceImage: API.OperationMethod<
   CreateUpdatedWorkspaceImageRequest,
   CreateUpdatedWorkspaceImageResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateUpdatedWorkspaceImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUpdatedWorkspaceImageRequest,
@@ -5505,6 +5531,14 @@ export const createUpdatedWorkspaceImage: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateWorkspaceBundleError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see
  *
@@ -5513,13 +5547,7 @@ export const createUpdatedWorkspaceImage: API.OperationMethod<
 export const createWorkspaceBundle: API.OperationMethod<
   CreateWorkspaceBundleRequest,
   CreateWorkspaceBundleResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  CreateWorkspaceBundleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceBundleRequest,
@@ -5533,12 +5561,7 @@ export const createWorkspaceBundle: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
-/**
- * Creates a new WorkSpace image from an existing WorkSpace.
- */
-export const createWorkspaceImage: API.OperationMethod<
-  CreateWorkspaceImageRequest,
-  CreateWorkspaceImageResult,
+export type CreateWorkspaceImageError =
   | AccessDeniedException
   | InvalidParameterValuesException
   | InvalidResourceStateException
@@ -5546,7 +5569,14 @@ export const createWorkspaceImage: API.OperationMethod<
   | ResourceAlreadyExistsException
   | ResourceLimitExceededException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new WorkSpace image from an existing WorkSpace.
+ */
+export const createWorkspaceImage: API.OperationMethod<
+  CreateWorkspaceImageRequest,
+  CreateWorkspaceImageResult,
+  CreateWorkspaceImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceImageRequest,
@@ -5561,6 +5591,10 @@ export const createWorkspaceImage: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateWorkspacesError =
+  | InvalidParameterValuesException
+  | ResourceLimitExceededException
+  | CommonErrors;
 /**
  * Creates one or more WorkSpaces.
  *
@@ -5585,28 +5619,28 @@ export const createWorkspaceImage: API.OperationMethod<
 export const createWorkspaces: API.OperationMethod<
   CreateWorkspacesRequest,
   CreateWorkspacesResult,
-  | InvalidParameterValuesException
-  | ResourceLimitExceededException
-  | CommonErrors,
+  CreateWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspacesRequest,
   output: CreateWorkspacesResult,
   errors: [InvalidParameterValuesException, ResourceLimitExceededException],
 }));
-/**
- * Creates a pool of WorkSpaces.
- */
-export const createWorkspacesPool: API.OperationMethod<
-  CreateWorkspacesPoolRequest,
-  CreateWorkspacesPoolResult,
+export type CreateWorkspacesPoolError =
   | AccessDeniedException
   | InvalidParameterValuesException
   | OperationNotSupportedException
   | ResourceAlreadyExistsException
   | ResourceLimitExceededException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a pool of WorkSpaces.
+ */
+export const createWorkspacesPool: API.OperationMethod<
+  CreateWorkspacesPoolRequest,
+  CreateWorkspacesPoolResult,
+  CreateWorkspacesPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspacesPoolRequest,
@@ -5620,18 +5654,20 @@ export const createWorkspacesPool: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteAccountLinkInvitationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the account link invitation.
  */
 export const deleteAccountLinkInvitation: API.OperationMethod<
   DeleteAccountLinkInvitationRequest,
   DeleteAccountLinkInvitationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAccountLinkInvitationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountLinkInvitationRequest,
@@ -5644,6 +5680,11 @@ export const deleteAccountLinkInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteClientBrandingError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes customized client branding. Client branding allows you to customize your
  * WorkSpace's client login portal. You can tailor your login portal company logo, the support
@@ -5656,10 +5697,7 @@ export const deleteAccountLinkInvitation: API.OperationMethod<
 export const deleteClientBranding: API.OperationMethod<
   DeleteClientBrandingRequest,
   DeleteClientBrandingResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteClientBrandingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClientBrandingRequest,
@@ -5670,6 +5708,11 @@ export const deleteClientBranding: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteConnectClientAddInError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a client-add-in for Amazon Connect that is configured within a
  * directory.
@@ -5677,10 +5720,7 @@ export const deleteClientBranding: API.OperationMethod<
 export const deleteConnectClientAddIn: API.OperationMethod<
   DeleteConnectClientAddInRequest,
   DeleteConnectClientAddInResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteConnectClientAddInError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectClientAddInRequest,
@@ -5691,6 +5731,14 @@ export const deleteConnectClientAddIn: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteConnectionAliasError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceAssociatedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified connection alias. For more information, see
  * Cross-Region Redirection for Amazon WorkSpaces.
@@ -5709,13 +5757,7 @@ export const deleteConnectClientAddIn: API.OperationMethod<
 export const deleteConnectionAlias: API.OperationMethod<
   DeleteConnectionAliasRequest,
   DeleteConnectionAliasResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceAssociatedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteConnectionAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionAliasRequest,
@@ -5729,6 +5771,12 @@ export const deleteConnectionAlias: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteIpGroupError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceAssociatedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified IP access control group.
  *
@@ -5737,11 +5785,7 @@ export const deleteConnectionAlias: API.OperationMethod<
 export const deleteIpGroup: API.OperationMethod<
   DeleteIpGroupRequest,
   DeleteIpGroupResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceAssociatedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteIpGroupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIpGroupRequest,
@@ -5753,19 +5797,29 @@ export const deleteIpGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteTagsError =
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified tags from the specified WorkSpaces resource.
  */
 export const deleteTags: API.OperationMethod<
   DeleteTagsRequest,
   DeleteTagsResult,
-  InvalidParameterValuesException | ResourceNotFoundException | CommonErrors,
+  DeleteTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResult,
   errors: [InvalidParameterValuesException, ResourceNotFoundException],
 }));
+export type DeleteWorkspaceBundleError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceAssociatedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace bundles, see
  *
@@ -5774,11 +5828,7 @@ export const deleteTags: API.OperationMethod<
 export const deleteWorkspaceBundle: API.OperationMethod<
   DeleteWorkspaceBundleRequest,
   DeleteWorkspaceBundleResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceAssociatedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteWorkspaceBundleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceBundleRequest,
@@ -5790,6 +5840,11 @@ export const deleteWorkspaceBundle: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteWorkspaceImageError =
+  | AccessDeniedException
+  | InvalidResourceStateException
+  | ResourceAssociatedException
+  | CommonErrors;
 /**
  * Deletes the specified image from your account. To delete an image, you must first delete
  * any bundles that are associated with the image and unshare the image if it is shared with
@@ -5798,10 +5853,7 @@ export const deleteWorkspaceBundle: API.OperationMethod<
 export const deleteWorkspaceImage: API.OperationMethod<
   DeleteWorkspaceImageRequest,
   DeleteWorkspaceImageResult,
-  | AccessDeniedException
-  | InvalidResourceStateException
-  | ResourceAssociatedException
-  | CommonErrors,
+  DeleteWorkspaceImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceImageRequest,
@@ -5812,19 +5864,21 @@ export const deleteWorkspaceImage: API.OperationMethod<
     ResourceAssociatedException,
   ],
 }));
-/**
- * Deploys associated applications to the specified WorkSpace
- */
-export const deployWorkspaceApplications: API.OperationMethod<
-  DeployWorkspaceApplicationsRequest,
-  DeployWorkspaceApplicationsResult,
+export type DeployWorkspaceApplicationsError =
   | AccessDeniedException
   | IncompatibleApplicationsException
   | InvalidParameterValuesException
   | OperationNotSupportedException
   | ResourceInUseException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deploys associated applications to the specified WorkSpace
+ */
+export const deployWorkspaceApplications: API.OperationMethod<
+  DeployWorkspaceApplicationsRequest,
+  DeployWorkspaceApplicationsResult,
+  DeployWorkspaceApplicationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeployWorkspaceApplicationsRequest,
@@ -5838,6 +5892,13 @@ export const deployWorkspaceApplications: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeregisterWorkspaceDirectoryError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deregisters the specified directory. This operation is asynchronous and returns before
  * the WorkSpace directory is deregistered. If any WorkSpaces are registered to this
@@ -5857,12 +5918,7 @@ export const deployWorkspaceApplications: API.OperationMethod<
 export const deregisterWorkspaceDirectory: API.OperationMethod<
   DeregisterWorkspaceDirectoryRequest,
   DeregisterWorkspaceDirectoryResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeregisterWorkspaceDirectoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterWorkspaceDirectoryRequest,
@@ -5875,6 +5931,7 @@ export const deregisterWorkspaceDirectory: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeAccountError = AccessDeniedException | CommonErrors;
 /**
  * Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for
  * the specified account.
@@ -5882,13 +5939,16 @@ export const deregisterWorkspaceDirectory: API.OperationMethod<
 export const describeAccount: API.OperationMethod<
   DescribeAccountRequest,
   DescribeAccountResult,
-  AccessDeniedException | CommonErrors,
+  DescribeAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountRequest,
   output: DescribeAccountResult,
   errors: [AccessDeniedException],
 }));
+export type DescribeAccountModificationsError =
+  | AccessDeniedException
+  | CommonErrors;
 /**
  * Retrieves a list that describes modifications to the configuration of Bring Your Own
  * License (BYOL) for the specified account.
@@ -5896,46 +5956,40 @@ export const describeAccount: API.OperationMethod<
 export const describeAccountModifications: API.OperationMethod<
   DescribeAccountModificationsRequest,
   DescribeAccountModificationsResult,
-  AccessDeniedException | CommonErrors,
+  DescribeAccountModificationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountModificationsRequest,
   output: DescribeAccountModificationsResult,
   errors: [AccessDeniedException],
 }));
+export type DescribeApplicationAssociationsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the associations between the application and the specified associated resources.
  */
 export const describeApplicationAssociations: API.OperationMethod<
   DescribeApplicationAssociationsRequest,
   DescribeApplicationAssociationsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeApplicationAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeApplicationAssociationsRequest,
   ) => stream.Stream<
     DescribeApplicationAssociationsResult,
-    | AccessDeniedException
-    | InvalidParameterValuesException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    DescribeApplicationAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeApplicationAssociationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InvalidParameterValuesException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    DescribeApplicationAssociationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5953,39 +6007,33 @@ export const describeApplicationAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeApplicationsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
  */
 export const describeApplications: API.OperationMethod<
   DescribeApplicationsRequest,
   DescribeApplicationsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeApplicationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeApplicationsRequest,
   ) => stream.Stream<
     DescribeApplicationsResult,
-    | AccessDeniedException
-    | InvalidParameterValuesException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    DescribeApplicationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeApplicationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InvalidParameterValuesException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
+    DescribeApplicationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6003,17 +6051,19 @@ export const describeApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeBundleAssociationsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the associations between the applications and the specified bundle.
  */
 export const describeBundleAssociations: API.OperationMethod<
   DescribeBundleAssociationsRequest,
   DescribeBundleAssociationsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeBundleAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBundleAssociationsRequest,
@@ -6025,6 +6075,11 @@ export const describeBundleAssociations: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeClientBrandingError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified client branding. Client branding allows you to customize the log
  * in page of various device types for your users. You can add your company logo, the support
@@ -6037,10 +6092,7 @@ export const describeBundleAssociations: API.OperationMethod<
 export const describeClientBranding: API.OperationMethod<
   DescribeClientBrandingRequest,
   DescribeClientBrandingResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeClientBrandingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClientBrandingRequest,
@@ -6051,16 +6103,18 @@ export const describeClientBranding: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeClientPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
  */
 export const describeClientProperties: API.OperationMethod<
   DescribeClientPropertiesRequest,
   DescribeClientPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeClientPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClientPropertiesRequest,
@@ -6071,16 +6125,18 @@ export const describeClientProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeConnectClientAddInsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a list of Amazon Connect client add-ins that have been created.
  */
 export const describeConnectClientAddIns: API.OperationMethod<
   DescribeConnectClientAddInsRequest,
   DescribeConnectClientAddInsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeConnectClientAddInsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectClientAddInsRequest,
@@ -6091,6 +6147,11 @@ export const describeConnectClientAddIns: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeConnectionAliasesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | CommonErrors;
 /**
  * Retrieves a list that describes the connection aliases used for cross-Region
  * redirection. For more information, see Cross-Region
@@ -6099,10 +6160,7 @@ export const describeConnectClientAddIns: API.OperationMethod<
 export const describeConnectionAliases: API.OperationMethod<
   DescribeConnectionAliasesRequest,
   DescribeConnectionAliasesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | CommonErrors,
+  DescribeConnectionAliasesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectionAliasesRequest,
@@ -6113,6 +6171,12 @@ export const describeConnectionAliases: API.OperationMethod<
     OperationNotSupportedException,
   ],
 }));
+export type DescribeConnectionAliasPermissionsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the permissions that the owner of a connection alias has granted to another
  * Amazon Web Services account for the specified connection alias. For more information, see
@@ -6122,11 +6186,7 @@ export const describeConnectionAliases: API.OperationMethod<
 export const describeConnectionAliasPermissions: API.OperationMethod<
   DescribeConnectionAliasPermissionsRequest,
   DescribeConnectionAliasPermissionsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeConnectionAliasPermissionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectionAliasPermissionsRequest,
@@ -6138,30 +6198,36 @@ export const describeConnectionAliasPermissions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeCustomWorkspaceImageImportError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
  */
 export const describeCustomWorkspaceImageImport: API.OperationMethod<
   DescribeCustomWorkspaceImageImportRequest,
   DescribeCustomWorkspaceImageImportResult,
-  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  DescribeCustomWorkspaceImageImportError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomWorkspaceImageImportRequest,
   output: DescribeCustomWorkspaceImageImportResult,
   errors: [AccessDeniedException, ResourceNotFoundException],
 }));
+export type DescribeImageAssociationsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the associations between the applications and the specified image.
  */
 export const describeImageAssociations: API.OperationMethod<
   DescribeImageAssociationsRequest,
   DescribeImageAssociationsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeImageAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImageAssociationsRequest,
@@ -6173,43 +6239,50 @@ export const describeImageAssociations: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeIpGroupsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | CommonErrors;
 /**
  * Describes one or more of your IP access control groups.
  */
 export const describeIpGroups: API.OperationMethod<
   DescribeIpGroupsRequest,
   DescribeIpGroupsResult,
-  AccessDeniedException | InvalidParameterValuesException | CommonErrors,
+  DescribeIpGroupsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIpGroupsRequest,
   output: DescribeIpGroupsResult,
   errors: [AccessDeniedException, InvalidParameterValuesException],
 }));
+export type DescribeTagsError = ResourceNotFoundException | CommonErrors;
 /**
  * Describes the specified tags for the specified WorkSpaces resource.
  */
 export const describeTags: API.OperationMethod<
   DescribeTagsRequest,
   DescribeTagsResult,
-  ResourceNotFoundException | CommonErrors,
+  DescribeTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagsRequest,
   output: DescribeTagsResult,
   errors: [ResourceNotFoundException],
 }));
+export type DescribeWorkspaceAssociationsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the associations betweens applications and the specified WorkSpace.
  */
 export const describeWorkspaceAssociations: API.OperationMethod<
   DescribeWorkspaceAssociationsRequest,
   DescribeWorkspaceAssociationsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeWorkspaceAssociationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceAssociationsRequest,
@@ -6221,6 +6294,9 @@ export const describeWorkspaceAssociations: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeWorkspaceBundlesError =
+  | InvalidParameterValuesException
+  | CommonErrors;
 /**
  * Retrieves a list that describes the available WorkSpace bundles.
  *
@@ -6229,21 +6305,21 @@ export const describeWorkspaceAssociations: API.OperationMethod<
 export const describeWorkspaceBundles: API.OperationMethod<
   DescribeWorkspaceBundlesRequest,
   DescribeWorkspaceBundlesResult,
-  InvalidParameterValuesException | CommonErrors,
+  DescribeWorkspaceBundlesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeWorkspaceBundlesRequest,
   ) => stream.Stream<
     DescribeWorkspaceBundlesResult,
-    InvalidParameterValuesException | CommonErrors,
+    DescribeWorkspaceBundlesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeWorkspaceBundlesRequest,
   ) => stream.Stream<
     WorkspaceBundle,
-    InvalidParameterValuesException | CommonErrors,
+    DescribeWorkspaceBundlesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6256,27 +6332,30 @@ export const describeWorkspaceBundles: API.OperationMethod<
     items: "Bundles",
   } as const,
 }));
+export type DescribeWorkspaceDirectoriesError =
+  | InvalidParameterValuesException
+  | CommonErrors;
 /**
  * Describes the available directories that are registered with Amazon WorkSpaces.
  */
 export const describeWorkspaceDirectories: API.OperationMethod<
   DescribeWorkspaceDirectoriesRequest,
   DescribeWorkspaceDirectoriesResult,
-  InvalidParameterValuesException | CommonErrors,
+  DescribeWorkspaceDirectoriesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeWorkspaceDirectoriesRequest,
   ) => stream.Stream<
     DescribeWorkspaceDirectoriesResult,
-    InvalidParameterValuesException | CommonErrors,
+    DescribeWorkspaceDirectoriesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeWorkspaceDirectoriesRequest,
   ) => stream.Stream<
     WorkspaceDirectory,
-    InvalidParameterValuesException | CommonErrors,
+    DescribeWorkspaceDirectoriesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6289,16 +6368,18 @@ export const describeWorkspaceDirectories: API.OperationMethod<
     items: "Directories",
   } as const,
 }));
+export type DescribeWorkspaceImagePermissionsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image.
  */
 export const describeWorkspaceImagePermissions: API.OperationMethod<
   DescribeWorkspaceImagePermissionsRequest,
   DescribeWorkspaceImagePermissionsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeWorkspaceImagePermissionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceImagePermissionsRequest,
@@ -6309,6 +6390,7 @@ export const describeWorkspaceImagePermissions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeWorkspaceImagesError = AccessDeniedException | CommonErrors;
 /**
  * Retrieves a list that describes one or more specified images, if the image identifiers
  * are provided. Otherwise, all images in the account are described.
@@ -6316,13 +6398,17 @@ export const describeWorkspaceImagePermissions: API.OperationMethod<
 export const describeWorkspaceImages: API.OperationMethod<
   DescribeWorkspaceImagesRequest,
   DescribeWorkspaceImagesResult,
-  AccessDeniedException | CommonErrors,
+  DescribeWorkspaceImagesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceImagesRequest,
   output: DescribeWorkspaceImagesResult,
   errors: [AccessDeniedException],
 }));
+export type DescribeWorkspacesError =
+  | InvalidParameterValuesException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Describes the specified WorkSpaces.
  *
@@ -6332,25 +6418,21 @@ export const describeWorkspaceImages: API.OperationMethod<
 export const describeWorkspaces: API.OperationMethod<
   DescribeWorkspacesRequest,
   DescribeWorkspacesResult,
-  InvalidParameterValuesException | ResourceUnavailableException | CommonErrors,
+  DescribeWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeWorkspacesRequest,
   ) => stream.Stream<
     DescribeWorkspacesResult,
-    | InvalidParameterValuesException
-    | ResourceUnavailableException
-    | CommonErrors,
+    DescribeWorkspacesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeWorkspacesRequest,
   ) => stream.Stream<
     Workspace,
-    | InvalidParameterValuesException
-    | ResourceUnavailableException
-    | CommonErrors,
+    DescribeWorkspacesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6364,29 +6446,34 @@ export const describeWorkspaces: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type DescribeWorkspacesConnectionStatusError =
+  | InvalidParameterValuesException
+  | CommonErrors;
 /**
  * Describes the connection status of the specified WorkSpaces.
  */
 export const describeWorkspacesConnectionStatus: API.OperationMethod<
   DescribeWorkspacesConnectionStatusRequest,
   DescribeWorkspacesConnectionStatusResult,
-  InvalidParameterValuesException | CommonErrors,
+  DescribeWorkspacesConnectionStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspacesConnectionStatusRequest,
   output: DescribeWorkspacesConnectionStatusResult,
   errors: [InvalidParameterValuesException],
 }));
+export type DescribeWorkspaceSnapshotsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the snapshots for the specified WorkSpace.
  */
 export const describeWorkspaceSnapshots: API.OperationMethod<
   DescribeWorkspaceSnapshotsRequest,
   DescribeWorkspaceSnapshotsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeWorkspaceSnapshotsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceSnapshotsRequest,
@@ -6397,16 +6484,18 @@ export const describeWorkspaceSnapshots: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeWorkspacesPoolsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified WorkSpaces Pools.
  */
 export const describeWorkspacesPools: API.OperationMethod<
   DescribeWorkspacesPoolsRequest,
   DescribeWorkspacesPoolsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeWorkspacesPoolsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspacesPoolsRequest,
@@ -6417,16 +6506,18 @@ export const describeWorkspacesPools: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeWorkspacesPoolSessionsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a list that describes the streaming sessions for a specified pool.
  */
 export const describeWorkspacesPoolSessions: API.OperationMethod<
   DescribeWorkspacesPoolSessionsRequest,
   DescribeWorkspacesPoolSessionsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeWorkspacesPoolSessionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspacesPoolSessionsRequest,
@@ -6437,6 +6528,13 @@ export const describeWorkspacesPoolSessions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateConnectionAliasError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates a connection alias from a directory. Disassociating a connection alias
  * disables cross-Region redirection between two directories in different Regions. For more
@@ -6450,12 +6548,7 @@ export const describeWorkspacesPoolSessions: API.OperationMethod<
 export const disassociateConnectionAlias: API.OperationMethod<
   DisassociateConnectionAliasRequest,
   DisassociateConnectionAliasResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisassociateConnectionAliasError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateConnectionAliasRequest,
@@ -6468,18 +6561,20 @@ export const disassociateConnectionAlias: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateIpGroupsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates the specified IP access control group from the specified directory.
  */
 export const disassociateIpGroups: API.OperationMethod<
   DisassociateIpGroupsRequest,
   DisassociateIpGroupsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisassociateIpGroupsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateIpGroupsRequest,
@@ -6492,18 +6587,20 @@ export const disassociateIpGroups: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisassociateWorkspaceApplicationError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disassociates the specified application from a WorkSpace.
  */
 export const disassociateWorkspaceApplication: API.OperationMethod<
   DisassociateWorkspaceApplicationRequest,
   DisassociateWorkspaceApplicationResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisassociateWorkspaceApplicationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWorkspaceApplicationRequest,
@@ -6516,17 +6613,19 @@ export const disassociateWorkspaceApplication: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetAccountLinkError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves account link information.
  */
 export const getAccountLink: API.OperationMethod<
   GetAccountLinkRequest,
   GetAccountLinkResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAccountLinkError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountLinkRequest,
@@ -6538,6 +6637,12 @@ export const getAccountLink: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportClientBrandingError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Imports client branding. Client branding allows you to customize your WorkSpace's client
  * login portal. You can tailor your login portal company logo, the support email address,
@@ -6564,11 +6669,7 @@ export const getAccountLink: API.OperationMethod<
 export const importClientBranding: API.OperationMethod<
   ImportClientBrandingRequest,
   ImportClientBrandingResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ImportClientBrandingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportClientBrandingRequest,
@@ -6580,6 +6681,14 @@ export const importClientBranding: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ImportCustomWorkspaceImageError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)
  * image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is
@@ -6590,13 +6699,7 @@ export const importClientBranding: API.OperationMethod<
 export const importCustomWorkspaceImage: API.OperationMethod<
   ImportCustomWorkspaceImageRequest,
   ImportCustomWorkspaceImageResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ImportCustomWorkspaceImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCustomWorkspaceImageRequest,
@@ -6610,6 +6713,14 @@ export const importCustomWorkspaceImage: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ImportWorkspaceImageError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)
  * image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is
@@ -6620,13 +6731,7 @@ export const importCustomWorkspaceImage: API.OperationMethod<
 export const importWorkspaceImage: API.OperationMethod<
   ImportWorkspaceImageRequest,
   ImportWorkspaceImageResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ImportWorkspaceImageError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportWorkspaceImageRequest,
@@ -6640,36 +6745,32 @@ export const importWorkspaceImage: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListAccountLinksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all account links.
  */
 export const listAccountLinks: API.OperationMethod<
   ListAccountLinksRequest,
   ListAccountLinksResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListAccountLinksError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountLinksRequest,
   ) => stream.Stream<
     ListAccountLinksResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAccountLinksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountLinksRequest,
   ) => stream.Stream<
     AccountLink,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListAccountLinksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6683,6 +6784,10 @@ export const listAccountLinks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAvailableManagementCidrRangesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | CommonErrors;
 /**
  * Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use
  * for the network management interface when you enable Bring Your Own License (BYOL).
@@ -6698,13 +6803,21 @@ export const listAccountLinks: API.OperationMethod<
 export const listAvailableManagementCidrRanges: API.OperationMethod<
   ListAvailableManagementCidrRangesRequest,
   ListAvailableManagementCidrRangesResult,
-  AccessDeniedException | InvalidParameterValuesException | CommonErrors,
+  ListAvailableManagementCidrRangesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAvailableManagementCidrRangesRequest,
   output: ListAvailableManagementCidrRangesResult,
   errors: [AccessDeniedException, InvalidParameterValuesException],
 }));
+export type MigrateWorkspaceError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationInProgressException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Migrates a WorkSpace from one operating system or bundle type to another, while
  * retaining the data on the user volume.
@@ -6723,13 +6836,7 @@ export const listAvailableManagementCidrRanges: API.OperationMethod<
 export const migrateWorkspace: API.OperationMethod<
   MigrateWorkspaceRequest,
   MigrateWorkspaceResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationInProgressException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  MigrateWorkspaceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MigrateWorkspaceRequest,
@@ -6743,6 +6850,13 @@ export const migrateWorkspace: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
+export type ModifyAccountError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Modifies the configuration of Bring Your Own License (BYOL) for the specified
  * account.
@@ -6750,12 +6864,7 @@ export const migrateWorkspace: API.OperationMethod<
 export const modifyAccount: API.OperationMethod<
   ModifyAccountRequest,
   ModifyAccountResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  ModifyAccountError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyAccountRequest,
@@ -6768,6 +6877,12 @@ export const modifyAccount: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
+export type ModifyCertificateBasedAuthPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the properties of the certificate-based authentication you want
  * to use with your WorkSpaces.
@@ -6775,11 +6890,7 @@ export const modifyAccount: API.OperationMethod<
 export const modifyCertificateBasedAuthProperties: API.OperationMethod<
   ModifyCertificateBasedAuthPropertiesRequest,
   ModifyCertificateBasedAuthPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyCertificateBasedAuthPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyCertificateBasedAuthPropertiesRequest,
@@ -6791,17 +6902,19 @@ export const modifyCertificateBasedAuthProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifyClientPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the properties of the specified Amazon WorkSpaces clients.
  */
 export const modifyClientProperties: API.OperationMethod<
   ModifyClientPropertiesRequest,
   ModifyClientPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyClientPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyClientPropertiesRequest,
@@ -6813,6 +6926,11 @@ export const modifyClientProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifyEndpointEncryptionModeError =
+  | AccessDeniedException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the endpoint encryption mode that allows you to configure the specified
  * directory between Standard TLS and FIPS 140-2 validated mode.
@@ -6820,10 +6938,7 @@ export const modifyClientProperties: API.OperationMethod<
 export const modifyEndpointEncryptionMode: API.OperationMethod<
   ModifyEndpointEncryptionModeRequest,
   ModifyEndpointEncryptionModeResponse,
-  | AccessDeniedException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyEndpointEncryptionModeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyEndpointEncryptionModeRequest,
@@ -6834,6 +6949,12 @@ export const modifyEndpointEncryptionMode: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifySamlPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies multiple properties related to SAML 2.0 authentication, including the enablement status,
  * user access URL, and relay state parameter name that are used for configuring federation with an
@@ -6842,11 +6963,7 @@ export const modifyEndpointEncryptionMode: API.OperationMethod<
 export const modifySamlProperties: API.OperationMethod<
   ModifySamlPropertiesRequest,
   ModifySamlPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifySamlPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifySamlPropertiesRequest,
@@ -6858,6 +6975,12 @@ export const modifySamlProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifySelfservicePermissionsError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the self-service WorkSpace management capabilities for your users. For more
  * information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
@@ -6865,11 +6988,7 @@ export const modifySamlProperties: API.OperationMethod<
 export const modifySelfservicePermissions: API.OperationMethod<
   ModifySelfservicePermissionsRequest,
   ModifySelfservicePermissionsResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifySelfservicePermissionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifySelfservicePermissionsRequest,
@@ -6881,17 +7000,19 @@ export const modifySelfservicePermissions: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifyStreamingPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modifies the specified streaming properties.
  */
 export const modifyStreamingProperties: API.OperationMethod<
   ModifyStreamingPropertiesRequest,
   ModifyStreamingPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyStreamingPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyStreamingPropertiesRequest,
@@ -6903,6 +7024,13 @@ export const modifyStreamingProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifyWorkspaceAccessPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterCombinationException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Specifies which devices and operating systems users can use to access their WorkSpaces.
  * For more information, see
@@ -6911,12 +7039,7 @@ export const modifyStreamingProperties: API.OperationMethod<
 export const modifyWorkspaceAccessProperties: API.OperationMethod<
   ModifyWorkspaceAccessPropertiesRequest,
   ModifyWorkspaceAccessPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterCombinationException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyWorkspaceAccessPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyWorkspaceAccessPropertiesRequest,
@@ -6929,17 +7052,19 @@ export const modifyWorkspaceAccessProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifyWorkspaceCreationPropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Modify the default properties used to create WorkSpaces.
  */
 export const modifyWorkspaceCreationProperties: API.OperationMethod<
   ModifyWorkspaceCreationPropertiesRequest,
   ModifyWorkspaceCreationPropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyWorkspaceCreationPropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyWorkspaceCreationPropertiesRequest,
@@ -6951,6 +7076,15 @@ export const modifyWorkspaceCreationProperties: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ModifyWorkspacePropertiesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationInProgressException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | UnsupportedWorkspaceConfigurationException
+  | CommonErrors;
 /**
  * Modifies the specified WorkSpace properties. For important information about how to
  * modify the size of the root and user volumes, see Modify a WorkSpace.
@@ -6963,14 +7097,7 @@ export const modifyWorkspaceCreationProperties: API.OperationMethod<
 export const modifyWorkspaceProperties: API.OperationMethod<
   ModifyWorkspacePropertiesRequest,
   ModifyWorkspacePropertiesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationInProgressException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | UnsupportedWorkspaceConfigurationException
-  | CommonErrors,
+  ModifyWorkspacePropertiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyWorkspacePropertiesRequest,
@@ -6985,6 +7112,12 @@ export const modifyWorkspaceProperties: API.OperationMethod<
     UnsupportedWorkspaceConfigurationException,
   ],
 }));
+export type ModifyWorkspaceStateError =
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Sets the state of the specified WorkSpace.
  *
@@ -6997,11 +7130,7 @@ export const modifyWorkspaceProperties: API.OperationMethod<
 export const modifyWorkspaceState: API.OperationMethod<
   ModifyWorkspaceStateRequest,
   ModifyWorkspaceStateResult,
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ModifyWorkspaceStateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyWorkspaceStateRequest,
@@ -7013,6 +7142,9 @@ export const modifyWorkspaceState: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RebootWorkspacesError =
+  | OperationNotSupportedException
+  | CommonErrors;
 /**
  * Reboots the specified WorkSpaces.
  *
@@ -7025,13 +7157,16 @@ export const modifyWorkspaceState: API.OperationMethod<
 export const rebootWorkspaces: API.OperationMethod<
   RebootWorkspacesRequest,
   RebootWorkspacesResult,
-  OperationNotSupportedException | CommonErrors,
+  RebootWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootWorkspacesRequest,
   output: RebootWorkspacesResult,
   errors: [OperationNotSupportedException],
 }));
+export type RebuildWorkspacesError =
+  | OperationNotSupportedException
+  | CommonErrors;
 /**
  * Rebuilds the specified WorkSpace.
  *
@@ -7049,13 +7184,24 @@ export const rebootWorkspaces: API.OperationMethod<
 export const rebuildWorkspaces: API.OperationMethod<
   RebuildWorkspacesRequest,
   RebuildWorkspacesResult,
-  OperationNotSupportedException | CommonErrors,
+  RebuildWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebuildWorkspacesRequest,
   output: RebuildWorkspacesResult,
   errors: [OperationNotSupportedException],
 }));
+export type RegisterWorkspaceDirectoryError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | UnsupportedNetworkConfigurationException
+  | WorkspacesDefaultRoleNotFoundException
+  | CommonErrors;
 /**
  * Registers the specified directory. This operation is asynchronous and returns before the
  * WorkSpace directory is registered. If this is the first time you are registering a
@@ -7066,16 +7212,7 @@ export const rebuildWorkspaces: API.OperationMethod<
 export const registerWorkspaceDirectory: API.OperationMethod<
   RegisterWorkspaceDirectoryRequest,
   RegisterWorkspaceDirectoryResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceAlreadyExistsException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | UnsupportedNetworkConfigurationException
-  | WorkspacesDefaultRoleNotFoundException
-  | CommonErrors,
+  RegisterWorkspaceDirectoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterWorkspaceDirectoryRequest,
@@ -7092,18 +7229,20 @@ export const registerWorkspaceDirectory: API.OperationMethod<
     WorkspacesDefaultRoleNotFoundException,
   ],
 }));
+export type RejectAccountLinkInvitationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Rejects the account link invitation.
  */
 export const rejectAccountLinkInvitation: API.OperationMethod<
   RejectAccountLinkInvitationRequest,
   RejectAccountLinkInvitationResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RejectAccountLinkInvitationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectAccountLinkInvitationRequest,
@@ -7116,6 +7255,12 @@ export const rejectAccountLinkInvitation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RestoreWorkspaceError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Restores the specified WorkSpace to its last known healthy state.
  *
@@ -7132,11 +7277,7 @@ export const rejectAccountLinkInvitation: API.OperationMethod<
 export const restoreWorkspace: API.OperationMethod<
   RestoreWorkspaceRequest,
   RestoreWorkspaceResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RestoreWorkspaceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreWorkspaceRequest,
@@ -7148,17 +7289,19 @@ export const restoreWorkspace: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RevokeIpRulesError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more rules from the specified IP access control group.
  */
 export const revokeIpRules: API.OperationMethod<
   RevokeIpRulesRequest,
   RevokeIpRulesResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RevokeIpRulesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeIpRulesRequest,
@@ -7170,6 +7313,7 @@ export const revokeIpRules: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartWorkspacesError = CommonErrors;
 /**
  * Starts the specified WorkSpaces.
  *
@@ -7179,13 +7323,22 @@ export const revokeIpRules: API.OperationMethod<
 export const startWorkspaces: API.OperationMethod<
   StartWorkspacesRequest,
   StartWorkspacesResult,
-  CommonErrors,
+  StartWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWorkspacesRequest,
   output: StartWorkspacesResult,
   errors: [],
 }));
+export type StartWorkspacesPoolError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationInProgressException
+  | OperationNotSupportedException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts the specified pool.
  *
@@ -7195,14 +7348,7 @@ export const startWorkspaces: API.OperationMethod<
 export const startWorkspacesPool: API.OperationMethod<
   StartWorkspacesPoolRequest,
   StartWorkspacesPoolResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationInProgressException
-  | OperationNotSupportedException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartWorkspacesPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWorkspacesPoolRequest,
@@ -7217,6 +7363,7 @@ export const startWorkspacesPool: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopWorkspacesError = CommonErrors;
 /**
  * Stops the specified WorkSpaces.
  *
@@ -7227,13 +7374,20 @@ export const startWorkspacesPool: API.OperationMethod<
 export const stopWorkspaces: API.OperationMethod<
   StopWorkspacesRequest,
   StopWorkspacesResult,
-  CommonErrors,
+  StopWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopWorkspacesRequest,
   output: StopWorkspacesResult,
   errors: [],
 }));
+export type StopWorkspacesPoolError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationInProgressException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops the specified pool.
  *
@@ -7243,12 +7397,7 @@ export const stopWorkspaces: API.OperationMethod<
 export const stopWorkspacesPool: API.OperationMethod<
   StopWorkspacesPoolRequest,
   StopWorkspacesPoolResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationInProgressException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopWorkspacesPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopWorkspacesPoolRequest,
@@ -7261,6 +7410,7 @@ export const stopWorkspacesPool: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TerminateWorkspacesError = CommonErrors;
 /**
  * Terminates the specified WorkSpaces.
  *
@@ -7292,25 +7442,27 @@ export const stopWorkspacesPool: API.OperationMethod<
 export const terminateWorkspaces: API.OperationMethod<
   TerminateWorkspacesRequest,
   TerminateWorkspacesResult,
-  CommonErrors,
+  TerminateWorkspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateWorkspacesRequest,
   output: TerminateWorkspacesResult,
   errors: [],
 }));
+export type TerminateWorkspacesPoolError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationInProgressException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Terminates the specified pool.
  */
 export const terminateWorkspacesPool: API.OperationMethod<
   TerminateWorkspacesPoolRequest,
   TerminateWorkspacesPoolResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationInProgressException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TerminateWorkspacesPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateWorkspacesPoolRequest,
@@ -7323,18 +7475,20 @@ export const terminateWorkspacesPool: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TerminateWorkspacesPoolSessionError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationInProgressException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Terminates the pool session.
  */
 export const terminateWorkspacesPoolSession: API.OperationMethod<
   TerminateWorkspacesPoolSessionRequest,
   TerminateWorkspacesPoolSessionResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationInProgressException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TerminateWorkspacesPoolSessionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateWorkspacesPoolSessionRequest,
@@ -7347,6 +7501,11 @@ export const terminateWorkspacesPoolSession: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateConnectClientAddInError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a Amazon Connect client add-in. Use this action to update the name and
  * endpoint URL of a Amazon Connect client add-in.
@@ -7354,10 +7513,7 @@ export const terminateWorkspacesPoolSession: API.OperationMethod<
 export const updateConnectClientAddIn: API.OperationMethod<
   UpdateConnectClientAddInRequest,
   UpdateConnectClientAddInResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateConnectClientAddInError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectClientAddInRequest,
@@ -7368,6 +7524,15 @@ export const updateConnectClientAddIn: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateConnectionAliasPermissionError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | OperationNotSupportedException
+  | ResourceAssociatedException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Shares or unshares a connection alias with one account by specifying whether that
  * account has permission to associate the connection alias with a directory. If the
@@ -7389,14 +7554,7 @@ export const updateConnectClientAddIn: API.OperationMethod<
 export const updateConnectionAliasPermission: API.OperationMethod<
   UpdateConnectionAliasPermissionRequest,
   UpdateConnectionAliasPermissionResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | OperationNotSupportedException
-  | ResourceAssociatedException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateConnectionAliasPermissionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionAliasPermissionRequest,
@@ -7411,6 +7569,13 @@ export const updateConnectionAliasPermission: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateRulesOfIpGroupError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | InvalidResourceStateException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Replaces the current rules of the specified IP access control group with the specified
  * rules.
@@ -7418,12 +7583,7 @@ export const updateConnectionAliasPermission: API.OperationMethod<
 export const updateRulesOfIpGroup: API.OperationMethod<
   UpdateRulesOfIpGroupRequest,
   UpdateRulesOfIpGroupResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | InvalidResourceStateException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateRulesOfIpGroupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRulesOfIpGroupRequest,
@@ -7436,6 +7596,13 @@ export const updateRulesOfIpGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateWorkspaceBundleError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see
  *
@@ -7448,12 +7615,7 @@ export const updateRulesOfIpGroup: API.OperationMethod<
 export const updateWorkspaceBundle: API.OperationMethod<
   UpdateWorkspaceBundleRequest,
   UpdateWorkspaceBundleResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  UpdateWorkspaceBundleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceBundleRequest,
@@ -7466,6 +7628,13 @@ export const updateWorkspaceBundle: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
+export type UpdateWorkspaceImagePermissionError =
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | CommonErrors;
 /**
  * Shares or unshares an image with one account in the same Amazon Web Services Region by
  * specifying whether that account has permission to copy the image. If the copy image
@@ -7492,12 +7661,7 @@ export const updateWorkspaceBundle: API.OperationMethod<
 export const updateWorkspaceImagePermission: API.OperationMethod<
   UpdateWorkspaceImagePermissionRequest,
   UpdateWorkspaceImagePermissionResult,
-  | AccessDeniedException
-  | InvalidParameterValuesException
-  | OperationNotSupportedException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors,
+  UpdateWorkspaceImagePermissionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceImagePermissionRequest,
@@ -7510,12 +7674,7 @@ export const updateWorkspaceImagePermission: API.OperationMethod<
     ResourceUnavailableException,
   ],
 }));
-/**
- * Updates the specified pool.
- */
-export const updateWorkspacesPool: API.OperationMethod<
-  UpdateWorkspacesPoolRequest,
-  UpdateWorkspacesPoolResult,
+export type UpdateWorkspacesPoolError =
   | AccessDeniedException
   | InvalidParameterValuesException
   | InvalidResourceStateException
@@ -7523,7 +7682,14 @@ export const updateWorkspacesPool: API.OperationMethod<
   | OperationNotSupportedException
   | ResourceLimitExceededException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified pool.
+ */
+export const updateWorkspacesPool: API.OperationMethod<
+  UpdateWorkspacesPoolRequest,
+  UpdateWorkspacesPoolResult,
+  UpdateWorkspacesPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspacesPoolRequest,

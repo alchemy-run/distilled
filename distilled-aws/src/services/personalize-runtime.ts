@@ -327,6 +327,10 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetActionRecommendationsError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of recommended actions in sorted in descending order by prediction score.
  * Use the `GetActionRecommendations` API if you have a custom
@@ -338,13 +342,17 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const getActionRecommendations: API.OperationMethod<
   GetActionRecommendationsRequest,
   GetActionRecommendationsResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  GetActionRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActionRecommendationsRequest,
   output: GetActionRecommendationsResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type GetPersonalizedRankingError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Re-ranks a list of recommended items for the given user. The first item in the list is
  * deemed the most likely item to be of interest to the user.
@@ -355,13 +363,17 @@ export const getActionRecommendations: API.OperationMethod<
 export const getPersonalizedRanking: API.OperationMethod<
   GetPersonalizedRankingRequest,
   GetPersonalizedRankingResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  GetPersonalizedRankingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPersonalizedRankingRequest,
   output: GetPersonalizedRankingResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type GetRecommendationsError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to
  * create the solution backing the campaign as follows:
@@ -379,7 +391,7 @@ export const getPersonalizedRanking: API.OperationMethod<
 export const getRecommendations: API.OperationMethod<
   GetRecommendationsRequest,
   GetRecommendationsResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  GetRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,

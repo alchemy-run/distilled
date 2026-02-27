@@ -3600,6 +3600,14 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type CancelComponentDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attempts to cancel a component deployment (for a component that is in the `IN_PROGRESS` deployment status).
  *
@@ -3610,13 +3618,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const cancelComponentDeployment: API.OperationMethod<
   CancelComponentDeploymentInput,
   CancelComponentDeploymentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelComponentDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelComponentDeploymentInput,
@@ -3630,6 +3632,14 @@ export const cancelComponentDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelEnvironmentDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attempts to cancel an environment deployment on an UpdateEnvironment action, if the deployment is `IN_PROGRESS`. For more
  * information, see Update an environment in the Proton
@@ -3647,13 +3657,7 @@ export const cancelComponentDeployment: API.OperationMethod<
 export const cancelEnvironmentDeployment: API.OperationMethod<
   CancelEnvironmentDeploymentInput,
   CancelEnvironmentDeploymentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelEnvironmentDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelEnvironmentDeploymentInput,
@@ -3667,6 +3671,14 @@ export const cancelEnvironmentDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelServiceInstanceDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the deployment is `IN_PROGRESS`. For
  * more information, see Update a service instance
@@ -3687,13 +3699,7 @@ export const cancelEnvironmentDeployment: API.OperationMethod<
 export const cancelServiceInstanceDeployment: API.OperationMethod<
   CancelServiceInstanceDeploymentInput,
   CancelServiceInstanceDeploymentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelServiceInstanceDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelServiceInstanceDeploymentInput,
@@ -3707,6 +3713,14 @@ export const cancelServiceInstanceDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelServicePipelineDeploymentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the deployment is `IN_PROGRESS`. For
  * more information, see Update a service pipeline
@@ -3727,13 +3741,7 @@ export const cancelServiceInstanceDeployment: API.OperationMethod<
 export const cancelServicePipelineDeployment: API.OperationMethod<
   CancelServicePipelineDeploymentInput,
   CancelServicePipelineDeploymentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelServicePipelineDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelServicePipelineDeploymentInput,
@@ -3747,6 +3755,13 @@ export const cancelServicePipelineDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRepositorySyncStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the sync status of a repository used for Proton template sync. For more information about template sync, see .
  *
@@ -3760,12 +3775,7 @@ export const cancelServicePipelineDeployment: API.OperationMethod<
 export const getRepositorySyncStatus: API.OperationMethod<
   GetRepositorySyncStatusInput,
   GetRepositorySyncStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRepositorySyncStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositorySyncStatusInput,
@@ -3778,6 +3788,12 @@ export const getRepositorySyncStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcesSummaryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get counts of Proton resources.
  *
@@ -3797,11 +3813,7 @@ export const getRepositorySyncStatus: API.OperationMethod<
 export const getResourcesSummary: API.OperationMethod<
   GetResourcesSummaryInput,
   GetResourcesSummaryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcesSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcesSummaryInput,
@@ -3813,18 +3825,20 @@ export const getResourcesSummary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceInstanceSyncStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the status of the synced service instance.
  */
 export const getServiceInstanceSyncStatus: API.OperationMethod<
   GetServiceInstanceSyncStatusInput,
   GetServiceInstanceSyncStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceInstanceSyncStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceInstanceSyncStatusInput,
@@ -3837,18 +3851,20 @@ export const getServiceInstanceSyncStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTemplateSyncStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the status of a template sync.
  */
 export const getTemplateSyncStatus: API.OperationMethod<
   GetTemplateSyncStatusInput,
   GetTemplateSyncStatusOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateSyncStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateSyncStatusInput,
@@ -3861,39 +3877,33 @@ export const getTemplateSyncStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRepositorySyncDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List repository sync definitions with detail data.
  */
 export const listRepositorySyncDefinitions: API.OperationMethod<
   ListRepositorySyncDefinitionsInput,
   ListRepositorySyncDefinitionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRepositorySyncDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositorySyncDefinitionsInput,
   ) => stream.Stream<
     ListRepositorySyncDefinitionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositorySyncDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositorySyncDefinitionsInput,
   ) => stream.Stream<
     RepositorySyncDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositorySyncDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3911,6 +3921,13 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
     items: "syncDefinitions",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List tags for a resource. For more information, see Proton
  * resources and tagging in the *Proton User Guide*.
@@ -3918,36 +3935,21 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     ListTagsForResourceOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     Tag,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3967,6 +3969,15 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type NotifyResourceDeploymentStatusChangeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Notify Proton of status changes to a provisioned resource when you use self-managed provisioning.
  *
@@ -3975,14 +3986,7 @@ export const listTagsForResource: API.OperationMethod<
 export const notifyResourceDeploymentStatusChange: API.OperationMethod<
   NotifyResourceDeploymentStatusChangeInput,
   NotifyResourceDeploymentStatusChangeOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  NotifyResourceDeploymentStatusChangeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotifyResourceDeploymentStatusChangeInput,
@@ -3997,6 +4001,14 @@ export const notifyResourceDeploymentStatusChange: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource.
  *
@@ -4006,13 +4018,7 @@ export const notifyResourceDeploymentStatusChange: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4026,6 +4032,14 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource.
  *
@@ -4035,13 +4049,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -4055,18 +4063,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccountSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detail data for Proton account-wide settings.
  */
 export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsInput,
   GetAccountSettingsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsInput,
@@ -4079,18 +4089,20 @@ export const getAccountSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAccountSettingsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update Proton settings that are used for multiple services in the Amazon Web Services account.
  */
 export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsInput,
   UpdateAccountSettingsOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsInput,
@@ -4103,6 +4115,13 @@ export const updateAccountSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListComponentOutputsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a list of component Infrastructure as Code (IaC) outputs.
  *
@@ -4113,36 +4132,21 @@ export const updateAccountSettings: API.OperationMethod<
 export const listComponentOutputs: API.OperationMethod<
   ListComponentOutputsInput,
   ListComponentOutputsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentOutputsInput,
   ) => stream.Stream<
     ListComponentOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentOutputsInput,
   ) => stream.Stream<
     Output,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4161,6 +4165,13 @@ export const listComponentOutputs: API.OperationMethod<
     items: "outputs",
   } as const,
 }));
+export type ListComponentProvisionedResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List provisioned resources for a component with details.
  *
@@ -4171,36 +4182,21 @@ export const listComponentOutputs: API.OperationMethod<
 export const listComponentProvisionedResources: API.OperationMethod<
   ListComponentProvisionedResourcesInput,
   ListComponentProvisionedResourcesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentProvisionedResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentProvisionedResourcesInput,
   ) => stream.Stream<
     ListComponentProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentProvisionedResourcesInput,
   ) => stream.Stream<
     ProvisionedResource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4219,6 +4215,15 @@ export const listComponentProvisionedResources: API.OperationMethod<
     items: "provisionedResources",
   } as const,
 }));
+export type CreateComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create an Proton component. A component is an infrastructure extension for a service instance.
  *
@@ -4229,14 +4234,7 @@ export const listComponentProvisionedResources: API.OperationMethod<
 export const createComponent: API.OperationMethod<
   CreateComponentInput,
   CreateComponentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentInput,
@@ -4251,6 +4249,13 @@ export const createComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetComponentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a component.
  *
@@ -4261,12 +4266,7 @@ export const createComponent: API.OperationMethod<
 export const getComponent: API.OperationMethod<
   GetComponentInput,
   GetComponentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentInput,
@@ -4279,6 +4279,15 @@ export const getComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a component.
  *
@@ -4294,14 +4303,7 @@ export const getComponent: API.OperationMethod<
 export const updateComponent: API.OperationMethod<
   UpdateComponentInput,
   UpdateComponentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentInput,
@@ -4316,6 +4318,14 @@ export const updateComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteComponentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete an Proton component resource.
  *
@@ -4326,13 +4336,7 @@ export const updateComponent: API.OperationMethod<
 export const deleteComponent: API.OperationMethod<
   DeleteComponentInput,
   DeleteComponentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentInput,
@@ -4346,6 +4350,12 @@ export const deleteComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListComponentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List components with summary data. You can filter the result list by environment, service, or a single service instance.
  *
@@ -4356,33 +4366,21 @@ export const deleteComponent: API.OperationMethod<
 export const listComponents: API.OperationMethod<
   ListComponentsInput,
   ListComponentsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentsInput,
   ) => stream.Stream<
     ListComponentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentsInput,
   ) => stream.Stream<
     ComponentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4401,18 +4399,20 @@ export const listComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a deployment.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentInput,
   GetDeploymentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
@@ -4425,18 +4425,20 @@ export const getDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeploymentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete the deployment.
  */
 export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentInput,
   DeleteDeploymentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentInput,
@@ -4449,42 +4451,34 @@ export const deleteDeployment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDeploymentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List deployments. You can filter the result list by environment, service, or a single service instance.
  */
 export const listDeployments: API.OperationMethod<
   ListDeploymentsInput,
   ListDeploymentsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
     ListDeploymentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
     DeploymentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4504,6 +4498,14 @@ export const listDeployments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateEnvironmentAccountConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment
  * account from a management account.
@@ -4515,13 +4517,7 @@ export const listDeployments: API.OperationMethod<
 export const createEnvironmentAccountConnection: API.OperationMethod<
   CreateEnvironmentAccountConnectionInput,
   CreateEnvironmentAccountConnectionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEnvironmentAccountConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentAccountConnectionInput,
@@ -4535,6 +4531,13 @@ export const createEnvironmentAccountConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentAccountConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * In an environment account, get the detailed data for an environment account connection.
  *
@@ -4544,12 +4547,7 @@ export const createEnvironmentAccountConnection: API.OperationMethod<
 export const getEnvironmentAccountConnection: API.OperationMethod<
   GetEnvironmentAccountConnectionInput,
   GetEnvironmentAccountConnectionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentAccountConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentAccountConnectionInput,
@@ -4562,6 +4560,14 @@ export const getEnvironmentAccountConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEnvironmentAccountConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * In an environment account, update an environment account connection to use a new IAM role.
  *
@@ -4571,13 +4577,7 @@ export const getEnvironmentAccountConnection: API.OperationMethod<
 export const updateEnvironmentAccountConnection: API.OperationMethod<
   UpdateEnvironmentAccountConnectionInput,
   UpdateEnvironmentAccountConnectionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEnvironmentAccountConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentAccountConnectionInput,
@@ -4591,6 +4591,14 @@ export const updateEnvironmentAccountConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentAccountConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * In an environment account, delete an environment account connection.
  *
@@ -4604,13 +4612,7 @@ export const updateEnvironmentAccountConnection: API.OperationMethod<
 export const deleteEnvironmentAccountConnection: API.OperationMethod<
   DeleteEnvironmentAccountConnectionInput,
   DeleteEnvironmentAccountConnectionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentAccountConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentAccountConnectionInput,
@@ -4624,6 +4626,12 @@ export const deleteEnvironmentAccountConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentAccountConnectionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * View a list of environment account connections.
  *
@@ -4633,33 +4641,21 @@ export const deleteEnvironmentAccountConnection: API.OperationMethod<
 export const listEnvironmentAccountConnections: API.OperationMethod<
   ListEnvironmentAccountConnectionsInput,
   ListEnvironmentAccountConnectionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentAccountConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentAccountConnectionsInput,
   ) => stream.Stream<
     ListEnvironmentAccountConnectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentAccountConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentAccountConnectionsInput,
   ) => stream.Stream<
     EnvironmentAccountConnectionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentAccountConnectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4678,6 +4674,14 @@ export const listEnvironmentAccountConnections: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type AcceptEnvironmentAccountConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton
  * can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
@@ -4688,13 +4692,7 @@ export const listEnvironmentAccountConnections: API.OperationMethod<
 export const acceptEnvironmentAccountConnection: API.OperationMethod<
   AcceptEnvironmentAccountConnectionInput,
   AcceptEnvironmentAccountConnectionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AcceptEnvironmentAccountConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptEnvironmentAccountConnectionInput,
@@ -4708,6 +4706,14 @@ export const acceptEnvironmentAccountConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RejectEnvironmentAccountConnectionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * In a management account, reject an environment account connection from another environment account.
  *
@@ -4722,13 +4728,7 @@ export const acceptEnvironmentAccountConnection: API.OperationMethod<
 export const rejectEnvironmentAccountConnection: API.OperationMethod<
   RejectEnvironmentAccountConnectionInput,
   RejectEnvironmentAccountConnectionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RejectEnvironmentAccountConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectEnvironmentAccountConnectionInput,
@@ -4742,42 +4742,34 @@ export const rejectEnvironmentAccountConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentOutputsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the infrastructure as code outputs for your environment.
  */
 export const listEnvironmentOutputs: API.OperationMethod<
   ListEnvironmentOutputsInput,
   ListEnvironmentOutputsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentOutputsInput,
   ) => stream.Stream<
     ListEnvironmentOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentOutputsInput,
   ) => stream.Stream<
     Output,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4796,42 +4788,34 @@ export const listEnvironmentOutputs: API.OperationMethod<
     items: "outputs",
   } as const,
 }));
+export type ListEnvironmentProvisionedResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the provisioned resources for your environment.
  */
 export const listEnvironmentProvisionedResources: API.OperationMethod<
   ListEnvironmentProvisionedResourcesInput,
   ListEnvironmentProvisionedResourcesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentProvisionedResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentProvisionedResourcesInput,
   ) => stream.Stream<
     ListEnvironmentProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentProvisionedResourcesInput,
   ) => stream.Stream<
     ProvisionedResource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4850,6 +4834,15 @@ export const listEnvironmentProvisionedResources: API.OperationMethod<
     items: "provisionedResources",
   } as const,
 }));
+export type CreateEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be
  * shared across services.
@@ -4867,14 +4860,7 @@ export const listEnvironmentProvisionedResources: API.OperationMethod<
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentInput,
   CreateEnvironmentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
@@ -4889,18 +4875,20 @@ export const createEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for an environment.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentInput,
   GetEnvironmentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentInput,
@@ -4913,6 +4901,14 @@ export const getEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update an environment.
  *
@@ -4961,13 +4957,7 @@ export const getEnvironment: API.OperationMethod<
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentInput,
   UpdateEnvironmentOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentInput,
@@ -4981,19 +4971,21 @@ export const updateEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete an environment.
- */
-export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
-  DeleteEnvironmentOutput,
+export type DeleteEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an environment.
+ */
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentInput,
+  DeleteEnvironmentOutput,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentInput,
@@ -5007,42 +4999,34 @@ export const deleteEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List environments with detail data summaries.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsInput,
   ListEnvironmentsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
     ListEnvironmentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
     EnvironmentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5062,6 +5046,14 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateEnvironmentTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create an environment template for Proton. For more information, see Environment Templates in the *Proton User Guide*.
  *
@@ -5079,13 +5071,7 @@ export const listEnvironments: API.OperationMethod<
 export const createEnvironmentTemplate: API.OperationMethod<
   CreateEnvironmentTemplateInput,
   CreateEnvironmentTemplateOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEnvironmentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentTemplateInput,
@@ -5099,18 +5085,20 @@ export const createEnvironmentTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for an environment template.
  */
 export const getEnvironmentTemplate: API.OperationMethod<
   GetEnvironmentTemplateInput,
   GetEnvironmentTemplateOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentTemplateInput,
@@ -5123,19 +5111,21 @@ export const getEnvironmentTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update an environment template.
- */
-export const updateEnvironmentTemplate: API.OperationMethod<
-  UpdateEnvironmentTemplateInput,
-  UpdateEnvironmentTemplateOutput,
+export type UpdateEnvironmentTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update an environment template.
+ */
+export const updateEnvironmentTemplate: API.OperationMethod<
+  UpdateEnvironmentTemplateInput,
+  UpdateEnvironmentTemplateOutput,
+  UpdateEnvironmentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentTemplateInput,
@@ -5149,19 +5139,21 @@ export const updateEnvironmentTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * If no other major or minor versions of an environment template exist, delete the environment template.
- */
-export const deleteEnvironmentTemplate: API.OperationMethod<
-  DeleteEnvironmentTemplateInput,
-  DeleteEnvironmentTemplateOutput,
+export type DeleteEnvironmentTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * If no other major or minor versions of an environment template exist, delete the environment template.
+ */
+export const deleteEnvironmentTemplate: API.OperationMethod<
+  DeleteEnvironmentTemplateInput,
+  DeleteEnvironmentTemplateOutput,
+  DeleteEnvironmentTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentTemplateInput,
@@ -5175,39 +5167,33 @@ export const deleteEnvironmentTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List environment templates.
  */
 export const listEnvironmentTemplates: API.OperationMethod<
   ListEnvironmentTemplatesInput,
   ListEnvironmentTemplatesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentTemplatesInput,
   ) => stream.Stream<
     ListEnvironmentTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentTemplatesInput,
   ) => stream.Stream<
     EnvironmentTemplateSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5226,6 +5212,15 @@ export const listEnvironmentTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateEnvironmentTemplateVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a new major or minor version of an environment template. A major version of an environment template is a version that
  * *isn't* backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major
@@ -5234,14 +5229,7 @@ export const listEnvironmentTemplates: API.OperationMethod<
 export const createEnvironmentTemplateVersion: API.OperationMethod<
   CreateEnvironmentTemplateVersionInput,
   CreateEnvironmentTemplateVersionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEnvironmentTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentTemplateVersionInput,
@@ -5256,18 +5244,20 @@ export const createEnvironmentTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentTemplateVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a major or minor version of an environment template.
  */
 export const getEnvironmentTemplateVersion: API.OperationMethod<
   GetEnvironmentTemplateVersionInput,
   GetEnvironmentTemplateVersionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentTemplateVersionInput,
@@ -5280,19 +5270,21 @@ export const getEnvironmentTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a major or minor version of an environment template.
- */
-export const updateEnvironmentTemplateVersion: API.OperationMethod<
-  UpdateEnvironmentTemplateVersionInput,
-  UpdateEnvironmentTemplateVersionOutput,
+export type UpdateEnvironmentTemplateVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a major or minor version of an environment template.
+ */
+export const updateEnvironmentTemplateVersion: API.OperationMethod<
+  UpdateEnvironmentTemplateVersionInput,
+  UpdateEnvironmentTemplateVersionOutput,
+  UpdateEnvironmentTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentTemplateVersionInput,
@@ -5306,6 +5298,14 @@ export const updateEnvironmentTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentTemplateVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the
  * `Recommended` version. Delete the `Recommended` version of the environment template if no other major versions or minor versions
@@ -5318,13 +5318,7 @@ export const updateEnvironmentTemplateVersion: API.OperationMethod<
 export const deleteEnvironmentTemplateVersion: API.OperationMethod<
   DeleteEnvironmentTemplateVersionInput,
   DeleteEnvironmentTemplateVersionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentTemplateVersionInput,
@@ -5338,42 +5332,34 @@ export const deleteEnvironmentTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEnvironmentTemplateVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List major or minor versions of an environment template with detail data.
  */
 export const listEnvironmentTemplateVersions: API.OperationMethod<
   ListEnvironmentTemplateVersionsInput,
   ListEnvironmentTemplateVersionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentTemplateVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentTemplateVersionsInput,
   ) => stream.Stream<
     ListEnvironmentTemplateVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentTemplateVersionsInput,
   ) => stream.Stream<
     EnvironmentTemplateVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5393,6 +5379,14 @@ export const listEnvironmentTemplateVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateRepositoryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed
  * provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed
@@ -5405,13 +5399,7 @@ export const listEnvironmentTemplateVersions: API.OperationMethod<
 export const createRepository: API.OperationMethod<
   CreateRepositoryInput,
   CreateRepositoryOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryInput,
@@ -5425,18 +5413,20 @@ export const createRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRepositoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detail data for a linked repository.
  */
 export const getRepository: API.OperationMethod<
   GetRepositoryInput,
   GetRepositoryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryInput,
@@ -5449,19 +5439,21 @@ export const getRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * De-register and unlink your repository.
- */
-export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
-  DeleteRepositoryOutput,
+export type DeleteRepositoryError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * De-register and unlink your repository.
+ */
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryInput,
+  DeleteRepositoryOutput,
+  DeleteRepositoryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryInput,
@@ -5475,42 +5467,34 @@ export const deleteRepository: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRepositoriesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List linked repositories with detail data.
  */
 export const listRepositories: API.OperationMethod<
   ListRepositoriesInput,
   ListRepositoriesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRepositoriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRepositoriesInput,
   ) => stream.Stream<
     ListRepositoriesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRepositoriesInput,
   ) => stream.Stream<
     RepositorySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRepositoriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5530,42 +5514,34 @@ export const listRepositories: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListServiceInstanceOutputsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a list service of instance Infrastructure as Code (IaC) outputs.
  */
 export const listServiceInstanceOutputs: API.OperationMethod<
   ListServiceInstanceOutputsInput,
   ListServiceInstanceOutputsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceInstanceOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceInstanceOutputsInput,
   ) => stream.Stream<
     ListServiceInstanceOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceInstanceOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceInstanceOutputsInput,
   ) => stream.Stream<
     Output,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceInstanceOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5584,42 +5560,34 @@ export const listServiceInstanceOutputs: API.OperationMethod<
     items: "outputs",
   } as const,
 }));
+export type ListServiceInstanceProvisionedResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List provisioned resources for a service instance with details.
  */
 export const listServiceInstanceProvisionedResources: API.OperationMethod<
   ListServiceInstanceProvisionedResourcesInput,
   ListServiceInstanceProvisionedResourcesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceInstanceProvisionedResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceInstanceProvisionedResourcesInput,
   ) => stream.Stream<
     ListServiceInstanceProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceInstanceProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceInstanceProvisionedResourcesInput,
   ) => stream.Stream<
     ProvisionedResource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceInstanceProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5638,19 +5606,21 @@ export const listServiceInstanceProvisionedResources: API.OperationMethod<
     items: "provisionedResources",
   } as const,
 }));
-/**
- * Create a service instance.
- */
-export const createServiceInstance: API.OperationMethod<
-  CreateServiceInstanceInput,
-  CreateServiceInstanceOutput,
+export type CreateServiceInstanceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a service instance.
+ */
+export const createServiceInstance: API.OperationMethod<
+  CreateServiceInstanceInput,
+  CreateServiceInstanceOutput,
+  CreateServiceInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceInstanceInput,
@@ -5664,6 +5634,13 @@ export const createServiceInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceInstanceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a service instance. A service instance is an instantiation of
  * service template and it runs in a specific environment.
@@ -5671,12 +5648,7 @@ export const createServiceInstance: API.OperationMethod<
 export const getServiceInstance: API.OperationMethod<
   GetServiceInstanceInput,
   GetServiceInstanceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceInstanceInput,
@@ -5689,6 +5661,14 @@ export const getServiceInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateServiceInstanceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a service instance.
  *
@@ -5705,13 +5685,7 @@ export const getServiceInstance: API.OperationMethod<
 export const updateServiceInstance: API.OperationMethod<
   UpdateServiceInstanceInput,
   UpdateServiceInstanceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServiceInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceInstanceInput,
@@ -5725,6 +5699,13 @@ export const updateServiceInstance: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListServiceInstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List service instances with summary data. This action lists service instances of all
  * services in the Amazon Web Services account.
@@ -5732,36 +5713,21 @@ export const updateServiceInstance: API.OperationMethod<
 export const listServiceInstances: API.OperationMethod<
   ListServiceInstancesInput,
   ListServiceInstancesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceInstancesInput,
   ) => stream.Stream<
     ListServiceInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceInstancesInput,
   ) => stream.Stream<
     ServiceInstanceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5781,42 +5747,34 @@ export const listServiceInstances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListServicePipelineOutputsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a list of service pipeline Infrastructure as Code (IaC) outputs.
  */
 export const listServicePipelineOutputs: API.OperationMethod<
   ListServicePipelineOutputsInput,
   ListServicePipelineOutputsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServicePipelineOutputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicePipelineOutputsInput,
   ) => stream.Stream<
     ListServicePipelineOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicePipelineOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicePipelineOutputsInput,
   ) => stream.Stream<
     Output,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicePipelineOutputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5835,42 +5793,34 @@ export const listServicePipelineOutputs: API.OperationMethod<
     items: "outputs",
   } as const,
 }));
+export type ListServicePipelineProvisionedResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List provisioned resources for a service and pipeline with details.
  */
 export const listServicePipelineProvisionedResources: API.OperationMethod<
   ListServicePipelineProvisionedResourcesInput,
   ListServicePipelineProvisionedResourcesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServicePipelineProvisionedResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicePipelineProvisionedResourcesInput,
   ) => stream.Stream<
     ListServicePipelineProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicePipelineProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicePipelineProvisionedResourcesInput,
   ) => stream.Stream<
     ProvisionedResource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicePipelineProvisionedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5889,6 +5839,14 @@ export const listServicePipelineProvisionedResources: API.OperationMethod<
     items: "provisionedResources",
   } as const,
 }));
+export type UpdateServicePipelineError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the service pipeline.
  *
@@ -5922,13 +5880,7 @@ export const listServicePipelineProvisionedResources: API.OperationMethod<
 export const updateServicePipeline: API.OperationMethod<
   UpdateServicePipelineInput,
   UpdateServicePipelineOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServicePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServicePipelineInput,
@@ -5942,6 +5894,15 @@ export const updateServicePipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateServiceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create an Proton service. An Proton service is an instantiation of a service
  * template and often includes several service instances and pipeline. For more information, see
@@ -5951,14 +5912,7 @@ export const updateServicePipeline: API.OperationMethod<
 export const createService: API.OperationMethod<
   CreateServiceInput,
   CreateServiceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceInput,
@@ -5973,18 +5927,20 @@ export const createService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a service.
  */
 export const getService: API.OperationMethod<
   GetServiceInput,
   GetServiceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceInput,
@@ -5997,6 +5953,15 @@ export const getService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateServiceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Edit a service description or use a spec to add and delete service instances.
  *
@@ -6017,14 +5982,7 @@ export const getService: API.OperationMethod<
 export const updateService: API.OperationMethod<
   UpdateServiceInput,
   UpdateServiceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceInput,
@@ -6039,6 +5997,14 @@ export const updateService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteServiceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a service, with its instances and pipeline.
  *
@@ -6052,13 +6018,7 @@ export const updateService: API.OperationMethod<
 export const deleteService: API.OperationMethod<
   DeleteServiceInput,
   DeleteServiceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceInput,
@@ -6072,39 +6032,33 @@ export const deleteService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListServicesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List services with summaries of detail data.
  */
 export const listServices: API.OperationMethod<
   ListServicesInput,
   ListServicesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServicesInput,
   ) => stream.Stream<
     ListServicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesInput,
   ) => stream.Stream<
     ServiceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6123,18 +6077,20 @@ export const listServices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetServiceSyncBlockerSummaryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for the service sync blocker summary.
  */
 export const getServiceSyncBlockerSummary: API.OperationMethod<
   GetServiceSyncBlockerSummaryInput,
   GetServiceSyncBlockerSummaryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceSyncBlockerSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSyncBlockerSummaryInput,
@@ -6147,19 +6103,21 @@ export const getServiceSyncBlockerSummary: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the service sync blocker by resolving it.
- */
-export const updateServiceSyncBlocker: API.OperationMethod<
-  UpdateServiceSyncBlockerInput,
-  UpdateServiceSyncBlockerOutput,
+export type UpdateServiceSyncBlockerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the service sync blocker by resolving it.
+ */
+export const updateServiceSyncBlocker: API.OperationMethod<
+  UpdateServiceSyncBlockerInput,
+  UpdateServiceSyncBlockerOutput,
+  UpdateServiceSyncBlockerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceSyncBlockerInput,
@@ -6173,19 +6131,21 @@ export const updateServiceSyncBlocker: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create the Proton Ops configuration file.
- */
-export const createServiceSyncConfig: API.OperationMethod<
-  CreateServiceSyncConfigInput,
-  CreateServiceSyncConfigOutput,
+export type CreateServiceSyncConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create the Proton Ops configuration file.
+ */
+export const createServiceSyncConfig: API.OperationMethod<
+  CreateServiceSyncConfigInput,
+  CreateServiceSyncConfigOutput,
+  CreateServiceSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceSyncConfigInput,
@@ -6199,18 +6159,20 @@ export const createServiceSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceSyncConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed information for the service sync configuration.
  */
 export const getServiceSyncConfig: API.OperationMethod<
   GetServiceSyncConfigInput,
   GetServiceSyncConfigOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSyncConfigInput,
@@ -6223,19 +6185,21 @@ export const getServiceSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the Proton Ops config file.
- */
-export const updateServiceSyncConfig: API.OperationMethod<
-  UpdateServiceSyncConfigInput,
-  UpdateServiceSyncConfigOutput,
+export type UpdateServiceSyncConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the Proton Ops config file.
+ */
+export const updateServiceSyncConfig: API.OperationMethod<
+  UpdateServiceSyncConfigInput,
+  UpdateServiceSyncConfigOutput,
+  UpdateServiceSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceSyncConfigInput,
@@ -6249,19 +6213,21 @@ export const updateServiceSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete the Proton Ops file.
- */
-export const deleteServiceSyncConfig: API.OperationMethod<
-  DeleteServiceSyncConfigInput,
-  DeleteServiceSyncConfigOutput,
+export type DeleteServiceSyncConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the Proton Ops file.
+ */
+export const deleteServiceSyncConfig: API.OperationMethod<
+  DeleteServiceSyncConfigInput,
+  DeleteServiceSyncConfigOutput,
+  DeleteServiceSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceSyncConfigInput,
@@ -6275,6 +6241,14 @@ export const deleteServiceSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateServiceTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a service template. The administrator creates a service template to define
  * standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn,
@@ -6286,13 +6260,7 @@ export const deleteServiceSyncConfig: API.OperationMethod<
 export const createServiceTemplate: API.OperationMethod<
   CreateServiceTemplateInput,
   CreateServiceTemplateOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateServiceTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceTemplateInput,
@@ -6306,18 +6274,20 @@ export const createServiceTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a service template.
  */
 export const getServiceTemplate: API.OperationMethod<
   GetServiceTemplateInput,
   GetServiceTemplateOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceTemplateInput,
@@ -6330,19 +6300,21 @@ export const getServiceTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a service template.
- */
-export const updateServiceTemplate: API.OperationMethod<
-  UpdateServiceTemplateInput,
-  UpdateServiceTemplateOutput,
+export type UpdateServiceTemplateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a service template.
+ */
+export const updateServiceTemplate: API.OperationMethod<
+  UpdateServiceTemplateInput,
+  UpdateServiceTemplateOutput,
+  UpdateServiceTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceTemplateInput,
@@ -6356,6 +6328,14 @@ export const updateServiceTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteServiceTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * If no other major or minor versions of the service template exist, delete the service
  * template.
@@ -6363,13 +6343,7 @@ export const updateServiceTemplate: API.OperationMethod<
 export const deleteServiceTemplate: API.OperationMethod<
   DeleteServiceTemplateInput,
   DeleteServiceTemplateOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteServiceTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceTemplateInput,
@@ -6383,39 +6357,33 @@ export const deleteServiceTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListServiceTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List service templates with detail data.
  */
 export const listServiceTemplates: API.OperationMethod<
   ListServiceTemplatesInput,
   ListServiceTemplatesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceTemplatesInput,
   ) => stream.Stream<
     ListServiceTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceTemplatesInput,
   ) => stream.Stream<
     ServiceTemplateSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6434,6 +6402,15 @@ export const listServiceTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateServiceTemplateVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a new major or minor version of a service template. A major version of a service
  * template is a version that *isn't* backward compatible. A minor version of
@@ -6442,14 +6419,7 @@ export const listServiceTemplates: API.OperationMethod<
 export const createServiceTemplateVersion: API.OperationMethod<
   CreateServiceTemplateVersionInput,
   CreateServiceTemplateVersionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateServiceTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceTemplateVersionInput,
@@ -6464,18 +6434,20 @@ export const createServiceTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceTemplateVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detailed data for a major or minor version of a service template.
  */
 export const getServiceTemplateVersion: API.OperationMethod<
   GetServiceTemplateVersionInput,
   GetServiceTemplateVersionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceTemplateVersionInput,
@@ -6488,19 +6460,21 @@ export const getServiceTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update a major or minor version of a service template.
- */
-export const updateServiceTemplateVersion: API.OperationMethod<
-  UpdateServiceTemplateVersionInput,
-  UpdateServiceTemplateVersionOutput,
+export type UpdateServiceTemplateVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a major or minor version of a service template.
+ */
+export const updateServiceTemplateVersion: API.OperationMethod<
+  UpdateServiceTemplateVersionInput,
+  UpdateServiceTemplateVersionOutput,
+  UpdateServiceTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceTemplateVersionInput,
@@ -6514,6 +6488,14 @@ export const updateServiceTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteServiceTemplateVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * If no other minor versions of a service template exist, delete a major version of the
  * service template if it's not the `Recommended` version. Delete the
@@ -6529,13 +6511,7 @@ export const updateServiceTemplateVersion: API.OperationMethod<
 export const deleteServiceTemplateVersion: API.OperationMethod<
   DeleteServiceTemplateVersionInput,
   DeleteServiceTemplateVersionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteServiceTemplateVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceTemplateVersionInput,
@@ -6549,42 +6525,34 @@ export const deleteServiceTemplateVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListServiceTemplateVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List major or minor versions of a service template with detail data.
  */
 export const listServiceTemplateVersions: API.OperationMethod<
   ListServiceTemplateVersionsInput,
   ListServiceTemplateVersionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceTemplateVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceTemplateVersionsInput,
   ) => stream.Stream<
     ListServiceTemplateVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceTemplateVersionsInput,
   ) => stream.Stream<
     ServiceTemplateVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceTemplateVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6604,6 +6572,14 @@ export const listServiceTemplateVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateTemplateSyncConfigError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has
  * been registered with Proton. For more information, see CreateRepository.
@@ -6615,13 +6591,7 @@ export const listServiceTemplateVersions: API.OperationMethod<
 export const createTemplateSyncConfig: API.OperationMethod<
   CreateTemplateSyncConfigInput,
   CreateTemplateSyncConfigOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTemplateSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateSyncConfigInput,
@@ -6635,18 +6605,20 @@ export const createTemplateSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTemplateSyncConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get detail data for a template sync configuration.
  */
 export const getTemplateSyncConfig: API.OperationMethod<
   GetTemplateSyncConfigInput,
   GetTemplateSyncConfigOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateSyncConfigInput,
@@ -6659,6 +6631,14 @@ export const getTemplateSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTemplateSyncConfigError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update template sync configuration parameters, except for the `templateName` and `templateType`. Repository details
  * (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For
@@ -6667,13 +6647,7 @@ export const getTemplateSyncConfig: API.OperationMethod<
 export const updateTemplateSyncConfig: API.OperationMethod<
   UpdateTemplateSyncConfigInput,
   UpdateTemplateSyncConfigOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateTemplateSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateSyncConfigInput,
@@ -6687,19 +6661,21 @@ export const updateTemplateSyncConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete a template sync configuration.
- */
-export const deleteTemplateSyncConfig: API.OperationMethod<
-  DeleteTemplateSyncConfigInput,
-  DeleteTemplateSyncConfigOutput,
+export type DeleteTemplateSyncConfigError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a template sync configuration.
+ */
+export const deleteTemplateSyncConfig: API.OperationMethod<
+  DeleteTemplateSyncConfigInput,
+  DeleteTemplateSyncConfigOutput,
+  DeleteTemplateSyncConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateSyncConfigInput,

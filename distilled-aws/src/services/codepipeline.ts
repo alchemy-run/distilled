@@ -3668,6 +3668,11 @@ export class RequestFailedException extends S.TaggedErrorClass<RequestFailedExce
 ) {}
 
 //# Operations
+export type AcknowledgeJobError =
+  | InvalidNonceException
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specified job and whether that job has been received by
  * the job worker. Used for custom actions only.
@@ -3675,16 +3680,19 @@ export class RequestFailedException extends S.TaggedErrorClass<RequestFailedExce
 export const acknowledgeJob: API.OperationMethod<
   AcknowledgeJobInput,
   AcknowledgeJobOutput,
-  | InvalidNonceException
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AcknowledgeJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcknowledgeJobInput,
   output: AcknowledgeJobOutput,
   errors: [InvalidNonceException, JobNotFoundException, ValidationException],
 }));
+export type AcknowledgeThirdPartyJobError =
+  | InvalidClientTokenException
+  | InvalidNonceException
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Confirms a job worker has received the specified job. Used for partner actions
  * only.
@@ -3692,11 +3700,7 @@ export const acknowledgeJob: API.OperationMethod<
 export const acknowledgeThirdPartyJob: API.OperationMethod<
   AcknowledgeThirdPartyJobInput,
   AcknowledgeThirdPartyJobOutput,
-  | InvalidClientTokenException
-  | InvalidNonceException
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AcknowledgeThirdPartyJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcknowledgeThirdPartyJobInput,
@@ -3708,6 +3712,13 @@ export const acknowledgeThirdPartyJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCustomActionTypeError =
+  | ConcurrentModificationException
+  | InvalidTagsException
+  | LimitExceededException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new custom action that can be used in all pipelines associated with the
  * Amazon Web Services account. Only used for custom actions.
@@ -3715,12 +3726,7 @@ export const acknowledgeThirdPartyJob: API.OperationMethod<
 export const createCustomActionType: API.OperationMethod<
   CreateCustomActionTypeInput,
   CreateCustomActionTypeOutput,
-  | ConcurrentModificationException
-  | InvalidTagsException
-  | LimitExceededException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateCustomActionTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomActionTypeInput,
@@ -3733,6 +3739,18 @@ export const createCustomActionType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePipelineError =
+  | ConcurrentModificationException
+  | InvalidActionDeclarationException
+  | InvalidBlockerDeclarationException
+  | InvalidStageDeclarationException
+  | InvalidStructureException
+  | InvalidTagsException
+  | LimitExceededException
+  | PipelineNameInUseException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a pipeline.
  *
@@ -3744,17 +3762,7 @@ export const createCustomActionType: API.OperationMethod<
 export const createPipeline: API.OperationMethod<
   CreatePipelineInput,
   CreatePipelineOutput,
-  | ConcurrentModificationException
-  | InvalidActionDeclarationException
-  | InvalidBlockerDeclarationException
-  | InvalidStageDeclarationException
-  | InvalidStructureException
-  | InvalidTagsException
-  | LimitExceededException
-  | PipelineNameInUseException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineInput,
@@ -3772,6 +3780,10 @@ export const createPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCustomActionTypeError =
+  | ConcurrentModificationException
+  | ValidationException
+  | CommonErrors;
 /**
  * Marks a custom action as deleted. `PollForJobs` for the custom action
  * fails after the action is marked for deletion. Used for custom actions only.
@@ -3785,26 +3797,34 @@ export const createPipeline: API.OperationMethod<
 export const deleteCustomActionType: API.OperationMethod<
   DeleteCustomActionTypeInput,
   DeleteCustomActionTypeResponse,
-  ConcurrentModificationException | ValidationException | CommonErrors,
+  DeleteCustomActionTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomActionTypeInput,
   output: DeleteCustomActionTypeResponse,
   errors: [ConcurrentModificationException, ValidationException],
 }));
+export type DeletePipelineError =
+  | ConcurrentModificationException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified pipeline.
  */
 export const deletePipeline: API.OperationMethod<
   DeletePipelineInput,
   DeletePipelineResponse,
-  ConcurrentModificationException | ValidationException | CommonErrors,
+  DeletePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineInput,
   output: DeletePipelineResponse,
   errors: [ConcurrentModificationException, ValidationException],
 }));
+export type DeleteWebhookError =
+  | ConcurrentModificationException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API
  * returns successfully when trying to delete a webhook that is already deleted. If a
@@ -3814,13 +3834,17 @@ export const deletePipeline: API.OperationMethod<
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookInput,
   DeleteWebhookOutput,
-  ConcurrentModificationException | ValidationException | CommonErrors,
+  DeleteWebhookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebhookInput,
   output: DeleteWebhookOutput,
   errors: [ConcurrentModificationException, ValidationException],
 }));
+export type DeregisterWebhookWithThirdPartyError =
+  | ValidationException
+  | WebhookNotFoundException
+  | CommonErrors;
 /**
  * Removes the connection between the webhook that was created by CodePipeline
  * and the external tool with events to be detected. Currently supported only for webhooks
@@ -3829,13 +3853,18 @@ export const deleteWebhook: API.OperationMethod<
 export const deregisterWebhookWithThirdParty: API.OperationMethod<
   DeregisterWebhookWithThirdPartyInput,
   DeregisterWebhookWithThirdPartyOutput,
-  ValidationException | WebhookNotFoundException | CommonErrors,
+  DeregisterWebhookWithThirdPartyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterWebhookWithThirdPartyInput,
   output: DeregisterWebhookWithThirdPartyOutput,
   errors: [ValidationException, WebhookNotFoundException],
 }));
+export type DisableStageTransitionError =
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Prevents artifacts in a pipeline from transitioning to the next stage in the
  * pipeline.
@@ -3843,10 +3872,7 @@ export const deregisterWebhookWithThirdParty: API.OperationMethod<
 export const disableStageTransition: API.OperationMethod<
   DisableStageTransitionInput,
   DisableStageTransitionResponse,
-  | PipelineNotFoundException
-  | StageNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DisableStageTransitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableStageTransitionInput,
@@ -3857,16 +3883,18 @@ export const disableStageTransition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EnableStageTransitionError =
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables artifacts in a pipeline to transition to a stage in a pipeline.
  */
 export const enableStageTransition: API.OperationMethod<
   EnableStageTransitionInput,
   EnableStageTransitionResponse,
-  | PipelineNotFoundException
-  | StageNotFoundException
-  | ValidationException
-  | CommonErrors,
+  EnableStageTransitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableStageTransitionInput,
@@ -3877,6 +3905,10 @@ export const enableStageTransition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetActionTypeError =
+  | ActionTypeNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an action type created for an external provider, where the
  * action is to be used by customers of the external provider. The action can be created
@@ -3885,13 +3917,17 @@ export const enableStageTransition: API.OperationMethod<
 export const getActionType: API.OperationMethod<
   GetActionTypeInput,
   GetActionTypeOutput,
-  ActionTypeNotFoundException | ValidationException | CommonErrors,
+  GetActionTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActionTypeInput,
   output: GetActionTypeOutput,
   errors: [ActionTypeNotFoundException, ValidationException],
 }));
+export type GetJobDetailsError =
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a job. Used for custom actions only.
  *
@@ -3903,13 +3939,18 @@ export const getActionType: API.OperationMethod<
 export const getJobDetails: API.OperationMethod<
   GetJobDetailsInput,
   GetJobDetailsOutput,
-  JobNotFoundException | ValidationException | CommonErrors,
+  GetJobDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobDetailsInput,
   output: GetJobDetailsOutput,
   errors: [JobNotFoundException, ValidationException],
 }));
+export type GetPipelineError =
+  | PipelineNotFoundException
+  | PipelineVersionNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the metadata, structure, stages, and actions of a pipeline. Can be used to
  * return the entire structure of a pipeline in JSON format, which can then be modified and
@@ -3918,10 +3959,7 @@ export const getJobDetails: API.OperationMethod<
 export const getPipeline: API.OperationMethod<
   GetPipelineInput,
   GetPipelineOutput,
-  | PipelineNotFoundException
-  | PipelineVersionNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineInput,
@@ -3932,6 +3970,11 @@ export const getPipeline: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPipelineExecutionError =
+  | PipelineExecutionNotFoundException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an execution of a pipeline, including details about
  * artifacts, the pipeline execution ID, and the name, version, and status of the
@@ -3940,10 +3983,7 @@ export const getPipeline: API.OperationMethod<
 export const getPipelineExecution: API.OperationMethod<
   GetPipelineExecutionInput,
   GetPipelineExecutionOutput,
-  | PipelineExecutionNotFoundException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPipelineExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineExecutionInput,
@@ -3954,6 +3994,10 @@ export const getPipelineExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPipelineStateError =
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the state of a pipeline, including the stages and
  * actions.
@@ -3965,13 +4009,19 @@ export const getPipelineExecution: API.OperationMethod<
 export const getPipelineState: API.OperationMethod<
   GetPipelineStateInput,
   GetPipelineStateOutput,
-  PipelineNotFoundException | ValidationException | CommonErrors,
+  GetPipelineStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineStateInput,
   output: GetPipelineStateOutput,
   errors: [PipelineNotFoundException, ValidationException],
 }));
+export type GetThirdPartyJobDetailsError =
+  | InvalidClientTokenException
+  | InvalidJobException
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Requests the details of a job for a third party action. Used for partner actions
  * only.
@@ -3984,11 +4034,7 @@ export const getPipelineState: API.OperationMethod<
 export const getThirdPartyJobDetails: API.OperationMethod<
   GetThirdPartyJobDetailsInput,
   GetThirdPartyJobDetailsOutput,
-  | InvalidClientTokenException
-  | InvalidJobException
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetThirdPartyJobDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThirdPartyJobDetailsInput,
@@ -4000,39 +4046,33 @@ export const getThirdPartyJobDetails: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListActionExecutionsError =
+  | InvalidNextTokenException
+  | PipelineExecutionNotFoundException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the action executions that have occurred in a pipeline.
  */
 export const listActionExecutions: API.OperationMethod<
   ListActionExecutionsInput,
   ListActionExecutionsOutput,
-  | InvalidNextTokenException
-  | PipelineExecutionNotFoundException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListActionExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListActionExecutionsInput,
   ) => stream.Stream<
     ListActionExecutionsOutput,
-    | InvalidNextTokenException
-    | PipelineExecutionNotFoundException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListActionExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActionExecutionsInput,
   ) => stream.Stream<
     ActionExecutionDetail,
-    | InvalidNextTokenException
-    | PipelineExecutionNotFoundException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListActionExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4051,6 +4091,10 @@ export const listActionExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListActionTypesError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a summary of all CodePipeline action types associated with your
  * account.
@@ -4058,21 +4102,21 @@ export const listActionExecutions: API.OperationMethod<
 export const listActionTypes: API.OperationMethod<
   ListActionTypesInput,
   ListActionTypesOutput,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListActionTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListActionTypesInput,
   ) => stream.Stream<
     ListActionTypesOutput,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListActionTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActionTypesInput,
   ) => stream.Stream<
     ActionType,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListActionTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4085,39 +4129,33 @@ export const listActionTypes: API.OperationMethod<
     items: "actionTypes",
   } as const,
 }));
+export type ListDeployActionExecutionTargetsError =
+  | ActionExecutionNotFoundException
+  | InvalidNextTokenException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the targets for the deploy action.
  */
 export const listDeployActionExecutionTargets: API.OperationMethod<
   ListDeployActionExecutionTargetsInput,
   ListDeployActionExecutionTargetsOutput,
-  | ActionExecutionNotFoundException
-  | InvalidNextTokenException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListDeployActionExecutionTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeployActionExecutionTargetsInput,
   ) => stream.Stream<
     ListDeployActionExecutionTargetsOutput,
-    | ActionExecutionNotFoundException
-    | InvalidNextTokenException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDeployActionExecutionTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeployActionExecutionTargetsInput,
   ) => stream.Stream<
     DeployActionExecutionTarget,
-    | ActionExecutionNotFoundException
-    | InvalidNextTokenException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListDeployActionExecutionTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4136,6 +4174,11 @@ export const listDeployActionExecutionTargets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPipelineExecutionsError =
+  | InvalidNextTokenException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a summary of the most recent executions for a pipeline.
  *
@@ -4146,30 +4189,21 @@ export const listDeployActionExecutionTargets: API.OperationMethod<
 export const listPipelineExecutions: API.OperationMethod<
   ListPipelineExecutionsInput,
   ListPipelineExecutionsOutput,
-  | InvalidNextTokenException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListPipelineExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipelineExecutionsInput,
   ) => stream.Stream<
     ListPipelineExecutionsOutput,
-    | InvalidNextTokenException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPipelineExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelineExecutionsInput,
   ) => stream.Stream<
     PipelineExecutionSummary,
-    | InvalidNextTokenException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListPipelineExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4187,27 +4221,31 @@ export const listPipelineExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPipelinesError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a summary of all of the pipelines associated with your account.
  */
 export const listPipelines: API.OperationMethod<
   ListPipelinesInput,
   ListPipelinesOutput,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListPipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPipelinesInput,
   ) => stream.Stream<
     ListPipelinesOutput,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelinesInput,
   ) => stream.Stream<
     PipelineSummary,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListPipelinesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4221,6 +4259,12 @@ export const listPipelines: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRuleExecutionsError =
+  | InvalidNextTokenException
+  | PipelineExecutionNotFoundException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the rule executions that have occurred in a pipeline configured for conditions
  * with rules.
@@ -4228,33 +4272,21 @@ export const listPipelines: API.OperationMethod<
 export const listRuleExecutions: API.OperationMethod<
   ListRuleExecutionsInput,
   ListRuleExecutionsOutput,
-  | InvalidNextTokenException
-  | PipelineExecutionNotFoundException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListRuleExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRuleExecutionsInput,
   ) => stream.Stream<
     ListRuleExecutionsOutput,
-    | InvalidNextTokenException
-    | PipelineExecutionNotFoundException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListRuleExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRuleExecutionsInput,
   ) => stream.Stream<
     RuleExecutionDetail,
-    | InvalidNextTokenException
-    | PipelineExecutionNotFoundException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListRuleExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4273,6 +4305,10 @@ export const listRuleExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRuleTypesError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
@@ -4281,13 +4317,19 @@ export const listRuleExecutions: API.OperationMethod<
 export const listRuleTypes: API.OperationMethod<
   ListRuleTypesInput,
   ListRuleTypesOutput,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListRuleTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRuleTypesInput,
   output: ListRuleTypesOutput,
   errors: [InvalidNextTokenException, ValidationException],
 }));
+export type ListTagsForResourceError =
+  | InvalidArnException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the set of key-value pairs (metadata) that are used to manage the
  * resource.
@@ -4295,33 +4337,21 @@ export const listRuleTypes: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InvalidArnException
-  | InvalidNextTokenException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     ListTagsForResourceOutput,
-    | InvalidArnException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
     Tag,
-    | InvalidArnException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4340,6 +4370,10 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListWebhooksError =
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a listing of all the webhooks in this Amazon Web Services Region for this
  * account. The output lists all webhooks and includes the webhook URL and ARN and the
@@ -4350,21 +4384,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listWebhooks: API.OperationMethod<
   ListWebhooksInput,
   ListWebhooksOutput,
-  InvalidNextTokenException | ValidationException | CommonErrors,
+  ListWebhooksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWebhooksInput,
   ) => stream.Stream<
     ListWebhooksOutput,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListWebhooksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWebhooksInput,
   ) => stream.Stream<
     ListWebhookItem,
-    InvalidNextTokenException | ValidationException | CommonErrors,
+    ListWebhooksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4378,6 +4412,15 @@ export const listWebhooks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type OverrideStageConditionError =
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | ConditionNotOverridableException
+  | ConflictException
+  | NotLatestPipelineExecutionException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Used to override a stage condition. For more information about conditions, see Stage
  * conditions and How do
@@ -4386,14 +4429,7 @@ export const listWebhooks: API.OperationMethod<
 export const overrideStageCondition: API.OperationMethod<
   OverrideStageConditionInput,
   OverrideStageConditionResponse,
-  | ConcurrentPipelineExecutionsLimitExceededException
-  | ConditionNotOverridableException
-  | ConflictException
-  | NotLatestPipelineExecutionException
-  | PipelineNotFoundException
-  | StageNotFoundException
-  | ValidationException
-  | CommonErrors,
+  OverrideStageConditionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OverrideStageConditionInput,
@@ -4408,6 +4444,10 @@ export const overrideStageCondition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PollForJobsError =
+  | ActionTypeNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about any jobs for CodePipeline to act on.
  * `PollForJobs` is valid only for action types with "Custom" in the owner
@@ -4422,13 +4462,17 @@ export const overrideStageCondition: API.OperationMethod<
 export const pollForJobs: API.OperationMethod<
   PollForJobsInput,
   PollForJobsOutput,
-  ActionTypeNotFoundException | ValidationException | CommonErrors,
+  PollForJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForJobsInput,
   output: PollForJobsOutput,
   errors: [ActionTypeNotFoundException, ValidationException],
 }));
+export type PollForThirdPartyJobsError =
+  | ActionTypeNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Determines whether there are any third party jobs for a job worker to act on. Used
  * for partner actions only.
@@ -4440,13 +4484,20 @@ export const pollForJobs: API.OperationMethod<
 export const pollForThirdPartyJobs: API.OperationMethod<
   PollForThirdPartyJobsInput,
   PollForThirdPartyJobsOutput,
-  ActionTypeNotFoundException | ValidationException | CommonErrors,
+  PollForThirdPartyJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForThirdPartyJobsInput,
   output: PollForThirdPartyJobsOutput,
   errors: [ActionTypeNotFoundException, ValidationException],
 }));
+export type PutActionRevisionError =
+  | ActionNotFoundException
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides information to CodePipeline about new revisions to a
  * source.
@@ -4454,12 +4505,7 @@ export const pollForThirdPartyJobs: API.OperationMethod<
 export const putActionRevision: API.OperationMethod<
   PutActionRevisionInput,
   PutActionRevisionOutput,
-  | ActionNotFoundException
-  | ConcurrentPipelineExecutionsLimitExceededException
-  | PipelineNotFoundException
-  | StageNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutActionRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutActionRevisionInput,
@@ -4472,6 +4518,14 @@ export const putActionRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutApprovalResultError =
+  | ActionNotFoundException
+  | ApprovalAlreadyCompletedException
+  | InvalidApprovalTokenException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides the response to a manual approval request to CodePipeline. Valid
  * responses include Approved and Rejected.
@@ -4479,13 +4533,7 @@ export const putActionRevision: API.OperationMethod<
 export const putApprovalResult: API.OperationMethod<
   PutApprovalResultInput,
   PutApprovalResultOutput,
-  | ActionNotFoundException
-  | ApprovalAlreadyCompletedException
-  | InvalidApprovalTokenException
-  | PipelineNotFoundException
-  | StageNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutApprovalResultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApprovalResultInput,
@@ -4499,6 +4547,11 @@ export const putApprovalResult: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutJobFailureResultError =
+  | InvalidJobStateException
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Represents the failure of a job as returned to the pipeline by a job worker. Used
  * for custom actions only.
@@ -4506,16 +4559,19 @@ export const putApprovalResult: API.OperationMethod<
 export const putJobFailureResult: API.OperationMethod<
   PutJobFailureResultInput,
   PutJobFailureResultResponse,
-  | InvalidJobStateException
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutJobFailureResultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutJobFailureResultInput,
   output: PutJobFailureResultResponse,
   errors: [InvalidJobStateException, JobNotFoundException, ValidationException],
 }));
+export type PutJobSuccessResultError =
+  | InvalidJobStateException
+  | JobNotFoundException
+  | OutputVariablesSizeExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Represents the success of a job as returned to the pipeline by a job worker. Used
  * for custom actions only.
@@ -4523,11 +4579,7 @@ export const putJobFailureResult: API.OperationMethod<
 export const putJobSuccessResult: API.OperationMethod<
   PutJobSuccessResultInput,
   PutJobSuccessResultResponse,
-  | InvalidJobStateException
-  | JobNotFoundException
-  | OutputVariablesSizeExceededException
-  | ValidationException
-  | CommonErrors,
+  PutJobSuccessResultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutJobSuccessResultInput,
@@ -4539,6 +4591,12 @@ export const putJobSuccessResult: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutThirdPartyJobFailureResultError =
+  | InvalidClientTokenException
+  | InvalidJobStateException
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Represents the failure of a third party job as returned to the pipeline by a job
  * worker. Used for partner actions only.
@@ -4546,11 +4604,7 @@ export const putJobSuccessResult: API.OperationMethod<
 export const putThirdPartyJobFailureResult: API.OperationMethod<
   PutThirdPartyJobFailureResultInput,
   PutThirdPartyJobFailureResultResponse,
-  | InvalidClientTokenException
-  | InvalidJobStateException
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutThirdPartyJobFailureResultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutThirdPartyJobFailureResultInput,
@@ -4562,6 +4616,12 @@ export const putThirdPartyJobFailureResult: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutThirdPartyJobSuccessResultError =
+  | InvalidClientTokenException
+  | InvalidJobStateException
+  | JobNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Represents the success of a third party job as returned to the pipeline by a job
  * worker. Used for partner actions only.
@@ -4569,11 +4629,7 @@ export const putThirdPartyJobFailureResult: API.OperationMethod<
 export const putThirdPartyJobSuccessResult: API.OperationMethod<
   PutThirdPartyJobSuccessResultInput,
   PutThirdPartyJobSuccessResultResponse,
-  | InvalidClientTokenException
-  | InvalidJobStateException
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutThirdPartyJobSuccessResultError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutThirdPartyJobSuccessResultInput,
@@ -4585,6 +4641,16 @@ export const putThirdPartyJobSuccessResult: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutWebhookError =
+  | ConcurrentModificationException
+  | InvalidTagsException
+  | InvalidWebhookAuthenticationParametersException
+  | InvalidWebhookFilterPatternException
+  | LimitExceededException
+  | PipelineNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Defines a webhook and returns a unique webhook URL generated by CodePipeline.
  * This URL can be supplied to third party source hosting providers to call every time
@@ -4608,15 +4674,7 @@ export const putThirdPartyJobSuccessResult: API.OperationMethod<
 export const putWebhook: API.OperationMethod<
   PutWebhookInput,
   PutWebhookOutput,
-  | ConcurrentModificationException
-  | InvalidTagsException
-  | InvalidWebhookAuthenticationParametersException
-  | InvalidWebhookFilterPatternException
-  | LimitExceededException
-  | PipelineNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  PutWebhookError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutWebhookInput,
@@ -4632,6 +4690,10 @@ export const putWebhook: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RegisterWebhookWithThirdPartyError =
+  | ValidationException
+  | WebhookNotFoundException
+  | CommonErrors;
 /**
  * Configures a connection between the webhook that was created and the external tool
  * with events to be detected.
@@ -4639,13 +4701,22 @@ export const putWebhook: API.OperationMethod<
 export const registerWebhookWithThirdParty: API.OperationMethod<
   RegisterWebhookWithThirdPartyInput,
   RegisterWebhookWithThirdPartyOutput,
-  ValidationException | WebhookNotFoundException | CommonErrors,
+  RegisterWebhookWithThirdPartyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterWebhookWithThirdPartyInput,
   output: RegisterWebhookWithThirdPartyOutput,
   errors: [ValidationException, WebhookNotFoundException],
 }));
+export type RetryStageExecutionError =
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | ConflictException
+  | NotLatestPipelineExecutionException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | StageNotRetryableException
+  | ValidationException
+  | CommonErrors;
 /**
  * You can retry a stage that has failed without having to run a pipeline again from
  * the beginning. You do this by either retrying the failed actions in a stage or by
@@ -4659,14 +4730,7 @@ export const registerWebhookWithThirdParty: API.OperationMethod<
 export const retryStageExecution: API.OperationMethod<
   RetryStageExecutionInput,
   RetryStageExecutionOutput,
-  | ConcurrentPipelineExecutionsLimitExceededException
-  | ConflictException
-  | NotLatestPipelineExecutionException
-  | PipelineNotFoundException
-  | StageNotFoundException
-  | StageNotRetryableException
-  | ValidationException
-  | CommonErrors,
+  RetryStageExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryStageExecutionInput,
@@ -4681,12 +4745,7 @@ export const retryStageExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Rolls back a stage execution.
- */
-export const rollbackStage: API.OperationMethod<
-  RollbackStageInput,
-  RollbackStageOutput,
+export type RollbackStageError =
   | ConflictException
   | PipelineExecutionNotFoundException
   | PipelineExecutionOutdatedException
@@ -4694,7 +4753,14 @@ export const rollbackStage: API.OperationMethod<
   | StageNotFoundException
   | UnableToRollbackStageException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rolls back a stage execution.
+ */
+export const rollbackStage: API.OperationMethod<
+  RollbackStageInput,
+  RollbackStageOutput,
+  RollbackStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackStageInput,
@@ -4709,6 +4775,12 @@ export const rollbackStage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartPipelineExecutionError =
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | ConflictException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the specified pipeline. Specifically, it begins processing the latest commit
  * to the source location specified as part of the pipeline.
@@ -4716,11 +4788,7 @@ export const rollbackStage: API.OperationMethod<
 export const startPipelineExecution: API.OperationMethod<
   StartPipelineExecutionInput,
   StartPipelineExecutionOutput,
-  | ConcurrentPipelineExecutionsLimitExceededException
-  | ConflictException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartPipelineExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPipelineExecutionInput,
@@ -4732,6 +4800,13 @@ export const startPipelineExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopPipelineExecutionError =
+  | ConflictException
+  | DuplicatedStopRequestException
+  | PipelineExecutionNotStoppableException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the specified pipeline execution. You choose to either stop the pipeline
  * execution by completing in-progress actions without starting subsequent actions, or by
@@ -4743,12 +4818,7 @@ export const startPipelineExecution: API.OperationMethod<
 export const stopPipelineExecution: API.OperationMethod<
   StopPipelineExecutionInput,
   StopPipelineExecutionOutput,
-  | ConflictException
-  | DuplicatedStopRequestException
-  | PipelineExecutionNotStoppableException
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopPipelineExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPipelineExecutionInput,
@@ -4761,6 +4831,14 @@ export const stopPipelineExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidTagsException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
  * to manage a resource.
@@ -4768,13 +4846,7 @@ export const stopPipelineExecution: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ConcurrentModificationException
-  | InvalidArnException
-  | InvalidTagsException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4788,18 +4860,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidTagsException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | ConcurrentModificationException
-  | InvalidArnException
-  | InvalidTagsException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -4812,6 +4886,11 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateActionTypeError =
+  | ActionTypeNotFoundException
+  | RequestFailedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an action type that was created with any supported integration model, where
  * the action type is to be used by customers of the action type provider. Use a JSON file
@@ -4821,10 +4900,7 @@ export const untagResource: API.OperationMethod<
 export const updateActionType: API.OperationMethod<
   UpdateActionTypeInput,
   UpdateActionTypeResponse,
-  | ActionTypeNotFoundException
-  | RequestFailedException
-  | ValidationException
-  | CommonErrors,
+  UpdateActionTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateActionTypeInput,
@@ -4835,6 +4911,14 @@ export const updateActionType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePipelineError =
+  | InvalidActionDeclarationException
+  | InvalidBlockerDeclarationException
+  | InvalidStageDeclarationException
+  | InvalidStructureException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a specified pipeline with edits or changes to its structure. Use a JSON
  * file with the pipeline structure and `UpdatePipeline` to provide the full
@@ -4844,13 +4928,7 @@ export const updateActionType: API.OperationMethod<
 export const updatePipeline: API.OperationMethod<
   UpdatePipelineInput,
   UpdatePipelineOutput,
-  | InvalidActionDeclarationException
-  | InvalidBlockerDeclarationException
-  | InvalidStageDeclarationException
-  | InvalidStructureException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdatePipelineError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipelineInput,

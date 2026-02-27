@@ -353,13 +353,13 @@ export const BatchStartViewerSessionRevocationRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchStartViewerSessionRevocationRequest",
 }) as any as S.Schema<BatchStartViewerSessionRevocationRequest>;
-export interface BatchStartViewerSessionRevocationError {
+export interface BatchStartViewerSessionRevocationError_ {
   channelArn: string;
   viewerId: string;
   code?: string;
   message?: string;
 }
-export const BatchStartViewerSessionRevocationError = S.suspend(() =>
+export const BatchStartViewerSessionRevocationError_ = S.suspend(() =>
   S.Struct({
     channelArn: S.String,
     viewerId: S.String,
@@ -368,14 +368,14 @@ export const BatchStartViewerSessionRevocationError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchStartViewerSessionRevocationError",
-}) as any as S.Schema<BatchStartViewerSessionRevocationError>;
+}) as any as S.Schema<BatchStartViewerSessionRevocationError_>;
 export type BatchStartViewerSessionRevocationErrors =
-  BatchStartViewerSessionRevocationError[];
+  BatchStartViewerSessionRevocationError_[];
 export const BatchStartViewerSessionRevocationErrors = S.Array(
-  BatchStartViewerSessionRevocationError,
+  BatchStartViewerSessionRevocationError_,
 );
 export interface BatchStartViewerSessionRevocationResponse {
-  errors?: BatchStartViewerSessionRevocationError[];
+  errors?: BatchStartViewerSessionRevocationError_[];
 }
 export const BatchStartViewerSessionRevocationResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchStartViewerSessionRevocationErrors) }),
@@ -1781,32 +1781,40 @@ export class StreamUnavailable extends S.TaggedErrorClass<StreamUnavailable>()(
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type BatchGetChannelError = CommonErrors;
 /**
  * Performs GetChannel on multiple ARNs simultaneously.
  */
 export const batchGetChannel: API.OperationMethod<
   BatchGetChannelRequest,
   BatchGetChannelResponse,
-  CommonErrors,
+  BatchGetChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetChannelRequest,
   output: BatchGetChannelResponse,
   errors: [],
 }));
+export type BatchGetStreamKeyError = CommonErrors;
 /**
  * Performs GetStreamKey on multiple ARNs simultaneously.
  */
 export const batchGetStreamKey: API.OperationMethod<
   BatchGetStreamKeyRequest,
   BatchGetStreamKeyResponse,
-  CommonErrors,
+  BatchGetStreamKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetStreamKeyRequest,
   output: BatchGetStreamKeyResponse,
   errors: [],
 }));
+export type BatchStartViewerSessionRevocationError =
+  | AccessDeniedException
+  | PendingVerification
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Performs StartViewerSessionRevocation on multiple channel ARN and viewer
  * ID pairs simultaneously.
@@ -1814,11 +1822,7 @@ export const batchGetStreamKey: API.OperationMethod<
 export const batchStartViewerSessionRevocation: API.OperationMethod<
   BatchStartViewerSessionRevocationRequest,
   BatchStartViewerSessionRevocationResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchStartViewerSessionRevocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchStartViewerSessionRevocationRequest,
@@ -1830,18 +1834,20 @@ export const batchStartViewerSessionRevocation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateChannelError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new channel and an associated stream key to start streaming.
  */
 export const createChannel: API.OperationMethod<
   CreateChannelRequest,
   CreateChannelResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
@@ -1854,6 +1860,13 @@ export const createChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePlaybackRestrictionPolicyError =
+  | AccessDeniedException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new playback restriction policy, for constraining playback by countries and/or
  * origins.
@@ -1861,12 +1874,7 @@ export const createChannel: API.OperationMethod<
 export const createPlaybackRestrictionPolicy: API.OperationMethod<
   CreatePlaybackRestrictionPolicyRequest,
   CreatePlaybackRestrictionPolicyResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePlaybackRestrictionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlaybackRestrictionPolicyRequest,
@@ -1879,6 +1887,14 @@ export const createPlaybackRestrictionPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRecordingConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new recording configuration, used to enable recording to Amazon S3.
  *
@@ -1896,13 +1912,7 @@ export const createPlaybackRestrictionPolicy: API.OperationMethod<
 export const createRecordingConfiguration: API.OperationMethod<
   CreateRecordingConfigurationRequest,
   CreateRecordingConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | PendingVerification
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateRecordingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecordingConfigurationRequest,
@@ -1916,6 +1926,13 @@ export const createRecordingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateStreamKeyError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a stream key, used to initiate a stream, for the specified channel ARN.
  *
@@ -1926,12 +1943,7 @@ export const createRecordingConfiguration: API.OperationMethod<
 export const createStreamKey: API.OperationMethod<
   CreateStreamKeyRequest,
   CreateStreamKeyResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateStreamKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamKeyRequest,
@@ -1944,6 +1956,13 @@ export const createStreamKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified channel and its associated stream keys.
  *
@@ -1955,12 +1974,7 @@ export const createStreamKey: API.OperationMethod<
 export const deleteChannel: API.OperationMethod<
   DeleteChannelRequest,
   DeleteChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
@@ -1973,6 +1987,12 @@ export const deleteChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePlaybackKeyPairError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specified authorization key pair. This invalidates future viewer tokens
  * generated using the key pair’s `privateKey`. For more information, see Setting Up Private
@@ -1981,11 +2001,7 @@ export const deleteChannel: API.OperationMethod<
 export const deletePlaybackKeyPair: API.OperationMethod<
   DeletePlaybackKeyPairRequest,
   DeletePlaybackKeyPairResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeletePlaybackKeyPairError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePlaybackKeyPairRequest,
@@ -1997,18 +2013,20 @@ export const deletePlaybackKeyPair: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePlaybackRestrictionPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified playback restriction policy.
  */
 export const deletePlaybackRestrictionPolicy: API.OperationMethod<
   DeletePlaybackRestrictionPolicyRequest,
   DeletePlaybackRestrictionPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeletePlaybackRestrictionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePlaybackRestrictionPolicyRequest,
@@ -2021,6 +2039,13 @@ export const deletePlaybackRestrictionPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRecordingConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the recording configuration for the specified ARN.
  *
@@ -2033,12 +2058,7 @@ export const deletePlaybackRestrictionPolicy: API.OperationMethod<
 export const deleteRecordingConfiguration: API.OperationMethod<
   DeleteRecordingConfigurationRequest,
   DeleteRecordingConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteRecordingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecordingConfigurationRequest,
@@ -2051,6 +2071,12 @@ export const deleteRecordingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteStreamKeyError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the stream key for the specified ARN, so it can no longer be used to
  * stream.
@@ -2058,11 +2084,7 @@ export const deleteRecordingConfiguration: API.OperationMethod<
 export const deleteStreamKey: API.OperationMethod<
   DeleteStreamKeyRequest,
   DeleteStreamKeyResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteStreamKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamKeyRequest,
@@ -2074,16 +2096,18 @@ export const deleteStreamKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetChannelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
  */
 export const getChannel: API.OperationMethod<
   GetChannelRequest,
   GetChannelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelRequest,
@@ -2094,6 +2118,11 @@ export const getChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPlaybackKeyPairError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a specified playback authorization key pair and returns the `arn` and
  * `fingerprint`. The `privateKey` held by the caller can be used to
@@ -2104,10 +2133,7 @@ export const getChannel: API.OperationMethod<
 export const getPlaybackKeyPair: API.OperationMethod<
   GetPlaybackKeyPairRequest,
   GetPlaybackKeyPairResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPlaybackKeyPairError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlaybackKeyPairRequest,
@@ -2118,17 +2144,19 @@ export const getPlaybackKeyPair: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPlaybackRestrictionPolicyError =
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the specified playback restriction policy.
  */
 export const getPlaybackRestrictionPolicy: API.OperationMethod<
   GetPlaybackRestrictionPolicyRequest,
   GetPlaybackRestrictionPolicyResponse,
-  | AccessDeniedException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetPlaybackRestrictionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlaybackRestrictionPolicyRequest,
@@ -2140,17 +2168,19 @@ export const getPlaybackRestrictionPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRecordingConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the recording configuration for the specified ARN.
  */
 export const getRecordingConfiguration: API.OperationMethod<
   GetRecordingConfigurationRequest,
   GetRecordingConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetRecordingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordingConfigurationRequest,
@@ -2162,17 +2192,19 @@ export const getRecordingConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStreamError =
+  | AccessDeniedException
+  | ChannelNotBroadcasting
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about the active (live) stream on a specified channel.
  */
 export const getStream: API.OperationMethod<
   GetStreamRequest,
   GetStreamResponse,
-  | AccessDeniedException
-  | ChannelNotBroadcasting
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamRequest,
@@ -2184,16 +2216,18 @@ export const getStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStreamKeyError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets stream-key information for a specified ARN.
  */
 export const getStreamKey: API.OperationMethod<
   GetStreamKeyRequest,
   GetStreamKeyResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetStreamKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamKeyRequest,
@@ -2204,16 +2238,18 @@ export const getStreamKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetStreamSessionError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata on a specified stream.
  */
 export const getStreamSession: API.OperationMethod<
   GetStreamSessionRequest,
   GetStreamSessionResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetStreamSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamSessionRequest,
@@ -2224,6 +2260,13 @@ export const getStreamSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ImportPlaybackKeyPairError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports the public portion of a new key pair and returns its `arn` and
  * `fingerprint`. The `privateKey` can then be used to generate viewer
@@ -2234,12 +2277,7 @@ export const getStreamSession: API.OperationMethod<
 export const importPlaybackKeyPair: API.OperationMethod<
   ImportPlaybackKeyPairRequest,
   ImportPlaybackKeyPairResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ImportPlaybackKeyPairError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportPlaybackKeyPairRequest,
@@ -2252,6 +2290,11 @@ export const importPlaybackKeyPair: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChannelsError =
+  | AccessDeniedException
+  | ConflictException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about all channels in your account, in the Amazon Web Services
  * region where the API request is processed. This list can be filtered to match a specified name
@@ -2261,30 +2304,21 @@ export const importPlaybackKeyPair: API.OperationMethod<
 export const listChannels: API.OperationMethod<
   ListChannelsRequest,
   ListChannelsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ValidationException
-  | CommonErrors,
+  ListChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | ValidationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | ValidationException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2297,6 +2331,10 @@ export const listChannels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPlaybackKeyPairsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about playback key pairs. For more information, see Setting Up Private
  * Channels in the *Amazon IVS User Guide*.
@@ -2304,21 +2342,21 @@ export const listChannels: API.OperationMethod<
 export const listPlaybackKeyPairs: API.OperationMethod<
   ListPlaybackKeyPairsRequest,
   ListPlaybackKeyPairsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListPlaybackKeyPairsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlaybackKeyPairsRequest,
   ) => stream.Stream<
     ListPlaybackKeyPairsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListPlaybackKeyPairsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPlaybackKeyPairsRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListPlaybackKeyPairsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2331,39 +2369,33 @@ export const listPlaybackKeyPairs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPlaybackRestrictionPoliciesError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about playback restriction policies.
  */
 export const listPlaybackRestrictionPolicies: API.OperationMethod<
   ListPlaybackRestrictionPoliciesRequest,
   ListPlaybackRestrictionPoliciesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ValidationException
-  | CommonErrors,
+  ListPlaybackRestrictionPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPlaybackRestrictionPoliciesRequest,
   ) => stream.Stream<
     ListPlaybackRestrictionPoliciesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | PendingVerification
-    | ValidationException
-    | CommonErrors,
+    ListPlaybackRestrictionPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPlaybackRestrictionPoliciesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ConflictException
-    | PendingVerification
-    | ValidationException
-    | CommonErrors,
+    ListPlaybackRestrictionPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2381,6 +2413,11 @@ export const listPlaybackRestrictionPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecordingConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about all recording configurations in your account, in the
  * Amazon Web Services region where the API request is processed.
@@ -2388,30 +2425,21 @@ export const listPlaybackRestrictionPolicies: API.OperationMethod<
 export const listRecordingConfigurations: API.OperationMethod<
   ListRecordingConfigurationsRequest,
   ListRecordingConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListRecordingConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecordingConfigurationsRequest,
   ) => stream.Stream<
     ListRecordingConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListRecordingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecordingConfigurationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListRecordingConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2424,36 +2452,32 @@ export const listRecordingConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStreamKeysError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about stream keys for the specified channel.
  */
 export const listStreamKeys: API.OperationMethod<
   ListStreamKeysRequest,
   ListStreamKeysResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListStreamKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamKeysRequest,
   ) => stream.Stream<
     ListStreamKeysResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListStreamKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamKeysRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListStreamKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2470,6 +2494,10 @@ export const listStreamKeys: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStreamsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets summary information about live streams in your account, in the Amazon Web Services
  * region where the API request is processed.
@@ -2477,21 +2505,21 @@ export const listStreamKeys: API.OperationMethod<
 export const listStreams: API.OperationMethod<
   ListStreamsRequest,
   ListStreamsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamsRequest,
   ) => stream.Stream<
     ListStreamsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamsRequest,
   ) => stream.Stream<
     unknown,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2504,6 +2532,11 @@ export const listStreams: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListStreamSessionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a summary of current and previous streams for a specified channel in your account, in
  * the AWS region where the API request is processed.
@@ -2511,30 +2544,21 @@ export const listStreams: API.OperationMethod<
 export const listStreamSessions: API.OperationMethod<
   ListStreamSessionsRequest,
   ListStreamSessionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListStreamSessionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamSessionsRequest,
   ) => stream.Stream<
     ListStreamSessionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListStreamSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamSessionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListStreamSessionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2551,16 +2575,18 @@ export const listStreamSessions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about Amazon Web Services tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2571,6 +2597,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutMetadataError =
+  | AccessDeniedException
+  | ChannelNotBroadcasting
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Inserts metadata into the active stream of the specified channel. At most 5 requests per
  * second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient
@@ -2581,12 +2614,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putMetadata: API.OperationMethod<
   PutMetadataRequest,
   PutMetadataResponse,
-  | AccessDeniedException
-  | ChannelNotBroadcasting
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetadataRequest,
@@ -2599,6 +2627,14 @@ export const putMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartViewerSessionRevocationError =
+  | AccessDeniedException
+  | InternalServerException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the process of revoking the viewer session associated with a specified channel ARN
  * and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and
@@ -2609,13 +2645,7 @@ export const putMetadata: API.OperationMethod<
 export const startViewerSessionRevocation: API.OperationMethod<
   StartViewerSessionRevocationRequest,
   StartViewerSessionRevocationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartViewerSessionRevocationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartViewerSessionRevocationRequest,
@@ -2629,6 +2659,13 @@ export const startViewerSessionRevocation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopStreamError =
+  | AccessDeniedException
+  | ChannelNotBroadcasting
+  | ResourceNotFoundException
+  | StreamUnavailable
+  | ValidationException
+  | CommonErrors;
 /**
  * Disconnects the incoming RTMPS stream for the specified channel. Can be used in
  * conjunction with DeleteStreamKey to prevent further streaming to a
@@ -2641,12 +2678,7 @@ export const startViewerSessionRevocation: API.OperationMethod<
 export const stopStream: API.OperationMethod<
   StopStreamRequest,
   StopStreamResponse,
-  | AccessDeniedException
-  | ChannelNotBroadcasting
-  | ResourceNotFoundException
-  | StreamUnavailable
-  | ValidationException
-  | CommonErrors,
+  StopStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopStreamRequest,
@@ -2659,16 +2691,18 @@ export const stopStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2679,16 +2713,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2699,6 +2735,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateChannelError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a channel's configuration. Live channels cannot be updated. You must stop the
  * ongoing stream, update the channel, and restart the stream for the changes to take
@@ -2707,12 +2750,7 @@ export const untagResource: API.OperationMethod<
 export const updateChannel: API.OperationMethod<
   UpdateChannelRequest,
   UpdateChannelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
@@ -2725,18 +2763,20 @@ export const updateChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePlaybackRestrictionPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a specified playback restriction policy.
  */
 export const updatePlaybackRestrictionPolicy: API.OperationMethod<
   UpdatePlaybackRestrictionPolicyRequest,
   UpdatePlaybackRestrictionPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | PendingVerification
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdatePlaybackRestrictionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlaybackRestrictionPolicyRequest,

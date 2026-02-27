@@ -2036,6 +2036,13 @@ export class VerificationFailedException extends S.TaggedErrorClass<Verification
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type DecryptDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Decrypts ciphertext data to plaintext using a symmetric (TDES, AES), asymmetric (RSA), or derived (DUKPT or EMV) encryption key scheme. For more information, see Decrypt data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2062,12 +2069,7 @@ export class VerificationFailedException extends S.TaggedErrorClass<Verification
 export const decryptData: API.OperationMethod<
   DecryptDataInput,
   DecryptDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DecryptDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecryptDataInput,
@@ -2080,6 +2082,13 @@ export const decryptData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EncryptDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Encrypts plaintext data to ciphertext using a symmetric (TDES, AES), asymmetric (RSA), or derived (DUKPT or EMV) encryption key scheme. For more information, see Encrypt data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2112,12 +2121,7 @@ export const decryptData: API.OperationMethod<
 export const encryptData: API.OperationMethod<
   EncryptDataInput,
   EncryptDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  EncryptDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EncryptDataInput,
@@ -2130,6 +2134,13 @@ export const encryptData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GenerateAs2805KekValidationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Establishes node-to-node initialization between payment processing nodes such as an acquirer, issuer or payment network using Australian Standard 2805 (AS2805).
  *
@@ -2144,12 +2155,7 @@ export const encryptData: API.OperationMethod<
 export const generateAs2805KekValidation: API.OperationMethod<
   GenerateAs2805KekValidationInput,
   GenerateAs2805KekValidationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GenerateAs2805KekValidationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAs2805KekValidationInput,
@@ -2162,6 +2168,13 @@ export const generateAs2805KekValidation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GenerateCardValidationDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For more information, see Generate card data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2180,12 +2193,7 @@ export const generateAs2805KekValidation: API.OperationMethod<
 export const generateCardValidationData: API.OperationMethod<
   GenerateCardValidationDataInput,
   GenerateCardValidationDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GenerateCardValidationDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateCardValidationDataInput,
@@ -2198,6 +2206,13 @@ export const generateCardValidationData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GenerateMacError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography.
  *
@@ -2216,12 +2231,7 @@ export const generateCardValidationData: API.OperationMethod<
 export const generateMac: API.OperationMethod<
   GenerateMacInput,
   GenerateMacOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GenerateMacError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMacInput,
@@ -2234,6 +2244,13 @@ export const generateMac: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GenerateMacEmvPinChangeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates an issuer script mac for EMV payment cards that use offline PINs as the cardholder verification method (CVM).
  *
@@ -2258,12 +2275,7 @@ export const generateMac: API.OperationMethod<
 export const generateMacEmvPinChange: API.OperationMethod<
   GenerateMacEmvPinChangeInput,
   GenerateMacEmvPinChangeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GenerateMacEmvPinChangeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMacEmvPinChangeInput,
@@ -2276,6 +2288,13 @@ export const generateMacEmvPinChange: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GeneratePinDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates pin-related data such as PIN, PIN Verification Value (PVV), PIN Block, and PIN Offset during new card issuance or reissuance. For more information, see Generate PIN data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2298,12 +2317,7 @@ export const generateMacEmvPinChange: API.OperationMethod<
 export const generatePinData: API.OperationMethod<
   GeneratePinDataInput,
   GeneratePinDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GeneratePinDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GeneratePinDataInput,
@@ -2316,6 +2330,13 @@ export const generatePinData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ReEncryptDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Re-encrypt ciphertext using DUKPT or Symmetric data encryption keys.
  *
@@ -2342,12 +2363,7 @@ export const generatePinData: API.OperationMethod<
 export const reEncryptData: API.OperationMethod<
   ReEncryptDataInput,
   ReEncryptDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ReEncryptDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReEncryptDataInput,
@@ -2360,6 +2376,13 @@ export const reEncryptData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TranslateKeyMaterialError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography.
  *
@@ -2382,12 +2405,7 @@ export const reEncryptData: API.OperationMethod<
 export const translateKeyMaterial: API.OperationMethod<
   TranslateKeyMaterialInput,
   TranslateKeyMaterialOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TranslateKeyMaterialError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TranslateKeyMaterialInput,
@@ -2400,6 +2418,13 @@ export const translateKeyMaterial: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TranslatePinDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see Translate PIN data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2428,12 +2453,7 @@ export const translateKeyMaterial: API.OperationMethod<
 export const translatePinData: API.OperationMethod<
   TranslatePinDataInput,
   TranslatePinDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TranslatePinDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TranslatePinDataInput,
@@ -2446,6 +2466,14 @@ export const translatePinData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type VerifyAuthRequestCryptogramError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | CommonErrors;
 /**
  * Verifies Authorization Request Cryptogram (ARQC) for a EMV chip payment card authorization. For more information, see Verify auth request cryptogram in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2464,13 +2492,7 @@ export const translatePinData: API.OperationMethod<
 export const verifyAuthRequestCryptogram: API.OperationMethod<
   VerifyAuthRequestCryptogramInput,
   VerifyAuthRequestCryptogramOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | VerificationFailedException
-  | CommonErrors,
+  VerifyAuthRequestCryptogramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyAuthRequestCryptogramInput,
@@ -2484,6 +2506,14 @@ export const verifyAuthRequestCryptogram: API.OperationMethod<
     VerificationFailedException,
   ],
 }));
+export type VerifyCardValidationDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | CommonErrors;
 /**
  * Verifies card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC). For more information, see Verify card data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2504,13 +2534,7 @@ export const verifyAuthRequestCryptogram: API.OperationMethod<
 export const verifyCardValidationData: API.OperationMethod<
   VerifyCardValidationDataInput,
   VerifyCardValidationDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | VerificationFailedException
-  | CommonErrors,
+  VerifyCardValidationDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyCardValidationDataInput,
@@ -2524,6 +2548,14 @@ export const verifyCardValidationData: API.OperationMethod<
     VerificationFailedException,
   ],
 }));
+export type VerifyMacError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | CommonErrors;
 /**
  * Verifies a Message Authentication Code (MAC).
  *
@@ -2540,13 +2572,7 @@ export const verifyCardValidationData: API.OperationMethod<
 export const verifyMac: API.OperationMethod<
   VerifyMacInput,
   VerifyMacOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | VerificationFailedException
-  | CommonErrors,
+  VerifyMacError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyMacInput,
@@ -2560,6 +2586,14 @@ export const verifyMac: API.OperationMethod<
     VerificationFailedException,
   ],
 }));
+export type VerifyPinDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | CommonErrors;
 /**
  * Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV and IBM3624. For more information, see Verify PIN data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2578,13 +2612,7 @@ export const verifyMac: API.OperationMethod<
 export const verifyPinData: API.OperationMethod<
   VerifyPinDataInput,
   VerifyPinDataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | VerificationFailedException
-  | CommonErrors,
+  VerifyPinDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyPinDataInput,

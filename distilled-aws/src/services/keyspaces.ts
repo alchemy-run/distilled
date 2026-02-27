@@ -1077,6 +1077,13 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateKeyspaceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `CreateKeyspace` operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.
  *
@@ -1087,12 +1094,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const createKeyspace: API.OperationMethod<
   CreateKeyspaceRequest,
   CreateKeyspaceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateKeyspaceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyspaceRequest,
@@ -1105,6 +1107,14 @@ export const createKeyspace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `CreateTable` operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.
  *
@@ -1115,13 +1125,7 @@ export const createKeyspace: API.OperationMethod<
 export const createTable: API.OperationMethod<
   CreateTableRequest,
   CreateTableResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateTableError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
@@ -1135,6 +1139,14 @@ export const createTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `CreateType` operation creates a new user-defined type in the specified keyspace.
  *
@@ -1145,13 +1157,7 @@ export const createTable: API.OperationMethod<
 export const createType: API.OperationMethod<
   CreateTypeRequest,
   CreateTypeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTypeRequest,
@@ -1165,19 +1171,21 @@ export const createType: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
- */
-export const deleteKeyspace: API.OperationMethod<
-  DeleteKeyspaceRequest,
-  DeleteKeyspaceResponse,
+export type DeleteKeyspaceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
+ */
+export const deleteKeyspace: API.OperationMethod<
+  DeleteKeyspaceRequest,
+  DeleteKeyspaceResponse,
+  DeleteKeyspaceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyspaceRequest,
@@ -1191,19 +1199,21 @@ export const deleteKeyspace: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
- */
-export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
-  DeleteTableResponse,
+export type DeleteTableError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
+ */
+export const deleteTable: API.OperationMethod<
+  DeleteTableRequest,
+  DeleteTableResponse,
+  DeleteTableError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
@@ -1217,6 +1227,14 @@ export const deleteTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `DeleteType` operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.
  *
@@ -1225,13 +1243,7 @@ export const deleteTable: API.OperationMethod<
 export const deleteType: API.OperationMethod<
   DeleteTypeRequest,
   DeleteTypeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  DeleteTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTypeRequest,
@@ -1245,18 +1257,20 @@ export const deleteType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetKeyspaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an `UpdateKeyspace` operation.
  */
 export const getKeyspace: API.OperationMethod<
   GetKeyspaceRequest,
   GetKeyspaceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  GetKeyspaceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyspaceRequest,
@@ -1269,6 +1283,13 @@ export const getKeyspace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata.
  *
@@ -1277,12 +1298,7 @@ export const getKeyspace: API.OperationMethod<
 export const getTable: API.OperationMethod<
   GetTableRequest,
   GetTableResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  GetTableError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
@@ -1295,6 +1311,13 @@ export const getTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTableAutoScalingSettingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included.
  *
@@ -1311,12 +1334,7 @@ export const getTable: API.OperationMethod<
 export const getTableAutoScalingSettings: API.OperationMethod<
   GetTableAutoScalingSettingsRequest,
   GetTableAutoScalingSettingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  GetTableAutoScalingSettingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableAutoScalingSettingsRequest,
@@ -1329,6 +1347,13 @@ export const getTableAutoScalingSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `GetType` operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.
  *
@@ -1337,12 +1362,7 @@ export const getTableAutoScalingSettings: API.OperationMethod<
 export const getType: API.OperationMethod<
   GetTypeRequest,
   GetTypeResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  GetTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTypeRequest,
@@ -1355,42 +1375,34 @@ export const getType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListKeyspacesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `ListKeyspaces` operation returns a list of keyspaces.
  */
 export const listKeyspaces: API.OperationMethod<
   ListKeyspacesRequest,
   ListKeyspacesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ListKeyspacesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeyspacesRequest,
   ) => stream.Stream<
     ListKeyspacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListKeyspacesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListKeyspacesRequest,
   ) => stream.Stream<
     KeyspaceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListKeyspacesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1410,6 +1422,13 @@ export const listKeyspaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTablesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `ListTables` operation returns a list of tables for a specified keyspace.
  *
@@ -1418,36 +1437,21 @@ export const listKeyspaces: API.OperationMethod<
 export const listTables: API.OperationMethod<
   ListTablesRequest,
   ListTablesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ListTablesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
     ListTablesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTablesRequest,
   ) => stream.Stream<
     TableSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1467,6 +1471,13 @@ export const listTables: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all tags associated with the specified Amazon Keyspaces resource.
  *
@@ -1475,36 +1486,21 @@ export const listTables: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1524,6 +1520,13 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `ListTypes` operation returns a list of types for a specified keyspace.
  *
@@ -1532,36 +1535,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listTypes: API.OperationMethod<
   ListTypesRequest,
   ListTypesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ListTypesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTypesRequest,
   ) => stream.Stream<
     ListTypesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTypesRequest,
   ) => stream.Stream<
     TypeName,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1581,6 +1569,14 @@ export const listTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RestoreTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Restores the table to the specified point in time within the `earliest_restorable_timestamp` and the current time. For more information about restore points, see Time window for PITR continuous backups in the *Amazon Keyspaces Developer Guide*.
  *
@@ -1613,13 +1609,7 @@ export const listTypes: API.OperationMethod<
 export const restoreTable: API.OperationMethod<
   RestoreTableRequest,
   RestoreTableResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  RestoreTableError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreTableRequest,
@@ -1633,6 +1623,14 @@ export const restoreTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the *Amazon Keyspaces Developer Guide*.
  *
@@ -1641,13 +1639,7 @@ export const restoreTable: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1661,19 +1653,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the association of tags from a Amazon Keyspaces resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association of tags from a Amazon Keyspaces resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1687,6 +1681,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateKeyspaceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify `clientSideTimestamps.status = enabled` when invoking the API. For more information about client-side timestamps, see Client-side timestamps in Amazon Keyspaces in the *Amazon Keyspaces Developer Guide*.
  *
@@ -1733,13 +1735,7 @@ export const untagResource: API.OperationMethod<
 export const updateKeyspace: API.OperationMethod<
   UpdateKeyspaceRequest,
   UpdateKeyspaceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateKeyspaceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeyspaceRequest,
@@ -1753,19 +1749,21 @@ export const updateKeyspace: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
- */
-export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
-  UpdateTableResponse,
+export type UpdateTableError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
+ */
+export const updateTable: API.OperationMethod<
+  UpdateTableRequest,
+  UpdateTableResponse,
+  UpdateTableError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableRequest,

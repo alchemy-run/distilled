@@ -531,6 +531,15 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type CompleteSnapshotError =
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | InvalidSignatureException
+  | CommonErrors;
 /**
  * Seals and completes the snapshot after all of the required blocks of data have been
  * written to it. Completing the snapshot changes the status to `completed`. You
@@ -544,14 +553,7 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 export const completeSnapshot: API.OperationMethod<
   CompleteSnapshotRequest,
   CompleteSnapshotResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | InvalidSignatureException
-  | CommonErrors,
+  CompleteSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteSnapshotRequest,
@@ -566,6 +568,14 @@ export const completeSnapshot: API.OperationMethod<
     InvalidSignatureException,
   ],
 }));
+export type GetSnapshotBlockError =
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the data in a block in an Amazon Elastic Block Store snapshot.
  *
@@ -577,13 +587,7 @@ export const completeSnapshot: API.OperationMethod<
 export const getSnapshotBlock: API.OperationMethod<
   GetSnapshotBlockRequest,
   GetSnapshotBlockResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  GetSnapshotBlockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnapshotBlockRequest,
@@ -597,6 +601,14 @@ export const getSnapshotBlock: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChangedBlocksError =
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the blocks that are different between two
  * Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
@@ -609,39 +621,21 @@ export const getSnapshotBlock: API.OperationMethod<
 export const listChangedBlocks: API.OperationMethod<
   ListChangedBlocksRequest,
   ListChangedBlocksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ListChangedBlocksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChangedBlocksRequest,
   ) => stream.Stream<
     ListChangedBlocksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestThrottledException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListChangedBlocksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChangedBlocksRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestThrottledException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListChangedBlocksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -661,6 +655,14 @@ export const listChangedBlocks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSnapshotBlocksError =
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the blocks in an Amazon Elastic Block Store snapshot.
  *
@@ -672,39 +674,21 @@ export const listChangedBlocks: API.OperationMethod<
 export const listSnapshotBlocks: API.OperationMethod<
   ListSnapshotBlocksRequest,
   ListSnapshotBlocksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  ListSnapshotBlocksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSnapshotBlocksRequest,
   ) => stream.Stream<
     ListSnapshotBlocksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestThrottledException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListSnapshotBlocksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSnapshotBlocksRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestThrottledException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
+    ListSnapshotBlocksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -724,6 +708,15 @@ export const listSnapshotBlocks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutSnapshotBlockError =
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | InvalidSignatureException
+  | CommonErrors;
 /**
  * Writes a block of data to a snapshot. If the specified block contains
  * data, the existing data is overwritten. The target snapshot must be in the
@@ -739,14 +732,7 @@ export const listSnapshotBlocks: API.OperationMethod<
 export const putSnapshotBlock: API.OperationMethod<
   PutSnapshotBlockRequest,
   PutSnapshotBlockResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | InvalidSignatureException
-  | CommonErrors,
+  PutSnapshotBlockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSnapshotBlockRequest,
@@ -761,6 +747,16 @@ export const putSnapshotBlock: API.OperationMethod<
     InvalidSignatureException,
   ],
 }));
+export type StartSnapshotError =
+  | AccessDeniedException
+  | ConcurrentLimitExceededException
+  | ConflictException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Amazon EBS snapshot. The new snapshot enters the `pending` state
  * after the request completes.
@@ -776,15 +772,7 @@ export const putSnapshotBlock: API.OperationMethod<
 export const startSnapshot: API.OperationMethod<
   StartSnapshotRequest,
   StartSnapshotResponse,
-  | AccessDeniedException
-  | ConcurrentLimitExceededException
-  | ConflictException
-  | InternalServerException
-  | RequestThrottledException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSnapshotRequest,

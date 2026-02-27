@@ -3386,6 +3386,14 @@ export class TooManyTagKeysException extends S.TaggedErrorClass<TooManyTagKeysEx
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateBatchInferenceJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Generates batch recommendations based on a list of items or users stored in Amazon S3
  * and exports the recommendations to an Amazon S3 bucket.
@@ -3411,13 +3419,7 @@ export class TooManyTagKeysException extends S.TaggedErrorClass<TooManyTagKeysEx
 export const createBatchInferenceJob: API.OperationMethod<
   CreateBatchInferenceJobRequest,
   CreateBatchInferenceJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateBatchInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBatchInferenceJobRequest,
@@ -3431,6 +3433,14 @@ export const createBatchInferenceJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateBatchSegmentJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a batch segment job. The operation can handle up to 50 million records and the
  * input file must be in JSON format. For more information, see
@@ -3439,13 +3449,7 @@ export const createBatchInferenceJob: API.OperationMethod<
 export const createBatchSegmentJob: API.OperationMethod<
   CreateBatchSegmentJobRequest,
   CreateBatchSegmentJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateBatchSegmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBatchSegmentJobRequest,
@@ -3459,6 +3463,14 @@ export const createBatchSegmentJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateCampaignError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * You incur campaign costs while it is active. To avoid unnecessary costs, make sure to delete the campaign when you are finished. For information about campaign
  * costs, see Amazon Personalize pricing.
@@ -3519,13 +3531,7 @@ export const createBatchSegmentJob: API.OperationMethod<
 export const createCampaign: API.OperationMethod<
   CreateCampaignRequest,
   CreateCampaignResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
@@ -3539,6 +3545,14 @@ export const createCampaign: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateDataDeletionJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a batch job that deletes all
  * references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in
@@ -3579,13 +3593,7 @@ export const createCampaign: API.OperationMethod<
 export const createDataDeletionJob: API.OperationMethod<
   CreateDataDeletionJobRequest,
   CreateDataDeletionJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateDataDeletionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataDeletionJobRequest,
@@ -3599,6 +3607,14 @@ export const createDataDeletionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateDatasetError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates an empty dataset and adds it to the specified dataset group.
  * Use CreateDatasetImportJob to import your training data to a
@@ -3642,13 +3658,7 @@ export const createDataDeletionJob: API.OperationMethod<
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -3662,6 +3672,14 @@ export const createDataset: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateDatasetExportJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a job that exports data from your dataset to an Amazon S3 bucket.
  * To allow Amazon Personalize to export the training data, you must specify an
@@ -3684,13 +3702,7 @@ export const createDataset: API.OperationMethod<
 export const createDatasetExportJob: API.OperationMethod<
   CreateDatasetExportJobRequest,
   CreateDatasetExportJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateDatasetExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetExportJobRequest,
@@ -3704,6 +3716,12 @@ export const createDatasetExportJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateDatasetGroupError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates an empty dataset group. A dataset group is a container for
  * Amazon Personalize resources. A dataset group can contain at most three datasets, one
@@ -3764,11 +3782,7 @@ export const createDatasetExportJob: API.OperationMethod<
 export const createDatasetGroup: API.OperationMethod<
   CreateDatasetGroupRequest,
   CreateDatasetGroupResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetGroupRequest,
@@ -3780,6 +3794,14 @@ export const createDatasetGroup: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateDatasetImportJobError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a job that imports training data from your data source (an
  * Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the
@@ -3823,13 +3845,7 @@ export const createDatasetGroup: API.OperationMethod<
 export const createDatasetImportJob: API.OperationMethod<
   CreateDatasetImportJobRequest,
   CreateDatasetImportJobResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateDatasetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetImportJobRequest,
@@ -3843,6 +3859,14 @@ export const createDatasetImportJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateEventTrackerError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates an event tracker that you use when adding event data to a specified dataset
  * group using the
@@ -3878,13 +3902,7 @@ export const createDatasetImportJob: API.OperationMethod<
 export const createEventTracker: API.OperationMethod<
   CreateEventTrackerRequest,
   CreateEventTrackerResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateEventTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventTrackerRequest,
@@ -3898,18 +3916,20 @@ export const createEventTracker: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateFilterError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
  */
 export const createFilter: API.OperationMethod<
   CreateFilterRequest,
   CreateFilterResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFilterRequest,
@@ -3922,6 +3942,13 @@ export const createFilter: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateMetricAttributionError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a metric attribution.
  * A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3.
@@ -3930,12 +3957,7 @@ export const createFilter: API.OperationMethod<
 export const createMetricAttribution: API.OperationMethod<
   CreateMetricAttributionRequest,
   CreateMetricAttributionResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateMetricAttributionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMetricAttributionRequest,
@@ -3948,6 +3970,14 @@ export const createMetricAttribution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateRecommenderError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a recommender with the recipe (a Domain dataset group use case) you specify.
  * You create recommenders for a Domain dataset group and specify the recommender's Amazon Resource Name (ARN) when you make a
@@ -4007,13 +4037,7 @@ export const createMetricAttribution: API.OperationMethod<
 export const createRecommender: API.OperationMethod<
   CreateRecommenderRequest,
   CreateRecommenderResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateRecommenderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecommenderRequest,
@@ -4027,6 +4051,11 @@ export const createRecommender: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateSchemaError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates an Amazon Personalize schema from the specified schema string. The schema you create
  * must be in Avro JSON format.
@@ -4047,10 +4076,7 @@ export const createRecommender: API.OperationMethod<
 export const createSchema: API.OperationMethod<
   CreateSchemaRequest,
   CreateSchemaResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
@@ -4061,6 +4087,14 @@ export const createSchema: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreateSolutionError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * By default, all new solutions use automatic training. With automatic training, you incur training costs while
  * your solution is active. To avoid unnecessary costs, when you are finished you can
@@ -4123,13 +4157,7 @@ export const createSchema: API.OperationMethod<
 export const createSolution: API.OperationMethod<
   CreateSolutionRequest,
   CreateSolutionResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateSolutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSolutionRequest,
@@ -4143,6 +4171,14 @@ export const createSolution: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateSolutionVersionError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Trains or retrains an active solution in a Custom dataset group. A solution is created using the CreateSolution
  * operation and must be in the ACTIVE state before calling
@@ -4188,13 +4224,7 @@ export const createSolution: API.OperationMethod<
 export const createSolutionVersion: API.OperationMethod<
   CreateSolutionVersionRequest,
   CreateSolutionVersionResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateSolutionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSolutionVersionRequest,
@@ -4208,6 +4238,11 @@ export const createSolutionVersion: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type DeleteCampaignError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes a campaign by deleting the solution deployment. The solution that
  * the campaign is based on is not deleted and can be redeployed when needed. A deleted campaign can no
@@ -4219,10 +4254,7 @@ export const createSolutionVersion: API.OperationMethod<
 export const deleteCampaign: API.OperationMethod<
   DeleteCampaignRequest,
   DeleteCampaignResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
@@ -4233,6 +4265,11 @@ export const deleteCampaign: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDatasetError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a dataset. You can't delete a dataset if an associated
  * `DatasetImportJob` or `SolutionVersion` is in the
@@ -4242,10 +4279,7 @@ export const deleteCampaign: API.OperationMethod<
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
@@ -4256,6 +4290,11 @@ export const deleteDataset: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDatasetGroupError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a dataset group. Before you delete a dataset group, you must
  * delete the following:
@@ -4269,10 +4308,7 @@ export const deleteDataset: API.OperationMethod<
 export const deleteDatasetGroup: API.OperationMethod<
   DeleteDatasetGroupRequest,
   DeleteDatasetGroupResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetGroupRequest,
@@ -4283,6 +4319,11 @@ export const deleteDatasetGroup: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteEventTrackerError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the event tracker. Does not delete the dataset from
  * the dataset group. For more
@@ -4291,10 +4332,7 @@ export const deleteDatasetGroup: API.OperationMethod<
 export const deleteEventTracker: API.OperationMethod<
   DeleteEventTrackerRequest,
   DeleteEventTrackerResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteEventTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventTrackerRequest,
@@ -4305,16 +4343,18 @@ export const deleteEventTracker: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteFilterError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a filter.
  */
 export const deleteFilter: API.OperationMethod<
   DeleteFilterRequest,
   DeleteFilterResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFilterRequest,
@@ -4325,16 +4365,18 @@ export const deleteFilter: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteMetricAttributionError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a metric attribution.
  */
 export const deleteMetricAttribution: API.OperationMethod<
   DeleteMetricAttributionRequest,
   DeleteMetricAttributionResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteMetricAttributionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMetricAttributionRequest,
@@ -4345,6 +4387,11 @@ export const deleteMetricAttribution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteRecommenderError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deactivates and removes a recommender. A deleted recommender can no longer be specified in a GetRecommendations
  * request.
@@ -4352,10 +4399,7 @@ export const deleteMetricAttribution: API.OperationMethod<
 export const deleteRecommender: API.OperationMethod<
   DeleteRecommenderRequest,
   DeleteRecommenderResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteRecommenderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecommenderRequest,
@@ -4366,6 +4410,11 @@ export const deleteRecommender: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteSchemaError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a schema. Before deleting a schema, you must delete all
  * datasets referencing the schema. For more information on schemas, see
@@ -4374,10 +4423,7 @@ export const deleteRecommender: API.OperationMethod<
 export const deleteSchema: API.OperationMethod<
   DeleteSchemaRequest,
   DeleteSchemaResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
@@ -4388,6 +4434,11 @@ export const deleteSchema: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteSolutionError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes all versions of a solution and the `Solution` object itself.
  * Before deleting a solution, you must delete all campaigns based on
@@ -4400,10 +4451,7 @@ export const deleteSchema: API.OperationMethod<
 export const deleteSolution: API.OperationMethod<
   DeleteSolutionRequest,
   DeleteSolutionResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteSolutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSolutionRequest,
@@ -4414,19 +4462,27 @@ export const deleteSolution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeAlgorithmError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the given algorithm.
  */
 export const describeAlgorithm: API.OperationMethod<
   DescribeAlgorithmRequest,
   DescribeAlgorithmResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeAlgorithmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlgorithmRequest,
   output: DescribeAlgorithmResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeBatchInferenceJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the properties of a batch inference job including name, Amazon Resource Name (ARN),
  * status, input and output configurations, and the ARN of the solution version used to generate
@@ -4435,13 +4491,17 @@ export const describeAlgorithm: API.OperationMethod<
 export const describeBatchInferenceJob: API.OperationMethod<
   DescribeBatchInferenceJobRequest,
   DescribeBatchInferenceJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeBatchInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBatchInferenceJobRequest,
   output: DescribeBatchInferenceJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeBatchSegmentJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the properties of a batch segment job including name, Amazon Resource Name (ARN),
  * status, input and output configurations, and the ARN of the solution version used to generate
@@ -4450,13 +4510,17 @@ export const describeBatchInferenceJob: API.OperationMethod<
 export const describeBatchSegmentJob: API.OperationMethod<
   DescribeBatchSegmentJobRequest,
   DescribeBatchSegmentJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeBatchSegmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBatchSegmentJobRequest,
   output: DescribeBatchSegmentJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeCampaignError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the given campaign, including its status.
  *
@@ -4474,26 +4538,34 @@ export const describeBatchSegmentJob: API.OperationMethod<
 export const describeCampaign: API.OperationMethod<
   DescribeCampaignRequest,
   DescribeCampaignResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCampaignRequest,
   output: DescribeCampaignResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDataDeletionJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the data deletion job created by CreateDataDeletionJob, including the job status.
  */
 export const describeDataDeletionJob: API.OperationMethod<
   DescribeDataDeletionJobRequest,
   DescribeDataDeletionJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDataDeletionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataDeletionJobRequest,
   output: DescribeDataDeletionJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the given dataset. For more information on datasets, see
  * CreateDataset.
@@ -4501,26 +4573,34 @@ export const describeDataDeletionJob: API.OperationMethod<
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetExportJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the dataset export job created by CreateDatasetExportJob, including the export job status.
  */
 export const describeDatasetExportJob: API.OperationMethod<
   DescribeDatasetExportJobRequest,
   DescribeDatasetExportJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetExportJobRequest,
   output: DescribeDatasetExportJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetGroupError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the given dataset group. For more information on dataset
  * groups, see CreateDatasetGroup.
@@ -4528,26 +4608,34 @@ export const describeDatasetExportJob: API.OperationMethod<
 export const describeDatasetGroup: API.OperationMethod<
   DescribeDatasetGroupRequest,
   DescribeDatasetGroupResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetGroupRequest,
   output: DescribeDatasetGroupResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeDatasetImportJobError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the dataset import job created by CreateDatasetImportJob, including the import job status.
  */
 export const describeDatasetImportJob: API.OperationMethod<
   DescribeDatasetImportJobRequest,
   DescribeDatasetImportJobResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeDatasetImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetImportJobRequest,
   output: DescribeDatasetImportJobResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeEventTrackerError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes an event tracker. The response includes the `trackingId` and
  * `status` of the event tracker.
@@ -4556,52 +4644,68 @@ export const describeDatasetImportJob: API.OperationMethod<
 export const describeEventTracker: API.OperationMethod<
   DescribeEventTrackerRequest,
   DescribeEventTrackerResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeEventTrackerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventTrackerRequest,
   output: DescribeEventTrackerResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeFeatureTransformationError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the given feature transformation.
  */
 export const describeFeatureTransformation: API.OperationMethod<
   DescribeFeatureTransformationRequest,
   DescribeFeatureTransformationResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeFeatureTransformationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFeatureTransformationRequest,
   output: DescribeFeatureTransformationResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeFilterError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a filter's properties.
  */
 export const describeFilter: API.OperationMethod<
   DescribeFilterRequest,
   DescribeFilterResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFilterRequest,
   output: DescribeFilterResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeMetricAttributionError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a metric attribution.
  */
 export const describeMetricAttribution: API.OperationMethod<
   DescribeMetricAttributionRequest,
   DescribeMetricAttributionResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeMetricAttributionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMetricAttributionRequest,
   output: DescribeMetricAttributionResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeRecipeError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a recipe.
  *
@@ -4623,13 +4727,17 @@ export const describeMetricAttribution: API.OperationMethod<
 export const describeRecipe: API.OperationMethod<
   DescribeRecipeRequest,
   DescribeRecipeResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeRecipeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecipeRequest,
   output: DescribeRecipeResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeRecommenderError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the given recommender, including its status.
  *
@@ -4652,13 +4760,17 @@ export const describeRecipe: API.OperationMethod<
 export const describeRecommender: API.OperationMethod<
   DescribeRecommenderRequest,
   DescribeRecommenderResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeRecommenderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecommenderRequest,
   output: DescribeRecommenderResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeSchemaError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a schema. For more information on schemas, see
  * CreateSchema.
@@ -4666,13 +4778,17 @@ export const describeRecommender: API.OperationMethod<
 export const describeSchema: API.OperationMethod<
   DescribeSchemaRequest,
   DescribeSchemaResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSchemaRequest,
   output: DescribeSchemaResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeSolutionError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a solution.
  * For more information on solutions, see CreateSolution.
@@ -4680,36 +4796,42 @@ export const describeSchema: API.OperationMethod<
 export const describeSolution: API.OperationMethod<
   DescribeSolutionRequest,
   DescribeSolutionResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeSolutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSolutionRequest,
   output: DescribeSolutionResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type DescribeSolutionVersionError =
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes a specific version of a solution. For more information on solutions, see CreateSolution
  */
 export const describeSolutionVersion: API.OperationMethod<
   DescribeSolutionVersionRequest,
   DescribeSolutionVersionResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  DescribeSolutionVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSolutionVersionRequest,
   output: DescribeSolutionVersionResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));
+export type GetSolutionMetricsError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the metrics for the specified solution version.
  */
 export const getSolutionMetrics: API.OperationMethod<
   GetSolutionMetricsRequest,
   GetSolutionMetricsResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSolutionMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolutionMetricsRequest,
@@ -4720,6 +4842,10 @@ export const getSolutionMetrics: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListBatchInferenceJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Gets a list of the batch inference jobs that have been performed off of a solution
  * version.
@@ -4727,21 +4853,21 @@ export const getSolutionMetrics: API.OperationMethod<
 export const listBatchInferenceJobs: API.OperationMethod<
   ListBatchInferenceJobsRequest,
   ListBatchInferenceJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListBatchInferenceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBatchInferenceJobsRequest,
   ) => stream.Stream<
     ListBatchInferenceJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListBatchInferenceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchInferenceJobsRequest,
   ) => stream.Stream<
     BatchInferenceJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListBatchInferenceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4755,6 +4881,10 @@ export const listBatchInferenceJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBatchSegmentJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Gets a list of the batch segment jobs that have been performed off of a solution
  * version that you specify.
@@ -4762,21 +4892,21 @@ export const listBatchInferenceJobs: API.OperationMethod<
 export const listBatchSegmentJobs: API.OperationMethod<
   ListBatchSegmentJobsRequest,
   ListBatchSegmentJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListBatchSegmentJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBatchSegmentJobsRequest,
   ) => stream.Stream<
     ListBatchSegmentJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListBatchSegmentJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchSegmentJobsRequest,
   ) => stream.Stream<
     BatchSegmentJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListBatchSegmentJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4790,6 +4920,10 @@ export const listBatchSegmentJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCampaignsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of campaigns that use the given solution.
  * When a solution is not specified, all the campaigns associated with the account are listed.
@@ -4799,21 +4933,21 @@ export const listBatchSegmentJobs: API.OperationMethod<
 export const listCampaigns: API.OperationMethod<
   ListCampaignsRequest,
   ListCampaignsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListCampaignsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
     ListCampaignsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
     CampaignSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListCampaignsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4827,6 +4961,10 @@ export const listCampaigns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDataDeletionJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of data deletion jobs for a dataset group ordered by creation time,
  * with the most recent first.
@@ -4839,13 +4977,17 @@ export const listCampaigns: API.OperationMethod<
 export const listDataDeletionJobs: API.OperationMethod<
   ListDataDeletionJobsRequest,
   ListDataDeletionJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListDataDeletionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDataDeletionJobsRequest,
   output: ListDataDeletionJobsResponse,
   errors: [InvalidInputException, InvalidNextTokenException],
 }));
+export type ListDatasetExportJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of dataset export jobs that use the given dataset. When
  * a dataset is not specified, all the dataset export jobs associated with
@@ -4857,21 +4999,21 @@ export const listDataDeletionJobs: API.OperationMethod<
 export const listDatasetExportJobs: API.OperationMethod<
   ListDatasetExportJobsRequest,
   ListDatasetExportJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListDatasetExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetExportJobsRequest,
   ) => stream.Stream<
     ListDatasetExportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetExportJobsRequest,
   ) => stream.Stream<
     DatasetExportJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4885,6 +5027,7 @@ export const listDatasetExportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
 /**
  * Returns a list of dataset groups. The response provides the properties
  * for each dataset group, including the Amazon Resource Name (ARN). For more
@@ -4893,21 +5036,21 @@ export const listDatasetExportJobs: API.OperationMethod<
 export const listDatasetGroups: API.OperationMethod<
   ListDatasetGroupsRequest,
   ListDatasetGroupsResponse,
-  InvalidNextTokenException | CommonErrors,
+  ListDatasetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetGroupsRequest,
   ) => stream.Stream<
     ListDatasetGroupsResponse,
-    InvalidNextTokenException | CommonErrors,
+    ListDatasetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetGroupsRequest,
   ) => stream.Stream<
     DatasetGroupSummary,
-    InvalidNextTokenException | CommonErrors,
+    ListDatasetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4921,6 +5064,10 @@ export const listDatasetGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDatasetImportJobsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of dataset import jobs that use the given dataset. When
  * a dataset is not specified, all the dataset import jobs associated with
@@ -4932,21 +5079,21 @@ export const listDatasetGroups: API.OperationMethod<
 export const listDatasetImportJobs: API.OperationMethod<
   ListDatasetImportJobsRequest,
   ListDatasetImportJobsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListDatasetImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetImportJobsRequest,
   ) => stream.Stream<
     ListDatasetImportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetImportJobsRequest,
   ) => stream.Stream<
     DatasetImportJobSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4960,6 +5107,10 @@ export const listDatasetImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDatasetsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns the list of datasets contained in the given dataset group. The
  * response provides the properties for each dataset, including the Amazon
@@ -4968,21 +5119,21 @@ export const listDatasetImportJobs: API.OperationMethod<
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     ListDatasetsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     DatasetSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4996,6 +5147,10 @@ export const listDatasets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEventTrackersError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns the list of event trackers associated with the account.
  * The response provides the properties for each event tracker, including the Amazon Resource
@@ -5005,21 +5160,21 @@ export const listDatasets: API.OperationMethod<
 export const listEventTrackers: API.OperationMethod<
   ListEventTrackersRequest,
   ListEventTrackersResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListEventTrackersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventTrackersRequest,
   ) => stream.Stream<
     ListEventTrackersResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListEventTrackersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventTrackersRequest,
   ) => stream.Stream<
     EventTrackerSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListEventTrackersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5033,27 +5188,31 @@ export const listEventTrackers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFiltersError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Lists all filters that belong to a given dataset group.
  */
 export const listFilters: API.OperationMethod<
   ListFiltersRequest,
   ListFiltersResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListFiltersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFiltersRequest,
   ) => stream.Stream<
     ListFiltersResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFiltersRequest,
   ) => stream.Stream<
     FilterSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5067,27 +5226,31 @@ export const listFilters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMetricAttributionMetricsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Lists the metrics for the metric attribution.
  */
 export const listMetricAttributionMetrics: API.OperationMethod<
   ListMetricAttributionMetricsRequest,
   ListMetricAttributionMetricsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListMetricAttributionMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetricAttributionMetricsRequest,
   ) => stream.Stream<
     ListMetricAttributionMetricsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListMetricAttributionMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricAttributionMetricsRequest,
   ) => stream.Stream<
     MetricAttribute,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListMetricAttributionMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5101,27 +5264,31 @@ export const listMetricAttributionMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMetricAttributionsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Lists metric attributions.
  */
 export const listMetricAttributions: API.OperationMethod<
   ListMetricAttributionsRequest,
   ListMetricAttributionsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListMetricAttributionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetricAttributionsRequest,
   ) => stream.Stream<
     ListMetricAttributionsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListMetricAttributionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricAttributionsRequest,
   ) => stream.Stream<
     MetricAttributionSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListMetricAttributionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5135,6 +5302,10 @@ export const listMetricAttributions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecipesError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of available recipes. The response provides the properties
  * for each recipe, including the recipe's Amazon Resource Name (ARN).
@@ -5142,21 +5313,21 @@ export const listMetricAttributions: API.OperationMethod<
 export const listRecipes: API.OperationMethod<
   ListRecipesRequest,
   ListRecipesResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListRecipesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecipesRequest,
   ) => stream.Stream<
     ListRecipesResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListRecipesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecipesRequest,
   ) => stream.Stream<
     RecipeSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListRecipesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5170,6 +5341,10 @@ export const listRecipes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendersError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of recommenders in a given Domain dataset group.
  * When a Domain dataset group is not specified, all the recommenders associated with the account are listed.
@@ -5179,21 +5354,21 @@ export const listRecipes: API.OperationMethod<
 export const listRecommenders: API.OperationMethod<
   ListRecommendersRequest,
   ListRecommendersResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListRecommendersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendersRequest,
   ) => stream.Stream<
     ListRecommendersResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListRecommendersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendersRequest,
   ) => stream.Stream<
     RecommenderSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListRecommendersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5207,6 +5382,7 @@ export const listRecommenders: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSchemasError = InvalidNextTokenException | CommonErrors;
 /**
  * Returns the list of schemas associated with the account. The response provides the
  * properties for each schema, including the Amazon Resource Name (ARN).
@@ -5215,21 +5391,21 @@ export const listRecommenders: API.OperationMethod<
 export const listSchemas: API.OperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
-  InvalidNextTokenException | CommonErrors,
+  ListSchemasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemasRequest,
   ) => stream.Stream<
     ListSchemasResponse,
-    InvalidNextTokenException | CommonErrors,
+    ListSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemasRequest,
   ) => stream.Stream<
     DatasetSchemaSummary,
-    InvalidNextTokenException | CommonErrors,
+    ListSchemasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5243,6 +5419,10 @@ export const listSchemas: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSolutionsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | CommonErrors;
 /**
  * Returns a list of solutions in a given dataset group.
  * When a dataset group is not specified, all the solutions associated with the account are listed.
@@ -5252,21 +5432,21 @@ export const listSchemas: API.OperationMethod<
 export const listSolutions: API.OperationMethod<
   ListSolutionsRequest,
   ListSolutionsResponse,
-  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  ListSolutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolutionsRequest,
   ) => stream.Stream<
     ListSolutionsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListSolutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolutionsRequest,
   ) => stream.Stream<
     SolutionSummary,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
+    ListSolutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5280,6 +5460,11 @@ export const listSolutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSolutionVersionsError =
+  | InvalidInputException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of solution versions for the given solution. When a solution is not
  * specified, all the solution versions associated with the account are listed. The response
@@ -5288,30 +5473,21 @@ export const listSolutions: API.OperationMethod<
 export const listSolutionVersions: API.OperationMethod<
   ListSolutionVersionsRequest,
   ListSolutionVersionsResponse,
-  | InvalidInputException
-  | InvalidNextTokenException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListSolutionVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSolutionVersionsRequest,
   ) => stream.Stream<
     ListSolutionVersionsResponse,
-    | InvalidInputException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSolutionVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolutionVersionsRequest,
   ) => stream.Stream<
     SolutionVersionSummary,
-    | InvalidInputException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSolutionVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5329,16 +5505,18 @@ export const listSolutionVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Get a list of tags attached to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -5349,6 +5527,11 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartRecommenderError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a recommender that is INACTIVE. Starting a recommender does not
  * create any new models, but resumes billing and automatic retraining for the recommender.
@@ -5356,10 +5539,7 @@ export const listTagsForResource: API.OperationMethod<
 export const startRecommender: API.OperationMethod<
   StartRecommenderRequest,
   StartRecommenderResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartRecommenderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRecommenderRequest,
@@ -5370,16 +5550,18 @@ export const startRecommender: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopRecommenderError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
  */
 export const stopRecommender: API.OperationMethod<
   StopRecommenderRequest,
   StopRecommenderResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopRecommenderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRecommenderRequest,
@@ -5390,6 +5572,11 @@ export const stopRecommender: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopSolutionVersionCreationError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops creating a solution version that is in a state of CREATE_PENDING or CREATE IN_PROGRESS.
  *
@@ -5407,10 +5594,7 @@ export const stopRecommender: API.OperationMethod<
 export const stopSolutionVersionCreation: API.OperationMethod<
   StopSolutionVersionCreationRequest,
   StopSolutionVersionCreationResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopSolutionVersionCreationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSolutionVersionCreationRequest,
@@ -5421,18 +5605,20 @@ export const stopSolutionVersionCreation: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Add a list of tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5445,17 +5631,19 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagKeysException
+  | CommonErrors;
 /**
  * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagKeysException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5467,6 +5655,11 @@ export const untagResource: API.OperationMethod<
     TooManyTagKeysException,
   ],
 }));
+export type UpdateCampaignError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's `minProvisionedTPS`,
  * or modify your campaign's configuration. For example, you can set `enableMetadataWithRecommendations` to true for an existing campaign.
@@ -5490,10 +5683,7 @@ export const untagResource: API.OperationMethod<
 export const updateCampaign: API.OperationMethod<
   UpdateCampaignRequest,
   UpdateCampaignResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateCampaignError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignRequest,
@@ -5504,16 +5694,18 @@ export const updateCampaign: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateDatasetError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
  */
 export const updateDataset: API.OperationMethod<
   UpdateDatasetRequest,
   UpdateDatasetResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
@@ -5524,17 +5716,19 @@ export const updateDataset: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateMetricAttributionError =
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a metric attribution.
  */
 export const updateMetricAttribution: API.OperationMethod<
   UpdateMetricAttributionRequest,
   UpdateMetricAttributionResponse,
-  | InvalidInputException
-  | ResourceAlreadyExistsException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateMetricAttributionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMetricAttributionRequest,
@@ -5546,6 +5740,11 @@ export const updateMetricAttribution: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateRecommenderError =
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the recommender to modify the recommender configuration.
  * If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of
@@ -5558,10 +5757,7 @@ export const updateMetricAttribution: API.OperationMethod<
 export const updateRecommender: API.OperationMethod<
   UpdateRecommenderRequest,
   UpdateRecommenderResponse,
-  | InvalidInputException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateRecommenderError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecommenderRequest,
@@ -5572,6 +5768,12 @@ export const updateRecommender: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateSolutionError =
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution,
  * you can change whether the solution uses
@@ -5590,11 +5792,7 @@ export const updateRecommender: API.OperationMethod<
 export const updateSolution: API.OperationMethod<
   UpdateSolutionRequest,
   UpdateSolutionResponse,
-  | InvalidInputException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateSolutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSolutionRequest,

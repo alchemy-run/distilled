@@ -4520,6 +4520,12 @@ export class InvalidRestoreFault extends S.TaggedErrorClass<InvalidRestoreFault>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddRoleToDBClusterError =
+  | DBClusterNotFoundFault
+  | DBClusterRoleAlreadyExistsFault
+  | DBClusterRoleQuotaExceededFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Associates an Identity and Access Management (IAM) role with an
  * Neptune DB cluster.
@@ -4527,11 +4533,7 @@ export class InvalidRestoreFault extends S.TaggedErrorClass<InvalidRestoreFault>
 export const addRoleToDBCluster: API.OperationMethod<
   AddRoleToDBClusterMessage,
   AddRoleToDBClusterResponse,
-  | DBClusterNotFoundFault
-  | DBClusterRoleAlreadyExistsFault
-  | DBClusterRoleQuotaExceededFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  AddRoleToDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddRoleToDBClusterMessage,
@@ -4543,19 +4545,28 @@ export const addRoleToDBCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type AddSourceIdentifierToSubscriptionError =
+  | SourceNotFoundFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Adds a source identifier to an existing event notification subscription.
  */
 export const addSourceIdentifierToSubscription: API.OperationMethod<
   AddSourceIdentifierToSubscriptionMessage,
   AddSourceIdentifierToSubscriptionResult,
-  SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
+  AddSourceIdentifierToSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddSourceIdentifierToSubscriptionMessage,
   output: AddSourceIdentifierToSubscriptionResult,
   errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
 }));
+export type AddTagsToResourceError =
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Adds metadata tags to an Amazon Neptune resource. These tags can also be used with cost
  * allocation reporting to track cost associated with Amazon Neptune resources, or used in a
@@ -4564,10 +4575,7 @@ export const addSourceIdentifierToSubscription: API.OperationMethod<
 export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceMessage,
   AddTagsToResourceResponse,
-  | DBClusterNotFoundFault
-  | DBInstanceNotFoundFault
-  | DBSnapshotNotFoundFault
-  | CommonErrors,
+  AddTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceMessage,
@@ -4578,29 +4586,34 @@ export const addTagsToResource: API.OperationMethod<
     DBSnapshotNotFoundFault,
   ],
 }));
+export type ApplyPendingMaintenanceActionError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Applies a pending maintenance action to a resource (for example, to a DB instance).
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
   ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResult,
-  ResourceNotFoundFault | CommonErrors,
+  ApplyPendingMaintenanceActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyPendingMaintenanceActionMessage,
   output: ApplyPendingMaintenanceActionResult,
   errors: [ResourceNotFoundFault],
 }));
+export type CopyDBClusterParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupNotFoundFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies the specified DB cluster parameter group.
  */
 export const copyDBClusterParameterGroup: API.OperationMethod<
   CopyDBClusterParameterGroupMessage,
   CopyDBClusterParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupNotFoundFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CopyDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBClusterParameterGroupMessage,
@@ -4611,6 +4624,14 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CopyDBClusterSnapshotError =
+  | DBClusterSnapshotAlreadyExistsFault
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | KMSKeyNotAccessibleFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies a snapshot of a DB cluster.
  *
@@ -4621,13 +4642,7 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
 export const copyDBClusterSnapshot: API.OperationMethod<
   CopyDBClusterSnapshotMessage,
   CopyDBClusterSnapshotResult,
-  | DBClusterSnapshotAlreadyExistsFault
-  | DBClusterSnapshotNotFoundFault
-  | InvalidDBClusterSnapshotStateFault
-  | InvalidDBClusterStateFault
-  | KMSKeyNotAccessibleFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  CopyDBClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBClusterSnapshotMessage,
@@ -4641,16 +4656,18 @@ export const copyDBClusterSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type CopyDBParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupNotFoundFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies the specified DB parameter group.
  */
 export const copyDBParameterGroup: API.OperationMethod<
   CopyDBParameterGroupMessage,
   CopyDBParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupNotFoundFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CopyDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBParameterGroupMessage,
@@ -4661,20 +4678,7 @@ export const copyDBParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
-/**
- * Creates a new Amazon Neptune DB cluster.
- *
- * You can use the `ReplicationSourceIdentifier` parameter to create the DB
- * cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance.
- *
- * Note that when you create a new cluster using `CreateDBCluster` directly,
- * deletion protection is disabled by default (when you create a new production cluster in
- * the console, deletion protection is enabled by default). You can only delete a DB
- * cluster if its `DeletionProtection` field is set to `false`.
- */
-export const createDBCluster: API.OperationMethod<
-  CreateDBClusterMessage,
-  CreateDBClusterResult,
+export type CreateDBClusterError =
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -4692,7 +4696,22 @@ export const createDBCluster: API.OperationMethod<
   | InvalidVPCNetworkStateFault
   | KMSKeyNotAccessibleFault
   | StorageQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon Neptune DB cluster.
+ *
+ * You can use the `ReplicationSourceIdentifier` parameter to create the DB
+ * cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance.
+ *
+ * Note that when you create a new cluster using `CreateDBCluster` directly,
+ * deletion protection is disabled by default (when you create a new production cluster in
+ * the console, deletion protection is enabled by default). You can only delete a DB
+ * cluster if its `DeletionProtection` field is set to `false`.
+ */
+export const createDBCluster: API.OperationMethod<
+  CreateDBClusterMessage,
+  CreateDBClusterResult,
+  CreateDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterMessage,
@@ -4717,19 +4736,21 @@ export const createDBCluster: API.OperationMethod<
     StorageQuotaExceededFault,
   ],
 }));
-/**
- * Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
- */
-export const createDBClusterEndpoint: API.OperationMethod<
-  CreateDBClusterEndpointMessage,
-  CreateDBClusterEndpointOutput,
+export type CreateDBClusterEndpointError =
   | DBClusterEndpointAlreadyExistsFault
   | DBClusterEndpointQuotaExceededFault
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
+ */
+export const createDBClusterEndpoint: API.OperationMethod<
+  CreateDBClusterEndpointMessage,
+  CreateDBClusterEndpointOutput,
+  CreateDBClusterEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterEndpointMessage,
@@ -4743,6 +4764,10 @@ export const createDBClusterEndpoint: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type CreateDBClusterParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a new DB cluster parameter group.
  *
@@ -4774,9 +4799,7 @@ export const createDBClusterEndpoint: API.OperationMethod<
 export const createDBClusterParameterGroup: API.OperationMethod<
   CreateDBClusterParameterGroupMessage,
   CreateDBClusterParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CreateDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterParameterGroupMessage,
@@ -4786,18 +4809,20 @@ export const createDBClusterParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CreateDBClusterSnapshotError =
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotAlreadyExistsFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a snapshot of a DB cluster.
  */
 export const createDBClusterSnapshot: API.OperationMethod<
   CreateDBClusterSnapshotMessage,
   CreateDBClusterSnapshotResult,
-  | DBClusterNotFoundFault
-  | DBClusterSnapshotAlreadyExistsFault
-  | InvalidDBClusterSnapshotStateFault
-  | InvalidDBClusterStateFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  CreateDBClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterSnapshotMessage,
@@ -4810,12 +4835,7 @@ export const createDBClusterSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
-/**
- * Creates a new DB instance.
- */
-export const createDBInstance: API.OperationMethod<
-  CreateDBInstanceMessage,
-  CreateDBInstanceResult,
+export type CreateDBInstanceError =
   | AuthorizationNotFoundFault
   | DBClusterNotFoundFault
   | DBInstanceAlreadyExistsFault
@@ -4834,7 +4854,14 @@ export const createDBInstance: API.OperationMethod<
   | ProvisionedIopsNotAvailableInAZFault
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new DB instance.
+ */
+export const createDBInstance: API.OperationMethod<
+  CreateDBInstanceMessage,
+  CreateDBInstanceResult,
+  CreateDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBInstanceMessage,
@@ -4860,6 +4887,10 @@ export const createDBInstance: API.OperationMethod<
     StorageTypeNotSupportedFault,
   ],
 }));
+export type CreateDBParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a new DB parameter group.
  *
@@ -4885,9 +4916,7 @@ export const createDBInstance: API.OperationMethod<
 export const createDBParameterGroup: API.OperationMethod<
   CreateDBParameterGroupMessage,
   CreateDBParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CreateDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBParameterGroupMessage,
@@ -4897,6 +4926,13 @@ export const createDBParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CreateDBSubnetGroupError =
+  | DBSubnetGroupAlreadyExistsFault
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupQuotaExceededFault
+  | DBSubnetQuotaExceededFault
+  | InvalidSubnet
+  | CommonErrors;
 /**
  * Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at
  * least two AZs in the Amazon Region.
@@ -4904,12 +4940,7 @@ export const createDBParameterGroup: API.OperationMethod<
 export const createDBSubnetGroup: API.OperationMethod<
   CreateDBSubnetGroupMessage,
   CreateDBSubnetGroupResult,
-  | DBSubnetGroupAlreadyExistsFault
-  | DBSubnetGroupDoesNotCoverEnoughAZs
-  | DBSubnetGroupQuotaExceededFault
-  | DBSubnetQuotaExceededFault
-  | InvalidSubnet
-  | CommonErrors,
+  CreateDBSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBSubnetGroupMessage,
@@ -4922,6 +4953,15 @@ export const createDBSubnetGroup: API.OperationMethod<
     InvalidSubnet,
   ],
 }));
+export type CreateEventSubscriptionError =
+  | EventSubscriptionQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SourceNotFoundFault
+  | SubscriptionAlreadyExistFault
+  | SubscriptionCategoryNotFoundFault
+  | CommonErrors;
 /**
  * Creates an event notification subscription. This action requires a topic ARN (Amazon
  * Resource Name) created by either the Neptune console, the SNS console, or the SNS API. To
@@ -4944,14 +4984,7 @@ export const createDBSubnetGroup: API.OperationMethod<
 export const createEventSubscription: API.OperationMethod<
   CreateEventSubscriptionMessage,
   CreateEventSubscriptionResult,
-  | EventSubscriptionQuotaExceededFault
-  | SNSInvalidTopicFault
-  | SNSNoAuthorizationFault
-  | SNSTopicArnNotFoundFault
-  | SourceNotFoundFault
-  | SubscriptionAlreadyExistFault
-  | SubscriptionCategoryNotFoundFault
-  | CommonErrors,
+  CreateEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventSubscriptionMessage,
@@ -4966,6 +4999,12 @@ export const createEventSubscription: API.OperationMethod<
     SubscriptionCategoryNotFoundFault,
   ],
 }));
+export type CreateGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterAlreadyExistsFault
+  | GlobalClusterQuotaExceededFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Creates a Neptune global database spread across multiple Amazon Regions.
  * The global database contains a single primary cluster with read-write
@@ -4981,11 +5020,7 @@ export const createEventSubscription: API.OperationMethod<
 export const createGlobalCluster: API.OperationMethod<
   CreateGlobalClusterMessage,
   CreateGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterAlreadyExistsFault
-  | GlobalClusterQuotaExceededFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  CreateGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlobalClusterMessage,
@@ -4997,6 +5032,13 @@ export const createGlobalCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type DeleteDBClusterError =
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotAlreadyExistsFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a
  * DB cluster, all automated backups for that DB cluster are deleted and can't be recovered.
@@ -5009,12 +5051,7 @@ export const createGlobalCluster: API.OperationMethod<
 export const deleteDBCluster: API.OperationMethod<
   DeleteDBClusterMessage,
   DeleteDBClusterResult,
-  | DBClusterNotFoundFault
-  | DBClusterSnapshotAlreadyExistsFault
-  | InvalidDBClusterSnapshotStateFault
-  | InvalidDBClusterStateFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  DeleteDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterMessage,
@@ -5027,16 +5064,18 @@ export const deleteDBCluster: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type DeleteDBClusterEndpointError =
+  | DBClusterEndpointNotFoundFault
+  | InvalidDBClusterEndpointStateFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
  */
 export const deleteDBClusterEndpoint: API.OperationMethod<
   DeleteDBClusterEndpointMessage,
   DeleteDBClusterEndpointOutput,
-  | DBClusterEndpointNotFoundFault
-  | InvalidDBClusterEndpointStateFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  DeleteDBClusterEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterEndpointMessage,
@@ -5047,6 +5086,10 @@ export const deleteDBClusterEndpoint: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type DeleteDBClusterParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Deletes a specified DB cluster parameter group. The DB cluster parameter group to be
  * deleted can't be associated with any DB clusters.
@@ -5054,15 +5097,17 @@ export const deleteDBClusterEndpoint: API.OperationMethod<
 export const deleteDBClusterParameterGroup: API.OperationMethod<
   DeleteDBClusterParameterGroupMessage,
   DeleteDBClusterParameterGroupResponse,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  DeleteDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterParameterGroupMessage,
   output: DeleteDBClusterParameterGroupResponse,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type DeleteDBClusterSnapshotError =
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | CommonErrors;
 /**
  * Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is
  * terminated.
@@ -5073,15 +5118,20 @@ export const deleteDBClusterParameterGroup: API.OperationMethod<
 export const deleteDBClusterSnapshot: API.OperationMethod<
   DeleteDBClusterSnapshotMessage,
   DeleteDBClusterSnapshotResult,
-  | DBClusterSnapshotNotFoundFault
-  | InvalidDBClusterSnapshotStateFault
-  | CommonErrors,
+  DeleteDBClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterSnapshotMessage,
   output: DeleteDBClusterSnapshotResult,
   errors: [DBClusterSnapshotNotFoundFault, InvalidDBClusterSnapshotStateFault],
 }));
+export type DeleteDBInstanceError =
+  | DBInstanceNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete
  * a DB instance, all automated backups for that instance are deleted and can't be recovered.
@@ -5104,12 +5154,7 @@ export const deleteDBClusterSnapshot: API.OperationMethod<
 export const deleteDBInstance: API.OperationMethod<
   DeleteDBInstanceMessage,
   DeleteDBInstanceResult,
-  | DBInstanceNotFoundFault
-  | DBSnapshotAlreadyExistsFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  DeleteDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBInstanceMessage,
@@ -5122,6 +5167,10 @@ export const deleteDBInstance: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type DeleteDBParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't be
  * associated with any DB instances.
@@ -5129,15 +5178,18 @@ export const deleteDBInstance: API.OperationMethod<
 export const deleteDBParameterGroup: API.OperationMethod<
   DeleteDBParameterGroupMessage,
   DeleteDBParameterGroupResponse,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  DeleteDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBParameterGroupMessage,
   output: DeleteDBParameterGroupResponse,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type DeleteDBSubnetGroupError =
+  | DBSubnetGroupNotFoundFault
+  | InvalidDBSubnetGroupStateFault
+  | InvalidDBSubnetStateFault
+  | CommonErrors;
 /**
  * Deletes a DB subnet group.
  *
@@ -5146,10 +5198,7 @@ export const deleteDBParameterGroup: API.OperationMethod<
 export const deleteDBSubnetGroup: API.OperationMethod<
   DeleteDBSubnetGroupMessage,
   DeleteDBSubnetGroupResponse,
-  | DBSubnetGroupNotFoundFault
-  | InvalidDBSubnetGroupStateFault
-  | InvalidDBSubnetStateFault
-  | CommonErrors,
+  DeleteDBSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBSubnetGroupMessage,
@@ -5160,19 +5209,27 @@ export const deleteDBSubnetGroup: API.OperationMethod<
     InvalidDBSubnetStateFault,
   ],
 }));
+export type DeleteEventSubscriptionError =
+  | InvalidEventSubscriptionStateFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
   DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResult,
-  InvalidEventSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
+  DeleteEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventSubscriptionMessage,
   output: DeleteEventSubscriptionResult,
   errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
 }));
+export type DeleteGlobalClusterError =
+  | GlobalClusterNotFoundFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Deletes a global database. The primary and all secondary clusters must
  * already be detached or deleted first.
@@ -5180,13 +5237,16 @@ export const deleteEventSubscription: API.OperationMethod<
 export const deleteGlobalCluster: API.OperationMethod<
   DeleteGlobalClusterMessage,
   DeleteGlobalClusterResult,
-  GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
+  DeleteGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlobalClusterMessage,
   output: DeleteGlobalClusterResult,
   errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
 }));
+export type DescribeDBClusterEndpointsError =
+  | DBClusterNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about endpoints for an Amazon Neptune DB cluster.
  *
@@ -5196,21 +5256,21 @@ export const deleteGlobalCluster: API.OperationMethod<
 export const describeDBClusterEndpoints: API.OperationMethod<
   DescribeDBClusterEndpointsMessage,
   DBClusterEndpointMessage,
-  DBClusterNotFoundFault | CommonErrors,
+  DescribeDBClusterEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterEndpointsMessage,
   ) => stream.Stream<
     DBClusterEndpointMessage,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClusterEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterEndpointsMessage,
   ) => stream.Stream<
     DBClusterEndpoint,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClusterEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5224,6 +5284,9 @@ export const describeDBClusterEndpoints: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterParameterGroupsError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of `DBClusterParameterGroup` descriptions. If a
  * `DBClusterParameterGroupName` parameter is specified, the list will contain only
@@ -5232,21 +5295,21 @@ export const describeDBClusterEndpoints: API.OperationMethod<
 export const describeDBClusterParameterGroups: API.OperationMethod<
   DescribeDBClusterParameterGroupsMessage,
   DBClusterParameterGroupsMessage,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBClusterParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
     DBClusterParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
     DBClusterParameterGroup,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5260,27 +5323,30 @@ export const describeDBClusterParameterGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterParametersError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular DB cluster parameter group.
  */
 export const describeDBClusterParameters: API.OperationMethod<
   DescribeDBClusterParametersMessage,
   DBClusterParameterGroupDetails,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBClusterParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
     DBClusterParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
     Parameter,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5294,6 +5360,7 @@ export const describeDBClusterParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
 /**
  * Returns information about provisioned DB clusters, and supports
  * pagination.
@@ -5304,21 +5371,21 @@ export const describeDBClusterParameters: API.OperationMethod<
 export const describeDBClusters: API.OperationMethod<
   DescribeDBClustersMessage,
   DBClusterMessage,
-  DBClusterNotFoundFault | CommonErrors,
+  DescribeDBClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
     DBClusterMessage,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
     DBCluster,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5332,6 +5399,9 @@ export const describeDBClusters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterSnapshotAttributesError =
+  | DBClusterSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster
  * snapshot.
@@ -5349,13 +5419,16 @@ export const describeDBClusters: API.OperationMethod<
 export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   DescribeDBClusterSnapshotAttributesMessage,
   DescribeDBClusterSnapshotAttributesResult,
-  DBClusterSnapshotNotFoundFault | CommonErrors,
+  DescribeDBClusterSnapshotAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDBClusterSnapshotAttributesMessage,
   output: DescribeDBClusterSnapshotAttributesResult,
   errors: [DBClusterSnapshotNotFoundFault],
 }));
+export type DescribeDBClusterSnapshotsError =
+  | DBClusterSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about DB cluster snapshots. This API action supports
  * pagination.
@@ -5363,21 +5436,21 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
 export const describeDBClusterSnapshots: API.OperationMethod<
   DescribeDBClusterSnapshotsMessage,
   DBClusterSnapshotMessage,
-  DBClusterSnapshotNotFoundFault | CommonErrors,
+  DescribeDBClusterSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
     DBClusterSnapshotMessage,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
+    DescribeDBClusterSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
     DBClusterSnapshot,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
+    DescribeDBClusterSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5391,27 +5464,28 @@ export const describeDBClusterSnapshots: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBEngineVersionsError = CommonErrors;
 /**
  * Returns a list of the available DB engines.
  */
 export const describeDBEngineVersions: API.OperationMethod<
   DescribeDBEngineVersionsMessage,
   DBEngineVersionMessage,
-  CommonErrors,
+  DescribeDBEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
     DBEngineVersionMessage,
-    CommonErrors,
+    DescribeDBEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
     DBEngineVersion,
-    CommonErrors,
+    DescribeDBEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5425,6 +5499,7 @@ export const describeDBEngineVersions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
 /**
  * Returns information about provisioned instances, and supports pagination.
  *
@@ -5434,21 +5509,21 @@ export const describeDBEngineVersions: API.OperationMethod<
 export const describeDBInstances: API.OperationMethod<
   DescribeDBInstancesMessage,
   DBInstanceMessage,
-  DBInstanceNotFoundFault | CommonErrors,
+  DescribeDBInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
     DBInstanceMessage,
-    DBInstanceNotFoundFault | CommonErrors,
+    DescribeDBInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
     DBInstance,
-    DBInstanceNotFoundFault | CommonErrors,
+    DescribeDBInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5462,6 +5537,9 @@ export const describeDBInstances: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBParameterGroupsError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of `DBParameterGroup` descriptions. If a
  * `DBParameterGroupName` is specified, the list will contain only the description of
@@ -5470,21 +5548,21 @@ export const describeDBInstances: API.OperationMethod<
 export const describeDBParameterGroups: API.OperationMethod<
   DescribeDBParameterGroupsMessage,
   DBParameterGroupsMessage,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBParameterGroupsMessage,
   ) => stream.Stream<
     DBParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBParameterGroupsMessage,
   ) => stream.Stream<
     DBParameterGroup,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5498,27 +5576,30 @@ export const describeDBParameterGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBParametersError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular DB parameter group.
  */
 export const describeDBParameters: API.OperationMethod<
   DescribeDBParametersMessage,
   DBParameterGroupDetails,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBParametersMessage,
   ) => stream.Stream<
     DBParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBParametersMessage,
   ) => stream.Stream<
     Parameter,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5532,6 +5613,9 @@ export const describeDBParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBSubnetGroupsError =
+  | DBSubnetGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the
  * list will contain only the descriptions of the specified DBSubnetGroup.
@@ -5541,21 +5625,21 @@ export const describeDBParameters: API.OperationMethod<
 export const describeDBSubnetGroups: API.OperationMethod<
   DescribeDBSubnetGroupsMessage,
   DBSubnetGroupMessage,
-  DBSubnetGroupNotFoundFault | CommonErrors,
+  DescribeDBSubnetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
     DBSubnetGroupMessage,
-    DBSubnetGroupNotFoundFault | CommonErrors,
+    DescribeDBSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
     DBSubnetGroup,
-    DBSubnetGroupNotFoundFault | CommonErrors,
+    DescribeDBSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5569,6 +5653,7 @@ export const describeDBSubnetGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEngineDefaultClusterParametersError = CommonErrors;
 /**
  * Returns the default engine and system parameter information for the cluster database
  * engine.
@@ -5576,13 +5661,14 @@ export const describeDBSubnetGroups: API.OperationMethod<
 export const describeEngineDefaultClusterParameters: API.OperationMethod<
   DescribeEngineDefaultClusterParametersMessage,
   DescribeEngineDefaultClusterParametersResult,
-  CommonErrors,
+  DescribeEngineDefaultClusterParametersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEngineDefaultClusterParametersMessage,
   output: DescribeEngineDefaultClusterParametersResult,
   errors: [],
 }));
+export type DescribeEngineDefaultParametersError = CommonErrors;
 /**
  * Returns the default engine and system parameter information for the specified database
  * engine.
@@ -5590,21 +5676,21 @@ export const describeEngineDefaultClusterParameters: API.OperationMethod<
 export const describeEngineDefaultParameters: API.OperationMethod<
   DescribeEngineDefaultParametersMessage,
   DescribeEngineDefaultParametersResult,
-  CommonErrors,
+  DescribeEngineDefaultParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
     DescribeEngineDefaultParametersResult,
-    CommonErrors,
+    DescribeEngineDefaultParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEngineDefaultParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5618,6 +5704,7 @@ export const describeEngineDefaultParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEventCategoriesError = CommonErrors;
 /**
  * Displays a list of categories for all event source types, or, if specified, for a
  * specified source type.
@@ -5625,13 +5712,14 @@ export const describeEngineDefaultParameters: API.OperationMethod<
 export const describeEventCategories: API.OperationMethod<
   DescribeEventCategoriesMessage,
   EventCategoriesMessage,
-  CommonErrors,
+  DescribeEventCategoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventCategoriesMessage,
   output: EventCategoriesMessage,
   errors: [],
 }));
+export type DescribeEventsError = CommonErrors;
 /**
  * Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter
  * groups for the past 14 days. Events specific to a particular DB instance, DB security group,
@@ -5641,21 +5729,21 @@ export const describeEventCategories: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsMessage,
   EventsMessage,
-  CommonErrors,
+  DescribeEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
     EventsMessage,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
     Event,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5669,6 +5757,9 @@ export const describeEvents: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEventSubscriptionsError =
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Lists all the subscription descriptions for a customer account. The description for a
  * subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID,
@@ -5679,21 +5770,21 @@ export const describeEvents: API.OperationMethod<
 export const describeEventSubscriptions: API.OperationMethod<
   DescribeEventSubscriptionsMessage,
   EventSubscriptionsMessage,
-  SubscriptionNotFoundFault | CommonErrors,
+  DescribeEventSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
     EventSubscriptionsMessage,
-    SubscriptionNotFoundFault | CommonErrors,
+    DescribeEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
     EventSubscription,
-    SubscriptionNotFoundFault | CommonErrors,
+    DescribeEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5707,6 +5798,9 @@ export const describeEventSubscriptions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeGlobalClustersError =
+  | GlobalClusterNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about Neptune global database clusters. This API
  * supports pagination.
@@ -5714,21 +5808,21 @@ export const describeEventSubscriptions: API.OperationMethod<
 export const describeGlobalClusters: API.OperationMethod<
   DescribeGlobalClustersMessage,
   GlobalClustersMessage,
-  GlobalClusterNotFoundFault | CommonErrors,
+  DescribeGlobalClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
     GlobalClustersMessage,
-    GlobalClusterNotFoundFault | CommonErrors,
+    DescribeGlobalClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
     GlobalCluster,
-    GlobalClusterNotFoundFault | CommonErrors,
+    DescribeGlobalClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5742,27 +5836,28 @@ export const describeGlobalClusters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
 /**
  * Returns a list of orderable DB instance options for the specified engine.
  */
 export const describeOrderableDBInstanceOptions: API.OperationMethod<
   DescribeOrderableDBInstanceOptionsMessage,
   OrderableDBInstanceOptionsMessage,
-  CommonErrors,
+  DescribeOrderableDBInstanceOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
     OrderableDBInstanceOptionsMessage,
-    CommonErrors,
+    DescribeOrderableDBInstanceOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
     OrderableDBInstanceOption,
-    CommonErrors,
+    DescribeOrderableDBInstanceOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5776,6 +5871,9 @@ export const describeOrderableDBInstanceOptions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribePendingMaintenanceActionsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of resources (for example, DB instances) that have at least one pending
  * maintenance action.
@@ -5783,21 +5881,21 @@ export const describeOrderableDBInstanceOptions: API.OperationMethod<
 export const describePendingMaintenanceActions: API.OperationMethod<
   DescribePendingMaintenanceActionsMessage,
   PendingMaintenanceActionsMessage,
-  ResourceNotFoundFault | CommonErrors,
+  DescribePendingMaintenanceActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
     PendingMaintenanceActionsMessage,
-    ResourceNotFoundFault | CommonErrors,
+    DescribePendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
     ResourcePendingMaintenanceActions,
-    ResourceNotFoundFault | CommonErrors,
+    DescribePendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5811,6 +5909,10 @@ export const describePendingMaintenanceActions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeValidDBInstanceModificationsError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * You can call DescribeValidDBInstanceModifications
  * to learn what modifications you can make to your DB instance. You can use this
@@ -5819,13 +5921,18 @@ export const describePendingMaintenanceActions: API.OperationMethod<
 export const describeValidDBInstanceModifications: API.OperationMethod<
   DescribeValidDBInstanceModificationsMessage,
   DescribeValidDBInstanceModificationsResult,
-  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
+  DescribeValidDBInstanceModificationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeValidDBInstanceModificationsMessage,
   output: DescribeValidDBInstanceModificationsResult,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
 }));
+export type FailoverDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Forces a failover for a DB cluster.
  *
@@ -5841,10 +5948,7 @@ export const describeValidDBInstanceModifications: API.OperationMethod<
 export const failoverDBCluster: API.OperationMethod<
   FailoverDBClusterMessage,
   FailoverDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  FailoverDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverDBClusterMessage,
@@ -5855,6 +5959,12 @@ export const failoverDBCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type FailoverGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Initiates the failover process for a Neptune global database.
  *
@@ -5874,11 +5984,7 @@ export const failoverDBCluster: API.OperationMethod<
 export const failoverGlobalCluster: API.OperationMethod<
   FailoverGlobalClusterMessage,
   FailoverGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  FailoverGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverGlobalClusterMessage,
@@ -5890,16 +5996,18 @@ export const failoverGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
+export type ListTagsForResourceError =
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Lists all tags on an Amazon Neptune resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceMessage,
   TagListMessage,
-  | DBClusterNotFoundFault
-  | DBInstanceNotFoundFault
-  | DBSnapshotNotFoundFault
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceMessage,
@@ -5910,13 +6018,7 @@ export const listTagsForResource: API.OperationMethod<
     DBSnapshotNotFoundFault,
   ],
 }));
-/**
- * Modify a setting for a DB cluster. You can change one or more database configuration
- * parameters by specifying these parameters and the new values in the request.
- */
-export const modifyDBCluster: API.OperationMethod<
-  ModifyDBClusterMessage,
-  ModifyDBClusterResult,
+export type ModifyDBClusterError =
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -5929,7 +6031,15 @@ export const modifyDBCluster: API.OperationMethod<
   | InvalidVPCNetworkStateFault
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modify a setting for a DB cluster. You can change one or more database configuration
+ * parameters by specifying these parameters and the new values in the request.
+ */
+export const modifyDBCluster: API.OperationMethod<
+  ModifyDBClusterMessage,
+  ModifyDBClusterResult,
+  ModifyDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterMessage,
@@ -5949,18 +6059,20 @@ export const modifyDBCluster: API.OperationMethod<
     StorageTypeNotSupportedFault,
   ],
 }));
+export type ModifyDBClusterEndpointError =
+  | DBClusterEndpointNotFoundFault
+  | DBInstanceNotFoundFault
+  | InvalidDBClusterEndpointStateFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
  */
 export const modifyDBClusterEndpoint: API.OperationMethod<
   ModifyDBClusterEndpointMessage,
   ModifyDBClusterEndpointOutput,
-  | DBClusterEndpointNotFoundFault
-  | DBInstanceNotFoundFault
-  | InvalidDBClusterEndpointStateFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  ModifyDBClusterEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterEndpointMessage,
@@ -5973,6 +6085,10 @@ export const modifyDBClusterEndpoint: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type ModifyDBClusterParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB cluster parameter group. To modify more than one
  * parameter, submit a list of the following: `ParameterName`,
@@ -5996,15 +6112,18 @@ export const modifyDBClusterEndpoint: API.OperationMethod<
 export const modifyDBClusterParameterGroup: API.OperationMethod<
   ModifyDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ModifyDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterParameterGroupMessage,
   output: DBClusterParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type ModifyDBClusterSnapshotAttributeError =
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | SharedSnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Adds an attribute and values to, or removes an attribute and values from, a manual DB
  * cluster snapshot.
@@ -6026,10 +6145,7 @@ export const modifyDBClusterParameterGroup: API.OperationMethod<
 export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
   ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
-  | DBClusterSnapshotNotFoundFault
-  | InvalidDBClusterSnapshotStateFault
-  | SharedSnapshotQuotaExceededFault
-  | CommonErrors,
+  ModifyDBClusterSnapshotAttributeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterSnapshotAttributeMessage,
@@ -6040,14 +6156,7 @@ export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
     SharedSnapshotQuotaExceededFault,
   ],
 }));
-/**
- * Modifies settings for a DB instance. You can change one or more database configuration
- * parameters by specifying these parameters and the new values in the request. To learn what
- * modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
- */
-export const modifyDBInstance: API.OperationMethod<
-  ModifyDBInstanceMessage,
-  ModifyDBInstanceResult,
+export type ModifyDBInstanceError =
   | AuthorizationNotFoundFault
   | CertificateNotFoundFault
   | DBInstanceAlreadyExistsFault
@@ -6064,7 +6173,16 @@ export const modifyDBInstance: API.OperationMethod<
   | ProvisionedIopsNotAvailableInAZFault
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies settings for a DB instance. You can change one or more database configuration
+ * parameters by specifying these parameters and the new values in the request. To learn what
+ * modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
+ */
+export const modifyDBInstance: API.OperationMethod<
+  ModifyDBInstanceMessage,
+  ModifyDBInstanceResult,
+  ModifyDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBInstanceMessage,
@@ -6088,6 +6206,10 @@ export const modifyDBInstance: API.OperationMethod<
     StorageTypeNotSupportedFault,
   ],
 }));
+export type ModifyDBParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB parameter group. To modify more than one parameter,
  * submit a list of the following: `ParameterName`, `ParameterValue`, and
@@ -6111,15 +6233,20 @@ export const modifyDBInstance: API.OperationMethod<
 export const modifyDBParameterGroup: API.OperationMethod<
   ModifyDBParameterGroupMessage,
   DBParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ModifyDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBParameterGroupMessage,
   output: DBParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type ModifyDBSubnetGroupError =
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupNotFoundFault
+  | DBSubnetQuotaExceededFault
+  | InvalidSubnet
+  | SubnetAlreadyInUse
+  | CommonErrors;
 /**
  * Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in
  * at least two AZs in the Amazon Region.
@@ -6127,12 +6254,7 @@ export const modifyDBParameterGroup: API.OperationMethod<
 export const modifyDBSubnetGroup: API.OperationMethod<
   ModifyDBSubnetGroupMessage,
   ModifyDBSubnetGroupResult,
-  | DBSubnetGroupDoesNotCoverEnoughAZs
-  | DBSubnetGroupNotFoundFault
-  | DBSubnetQuotaExceededFault
-  | InvalidSubnet
-  | SubnetAlreadyInUse
-  | CommonErrors,
+  ModifyDBSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBSubnetGroupMessage,
@@ -6145,6 +6267,14 @@ export const modifyDBSubnetGroup: API.OperationMethod<
     SubnetAlreadyInUse,
   ],
 }));
+export type ModifyEventSubscriptionError =
+  | EventSubscriptionQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SubscriptionCategoryNotFoundFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Modifies an existing event notification subscription. Note that you can't modify the
  * source identifiers using this call; to change source identifiers for a subscription, use the
@@ -6156,13 +6286,7 @@ export const modifyDBSubnetGroup: API.OperationMethod<
 export const modifyEventSubscription: API.OperationMethod<
   ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResult,
-  | EventSubscriptionQuotaExceededFault
-  | SNSInvalidTopicFault
-  | SNSNoAuthorizationFault
-  | SNSTopicArnNotFoundFault
-  | SubscriptionCategoryNotFoundFault
-  | SubscriptionNotFoundFault
-  | CommonErrors,
+  ModifyEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyEventSubscriptionMessage,
@@ -6176,6 +6300,13 @@ export const modifyEventSubscription: API.OperationMethod<
     SubscriptionNotFoundFault,
   ],
 }));
+export type ModifyGlobalClusterError =
+  | GlobalClusterAlreadyExistsFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Modify a setting for an Amazon Neptune global cluster. You can change one
  * or more database configuration parameters by specifying these parameters
@@ -6184,12 +6315,7 @@ export const modifyEventSubscription: API.OperationMethod<
 export const modifyGlobalCluster: API.OperationMethod<
   ModifyGlobalClusterMessage,
   ModifyGlobalClusterResult,
-  | GlobalClusterAlreadyExistsFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  ModifyGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyGlobalClusterMessage,
@@ -6202,19 +6328,27 @@ export const modifyGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
+export type PromoteReadReplicaDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Not supported.
  */
 export const promoteReadReplicaDBCluster: API.OperationMethod<
   PromoteReadReplicaDBClusterMessage,
   PromoteReadReplicaDBClusterResult,
-  DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
+  PromoteReadReplicaDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromoteReadReplicaDBClusterMessage,
   output: PromoteReadReplicaDBClusterResult,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault],
 }));
+export type RebootDBInstanceError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * You might need to reboot your DB instance, usually for maintenance reasons. For example,
  * if you make certain modifications, or if you change the DB parameter group associated with the
@@ -6226,13 +6360,18 @@ export const promoteReadReplicaDBCluster: API.OperationMethod<
 export const rebootDBInstance: API.OperationMethod<
   RebootDBInstanceMessage,
   RebootDBInstanceResult,
-  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
+  RebootDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDBInstanceMessage,
   output: RebootDBInstanceResult,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
 }));
+export type RemoveFromGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Detaches a Neptune DB cluster from a Neptune global database. A secondary
  * cluster becomes a normal standalone cluster with read-write capability
@@ -6242,10 +6381,7 @@ export const rebootDBInstance: API.OperationMethod<
 export const removeFromGlobalCluster: API.OperationMethod<
   RemoveFromGlobalClusterMessage,
   RemoveFromGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterNotFoundFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  RemoveFromGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFromGlobalClusterMessage,
@@ -6256,16 +6392,18 @@ export const removeFromGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
+export type RemoveRoleFromDBClusterError =
+  | DBClusterNotFoundFault
+  | DBClusterRoleNotFoundFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Disassociates an Identity and Access Management (IAM) role from a DB cluster.
  */
 export const removeRoleFromDBCluster: API.OperationMethod<
   RemoveRoleFromDBClusterMessage,
   RemoveRoleFromDBClusterResponse,
-  | DBClusterNotFoundFault
-  | DBClusterRoleNotFoundFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  RemoveRoleFromDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRoleFromDBClusterMessage,
@@ -6276,29 +6414,35 @@ export const removeRoleFromDBCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type RemoveSourceIdentifierFromSubscriptionError =
+  | SourceNotFoundFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Removes a source identifier from an existing event notification subscription.
  */
 export const removeSourceIdentifierFromSubscription: API.OperationMethod<
   RemoveSourceIdentifierFromSubscriptionMessage,
   RemoveSourceIdentifierFromSubscriptionResult,
-  SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
+  RemoveSourceIdentifierFromSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveSourceIdentifierFromSubscriptionMessage,
   output: RemoveSourceIdentifierFromSubscriptionResult,
   errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
 }));
+export type RemoveTagsFromResourceError =
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Removes metadata tags from an Amazon Neptune resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceMessage,
   RemoveTagsFromResourceResponse,
-  | DBClusterNotFoundFault
-  | DBInstanceNotFoundFault
-  | DBSnapshotNotFoundFault
-  | CommonErrors,
+  RemoveTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceMessage,
@@ -6309,6 +6453,10 @@ export const removeTagsFromResource: API.OperationMethod<
     DBSnapshotNotFoundFault,
   ],
 }));
+export type ResetDBClusterParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB cluster parameter group to the default value. To reset
  * specific parameters submit a list of the following: `ParameterName` and
@@ -6323,15 +6471,17 @@ export const removeTagsFromResource: API.OperationMethod<
 export const resetDBClusterParameterGroup: API.OperationMethod<
   ResetDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ResetDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetDBClusterParameterGroupMessage,
   output: DBClusterParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type ResetDBParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB parameter group to the engine/system default value. To
  * reset specific parameters, provide a list of the following: `ParameterName` and
@@ -6344,28 +6494,14 @@ export const resetDBClusterParameterGroup: API.OperationMethod<
 export const resetDBParameterGroup: API.OperationMethod<
   ResetDBParameterGroupMessage,
   DBParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ResetDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetDBParameterGroupMessage,
   output: DBParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
-/**
- * Creates a new DB cluster from a DB snapshot or DB cluster snapshot.
- *
- * If a DB snapshot is specified, the target DB cluster is created from the source DB
- * snapshot with a default configuration and default security group.
- *
- * If a DB cluster snapshot is specified, the target DB cluster is created from the source DB
- * cluster restore point with the same configuration as the original source DB cluster, except
- * that the new DB cluster is created with the default security group.
- */
-export const restoreDBClusterFromSnapshot: API.OperationMethod<
-  RestoreDBClusterFromSnapshotMessage,
-  RestoreDBClusterFromSnapshotResult,
+export type RestoreDBClusterFromSnapshotError =
   | DBClusterAlreadyExistsFault
   | DBClusterParameterGroupNotFoundFault
   | DBClusterQuotaExceededFault
@@ -6382,7 +6518,21 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
   | KMSKeyNotAccessibleFault
   | OptionGroupNotFoundFault
   | StorageQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new DB cluster from a DB snapshot or DB cluster snapshot.
+ *
+ * If a DB snapshot is specified, the target DB cluster is created from the source DB
+ * snapshot with a default configuration and default security group.
+ *
+ * If a DB cluster snapshot is specified, the target DB cluster is created from the source DB
+ * cluster restore point with the same configuration as the original source DB cluster, except
+ * that the new DB cluster is created with the default security group.
+ */
+export const restoreDBClusterFromSnapshot: API.OperationMethod<
+  RestoreDBClusterFromSnapshotMessage,
+  RestoreDBClusterFromSnapshotResult,
+  RestoreDBClusterFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBClusterFromSnapshotMessage,
@@ -6406,23 +6556,7 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
     StorageQuotaExceededFault,
   ],
 }));
-/**
- * Restores a DB cluster to an arbitrary point in time. Users can restore to any point in
- * time before `LatestRestorableTime` for up to `BackupRetentionPeriod`
- * days. The target DB cluster is created from the source DB cluster with the same configuration
- * as the original DB cluster, except that the new DB cluster is created with the default DB
- * security group.
- *
- * This action only restores the DB cluster, not the DB instances for that DB cluster. You
- * must invoke the CreateDBInstance action to create DB instances for the
- * restored DB cluster, specifying the identifier of the restored DB cluster in
- * `DBClusterIdentifier`. You can create DB instances only after the
- * `RestoreDBClusterToPointInTime` action has completed and the DB cluster is
- * available.
- */
-export const restoreDBClusterToPointInTime: API.OperationMethod<
-  RestoreDBClusterToPointInTimeMessage,
-  RestoreDBClusterToPointInTimeResult,
+export type RestoreDBClusterToPointInTimeError =
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -6440,7 +6574,25 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
   | KMSKeyNotAccessibleFault
   | OptionGroupNotFoundFault
   | StorageQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores a DB cluster to an arbitrary point in time. Users can restore to any point in
+ * time before `LatestRestorableTime` for up to `BackupRetentionPeriod`
+ * days. The target DB cluster is created from the source DB cluster with the same configuration
+ * as the original DB cluster, except that the new DB cluster is created with the default DB
+ * security group.
+ *
+ * This action only restores the DB cluster, not the DB instances for that DB cluster. You
+ * must invoke the CreateDBInstance action to create DB instances for the
+ * restored DB cluster, specifying the identifier of the restored DB cluster in
+ * `DBClusterIdentifier`. You can create DB instances only after the
+ * `RestoreDBClusterToPointInTime` action has completed and the DB cluster is
+ * available.
+ */
+export const restoreDBClusterToPointInTime: API.OperationMethod<
+  RestoreDBClusterToPointInTimeMessage,
+  RestoreDBClusterToPointInTimeResult,
+  RestoreDBClusterToPointInTimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBClusterToPointInTimeMessage,
@@ -6465,6 +6617,11 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
     StorageQuotaExceededFault,
   ],
 }));
+export type StartDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Starts an Amazon Neptune DB cluster that was stopped using the Amazon
  * console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
@@ -6472,10 +6629,7 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
 export const startDBCluster: API.OperationMethod<
   StartDBClusterMessage,
   StartDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  StartDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDBClusterMessage,
@@ -6486,6 +6640,11 @@ export const startDBCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type StopDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Stops an Amazon Neptune DB cluster. When you stop a DB cluster, Neptune
  * retains the DB cluster's metadata, including its endpoints and DB parameter
@@ -6497,10 +6656,7 @@ export const startDBCluster: API.OperationMethod<
 export const stopDBCluster: API.OperationMethod<
   StopDBClusterMessage,
   StopDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  StopDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDBClusterMessage,
@@ -6511,6 +6667,12 @@ export const stopDBCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type SwitchoverGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Switches over the specified secondary DB cluster to be the new primary DB cluster in the global
  * database cluster. Switchover operations were previously called "managed planned failovers."
@@ -6527,11 +6689,7 @@ export const stopDBCluster: API.OperationMethod<
 export const switchoverGlobalCluster: API.OperationMethod<
   SwitchoverGlobalClusterMessage,
   SwitchoverGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  SwitchoverGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SwitchoverGlobalClusterMessage,

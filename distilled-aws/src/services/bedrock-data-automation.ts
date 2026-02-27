@@ -1579,18 +1579,20 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type CopyBlueprintStageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Copies a Blueprint from one stage to another
  */
 export const copyBlueprintStage: API.OperationMethod<
   CopyBlueprintStageRequest,
   CopyBlueprintStageResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CopyBlueprintStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyBlueprintStageRequest,
@@ -1603,19 +1605,21 @@ export const copyBlueprintStage: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
- */
-export const createBlueprintVersion: API.OperationMethod<
-  CreateBlueprintVersionRequest,
-  CreateBlueprintVersionResponse,
+export type CreateBlueprintVersionError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
+ */
+export const createBlueprintVersion: API.OperationMethod<
+  CreateBlueprintVersionRequest,
+  CreateBlueprintVersionResponse,
+  CreateBlueprintVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBlueprintVersionRequest,
@@ -1629,18 +1633,20 @@ export const createBlueprintVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List tags for an Amazon Bedrock Data Automation resource
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1653,19 +1659,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Tag an Amazon Bedrock Data Automation resource
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tag an Amazon Bedrock Data Automation resource
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1679,18 +1687,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Untag an Amazon Bedrock Data Automation resource
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1703,19 +1713,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Invoke an async job to perform Blueprint Optimization
- */
-export const invokeBlueprintOptimizationAsync: API.OperationMethod<
-  InvokeBlueprintOptimizationAsyncRequest,
-  InvokeBlueprintOptimizationAsyncResponse,
+export type InvokeBlueprintOptimizationAsyncError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Invoke an async job to perform Blueprint Optimization
+ */
+export const invokeBlueprintOptimizationAsync: API.OperationMethod<
+  InvokeBlueprintOptimizationAsyncRequest,
+  InvokeBlueprintOptimizationAsyncResponse,
+  InvokeBlueprintOptimizationAsyncError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeBlueprintOptimizationAsyncRequest,
@@ -1729,18 +1741,20 @@ export const invokeBlueprintOptimizationAsync: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBlueprintOptimizationStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * API used to get blueprint optimization status.
  */
 export const getBlueprintOptimizationStatus: API.OperationMethod<
   GetBlueprintOptimizationStatusRequest,
   GetBlueprintOptimizationStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBlueprintOptimizationStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlueprintOptimizationStatusRequest,
@@ -1753,19 +1767,21 @@ export const getBlueprintOptimizationStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon Bedrock Data Automation Blueprint
- */
-export const createBlueprint: API.OperationMethod<
-  CreateBlueprintRequest,
-  CreateBlueprintResponse,
+export type CreateBlueprintError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Bedrock Data Automation Blueprint
+ */
+export const createBlueprint: API.OperationMethod<
+  CreateBlueprintRequest,
+  CreateBlueprintResponse,
+  CreateBlueprintError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBlueprintRequest,
@@ -1779,18 +1795,20 @@ export const createBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetBlueprintError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an existing Amazon Bedrock Data Automation Blueprint
  */
 export const getBlueprint: API.OperationMethod<
   GetBlueprintRequest,
   GetBlueprintResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBlueprintError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlueprintRequest,
@@ -1803,19 +1821,21 @@ export const getBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Amazon Bedrock Data Automation Blueprint
- */
-export const updateBlueprint: API.OperationMethod<
-  UpdateBlueprintRequest,
-  UpdateBlueprintResponse,
+export type UpdateBlueprintError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Amazon Bedrock Data Automation Blueprint
+ */
+export const updateBlueprint: API.OperationMethod<
+  UpdateBlueprintRequest,
+  UpdateBlueprintResponse,
+  UpdateBlueprintError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBlueprintRequest,
@@ -1829,18 +1849,20 @@ export const updateBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBlueprintError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing Amazon Bedrock Data Automation Blueprint
  */
 export const deleteBlueprint: API.OperationMethod<
   DeleteBlueprintRequest,
   DeleteBlueprintResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBlueprintError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBlueprintRequest,
@@ -1853,42 +1875,34 @@ export const deleteBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBlueprintsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all existing Amazon Bedrock Data Automation Blueprints
  */
 export const listBlueprints: API.OperationMethod<
   ListBlueprintsRequest,
   ListBlueprintsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBlueprintsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBlueprintsRequest,
   ) => stream.Stream<
     ListBlueprintsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBlueprintsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBlueprintsRequest,
   ) => stream.Stream<
     BlueprintSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBlueprintsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1908,19 +1922,21 @@ export const listBlueprints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon Bedrock Data Automation Project
- */
-export const createDataAutomationProject: API.OperationMethod<
-  CreateDataAutomationProjectRequest,
-  CreateDataAutomationProjectResponse,
+export type CreateDataAutomationProjectError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Bedrock Data Automation Project
+ */
+export const createDataAutomationProject: API.OperationMethod<
+  CreateDataAutomationProjectRequest,
+  CreateDataAutomationProjectResponse,
+  CreateDataAutomationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataAutomationProjectRequest,
@@ -1934,18 +1950,20 @@ export const createDataAutomationProject: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataAutomationProjectError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an existing Amazon Bedrock Data Automation Project
  */
 export const getDataAutomationProject: API.OperationMethod<
   GetDataAutomationProjectRequest,
   GetDataAutomationProjectResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataAutomationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataAutomationProjectRequest,
@@ -1958,12 +1976,7 @@ export const getDataAutomationProject: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing Amazon Bedrock Data Automation Project
- */
-export const updateDataAutomationProject: API.OperationMethod<
-  UpdateDataAutomationProjectRequest,
-  UpdateDataAutomationProjectResponse,
+export type UpdateDataAutomationProjectError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1971,7 +1984,14 @@ export const updateDataAutomationProject: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing Amazon Bedrock Data Automation Project
+ */
+export const updateDataAutomationProject: API.OperationMethod<
+  UpdateDataAutomationProjectRequest,
+  UpdateDataAutomationProjectResponse,
+  UpdateDataAutomationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataAutomationProjectRequest,
@@ -1986,18 +2006,20 @@ export const updateDataAutomationProject: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataAutomationProjectError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an existing Amazon Bedrock Data Automation Project
  */
 export const deleteDataAutomationProject: API.OperationMethod<
   DeleteDataAutomationProjectRequest,
   DeleteDataAutomationProjectResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataAutomationProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataAutomationProjectRequest,
@@ -2010,42 +2032,34 @@ export const deleteDataAutomationProject: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataAutomationProjectsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all existing Amazon Bedrock Data Automation Projects
  */
 export const listDataAutomationProjects: API.OperationMethod<
   ListDataAutomationProjectsRequest,
   ListDataAutomationProjectsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataAutomationProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataAutomationProjectsRequest,
   ) => stream.Stream<
     ListDataAutomationProjectsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataAutomationProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataAutomationProjectsRequest,
   ) => stream.Stream<
     DataAutomationProjectSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataAutomationProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -650,17 +650,19 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateScalingPlanError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a scaling plan.
  */
 export const createScalingPlan: API.OperationMethod<
   CreateScalingPlanRequest,
   CreateScalingPlanResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateScalingPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScalingPlanRequest,
@@ -672,6 +674,12 @@ export const createScalingPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteScalingPlanError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified scaling plan.
  *
@@ -684,11 +692,7 @@ export const createScalingPlan: API.OperationMethod<
 export const deleteScalingPlan: API.OperationMethod<
   DeleteScalingPlanRequest,
   DeleteScalingPlanResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteScalingPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScalingPlanRequest,
@@ -700,17 +704,19 @@ export const deleteScalingPlan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeScalingPlanResourcesError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the scalable resources in the specified scaling plan.
  */
 export const describeScalingPlanResources: API.OperationMethod<
   DescribeScalingPlanResourcesRequest,
   DescribeScalingPlanResourcesResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  DescribeScalingPlanResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScalingPlanResourcesRequest,
@@ -722,17 +728,19 @@ export const describeScalingPlanResources: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeScalingPlansError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes one or more of your scaling plans.
  */
 export const describeScalingPlans: API.OperationMethod<
   DescribeScalingPlansRequest,
   DescribeScalingPlansResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors,
+  DescribeScalingPlansError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScalingPlansRequest,
@@ -744,6 +752,10 @@ export const describeScalingPlans: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetScalingPlanResourceForecastDataError =
+  | InternalServiceException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the forecast data for a scalable resource.
  *
@@ -754,13 +766,19 @@ export const describeScalingPlans: API.OperationMethod<
 export const getScalingPlanResourceForecastData: API.OperationMethod<
   GetScalingPlanResourceForecastDataRequest,
   GetScalingPlanResourceForecastDataResponse,
-  InternalServiceException | ValidationException | CommonErrors,
+  GetScalingPlanResourceForecastDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScalingPlanResourceForecastDataRequest,
   output: GetScalingPlanResourceForecastDataResponse,
   errors: [InternalServiceException, ValidationException],
 }));
+export type UpdateScalingPlanError =
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified scaling plan.
  *
@@ -770,11 +788,7 @@ export const getScalingPlanResourceForecastData: API.OperationMethod<
 export const updateScalingPlan: API.OperationMethod<
   UpdateScalingPlanRequest,
   UpdateScalingPlanResponse,
-  | ConcurrentUpdateException
-  | InternalServiceException
-  | ObjectNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateScalingPlanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScalingPlanRequest,

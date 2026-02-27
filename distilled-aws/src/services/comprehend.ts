@@ -4677,6 +4677,12 @@ export class TooManyTagKeysException extends S.TaggedErrorClass<TooManyTagKeysEx
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchDetectDominantLanguageError =
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | CommonErrors;
 /**
  * Determines the dominant language of the input text for a batch of documents. For a list
  * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
@@ -4684,11 +4690,7 @@ export class TooManyTagKeysException extends S.TaggedErrorClass<TooManyTagKeysEx
 export const batchDetectDominantLanguage: API.OperationMethod<
   BatchDetectDominantLanguageRequest,
   BatchDetectDominantLanguageResponse,
-  | BatchSizeLimitExceededException
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | CommonErrors,
+  BatchDetectDominantLanguageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectDominantLanguageRequest,
@@ -4700,6 +4702,13 @@ export const batchDetectDominantLanguage: API.OperationMethod<
     TextSizeLimitExceededException,
   ],
 }));
+export type BatchDetectEntitiesError =
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects the text of a batch of documents for named entities and returns information
  * about them. For more information about named entities, see
@@ -4708,12 +4717,7 @@ export const batchDetectDominantLanguage: API.OperationMethod<
 export const batchDetectEntities: API.OperationMethod<
   BatchDetectEntitiesRequest,
   BatchDetectEntitiesResponse,
-  | BatchSizeLimitExceededException
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  BatchDetectEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectEntitiesRequest,
@@ -4726,18 +4730,20 @@ export const batchDetectEntities: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type BatchDetectKeyPhrasesError =
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Detects the key noun phrases found in a batch of documents.
  */
 export const batchDetectKeyPhrases: API.OperationMethod<
   BatchDetectKeyPhrasesRequest,
   BatchDetectKeyPhrasesResponse,
-  | BatchSizeLimitExceededException
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  BatchDetectKeyPhrasesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectKeyPhrasesRequest,
@@ -4750,6 +4756,13 @@ export const batchDetectKeyPhrases: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type BatchDetectSentimentError =
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects a batch of documents and returns an inference of the prevailing sentiment,
  * `POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`,
@@ -4758,12 +4771,7 @@ export const batchDetectKeyPhrases: API.OperationMethod<
 export const batchDetectSentiment: API.OperationMethod<
   BatchDetectSentimentRequest,
   BatchDetectSentimentResponse,
-  | BatchSizeLimitExceededException
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  BatchDetectSentimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectSentimentRequest,
@@ -4776,6 +4784,13 @@ export const batchDetectSentiment: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type BatchDetectSyntaxError =
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects the text of a batch of documents for the syntax and part of speech of the words
  * in the document and returns information about them. For more information, see
@@ -4784,12 +4799,7 @@ export const batchDetectSentiment: API.OperationMethod<
 export const batchDetectSyntax: API.OperationMethod<
   BatchDetectSyntaxRequest,
   BatchDetectSyntaxResponse,
-  | BatchSizeLimitExceededException
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  BatchDetectSyntaxError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectSyntaxRequest,
@@ -4802,6 +4812,13 @@ export const batchDetectSyntax: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type BatchDetectTargetedSentimentError =
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects a batch of documents and returns a sentiment analysis
  * for each entity identified in the documents.
@@ -4811,12 +4828,7 @@ export const batchDetectSyntax: API.OperationMethod<
 export const batchDetectTargetedSentiment: API.OperationMethod<
   BatchDetectTargetedSentimentRequest,
   BatchDetectTargetedSentimentResponse,
-  | BatchSizeLimitExceededException
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  BatchDetectTargetedSentimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectTargetedSentimentRequest,
@@ -4829,6 +4841,12 @@ export const batchDetectTargetedSentiment: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type ClassifyDocumentError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceUnavailableException
+  | TextSizeLimitExceededException
+  | CommonErrors;
 /**
  * Creates a classification request to analyze a single document in real-time. `ClassifyDocument`
  * supports the following model types:
@@ -4855,11 +4873,7 @@ export const batchDetectTargetedSentiment: API.OperationMethod<
 export const classifyDocument: API.OperationMethod<
   ClassifyDocumentRequest,
   ClassifyDocumentResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceUnavailableException
-  | TextSizeLimitExceededException
-  | CommonErrors,
+  ClassifyDocumentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClassifyDocumentRequest,
@@ -4871,6 +4885,12 @@ export const classifyDocument: API.OperationMethod<
     TextSizeLimitExceededException,
   ],
 }));
+export type ContainsPiiEntitiesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Analyzes input text for the presence of personally identifiable information (PII) and
  * returns the labels of identified PII entity types such as name, address, bank account number,
@@ -4879,11 +4899,7 @@ export const classifyDocument: API.OperationMethod<
 export const containsPiiEntities: API.OperationMethod<
   ContainsPiiEntitiesRequest,
   ContainsPiiEntitiesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  ContainsPiiEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ContainsPiiEntitiesRequest,
@@ -4895,6 +4911,15 @@ export const containsPiiEntities: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type CreateDatasetError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a dataset to upload training or test data for a model associated with a flywheel.
  * For more information about datasets, see
@@ -4903,14 +4928,7 @@ export const containsPiiEntities: API.OperationMethod<
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -4925,6 +4943,16 @@ export const createDataset: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type CreateDocumentClassifierError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Creates a new document classifier that you can use to categorize documents. To create a
  * classifier, you provide a set of training documents that are labeled with the categories that you
@@ -4935,15 +4963,7 @@ export const createDataset: API.OperationMethod<
 export const createDocumentClassifier: API.OperationMethod<
   CreateDocumentClassifierRequest,
   CreateDocumentClassifierResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  CreateDocumentClassifierError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDocumentClassifierRequest,
@@ -4959,14 +4979,7 @@ export const createDocumentClassifier: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
-/**
- * Creates a model-specific endpoint for synchronous inference for a previously trained
- * custom model
- * For information about endpoints, see Managing endpoints.
- */
-export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
-  CreateEndpointResponse,
+export type CreateEndpointError =
   | InternalServerException
   | InvalidRequestException
   | ResourceInUseException
@@ -4975,7 +4988,16 @@ export const createEndpoint: API.OperationMethod<
   | ResourceUnavailableException
   | TooManyRequestsException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a model-specific endpoint for synchronous inference for a previously trained
+ * custom model
+ * For information about endpoints, see Managing endpoints.
+ */
+export const createEndpoint: API.OperationMethod<
+  CreateEndpointRequest,
+  CreateEndpointResponse,
+  CreateEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointRequest,
@@ -4991,14 +5013,7 @@ export const createEndpoint: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Creates an entity recognizer using submitted files. After your
- * `CreateEntityRecognizer` request is submitted, you can check job status using the
- * `DescribeEntityRecognizer` API.
- */
-export const createEntityRecognizer: API.OperationMethod<
-  CreateEntityRecognizerRequest,
-  CreateEntityRecognizerResponse,
+export type CreateEntityRecognizerError =
   | InternalServerException
   | InvalidRequestException
   | KmsKeyValidationException
@@ -5007,7 +5022,16 @@ export const createEntityRecognizer: API.OperationMethod<
   | TooManyRequestsException
   | TooManyTagsException
   | UnsupportedLanguageException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an entity recognizer using submitted files. After your
+ * `CreateEntityRecognizer` request is submitted, you can check job status using the
+ * `DescribeEntityRecognizer` API.
+ */
+export const createEntityRecognizer: API.OperationMethod<
+  CreateEntityRecognizerRequest,
+  CreateEntityRecognizerResponse,
+  CreateEntityRecognizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEntityRecognizerRequest,
@@ -5023,6 +5047,18 @@ export const createEntityRecognizer: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type CreateFlywheelError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification
  * or custom entity recognition. You can create a flywheel to start with an existing trained model, or
@@ -5043,17 +5079,7 @@ export const createEntityRecognizer: API.OperationMethod<
 export const createFlywheel: API.OperationMethod<
   CreateFlywheelRequest,
   CreateFlywheelResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  CreateFlywheelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlywheelRequest,
@@ -5071,6 +5097,14 @@ export const createFlywheel: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DeleteDocumentClassifierError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a previously created document classifier
  *
@@ -5085,13 +5119,7 @@ export const createFlywheel: API.OperationMethod<
 export const deleteDocumentClassifier: API.OperationMethod<
   DeleteDocumentClassifierRequest,
   DeleteDocumentClassifierResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteDocumentClassifierError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDocumentClassifierRequest,
@@ -5105,6 +5133,13 @@ export const deleteDocumentClassifier: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEndpointError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a model-specific endpoint for a previously-trained custom model. All endpoints
  * must be deleted in order for the model to be deleted.
@@ -5113,12 +5148,7 @@ export const deleteDocumentClassifier: API.OperationMethod<
 export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointRequest,
   DeleteEndpointResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointRequest,
@@ -5131,6 +5161,14 @@ export const deleteEndpoint: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteEntityRecognizerError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an entity recognizer.
  *
@@ -5145,13 +5183,7 @@ export const deleteEndpoint: API.OperationMethod<
 export const deleteEntityRecognizer: API.OperationMethod<
   DeleteEntityRecognizerRequest,
   DeleteEntityRecognizerResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteEntityRecognizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEntityRecognizerRequest,
@@ -5165,6 +5197,14 @@ export const deleteEntityRecognizer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteFlywheelError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a flywheel. When you delete the flywheel, Amazon Comprehend
  * does not delete the data lake or the model associated with the flywheel.
@@ -5175,13 +5215,7 @@ export const deleteEntityRecognizer: API.OperationMethod<
 export const deleteFlywheel: API.OperationMethod<
   DeleteFlywheelRequest,
   DeleteFlywheelResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteFlywheelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlywheelRequest,
@@ -5195,16 +5229,18 @@ export const deleteFlywheel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a resource-based policy that is attached to a custom model.
  */
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -5215,6 +5251,12 @@ export const deleteResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeDatasetError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Returns information about the dataset that you specify.
  * For more information about datasets, see
@@ -5223,11 +5265,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
@@ -5239,6 +5277,12 @@ export const describeDataset: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeDocumentClassificationJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a document classification job. Use this operation to
  * get the status of a classification job.
@@ -5246,11 +5290,7 @@ export const describeDataset: API.OperationMethod<
 export const describeDocumentClassificationJob: API.OperationMethod<
   DescribeDocumentClassificationJobRequest,
   DescribeDocumentClassificationJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeDocumentClassificationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDocumentClassificationJobRequest,
@@ -5262,17 +5302,19 @@ export const describeDocumentClassificationJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeDocumentClassifierError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a document classifier.
  */
 export const describeDocumentClassifier: API.OperationMethod<
   DescribeDocumentClassifierRequest,
   DescribeDocumentClassifierResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeDocumentClassifierError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDocumentClassifierRequest,
@@ -5284,6 +5326,12 @@ export const describeDocumentClassifier: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeDominantLanguageDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a dominant language detection job. Use this operation
  * to get the status of a detection job.
@@ -5291,11 +5339,7 @@ export const describeDocumentClassifier: API.OperationMethod<
 export const describeDominantLanguageDetectionJob: API.OperationMethod<
   DescribeDominantLanguageDetectionJobRequest,
   DescribeDominantLanguageDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeDominantLanguageDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDominantLanguageDetectionJobRequest,
@@ -5307,6 +5351,12 @@ export const describeDominantLanguageDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeEndpointError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a specific endpoint. Use this operation to get the
  * status of an endpoint.
@@ -5315,11 +5365,7 @@ export const describeDominantLanguageDetectionJob: API.OperationMethod<
 export const describeEndpoint: API.OperationMethod<
   DescribeEndpointRequest,
   DescribeEndpointResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointRequest,
@@ -5331,6 +5377,12 @@ export const describeEndpoint: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeEntitiesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with an entities detection job. Use this operation to get
  * the status of a detection job.
@@ -5338,11 +5390,7 @@ export const describeEndpoint: API.OperationMethod<
 export const describeEntitiesDetectionJob: API.OperationMethod<
   DescribeEntitiesDetectionJobRequest,
   DescribeEntitiesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEntitiesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntitiesDetectionJobRequest,
@@ -5354,6 +5402,12 @@ export const describeEntitiesDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeEntityRecognizerError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides details about an entity recognizer including status, S3 buckets containing
  * training data, recognizer metadata, metrics, and so on.
@@ -5361,11 +5415,7 @@ export const describeEntitiesDetectionJob: API.OperationMethod<
 export const describeEntityRecognizer: API.OperationMethod<
   DescribeEntityRecognizerRequest,
   DescribeEntityRecognizerResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEntityRecognizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntityRecognizerRequest,
@@ -5377,17 +5427,19 @@ export const describeEntityRecognizer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeEventsDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the status and details of an events detection job.
  */
 export const describeEventsDetectionJob: API.OperationMethod<
   DescribeEventsDetectionJobRequest,
   DescribeEventsDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeEventsDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventsDetectionJobRequest,
@@ -5399,6 +5451,12 @@ export const describeEventsDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeFlywheelError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides configuration information about the flywheel. For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
@@ -5406,11 +5464,7 @@ export const describeEventsDetectionJob: API.OperationMethod<
 export const describeFlywheel: API.OperationMethod<
   DescribeFlywheelRequest,
   DescribeFlywheelResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeFlywheelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlywheelRequest,
@@ -5422,6 +5476,12 @@ export const describeFlywheel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeFlywheelIterationError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieve the configuration properties of a flywheel iteration.
  * For more information about flywheels, see
@@ -5430,11 +5490,7 @@ export const describeFlywheel: API.OperationMethod<
 export const describeFlywheelIteration: API.OperationMethod<
   DescribeFlywheelIterationRequest,
   DescribeFlywheelIterationResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeFlywheelIterationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlywheelIterationRequest,
@@ -5446,6 +5502,12 @@ export const describeFlywheelIteration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeKeyPhrasesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a key phrases detection job. Use this operation to get
  * the status of a detection job.
@@ -5453,11 +5515,7 @@ export const describeFlywheelIteration: API.OperationMethod<
 export const describeKeyPhrasesDetectionJob: API.OperationMethod<
   DescribeKeyPhrasesDetectionJobRequest,
   DescribeKeyPhrasesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeKeyPhrasesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeKeyPhrasesDetectionJobRequest,
@@ -5469,6 +5527,12 @@ export const describeKeyPhrasesDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribePiiEntitiesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a PII entities detection job. For example, you can use
  * this operation to get the job status.
@@ -5476,11 +5540,7 @@ export const describeKeyPhrasesDetectionJob: API.OperationMethod<
 export const describePiiEntitiesDetectionJob: API.OperationMethod<
   DescribePiiEntitiesDetectionJobRequest,
   DescribePiiEntitiesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribePiiEntitiesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePiiEntitiesDetectionJobRequest,
@@ -5492,6 +5552,11 @@ export const describePiiEntitiesDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeResourcePolicyError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the details of a resource-based policy that is attached to a custom model, including
  * the JSON body of the policy.
@@ -5499,10 +5564,7 @@ export const describePiiEntitiesDetectionJob: API.OperationMethod<
 export const describeResourcePolicy: API.OperationMethod<
   DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourcePolicyRequest,
@@ -5513,6 +5575,12 @@ export const describeResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeSentimentDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a sentiment detection job. Use this operation to get
  * the status of a detection job.
@@ -5520,11 +5588,7 @@ export const describeResourcePolicy: API.OperationMethod<
 export const describeSentimentDetectionJob: API.OperationMethod<
   DescribeSentimentDetectionJobRequest,
   DescribeSentimentDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeSentimentDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSentimentDetectionJobRequest,
@@ -5536,6 +5600,12 @@ export const describeSentimentDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeTargetedSentimentDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a targeted sentiment detection job. Use this operation
  * to get the status of the job.
@@ -5543,11 +5613,7 @@ export const describeSentimentDetectionJob: API.OperationMethod<
 export const describeTargetedSentimentDetectionJob: API.OperationMethod<
   DescribeTargetedSentimentDetectionJobRequest,
   DescribeTargetedSentimentDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeTargetedSentimentDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTargetedSentimentDetectionJobRequest,
@@ -5559,6 +5625,12 @@ export const describeTargetedSentimentDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeTopicsDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with a topic detection job. Use this operation to get
  * the status of a detection job.
@@ -5566,11 +5638,7 @@ export const describeTargetedSentimentDetectionJob: API.OperationMethod<
 export const describeTopicsDetectionJob: API.OperationMethod<
   DescribeTopicsDetectionJobRequest,
   DescribeTopicsDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeTopicsDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTopicsDetectionJobRequest,
@@ -5582,6 +5650,11 @@ export const describeTopicsDetectionJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DetectDominantLanguageError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | CommonErrors;
 /**
  * Determines the dominant language of the input text. For a list of languages that Amazon
  * Comprehend can detect, see Amazon Comprehend Supported Languages.
@@ -5589,10 +5662,7 @@ export const describeTopicsDetectionJob: API.OperationMethod<
 export const detectDominantLanguage: API.OperationMethod<
   DetectDominantLanguageRequest,
   DetectDominantLanguageResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | CommonErrors,
+  DetectDominantLanguageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectDominantLanguageRequest,
@@ -5603,6 +5673,13 @@ export const detectDominantLanguage: API.OperationMethod<
     TextSizeLimitExceededException,
   ],
 }));
+export type DetectEntitiesError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceUnavailableException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Detects named entities in input text when you use the pre-trained model.
  * Detects custom entities if you have a custom entity recognition model.
@@ -5626,12 +5703,7 @@ export const detectDominantLanguage: API.OperationMethod<
 export const detectEntities: API.OperationMethod<
   DetectEntitiesRequest,
   DetectEntitiesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceUnavailableException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectEntitiesRequest,
@@ -5644,17 +5716,19 @@ export const detectEntities: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DetectKeyPhrasesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Detects the key noun phrases found in the text.
  */
 export const detectKeyPhrases: API.OperationMethod<
   DetectKeyPhrasesRequest,
   DetectKeyPhrasesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectKeyPhrasesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectKeyPhrasesRequest,
@@ -5666,6 +5740,12 @@ export const detectKeyPhrases: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DetectPiiEntitiesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects the input text for entities that contain personally identifiable information
  * (PII) and returns information about them.
@@ -5673,11 +5753,7 @@ export const detectKeyPhrases: API.OperationMethod<
 export const detectPiiEntities: API.OperationMethod<
   DetectPiiEntitiesRequest,
   DetectPiiEntitiesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectPiiEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectPiiEntitiesRequest,
@@ -5689,6 +5765,12 @@ export const detectPiiEntities: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DetectSentimentError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects text and returns an inference of the prevailing sentiment
  * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
@@ -5696,11 +5778,7 @@ export const detectPiiEntities: API.OperationMethod<
 export const detectSentiment: API.OperationMethod<
   DetectSentimentRequest,
   DetectSentimentResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectSentimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectSentimentRequest,
@@ -5712,6 +5790,12 @@ export const detectSentiment: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DetectSyntaxError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects text for syntax and the part of speech of words in the document. For more
  * information, see
@@ -5720,11 +5804,7 @@ export const detectSentiment: API.OperationMethod<
 export const detectSyntax: API.OperationMethod<
   DetectSyntaxRequest,
   DetectSyntaxResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectSyntaxError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectSyntaxRequest,
@@ -5736,6 +5816,12 @@ export const detectSyntax: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DetectTargetedSentimentError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Inspects the input text and returns a sentiment analysis for each entity identified in the text.
  *
@@ -5744,11 +5830,7 @@ export const detectSyntax: API.OperationMethod<
 export const detectTargetedSentiment: API.OperationMethod<
   DetectTargetedSentimentRequest,
   DetectTargetedSentimentResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectTargetedSentimentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectTargetedSentimentRequest,
@@ -5760,6 +5842,12 @@ export const detectTargetedSentiment: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type DetectToxicContentError =
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | CommonErrors;
 /**
  * Performs toxicity analysis on the list of text strings that you provide as input.
  * The API response contains a results list that matches the size of the input list.
@@ -5768,11 +5856,7 @@ export const detectTargetedSentiment: API.OperationMethod<
 export const detectToxicContent: API.OperationMethod<
   DetectToxicContentRequest,
   DetectToxicContentResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TextSizeLimitExceededException
-  | UnsupportedLanguageException
-  | CommonErrors,
+  DetectToxicContentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectToxicContentRequest,
@@ -5784,6 +5868,17 @@ export const detectToxicContent: API.OperationMethod<
     UnsupportedLanguageException,
   ],
 }));
+export type ImportModelError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a new custom model that replicates a source custom model that you import. The
  * source model can be in your Amazon Web Services account or another one.
@@ -5797,16 +5892,7 @@ export const detectToxicContent: API.OperationMethod<
 export const importModel: API.OperationMethod<
   ImportModelRequest,
   ImportModelResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | ResourceLimitExceededException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  ImportModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportModelRequest,
@@ -5823,6 +5909,13 @@ export const importModel: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type ListDatasetsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * List the datasets that you have configured in this Region. For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
@@ -5830,36 +5923,21 @@ export const importModel: API.OperationMethod<
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     ListDatasetsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5878,39 +5956,33 @@ export const listDatasets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDocumentClassificationJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the documentation classification jobs that you have submitted.
  */
 export const listDocumentClassificationJobs: API.OperationMethod<
   ListDocumentClassificationJobsRequest,
   ListDocumentClassificationJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDocumentClassificationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDocumentClassificationJobsRequest,
   ) => stream.Stream<
     ListDocumentClassificationJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDocumentClassificationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDocumentClassificationJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDocumentClassificationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5928,39 +6000,33 @@ export const listDocumentClassificationJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDocumentClassifiersError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the document classifiers that you have created.
  */
 export const listDocumentClassifiers: API.OperationMethod<
   ListDocumentClassifiersRequest,
   ListDocumentClassifiersResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDocumentClassifiersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDocumentClassifiersRequest,
   ) => stream.Stream<
     ListDocumentClassifiersResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDocumentClassifiersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDocumentClassifiersRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDocumentClassifiersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5978,36 +6044,32 @@ export const listDocumentClassifiers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDocumentClassifierSummariesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of summaries of the document classifiers that you have created
  */
 export const listDocumentClassifierSummaries: API.OperationMethod<
   ListDocumentClassifierSummariesRequest,
   ListDocumentClassifierSummariesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDocumentClassifierSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDocumentClassifierSummariesRequest,
   ) => stream.Stream<
     ListDocumentClassifierSummariesResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDocumentClassifierSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDocumentClassifierSummariesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDocumentClassifierSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6024,39 +6086,33 @@ export const listDocumentClassifierSummaries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDominantLanguageDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the dominant language detection jobs that you have submitted.
  */
 export const listDominantLanguageDetectionJobs: API.OperationMethod<
   ListDominantLanguageDetectionJobsRequest,
   ListDominantLanguageDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListDominantLanguageDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDominantLanguageDetectionJobsRequest,
   ) => stream.Stream<
     ListDominantLanguageDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDominantLanguageDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDominantLanguageDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListDominantLanguageDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6074,6 +6130,11 @@ export const listDominantLanguageDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEndpointsError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of all existing endpoints that you've created.
  * For information about endpoints, see Managing endpoints.
@@ -6081,30 +6142,21 @@ export const listDominantLanguageDetectionJobs: API.OperationMethod<
 export const listEndpoints: API.OperationMethod<
   ListEndpointsRequest,
   ListEndpointsResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEndpointsRequest,
   ) => stream.Stream<
     ListEndpointsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEndpointsRequest,
   ) => stream.Stream<
     EndpointProperties,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6122,39 +6174,33 @@ export const listEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEntitiesDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionJobs: API.OperationMethod<
   ListEntitiesDetectionJobsRequest,
   ListEntitiesDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEntitiesDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntitiesDetectionJobsRequest,
   ) => stream.Stream<
     ListEntitiesDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntitiesDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntitiesDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntitiesDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6172,6 +6218,12 @@ export const listEntitiesDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEntityRecognizersError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the properties of all entity recognizers that you created, including
  * recognizers currently in training. Allows you to filter the list of recognizers based on
@@ -6184,33 +6236,21 @@ export const listEntitiesDetectionJobs: API.OperationMethod<
 export const listEntityRecognizers: API.OperationMethod<
   ListEntityRecognizersRequest,
   ListEntityRecognizersResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEntityRecognizersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntityRecognizersRequest,
   ) => stream.Stream<
     ListEntityRecognizersResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntityRecognizersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntityRecognizersRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntityRecognizersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6228,36 +6268,32 @@ export const listEntityRecognizers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEntityRecognizerSummariesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of summaries for the entity recognizers that you have created.
  */
 export const listEntityRecognizerSummaries: API.OperationMethod<
   ListEntityRecognizerSummariesRequest,
   ListEntityRecognizerSummariesResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEntityRecognizerSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntityRecognizerSummariesRequest,
   ) => stream.Stream<
     ListEntityRecognizerSummariesResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntityRecognizerSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntityRecognizerSummariesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEntityRecognizerSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6274,39 +6310,33 @@ export const listEntityRecognizerSummaries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEventsDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the events detection jobs that you have submitted.
  */
 export const listEventsDetectionJobs: API.OperationMethod<
   ListEventsDetectionJobsRequest,
   ListEventsDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEventsDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventsDetectionJobsRequest,
   ) => stream.Stream<
     ListEventsDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventsDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventsDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventsDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6324,6 +6354,13 @@ export const listEventsDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFlywheelIterationHistoryError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Information about the history of a flywheel iteration.
  * For more information about flywheels, see
@@ -6332,36 +6369,21 @@ export const listEventsDetectionJobs: API.OperationMethod<
 export const listFlywheelIterationHistory: API.OperationMethod<
   ListFlywheelIterationHistoryRequest,
   ListFlywheelIterationHistoryResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListFlywheelIterationHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlywheelIterationHistoryRequest,
   ) => stream.Stream<
     ListFlywheelIterationHistoryResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFlywheelIterationHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlywheelIterationHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFlywheelIterationHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6380,39 +6402,33 @@ export const listFlywheelIterationHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFlywheelsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the flywheels that you have created.
  */
 export const listFlywheels: API.OperationMethod<
   ListFlywheelsRequest,
   ListFlywheelsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListFlywheelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlywheelsRequest,
   ) => stream.Stream<
     ListFlywheelsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFlywheelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlywheelsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListFlywheelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6430,39 +6446,33 @@ export const listFlywheels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListKeyPhrasesDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Get a list of key phrase detection jobs that you have submitted.
  */
 export const listKeyPhrasesDetectionJobs: API.OperationMethod<
   ListKeyPhrasesDetectionJobsRequest,
   ListKeyPhrasesDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListKeyPhrasesDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeyPhrasesDetectionJobsRequest,
   ) => stream.Stream<
     ListKeyPhrasesDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListKeyPhrasesDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeyPhrasesDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListKeyPhrasesDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6480,39 +6490,33 @@ export const listKeyPhrasesDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPiiEntitiesDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the PII entity detection jobs that you have submitted.
  */
 export const listPiiEntitiesDetectionJobs: API.OperationMethod<
   ListPiiEntitiesDetectionJobsRequest,
   ListPiiEntitiesDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListPiiEntitiesDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPiiEntitiesDetectionJobsRequest,
   ) => stream.Stream<
     ListPiiEntitiesDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListPiiEntitiesDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPiiEntitiesDetectionJobsRequest,
   ) => stream.Stream<
     PiiEntitiesDetectionJobProperties,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListPiiEntitiesDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6531,39 +6535,33 @@ export const listPiiEntitiesDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSentimentDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of sentiment detection jobs that you have submitted.
  */
 export const listSentimentDetectionJobs: API.OperationMethod<
   ListSentimentDetectionJobsRequest,
   ListSentimentDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListSentimentDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSentimentDetectionJobsRequest,
   ) => stream.Stream<
     ListSentimentDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSentimentDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSentimentDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSentimentDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6581,16 +6579,18 @@ export const listSentimentDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all tags associated with a given Amazon Comprehend resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -6601,39 +6601,33 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListTargetedSentimentDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of targeted sentiment detection jobs that you have submitted.
  */
 export const listTargetedSentimentDetectionJobs: API.OperationMethod<
   ListTargetedSentimentDetectionJobsRequest,
   ListTargetedSentimentDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTargetedSentimentDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTargetedSentimentDetectionJobsRequest,
   ) => stream.Stream<
     ListTargetedSentimentDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTargetedSentimentDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetedSentimentDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTargetedSentimentDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6651,39 +6645,33 @@ export const listTargetedSentimentDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTopicsDetectionJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the topic detection jobs that you have submitted.
  */
 export const listTopicsDetectionJobs: API.OperationMethod<
   ListTopicsDetectionJobsRequest,
   ListTopicsDetectionJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTopicsDetectionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTopicsDetectionJobsRequest,
   ) => stream.Stream<
     ListTopicsDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTopicsDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTopicsDetectionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTopicsDetectionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6701,6 +6689,11 @@ export const listTopicsDetectionJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutResourcePolicyError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Attaches a resource-based policy to a custom model. You can use this policy to authorize
  * an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon
@@ -6709,10 +6702,7 @@ export const listTopicsDetectionJobs: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -6723,14 +6713,7 @@ export const putResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Starts an asynchronous document classification job using a custom classification model. Use the
- * `DescribeDocumentClassificationJob`
- * operation to track the progress of the job.
- */
-export const startDocumentClassificationJob: API.OperationMethod<
-  StartDocumentClassificationJobRequest,
-  StartDocumentClassificationJobResponse,
+export type StartDocumentClassificationJobError =
   | InternalServerException
   | InvalidRequestException
   | KmsKeyValidationException
@@ -6739,7 +6722,16 @@ export const startDocumentClassificationJob: API.OperationMethod<
   | ResourceUnavailableException
   | TooManyRequestsException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an asynchronous document classification job using a custom classification model. Use the
+ * `DescribeDocumentClassificationJob`
+ * operation to track the progress of the job.
+ */
+export const startDocumentClassificationJob: API.OperationMethod<
+  StartDocumentClassificationJobRequest,
+  StartDocumentClassificationJobResponse,
+  StartDocumentClassificationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDocumentClassificationJobRequest,
@@ -6755,6 +6747,14 @@ export const startDocumentClassificationJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StartDominantLanguageDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Starts an asynchronous dominant language detection job for a collection of documents. Use
  * the operation to track the status
@@ -6763,13 +6763,7 @@ export const startDocumentClassificationJob: API.OperationMethod<
 export const startDominantLanguageDetectionJob: API.OperationMethod<
   StartDominantLanguageDetectionJobRequest,
   StartDominantLanguageDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  StartDominantLanguageDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDominantLanguageDetectionJobRequest,
@@ -6783,6 +6777,16 @@ export const startDominantLanguageDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StartEntitiesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job.
  *
@@ -6794,15 +6798,7 @@ export const startDominantLanguageDetectionJob: API.OperationMethod<
 export const startEntitiesDetectionJob: API.OperationMethod<
   StartEntitiesDetectionJobRequest,
   StartEntitiesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  StartEntitiesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEntitiesDetectionJobRequest,
@@ -6818,19 +6814,21 @@ export const startEntitiesDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Starts an asynchronous event detection job for a collection of documents.
- */
-export const startEventsDetectionJob: API.OperationMethod<
-  StartEventsDetectionJobRequest,
-  StartEventsDetectionJobResponse,
+export type StartEventsDetectionJobError =
   | InternalServerException
   | InvalidRequestException
   | KmsKeyValidationException
   | ResourceInUseException
   | TooManyRequestsException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an asynchronous event detection job for a collection of documents.
+ */
+export const startEventsDetectionJob: API.OperationMethod<
+  StartEventsDetectionJobRequest,
+  StartEventsDetectionJobResponse,
+  StartEventsDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEventsDetectionJobRequest,
@@ -6844,6 +6842,13 @@ export const startEventsDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StartFlywheelIterationError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Start the flywheel iteration.This operation uses any new datasets to train a new model version.
  * For more information about flywheels, see
@@ -6852,12 +6857,7 @@ export const startEventsDetectionJob: API.OperationMethod<
 export const startFlywheelIteration: API.OperationMethod<
   StartFlywheelIterationRequest,
   StartFlywheelIterationResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StartFlywheelIterationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlywheelIterationRequest,
@@ -6870,6 +6870,14 @@ export const startFlywheelIteration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StartKeyPhrasesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Starts an asynchronous key phrase detection job for a collection of documents. Use the
  * operation to track the status of a
@@ -6878,13 +6886,7 @@ export const startFlywheelIteration: API.OperationMethod<
 export const startKeyPhrasesDetectionJob: API.OperationMethod<
   StartKeyPhrasesDetectionJobRequest,
   StartKeyPhrasesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  StartKeyPhrasesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartKeyPhrasesDetectionJobRequest,
@@ -6898,19 +6900,21 @@ export const startKeyPhrasesDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
-/**
- * Starts an asynchronous PII entity detection job for a collection of documents.
- */
-export const startPiiEntitiesDetectionJob: API.OperationMethod<
-  StartPiiEntitiesDetectionJobRequest,
-  StartPiiEntitiesDetectionJobResponse,
+export type StartPiiEntitiesDetectionJobError =
   | InternalServerException
   | InvalidRequestException
   | KmsKeyValidationException
   | ResourceInUseException
   | TooManyRequestsException
   | TooManyTagsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an asynchronous PII entity detection job for a collection of documents.
+ */
+export const startPiiEntitiesDetectionJob: API.OperationMethod<
+  StartPiiEntitiesDetectionJobRequest,
+  StartPiiEntitiesDetectionJobResponse,
+  StartPiiEntitiesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPiiEntitiesDetectionJobRequest,
@@ -6924,6 +6928,14 @@ export const startPiiEntitiesDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StartSentimentDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Starts an asynchronous sentiment detection job for a collection of documents. Use the
  * operation to track the status of a
@@ -6932,13 +6944,7 @@ export const startPiiEntitiesDetectionJob: API.OperationMethod<
 export const startSentimentDetectionJob: API.OperationMethod<
   StartSentimentDetectionJobRequest,
   StartSentimentDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  StartSentimentDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSentimentDetectionJobRequest,
@@ -6952,6 +6958,14 @@ export const startSentimentDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StartTargetedSentimentDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the
  * `DescribeTargetedSentimentDetectionJob` operation to track the status of a
@@ -6960,13 +6974,7 @@ export const startSentimentDetectionJob: API.OperationMethod<
 export const startTargetedSentimentDetectionJob: API.OperationMethod<
   StartTargetedSentimentDetectionJobRequest,
   StartTargetedSentimentDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  StartTargetedSentimentDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTargetedSentimentDetectionJobRequest,
@@ -6980,6 +6988,14 @@ export const startTargetedSentimentDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StartTopicsDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Starts an asynchronous topic detection job. Use the
  * `DescribeTopicDetectionJob` operation to track the status of a job.
@@ -6987,13 +7003,7 @@ export const startTargetedSentimentDetectionJob: API.OperationMethod<
 export const startTopicsDetectionJob: API.OperationMethod<
   StartTopicsDetectionJobRequest,
   StartTopicsDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceInUseException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  StartTopicsDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTopicsDetectionJobRequest,
@@ -7007,6 +7017,11 @@ export const startTopicsDetectionJob: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type StopDominantLanguageDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops a dominant language detection job in progress.
  *
@@ -7025,10 +7040,7 @@ export const startTopicsDetectionJob: API.OperationMethod<
 export const stopDominantLanguageDetectionJob: API.OperationMethod<
   StopDominantLanguageDetectionJobRequest,
   StopDominantLanguageDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopDominantLanguageDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDominantLanguageDetectionJobRequest,
@@ -7039,6 +7051,11 @@ export const stopDominantLanguageDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopEntitiesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops an entities detection job in progress.
  *
@@ -7057,10 +7074,7 @@ export const stopDominantLanguageDetectionJob: API.OperationMethod<
 export const stopEntitiesDetectionJob: API.OperationMethod<
   StopEntitiesDetectionJobRequest,
   StopEntitiesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopEntitiesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEntitiesDetectionJobRequest,
@@ -7071,16 +7085,18 @@ export const stopEntitiesDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopEventsDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops an events detection job in progress.
  */
 export const stopEventsDetectionJob: API.OperationMethod<
   StopEventsDetectionJobRequest,
   StopEventsDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopEventsDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEventsDetectionJobRequest,
@@ -7091,6 +7107,11 @@ export const stopEventsDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopKeyPhrasesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops a key phrases detection job in progress.
  *
@@ -7109,10 +7130,7 @@ export const stopEventsDetectionJob: API.OperationMethod<
 export const stopKeyPhrasesDetectionJob: API.OperationMethod<
   StopKeyPhrasesDetectionJobRequest,
   StopKeyPhrasesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopKeyPhrasesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopKeyPhrasesDetectionJobRequest,
@@ -7123,16 +7141,18 @@ export const stopKeyPhrasesDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopPiiEntitiesDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops a PII entities detection job in progress.
  */
 export const stopPiiEntitiesDetectionJob: API.OperationMethod<
   StopPiiEntitiesDetectionJobRequest,
   StopPiiEntitiesDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopPiiEntitiesDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPiiEntitiesDetectionJobRequest,
@@ -7143,6 +7163,11 @@ export const stopPiiEntitiesDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopSentimentDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops a sentiment detection job in progress.
  *
@@ -7161,10 +7186,7 @@ export const stopPiiEntitiesDetectionJob: API.OperationMethod<
 export const stopSentimentDetectionJob: API.OperationMethod<
   StopSentimentDetectionJobRequest,
   StopSentimentDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopSentimentDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSentimentDetectionJobRequest,
@@ -7175,6 +7197,11 @@ export const stopSentimentDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopTargetedSentimentDetectionJobError =
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | CommonErrors;
 /**
  * Stops a targeted sentiment detection job in progress.
  *
@@ -7193,10 +7220,7 @@ export const stopSentimentDetectionJob: API.OperationMethod<
 export const stopTargetedSentimentDetectionJob: API.OperationMethod<
   StopTargetedSentimentDetectionJobRequest,
   StopTargetedSentimentDetectionJobResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | JobNotFoundException
-  | CommonErrors,
+  StopTargetedSentimentDetectionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTargetedSentimentDetectionJobRequest,
@@ -7207,6 +7231,12 @@ export const stopTargetedSentimentDetectionJob: API.OperationMethod<
     JobNotFoundException,
   ],
 }));
+export type StopTrainingDocumentClassifierError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Stops a document classifier training job while in progress.
  *
@@ -7219,11 +7249,7 @@ export const stopTargetedSentimentDetectionJob: API.OperationMethod<
 export const stopTrainingDocumentClassifier: API.OperationMethod<
   StopTrainingDocumentClassifierRequest,
   StopTrainingDocumentClassifierResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopTrainingDocumentClassifierError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTrainingDocumentClassifierRequest,
@@ -7235,6 +7261,12 @@ export const stopTrainingDocumentClassifier: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type StopTrainingEntityRecognizerError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Stops an entity recognizer training job while in progress.
  *
@@ -7247,11 +7279,7 @@ export const stopTrainingDocumentClassifier: API.OperationMethod<
 export const stopTrainingEntityRecognizer: API.OperationMethod<
   StopTrainingEntityRecognizerRequest,
   StopTrainingEntityRecognizerResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopTrainingEntityRecognizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTrainingEntityRecognizerRequest,
@@ -7263,6 +7291,13 @@ export const stopTrainingEntityRecognizer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair
  * that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
@@ -7271,12 +7306,7 @@ export const stopTrainingEntityRecognizer: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -7289,18 +7319,20 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyTagKeysException
+  | CommonErrors;
 /**
  * Removes a specific tag associated with an Amazon Comprehend resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyTagKeysException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -7313,13 +7345,7 @@ export const untagResource: API.OperationMethod<
     TooManyTagKeysException,
   ],
 }));
-/**
- * Updates information about the specified endpoint.
- * For information about endpoints, see Managing endpoints.
- */
-export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
-  UpdateEndpointResponse,
+export type UpdateEndpointError =
   | InternalServerException
   | InvalidRequestException
   | ResourceInUseException
@@ -7327,7 +7353,15 @@ export const updateEndpoint: API.OperationMethod<
   | ResourceNotFoundException
   | ResourceUnavailableException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates information about the specified endpoint.
+ * For information about endpoints, see Managing endpoints.
+ */
+export const updateEndpoint: API.OperationMethod<
+  UpdateEndpointRequest,
+  UpdateEndpointResponse,
+  UpdateEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEndpointRequest,
@@ -7342,18 +7376,20 @@ export const updateEndpoint: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateFlywheelError =
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Update the configuration information for an existing flywheel.
  */
 export const updateFlywheel: API.OperationMethod<
   UpdateFlywheelRequest,
   UpdateFlywheelResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | KmsKeyValidationException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateFlywheelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlywheelRequest,

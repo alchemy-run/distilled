@@ -2702,6 +2702,13 @@ export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTok
 ) {}
 
 //# Operations
+export type AddTagsToStreamError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds or updates tags for the specified Kinesis data stream. You can assign up to 50
  * tags to a data stream.
@@ -2719,12 +2726,7 @@ export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTok
 export const addTagsToStream: API.OperationMethod<
   AddTagsToStreamInput,
   AddTagsToStreamResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  AddTagsToStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToStreamInput,
@@ -2737,6 +2739,12 @@ export const addTagsToStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateStreamError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Kinesis data stream. A stream captures and transports data records that are
  * continuously emitted from different data sources or *producers*.
@@ -2781,11 +2789,7 @@ export const addTagsToStream: API.OperationMethod<
 export const createStream: API.OperationMethod<
   CreateStreamInput,
   CreateStreamResponse,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ValidationException
-  | CommonErrors,
+  CreateStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamInput,
@@ -2797,6 +2801,13 @@ export const createStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DecreaseStreamRetentionPeriodError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Decreases the Kinesis data stream's retention period, which is the length of time data
  * records are accessible after they are added to the stream. The minimum value of a
@@ -2813,12 +2824,7 @@ export const createStream: API.OperationMethod<
 export const decreaseStreamRetentionPeriod: API.OperationMethod<
   DecreaseStreamRetentionPeriodInput,
   DecreaseStreamRetentionPeriodResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DecreaseStreamRetentionPeriodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecreaseStreamRetentionPeriodInput,
@@ -2831,6 +2837,13 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Delete a policy for the specified data stream or consumer. Request patterns can be one of the following:
  *
@@ -2841,12 +2854,7 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyInput,
   DeleteResourcePolicyResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyInput,
@@ -2859,6 +2867,13 @@ export const deleteResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteStreamError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a Kinesis data stream and all its shards and data. You must shut down any
  * applications that are operating on the stream before you delete the stream. If an
@@ -2890,12 +2905,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteStream: API.OperationMethod<
   DeleteStreamInput,
   DeleteStreamResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamInput,
@@ -2908,6 +2918,11 @@ export const deleteStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeregisterStreamConsumerError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * To deregister a consumer, provide its ARN. Alternatively, you can provide the ARN of
  * the data stream and the name you gave the consumer when you registered it. You may also
@@ -2922,10 +2937,7 @@ export const deleteStream: API.OperationMethod<
 export const deregisterStreamConsumer: API.OperationMethod<
   DeregisterStreamConsumerInput,
   DeregisterStreamConsumerResponse,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeregisterStreamConsumerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterStreamConsumerInput,
@@ -2936,6 +2948,9 @@ export const deregisterStreamConsumer: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeAccountSettingsError =
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations.
  *
@@ -2944,13 +2959,14 @@ export const deregisterStreamConsumer: API.OperationMethod<
 export const describeAccountSettings: API.OperationMethod<
   DescribeAccountSettingsInput,
   DescribeAccountSettingsOutput,
-  LimitExceededException | CommonErrors,
+  DescribeAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountSettingsInput,
   output: DescribeAccountSettingsOutput,
   errors: [LimitExceededException],
 }));
+export type DescribeLimitsError = LimitExceededException | CommonErrors;
 /**
  * Describes the shard limits and usage for the account.
  *
@@ -2962,13 +2978,19 @@ export const describeAccountSettings: API.OperationMethod<
 export const describeLimits: API.OperationMethod<
   DescribeLimitsInput,
   DescribeLimitsOutput,
-  LimitExceededException | CommonErrors,
+  DescribeLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLimitsInput,
   output: DescribeLimitsOutput,
   errors: [LimitExceededException],
 }));
+export type DescribeStreamError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified Kinesis data stream.
  *
@@ -3001,11 +3023,7 @@ export const describeLimits: API.OperationMethod<
 export const describeStream: API.OperationMethod<
   DescribeStreamInput,
   DescribeStreamOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamInput,
@@ -3017,6 +3035,11 @@ export const describeStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeStreamConsumerError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * To get the description of a registered consumer, provide the ARN of the consumer.
  * Alternatively, you can provide the ARN of the data stream and the name you gave the
@@ -3033,10 +3056,7 @@ export const describeStream: API.OperationMethod<
 export const describeStreamConsumer: API.OperationMethod<
   DescribeStreamConsumerInput,
   DescribeStreamConsumerOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeStreamConsumerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamConsumerInput,
@@ -3047,6 +3067,12 @@ export const describeStreamConsumer: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeStreamSummaryError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provides a summarized description of the specified Kinesis data stream without the
  * shard list.
@@ -3065,11 +3091,7 @@ export const describeStreamConsumer: API.OperationMethod<
 export const describeStreamSummary: API.OperationMethod<
   DescribeStreamSummaryInput,
   DescribeStreamSummaryOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeStreamSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamSummaryInput,
@@ -3081,6 +3103,13 @@ export const describeStreamSummary: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DisableEnhancedMonitoringError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables enhanced monitoring.
  *
@@ -3091,12 +3120,7 @@ export const describeStreamSummary: API.OperationMethod<
 export const disableEnhancedMonitoring: API.OperationMethod<
   DisableEnhancedMonitoringInput,
   EnhancedMonitoringOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisableEnhancedMonitoringError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableEnhancedMonitoringInput,
@@ -3109,6 +3133,13 @@ export const disableEnhancedMonitoring: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type EnableEnhancedMonitoringError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables enhanced Kinesis data stream monitoring for shard-level metrics.
  *
@@ -3119,12 +3150,7 @@ export const disableEnhancedMonitoring: API.OperationMethod<
 export const enableEnhancedMonitoring: API.OperationMethod<
   EnableEnhancedMonitoringInput,
   EnhancedMonitoringOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  EnableEnhancedMonitoringError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableEnhancedMonitoringInput,
@@ -3137,6 +3163,20 @@ export const enableEnhancedMonitoring: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetRecordsError =
+  | AccessDeniedException
+  | ExpiredIteratorException
+  | InternalFailureException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets data records from a Kinesis data stream's shard.
  *
@@ -3201,19 +3241,7 @@ export const enableEnhancedMonitoring: API.OperationMethod<
 export const getRecords: API.OperationMethod<
   GetRecordsInput,
   GetRecordsOutput,
-  | AccessDeniedException
-  | ExpiredIteratorException
-  | InternalFailureException
-  | InvalidArgumentException
-  | KMSAccessDeniedException
-  | KMSDisabledException
-  | KMSInvalidStateException
-  | KMSNotFoundException
-  | KMSOptInRequired
-  | KMSThrottlingException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordsInput,
@@ -3233,6 +3261,13 @@ export const getRecords: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a policy attached to the specified data stream or consumer. Request patterns can be one of the following:
  *
@@ -3243,12 +3278,7 @@ export const getRecords: API.OperationMethod<
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyInput,
   GetResourcePolicyOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyInput,
@@ -3261,6 +3291,13 @@ export const getResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetShardIteratorError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is
  * returned to the requester.
@@ -3309,12 +3346,7 @@ export const getResourcePolicy: API.OperationMethod<
 export const getShardIterator: API.OperationMethod<
   GetShardIteratorInput,
   GetShardIteratorOutput,
-  | AccessDeniedException
-  | InternalFailureException
-  | InvalidArgumentException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetShardIteratorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShardIteratorInput,
@@ -3327,6 +3359,13 @@ export const getShardIterator: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type IncreaseStreamRetentionPeriodError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Increases the Kinesis data stream's retention period, which is the length of time data
  * records are accessible after they are added to the stream. The maximum value of a
@@ -3346,12 +3385,7 @@ export const getShardIterator: API.OperationMethod<
 export const increaseStreamRetentionPeriod: API.OperationMethod<
   IncreaseStreamRetentionPeriodInput,
   IncreaseStreamRetentionPeriodResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  IncreaseStreamRetentionPeriodError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IncreaseStreamRetentionPeriodInput,
@@ -3364,6 +3398,14 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListShardsError =
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the shards in a stream and provides information about each shard. This operation
  * has a limit of 1000 transactions per second per data stream.
@@ -3384,13 +3426,7 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
 export const listShards: API.OperationMethod<
   ListShardsInput,
   ListShardsOutput,
-  | AccessDeniedException
-  | ExpiredNextTokenException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListShardsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListShardsInput,
@@ -3404,6 +3440,13 @@ export const listShards: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListStreamConsumersError =
+  | ExpiredNextTokenException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the consumers registered to receive data from a stream using enhanced fan-out,
  * and provides information about each consumer.
@@ -3413,36 +3456,21 @@ export const listShards: API.OperationMethod<
 export const listStreamConsumers: API.OperationMethod<
   ListStreamConsumersInput,
   ListStreamConsumersOutput,
-  | ExpiredNextTokenException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListStreamConsumersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamConsumersInput,
   ) => stream.Stream<
     ListStreamConsumersOutput,
-    | ExpiredNextTokenException
-    | InvalidArgumentException
-    | LimitExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListStreamConsumersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamConsumersInput,
   ) => stream.Stream<
     unknown,
-    | ExpiredNextTokenException
-    | InvalidArgumentException
-    | LimitExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListStreamConsumersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3461,6 +3489,11 @@ export const listStreamConsumers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStreamsError =
+  | ExpiredNextTokenException
+  | InvalidArgumentException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Lists your Kinesis data streams.
  *
@@ -3484,30 +3517,21 @@ export const listStreamConsumers: API.OperationMethod<
 export const listStreams: API.OperationMethod<
   ListStreamsInput,
   ListStreamsOutput,
-  | ExpiredNextTokenException
-  | InvalidArgumentException
-  | LimitExceededException
-  | CommonErrors,
+  ListStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamsInput,
   ) => stream.Stream<
     ListStreamsOutput,
-    | ExpiredNextTokenException
-    | InvalidArgumentException
-    | LimitExceededException
-    | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamsInput,
   ) => stream.Stream<
     unknown,
-    | ExpiredNextTokenException
-    | InvalidArgumentException
-    | LimitExceededException
-    | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3524,6 +3548,13 @@ export const listStreams: API.OperationMethod<
     pageSize: "Limit",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  *
@@ -3532,12 +3563,7 @@ export const listStreams: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -3550,6 +3576,12 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListTagsForStreamError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the tags for the specified Kinesis data stream. This operation has a limit of
  * five transactions per second per account.
@@ -3561,11 +3593,7 @@ export const listTagsForResource: API.OperationMethod<
 export const listTagsForStream: API.OperationMethod<
   ListTagsForStreamInput,
   ListTagsForStreamOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForStreamInput,
@@ -3577,6 +3605,14 @@ export const listTagsForStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type MergeShardsError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Merges two adjacent shards in a Kinesis data stream and combines them into a single
  * shard to reduce the stream's capacity to ingest and transport data. This API is only
@@ -3627,13 +3663,7 @@ export const listTagsForStream: API.OperationMethod<
 export const mergeShards: API.OperationMethod<
   MergeShardsInput,
   MergeShardsResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  MergeShardsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergeShardsInput,
@@ -3647,6 +3677,19 @@ export const mergeShards: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRecordError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Writes a single data record into an Amazon Kinesis data stream. Call
  * `PutRecord` to send data into the stream for real-time ingestion and
@@ -3698,18 +3741,7 @@ export const mergeShards: API.OperationMethod<
 export const putRecord: API.OperationMethod<
   PutRecordInput,
   PutRecordOutput,
-  | AccessDeniedException
-  | InternalFailureException
-  | InvalidArgumentException
-  | KMSAccessDeniedException
-  | KMSDisabledException
-  | KMSInvalidStateException
-  | KMSNotFoundException
-  | KMSOptInRequired
-  | KMSThrottlingException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordInput,
@@ -3728,6 +3760,19 @@ export const putRecord: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutRecordsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Writes multiple data records into a Kinesis data stream in a single call (also
  * referred to as a `PutRecords` request). Use this operation to send data into
@@ -3802,18 +3847,7 @@ export const putRecord: API.OperationMethod<
 export const putRecords: API.OperationMethod<
   PutRecordsInput,
   PutRecordsOutput,
-  | AccessDeniedException
-  | InternalFailureException
-  | InvalidArgumentException
-  | KMSAccessDeniedException
-  | KMSDisabledException
-  | KMSInvalidStateException
-  | KMSNotFoundException
-  | KMSOptInRequired
-  | KMSThrottlingException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordsInput,
@@ -3832,6 +3866,13 @@ export const putRecords: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Attaches a resource-based policy to a data stream or registered consumer. If you are using an identity other than the root user of
  * the Amazon Web Services account that owns the resource, the calling identity must have the `PutResourcePolicy` permissions on the
@@ -3850,12 +3891,7 @@ export const putRecords: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyInput,
   PutResourcePolicyResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyInput,
@@ -3868,6 +3904,12 @@ export const putResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RegisterStreamConsumerError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Registers a consumer with a Kinesis data stream. When you use this operation, the
  * consumer you register can then call SubscribeToShard to receive data
@@ -3892,11 +3934,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const registerStreamConsumer: API.OperationMethod<
   RegisterStreamConsumerInput,
   RegisterStreamConsumerOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RegisterStreamConsumerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterStreamConsumerInput,
@@ -3908,6 +3946,13 @@ export const registerStreamConsumer: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RemoveTagsFromStreamError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes tags from the specified Kinesis data stream. Removed tags are deleted and
  * cannot be recovered after this operation successfully completes.
@@ -3924,12 +3969,7 @@ export const registerStreamConsumer: API.OperationMethod<
 export const removeTagsFromStream: API.OperationMethod<
   RemoveTagsFromStreamInput,
   RemoveTagsFromStreamResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RemoveTagsFromStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromStreamInput,
@@ -3942,6 +3982,14 @@ export const removeTagsFromStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type SplitShardError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Splits a shard into two new shards in the Kinesis data stream, to increase the
  * stream's capacity to ingest and transport data. `SplitShard` is called when
@@ -3998,13 +4046,7 @@ export const removeTagsFromStream: API.OperationMethod<
 export const splitShard: API.OperationMethod<
   SplitShardInput,
   SplitShardResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SplitShardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SplitShardInput,
@@ -4018,6 +4060,19 @@ export const splitShard: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartStreamEncryptionError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables or updates server-side encryption using an Amazon Web Services KMS key for a
  * specified stream.
@@ -4046,18 +4101,7 @@ export const splitShard: API.OperationMethod<
 export const startStreamEncryption: API.OperationMethod<
   StartStreamEncryptionInput,
   StartStreamEncryptionResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | KMSAccessDeniedException
-  | KMSDisabledException
-  | KMSInvalidStateException
-  | KMSNotFoundException
-  | KMSOptInRequired
-  | KMSThrottlingException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartStreamEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartStreamEncryptionInput,
@@ -4076,6 +4120,13 @@ export const startStreamEncryption: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopStreamEncryptionError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables server-side encryption for a specified stream.
  *
@@ -4103,12 +4154,7 @@ export const startStreamEncryption: API.OperationMethod<
 export const stopStreamEncryption: API.OperationMethod<
   StopStreamEncryptionInput,
   StopStreamEncryptionResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopStreamEncryptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopStreamEncryptionInput,
@@ -4121,6 +4167,13 @@ export const stopStreamEncryption: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type SubscribeToShardError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation establishes an HTTP/2 connection between the consumer you specify in
  * the `ConsumerARN` parameter and the shard you specify in the
@@ -4153,12 +4206,7 @@ export const stopStreamEncryption: API.OperationMethod<
 export const subscribeToShard: API.OperationMethod<
   SubscribeToShardInput,
   SubscribeToShardOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  SubscribeToShardError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeToShardInput,
@@ -4171,18 +4219,20 @@ export const subscribeToShard: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -4195,18 +4245,20 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -4219,6 +4271,11 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateAccountSettingsError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the account-level settings for Amazon Kinesis Data Streams.
  *
@@ -4233,10 +4290,7 @@ export const untagResource: API.OperationMethod<
 export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsInput,
   UpdateAccountSettingsOutput,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsInput,
@@ -4247,19 +4301,21 @@ export const updateAccountSettings: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
- */
-export const updateMaxRecordSize: API.OperationMethod<
-  UpdateMaxRecordSizeInput,
-  UpdateMaxRecordSizeResponse,
+export type UpdateMaxRecordSizeError =
   | AccessDeniedException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
+ */
+export const updateMaxRecordSize: API.OperationMethod<
+  UpdateMaxRecordSizeInput,
+  UpdateMaxRecordSizeResponse,
+  UpdateMaxRecordSizeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMaxRecordSizeInput,
@@ -4273,6 +4329,14 @@ export const updateMaxRecordSize: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateShardCountError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the shard count of the specified stream to the specified number of shards.
  * This API is only supported for the data streams with the provisioned capacity
@@ -4325,13 +4389,7 @@ export const updateMaxRecordSize: API.OperationMethod<
 export const updateShardCount: API.OperationMethod<
   UpdateShardCountInput,
   UpdateShardCountOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateShardCountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateShardCountInput,
@@ -4345,6 +4403,13 @@ export const updateShardCount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateStreamModeError =
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you
  * can choose between an **on-demand** capacity mode and a
@@ -4355,12 +4420,7 @@ export const updateShardCount: API.OperationMethod<
 export const updateStreamMode: API.OperationMethod<
   UpdateStreamModeInput,
   UpdateStreamModeResponse,
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateStreamModeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamModeInput,
@@ -4373,6 +4433,14 @@ export const updateStreamMode: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateStreamWarmThroughputError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. This operation allows you to proactively scale your on-demand data stream to a specified throughput level, enabling better performance for sudden traffic spikes.
  *
@@ -4394,13 +4462,7 @@ export const updateStreamMode: API.OperationMethod<
 export const updateStreamWarmThroughput: API.OperationMethod<
   UpdateStreamWarmThroughputInput,
   UpdateStreamWarmThroughputOutput,
-  | AccessDeniedException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateStreamWarmThroughputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamWarmThroughputInput,

@@ -1337,6 +1337,12 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 ) {}
 
 //# Operations
+export type AssociateEntityToThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a device with a concrete thing that is in the user's registry.
  *
@@ -1345,11 +1351,7 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 export const associateEntityToThing: API.OperationMethod<
   AssociateEntityToThingRequest,
   AssociateEntityToThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateEntityToThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateEntityToThingRequest,
@@ -1361,6 +1363,13 @@ export const associateEntityToThing: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateFlowTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a workflow template. Workflows can be created only in the user's namespace. (The public namespace contains only
  * entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the
@@ -1369,12 +1378,7 @@ export const associateEntityToThing: API.OperationMethod<
 export const createFlowTemplate: API.OperationMethod<
   CreateFlowTemplateRequest,
   CreateFlowTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateFlowTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowTemplateRequest,
@@ -1387,6 +1391,13 @@ export const createFlowTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateSystemInstanceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a system instance.
  *
@@ -1405,12 +1416,7 @@ export const createFlowTemplate: API.OperationMethod<
 export const createSystemInstance: API.OperationMethod<
   CreateSystemInstanceRequest,
   CreateSystemInstanceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateSystemInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSystemInstanceRequest,
@@ -1423,6 +1429,12 @@ export const createSystemInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateSystemTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a system. The system is validated against the entities in the
  * latest version of the user's namespace unless another namespace version is specified in the request.
@@ -1430,11 +1442,7 @@ export const createSystemInstance: API.OperationMethod<
 export const createSystemTemplate: API.OperationMethod<
   CreateSystemTemplateRequest,
   CreateSystemTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  CreateSystemTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSystemTemplateRequest,
@@ -1446,6 +1454,12 @@ export const createSystemTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteFlowTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy.
  * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
@@ -1453,11 +1467,7 @@ export const createSystemTemplate: API.OperationMethod<
 export const deleteFlowTemplate: API.OperationMethod<
   DeleteFlowTemplateRequest,
   DeleteFlowTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteFlowTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowTemplateRequest,
@@ -1469,6 +1479,10 @@ export const deleteFlowTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteNamespaceError =
+  | InternalFailureException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no
  * request parameters.
@@ -1476,13 +1490,19 @@ export const deleteFlowTemplate: API.OperationMethod<
 export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceRequest,
   DeleteNamespaceResponse,
-  InternalFailureException | ThrottlingException | CommonErrors,
+  DeleteNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [InternalFailureException, ThrottlingException],
 }));
+export type DeleteSystemInstanceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a system instance.
  * Only system instances that have never been deployed, or that have been undeployed can be deleted.
@@ -1492,11 +1512,7 @@ export const deleteNamespace: API.OperationMethod<
 export const deleteSystemInstance: API.OperationMethod<
   DeleteSystemInstanceRequest,
   DeleteSystemInstanceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteSystemInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSystemInstanceRequest,
@@ -1508,6 +1524,12 @@ export const deleteSystemInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteSystemTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a system. New deployments can't contain the system after its deletion.
  * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
@@ -1515,11 +1537,7 @@ export const deleteSystemInstance: API.OperationMethod<
 export const deleteSystemTemplate: API.OperationMethod<
   DeleteSystemTemplateRequest,
   DeleteSystemTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteSystemTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSystemTemplateRequest,
@@ -1531,6 +1549,13 @@ export const deleteSystemTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeploySystemInstanceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * **Greengrass and Cloud Deployments**
  *
@@ -1549,12 +1574,7 @@ export const deleteSystemTemplate: API.OperationMethod<
 export const deploySystemInstance: API.OperationMethod<
   DeploySystemInstanceRequest,
   DeploySystemInstanceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeploySystemInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeploySystemInstanceRequest,
@@ -1567,17 +1587,19 @@ export const deploySystemInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeprecateFlowTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
  */
 export const deprecateFlowTemplate: API.OperationMethod<
   DeprecateFlowTemplateRequest,
   DeprecateFlowTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeprecateFlowTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateFlowTemplateRequest,
@@ -1589,17 +1611,19 @@ export const deprecateFlowTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeprecateSystemTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deprecates the specified system.
  */
 export const deprecateSystemTemplate: API.OperationMethod<
   DeprecateSystemTemplateRequest,
   DeprecateSystemTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeprecateSystemTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateSystemTemplateRequest,
@@ -1611,17 +1635,19 @@ export const deprecateSystemTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeNamespaceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the latest version of the user's namespace and the public version that it is tracking.
  */
 export const describeNamespace: API.OperationMethod<
   DescribeNamespaceRequest,
   DescribeNamespaceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNamespaceRequest,
@@ -1633,6 +1659,12 @@ export const describeNamespace: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DissociateEntityFromThingError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only
  * one entity of a particular type can be associated with a thing.
@@ -1640,11 +1672,7 @@ export const describeNamespace: API.OperationMethod<
 export const dissociateEntityFromThing: API.OperationMethod<
   DissociateEntityFromThingRequest,
   DissociateEntityFromThingResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DissociateEntityFromThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociateEntityFromThingRequest,
@@ -1656,6 +1684,12 @@ export const dissociateEntityFromThing: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetEntitiesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets definitions of the specified entities. Uses the latest version of the user's namespace by default. This API returns the
  * following TDM entities.
@@ -1683,11 +1717,7 @@ export const dissociateEntityFromThing: API.OperationMethod<
 export const getEntities: API.OperationMethod<
   GetEntitiesRequest,
   GetEntitiesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEntitiesRequest,
@@ -1699,17 +1729,19 @@ export const getEntities: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFlowTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the specified workflow.
  */
 export const getFlowTemplate: API.OperationMethod<
   GetFlowTemplateRequest,
   GetFlowTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFlowTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowTemplateRequest,
@@ -1721,6 +1753,12 @@ export const getFlowTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFlowTemplateRevisionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,
  * this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
@@ -1728,33 +1766,21 @@ export const getFlowTemplate: API.OperationMethod<
 export const getFlowTemplateRevisions: API.OperationMethod<
   GetFlowTemplateRevisionsRequest,
   GetFlowTemplateRevisionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFlowTemplateRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFlowTemplateRevisionsRequest,
   ) => stream.Stream<
     GetFlowTemplateRevisionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetFlowTemplateRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFlowTemplateRevisionsRequest,
   ) => stream.Stream<
     FlowTemplateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetFlowTemplateRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1773,16 +1799,18 @@ export const getFlowTemplateRevisions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetNamespaceDeletionStatusError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the status of a namespace deletion task.
  */
 export const getNamespaceDeletionStatus: API.OperationMethod<
   GetNamespaceDeletionStatusRequest,
   GetNamespaceDeletionStatusResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  GetNamespaceDeletionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceDeletionStatusRequest,
@@ -1793,17 +1821,19 @@ export const getNamespaceDeletionStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetSystemInstanceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a system instance.
  */
 export const getSystemInstance: API.OperationMethod<
   GetSystemInstanceRequest,
   GetSystemInstanceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetSystemInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSystemInstanceRequest,
@@ -1815,17 +1845,19 @@ export const getSystemInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetSystemTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets a system.
  */
 export const getSystemTemplate: API.OperationMethod<
   GetSystemTemplateRequest,
   GetSystemTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetSystemTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSystemTemplateRequest,
@@ -1837,6 +1869,12 @@ export const getSystemTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetSystemTemplateRevisionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return
  * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
@@ -1844,33 +1882,21 @@ export const getSystemTemplate: API.OperationMethod<
 export const getSystemTemplateRevisions: API.OperationMethod<
   GetSystemTemplateRevisionsRequest,
   GetSystemTemplateRevisionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetSystemTemplateRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetSystemTemplateRevisionsRequest,
   ) => stream.Stream<
     GetSystemTemplateRevisionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetSystemTemplateRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSystemTemplateRevisionsRequest,
   ) => stream.Stream<
     SystemTemplateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetSystemTemplateRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1889,17 +1915,19 @@ export const getSystemTemplateRevisions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetUploadStatusError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the status of the specified upload.
  */
 export const getUploadStatus: API.OperationMethod<
   GetUploadStatusRequest,
   GetUploadStatusResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetUploadStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUploadStatusRequest,
@@ -1911,39 +1939,33 @@ export const getUploadStatus: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListFlowExecutionMessagesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of objects that contain information about events in a flow execution.
  */
 export const listFlowExecutionMessages: API.OperationMethod<
   ListFlowExecutionMessagesRequest,
   ListFlowExecutionMessagesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListFlowExecutionMessagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFlowExecutionMessagesRequest,
   ) => stream.Stream<
     ListFlowExecutionMessagesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListFlowExecutionMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFlowExecutionMessagesRequest,
   ) => stream.Stream<
     FlowExecutionMessage,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListFlowExecutionMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1962,39 +1984,33 @@ export const listFlowExecutionMessages: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all tags on an AWS IoT Things Graph resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceAlreadyExistsException
-    | ThrottlingException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceAlreadyExistsException
-    | ThrottlingException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2013,36 +2029,32 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchEntitiesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
  */
 export const searchEntities: API.OperationMethod<
   SearchEntitiesRequest,
   SearchEntitiesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  SearchEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchEntitiesRequest,
   ) => stream.Stream<
     SearchEntitiesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchEntitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchEntitiesRequest,
   ) => stream.Stream<
     EntityDescription,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchEntitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2060,39 +2072,33 @@ export const searchEntities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchFlowExecutionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
 export const searchFlowExecutions: API.OperationMethod<
   SearchFlowExecutionsRequest,
   SearchFlowExecutionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchFlowExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchFlowExecutionsRequest,
   ) => stream.Stream<
     SearchFlowExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchFlowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchFlowExecutionsRequest,
   ) => stream.Stream<
     FlowExecutionSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchFlowExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2111,36 +2117,32 @@ export const searchFlowExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchFlowTemplatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for summary information about workflows.
  */
 export const searchFlowTemplates: API.OperationMethod<
   SearchFlowTemplatesRequest,
   SearchFlowTemplatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  SearchFlowTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchFlowTemplatesRequest,
   ) => stream.Stream<
     SearchFlowTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchFlowTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchFlowTemplatesRequest,
   ) => stream.Stream<
     FlowTemplateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchFlowTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2158,36 +2160,32 @@ export const searchFlowTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchSystemInstancesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for system instances in the user's account.
  */
 export const searchSystemInstances: API.OperationMethod<
   SearchSystemInstancesRequest,
   SearchSystemInstancesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  SearchSystemInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSystemInstancesRequest,
   ) => stream.Stream<
     SearchSystemInstancesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchSystemInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSystemInstancesRequest,
   ) => stream.Stream<
     SystemInstanceSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchSystemInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2205,36 +2203,32 @@ export const searchSystemInstances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchSystemTemplatesError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
  */
 export const searchSystemTemplates: API.OperationMethod<
   SearchSystemTemplatesRequest,
   SearchSystemTemplatesResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  SearchSystemTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchSystemTemplatesRequest,
   ) => stream.Stream<
     SearchSystemTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchSystemTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchSystemTemplatesRequest,
   ) => stream.Stream<
     SystemTemplateSummary,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    SearchSystemTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2252,6 +2246,12 @@ export const searchSystemTemplates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchThingsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for things associated with the specified entity. You can search by both device and device model.
  *
@@ -2263,33 +2263,21 @@ export const searchSystemTemplates: API.OperationMethod<
 export const searchThings: API.OperationMethod<
   SearchThingsRequest,
   SearchThingsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchThingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchThingsRequest,
   ) => stream.Stream<
     SearchThingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchThingsRequest,
   ) => stream.Stream<
     Thing,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    SearchThingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2308,17 +2296,19 @@ export const searchThings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type TagResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a tag for the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2330,18 +2320,20 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UndeploySystemInstanceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes a system instance from its target (Cloud or Greengrass).
  */
 export const undeploySystemInstance: API.OperationMethod<
   UndeploySystemInstanceRequest,
   UndeploySystemInstanceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UndeploySystemInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeploySystemInstanceRequest,
@@ -2354,17 +2346,19 @@ export const undeploySystemInstance: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagResourceError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes a tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceAlreadyExistsException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2376,6 +2370,12 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateFlowTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this
  * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
@@ -2383,11 +2383,7 @@ export const untagResource: API.OperationMethod<
 export const updateFlowTemplate: API.OperationMethod<
   UpdateFlowTemplateRequest,
   UpdateFlowTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateFlowTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowTemplateRequest,
@@ -2399,17 +2395,19 @@ export const updateFlowTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateSystemTemplateError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
  */
 export const updateSystemTemplate: API.OperationMethod<
   UpdateSystemTemplateRequest,
   UpdateSystemTemplateResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateSystemTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSystemTemplateRequest,
@@ -2421,6 +2419,11 @@ export const updateSystemTemplate: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UploadEntityDefinitionsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Asynchronously uploads one or more entity definitions to the user's namespace. The `document` parameter is required if
  * `syncWithPublicNamespace` and `deleteExistingEntites` are false. If the `syncWithPublicNamespace` parameter is set to
@@ -2439,10 +2442,7 @@ export const updateSystemTemplate: API.OperationMethod<
 export const uploadEntityDefinitions: API.OperationMethod<
   UploadEntityDefinitionsRequest,
   UploadEntityDefinitionsResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  UploadEntityDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadEntityDefinitionsRequest,

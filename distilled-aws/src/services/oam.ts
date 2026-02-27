@@ -720,6 +720,13 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateLinkError =
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a link between a source account and a sink that you have created in a monitoring account. After the link is created, data is sent from the source account to the monitoring account. When you create a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
  *
@@ -734,12 +741,7 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 export const createLink: API.OperationMethod<
   CreateLinkInput,
   CreateLinkOutput,
-  | ConflictException
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLinkInput,
@@ -752,6 +754,13 @@ export const createLink: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateSinkError =
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Use this to create a *sink* in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data.
  *
@@ -762,12 +771,7 @@ export const createLink: API.OperationMethod<
 export const createSink: API.OperationMethod<
   CreateSinkInput,
   CreateSinkOutput,
-  | ConflictException
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateSinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSinkInput,
@@ -780,17 +784,19 @@ export const createSink: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type DeleteLinkError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
  */
 export const deleteLink: API.OperationMethod<
   DeleteLinkInput,
   DeleteLinkOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLinkInput,
@@ -802,18 +808,20 @@ export const deleteLink: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteSinkError =
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a sink. You must delete all links to a sink before you can delete that sink.
  */
 export const deleteSink: API.OperationMethod<
   DeleteSinkInput,
   DeleteSinkOutput,
-  | ConflictException
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteSinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSinkInput,
@@ -826,6 +834,12 @@ export const deleteSink: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetLinkError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns complete information about one link.
  *
@@ -834,11 +848,7 @@ export const deleteSink: API.OperationMethod<
 export const getLink: API.OperationMethod<
   GetLinkInput,
   GetLinkOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLinkInput,
@@ -850,6 +860,12 @@ export const getLink: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSinkError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns complete information about one monitoring account sink.
  *
@@ -858,11 +874,7 @@ export const getLink: API.OperationMethod<
 export const getSink: API.OperationMethod<
   GetSinkInput,
   GetSinkOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSinkInput,
@@ -874,17 +886,19 @@ export const getSink: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSinkPolicyError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
  */
 export const getSinkPolicy: API.OperationMethod<
   GetSinkPolicyInput,
   GetSinkPolicyOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSinkPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSinkPolicyInput,
@@ -896,6 +910,12 @@ export const getSinkPolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListAttachedLinksError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of source account links that are linked to this monitoring account sink.
  *
@@ -906,33 +926,21 @@ export const getSinkPolicy: API.OperationMethod<
 export const listAttachedLinks: API.OperationMethod<
   ListAttachedLinksInput,
   ListAttachedLinksOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListAttachedLinksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAttachedLinksInput,
   ) => stream.Stream<
     ListAttachedLinksOutput,
-    | InternalServiceFault
-    | InvalidParameterException
-    | MissingRequiredParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListAttachedLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttachedLinksInput,
   ) => stream.Stream<
     ListAttachedLinksItem,
-    | InternalServiceFault
-    | InvalidParameterException
-    | MissingRequiredParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListAttachedLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -951,6 +959,11 @@ export const listAttachedLinks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLinksError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Use this operation in a source account to return a list of links to monitoring account sinks that this source account has.
  *
@@ -959,30 +972,21 @@ export const listAttachedLinks: API.OperationMethod<
 export const listLinks: API.OperationMethod<
   ListLinksInput,
   ListLinksOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListLinksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLinksInput,
   ) => stream.Stream<
     ListLinksOutput,
-    | InternalServiceFault
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLinksInput,
   ) => stream.Stream<
     ListLinksItem,
-    | InternalServiceFault
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListLinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1000,36 +1004,32 @@ export const listLinks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSinksError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Use this operation in a monitoring account to return the list of sinks created in that account.
  */
 export const listSinks: API.OperationMethod<
   ListSinksInput,
   ListSinksOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListSinksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSinksInput,
   ) => stream.Stream<
     ListSinksOutput,
-    | InternalServiceFault
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSinksInput,
   ) => stream.Stream<
     ListSinksItem,
-    | InternalServiceFault
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListSinksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1047,19 +1047,29 @@ export const listSinks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays the tags associated with a resource. Both sinks and links support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type PutSinkPolicyError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts.
  *
@@ -1082,11 +1092,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putSinkPolicy: API.OperationMethod<
   PutSinkPolicyInput,
   PutSinkPolicyOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutSinkPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSinkPolicyInput,
@@ -1098,6 +1104,11 @@ export const putSinkPolicy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged.
  *
@@ -1114,10 +1125,7 @@ export const putSinkPolicy: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1128,6 +1136,10 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  *
@@ -1136,13 +1148,19 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateLinkError =
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation.
  *
@@ -1153,11 +1171,7 @@ export const untagResource: API.OperationMethod<
 export const updateLink: API.OperationMethod<
   UpdateLinkInput,
   UpdateLinkOutput,
-  | InternalServiceFault
-  | InvalidParameterException
-  | MissingRequiredParameterException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLinkInput,

@@ -465,6 +465,7 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type CloseTunnelError = ResourceNotFoundException | CommonErrors;
 /**
  * Closes a tunnel identified by the unique tunnel id. When a `CloseTunnel`
  * request is received, we close the WebSocket connections between the client and proxy
@@ -475,13 +476,14 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 export const closeTunnel: API.OperationMethod<
   CloseTunnelRequest,
   CloseTunnelResponse,
-  ResourceNotFoundException | CommonErrors,
+  CloseTunnelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseTunnelRequest,
   output: CloseTunnelResponse,
   errors: [ResourceNotFoundException],
 }));
+export type DescribeTunnelError = ResourceNotFoundException | CommonErrors;
 /**
  * Gets information about a tunnel identified by the unique tunnel id.
  *
@@ -490,26 +492,28 @@ export const closeTunnel: API.OperationMethod<
 export const describeTunnel: API.OperationMethod<
   DescribeTunnelRequest,
   DescribeTunnelResponse,
-  ResourceNotFoundException | CommonErrors,
+  DescribeTunnelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTunnelRequest,
   output: DescribeTunnelResponse,
   errors: [ResourceNotFoundException],
 }));
+export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type ListTunnelsError = CommonErrors;
 /**
  * List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
  * descending order, newer tunnels will be listed before older tunnels.
@@ -519,21 +523,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listTunnels: API.OperationMethod<
   ListTunnelsRequest,
   ListTunnelsResponse,
-  CommonErrors,
+  ListTunnelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTunnelsRequest,
   ) => stream.Stream<
     ListTunnelsResponse,
-    CommonErrors,
+    ListTunnelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTunnelsRequest,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    ListTunnelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -546,6 +550,7 @@ export const listTunnels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type OpenTunnelError = LimitExceededException | CommonErrors;
 /**
  * Creates a new tunnel, and returns two client access tokens for clients to use to
  * connect to the IoT Secure Tunneling proxy server.
@@ -555,13 +560,16 @@ export const listTunnels: API.OperationMethod<
 export const openTunnel: API.OperationMethod<
   OpenTunnelRequest,
   OpenTunnelResponse,
-  LimitExceededException | CommonErrors,
+  OpenTunnelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OpenTunnelRequest,
   output: OpenTunnelResponse,
   errors: [LimitExceededException],
 }));
+export type RotateTunnelAccessTokenError =
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Revokes the current client access token (CAT) and returns new CAT for clients to
  * use when reconnecting to secure tunneling to access the same tunnel.
@@ -576,33 +584,35 @@ export const openTunnel: API.OperationMethod<
 export const rotateTunnelAccessToken: API.OperationMethod<
   RotateTunnelAccessTokenRequest,
   RotateTunnelAccessTokenResponse,
-  ResourceNotFoundException | CommonErrors,
+  RotateTunnelAccessTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateTunnelAccessTokenRequest,
   output: RotateTunnelAccessTokenResponse,
   errors: [ResourceNotFoundException],
 }));
+export type TagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * A resource tag.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

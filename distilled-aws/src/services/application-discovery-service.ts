@@ -248,12 +248,12 @@ export type BatchDeleteImportDataErrorCode =
   | "OVER_LIMIT"
   | (string & {});
 export const BatchDeleteImportDataErrorCode = S.String;
-export interface BatchDeleteImportDataError {
+export interface BatchDeleteImportDataError_ {
   importTaskId?: string;
   errorCode?: BatchDeleteImportDataErrorCode;
   errorDescription?: string;
 }
-export const BatchDeleteImportDataError = S.suspend(() =>
+export const BatchDeleteImportDataError_ = S.suspend(() =>
   S.Struct({
     importTaskId: S.optional(S.String),
     errorCode: S.optional(BatchDeleteImportDataErrorCode),
@@ -261,13 +261,13 @@ export const BatchDeleteImportDataError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteImportDataError",
-}) as any as S.Schema<BatchDeleteImportDataError>;
-export type BatchDeleteImportDataErrorList = BatchDeleteImportDataError[];
+}) as any as S.Schema<BatchDeleteImportDataError_>;
+export type BatchDeleteImportDataErrorList = BatchDeleteImportDataError_[];
 export const BatchDeleteImportDataErrorList = S.Array(
-  BatchDeleteImportDataError,
+  BatchDeleteImportDataError_,
 );
 export interface BatchDeleteImportDataResponse {
-  errors?: BatchDeleteImportDataError[];
+  errors?: BatchDeleteImportDataError_[];
 }
 export const BatchDeleteImportDataResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchDeleteImportDataErrorList) }).pipe(ns),
@@ -1718,18 +1718,20 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateConfigurationItemsToApplicationError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Associates one or more configuration items with an application.
  */
 export const associateConfigurationItemsToApplication: API.OperationMethod<
   AssociateConfigurationItemsToApplicationRequest,
   AssociateConfigurationItemsToApplicationResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  AssociateConfigurationItemsToApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateConfigurationItemsToApplicationRequest,
@@ -1742,6 +1744,12 @@ export const associateConfigurationItemsToApplication: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type BatchDeleteAgentsError =
+  | AuthorizationErrorException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not
  * delete the previously discovered data.
@@ -1750,11 +1758,7 @@ export const associateConfigurationItemsToApplication: API.OperationMethod<
 export const batchDeleteAgents: API.OperationMethod<
   BatchDeleteAgentsRequest,
   BatchDeleteAgentsResponse,
-  | AuthorizationErrorException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  BatchDeleteAgentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteAgentsRequest,
@@ -1766,6 +1770,13 @@ export const batchDeleteAgents: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type BatchDeleteImportDataError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Deletes one or more import tasks, each identified by their import ID. Each import task has
  * a number of records that can identify servers or applications.
@@ -1779,12 +1790,7 @@ export const batchDeleteAgents: API.OperationMethod<
 export const batchDeleteImportData: API.OperationMethod<
   BatchDeleteImportDataRequest,
   BatchDeleteImportDataResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  BatchDeleteImportDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteImportDataRequest,
@@ -1797,18 +1803,20 @@ export const batchDeleteImportData: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type CreateApplicationError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Creates an application with the given name and description.
  */
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1821,6 +1829,14 @@ export const createApplication: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type CreateTagsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Creates one or more tags for configuration items. Tags are metadata that help you
  * categorize IT assets. This API accepts a list of multiple configuration items.
@@ -1830,13 +1846,7 @@ export const createApplication: API.OperationMethod<
 export const createTags: API.OperationMethod<
   CreateTagsRequest,
   CreateTagsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServerInternalErrorException
-  | CommonErrors,
+  CreateTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
@@ -1850,6 +1860,13 @@ export const createTags: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type DeleteApplicationsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Deletes a list of applications and their associations with configuration
  * items.
@@ -1857,12 +1874,7 @@ export const createTags: API.OperationMethod<
 export const deleteApplications: API.OperationMethod<
   DeleteApplicationsRequest,
   DeleteApplicationsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DeleteApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationsRequest,
@@ -1875,6 +1887,14 @@ export const deleteApplications: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type DeleteTagsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Deletes the association between configuration items and one or more tags. This API
  * accepts a list of multiple configuration items.
@@ -1882,13 +1902,7 @@ export const deleteApplications: API.OperationMethod<
 export const deleteTags: API.OperationMethod<
   DeleteTagsRequest,
   DeleteTagsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DeleteTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
@@ -1902,6 +1916,13 @@ export const deleteTags: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type DescribeAgentsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Lists agents or collectors as specified by ID or other filters. All agents/collectors
  * associated with your user can be listed if you call `DescribeAgents` as is
@@ -1910,36 +1931,21 @@ export const deleteTags: API.OperationMethod<
 export const describeAgents: API.OperationMethod<
   DescribeAgentsRequest,
   DescribeAgentsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeAgentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAgentsRequest,
   ) => stream.Stream<
     DescribeAgentsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAgentsRequest,
   ) => stream.Stream<
     AgentInfo,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeAgentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1959,17 +1965,19 @@ export const describeAgents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeBatchDeleteConfigurationTaskError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
  */
 export const describeBatchDeleteConfigurationTask: API.OperationMethod<
   DescribeBatchDeleteConfigurationTaskRequest,
   DescribeBatchDeleteConfigurationTaskResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeBatchDeleteConfigurationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBatchDeleteConfigurationTaskRequest,
@@ -1981,6 +1989,13 @@ export const describeBatchDeleteConfigurationTask: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type DescribeConfigurationsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Retrieves attributes for a list of configuration item IDs.
  *
@@ -2005,12 +2020,7 @@ export const describeBatchDeleteConfigurationTask: API.OperationMethod<
 export const describeConfigurations: API.OperationMethod<
   DescribeConfigurationsRequest,
   DescribeConfigurationsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConfigurationsRequest,
@@ -2023,6 +2033,15 @@ export const describeConfigurations: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type DescribeContinuousExportsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Lists exports as specified by ID. All continuous exports associated with your user
  * can be listed if you call `DescribeContinuousExports` as is without passing
@@ -2031,42 +2050,21 @@ export const describeConfigurations: API.OperationMethod<
 export const describeContinuousExports: API.OperationMethod<
   DescribeContinuousExportsRequest,
   DescribeContinuousExportsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | OperationNotPermittedException
-  | ResourceNotFoundException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeContinuousExportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeContinuousExportsRequest,
   ) => stream.Stream<
     DescribeContinuousExportsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | OperationNotPermittedException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeContinuousExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeContinuousExportsRequest,
   ) => stream.Stream<
     ContinuousExportDescription,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | OperationNotPermittedException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeContinuousExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2088,45 +2086,35 @@ export const describeContinuousExports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
- */
-export const describeExportConfigurations: API.OperationMethod<
-  DescribeExportConfigurationsRequest,
-  DescribeExportConfigurationsResponse,
+export type DescribeExportConfigurationsError =
   | AuthorizationErrorException
   | HomeRegionNotSetException
   | InvalidParameterException
   | InvalidParameterValueException
   | ResourceNotFoundException
   | ServerInternalErrorException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
+ */
+export const describeExportConfigurations: API.OperationMethod<
+  DescribeExportConfigurationsRequest,
+  DescribeExportConfigurationsResponse,
+  DescribeExportConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeExportConfigurationsRequest,
   ) => stream.Stream<
     DescribeExportConfigurationsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeExportConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeExportConfigurationsRequest,
   ) => stream.Stream<
     ExportInfo,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeExportConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2147,6 +2135,13 @@ export const describeExportConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeExportTasksError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Retrieve status of one or more export tasks. You can retrieve the status of up to 100
  * export tasks.
@@ -2154,36 +2149,21 @@ export const describeExportConfigurations: API.OperationMethod<
 export const describeExportTasks: API.OperationMethod<
   DescribeExportTasksRequest,
   DescribeExportTasksResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeExportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeExportTasksRequest,
   ) => stream.Stream<
     DescribeExportTasksResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeExportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeExportTasksRequest,
   ) => stream.Stream<
     ExportInfo,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeExportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2203,6 +2183,13 @@ export const describeExportTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeImportTasksError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Returns an array of import tasks for your account, including status information, times,
  * IDs, the Amazon S3 Object URL for the import file, and more.
@@ -2210,36 +2197,21 @@ export const describeExportTasks: API.OperationMethod<
 export const describeImportTasks: API.OperationMethod<
   DescribeImportTasksRequest,
   DescribeImportTasksResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeImportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeImportTasksRequest,
   ) => stream.Stream<
     DescribeImportTasksResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeImportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeImportTasksRequest,
   ) => stream.Stream<
     ImportTask,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeImportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2259,6 +2231,14 @@ export const describeImportTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeTagsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Retrieves a list of configuration items that have tags as specified by the key-value
  * pairs, name and value, passed to the optional parameter `filters`.
@@ -2277,39 +2257,21 @@ export const describeImportTasks: API.OperationMethod<
 export const describeTags: API.OperationMethod<
   DescribeTagsRequest,
   DescribeTagsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DescribeTagsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
     DescribeTagsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
     ConfigurationTag,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    DescribeTagsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2330,18 +2292,20 @@ export const describeTags: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DisassociateConfigurationItemsFromApplicationError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Disassociates one or more configuration items from an application.
  */
 export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
   DisassociateConfigurationItemsFromApplicationRequest,
   DisassociateConfigurationItemsFromApplicationResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  DisassociateConfigurationItemsFromApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateConfigurationItemsFromApplicationRequest,
@@ -2354,6 +2318,14 @@ export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type ExportConfigurationsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Deprecated. Use `StartExportTask` instead.
  *
@@ -2366,13 +2338,7 @@ export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
 export const exportConfigurations: API.OperationMethod<
   ExportConfigurationsRequest,
   ExportConfigurationsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | OperationNotPermittedException
-  | ServerInternalErrorException
-  | CommonErrors,
+  ExportConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportConfigurationsRequest,
@@ -2386,6 +2352,13 @@ export const exportConfigurations: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type GetDiscoverySummaryError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Retrieves a short summary of discovered assets.
  *
@@ -2395,12 +2368,7 @@ export const exportConfigurations: API.OperationMethod<
 export const getDiscoverySummary: API.OperationMethod<
   GetDiscoverySummaryRequest,
   GetDiscoverySummaryResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  GetDiscoverySummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiscoverySummaryRequest,
@@ -2413,6 +2381,14 @@ export const getDiscoverySummary: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type ListConfigurationsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Retrieves a list of configuration items as specified by the value passed to the
  * required parameter `configurationType`. Optional filtering may be applied to refine
@@ -2421,39 +2397,21 @@ export const getDiscoverySummary: API.OperationMethod<
 export const listConfigurations: API.OperationMethod<
   ListConfigurationsRequest,
   ListConfigurationsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | ServerInternalErrorException
-  | CommonErrors,
+  ListConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationsRequest,
   ) => stream.Stream<
     ListConfigurationsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    ListConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationsRequest,
   ) => stream.Stream<
     { [key: string]: string | undefined },
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
+    ListConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2474,6 +2432,13 @@ export const listConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListServerNeighborsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Retrieves a list of servers that are one network hop away from a specified
  * server.
@@ -2481,12 +2446,7 @@ export const listConfigurations: API.OperationMethod<
 export const listServerNeighbors: API.OperationMethod<
   ListServerNeighborsRequest,
   ListServerNeighborsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  ListServerNeighborsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListServerNeighborsRequest,
@@ -2499,13 +2459,7 @@ export const listServerNeighbors: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
-/**
- * Takes a list of configurationId as input and starts an asynchronous deletion
- * task to remove the configurationItems. Returns a unique deletion task identifier.
- */
-export const startBatchDeleteConfigurationTask: API.OperationMethod<
-  StartBatchDeleteConfigurationTaskRequest,
-  StartBatchDeleteConfigurationTaskResponse,
+export type StartBatchDeleteConfigurationTaskError =
   | AuthorizationErrorException
   | HomeRegionNotSetException
   | InvalidParameterException
@@ -2513,7 +2467,15 @@ export const startBatchDeleteConfigurationTask: API.OperationMethod<
   | LimitExceededException
   | OperationNotPermittedException
   | ServerInternalErrorException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Takes a list of configurationId as input and starts an asynchronous deletion
+ * task to remove the configurationItems. Returns a unique deletion task identifier.
+ */
+export const startBatchDeleteConfigurationTask: API.OperationMethod<
+  StartBatchDeleteConfigurationTaskRequest,
+  StartBatchDeleteConfigurationTaskResponse,
+  StartBatchDeleteConfigurationTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBatchDeleteConfigurationTaskRequest,
@@ -2528,12 +2490,7 @@ export const startBatchDeleteConfigurationTask: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
-/**
- * Start the continuous flow of agent's discovered data into Amazon Athena.
- */
-export const startContinuousExport: API.OperationMethod<
-  StartContinuousExportRequest,
-  StartContinuousExportResponse,
+export type StartContinuousExportError =
   | AuthorizationErrorException
   | ConflictErrorException
   | HomeRegionNotSetException
@@ -2542,7 +2499,14 @@ export const startContinuousExport: API.OperationMethod<
   | OperationNotPermittedException
   | ResourceInUseException
   | ServerInternalErrorException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start the continuous flow of agent's discovered data into Amazon Athena.
+ */
+export const startContinuousExport: API.OperationMethod<
+  StartContinuousExportRequest,
+  StartContinuousExportResponse,
+  StartContinuousExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContinuousExportRequest,
@@ -2558,18 +2522,20 @@ export const startContinuousExport: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type StartDataCollectionByAgentIdsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Instructs the specified agents to start collecting data.
  */
 export const startDataCollectionByAgentIds: API.OperationMethod<
   StartDataCollectionByAgentIdsRequest,
   StartDataCollectionByAgentIdsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  StartDataCollectionByAgentIdsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDataCollectionByAgentIdsRequest,
@@ -2582,6 +2548,14 @@ export const startDataCollectionByAgentIds: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type StartExportTaskError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services.
  *
@@ -2611,13 +2585,7 @@ export const startDataCollectionByAgentIds: API.OperationMethod<
 export const startExportTask: API.OperationMethod<
   StartExportTaskRequest,
   StartExportTaskResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | OperationNotPermittedException
-  | ServerInternalErrorException
-  | CommonErrors,
+  StartExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportTaskRequest,
@@ -2631,6 +2599,14 @@ export const startExportTask: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type StartImportTaskError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceInUseException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Starts an import task, which allows you to import details of your on-premises environment
  * directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery
@@ -2664,13 +2640,7 @@ export const startExportTask: API.OperationMethod<
 export const startImportTask: API.OperationMethod<
   StartImportTaskRequest,
   StartImportTaskResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ResourceInUseException
-  | ServerInternalErrorException
-  | CommonErrors,
+  StartImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportTaskRequest,
@@ -2684,12 +2654,7 @@ export const startImportTask: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
-/**
- * Stop the continuous flow of agent's discovered data into Amazon Athena.
- */
-export const stopContinuousExport: API.OperationMethod<
-  StopContinuousExportRequest,
-  StopContinuousExportResponse,
+export type StopContinuousExportError =
   | AuthorizationErrorException
   | HomeRegionNotSetException
   | InvalidParameterException
@@ -2698,7 +2663,14 @@ export const stopContinuousExport: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | ServerInternalErrorException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stop the continuous flow of agent's discovered data into Amazon Athena.
+ */
+export const stopContinuousExport: API.OperationMethod<
+  StopContinuousExportRequest,
+  StopContinuousExportResponse,
+  StopContinuousExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopContinuousExportRequest,
@@ -2714,18 +2686,20 @@ export const stopContinuousExport: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type StopDataCollectionByAgentIdsError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Instructs the specified agents to stop collecting data.
  */
 export const stopDataCollectionByAgentIds: API.OperationMethod<
   StopDataCollectionByAgentIdsRequest,
   StopDataCollectionByAgentIdsResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  StopDataCollectionByAgentIdsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDataCollectionByAgentIdsRequest,
@@ -2738,18 +2712,20 @@ export const stopDataCollectionByAgentIds: API.OperationMethod<
     ServerInternalErrorException,
   ],
 }));
+export type UpdateApplicationError =
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors;
 /**
  * Updates metadata about an application.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   UpdateApplicationResponse,
-  | AuthorizationErrorException
-  | HomeRegionNotSetException
-  | InvalidParameterException
-  | InvalidParameterValueException
-  | ServerInternalErrorException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,

@@ -3029,6 +3029,13 @@ export class PolicyLengthExceededException extends S.TaggedErrorClass<PolicyLeng
 ) {}
 
 //# Operations
+export type ActivateEventSourceError =
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Activates a partner event source that has been deactivated. Once activated, your matching
  * event bus will start receiving events from the event source.
@@ -3036,12 +3043,7 @@ export class PolicyLengthExceededException extends S.TaggedErrorClass<PolicyLeng
 export const activateEventSource: API.OperationMethod<
   ActivateEventSourceRequest,
   ActivateEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidStateException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ActivateEventSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateEventSourceRequest,
@@ -3054,17 +3056,19 @@ export const activateEventSource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CancelReplayError =
+  | ConcurrentModificationException
+  | IllegalStatusException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Cancels the specified replay.
  */
 export const cancelReplay: API.OperationMethod<
   CancelReplayRequest,
   CancelReplayResponse,
-  | ConcurrentModificationException
-  | IllegalStatusException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CancelReplayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelReplayRequest,
@@ -3076,6 +3080,12 @@ export const cancelReplay: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateApiDestinationError =
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates an API destination, which is an HTTP invocation endpoint configured as a target
  * for events.
@@ -3083,11 +3093,7 @@ export const cancelReplay: API.OperationMethod<
 export const createApiDestination: API.OperationMethod<
   CreateApiDestinationRequest,
   CreateApiDestinationResponse,
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateApiDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiDestinationRequest,
@@ -3099,6 +3105,14 @@ export const createApiDestination: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateArchiveError =
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates an archive of events with the specified settings. When you create an archive,
  * incoming events might not immediately start being sent to the archive. Allow a short period of
@@ -3109,13 +3123,7 @@ export const createApiDestination: API.OperationMethod<
 export const createArchive: API.OperationMethod<
   CreateArchiveRequest,
   CreateArchiveResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateArchiveRequest,
@@ -3129,6 +3137,11 @@ export const createArchive: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreateConnectionError =
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a connection. A connection defines the authorization type and credentials to use
  * for authorization with an API destination HTTP endpoint.
@@ -3136,10 +3149,7 @@ export const createArchive: API.OperationMethod<
 export const createConnection: API.OperationMethod<
   CreateConnectionRequest,
   CreateConnectionResponse,
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreateConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
@@ -3150,6 +3160,15 @@ export const createConnection: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type CreateEventBusError =
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | LimitExceededException
+  | OperationDisabledException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates a new event bus within your account. This can be a custom event bus which you can
  * use to receive events from your custom applications and services, or it can be a partner event
@@ -3158,14 +3177,7 @@ export const createConnection: API.OperationMethod<
 export const createEventBus: API.OperationMethod<
   CreateEventBusRequest,
   CreateEventBusResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidStateException
-  | LimitExceededException
-  | OperationDisabledException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  CreateEventBusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventBusRequest,
@@ -3180,6 +3192,13 @@ export const createEventBus: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type CreatePartnerEventSourceError =
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | OperationDisabledException
+  | ResourceAlreadyExistsException
+  | CommonErrors;
 /**
  * Called by an SaaS partner to create a partner event source. This operation is not used by
  * Amazon Web Services customers.
@@ -3210,12 +3229,7 @@ export const createEventBus: API.OperationMethod<
 export const createPartnerEventSource: API.OperationMethod<
   CreatePartnerEventSourceRequest,
   CreatePartnerEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | LimitExceededException
-  | OperationDisabledException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
+  CreatePartnerEventSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnerEventSourceRequest,
@@ -3228,6 +3242,13 @@ export const createPartnerEventSource: API.OperationMethod<
     ResourceAlreadyExistsException,
   ],
 }));
+export type DeactivateEventSourceError =
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * You can use this operation to temporarily stop receiving events from the specified partner
  * event source. The matching event bus is not deleted.
@@ -3240,12 +3261,7 @@ export const createPartnerEventSource: API.OperationMethod<
 export const deactivateEventSource: API.OperationMethod<
   DeactivateEventSourceRequest,
   DeactivateEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidStateException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeactivateEventSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateEventSourceRequest,
@@ -3258,6 +3274,11 @@ export const deactivateEventSource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeauthorizeConnectionError =
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes all authorization parameters from the connection. This lets you remove the secret
  * from the connection so you can reuse it without having to create a new connection.
@@ -3265,10 +3286,7 @@ export const deactivateEventSource: API.OperationMethod<
 export const deauthorizeConnection: API.OperationMethod<
   DeauthorizeConnectionRequest,
   DeauthorizeConnectionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeauthorizeConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeauthorizeConnectionRequest,
@@ -3279,16 +3297,18 @@ export const deauthorizeConnection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteApiDestinationError =
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified API destination.
  */
 export const deleteApiDestination: API.OperationMethod<
   DeleteApiDestinationRequest,
   DeleteApiDestinationResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteApiDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiDestinationRequest,
@@ -3299,16 +3319,18 @@ export const deleteApiDestination: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteArchiveError =
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified archive.
  */
 export const deleteArchive: API.OperationMethod<
   DeleteArchiveRequest,
   DeleteArchiveResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArchiveRequest,
@@ -3319,16 +3341,18 @@ export const deleteArchive: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteConnectionError =
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a connection.
  */
 export const deleteConnection: API.OperationMethod<
   DeleteConnectionRequest,
   DeleteConnectionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
@@ -3339,6 +3363,10 @@ export const deleteConnection: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteEventBusError =
+  | ConcurrentModificationException
+  | InternalException
+  | CommonErrors;
 /**
  * Deletes the specified custom event bus or partner event bus. All rules associated with
  * this event bus need to be deleted. You can't delete your account's default event bus.
@@ -3346,13 +3374,18 @@ export const deleteConnection: API.OperationMethod<
 export const deleteEventBus: API.OperationMethod<
   DeleteEventBusRequest,
   DeleteEventBusResponse,
-  ConcurrentModificationException | InternalException | CommonErrors,
+  DeleteEventBusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventBusRequest,
   output: DeleteEventBusResponse,
   errors: [ConcurrentModificationException, InternalException],
 }));
+export type DeletePartnerEventSourceError =
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | CommonErrors;
 /**
  * This operation is used by SaaS partners to delete a partner event source. This operation
  * is not used by Amazon Web Services customers.
@@ -3363,10 +3396,7 @@ export const deleteEventBus: API.OperationMethod<
 export const deletePartnerEventSource: API.OperationMethod<
   DeletePartnerEventSourceRequest,
   DeletePartnerEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | CommonErrors,
+  DeletePartnerEventSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePartnerEventSourceRequest,
@@ -3377,6 +3407,12 @@ export const deletePartnerEventSource: API.OperationMethod<
     OperationDisabledException,
   ],
 }));
+export type DeleteRuleError =
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes the specified rule.
  *
@@ -3397,11 +3433,7 @@ export const deletePartnerEventSource: API.OperationMethod<
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
@@ -3413,29 +3445,35 @@ export const deleteRule: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeApiDestinationError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details about an API destination.
  */
 export const describeApiDestination: API.OperationMethod<
   DescribeApiDestinationRequest,
   DescribeApiDestinationResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeApiDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApiDestinationRequest,
   output: DescribeApiDestinationResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type DescribeArchiveError =
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details about an archive.
  */
 export const describeArchive: API.OperationMethod<
   DescribeArchiveRequest,
   DescribeArchiveResponse,
-  | InternalException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeArchiveRequest,
@@ -3446,19 +3484,27 @@ export const describeArchive: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeConnectionError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details about a connection.
  */
 export const describeConnection: API.OperationMethod<
   DescribeConnectionRequest,
   DescribeConnectionResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectionRequest,
   output: DescribeConnectionResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type DescribeEventBusError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Displays details about an event bus in your account. This can include the external Amazon Web Services
  * accounts that are permitted to write events to your default event bus, and the associated
@@ -3473,13 +3519,18 @@ export const describeConnection: API.OperationMethod<
 export const describeEventBus: API.OperationMethod<
   DescribeEventBusRequest,
   DescribeEventBusResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeEventBusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventBusRequest,
   output: DescribeEventBusResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type DescribeEventSourceError =
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * This operation lists details about a partner event source that is shared with your
  * account.
@@ -3487,10 +3538,7 @@ export const describeEventBus: API.OperationMethod<
 export const describeEventSource: API.OperationMethod<
   DescribeEventSourceRequest,
   DescribeEventSourceResponse,
-  | InternalException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeEventSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventSourceRequest,
@@ -3501,6 +3549,11 @@ export const describeEventSource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribePartnerEventSourceError =
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * An SaaS partner can use this operation to list details about a partner event source that
  * they have created. Amazon Web Services customers do not use this operation. Instead, Amazon Web Services customers can use DescribeEventSource
@@ -3510,10 +3563,7 @@ export const describeEventSource: API.OperationMethod<
 export const describePartnerEventSource: API.OperationMethod<
   DescribePartnerEventSourceRequest,
   DescribePartnerEventSourceResponse,
-  | InternalException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribePartnerEventSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePartnerEventSourceRequest,
@@ -3524,6 +3574,10 @@ export const describePartnerEventSource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeReplayError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves details about a replay. Use `DescribeReplay` to determine the
  * progress of a running replay. A replay processes events to replay based on the time in the
@@ -3538,13 +3592,17 @@ export const describePartnerEventSource: API.OperationMethod<
 export const describeReplay: API.OperationMethod<
   DescribeReplayRequest,
   DescribeReplayResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeReplayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReplayRequest,
   output: DescribeReplayResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type DescribeRuleError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Describes the specified rule.
  *
@@ -3554,13 +3612,19 @@ export const describeReplay: API.OperationMethod<
 export const describeRule: API.OperationMethod<
   DescribeRuleRequest,
   DescribeRuleResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  DescribeRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRuleRequest,
   output: DescribeRuleResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type DisableRuleError =
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Disables the specified rule. A disabled rule won't match any events, and won't
  * self-trigger if it has a schedule expression.
@@ -3571,11 +3635,7 @@ export const describeRule: API.OperationMethod<
 export const disableRule: API.OperationMethod<
   DisableRuleRequest,
   DisableRuleResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DisableRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRuleRequest,
@@ -3587,6 +3647,12 @@ export const disableRule: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type EnableRuleError =
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Enables the specified rule. If the rule does not exist, the operation fails.
  *
@@ -3596,11 +3662,7 @@ export const disableRule: API.OperationMethod<
 export const enableRule: API.OperationMethod<
   EnableRuleRequest,
   EnableRuleResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  EnableRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRuleRequest,
@@ -3612,19 +3674,24 @@ export const enableRule: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListApiDestinationsError = InternalException | CommonErrors;
 /**
  * Retrieves a list of API destination in the account in the current Region.
  */
 export const listApiDestinations: API.OperationMethod<
   ListApiDestinationsRequest,
   ListApiDestinationsResponse,
-  InternalException | CommonErrors,
+  ListApiDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListApiDestinationsRequest,
   output: ListApiDestinationsResponse,
   errors: [InternalException],
 }));
+export type ListArchivesError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists your archives. You can either list all the archives or you can provide a prefix to
  * match to the archive names. Filter parameters are exclusive.
@@ -3632,26 +3699,28 @@ export const listApiDestinations: API.OperationMethod<
 export const listArchives: API.OperationMethod<
   ListArchivesRequest,
   ListArchivesResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  ListArchivesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListArchivesRequest,
   output: ListArchivesResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type ListConnectionsError = InternalException | CommonErrors;
 /**
  * Retrieves a list of connections from the account.
  */
 export const listConnections: API.OperationMethod<
   ListConnectionsRequest,
   ListConnectionsResponse,
-  InternalException | CommonErrors,
+  ListConnectionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectionsRequest,
   output: ListConnectionsResponse,
   errors: [InternalException],
 }));
+export type ListEventBusesError = InternalException | CommonErrors;
 /**
  * Lists all the event buses in your account, including the default event bus, custom event
  * buses, and partner event buses.
@@ -3659,13 +3728,17 @@ export const listConnections: API.OperationMethod<
 export const listEventBuses: API.OperationMethod<
   ListEventBusesRequest,
   ListEventBusesResponse,
-  InternalException | CommonErrors,
+  ListEventBusesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventBusesRequest,
   output: ListEventBusesResponse,
   errors: [InternalException],
 }));
+export type ListEventSourcesError =
+  | InternalException
+  | OperationDisabledException
+  | CommonErrors;
 /**
  * You can use this to see all the partner event sources that have been shared with your Amazon Web Services
  * account. For more information about partner event sources, see CreateEventBus.
@@ -3673,13 +3746,18 @@ export const listEventBuses: API.OperationMethod<
 export const listEventSources: API.OperationMethod<
   ListEventSourcesRequest,
   ListEventSourcesResponse,
-  InternalException | OperationDisabledException | CommonErrors,
+  ListEventSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventSourcesRequest,
   output: ListEventSourcesResponse,
   errors: [InternalException, OperationDisabledException],
 }));
+export type ListPartnerEventSourceAccountsError =
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * An SaaS partner can use this operation to display the Amazon Web Services account ID that a particular
  * partner event source name is associated with. This operation is not used by Amazon Web Services
@@ -3688,10 +3766,7 @@ export const listEventSources: API.OperationMethod<
 export const listPartnerEventSourceAccounts: API.OperationMethod<
   ListPartnerEventSourceAccountsRequest,
   ListPartnerEventSourceAccountsResponse,
-  | InternalException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListPartnerEventSourceAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPartnerEventSourceAccountsRequest,
@@ -3702,6 +3777,10 @@ export const listPartnerEventSourceAccounts: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListPartnerEventSourcesError =
+  | InternalException
+  | OperationDisabledException
+  | CommonErrors;
 /**
  * An SaaS partner can use this operation to list all the partner event source names that
  * they have created. This operation is not used by Amazon Web Services customers.
@@ -3709,13 +3788,14 @@ export const listPartnerEventSourceAccounts: API.OperationMethod<
 export const listPartnerEventSources: API.OperationMethod<
   ListPartnerEventSourcesRequest,
   ListPartnerEventSourcesResponse,
-  InternalException | OperationDisabledException | CommonErrors,
+  ListPartnerEventSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPartnerEventSourcesRequest,
   output: ListPartnerEventSourcesResponse,
   errors: [InternalException, OperationDisabledException],
 }));
+export type ListReplaysError = InternalException | CommonErrors;
 /**
  * Lists your replays. You can either list all the replays or you can provide a prefix to
  * match to the replay names. Filter parameters are exclusive.
@@ -3723,13 +3803,17 @@ export const listPartnerEventSources: API.OperationMethod<
 export const listReplays: API.OperationMethod<
   ListReplaysRequest,
   ListReplaysResponse,
-  InternalException | CommonErrors,
+  ListReplaysError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReplaysRequest,
   output: ListReplaysResponse,
   errors: [InternalException],
 }));
+export type ListRuleNamesByTargetError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the rules for the specified target. You can see which of the rules in Amazon
  * EventBridge can invoke a specific target in your account.
@@ -3737,13 +3821,17 @@ export const listReplays: API.OperationMethod<
 export const listRuleNamesByTarget: API.OperationMethod<
   ListRuleNamesByTargetRequest,
   ListRuleNamesByTargetResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  ListRuleNamesByTargetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRuleNamesByTargetRequest,
   output: ListRuleNamesByTargetResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type ListRulesError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists your Amazon EventBridge rules. You can either list all the rules or you can provide
  * a prefix to match to the rule names.
@@ -3754,13 +3842,17 @@ export const listRuleNamesByTarget: API.OperationMethod<
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  ListRulesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type ListTagsForResourceError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Displays the tags associated with an EventBridge resource. In EventBridge, rules and event
  * buses can be tagged.
@@ -3768,39 +3860,48 @@ export const listRules: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type ListTargetsByRuleError =
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the targets assigned to the specified rule.
  */
 export const listTargetsByRule: API.OperationMethod<
   ListTargetsByRuleRequest,
   ListTargetsByRuleResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
+  ListTargetsByRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTargetsByRuleRequest,
   output: ListTargetsByRuleResponse,
   errors: [InternalException, ResourceNotFoundException],
 }));
+export type PutEventsError = InternalException | CommonErrors;
 /**
  * Sends custom events to Amazon EventBridge so that they can be matched to rules.
  */
 export const putEvents: API.OperationMethod<
   PutEventsRequest,
   PutEventsResponse,
-  InternalException | CommonErrors,
+  PutEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventsRequest,
   output: PutEventsResponse,
   errors: [InternalException],
 }));
+export type PutPartnerEventsError =
+  | InternalException
+  | OperationDisabledException
+  | CommonErrors;
 /**
  * This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services
  * customers do not use this operation.
@@ -3808,13 +3909,20 @@ export const putEvents: API.OperationMethod<
 export const putPartnerEvents: API.OperationMethod<
   PutPartnerEventsRequest,
   PutPartnerEventsResponse,
-  InternalException | OperationDisabledException | CommonErrors,
+  PutPartnerEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPartnerEventsRequest,
   output: PutPartnerEventsResponse,
   errors: [InternalException, OperationDisabledException],
 }));
+export type PutPermissionError =
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | PolicyLengthExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Running `PutPermission` permits the specified Amazon Web Services account or Amazon Web Services organization
  * to put events to the specified *event bus*. Amazon EventBridge (CloudWatch
@@ -3841,12 +3949,7 @@ export const putPartnerEvents: API.OperationMethod<
 export const putPermission: API.OperationMethod<
   PutPermissionRequest,
   PutPermissionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | PolicyLengthExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutPermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionRequest,
@@ -3859,6 +3962,14 @@ export const putPermission: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutRuleError =
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Creates or updates the specified rule. Rules are enabled by default, or based on value of
  * the state. You can disable a rule using DisableRule.
@@ -3914,13 +4025,7 @@ export const putPermission: API.OperationMethod<
 export const putRule: API.OperationMethod<
   PutRuleRequest,
   PutRuleResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRuleRequest,
@@ -3934,6 +4039,13 @@ export const putRule: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type PutTargetsError =
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Adds the specified targets to the specified rule, or updates the targets if they are
  * already associated with the rule.
@@ -4068,12 +4180,7 @@ export const putRule: API.OperationMethod<
 export const putTargets: API.OperationMethod<
   PutTargetsRequest,
   PutTargetsResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | LimitExceededException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  PutTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTargetsRequest,
@@ -4086,6 +4193,12 @@ export const putTargets: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RemovePermissionError =
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Revokes the permission of another Amazon Web Services account to be able to put events to the specified
  * event bus. Specify the account to revoke by the `StatementId` value that you
@@ -4095,11 +4208,7 @@ export const putTargets: API.OperationMethod<
 export const removePermission: API.OperationMethod<
   RemovePermissionRequest,
   RemovePermissionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RemovePermissionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionRequest,
@@ -4111,6 +4220,12 @@ export const removePermission: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type RemoveTargetsError =
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes the specified targets from the specified rule. When the rule is triggered, those
  * targets are no longer be invoked.
@@ -4125,11 +4240,7 @@ export const removePermission: API.OperationMethod<
 export const removeTargets: API.OperationMethod<
   RemoveTargetsRequest,
   RemoveTargetsResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  RemoveTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTargetsRequest,
@@ -4141,6 +4252,13 @@ export const removeTargets: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartReplayError =
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts the specified replay. Events are not necessarily replayed in the exact same order
  * that they were added to the archive. A replay processes events to replay based on the time in
@@ -4155,12 +4273,7 @@ export const removeTargets: API.OperationMethod<
 export const startReplay: API.OperationMethod<
   StartReplayRequest,
   StartReplayResponse,
-  | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartReplayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplayRequest,
@@ -4173,6 +4286,12 @@ export const startReplay: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can
  * help you organize and categorize your resources. You can also use them to scope user
@@ -4192,11 +4311,7 @@ export const startReplay: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4208,6 +4323,10 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TestEventPatternError =
+  | InternalException
+  | InvalidEventPatternException
+  | CommonErrors;
 /**
  * Tests whether the specified event pattern matches the provided event.
  *
@@ -4219,13 +4338,19 @@ export const tagResource: API.OperationMethod<
 export const testEventPattern: API.OperationMethod<
   TestEventPatternRequest,
   TestEventPatternResponse,
-  InternalException | InvalidEventPatternException | CommonErrors,
+  TestEventPatternError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestEventPatternRequest,
   output: TestEventPatternResponse,
   errors: [InternalException, InvalidEventPatternException],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge
  * (CloudWatch Events), rules and event buses can be tagged.
@@ -4233,11 +4358,7 @@ export const testEventPattern: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4249,17 +4370,19 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateApiDestinationError =
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an API destination.
  */
 export const updateApiDestination: API.OperationMethod<
   UpdateApiDestinationRequest,
   UpdateApiDestinationResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateApiDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiDestinationRequest,
@@ -4271,18 +4394,20 @@ export const updateApiDestination: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateArchiveError =
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates the specified archive.
  */
 export const updateArchive: API.OperationMethod<
   UpdateArchiveRequest,
   UpdateArchiveResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateArchiveError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateArchiveRequest,
@@ -4295,17 +4420,19 @@ export const updateArchive: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateConnectionError =
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates settings for a connection.
  */
 export const updateConnection: API.OperationMethod<
   UpdateConnectionRequest,
   UpdateConnectionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionRequest,

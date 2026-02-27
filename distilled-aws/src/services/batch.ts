@@ -4248,6 +4248,7 @@ export class ServerException extends S.TaggedErrorClass<ServerException>()(
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type CancelJobError = ClientException | ServerException | CommonErrors;
 /**
  * Cancels a job in an Batch job queue. Jobs that are in a `SUBMITTED`, `PENDING`, or `RUNNABLE` state are cancelled and the job status is updated to `FAILED`.
  *
@@ -4267,13 +4268,17 @@ export class ServerException extends S.TaggedErrorClass<ServerException>()(
 export const cancelJob: API.OperationMethod<
   CancelJobRequest,
   CancelJobResponse,
-  ClientException | ServerException | CommonErrors,
+  CancelJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
   output: CancelJobResponse,
   errors: [ClientException, ServerException],
 }));
+export type CreateComputeEnvironmentError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an Batch compute environment. You can create `MANAGED` or
  * `UNMANAGED` compute environments. `MANAGED` compute environments can
@@ -4305,26 +4310,34 @@ export const cancelJob: API.OperationMethod<
 export const createComputeEnvironment: API.OperationMethod<
   CreateComputeEnvironmentRequest,
   CreateComputeEnvironmentResponse,
-  ClientException | ServerException | CommonErrors,
+  CreateComputeEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComputeEnvironmentRequest,
   output: CreateComputeEnvironmentResponse,
   errors: [ClientException, ServerException],
 }));
+export type CreateConsumableResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an Batch consumable resource.
  */
 export const createConsumableResource: API.OperationMethod<
   CreateConsumableResourceRequest,
   CreateConsumableResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  CreateConsumableResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConsumableResourceRequest,
   output: CreateConsumableResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type CreateJobQueueError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an Batch job queue. When you create a job queue, you associate one or more
  * compute environments to the queue and assign an order of preference for the compute
@@ -4338,39 +4351,51 @@ export const createConsumableResource: API.OperationMethod<
 export const createJobQueue: API.OperationMethod<
   CreateJobQueueRequest,
   CreateJobQueueResponse,
-  ClientException | ServerException | CommonErrors,
+  CreateJobQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobQueueRequest,
   output: CreateJobQueueResponse,
   errors: [ClientException, ServerException],
 }));
+export type CreateSchedulingPolicyError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates an Batch scheduling policy.
  */
 export const createSchedulingPolicy: API.OperationMethod<
   CreateSchedulingPolicyRequest,
   CreateSchedulingPolicyResponse,
-  ClientException | ServerException | CommonErrors,
+  CreateSchedulingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchedulingPolicyRequest,
   output: CreateSchedulingPolicyResponse,
   errors: [ClientException, ServerException],
 }));
+export type CreateServiceEnvironmentError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
  */
 export const createServiceEnvironment: API.OperationMethod<
   CreateServiceEnvironmentRequest,
   CreateServiceEnvironmentResponse,
-  ClientException | ServerException | CommonErrors,
+  CreateServiceEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceEnvironmentRequest,
   output: CreateServiceEnvironmentResponse,
   errors: [ClientException, ServerException],
 }));
+export type DeleteComputeEnvironmentError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes an Batch compute environment.
  *
@@ -4384,26 +4409,34 @@ export const createServiceEnvironment: API.OperationMethod<
 export const deleteComputeEnvironment: API.OperationMethod<
   DeleteComputeEnvironmentRequest,
   DeleteComputeEnvironmentResponse,
-  ClientException | ServerException | CommonErrors,
+  DeleteComputeEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComputeEnvironmentRequest,
   output: DeleteComputeEnvironmentResponse,
   errors: [ClientException, ServerException],
 }));
+export type DeleteConsumableResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes the specified consumable resource.
  */
 export const deleteConsumableResource: API.OperationMethod<
   DeleteConsumableResourceRequest,
   DeleteConsumableResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  DeleteConsumableResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConsumableResourceRequest,
   output: DeleteConsumableResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type DeleteJobQueueError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes the specified job queue. You must first disable submissions for a queue with the
  * UpdateJobQueue operation. All jobs in the queue are eventually terminated
@@ -4416,13 +4449,17 @@ export const deleteConsumableResource: API.OperationMethod<
 export const deleteJobQueue: API.OperationMethod<
   DeleteJobQueueRequest,
   DeleteJobQueueResponse,
-  ClientException | ServerException | CommonErrors,
+  DeleteJobQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobQueueRequest,
   output: DeleteJobQueueResponse,
   errors: [ClientException, ServerException],
 }));
+export type DeleteSchedulingPolicyError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes the specified scheduling policy.
  *
@@ -4431,26 +4468,34 @@ export const deleteJobQueue: API.OperationMethod<
 export const deleteSchedulingPolicy: API.OperationMethod<
   DeleteSchedulingPolicyRequest,
   DeleteSchedulingPolicyResponse,
-  ClientException | ServerException | CommonErrors,
+  DeleteSchedulingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchedulingPolicyRequest,
   output: DeleteSchedulingPolicyResponse,
   errors: [ClientException, ServerException],
 }));
+export type DeleteServiceEnvironmentError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
  */
 export const deleteServiceEnvironment: API.OperationMethod<
   DeleteServiceEnvironmentRequest,
   DeleteServiceEnvironmentResponse,
-  ClientException | ServerException | CommonErrors,
+  DeleteServiceEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceEnvironmentRequest,
   output: DeleteServiceEnvironmentResponse,
   errors: [ClientException, ServerException],
 }));
+export type DeregisterJobDefinitionError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deregisters an Batch job definition. Job definitions are permanently deleted after 180
  * days.
@@ -4458,13 +4503,17 @@ export const deleteServiceEnvironment: API.OperationMethod<
 export const deregisterJobDefinition: API.OperationMethod<
   DeregisterJobDefinitionRequest,
   DeregisterJobDefinitionResponse,
-  ClientException | ServerException | CommonErrors,
+  DeregisterJobDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterJobDefinitionRequest,
   output: DeregisterJobDefinitionResponse,
   errors: [ClientException, ServerException],
 }));
+export type DescribeComputeEnvironmentsError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes one or more of your compute environments.
  *
@@ -4475,21 +4524,21 @@ export const deregisterJobDefinition: API.OperationMethod<
 export const describeComputeEnvironments: API.OperationMethod<
   DescribeComputeEnvironmentsRequest,
   DescribeComputeEnvironmentsResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeComputeEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeComputeEnvironmentsRequest,
   ) => stream.Stream<
     DescribeComputeEnvironmentsResponse,
-    ClientException | ServerException | CommonErrors,
+    DescribeComputeEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeComputeEnvironmentsRequest,
   ) => stream.Stream<
     ComputeEnvironmentDetail,
-    ClientException | ServerException | CommonErrors,
+    DescribeComputeEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4503,19 +4552,27 @@ export const describeComputeEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeConsumableResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a description of the specified consumable resource.
  */
 export const describeConsumableResource: API.OperationMethod<
   DescribeConsumableResourceRequest,
   DescribeConsumableResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeConsumableResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConsumableResourceRequest,
   output: DescribeConsumableResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type DescribeJobDefinitionsError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes a list of job definitions. You can specify a `status` (such as
  * `ACTIVE`) to only return job definitions that match that status.
@@ -4523,21 +4580,21 @@ export const describeConsumableResource: API.OperationMethod<
 export const describeJobDefinitions: API.OperationMethod<
   DescribeJobDefinitionsRequest,
   DescribeJobDefinitionsResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeJobDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeJobDefinitionsRequest,
   ) => stream.Stream<
     DescribeJobDefinitionsResponse,
-    ClientException | ServerException | CommonErrors,
+    DescribeJobDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeJobDefinitionsRequest,
   ) => stream.Stream<
     JobDefinition,
-    ClientException | ServerException | CommonErrors,
+    DescribeJobDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4551,27 +4608,31 @@ export const describeJobDefinitions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeJobQueuesError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes one or more of your job queues.
  */
 export const describeJobQueues: API.OperationMethod<
   DescribeJobQueuesRequest,
   DescribeJobQueuesResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeJobQueuesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeJobQueuesRequest,
   ) => stream.Stream<
     DescribeJobQueuesResponse,
-    ClientException | ServerException | CommonErrors,
+    DescribeJobQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeJobQueuesRequest,
   ) => stream.Stream<
     JobQueueDetail,
-    ClientException | ServerException | CommonErrors,
+    DescribeJobQueuesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4585,53 +4646,65 @@ export const describeJobQueues: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeJobsError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes a list of Batch jobs.
  */
 export const describeJobs: API.OperationMethod<
   DescribeJobsRequest,
   DescribeJobsResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeJobsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobsRequest,
   output: DescribeJobsResponse,
   errors: [ClientException, ServerException],
 }));
+export type DescribeSchedulingPoliciesError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes one or more of your scheduling policies.
  */
 export const describeSchedulingPolicies: API.OperationMethod<
   DescribeSchedulingPoliciesRequest,
   DescribeSchedulingPoliciesResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeSchedulingPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSchedulingPoliciesRequest,
   output: DescribeSchedulingPoliciesResponse,
   errors: [ClientException, ServerException],
 }));
+export type DescribeServiceEnvironmentsError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Describes one or more of your service environments.
  */
 export const describeServiceEnvironments: API.OperationMethod<
   DescribeServiceEnvironmentsRequest,
   DescribeServiceEnvironmentsResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeServiceEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeServiceEnvironmentsRequest,
   ) => stream.Stream<
     DescribeServiceEnvironmentsResponse,
-    ClientException | ServerException | CommonErrors,
+    DescribeServiceEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeServiceEnvironmentsRequest,
   ) => stream.Stream<
     ServiceEnvironmentDetail,
-    ClientException | ServerException | CommonErrors,
+    DescribeServiceEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4645,19 +4718,27 @@ export const describeServiceEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeServiceJobError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * The details of a service job.
  */
 export const describeServiceJob: API.OperationMethod<
   DescribeServiceJobRequest,
   DescribeServiceJobResponse,
-  ClientException | ServerException | CommonErrors,
+  DescribeServiceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceJobRequest,
   output: DescribeServiceJobResponse,
   errors: [ClientException, ServerException],
 }));
+export type GetJobQueueSnapshotError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Provides a list of the first 100 `RUNNABLE` jobs associated to a single job
  * queue and includes capacity utilization, including total usage and breakdown by share for fairshare scheduling job queues.
@@ -4665,34 +4746,38 @@ export const describeServiceJob: API.OperationMethod<
 export const getJobQueueSnapshot: API.OperationMethod<
   GetJobQueueSnapshotRequest,
   GetJobQueueSnapshotResponse,
-  ClientException | ServerException | CommonErrors,
+  GetJobQueueSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobQueueSnapshotRequest,
   output: GetJobQueueSnapshotResponse,
   errors: [ClientException, ServerException],
 }));
+export type ListConsumableResourcesError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of Batch consumable resources.
  */
 export const listConsumableResources: API.OperationMethod<
   ListConsumableResourcesRequest,
   ListConsumableResourcesResponse,
-  ClientException | ServerException | CommonErrors,
+  ListConsumableResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConsumableResourcesRequest,
   ) => stream.Stream<
     ListConsumableResourcesResponse,
-    ClientException | ServerException | CommonErrors,
+    ListConsumableResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConsumableResourcesRequest,
   ) => stream.Stream<
     ConsumableResourceSummary,
-    ClientException | ServerException | CommonErrors,
+    ListConsumableResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4706,6 +4791,7 @@ export const listConsumableResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobsError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a list of Batch jobs.
  *
@@ -4720,21 +4806,21 @@ export const listConsumableResources: API.OperationMethod<
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
-  ClientException | ServerException | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResponse,
-    ClientException | ServerException | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     JobSummary,
-    ClientException | ServerException | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4748,27 +4834,31 @@ export const listJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobsByConsumableResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of Batch jobs that require a specific consumable resource.
  */
 export const listJobsByConsumableResource: API.OperationMethod<
   ListJobsByConsumableResourceRequest,
   ListJobsByConsumableResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  ListJobsByConsumableResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsByConsumableResourceRequest,
   ) => stream.Stream<
     ListJobsByConsumableResourceResponse,
-    ClientException | ServerException | CommonErrors,
+    ListJobsByConsumableResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsByConsumableResourceRequest,
   ) => stream.Stream<
     ListJobsByConsumableResourceSummary,
-    ClientException | ServerException | CommonErrors,
+    ListJobsByConsumableResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4782,27 +4872,31 @@ export const listJobsByConsumableResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSchedulingPoliciesError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of Batch scheduling policies.
  */
 export const listSchedulingPolicies: API.OperationMethod<
   ListSchedulingPoliciesRequest,
   ListSchedulingPoliciesResponse,
-  ClientException | ServerException | CommonErrors,
+  ListSchedulingPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchedulingPoliciesRequest,
   ) => stream.Stream<
     ListSchedulingPoliciesResponse,
-    ClientException | ServerException | CommonErrors,
+    ListSchedulingPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchedulingPoliciesRequest,
   ) => stream.Stream<
     SchedulingPolicyListingDetail,
-    ClientException | ServerException | CommonErrors,
+    ListSchedulingPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4816,27 +4910,31 @@ export const listSchedulingPolicies: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListServiceJobsError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Returns a list of service jobs for a specified job queue.
  */
 export const listServiceJobs: API.OperationMethod<
   ListServiceJobsRequest,
   ListServiceJobsResponse,
-  ClientException | ServerException | CommonErrors,
+  ListServiceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceJobsRequest,
   ) => stream.Stream<
     ListServiceJobsResponse,
-    ClientException | ServerException | CommonErrors,
+    ListServiceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceJobsRequest,
   ) => stream.Stream<
     ServiceJobSummary,
-    ClientException | ServerException | CommonErrors,
+    ListServiceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4850,6 +4948,10 @@ export const listServiceJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
@@ -4857,26 +4959,31 @@ export const listServiceJobs: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type RegisterJobDefinitionError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Registers an Batch job definition.
  */
 export const registerJobDefinition: API.OperationMethod<
   RegisterJobDefinitionRequest,
   RegisterJobDefinitionResponse,
-  ClientException | ServerException | CommonErrors,
+  RegisterJobDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterJobDefinitionRequest,
   output: RegisterJobDefinitionResponse,
   errors: [ClientException, ServerException],
 }));
+export type SubmitJobError = ClientException | ServerException | CommonErrors;
 /**
  * Submits an Batch job from a job definition. Parameters that are specified during SubmitJob override parameters defined in the job definition. vCPU and memory
  * requirements that are specified in the `resourceRequirements` objects in the job
@@ -4895,26 +5002,31 @@ export const registerJobDefinition: API.OperationMethod<
 export const submitJob: API.OperationMethod<
   SubmitJobRequest,
   SubmitJobResponse,
-  ClientException | ServerException | CommonErrors,
+  SubmitJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitJobRequest,
   output: SubmitJobResponse,
   errors: [ClientException, ServerException],
 }));
+export type SubmitServiceJobError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
  */
 export const submitServiceJob: API.OperationMethod<
   SubmitServiceJobRequest,
   SubmitServiceJobResponse,
-  ClientException | ServerException | CommonErrors,
+  SubmitServiceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitServiceJobRequest,
   output: SubmitServiceJobResponse,
   errors: [ClientException, ServerException],
 }));
+export type TagResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`.
  * If existing tags on a resource aren't specified in the request parameters, they aren't
@@ -4925,13 +5037,17 @@ export const submitServiceJob: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type TerminateJobError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Terminates a job in a job queue. Jobs that are in the `STARTING` or
  * `RUNNING` state are terminated, which causes them to transition to
@@ -4941,98 +5057,126 @@ export const tagResource: API.OperationMethod<
 export const terminateJob: API.OperationMethod<
   TerminateJobRequest,
   TerminateJobResponse,
-  ClientException | ServerException | CommonErrors,
+  TerminateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateJobRequest,
   output: TerminateJobResponse,
   errors: [ClientException, ServerException],
 }));
+export type TerminateServiceJobError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Terminates a service job in a job queue.
  */
 export const terminateServiceJob: API.OperationMethod<
   TerminateServiceJobRequest,
   TerminateServiceJobResponse,
-  ClientException | ServerException | CommonErrors,
+  TerminateServiceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateServiceJobRequest,
   output: TerminateServiceJobResponse,
   errors: [ClientException, ServerException],
 }));
+export type UntagResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Deletes specified tags from an Batch resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type UpdateComputeEnvironmentError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates an Batch compute environment.
  */
 export const updateComputeEnvironment: API.OperationMethod<
   UpdateComputeEnvironmentRequest,
   UpdateComputeEnvironmentResponse,
-  ClientException | ServerException | CommonErrors,
+  UpdateComputeEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComputeEnvironmentRequest,
   output: UpdateComputeEnvironmentResponse,
   errors: [ClientException, ServerException],
 }));
+export type UpdateConsumableResourceError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates a consumable resource.
  */
 export const updateConsumableResource: API.OperationMethod<
   UpdateConsumableResourceRequest,
   UpdateConsumableResourceResponse,
-  ClientException | ServerException | CommonErrors,
+  UpdateConsumableResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConsumableResourceRequest,
   output: UpdateConsumableResourceResponse,
   errors: [ClientException, ServerException],
 }));
+export type UpdateJobQueueError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates a job queue.
  */
 export const updateJobQueue: API.OperationMethod<
   UpdateJobQueueRequest,
   UpdateJobQueueResponse,
-  ClientException | ServerException | CommonErrors,
+  UpdateJobQueueError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobQueueRequest,
   output: UpdateJobQueueResponse,
   errors: [ClientException, ServerException],
 }));
+export type UpdateSchedulingPolicyError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates a scheduling policy.
  */
 export const updateSchedulingPolicy: API.OperationMethod<
   UpdateSchedulingPolicyRequest,
   UpdateSchedulingPolicyResponse,
-  ClientException | ServerException | CommonErrors,
+  UpdateSchedulingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchedulingPolicyRequest,
   output: UpdateSchedulingPolicyResponse,
   errors: [ClientException, ServerException],
 }));
+export type UpdateServiceEnvironmentError =
+  | ClientException
+  | ServerException
+  | CommonErrors;
 /**
  * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
  */
 export const updateServiceEnvironment: API.OperationMethod<
   UpdateServiceEnvironmentRequest,
   UpdateServiceEnvironmentResponse,
-  ClientException | ServerException | CommonErrors,
+  UpdateServiceEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceEnvironmentRequest,

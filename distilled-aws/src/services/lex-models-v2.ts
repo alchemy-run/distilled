@@ -9612,6 +9612,13 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 ) {}
 
 //# Operations
+export type BatchCreateCustomVocabularyItemError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a batch of custom vocabulary items for a given bot locale's
  * custom vocabulary.
@@ -9619,12 +9626,7 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 export const batchCreateCustomVocabularyItem: API.OperationMethod<
   BatchCreateCustomVocabularyItemRequest,
   BatchCreateCustomVocabularyItemResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchCreateCustomVocabularyItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateCustomVocabularyItemRequest,
@@ -9637,6 +9639,13 @@ export const batchCreateCustomVocabularyItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDeleteCustomVocabularyItemError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a batch of custom vocabulary items for a given bot locale's
  * custom vocabulary.
@@ -9644,12 +9653,7 @@ export const batchCreateCustomVocabularyItem: API.OperationMethod<
 export const batchDeleteCustomVocabularyItem: API.OperationMethod<
   BatchDeleteCustomVocabularyItemRequest,
   BatchDeleteCustomVocabularyItemResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteCustomVocabularyItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteCustomVocabularyItemRequest,
@@ -9662,6 +9666,13 @@ export const batchDeleteCustomVocabularyItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchUpdateCustomVocabularyItemError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a batch of custom vocabulary items for a given bot locale's custom
  * vocabulary.
@@ -9669,12 +9680,7 @@ export const batchDeleteCustomVocabularyItem: API.OperationMethod<
 export const batchUpdateCustomVocabularyItem: API.OperationMethod<
   BatchUpdateCustomVocabularyItemRequest,
   BatchUpdateCustomVocabularyItemResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateCustomVocabularyItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateCustomVocabularyItemRequest,
@@ -9687,6 +9693,14 @@ export const batchUpdateCustomVocabularyItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BuildBotLocaleError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Builds a bot, its intents, and its slot types into a specific
  * locale. A bot can be built into multiple locales. At runtime the locale
@@ -9695,13 +9709,7 @@ export const batchUpdateCustomVocabularyItem: API.OperationMethod<
 export const buildBotLocale: API.OperationMethod<
   BuildBotLocaleRequest,
   BuildBotLocaleResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BuildBotLocaleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BuildBotLocaleRequest,
@@ -9715,19 +9723,21 @@ export const buildBotLocale: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon Lex conversational bot.
- */
-export const createBot: API.OperationMethod<
-  CreateBotRequest,
-  CreateBotResponse,
+export type CreateBotError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Lex conversational bot.
+ */
+export const createBot: API.OperationMethod<
+  CreateBotRequest,
+  CreateBotResponse,
+  CreateBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotRequest,
@@ -9741,6 +9751,14 @@ export const createBot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateBotAliasError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an alias for the specified version of a bot. Use an alias to
  * enable you to change the version of a bot without updating applications
@@ -9752,13 +9770,7 @@ export const createBot: API.OperationMethod<
 export const createBotAlias: API.OperationMethod<
   CreateBotAliasRequest,
   CreateBotAliasResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotAliasRequest,
@@ -9772,6 +9784,14 @@ export const createBotAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateBotLocaleError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a locale in the bot. The locale contains the intents and
  * slot types that the bot uses in conversations with users in the
@@ -9781,13 +9801,7 @@ export const createBotAlias: API.OperationMethod<
 export const createBotLocale: API.OperationMethod<
   CreateBotLocaleRequest,
   CreateBotLocaleResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBotLocaleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotLocaleRequest,
@@ -9801,19 +9815,21 @@ export const createBotLocale: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Action to create a replication of the source bot in the secondary region.
- */
-export const createBotReplica: API.OperationMethod<
-  CreateBotReplicaRequest,
-  CreateBotReplicaResponse,
+export type CreateBotReplicaError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Action to create a replication of the source bot in the secondary region.
+ */
+export const createBotReplica: API.OperationMethod<
+  CreateBotReplicaRequest,
+  CreateBotReplicaResponse,
+  CreateBotReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotReplicaRequest,
@@ -9827,6 +9843,14 @@ export const createBotReplica: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateBotVersionError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an immutable version of the bot. When you create the first
  * version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase
@@ -9837,13 +9861,7 @@ export const createBotReplica: API.OperationMethod<
 export const createBotVersion: API.OperationMethod<
   CreateBotVersionRequest,
   CreateBotVersionResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBotVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotVersionRequest,
@@ -9857,6 +9875,14 @@ export const createBotVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateExportError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a zip archive containing the contents of a bot or a bot
  * locale. The archive contains a directory structure that contains JSON
@@ -9873,13 +9899,7 @@ export const createBotVersion: API.OperationMethod<
 export const createExport: API.OperationMethod<
   CreateExportRequest,
   CreateExportResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExportRequest,
@@ -9893,6 +9913,14 @@ export const createExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateIntentError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an intent.
  *
@@ -9930,13 +9958,7 @@ export const createExport: API.OperationMethod<
 export const createIntent: API.OperationMethod<
   CreateIntentRequest,
   CreateIntentResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntentRequest,
@@ -9950,6 +9972,14 @@ export const createIntent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResourcePolicyError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new resource policy with the specified policy
  * statements.
@@ -9957,13 +9987,7 @@ export const createIntent: API.OperationMethod<
 export const createResourcePolicy: API.OperationMethod<
   CreateResourcePolicyRequest,
   CreateResourcePolicyResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourcePolicyRequest,
@@ -9977,6 +10001,15 @@ export const createResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResourcePolicyStatementError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a new resource policy statement to a bot or bot alias. If a
  * resource policy exists, the statement is added to the current resource
@@ -9991,14 +10024,7 @@ export const createResourcePolicy: API.OperationMethod<
 export const createResourcePolicyStatement: API.OperationMethod<
   CreateResourcePolicyStatementRequest,
   CreateResourcePolicyStatementResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateResourcePolicyStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourcePolicyStatementRequest,
@@ -10013,6 +10039,14 @@ export const createResourcePolicyStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSlotError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a slot in an intent. A slot is a variable needed to fulfill
  * an intent. For example, an `OrderPizza` intent might need
@@ -10023,13 +10057,7 @@ export const createResourcePolicyStatement: API.OperationMethod<
 export const createSlot: API.OperationMethod<
   CreateSlotRequest,
   CreateSlotResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSlotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSlotRequest,
@@ -10043,6 +10071,14 @@ export const createSlot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSlotTypeError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a custom slot type
  *
@@ -10053,13 +10089,7 @@ export const createSlot: API.OperationMethod<
 export const createSlotType: API.OperationMethod<
   CreateSlotTypeRequest,
   CreateSlotTypeResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSlotTypeRequest,
@@ -10073,19 +10103,21 @@ export const createSlotType: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create a report that describes the differences between the bot and the test set.
- */
-export const createTestSetDiscrepancyReport: API.OperationMethod<
-  CreateTestSetDiscrepancyReportRequest,
-  CreateTestSetDiscrepancyReportResponse,
+export type CreateTestSetDiscrepancyReportError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a report that describes the differences between the bot and the test set.
+ */
+export const createTestSetDiscrepancyReport: API.OperationMethod<
+  CreateTestSetDiscrepancyReportRequest,
+  CreateTestSetDiscrepancyReportResponse,
+  CreateTestSetDiscrepancyReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTestSetDiscrepancyReportRequest,
@@ -10099,6 +10131,13 @@ export const createTestSetDiscrepancyReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateUploadUrlError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a pre-signed S3 write URL that you use to upload the zip
  * archive when importing a bot or a bot locale.
@@ -10106,12 +10145,7 @@ export const createTestSetDiscrepancyReport: API.OperationMethod<
 export const createUploadUrl: API.OperationMethod<
   CreateUploadUrlRequest,
   CreateUploadUrlResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateUploadUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUploadUrlRequest,
@@ -10124,6 +10158,14 @@ export const createUploadUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBotError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes all versions of a bot, including the `Draft`
  * version. To delete a specific version, use the
@@ -10141,13 +10183,7 @@ export const createUploadUrl: API.OperationMethod<
 export const deleteBot: API.OperationMethod<
   DeleteBotRequest,
   DeleteBotResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotRequest,
@@ -10161,19 +10197,21 @@ export const deleteBot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified bot alias.
- */
-export const deleteBotAlias: API.OperationMethod<
-  DeleteBotAliasRequest,
-  DeleteBotAliasResponse,
+export type DeleteBotAliasError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified bot alias.
+ */
+export const deleteBotAlias: API.OperationMethod<
+  DeleteBotAliasRequest,
+  DeleteBotAliasResponse,
+  DeleteBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotAliasRequest,
@@ -10187,6 +10225,14 @@ export const deleteBotAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBotLocaleError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a locale from a bot.
  *
@@ -10196,13 +10242,7 @@ export const deleteBotAlias: API.OperationMethod<
 export const deleteBotLocale: API.OperationMethod<
   DeleteBotLocaleRequest,
   DeleteBotLocaleResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBotLocaleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotLocaleRequest,
@@ -10216,19 +10256,21 @@ export const deleteBotLocale: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The action to delete the replicated bot in the secondary region.
- */
-export const deleteBotReplica: API.OperationMethod<
-  DeleteBotReplicaRequest,
-  DeleteBotReplicaResponse,
+export type DeleteBotReplicaError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The action to delete the replicated bot in the secondary region.
+ */
+export const deleteBotReplica: API.OperationMethod<
+  DeleteBotReplicaRequest,
+  DeleteBotReplicaResponse,
+  DeleteBotReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotReplicaRequest,
@@ -10242,6 +10284,14 @@ export const deleteBotReplica: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBotVersionError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specific version of a bot. To delete all versions of a bot,
  * use the DeleteBot operation.
@@ -10249,13 +10299,7 @@ export const deleteBotReplica: API.OperationMethod<
 export const deleteBotVersion: API.OperationMethod<
   DeleteBotVersionRequest,
   DeleteBotVersionResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBotVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotVersionRequest,
@@ -10269,6 +10313,14 @@ export const deleteBotVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCustomVocabularyError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a custom vocabulary from the specified locale
  * in the specified bot.
@@ -10276,13 +10328,7 @@ export const deleteBotVersion: API.OperationMethod<
 export const deleteCustomVocabulary: API.OperationMethod<
   DeleteCustomVocabularyRequest,
   DeleteCustomVocabularyResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCustomVocabularyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomVocabularyRequest,
@@ -10296,6 +10342,13 @@ export const deleteCustomVocabulary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteExportError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a previous export and the associated files stored in an S3
  * bucket.
@@ -10303,12 +10356,7 @@ export const deleteCustomVocabulary: API.OperationMethod<
 export const deleteExport: API.OperationMethod<
   DeleteExportRequest,
   DeleteExportResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExportRequest,
@@ -10321,6 +10369,13 @@ export const deleteExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteImportError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a previous import and the associated file stored in an S3
  * bucket.
@@ -10328,12 +10383,7 @@ export const deleteExport: API.OperationMethod<
 export const deleteImport: API.OperationMethod<
   DeleteImportRequest,
   DeleteImportResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImportRequest,
@@ -10346,6 +10396,14 @@ export const deleteImport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIntentError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified intent.
  *
@@ -10355,13 +10413,7 @@ export const deleteImport: API.OperationMethod<
 export const deleteIntent: API.OperationMethod<
   DeleteIntentRequest,
   DeleteIntentResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntentRequest,
@@ -10375,6 +10427,12 @@ export const deleteIntent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes an existing policy from a bot or bot alias. If the resource
  * doesn't have a policy attached, Amazon Lex returns an exception.
@@ -10382,11 +10440,7 @@ export const deleteIntent: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -10398,6 +10452,12 @@ export const deleteResourcePolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteResourcePolicyStatementError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a policy statement from a resource policy. If you delete the
  * last statement from a policy, the policy is deleted. If you specify a
@@ -10411,11 +10471,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteResourcePolicyStatement: API.OperationMethod<
   DeleteResourcePolicyStatementRequest,
   DeleteResourcePolicyStatementResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteResourcePolicyStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyStatementRequest,
@@ -10427,19 +10483,21 @@ export const deleteResourcePolicyStatement: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the specified slot from an intent.
- */
-export const deleteSlot: API.OperationMethod<
-  DeleteSlotRequest,
-  DeleteSlotResponse,
+export type DeleteSlotError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified slot from an intent.
+ */
+export const deleteSlot: API.OperationMethod<
+  DeleteSlotRequest,
+  DeleteSlotResponse,
+  DeleteSlotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSlotRequest,
@@ -10453,6 +10511,14 @@ export const deleteSlot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSlotTypeError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a slot type from a bot locale.
  *
@@ -10464,13 +10530,7 @@ export const deleteSlot: API.OperationMethod<
 export const deleteSlotType: API.OperationMethod<
   DeleteSlotTypeRequest,
   DeleteSlotTypeResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSlotTypeRequest,
@@ -10484,19 +10544,21 @@ export const deleteSlotType: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The action to delete the selected test set.
- */
-export const deleteTestSet: API.OperationMethod<
-  DeleteTestSetRequest,
-  DeleteTestSetResponse,
+export type DeleteTestSetError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The action to delete the selected test set.
+ */
+export const deleteTestSet: API.OperationMethod<
+  DeleteTestSetRequest,
+  DeleteTestSetResponse,
+  DeleteTestSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTestSetRequest,
@@ -10510,6 +10572,11 @@ export const deleteTestSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteUtterancesError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes stored utterances.
  *
@@ -10529,28 +10596,27 @@ export const deleteTestSet: API.OperationMethod<
 export const deleteUtterances: API.OperationMethod<
   DeleteUtterancesRequest,
   DeleteUtterancesResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteUtterancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUtterancesRequest,
   output: DeleteUtterancesResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+export type DescribeBotError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides metadata information about a bot.
  */
 export const describeBot: API.OperationMethod<
   DescribeBotRequest,
   DescribeBotResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotRequest,
@@ -10563,18 +10629,20 @@ export const describeBot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBotAliasError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get information about a specific bot alias.
  */
 export const describeBotAlias: API.OperationMethod<
   DescribeBotAliasRequest,
   DescribeBotAliasResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotAliasRequest,
@@ -10587,18 +10655,20 @@ export const describeBotAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBotLocaleError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the settings that a bot has for a specific locale.
  */
 export const describeBotLocale: API.OperationMethod<
   DescribeBotLocaleRequest,
   DescribeBotLocaleResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotLocaleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotLocaleRequest,
@@ -10611,6 +10681,12 @@ export const describeBotLocale: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBotRecommendationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides metadata information about a bot recommendation. This
  * information will enable you to get a description on the request inputs,
@@ -10621,11 +10697,7 @@ export const describeBotLocale: API.OperationMethod<
 export const describeBotRecommendation: API.OperationMethod<
   DescribeBotRecommendationRequest,
   DescribeBotRecommendationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotRecommendationRequest,
@@ -10637,18 +10709,20 @@ export const describeBotRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBotReplicaError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Monitors the bot replication status through the UI console.
  */
 export const describeBotReplica: API.OperationMethod<
   DescribeBotReplicaRequest,
   DescribeBotReplicaResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotReplicaRequest,
@@ -10661,6 +10735,12 @@ export const describeBotReplica: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBotResourceGenerationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a request to generate a bot through natural language description, made through
  * the `StartBotResource` API. Use the `generatedBotLocaleUrl`
@@ -10670,11 +10750,7 @@ export const describeBotReplica: API.OperationMethod<
 export const describeBotResourceGeneration: API.OperationMethod<
   DescribeBotResourceGenerationRequest,
   DescribeBotResourceGenerationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotResourceGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotResourceGenerationRequest,
@@ -10686,18 +10762,20 @@ export const describeBotResourceGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBotVersionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides metadata about a version of a bot.
  */
 export const describeBotVersion: API.OperationMethod<
   DescribeBotVersionRequest,
   DescribeBotVersionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeBotVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBotVersionRequest,
@@ -10710,18 +10788,20 @@ export const describeBotVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeCustomVocabularyMetadataError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides metadata information about a custom vocabulary.
  */
 export const describeCustomVocabularyMetadata: API.OperationMethod<
   DescribeCustomVocabularyMetadataRequest,
   DescribeCustomVocabularyMetadataResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeCustomVocabularyMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCustomVocabularyMetadataRequest,
@@ -10734,17 +10814,19 @@ export const describeCustomVocabularyMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeExportError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specific export.
  */
 export const describeExport: API.OperationMethod<
   DescribeExportRequest,
   DescribeExportResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExportRequest,
@@ -10756,17 +10838,19 @@ export const describeExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeImportError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specific import.
  */
 export const describeImport: API.OperationMethod<
   DescribeImportRequest,
   DescribeImportResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImportRequest,
@@ -10778,18 +10862,20 @@ export const describeImport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeIntentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns metadata about an intent.
  */
 export const describeIntent: API.OperationMethod<
   DescribeIntentRequest,
   DescribeIntentResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIntentRequest,
@@ -10802,6 +10888,11 @@ export const describeIntent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeResourcePolicyError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the resource policy and policy revision for a bot or bot
  * alias.
@@ -10809,10 +10900,7 @@ export const describeIntent: API.OperationMethod<
 export const describeResourcePolicy: API.OperationMethod<
   DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourcePolicyRequest,
@@ -10823,18 +10911,20 @@ export const describeResourcePolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeSlotError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata information about a slot.
  */
 export const describeSlot: API.OperationMethod<
   DescribeSlotRequest,
   DescribeSlotResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeSlotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSlotRequest,
@@ -10847,18 +10937,20 @@ export const describeSlot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSlotTypeError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata information about a slot type.
  */
 export const describeSlotType: API.OperationMethod<
   DescribeSlotTypeRequest,
   DescribeSlotTypeResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSlotTypeRequest,
@@ -10871,18 +10963,20 @@ export const describeSlotType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTestExecutionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata information about the test execution.
  */
 export const describeTestExecution: API.OperationMethod<
   DescribeTestExecutionRequest,
   DescribeTestExecutionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTestExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTestExecutionRequest,
@@ -10895,18 +10989,20 @@ export const describeTestExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTestSetError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata information about the test set.
  */
 export const describeTestSet: API.OperationMethod<
   DescribeTestSetRequest,
   DescribeTestSetResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTestSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTestSetRequest,
@@ -10919,18 +11015,20 @@ export const describeTestSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTestSetDiscrepancyReportError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata information about the test set discrepancy report.
  */
 export const describeTestSetDiscrepancyReport: API.OperationMethod<
   DescribeTestSetDiscrepancyReportRequest,
   DescribeTestSetDiscrepancyReportResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTestSetDiscrepancyReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTestSetDiscrepancyReportRequest,
@@ -10943,18 +11041,20 @@ export const describeTestSetDiscrepancyReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTestSetGenerationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets metadata information about the test set generation.
  */
 export const describeTestSetGeneration: API.OperationMethod<
   DescribeTestSetGenerationRequest,
   DescribeTestSetGenerationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTestSetGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTestSetGenerationRequest,
@@ -10967,12 +11067,7 @@ export const describeTestSetGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Generates sample utterances for an intent.
- */
-export const generateBotElement: API.OperationMethod<
-  GenerateBotElementRequest,
-  GenerateBotElementResponse,
+export type GenerateBotElementError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
@@ -10980,7 +11075,14 @@ export const generateBotElement: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Generates sample utterances for an intent.
+ */
+export const generateBotElement: API.OperationMethod<
+  GenerateBotElementRequest,
+  GenerateBotElementResponse,
+  GenerateBotElementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateBotElementRequest,
@@ -10995,18 +11097,20 @@ export const generateBotElement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTestExecutionArtifactsUrlError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The pre-signed Amazon S3 URL to download the test execution result artifacts.
  */
 export const getTestExecutionArtifactsUrl: API.OperationMethod<
   GetTestExecutionArtifactsUrlRequest,
   GetTestExecutionArtifactsUrlResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTestExecutionArtifactsUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestExecutionArtifactsUrlRequest,
@@ -11019,6 +11123,12 @@ export const getTestExecutionArtifactsUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAggregatedUtterancesError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a list of utterances that users have sent to the
  * bot.
@@ -11048,33 +11158,21 @@ export const getTestExecutionArtifactsUrl: API.OperationMethod<
 export const listAggregatedUtterances: API.OperationMethod<
   ListAggregatedUtterancesRequest,
   ListAggregatedUtterancesResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAggregatedUtterancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAggregatedUtterancesRequest,
   ) => stream.Stream<
     ListAggregatedUtterancesResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAggregatedUtterancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAggregatedUtterancesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAggregatedUtterancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11092,39 +11190,33 @@ export const listAggregatedUtterances: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotAliasesError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of aliases for the specified bot.
  */
 export const listBotAliases: API.OperationMethod<
   ListBotAliasesRequest,
   ListBotAliasesResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotAliasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotAliasesRequest,
   ) => stream.Stream<
     ListBotAliasesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotAliasesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotAliasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11142,39 +11234,33 @@ export const listBotAliases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotAliasReplicasError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The action to list the replicated bots created from the source bot alias.
  */
 export const listBotAliasReplicas: API.OperationMethod<
   ListBotAliasReplicasRequest,
   ListBotAliasReplicasResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotAliasReplicasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotAliasReplicasRequest,
   ) => stream.Stream<
     ListBotAliasReplicasResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotAliasReplicasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotAliasReplicasRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotAliasReplicasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11192,39 +11278,33 @@ export const listBotAliasReplicas: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotLocalesError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of locales for the specified bot.
  */
 export const listBotLocales: API.OperationMethod<
   ListBotLocalesRequest,
   ListBotLocalesResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotLocalesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotLocalesRequest,
   ) => stream.Stream<
     ListBotLocalesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotLocalesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotLocalesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotLocalesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11242,6 +11322,12 @@ export const listBotLocales: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotRecommendationsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a list of bot recommendations that meet the specified
  * criteria.
@@ -11249,33 +11335,21 @@ export const listBotLocales: API.OperationMethod<
 export const listBotRecommendations: API.OperationMethod<
   ListBotRecommendationsRequest,
   ListBotRecommendationsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotRecommendationsRequest,
   ) => stream.Stream<
     ListBotRecommendationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotRecommendationsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11293,17 +11367,19 @@ export const listBotRecommendations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotReplicasError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The action to list the replicated bots.
  */
 export const listBotReplicas: API.OperationMethod<
   ListBotReplicasRequest,
   ListBotReplicasResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotReplicasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBotReplicasRequest,
@@ -11315,39 +11391,33 @@ export const listBotReplicas: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBotResourceGenerationsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the generation requests made for a bot locale.
  */
 export const listBotResourceGenerations: API.OperationMethod<
   ListBotResourceGenerationsRequest,
   ListBotResourceGenerationsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotResourceGenerationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotResourceGenerationsRequest,
   ) => stream.Stream<
     ListBotResourceGenerationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotResourceGenerationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotResourceGenerationsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotResourceGenerationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11365,39 +11435,33 @@ export const listBotResourceGenerations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of available bots.
  */
 export const listBots: API.OperationMethod<
   ListBotsRequest,
   ListBotsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
     ListBotsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11415,39 +11479,33 @@ export const listBots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotVersionReplicasError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Contains information about all the versions replication statuses applicable for Global Resiliency.
  */
 export const listBotVersionReplicas: API.OperationMethod<
   ListBotVersionReplicasRequest,
   ListBotVersionReplicasResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotVersionReplicasError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotVersionReplicasRequest,
   ) => stream.Stream<
     ListBotVersionReplicasResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotVersionReplicasError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotVersionReplicasRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotVersionReplicasError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11465,6 +11523,12 @@ export const listBotVersionReplicas: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBotVersionsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about all of the versions of a bot.
  *
@@ -11480,33 +11544,21 @@ export const listBotVersionReplicas: API.OperationMethod<
 export const listBotVersions: API.OperationMethod<
   ListBotVersionsRequest,
   ListBotVersionsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBotVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBotVersionsRequest,
   ) => stream.Stream<
     ListBotVersionsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBotVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBotVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11524,6 +11576,12 @@ export const listBotVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBuiltInIntentsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of built-in intents provided by Amazon Lex that you can use
  * in your bot.
@@ -11536,33 +11594,21 @@ export const listBotVersions: API.OperationMethod<
 export const listBuiltInIntents: API.OperationMethod<
   ListBuiltInIntentsRequest,
   ListBuiltInIntentsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBuiltInIntentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuiltInIntentsRequest,
   ) => stream.Stream<
     ListBuiltInIntentsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBuiltInIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuiltInIntentsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBuiltInIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11580,6 +11626,12 @@ export const listBuiltInIntents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListBuiltInSlotTypesError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of built-in slot types that meet the specified
  * criteria.
@@ -11587,33 +11639,21 @@ export const listBuiltInIntents: API.OperationMethod<
 export const listBuiltInSlotTypes: API.OperationMethod<
   ListBuiltInSlotTypesRequest,
   ListBuiltInSlotTypesResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBuiltInSlotTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBuiltInSlotTypesRequest,
   ) => stream.Stream<
     ListBuiltInSlotTypesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBuiltInSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuiltInSlotTypesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBuiltInSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11631,6 +11671,13 @@ export const listBuiltInSlotTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCustomVocabularyItemsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Paginated list of custom vocabulary items for a given bot locale's
  * custom vocabulary.
@@ -11638,36 +11685,21 @@ export const listBuiltInSlotTypes: API.OperationMethod<
 export const listCustomVocabularyItems: API.OperationMethod<
   ListCustomVocabularyItemsRequest,
   ListCustomVocabularyItemsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCustomVocabularyItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomVocabularyItemsRequest,
   ) => stream.Stream<
     ListCustomVocabularyItemsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomVocabularyItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomVocabularyItemsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomVocabularyItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11686,6 +11718,11 @@ export const listCustomVocabularyItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListExportsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the exports for a bot, bot locale, or custom vocabulary.
  * Exports are kept in the list for 7 days.
@@ -11693,30 +11730,21 @@ export const listCustomVocabularyItems: API.OperationMethod<
 export const listExports: API.OperationMethod<
   ListExportsRequest,
   ListExportsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListExportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExportsRequest,
   ) => stream.Stream<
     ListExportsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExportsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListExportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11729,6 +11757,11 @@ export const listExports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListImportsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the imports for a bot, bot locale, or custom vocabulary.
  * Imports are kept in the list for 7 days.
@@ -11736,30 +11769,21 @@ export const listExports: API.OperationMethod<
 export const listImports: API.OperationMethod<
   ListImportsRequest,
   ListImportsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListImportsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportsRequest,
   ) => stream.Stream<
     ListImportsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11772,6 +11796,13 @@ export const listImports: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIntentMetricsError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves summary metrics for the intents in your bot. The following fields are required:
  *
@@ -11790,36 +11821,21 @@ export const listImports: API.OperationMethod<
 export const listIntentMetrics: API.OperationMethod<
   ListIntentMetricsRequest,
   ListIntentMetricsResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIntentMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIntentMetricsRequest,
   ) => stream.Stream<
     ListIntentMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIntentMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIntentMetricsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIntentMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11838,6 +11854,13 @@ export const listIntentMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIntentPathsError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required:
  *
@@ -11850,12 +11873,7 @@ export const listIntentMetrics: API.OperationMethod<
 export const listIntentPaths: API.OperationMethod<
   ListIntentPathsRequest,
   ListIntentPathsResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIntentPathsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIntentPathsRequest,
@@ -11868,39 +11886,33 @@ export const listIntentPaths: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIntentsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get a list of intents that meet the specified criteria.
  */
 export const listIntents: API.OperationMethod<
   ListIntentsRequest,
   ListIntentsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIntentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIntentsRequest,
   ) => stream.Stream<
     ListIntentsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIntentsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11918,6 +11930,13 @@ export const listIntents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIntentStageMetricsError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves summary metrics for the stages within intents in your bot. The following fields are required:
  *
@@ -11936,36 +11955,21 @@ export const listIntents: API.OperationMethod<
 export const listIntentStageMetrics: API.OperationMethod<
   ListIntentStageMetricsRequest,
   ListIntentStageMetricsResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIntentStageMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIntentStageMetricsRequest,
   ) => stream.Stream<
     ListIntentStageMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIntentStageMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIntentStageMetricsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIntentStageMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -11984,6 +11988,13 @@ export const listIntentStageMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListRecommendedIntentsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of recommended intents provided by the bot
  * recommendation that you can use in your bot. Intents in the
@@ -11992,36 +12003,21 @@ export const listIntentStageMetrics: API.OperationMethod<
 export const listRecommendedIntents: API.OperationMethod<
   ListRecommendedIntentsRequest,
   ListRecommendedIntentsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRecommendedIntentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecommendedIntentsRequest,
   ) => stream.Stream<
     ListRecommendedIntentsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendedIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendedIntentsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRecommendedIntentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12040,6 +12036,13 @@ export const listRecommendedIntents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSessionAnalyticsDataError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of metadata for individual user sessions with your bot. The `startDateTime` and `endDateTime` fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways:
  *
@@ -12050,36 +12053,21 @@ export const listRecommendedIntents: API.OperationMethod<
 export const listSessionAnalyticsData: API.OperationMethod<
   ListSessionAnalyticsDataRequest,
   ListSessionAnalyticsDataResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionAnalyticsDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionAnalyticsDataRequest,
   ) => stream.Stream<
     ListSessionAnalyticsDataResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionAnalyticsDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionAnalyticsDataRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionAnalyticsDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12098,6 +12086,13 @@ export const listSessionAnalyticsData: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSessionMetricsError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves summary metrics for the user sessions with your bot. The following fields are required:
  *
@@ -12116,36 +12111,21 @@ export const listSessionAnalyticsData: API.OperationMethod<
 export const listSessionMetrics: API.OperationMethod<
   ListSessionMetricsRequest,
   ListSessionMetricsResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionMetricsRequest,
   ) => stream.Stream<
     ListSessionMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionMetricsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12164,39 +12144,33 @@ export const listSessionMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSlotsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of slots that match the specified criteria.
  */
 export const listSlots: API.OperationMethod<
   ListSlotsRequest,
   ListSlotsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSlotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSlotsRequest,
   ) => stream.Stream<
     ListSlotsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSlotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSlotsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSlotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12214,39 +12188,33 @@ export const listSlots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSlotTypesError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of slot types that match the specified criteria.
  */
 export const listSlotTypes: API.OperationMethod<
   ListSlotTypesRequest,
   ListSlotTypesResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSlotTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSlotTypesRequest,
   ) => stream.Stream<
     ListSlotTypesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSlotTypesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSlotTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12264,6 +12232,12 @@ export const listSlotTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of tags associated with a resource. Only bots, bot
  * aliases, and bot channels can have tags associated with them.
@@ -12271,11 +12245,7 @@ export const listSlotTypes: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -12287,42 +12257,34 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTestExecutionResultItemsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of test execution result items.
  */
 export const listTestExecutionResultItems: API.OperationMethod<
   ListTestExecutionResultItemsRequest,
   ListTestExecutionResultItemsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTestExecutionResultItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestExecutionResultItemsRequest,
   ) => stream.Stream<
     ListTestExecutionResultItemsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestExecutionResultItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestExecutionResultItemsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestExecutionResultItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12341,39 +12303,33 @@ export const listTestExecutionResultItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTestExecutionsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The list of test set executions.
  */
 export const listTestExecutions: API.OperationMethod<
   ListTestExecutionsRequest,
   ListTestExecutionsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTestExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestExecutionsRequest,
   ) => stream.Stream<
     ListTestExecutionsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestExecutionsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12391,42 +12347,34 @@ export const listTestExecutions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTestSetRecordsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The list of test set records.
  */
 export const listTestSetRecords: API.OperationMethod<
   ListTestSetRecordsRequest,
   ListTestSetRecordsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTestSetRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestSetRecordsRequest,
   ) => stream.Stream<
     ListTestSetRecordsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestSetRecordsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestSetRecordsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestSetRecordsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12445,39 +12393,33 @@ export const listTestSetRecords: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTestSetsError =
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The list of the test sets
  */
 export const listTestSets: API.OperationMethod<
   ListTestSetsRequest,
   ListTestSetsResponse,
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTestSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTestSetsRequest,
   ) => stream.Stream<
     ListTestSetsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestSetsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTestSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12495,6 +12437,13 @@ export const listTestSets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListUtteranceAnalyticsDataError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * To use this API operation, your IAM role must have permissions to
  * perform the ListAggregatedUtterances operation, which provides access to
@@ -12514,36 +12463,21 @@ export const listTestSets: API.OperationMethod<
 export const listUtteranceAnalyticsData: API.OperationMethod<
   ListUtteranceAnalyticsDataRequest,
   ListUtteranceAnalyticsDataResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListUtteranceAnalyticsDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUtteranceAnalyticsDataRequest,
   ) => stream.Stream<
     ListUtteranceAnalyticsDataResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUtteranceAnalyticsDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUtteranceAnalyticsDataRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUtteranceAnalyticsDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12562,6 +12496,13 @@ export const listUtteranceAnalyticsData: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListUtteranceMetricsError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * To use this API operation, your IAM role must have permissions to
  * perform the ListAggregatedUtterances operation, which provides access to
@@ -12585,36 +12526,21 @@ export const listUtteranceAnalyticsData: API.OperationMethod<
 export const listUtteranceMetrics: API.OperationMethod<
   ListUtteranceMetricsRequest,
   ListUtteranceMetricsResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListUtteranceMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUtteranceMetricsRequest,
   ) => stream.Stream<
     ListUtteranceMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUtteranceMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUtteranceMetricsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUtteranceMetricsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -12633,6 +12559,13 @@ export const listUtteranceMetrics: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchAssociatedTranscriptsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Search for associated transcripts that meet the specified
  * criteria.
@@ -12640,12 +12573,7 @@ export const listUtteranceMetrics: API.OperationMethod<
 export const searchAssociatedTranscripts: API.OperationMethod<
   SearchAssociatedTranscriptsRequest,
   SearchAssociatedTranscriptsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchAssociatedTranscriptsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchAssociatedTranscriptsRequest,
@@ -12658,13 +12586,7 @@ export const searchAssociatedTranscripts: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Use this to provide your transcript data, and to start the bot
- * recommendation process.
- */
-export const startBotRecommendation: API.OperationMethod<
-  StartBotRecommendationRequest,
-  StartBotRecommendationResponse,
+export type StartBotRecommendationError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
@@ -12672,7 +12594,15 @@ export const startBotRecommendation: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this to provide your transcript data, and to start the bot
+ * recommendation process.
+ */
+export const startBotRecommendation: API.OperationMethod<
+  StartBotRecommendationRequest,
+  StartBotRecommendationResponse,
+  StartBotRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBotRecommendationRequest,
@@ -12687,6 +12617,14 @@ export const startBotRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartBotResourceGenerationError =
+  | ConflictException
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a request for the descriptive bot builder to generate a bot locale configuration
  * based on the prompt you provide it. After you make this call, use the `DescribeBotResourceGeneration`
@@ -12697,13 +12635,7 @@ export const startBotRecommendation: API.OperationMethod<
 export const startBotResourceGeneration: API.OperationMethod<
   StartBotResourceGenerationRequest,
   StartBotResourceGenerationResponse,
-  | ConflictException
-  | InternalServerException
-  | PreconditionFailedException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartBotResourceGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBotResourceGenerationRequest,
@@ -12717,6 +12649,14 @@ export const startBotResourceGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartImportError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts importing a bot, bot locale, or custom vocabulary from a zip
  * archive that you uploaded to an S3 bucket.
@@ -12724,13 +12664,7 @@ export const startBotResourceGeneration: API.OperationMethod<
 export const startImport: API.OperationMethod<
   StartImportRequest,
   StartImportResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartImportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportRequest,
@@ -12744,19 +12678,21 @@ export const startImport: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The action to start test set execution.
- */
-export const startTestExecution: API.OperationMethod<
-  StartTestExecutionRequest,
-  StartTestExecutionResponse,
+export type StartTestExecutionError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The action to start test set execution.
+ */
+export const startTestExecution: API.OperationMethod<
+  StartTestExecutionRequest,
+  StartTestExecutionResponse,
+  StartTestExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTestExecutionRequest,
@@ -12770,19 +12706,21 @@ export const startTestExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The action to start the generation of test set.
- */
-export const startTestSetGeneration: API.OperationMethod<
-  StartTestSetGenerationRequest,
-  StartTestSetGenerationResponse,
+export type StartTestSetGenerationError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The action to start the generation of test set.
+ */
+export const startTestSetGeneration: API.OperationMethod<
+  StartTestSetGenerationRequest,
+  StartTestSetGenerationResponse,
+  StartTestSetGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTestSetGenerationRequest,
@@ -12796,12 +12734,7 @@ export const startTestSetGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stop an already running Bot Recommendation request.
- */
-export const stopBotRecommendation: API.OperationMethod<
-  StopBotRecommendationRequest,
-  StopBotRecommendationResponse,
+export type StopBotRecommendationError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
@@ -12809,7 +12742,14 @@ export const stopBotRecommendation: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stop an already running Bot Recommendation request.
+ */
+export const stopBotRecommendation: API.OperationMethod<
+  StopBotRecommendationRequest,
+  StopBotRecommendationResponse,
+  StopBotRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBotRecommendationRequest,
@@ -12824,6 +12764,12 @@ export const stopBotRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds the specified tags to the specified resource. If a tag key
  * already exists, the existing value is replaced with the new
@@ -12832,11 +12778,7 @@ export const stopBotRecommendation: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -12848,17 +12790,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a bot, bot alias, or bot channel.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -12870,19 +12814,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an existing bot.
- */
-export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
-  UpdateBotResponse,
+export type UpdateBotError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing bot.
+ */
+export const updateBot: API.OperationMethod<
+  UpdateBotRequest,
+  UpdateBotResponse,
+  UpdateBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotRequest,
@@ -12896,19 +12842,21 @@ export const updateBot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an existing bot alias.
- */
-export const updateBotAlias: API.OperationMethod<
-  UpdateBotAliasRequest,
-  UpdateBotAliasResponse,
+export type UpdateBotAliasError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing bot alias.
+ */
+export const updateBotAlias: API.OperationMethod<
+  UpdateBotAliasRequest,
+  UpdateBotAliasResponse,
+  UpdateBotAliasError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotAliasRequest,
@@ -12922,19 +12870,21 @@ export const updateBotAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the settings that a bot has for a specific locale.
- */
-export const updateBotLocale: API.OperationMethod<
-  UpdateBotLocaleRequest,
-  UpdateBotLocaleResponse,
+export type UpdateBotLocaleError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the settings that a bot has for a specific locale.
+ */
+export const updateBotLocale: API.OperationMethod<
+  UpdateBotLocaleRequest,
+  UpdateBotLocaleResponse,
+  UpdateBotLocaleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotLocaleRequest,
@@ -12948,12 +12898,7 @@ export const updateBotLocale: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing bot recommendation request.
- */
-export const updateBotRecommendation: API.OperationMethod<
-  UpdateBotRecommendationRequest,
-  UpdateBotRecommendationResponse,
+export type UpdateBotRecommendationError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
@@ -12961,7 +12906,14 @@ export const updateBotRecommendation: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing bot recommendation request.
+ */
+export const updateBotRecommendation: API.OperationMethod<
+  UpdateBotRecommendationRequest,
+  UpdateBotRecommendationResponse,
+  UpdateBotRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotRecommendationRequest,
@@ -12976,6 +12928,14 @@ export const updateBotRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateExportError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the password used to protect an export zip archive.
  *
@@ -12987,13 +12947,7 @@ export const updateBotRecommendation: API.OperationMethod<
 export const updateExport: API.OperationMethod<
   UpdateExportRequest,
   UpdateExportResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExportRequest,
@@ -13007,19 +12961,21 @@ export const updateExport: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the settings for an intent.
- */
-export const updateIntent: API.OperationMethod<
-  UpdateIntentRequest,
-  UpdateIntentResponse,
+export type UpdateIntentError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the settings for an intent.
+ */
+export const updateIntent: API.OperationMethod<
+  UpdateIntentRequest,
+  UpdateIntentResponse,
+  UpdateIntentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntentRequest,
@@ -13033,6 +12989,14 @@ export const updateIntent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateResourcePolicyError =
+  | InternalServerException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Replaces the existing resource policy for a bot or bot alias with a
  * new one. If the policy doesn't exist, Amazon Lex returns an
@@ -13041,13 +13005,7 @@ export const updateIntent: API.OperationMethod<
 export const updateResourcePolicy: API.OperationMethod<
   UpdateResourcePolicyRequest,
   UpdateResourcePolicyResponse,
-  | InternalServerException
-  | PreconditionFailedException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourcePolicyRequest,
@@ -13061,19 +13019,21 @@ export const updateResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the settings for a slot.
- */
-export const updateSlot: API.OperationMethod<
-  UpdateSlotRequest,
-  UpdateSlotResponse,
+export type UpdateSlotError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the settings for a slot.
+ */
+export const updateSlot: API.OperationMethod<
+  UpdateSlotRequest,
+  UpdateSlotResponse,
+  UpdateSlotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSlotRequest,
@@ -13087,19 +13047,21 @@ export const updateSlot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the configuration of an existing slot type.
- */
-export const updateSlotType: API.OperationMethod<
-  UpdateSlotTypeRequest,
-  UpdateSlotTypeResponse,
+export type UpdateSlotTypeError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing slot type.
+ */
+export const updateSlotType: API.OperationMethod<
+  UpdateSlotTypeRequest,
+  UpdateSlotTypeResponse,
+  UpdateSlotTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSlotTypeRequest,
@@ -13113,19 +13075,21 @@ export const updateSlotType: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The action to update the test set.
- */
-export const updateTestSet: API.OperationMethod<
-  UpdateTestSetRequest,
-  UpdateTestSetResponse,
+export type UpdateTestSetError =
   | ConflictException
   | InternalServerException
   | PreconditionFailedException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The action to update the test set.
+ */
+export const updateTestSet: API.OperationMethod<
+  UpdateTestSetRequest,
+  UpdateTestSetResponse,
+  UpdateTestSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTestSetRequest,

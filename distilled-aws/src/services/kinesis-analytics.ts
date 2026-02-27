@@ -1536,6 +1536,13 @@ export class InvalidApplicationConfigurationException extends S.TaggedErrorClass
 ) {}
 
 //# Operations
+export type AddApplicationCloudWatchLoggingOptionError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1547,12 +1554,7 @@ export class InvalidApplicationConfigurationException extends S.TaggedErrorClass
 export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
   AddApplicationCloudWatchLoggingOptionRequest,
   AddApplicationCloudWatchLoggingOptionResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  AddApplicationCloudWatchLoggingOptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationCloudWatchLoggingOptionRequest,
@@ -1565,6 +1567,14 @@ export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type AddApplicationInputError =
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1586,13 +1596,7 @@ export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
 export const addApplicationInput: API.OperationMethod<
   AddApplicationInputRequest,
   AddApplicationInputResponse,
-  | CodeValidationException
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  AddApplicationInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationInputRequest,
@@ -1606,6 +1610,13 @@ export const addApplicationInput: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type AddApplicationInputProcessingConfigurationError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1616,12 +1627,7 @@ export const addApplicationInput: API.OperationMethod<
 export const addApplicationInputProcessingConfiguration: API.OperationMethod<
   AddApplicationInputProcessingConfigurationRequest,
   AddApplicationInputProcessingConfigurationResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  AddApplicationInputProcessingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationInputProcessingConfigurationRequest,
@@ -1634,6 +1640,13 @@ export const addApplicationInputProcessingConfiguration: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type AddApplicationOutputError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1663,12 +1676,7 @@ export const addApplicationInputProcessingConfiguration: API.OperationMethod<
 export const addApplicationOutput: API.OperationMethod<
   AddApplicationOutputRequest,
   AddApplicationOutputResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  AddApplicationOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationOutputRequest,
@@ -1681,6 +1689,13 @@ export const addApplicationOutput: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type AddApplicationReferenceDataSourceError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1698,12 +1713,7 @@ export const addApplicationOutput: API.OperationMethod<
 export const addApplicationReferenceDataSource: API.OperationMethod<
   AddApplicationReferenceDataSourceRequest,
   AddApplicationReferenceDataSourceResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  AddApplicationReferenceDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationReferenceDataSourceRequest,
@@ -1716,6 +1726,14 @@ export const addApplicationReferenceDataSource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type CreateApplicationError =
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1744,13 +1762,7 @@ export const addApplicationReferenceDataSource: API.OperationMethod<
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | CodeValidationException
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | LimitExceededException
-  | ResourceInUseException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1764,6 +1776,12 @@ export const createApplication: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type DeleteApplicationError =
+  | ConcurrentModificationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1774,11 +1792,7 @@ export const createApplication: API.OperationMethod<
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | ConcurrentModificationException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -1790,6 +1804,13 @@ export const deleteApplication: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteApplicationCloudWatchLoggingOptionError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1800,12 +1821,7 @@ export const deleteApplication: API.OperationMethod<
 export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
   DeleteApplicationCloudWatchLoggingOptionRequest,
   DeleteApplicationCloudWatchLoggingOptionResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteApplicationCloudWatchLoggingOptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationCloudWatchLoggingOptionRequest,
@@ -1818,6 +1834,13 @@ export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteApplicationInputProcessingConfigurationError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1826,12 +1849,7 @@ export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
 export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
   DeleteApplicationInputProcessingConfigurationRequest,
   DeleteApplicationInputProcessingConfigurationResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteApplicationInputProcessingConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationInputProcessingConfigurationRequest,
@@ -1844,6 +1862,13 @@ export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteApplicationOutputError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1855,12 +1880,7 @@ export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
 export const deleteApplicationOutput: API.OperationMethod<
   DeleteApplicationOutputRequest,
   DeleteApplicationOutputResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteApplicationOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationOutputRequest,
@@ -1873,6 +1893,13 @@ export const deleteApplicationOutput: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DeleteApplicationReferenceDataSourceError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1887,12 +1914,7 @@ export const deleteApplicationOutput: API.OperationMethod<
 export const deleteApplicationReferenceDataSource: API.OperationMethod<
   DeleteApplicationReferenceDataSourceRequest,
   DeleteApplicationReferenceDataSourceResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  DeleteApplicationReferenceDataSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationReferenceDataSourceRequest,
@@ -1905,6 +1927,10 @@ export const deleteApplicationReferenceDataSource: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type DescribeApplicationError =
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1920,13 +1946,19 @@ export const deleteApplicationReferenceDataSource: API.OperationMethod<
 export const describeApplication: API.OperationMethod<
   DescribeApplicationRequest,
   DescribeApplicationResponse,
-  ResourceNotFoundException | UnsupportedOperationException | CommonErrors,
+  DescribeApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationRequest,
   output: DescribeApplicationResponse,
   errors: [ResourceNotFoundException, UnsupportedOperationException],
 }));
+export type DiscoverInputSchemaError =
+  | InvalidArgumentException
+  | ResourceProvisionedThroughputExceededException
+  | ServiceUnavailableException
+  | UnableToDetectSchemaException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1944,11 +1976,7 @@ export const describeApplication: API.OperationMethod<
 export const discoverInputSchema: API.OperationMethod<
   DiscoverInputSchemaRequest,
   DiscoverInputSchemaResponse,
-  | InvalidArgumentException
-  | ResourceProvisionedThroughputExceededException
-  | ServiceUnavailableException
-  | UnableToDetectSchemaException
-  | CommonErrors,
+  DiscoverInputSchemaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverInputSchemaRequest,
@@ -1960,6 +1988,7 @@ export const discoverInputSchema: API.OperationMethod<
     UnableToDetectSchemaException,
   ],
 }));
+export type ListApplicationsError = CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1982,23 +2011,25 @@ export const discoverInputSchema: API.OperationMethod<
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListApplicationsRequest,
   output: ListApplicationsResponse,
   errors: [],
 }));
+export type ListTagsForResourceError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2009,6 +2040,13 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartApplicationError =
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -2028,12 +2066,7 @@ export const listTagsForResource: API.OperationMethod<
 export const startApplication: API.OperationMethod<
   StartApplicationRequest,
   StartApplicationResponse,
-  | InvalidApplicationConfigurationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StartApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
@@ -2046,6 +2079,11 @@ export const startApplication: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type StopApplicationError =
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -2062,10 +2100,7 @@ export const startApplication: API.OperationMethod<
 export const stopApplication: API.OperationMethod<
   StopApplicationRequest,
   StopApplicationResponse,
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  StopApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
@@ -2076,6 +2111,13 @@ export const stopApplication: API.OperationMethod<
     UnsupportedOperationException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
  * For more information, see Using Tagging.
@@ -2083,12 +2125,7 @@ export const stopApplication: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2101,18 +2138,20 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2125,6 +2164,14 @@ export const untagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type UpdateApplicationError =
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -2141,13 +2188,7 @@ export const untagResource: API.OperationMethod<
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   UpdateApplicationResponse,
-  | CodeValidationException
-  | ConcurrentModificationException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,

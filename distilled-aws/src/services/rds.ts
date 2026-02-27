@@ -11685,17 +11685,19 @@ export class InvalidExportSourceStateFault extends S.TaggedErrorClass<InvalidExp
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddRoleToDBClusterError =
+  | DBClusterNotFoundFault
+  | DBClusterRoleAlreadyExistsFault
+  | DBClusterRoleQuotaExceededFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Associates an Identity and Access Management (IAM) role with a DB cluster.
  */
 export const addRoleToDBCluster: API.OperationMethod<
   AddRoleToDBClusterMessage,
   AddRoleToDBClusterResponse,
-  | DBClusterNotFoundFault
-  | DBClusterRoleAlreadyExistsFault
-  | DBClusterRoleQuotaExceededFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  AddRoleToDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddRoleToDBClusterMessage,
@@ -11707,6 +11709,12 @@ export const addRoleToDBCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type AddRoleToDBInstanceError =
+  | DBInstanceNotFoundFault
+  | DBInstanceRoleAlreadyExistsFault
+  | DBInstanceRoleQuotaExceededFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Associates an Amazon Web Services Identity and Access Management (IAM) role with a DB instance.
  *
@@ -11717,11 +11725,7 @@ export const addRoleToDBCluster: API.OperationMethod<
 export const addRoleToDBInstance: API.OperationMethod<
   AddRoleToDBInstanceMessage,
   AddRoleToDBInstanceResponse,
-  | DBInstanceNotFoundFault
-  | DBInstanceRoleAlreadyExistsFault
-  | DBInstanceRoleQuotaExceededFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  AddRoleToDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddRoleToDBInstanceMessage,
@@ -11733,27 +11737,24 @@ export const addRoleToDBInstance: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type AddSourceIdentifierToSubscriptionError =
+  | SourceNotFoundFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Adds a source identifier to an existing RDS event notification subscription.
  */
 export const addSourceIdentifierToSubscription: API.OperationMethod<
   AddSourceIdentifierToSubscriptionMessage,
   AddSourceIdentifierToSubscriptionResult,
-  SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
+  AddSourceIdentifierToSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddSourceIdentifierToSubscriptionMessage,
   output: AddSourceIdentifierToSubscriptionResult,
   errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
 }));
-/**
- * Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS.
- *
- * For an overview on tagging your relational database resources, see Tagging Amazon RDS Resources or Tagging Amazon Aurora and Amazon RDS Resources.
- */
-export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
-  AddTagsToResourceResponse,
+export type AddTagsToResourceError =
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -11768,7 +11769,16 @@ export const addTagsToResource: API.OperationMethod<
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
   | TenantDatabaseNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS.
+ *
+ * For an overview on tagging your relational database resources, see Tagging Amazon RDS Resources or Tagging Amazon Aurora and Amazon RDS Resources.
+ */
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceMessage,
+  AddTagsToResourceResponse,
+  AddTagsToResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceMessage,
@@ -11790,16 +11800,18 @@ export const addTagsToResource: API.OperationMethod<
     TenantDatabaseNotFoundFault,
   ],
 }));
+export type ApplyPendingMaintenanceActionError =
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Applies a pending maintenance action to a resource (for example, to a DB instance).
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
   ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResult,
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ApplyPendingMaintenanceActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyPendingMaintenanceActionMessage,
@@ -11810,6 +11822,12 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type AuthorizeDBSecurityGroupIngressError =
+  | AuthorizationAlreadyExistsFault
+  | AuthorizationQuotaExceededFault
+  | DBSecurityGroupNotFoundFault
+  | InvalidDBSecurityGroupStateFault
+  | CommonErrors;
 /**
  * Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-VPC).
  *
@@ -11822,11 +11840,7 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
 export const authorizeDBSecurityGroupIngress: API.OperationMethod<
   AuthorizeDBSecurityGroupIngressMessage,
   AuthorizeDBSecurityGroupIngressResult,
-  | AuthorizationAlreadyExistsFault
-  | AuthorizationQuotaExceededFault
-  | DBSecurityGroupNotFoundFault
-  | InvalidDBSecurityGroupStateFault
-  | CommonErrors,
+  AuthorizeDBSecurityGroupIngressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeDBSecurityGroupIngressMessage,
@@ -11838,6 +11852,10 @@ export const authorizeDBSecurityGroupIngress: API.OperationMethod<
     InvalidDBSecurityGroupStateFault,
   ],
 }));
+export type BacktrackDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Backtracks a DB cluster to a specific time, without creating a new DB cluster.
  *
@@ -11848,26 +11866,35 @@ export const authorizeDBSecurityGroupIngress: API.OperationMethod<
 export const backtrackDBCluster: API.OperationMethod<
   BacktrackDBClusterMessage,
   DBClusterBacktrack,
-  DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
+  BacktrackDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BacktrackDBClusterMessage,
   output: DBClusterBacktrack,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault],
 }));
+export type CancelExportTaskError =
+  | ExportTaskNotFoundFault
+  | InvalidExportTaskStateFault
+  | CommonErrors;
 /**
  * Cancels an export task in progress that is exporting a snapshot or cluster to Amazon S3. Any data that has already been written to the S3 bucket isn't removed.
  */
 export const cancelExportTask: API.OperationMethod<
   CancelExportTaskMessage,
   ExportTask,
-  ExportTaskNotFoundFault | InvalidExportTaskStateFault | CommonErrors,
+  CancelExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelExportTaskMessage,
   output: ExportTask,
   errors: [ExportTaskNotFoundFault, InvalidExportTaskStateFault],
 }));
+export type CopyDBClusterParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupNotFoundFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies the specified DB cluster parameter group.
  *
@@ -11876,10 +11903,7 @@ export const cancelExportTask: API.OperationMethod<
 export const copyDBClusterParameterGroup: API.OperationMethod<
   CopyDBClusterParameterGroupMessage,
   CopyDBClusterParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupNotFoundFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CopyDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBClusterParameterGroupMessage,
@@ -11890,6 +11914,14 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CopyDBClusterSnapshotError =
+  | DBClusterSnapshotAlreadyExistsFault
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | KMSKeyNotAccessibleFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies a snapshot of a DB cluster.
  *
@@ -11914,13 +11946,7 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
 export const copyDBClusterSnapshot: API.OperationMethod<
   CopyDBClusterSnapshotMessage,
   CopyDBClusterSnapshotResult,
-  | DBClusterSnapshotAlreadyExistsFault
-  | DBClusterSnapshotNotFoundFault
-  | InvalidDBClusterSnapshotStateFault
-  | InvalidDBClusterStateFault
-  | KMSKeyNotAccessibleFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  CopyDBClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBClusterSnapshotMessage,
@@ -11934,6 +11960,11 @@ export const copyDBClusterSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type CopyDBParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupNotFoundFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies the specified DB parameter group.
  *
@@ -11942,10 +11973,7 @@ export const copyDBClusterSnapshot: API.OperationMethod<
 export const copyDBParameterGroup: API.OperationMethod<
   CopyDBParameterGroupMessage,
   CopyDBParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupNotFoundFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CopyDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBParameterGroupMessage,
@@ -11956,6 +11984,14 @@ export const copyDBParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CopyDBSnapshotError =
+  | CustomAvailabilityZoneNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | DBSnapshotNotFoundFault
+  | InvalidDBSnapshotStateFault
+  | KMSKeyNotAccessibleFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies the specified DB snapshot. The source DB snapshot must be in the `available` state.
  *
@@ -11968,13 +12004,7 @@ export const copyDBParameterGroup: API.OperationMethod<
 export const copyDBSnapshot: API.OperationMethod<
   CopyDBSnapshotMessage,
   CopyDBSnapshotResult,
-  | CustomAvailabilityZoneNotFoundFault
-  | DBSnapshotAlreadyExistsFault
-  | DBSnapshotNotFoundFault
-  | InvalidDBSnapshotStateFault
-  | KMSKeyNotAccessibleFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  CopyDBSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDBSnapshotMessage,
@@ -11988,16 +12018,18 @@ export const copyDBSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type CopyOptionGroupError =
+  | OptionGroupAlreadyExistsFault
+  | OptionGroupNotFoundFault
+  | OptionGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Copies the specified option group.
  */
 export const copyOptionGroup: API.OperationMethod<
   CopyOptionGroupMessage,
   CopyOptionGroupResult,
-  | OptionGroupAlreadyExistsFault
-  | OptionGroupNotFoundFault
-  | OptionGroupQuotaExceededFault
-  | CommonErrors,
+  CopyOptionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyOptionGroupMessage,
@@ -12008,18 +12040,7 @@ export const copyOptionGroup: API.OperationMethod<
     OptionGroupQuotaExceededFault,
   ],
 }));
-/**
- * Creates a blue/green deployment.
- *
- * A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment.
- *
- * You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute.
- *
- * For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon RDS User Guide* and Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon Aurora User Guide*.
- */
-export const createBlueGreenDeployment: API.OperationMethod<
-  CreateBlueGreenDeploymentRequest,
-  CreateBlueGreenDeploymentResponse,
+export type CreateBlueGreenDeploymentError =
   | BlueGreenDeploymentAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -12032,7 +12053,20 @@ export const createBlueGreenDeployment: API.OperationMethod<
   | SourceClusterNotSupportedFault
   | SourceDatabaseNotSupportedFault
   | StorageQuotaExceededFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a blue/green deployment.
+ *
+ * A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment.
+ *
+ * You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute.
+ *
+ * For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon RDS User Guide* and Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon Aurora User Guide*.
+ */
+export const createBlueGreenDeployment: API.OperationMethod<
+  CreateBlueGreenDeploymentRequest,
+  CreateBlueGreenDeploymentResponse,
+  CreateBlueGreenDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBlueGreenDeploymentRequest,
@@ -12052,12 +12086,7 @@ export const createBlueGreenDeployment: API.OperationMethod<
     StorageQuotaExceededFault,
   ],
 }));
-/**
- * Creates a custom DB engine version (CEV).
- */
-export const createCustomDBEngineVersion: API.OperationMethod<
-  CreateCustomDBEngineVersionMessage,
-  DBEngineVersion,
+export type CreateCustomDBEngineVersionError =
   | CreateCustomDBEngineVersionFault
   | CustomDBEngineVersionAlreadyExistsFault
   | CustomDBEngineVersionNotFoundFault
@@ -12065,7 +12094,14 @@ export const createCustomDBEngineVersion: API.OperationMethod<
   | Ec2ImagePropertiesNotSupportedFault
   | InvalidCustomDBEngineVersionStateFault
   | KMSKeyNotAccessibleFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a custom DB engine version (CEV).
+ */
+export const createCustomDBEngineVersion: API.OperationMethod<
+  CreateCustomDBEngineVersionMessage,
+  DBEngineVersion,
+  CreateCustomDBEngineVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomDBEngineVersionMessage,
@@ -12080,18 +12116,7 @@ export const createCustomDBEngineVersion: API.OperationMethod<
     KMSKeyNotAccessibleFault,
   ],
 }));
-/**
- * Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster.
- *
- * If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the CreateDBInstance operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone.
- *
- * You can use the `ReplicationSourceIdentifier` parameter to create an Amazon Aurora DB cluster as a read replica of another DB cluster or Amazon RDS for MySQL or PostgreSQL DB instance. For more information about Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
- *
- * You can also use the `ReplicationSourceIdentifier` parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
- */
-export const createDBCluster: API.OperationMethod<
-  CreateDBClusterMessage,
-  CreateDBClusterResult,
+export type CreateDBClusterError =
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -12116,7 +12141,20 @@ export const createDBCluster: API.OperationMethod<
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster.
+ *
+ * If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the CreateDBInstance operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone.
+ *
+ * You can use the `ReplicationSourceIdentifier` parameter to create an Amazon Aurora DB cluster as a read replica of another DB cluster or Amazon RDS for MySQL or PostgreSQL DB instance. For more information about Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
+ *
+ * You can also use the `ReplicationSourceIdentifier` parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
+ */
+export const createDBCluster: API.OperationMethod<
+  CreateDBClusterMessage,
+  CreateDBClusterResult,
+  CreateDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterMessage,
@@ -12148,6 +12186,14 @@ export const createDBCluster: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
+export type CreateDBClusterEndpointError =
+  | DBClusterEndpointAlreadyExistsFault
+  | DBClusterEndpointQuotaExceededFault
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster.
  *
@@ -12156,13 +12202,7 @@ export const createDBCluster: API.OperationMethod<
 export const createDBClusterEndpoint: API.OperationMethod<
   CreateDBClusterEndpointMessage,
   DBClusterEndpoint,
-  | DBClusterEndpointAlreadyExistsFault
-  | DBClusterEndpointQuotaExceededFault
-  | DBClusterNotFoundFault
-  | DBInstanceNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  CreateDBClusterEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterEndpointMessage,
@@ -12176,6 +12216,10 @@ export const createDBClusterEndpoint: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type CreateDBClusterParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a new DB cluster parameter group.
  *
@@ -12196,9 +12240,7 @@ export const createDBClusterEndpoint: API.OperationMethod<
 export const createDBClusterParameterGroup: API.OperationMethod<
   CreateDBClusterParameterGroupMessage,
   CreateDBClusterParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CreateDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterParameterGroupMessage,
@@ -12208,6 +12250,13 @@ export const createDBClusterParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CreateDBClusterSnapshotError =
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotAlreadyExistsFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a snapshot of a DB cluster.
  *
@@ -12218,12 +12267,7 @@ export const createDBClusterParameterGroup: API.OperationMethod<
 export const createDBClusterSnapshot: API.OperationMethod<
   CreateDBClusterSnapshotMessage,
   CreateDBClusterSnapshotResult,
-  | DBClusterNotFoundFault
-  | DBClusterSnapshotAlreadyExistsFault
-  | InvalidDBClusterSnapshotStateFault
-  | InvalidDBClusterStateFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  CreateDBClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterSnapshotMessage,
@@ -12236,18 +12280,7 @@ export const createDBClusterSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
-/**
- * Creates a new DB instance.
- *
- * The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster.
- *
- * For more information about creating an RDS DB instance, see Creating an Amazon RDS DB instance in the *Amazon RDS User Guide*.
- *
- * For more information about creating a DB instance in an Aurora DB cluster, see Creating an Amazon Aurora DB cluster in the *Amazon Aurora User Guide*.
- */
-export const createDBInstance: API.OperationMethod<
-  CreateDBInstanceMessage,
-  CreateDBInstanceResult,
+export type CreateDBInstanceError =
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
   | CertificateNotFoundFault
@@ -12271,7 +12304,20 @@ export const createDBInstance: API.OperationMethod<
   | StorageTypeNotSupportedFault
   | TenantDatabaseQuotaExceededFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new DB instance.
+ *
+ * The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster.
+ *
+ * For more information about creating an RDS DB instance, see Creating an Amazon RDS DB instance in the *Amazon RDS User Guide*.
+ *
+ * For more information about creating a DB instance in an Aurora DB cluster, see Creating an Amazon Aurora DB cluster in the *Amazon Aurora User Guide*.
+ */
+export const createDBInstance: API.OperationMethod<
+  CreateDBInstanceMessage,
+  CreateDBInstanceResult,
+  CreateDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBInstanceMessage,
@@ -12302,18 +12348,7 @@ export const createDBInstance: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
-/**
- * Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB instance using a read replica in the *Amazon RDS User Guide*.
- *
- * Amazon Aurora doesn't support this operation. To create a DB instance for an Aurora DB cluster, use the `CreateDBInstance` operation.
- *
- * RDS creates read replicas with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified.
- *
- * Your source DB instance or cluster must have backup retention enabled.
- */
-export const createDBInstanceReadReplica: API.OperationMethod<
-  CreateDBInstanceReadReplicaMessage,
-  CreateDBInstanceReadReplicaResult,
+export type CreateDBInstanceReadReplicaError =
   | CertificateNotFoundFault
   | DBClusterNotFoundFault
   | DBInstanceAlreadyExistsFault
@@ -12339,7 +12374,20 @@ export const createDBInstanceReadReplica: API.OperationMethod<
   | StorageTypeNotSupportedFault
   | TenantDatabaseQuotaExceededFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB instance using a read replica in the *Amazon RDS User Guide*.
+ *
+ * Amazon Aurora doesn't support this operation. To create a DB instance for an Aurora DB cluster, use the `CreateDBInstance` operation.
+ *
+ * RDS creates read replicas with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified.
+ *
+ * Your source DB instance or cluster must have backup retention enabled.
+ */
+export const createDBInstanceReadReplica: API.OperationMethod<
+  CreateDBInstanceReadReplicaMessage,
+  CreateDBInstanceReadReplicaResult,
+  CreateDBInstanceReadReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBInstanceReadReplicaMessage,
@@ -12372,6 +12420,10 @@ export const createDBInstanceReadReplica: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
+export type CreateDBParameterGroupError =
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a new DB parameter group.
  *
@@ -12382,9 +12434,7 @@ export const createDBInstanceReadReplica: API.OperationMethod<
 export const createDBParameterGroup: API.OperationMethod<
   CreateDBParameterGroupMessage,
   CreateDBParameterGroupResult,
-  | DBParameterGroupAlreadyExistsFault
-  | DBParameterGroupQuotaExceededFault
-  | CommonErrors,
+  CreateDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBParameterGroupMessage,
@@ -12394,34 +12444,38 @@ export const createDBParameterGroup: API.OperationMethod<
     DBParameterGroupQuotaExceededFault,
   ],
 }));
+export type CreateDBProxyError =
+  | DBProxyAlreadyExistsFault
+  | DBProxyQuotaExceededFault
+  | InvalidSubnet
+  | CommonErrors;
 /**
  * Creates a new DB proxy.
  */
 export const createDBProxy: API.OperationMethod<
   CreateDBProxyRequest,
   CreateDBProxyResponse,
-  | DBProxyAlreadyExistsFault
-  | DBProxyQuotaExceededFault
-  | InvalidSubnet
-  | CommonErrors,
+  CreateDBProxyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBProxyRequest,
   output: CreateDBProxyResponse,
   errors: [DBProxyAlreadyExistsFault, DBProxyQuotaExceededFault, InvalidSubnet],
 }));
+export type CreateDBProxyEndpointError =
+  | DBProxyEndpointAlreadyExistsFault
+  | DBProxyEndpointQuotaExceededFault
+  | DBProxyNotFoundFault
+  | InvalidDBProxyStateFault
+  | InvalidSubnet
+  | CommonErrors;
 /**
  * Creates a `DBProxyEndpoint`. Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC.
  */
 export const createDBProxyEndpoint: API.OperationMethod<
   CreateDBProxyEndpointRequest,
   CreateDBProxyEndpointResponse,
-  | DBProxyEndpointAlreadyExistsFault
-  | DBProxyEndpointQuotaExceededFault
-  | DBProxyNotFoundFault
-  | InvalidDBProxyStateFault
-  | InvalidSubnet
-  | CommonErrors,
+  CreateDBProxyEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBProxyEndpointRequest,
@@ -12434,6 +12488,11 @@ export const createDBProxyEndpoint: API.OperationMethod<
     InvalidSubnet,
   ],
 }));
+export type CreateDBSecurityGroupError =
+  | DBSecurityGroupAlreadyExistsFault
+  | DBSecurityGroupNotSupportedFault
+  | DBSecurityGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a new DB security group. DB security groups control access to a DB instance.
  *
@@ -12444,10 +12503,7 @@ export const createDBProxyEndpoint: API.OperationMethod<
 export const createDBSecurityGroup: API.OperationMethod<
   CreateDBSecurityGroupMessage,
   CreateDBSecurityGroupResult,
-  | DBSecurityGroupAlreadyExistsFault
-  | DBSecurityGroupNotSupportedFault
-  | DBSecurityGroupQuotaExceededFault
-  | CommonErrors,
+  CreateDBSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBSecurityGroupMessage,
@@ -12458,6 +12514,15 @@ export const createDBSecurityGroup: API.OperationMethod<
     DBSecurityGroupQuotaExceededFault,
   ],
 }));
+export type CreateDBShardGroupError =
+  | DBClusterNotFoundFault
+  | DBShardGroupAlreadyExistsFault
+  | InvalidDBClusterStateFault
+  | InvalidVPCNetworkStateFault
+  | MaxDBShardGroupLimitReached
+  | NetworkTypeNotSupported
+  | UnsupportedDBEngineVersionFault
+  | CommonErrors;
 /**
  * Creates a new DB shard group for Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.
  *
@@ -12466,14 +12531,7 @@ export const createDBSecurityGroup: API.OperationMethod<
 export const createDBShardGroup: API.OperationMethod<
   CreateDBShardGroupMessage,
   DBShardGroup,
-  | DBClusterNotFoundFault
-  | DBShardGroupAlreadyExistsFault
-  | InvalidDBClusterStateFault
-  | InvalidVPCNetworkStateFault
-  | MaxDBShardGroupLimitReached
-  | NetworkTypeNotSupported
-  | UnsupportedDBEngineVersionFault
-  | CommonErrors,
+  CreateDBShardGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBShardGroupMessage,
@@ -12488,17 +12546,19 @@ export const createDBShardGroup: API.OperationMethod<
     UnsupportedDBEngineVersionFault,
   ],
 }));
+export type CreateDBSnapshotError =
+  | DBInstanceNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | InvalidDBInstanceStateFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a snapshot of a DB instance. The source DB instance must be in the `available` or `storage-optimization` state.
  */
 export const createDBSnapshot: API.OperationMethod<
   CreateDBSnapshotMessage,
   CreateDBSnapshotResult,
-  | DBInstanceNotFoundFault
-  | DBSnapshotAlreadyExistsFault
-  | InvalidDBInstanceStateFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  CreateDBSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBSnapshotMessage,
@@ -12510,18 +12570,20 @@ export const createDBSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type CreateDBSubnetGroupError =
+  | DBSubnetGroupAlreadyExistsFault
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupQuotaExceededFault
+  | DBSubnetQuotaExceededFault
+  | InvalidSubnet
+  | CommonErrors;
 /**
  * Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
  */
 export const createDBSubnetGroup: API.OperationMethod<
   CreateDBSubnetGroupMessage,
   CreateDBSubnetGroupResult,
-  | DBSubnetGroupAlreadyExistsFault
-  | DBSubnetGroupDoesNotCoverEnoughAZs
-  | DBSubnetGroupQuotaExceededFault
-  | DBSubnetQuotaExceededFault
-  | InvalidSubnet
-  | CommonErrors,
+  CreateDBSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBSubnetGroupMessage,
@@ -12534,6 +12596,15 @@ export const createDBSubnetGroup: API.OperationMethod<
     InvalidSubnet,
   ],
 }));
+export type CreateEventSubscriptionError =
+  | EventSubscriptionQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SourceNotFoundFault
+  | SubscriptionAlreadyExistFault
+  | SubscriptionCategoryNotFoundFault
+  | CommonErrors;
 /**
  * Creates an RDS event notification subscription. This operation requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console.
  *
@@ -12548,14 +12619,7 @@ export const createDBSubnetGroup: API.OperationMethod<
 export const createEventSubscription: API.OperationMethod<
   CreateEventSubscriptionMessage,
   CreateEventSubscriptionResult,
-  | EventSubscriptionQuotaExceededFault
-  | SNSInvalidTopicFault
-  | SNSNoAuthorizationFault
-  | SNSTopicArnNotFoundFault
-  | SourceNotFoundFault
-  | SubscriptionAlreadyExistFault
-  | SubscriptionCategoryNotFoundFault
-  | CommonErrors,
+  CreateEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventSubscriptionMessage,
@@ -12570,6 +12634,14 @@ export const createEventSubscription: API.OperationMethod<
     SubscriptionCategoryNotFoundFault,
   ],
 }));
+export type CreateGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterAlreadyExistsFault
+  | GlobalClusterQuotaExceededFault
+  | InvalidDBClusterStateFault
+  | InvalidDBShardGroupStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.
  *
@@ -12580,13 +12652,7 @@ export const createEventSubscription: API.OperationMethod<
 export const createGlobalCluster: API.OperationMethod<
   CreateGlobalClusterMessage,
   CreateGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterAlreadyExistsFault
-  | GlobalClusterQuotaExceededFault
-  | InvalidDBClusterStateFault
-  | InvalidDBShardGroupStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  CreateGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlobalClusterMessage,
@@ -12600,19 +12666,21 @@ export const createGlobalCluster: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
-/**
- * Creates a zero-ETL integration with Amazon Redshift.
- */
-export const createIntegration: API.OperationMethod<
-  CreateIntegrationMessage,
-  Integration,
+export type CreateIntegrationError =
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
   | IntegrationAlreadyExistsFault
   | IntegrationConflictOperationFault
   | IntegrationQuotaExceededFault
   | KMSKeyNotAccessibleFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a zero-ETL integration with Amazon Redshift.
+ */
+export const createIntegration: API.OperationMethod<
+  CreateIntegrationMessage,
+  Integration,
+  CreateIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationMessage,
@@ -12626,6 +12694,10 @@ export const createIntegration: API.OperationMethod<
     KMSKeyNotAccessibleFault,
   ],
 }));
+export type CreateOptionGroupError =
+  | OptionGroupAlreadyExistsFault
+  | OptionGroupQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a new option group. You can create up to 20 option groups.
  *
@@ -12634,25 +12706,27 @@ export const createIntegration: API.OperationMethod<
 export const createOptionGroup: API.OperationMethod<
   CreateOptionGroupMessage,
   CreateOptionGroupResult,
-  OptionGroupAlreadyExistsFault | OptionGroupQuotaExceededFault | CommonErrors,
+  CreateOptionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOptionGroupMessage,
   output: CreateOptionGroupResult,
   errors: [OptionGroupAlreadyExistsFault, OptionGroupQuotaExceededFault],
 }));
+export type CreateTenantDatabaseError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | KMSKeyNotAccessibleFault
+  | TenantDatabaseAlreadyExistsFault
+  | TenantDatabaseQuotaExceededFault
+  | CommonErrors;
 /**
  * Creates a tenant database in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle container database (CDB) instances are supported.
  */
 export const createTenantDatabase: API.OperationMethod<
   CreateTenantDatabaseMessage,
   CreateTenantDatabaseResult,
-  | DBInstanceNotFoundFault
-  | InvalidDBInstanceStateFault
-  | KMSKeyNotAccessibleFault
-  | TenantDatabaseAlreadyExistsFault
-  | TenantDatabaseQuotaExceededFault
-  | CommonErrors,
+  CreateTenantDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTenantDatabaseMessage,
@@ -12665,6 +12739,10 @@ export const createTenantDatabase: API.OperationMethod<
     TenantDatabaseQuotaExceededFault,
   ],
 }));
+export type DeleteBlueGreenDeploymentError =
+  | BlueGreenDeploymentNotFoundFault
+  | InvalidBlueGreenDeploymentStateFault
+  | CommonErrors;
 /**
  * Deletes a blue/green deployment.
  *
@@ -12673,9 +12751,7 @@ export const createTenantDatabase: API.OperationMethod<
 export const deleteBlueGreenDeployment: API.OperationMethod<
   DeleteBlueGreenDeploymentRequest,
   DeleteBlueGreenDeploymentResponse,
-  | BlueGreenDeploymentNotFoundFault
-  | InvalidBlueGreenDeploymentStateFault
-  | CommonErrors,
+  DeleteBlueGreenDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBlueGreenDeploymentRequest,
@@ -12685,6 +12761,10 @@ export const deleteBlueGreenDeployment: API.OperationMethod<
     InvalidBlueGreenDeploymentStateFault,
   ],
 }));
+export type DeleteCustomDBEngineVersionError =
+  | CustomDBEngineVersionNotFoundFault
+  | InvalidCustomDBEngineVersionStateFault
+  | CommonErrors;
 /**
  * Deletes a custom engine version. To run this command, make sure you meet the following prerequisites:
  *
@@ -12701,9 +12781,7 @@ export const deleteBlueGreenDeployment: API.OperationMethod<
 export const deleteCustomDBEngineVersion: API.OperationMethod<
   DeleteCustomDBEngineVersionMessage,
   DBEngineVersion,
-  | CustomDBEngineVersionNotFoundFault
-  | InvalidCustomDBEngineVersionStateFault
-  | CommonErrors,
+  DeleteCustomDBEngineVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomDBEngineVersionMessage,
@@ -12713,6 +12791,16 @@ export const deleteCustomDBEngineVersion: API.OperationMethod<
     InvalidCustomDBEngineVersionStateFault,
   ],
 }));
+export type DeleteDBClusterError =
+  | DBClusterAutomatedBackupQuotaExceededFault
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotAlreadyExistsFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | KMSKeyNotAccessibleFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.
  *
@@ -12725,15 +12813,7 @@ export const deleteCustomDBEngineVersion: API.OperationMethod<
 export const deleteDBCluster: API.OperationMethod<
   DeleteDBClusterMessage,
   DeleteDBClusterResult,
-  | DBClusterAutomatedBackupQuotaExceededFault
-  | DBClusterNotFoundFault
-  | DBClusterSnapshotAlreadyExistsFault
-  | InvalidDBClusterSnapshotStateFault
-  | InvalidDBClusterStateFault
-  | InvalidGlobalClusterStateFault
-  | KMSKeyNotAccessibleFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  DeleteDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterMessage,
@@ -12749,15 +12829,17 @@ export const deleteDBCluster: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type DeleteDBClusterAutomatedBackupError =
+  | DBClusterAutomatedBackupNotFoundFault
+  | InvalidDBClusterAutomatedBackupStateFault
+  | CommonErrors;
 /**
  * Deletes automated backups using the `DbClusterResourceId` value of the source DB cluster or the Amazon Resource Name (ARN) of the automated backups.
  */
 export const deleteDBClusterAutomatedBackup: API.OperationMethod<
   DeleteDBClusterAutomatedBackupMessage,
   DeleteDBClusterAutomatedBackupResult,
-  | DBClusterAutomatedBackupNotFoundFault
-  | InvalidDBClusterAutomatedBackupStateFault
-  | CommonErrors,
+  DeleteDBClusterAutomatedBackupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterAutomatedBackupMessage,
@@ -12767,6 +12849,11 @@ export const deleteDBClusterAutomatedBackup: API.OperationMethod<
     InvalidDBClusterAutomatedBackupStateFault,
   ],
 }));
+export type DeleteDBClusterEndpointError =
+  | DBClusterEndpointNotFoundFault
+  | InvalidDBClusterEndpointStateFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster.
  *
@@ -12775,10 +12862,7 @@ export const deleteDBClusterAutomatedBackup: API.OperationMethod<
 export const deleteDBClusterEndpoint: API.OperationMethod<
   DeleteDBClusterEndpointMessage,
   DBClusterEndpoint,
-  | DBClusterEndpointNotFoundFault
-  | InvalidDBClusterEndpointStateFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  DeleteDBClusterEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterEndpointMessage,
@@ -12789,6 +12873,10 @@ export const deleteDBClusterEndpoint: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type DeleteDBClusterParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters.
  *
@@ -12799,15 +12887,17 @@ export const deleteDBClusterEndpoint: API.OperationMethod<
 export const deleteDBClusterParameterGroup: API.OperationMethod<
   DeleteDBClusterParameterGroupMessage,
   DeleteDBClusterParameterGroupResponse,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  DeleteDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterParameterGroupMessage,
   output: DeleteDBClusterParameterGroupResponse,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type DeleteDBClusterSnapshotError =
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | CommonErrors;
 /**
  * Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated.
  *
@@ -12820,15 +12910,22 @@ export const deleteDBClusterParameterGroup: API.OperationMethod<
 export const deleteDBClusterSnapshot: API.OperationMethod<
   DeleteDBClusterSnapshotMessage,
   DeleteDBClusterSnapshotResult,
-  | DBClusterSnapshotNotFoundFault
-  | InvalidDBClusterSnapshotStateFault
-  | CommonErrors,
+  DeleteDBClusterSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterSnapshotMessage,
   output: DeleteDBClusterSnapshotResult,
   errors: [DBClusterSnapshotNotFoundFault, InvalidDBClusterSnapshotStateFault],
 }));
+export type DeleteDBInstanceError =
+  | DBInstanceAutomatedBackupQuotaExceededFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | KMSKeyNotAccessibleFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted.
  *
@@ -12849,14 +12946,7 @@ export const deleteDBClusterSnapshot: API.OperationMethod<
 export const deleteDBInstance: API.OperationMethod<
   DeleteDBInstanceMessage,
   DeleteDBInstanceResult,
-  | DBInstanceAutomatedBackupQuotaExceededFault
-  | DBInstanceNotFoundFault
-  | DBSnapshotAlreadyExistsFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | KMSKeyNotAccessibleFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  DeleteDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBInstanceMessage,
@@ -12871,15 +12961,17 @@ export const deleteDBInstance: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type DeleteDBInstanceAutomatedBackupError =
+  | DBInstanceAutomatedBackupNotFoundFault
+  | InvalidDBInstanceAutomatedBackupStateFault
+  | CommonErrors;
 /**
  * Deletes automated backups using the `DbiResourceId` value of the source DB instance or the Amazon Resource Name (ARN) of the automated backups.
  */
 export const deleteDBInstanceAutomatedBackup: API.OperationMethod<
   DeleteDBInstanceAutomatedBackupMessage,
   DeleteDBInstanceAutomatedBackupResult,
-  | DBInstanceAutomatedBackupNotFoundFault
-  | InvalidDBInstanceAutomatedBackupStateFault
-  | CommonErrors,
+  DeleteDBInstanceAutomatedBackupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBInstanceAutomatedBackupMessage,
@@ -12889,49 +12981,61 @@ export const deleteDBInstanceAutomatedBackup: API.OperationMethod<
     InvalidDBInstanceAutomatedBackupStateFault,
   ],
 }));
+export type DeleteDBParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Deletes a specified DB parameter group. The DB parameter group to be deleted can't be associated with any DB instances.
  */
 export const deleteDBParameterGroup: API.OperationMethod<
   DeleteDBParameterGroupMessage,
   DeleteDBParameterGroupResponse,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  DeleteDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBParameterGroupMessage,
   output: DeleteDBParameterGroupResponse,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type DeleteDBProxyError =
+  | DBProxyNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Deletes an existing DB proxy.
  */
 export const deleteDBProxy: API.OperationMethod<
   DeleteDBProxyRequest,
   DeleteDBProxyResponse,
-  DBProxyNotFoundFault | InvalidDBProxyStateFault | CommonErrors,
+  DeleteDBProxyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBProxyRequest,
   output: DeleteDBProxyResponse,
   errors: [DBProxyNotFoundFault, InvalidDBProxyStateFault],
 }));
+export type DeleteDBProxyEndpointError =
+  | DBProxyEndpointNotFoundFault
+  | InvalidDBProxyEndpointStateFault
+  | CommonErrors;
 /**
  * Deletes a `DBProxyEndpoint`. Doing so removes the ability to access the DB proxy using the endpoint that you defined. The endpoint that you delete might have provided capabilities such as read/write or read-only operations, or using a different VPC than the DB proxy's default VPC.
  */
 export const deleteDBProxyEndpoint: API.OperationMethod<
   DeleteDBProxyEndpointRequest,
   DeleteDBProxyEndpointResponse,
-  | DBProxyEndpointNotFoundFault
-  | InvalidDBProxyEndpointStateFault
-  | CommonErrors,
+  DeleteDBProxyEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBProxyEndpointRequest,
   output: DeleteDBProxyEndpointResponse,
   errors: [DBProxyEndpointNotFoundFault, InvalidDBProxyEndpointStateFault],
 }));
+export type DeleteDBSecurityGroupError =
+  | DBSecurityGroupNotFoundFault
+  | InvalidDBSecurityGroupStateFault
+  | CommonErrors;
 /**
  * Deletes a DB security group.
  *
@@ -12942,25 +13046,25 @@ export const deleteDBProxyEndpoint: API.OperationMethod<
 export const deleteDBSecurityGroup: API.OperationMethod<
   DeleteDBSecurityGroupMessage,
   DeleteDBSecurityGroupResponse,
-  | DBSecurityGroupNotFoundFault
-  | InvalidDBSecurityGroupStateFault
-  | CommonErrors,
+  DeleteDBSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBSecurityGroupMessage,
   output: DeleteDBSecurityGroupResponse,
   errors: [DBSecurityGroupNotFoundFault, InvalidDBSecurityGroupStateFault],
 }));
+export type DeleteDBShardGroupError =
+  | DBShardGroupNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBShardGroupStateFault
+  | CommonErrors;
 /**
  * Deletes an Aurora Limitless Database DB shard group.
  */
 export const deleteDBShardGroup: API.OperationMethod<
   DeleteDBShardGroupMessage,
   DBShardGroup,
-  | DBShardGroupNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBShardGroupStateFault
-  | CommonErrors,
+  DeleteDBShardGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBShardGroupMessage,
@@ -12971,6 +13075,10 @@ export const deleteDBShardGroup: API.OperationMethod<
     InvalidDBShardGroupStateFault,
   ],
 }));
+export type DeleteDBSnapshotError =
+  | DBSnapshotNotFoundFault
+  | InvalidDBSnapshotStateFault
+  | CommonErrors;
 /**
  * Deletes a DB snapshot. If the snapshot is being copied, the copy operation is terminated.
  *
@@ -12979,13 +13087,18 @@ export const deleteDBShardGroup: API.OperationMethod<
 export const deleteDBSnapshot: API.OperationMethod<
   DeleteDBSnapshotMessage,
   DeleteDBSnapshotResult,
-  DBSnapshotNotFoundFault | InvalidDBSnapshotStateFault | CommonErrors,
+  DeleteDBSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBSnapshotMessage,
   output: DeleteDBSnapshotResult,
   errors: [DBSnapshotNotFoundFault, InvalidDBSnapshotStateFault],
 }));
+export type DeleteDBSubnetGroupError =
+  | DBSubnetGroupNotFoundFault
+  | InvalidDBSubnetGroupStateFault
+  | InvalidDBSubnetStateFault
+  | CommonErrors;
 /**
  * Deletes a DB subnet group.
  *
@@ -12994,10 +13107,7 @@ export const deleteDBSnapshot: API.OperationMethod<
 export const deleteDBSubnetGroup: API.OperationMethod<
   DeleteDBSubnetGroupMessage,
   DeleteDBSubnetGroupResponse,
-  | DBSubnetGroupNotFoundFault
-  | InvalidDBSubnetGroupStateFault
-  | InvalidDBSubnetStateFault
-  | CommonErrors,
+  DeleteDBSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBSubnetGroupMessage,
@@ -13008,19 +13118,27 @@ export const deleteDBSubnetGroup: API.OperationMethod<
     InvalidDBSubnetStateFault,
   ],
 }));
+export type DeleteEventSubscriptionError =
+  | InvalidEventSubscriptionStateFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an RDS event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
   DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResult,
-  InvalidEventSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
+  DeleteEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventSubscriptionMessage,
   output: DeleteEventSubscriptionResult,
   errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
 }));
+export type DeleteGlobalClusterError =
+  | GlobalClusterNotFoundFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Deletes a global database cluster. The primary and secondary clusters must already be detached or destroyed first.
  *
@@ -13029,23 +13147,25 @@ export const deleteEventSubscription: API.OperationMethod<
 export const deleteGlobalCluster: API.OperationMethod<
   DeleteGlobalClusterMessage,
   DeleteGlobalClusterResult,
-  GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
+  DeleteGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlobalClusterMessage,
   output: DeleteGlobalClusterResult,
   errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
 }));
+export type DeleteIntegrationError =
+  | IntegrationConflictOperationFault
+  | IntegrationNotFoundFault
+  | InvalidIntegrationStateFault
+  | CommonErrors;
 /**
  * Deletes a zero-ETL integration with Amazon Redshift.
  */
 export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationMessage,
   Integration,
-  | IntegrationConflictOperationFault
-  | IntegrationNotFoundFault
-  | InvalidIntegrationStateFault
-  | CommonErrors,
+  DeleteIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationMessage,
@@ -13056,19 +13176,29 @@ export const deleteIntegration: API.OperationMethod<
     InvalidIntegrationStateFault,
   ],
 }));
+export type DeleteOptionGroupError =
+  | InvalidOptionGroupStateFault
+  | OptionGroupNotFoundFault
+  | CommonErrors;
 /**
  * Deletes an existing option group.
  */
 export const deleteOptionGroup: API.OperationMethod<
   DeleteOptionGroupMessage,
   DeleteOptionGroupResponse,
-  InvalidOptionGroupStateFault | OptionGroupNotFoundFault | CommonErrors,
+  DeleteOptionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOptionGroupMessage,
   output: DeleteOptionGroupResponse,
   errors: [InvalidOptionGroupStateFault, OptionGroupNotFoundFault],
 }));
+export type DeleteTenantDatabaseError =
+  | DBInstanceNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | InvalidDBInstanceStateFault
+  | TenantDatabaseNotFoundFault
+  | CommonErrors;
 /**
  * Deletes a tenant database from your DB instance. This command only applies to RDS for Oracle container database (CDB) instances.
  *
@@ -13077,11 +13207,7 @@ export const deleteOptionGroup: API.OperationMethod<
 export const deleteTenantDatabase: API.OperationMethod<
   DeleteTenantDatabaseMessage,
   DeleteTenantDatabaseResult,
-  | DBInstanceNotFoundFault
-  | DBSnapshotAlreadyExistsFault
-  | InvalidDBInstanceStateFault
-  | TenantDatabaseNotFoundFault
-  | CommonErrors,
+  DeleteTenantDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTenantDatabaseMessage,
@@ -13093,17 +13219,19 @@ export const deleteTenantDatabase: API.OperationMethod<
     TenantDatabaseNotFoundFault,
   ],
 }));
+export type DeregisterDBProxyTargetsError =
+  | DBProxyNotFoundFault
+  | DBProxyTargetGroupNotFoundFault
+  | DBProxyTargetNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Remove the association between one or more `DBProxyTarget` data structures and a `DBProxyTargetGroup`.
  */
 export const deregisterDBProxyTargets: API.OperationMethod<
   DeregisterDBProxyTargetsRequest,
   DeregisterDBProxyTargetsResponse,
-  | DBProxyNotFoundFault
-  | DBProxyTargetGroupNotFoundFault
-  | DBProxyTargetNotFoundFault
-  | InvalidDBProxyStateFault
-  | CommonErrors,
+  DeregisterDBProxyTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterDBProxyTargetsRequest,
@@ -13115,6 +13243,7 @@ export const deregisterDBProxyTargets: API.OperationMethod<
     InvalidDBProxyStateFault,
   ],
 }));
+export type DescribeAccountAttributesError = CommonErrors;
 /**
  * Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value.
  *
@@ -13123,13 +13252,16 @@ export const deregisterDBProxyTargets: API.OperationMethod<
 export const describeAccountAttributes: API.OperationMethod<
   DescribeAccountAttributesMessage,
   AccountAttributesMessage,
-  CommonErrors,
+  DescribeAccountAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountAttributesMessage,
   output: AccountAttributesMessage,
   errors: [],
 }));
+export type DescribeBlueGreenDeploymentsError =
+  | BlueGreenDeploymentNotFoundFault
+  | CommonErrors;
 /**
  * Describes one or more blue/green deployments.
  *
@@ -13138,21 +13270,21 @@ export const describeAccountAttributes: API.OperationMethod<
 export const describeBlueGreenDeployments: API.OperationMethod<
   DescribeBlueGreenDeploymentsRequest,
   DescribeBlueGreenDeploymentsResponse,
-  BlueGreenDeploymentNotFoundFault | CommonErrors,
+  DescribeBlueGreenDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBlueGreenDeploymentsRequest,
   ) => stream.Stream<
     DescribeBlueGreenDeploymentsResponse,
-    BlueGreenDeploymentNotFoundFault | CommonErrors,
+    DescribeBlueGreenDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBlueGreenDeploymentsRequest,
   ) => stream.Stream<
     BlueGreenDeployment,
-    BlueGreenDeploymentNotFoundFault | CommonErrors,
+    DescribeBlueGreenDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13166,6 +13298,7 @@ export const describeBlueGreenDeployments: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeCertificatesError = CertificateNotFoundFault | CommonErrors;
 /**
  * Lists the set of certificate authority (CA) certificates provided by Amazon RDS for this Amazon Web Services account.
  *
@@ -13174,21 +13307,21 @@ export const describeBlueGreenDeployments: API.OperationMethod<
 export const describeCertificates: API.OperationMethod<
   DescribeCertificatesMessage,
   CertificateMessage,
-  CertificateNotFoundFault | CommonErrors,
+  DescribeCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
     CertificateMessage,
-    CertificateNotFoundFault | CommonErrors,
+    DescribeCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
     Certificate,
-    CertificateNotFoundFault | CommonErrors,
+    DescribeCertificatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13202,6 +13335,9 @@ export const describeCertificates: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterAutomatedBackupsError =
+  | DBClusterAutomatedBackupNotFoundFault
+  | CommonErrors;
 /**
  * Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previously deleted clusters. Current clusters are returned for both the `DescribeDBClusterAutomatedBackups` and `DescribeDBClusters` operations.
  *
@@ -13210,21 +13346,21 @@ export const describeCertificates: API.OperationMethod<
 export const describeDBClusterAutomatedBackups: API.OperationMethod<
   DescribeDBClusterAutomatedBackupsMessage,
   DBClusterAutomatedBackupMessage,
-  DBClusterAutomatedBackupNotFoundFault | CommonErrors,
+  DescribeDBClusterAutomatedBackupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterAutomatedBackupsMessage,
   ) => stream.Stream<
     DBClusterAutomatedBackupMessage,
-    DBClusterAutomatedBackupNotFoundFault | CommonErrors,
+    DescribeDBClusterAutomatedBackupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterAutomatedBackupsMessage,
   ) => stream.Stream<
     DBClusterAutomatedBackup,
-    DBClusterAutomatedBackupNotFoundFault | CommonErrors,
+    DescribeDBClusterAutomatedBackupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13238,6 +13374,10 @@ export const describeDBClusterAutomatedBackups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterBacktracksError =
+  | DBClusterBacktrackNotFoundFault
+  | DBClusterNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about backtracks for a DB cluster.
  *
@@ -13248,21 +13388,21 @@ export const describeDBClusterAutomatedBackups: API.OperationMethod<
 export const describeDBClusterBacktracks: API.OperationMethod<
   DescribeDBClusterBacktracksMessage,
   DBClusterBacktrackMessage,
-  DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
+  DescribeDBClusterBacktracksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterBacktracksMessage,
   ) => stream.Stream<
     DBClusterBacktrackMessage,
-    DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClusterBacktracksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterBacktracksMessage,
   ) => stream.Stream<
     DBClusterBacktrack,
-    DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClusterBacktracksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13276,6 +13416,9 @@ export const describeDBClusterBacktracks: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterEndpointsError =
+  | DBClusterNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about endpoints for an Amazon Aurora DB cluster.
  *
@@ -13284,21 +13427,21 @@ export const describeDBClusterBacktracks: API.OperationMethod<
 export const describeDBClusterEndpoints: API.OperationMethod<
   DescribeDBClusterEndpointsMessage,
   DBClusterEndpointMessage,
-  DBClusterNotFoundFault | CommonErrors,
+  DescribeDBClusterEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterEndpointsMessage,
   ) => stream.Stream<
     DBClusterEndpointMessage,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClusterEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterEndpointsMessage,
   ) => stream.Stream<
     DBClusterEndpoint,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClusterEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13312,6 +13455,9 @@ export const describeDBClusterEndpoints: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterParameterGroupsError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName` parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
  *
@@ -13322,21 +13468,21 @@ export const describeDBClusterEndpoints: API.OperationMethod<
 export const describeDBClusterParameterGroups: API.OperationMethod<
   DescribeDBClusterParameterGroupsMessage,
   DBClusterParameterGroupsMessage,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBClusterParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
     DBClusterParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
     DBClusterParameterGroup,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13350,6 +13496,9 @@ export const describeDBClusterParameterGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterParametersError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular DB cluster parameter group.
  *
@@ -13360,21 +13509,21 @@ export const describeDBClusterParameterGroups: API.OperationMethod<
 export const describeDBClusterParameters: API.OperationMethod<
   DescribeDBClusterParametersMessage,
   DBClusterParameterGroupDetails,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBClusterParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
     DBClusterParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
     Parameter,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBClusterParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13388,6 +13537,7 @@ export const describeDBClusterParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
 /**
  * Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination.
  *
@@ -13400,21 +13550,21 @@ export const describeDBClusterParameters: API.OperationMethod<
 export const describeDBClusters: API.OperationMethod<
   DescribeDBClustersMessage,
   DBClusterMessage,
-  DBClusterNotFoundFault | CommonErrors,
+  DescribeDBClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
     DBClusterMessage,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
     DBCluster,
-    DBClusterNotFoundFault | CommonErrors,
+    DescribeDBClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13428,6 +13578,9 @@ export const describeDBClusters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBClusterSnapshotAttributesError =
+  | DBClusterSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot.
  *
@@ -13438,13 +13591,16 @@ export const describeDBClusters: API.OperationMethod<
 export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   DescribeDBClusterSnapshotAttributesMessage,
   DescribeDBClusterSnapshotAttributesResult,
-  DBClusterSnapshotNotFoundFault | CommonErrors,
+  DescribeDBClusterSnapshotAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDBClusterSnapshotAttributesMessage,
   output: DescribeDBClusterSnapshotAttributesResult,
   errors: [DBClusterSnapshotNotFoundFault],
 }));
+export type DescribeDBClusterSnapshotsError =
+  | DBClusterSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about DB cluster snapshots. This API action supports pagination.
  *
@@ -13455,21 +13611,21 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
 export const describeDBClusterSnapshots: API.OperationMethod<
   DescribeDBClusterSnapshotsMessage,
   DBClusterSnapshotMessage,
-  DBClusterSnapshotNotFoundFault | CommonErrors,
+  DescribeDBClusterSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
     DBClusterSnapshotMessage,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
+    DescribeDBClusterSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
     DBClusterSnapshot,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
+    DescribeDBClusterSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13483,27 +13639,28 @@ export const describeDBClusterSnapshots: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBEngineVersionsError = CommonErrors;
 /**
  * Describes the properties of specific versions of DB engines.
  */
 export const describeDBEngineVersions: API.OperationMethod<
   DescribeDBEngineVersionsMessage,
   DBEngineVersionMessage,
-  CommonErrors,
+  DescribeDBEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
     DBEngineVersionMessage,
-    CommonErrors,
+    DescribeDBEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
     DBEngineVersion,
-    CommonErrors,
+    DescribeDBEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13517,6 +13674,9 @@ export const describeDBEngineVersions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBInstanceAutomatedBackupsError =
+  | DBInstanceAutomatedBackupNotFoundFault
+  | CommonErrors;
 /**
  * Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the `DescribeDBInstanceAutomatedBackups` and `DescribeDBInstances` operations.
  *
@@ -13525,21 +13685,21 @@ export const describeDBEngineVersions: API.OperationMethod<
 export const describeDBInstanceAutomatedBackups: API.OperationMethod<
   DescribeDBInstanceAutomatedBackupsMessage,
   DBInstanceAutomatedBackupMessage,
-  DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
+  DescribeDBInstanceAutomatedBackupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBInstanceAutomatedBackupsMessage,
   ) => stream.Stream<
     DBInstanceAutomatedBackupMessage,
-    DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
+    DescribeDBInstanceAutomatedBackupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBInstanceAutomatedBackupsMessage,
   ) => stream.Stream<
     DBInstanceAutomatedBackup,
-    DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
+    DescribeDBInstanceAutomatedBackupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13553,6 +13713,7 @@ export const describeDBInstanceAutomatedBackups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
 /**
  * Describes provisioned RDS instances. This API supports pagination.
  *
@@ -13561,21 +13722,21 @@ export const describeDBInstanceAutomatedBackups: API.OperationMethod<
 export const describeDBInstances: API.OperationMethod<
   DescribeDBInstancesMessage,
   DBInstanceMessage,
-  DBInstanceNotFoundFault | CommonErrors,
+  DescribeDBInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
     DBInstanceMessage,
-    DBInstanceNotFoundFault | CommonErrors,
+    DescribeDBInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
     DBInstance,
-    DBInstanceNotFoundFault | CommonErrors,
+    DescribeDBInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13589,6 +13750,10 @@ export const describeDBInstances: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBLogFilesError =
+  | DBInstanceNotFoundFault
+  | DBInstanceNotReadyFault
+  | CommonErrors;
 /**
  * Returns a list of DB log files for the DB instance.
  *
@@ -13597,21 +13762,21 @@ export const describeDBInstances: API.OperationMethod<
 export const describeDBLogFiles: API.OperationMethod<
   DescribeDBLogFilesMessage,
   DescribeDBLogFilesResponse,
-  DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
+  DescribeDBLogFilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBLogFilesMessage,
   ) => stream.Stream<
     DescribeDBLogFilesResponse,
-    DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
+    DescribeDBLogFilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBLogFilesMessage,
   ) => stream.Stream<
     DescribeDBLogFilesDetails,
-    DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
+    DescribeDBLogFilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13625,27 +13790,28 @@ export const describeDBLogFiles: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBMajorEngineVersionsError = CommonErrors;
 /**
  * Describes the properties of specific major versions of DB engines.
  */
 export const describeDBMajorEngineVersions: API.OperationMethod<
   DescribeDBMajorEngineVersionsRequest,
   DescribeDBMajorEngineVersionsResponse,
-  CommonErrors,
+  DescribeDBMajorEngineVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBMajorEngineVersionsRequest,
   ) => stream.Stream<
     DescribeDBMajorEngineVersionsResponse,
-    CommonErrors,
+    DescribeDBMajorEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBMajorEngineVersionsRequest,
   ) => stream.Stream<
     DBMajorEngineVersion,
-    CommonErrors,
+    DescribeDBMajorEngineVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13659,27 +13825,30 @@ export const describeDBMajorEngineVersions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBParameterGroupsError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of `DBParameterGroup` descriptions. If a `DBParameterGroupName` is specified, the list will contain only the description of the specified DB parameter group.
  */
 export const describeDBParameterGroups: API.OperationMethod<
   DescribeDBParameterGroupsMessage,
   DBParameterGroupsMessage,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBParameterGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBParameterGroupsMessage,
   ) => stream.Stream<
     DBParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBParameterGroupsMessage,
   ) => stream.Stream<
     DBParameterGroup,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParameterGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13693,27 +13862,30 @@ export const describeDBParameterGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBParametersError =
+  | DBParameterGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular DB parameter group.
  */
 export const describeDBParameters: API.OperationMethod<
   DescribeDBParametersMessage,
   DBParameterGroupDetails,
-  DBParameterGroupNotFoundFault | CommonErrors,
+  DescribeDBParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBParametersMessage,
   ) => stream.Stream<
     DBParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBParametersMessage,
   ) => stream.Stream<
     Parameter,
-    DBParameterGroupNotFoundFault | CommonErrors,
+    DescribeDBParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13727,27 +13899,28 @@ export const describeDBParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBProxiesError = DBProxyNotFoundFault | CommonErrors;
 /**
  * Returns information about DB proxies.
  */
 export const describeDBProxies: API.OperationMethod<
   DescribeDBProxiesRequest,
   DescribeDBProxiesResponse,
-  DBProxyNotFoundFault | CommonErrors,
+  DescribeDBProxiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBProxiesRequest,
   ) => stream.Stream<
     DescribeDBProxiesResponse,
-    DBProxyNotFoundFault | CommonErrors,
+    DescribeDBProxiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBProxiesRequest,
   ) => stream.Stream<
     DBProxy,
-    DBProxyNotFoundFault | CommonErrors,
+    DescribeDBProxiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13761,27 +13934,31 @@ export const describeDBProxies: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBProxyEndpointsError =
+  | DBProxyEndpointNotFoundFault
+  | DBProxyNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about DB proxy endpoints.
  */
 export const describeDBProxyEndpoints: API.OperationMethod<
   DescribeDBProxyEndpointsRequest,
   DescribeDBProxyEndpointsResponse,
-  DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
+  DescribeDBProxyEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBProxyEndpointsRequest,
   ) => stream.Stream<
     DescribeDBProxyEndpointsResponse,
-    DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
+    DescribeDBProxyEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBProxyEndpointsRequest,
   ) => stream.Stream<
     DBProxyEndpoint,
-    DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
+    DescribeDBProxyEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13795,36 +13972,32 @@ export const describeDBProxyEndpoints: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBProxyTargetGroupsError =
+  | DBProxyNotFoundFault
+  | DBProxyTargetGroupNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Returns information about DB proxy target groups, represented by `DBProxyTargetGroup` data structures.
  */
 export const describeDBProxyTargetGroups: API.OperationMethod<
   DescribeDBProxyTargetGroupsRequest,
   DescribeDBProxyTargetGroupsResponse,
-  | DBProxyNotFoundFault
-  | DBProxyTargetGroupNotFoundFault
-  | InvalidDBProxyStateFault
-  | CommonErrors,
+  DescribeDBProxyTargetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBProxyTargetGroupsRequest,
   ) => stream.Stream<
     DescribeDBProxyTargetGroupsResponse,
-    | DBProxyNotFoundFault
-    | DBProxyTargetGroupNotFoundFault
-    | InvalidDBProxyStateFault
-    | CommonErrors,
+    DescribeDBProxyTargetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBProxyTargetGroupsRequest,
   ) => stream.Stream<
     DBProxyTargetGroup,
-    | DBProxyNotFoundFault
-    | DBProxyTargetGroupNotFoundFault
-    | InvalidDBProxyStateFault
-    | CommonErrors,
+    DescribeDBProxyTargetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13842,39 +14015,33 @@ export const describeDBProxyTargetGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBProxyTargetsError =
+  | DBProxyNotFoundFault
+  | DBProxyTargetGroupNotFoundFault
+  | DBProxyTargetNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Returns information about `DBProxyTarget` objects. This API supports pagination.
  */
 export const describeDBProxyTargets: API.OperationMethod<
   DescribeDBProxyTargetsRequest,
   DescribeDBProxyTargetsResponse,
-  | DBProxyNotFoundFault
-  | DBProxyTargetGroupNotFoundFault
-  | DBProxyTargetNotFoundFault
-  | InvalidDBProxyStateFault
-  | CommonErrors,
+  DescribeDBProxyTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBProxyTargetsRequest,
   ) => stream.Stream<
     DescribeDBProxyTargetsResponse,
-    | DBProxyNotFoundFault
-    | DBProxyTargetGroupNotFoundFault
-    | DBProxyTargetNotFoundFault
-    | InvalidDBProxyStateFault
-    | CommonErrors,
+    DescribeDBProxyTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBProxyTargetsRequest,
   ) => stream.Stream<
     DBProxyTarget,
-    | DBProxyNotFoundFault
-    | DBProxyTargetGroupNotFoundFault
-    | DBProxyTargetNotFoundFault
-    | InvalidDBProxyStateFault
-    | CommonErrors,
+    DescribeDBProxyTargetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13893,27 +14060,28 @@ export const describeDBProxyTargets: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBRecommendationsError = CommonErrors;
 /**
  * Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.
  */
 export const describeDBRecommendations: API.OperationMethod<
   DescribeDBRecommendationsMessage,
   DBRecommendationsMessage,
-  CommonErrors,
+  DescribeDBRecommendationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBRecommendationsMessage,
   ) => stream.Stream<
     DBRecommendationsMessage,
-    CommonErrors,
+    DescribeDBRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBRecommendationsMessage,
   ) => stream.Stream<
     DBRecommendation,
-    CommonErrors,
+    DescribeDBRecommendationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13927,6 +14095,9 @@ export const describeDBRecommendations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBSecurityGroupsError =
+  | DBSecurityGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of `DBSecurityGroup` descriptions. If a `DBSecurityGroupName` is specified, the list will contain only the descriptions of the specified DB security group.
  *
@@ -13935,21 +14106,21 @@ export const describeDBRecommendations: API.OperationMethod<
 export const describeDBSecurityGroups: API.OperationMethod<
   DescribeDBSecurityGroupsMessage,
   DBSecurityGroupMessage,
-  DBSecurityGroupNotFoundFault | CommonErrors,
+  DescribeDBSecurityGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBSecurityGroupsMessage,
   ) => stream.Stream<
     DBSecurityGroupMessage,
-    DBSecurityGroupNotFoundFault | CommonErrors,
+    DescribeDBSecurityGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSecurityGroupsMessage,
   ) => stream.Stream<
     DBSecurityGroup,
-    DBSecurityGroupNotFoundFault | CommonErrors,
+    DescribeDBSecurityGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -13963,19 +14134,26 @@ export const describeDBSecurityGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBShardGroupsError =
+  | DBClusterNotFoundFault
+  | DBShardGroupNotFoundFault
+  | CommonErrors;
 /**
  * Describes existing Aurora Limitless Database DB shard groups.
  */
 export const describeDBShardGroups: API.OperationMethod<
   DescribeDBShardGroupsMessage,
   DescribeDBShardGroupsResponse,
-  DBClusterNotFoundFault | DBShardGroupNotFoundFault | CommonErrors,
+  DescribeDBShardGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDBShardGroupsMessage,
   output: DescribeDBShardGroupsResponse,
   errors: [DBClusterNotFoundFault, DBShardGroupNotFoundFault],
 }));
+export type DescribeDBSnapshotAttributesError =
+  | DBSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of DB snapshot attribute names and values for a manual DB snapshot.
  *
@@ -13986,34 +14164,35 @@ export const describeDBShardGroups: API.OperationMethod<
 export const describeDBSnapshotAttributes: API.OperationMethod<
   DescribeDBSnapshotAttributesMessage,
   DescribeDBSnapshotAttributesResult,
-  DBSnapshotNotFoundFault | CommonErrors,
+  DescribeDBSnapshotAttributesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDBSnapshotAttributesMessage,
   output: DescribeDBSnapshotAttributesResult,
   errors: [DBSnapshotNotFoundFault],
 }));
+export type DescribeDBSnapshotsError = DBSnapshotNotFoundFault | CommonErrors;
 /**
  * Returns information about DB snapshots. This API action supports pagination.
  */
 export const describeDBSnapshots: API.OperationMethod<
   DescribeDBSnapshotsMessage,
   DBSnapshotMessage,
-  DBSnapshotNotFoundFault | CommonErrors,
+  DescribeDBSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBSnapshotsMessage,
   ) => stream.Stream<
     DBSnapshotMessage,
-    DBSnapshotNotFoundFault | CommonErrors,
+    DescribeDBSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSnapshotsMessage,
   ) => stream.Stream<
     DBSnapshot,
-    DBSnapshotNotFoundFault | CommonErrors,
+    DescribeDBSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14027,6 +14206,9 @@ export const describeDBSnapshots: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBSnapshotTenantDatabasesError =
+  | DBSnapshotNotFoundFault
+  | CommonErrors;
 /**
  * Describes the tenant databases that exist in a DB snapshot. This command only applies to RDS for Oracle DB instances in the multi-tenant configuration.
  *
@@ -14035,21 +14217,21 @@ export const describeDBSnapshots: API.OperationMethod<
 export const describeDBSnapshotTenantDatabases: API.OperationMethod<
   DescribeDBSnapshotTenantDatabasesMessage,
   DBSnapshotTenantDatabasesMessage,
-  DBSnapshotNotFoundFault | CommonErrors,
+  DescribeDBSnapshotTenantDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBSnapshotTenantDatabasesMessage,
   ) => stream.Stream<
     DBSnapshotTenantDatabasesMessage,
-    DBSnapshotNotFoundFault | CommonErrors,
+    DescribeDBSnapshotTenantDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSnapshotTenantDatabasesMessage,
   ) => stream.Stream<
     DBSnapshotTenantDatabase,
-    DBSnapshotNotFoundFault | CommonErrors,
+    DescribeDBSnapshotTenantDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14063,6 +14245,9 @@ export const describeDBSnapshotTenantDatabases: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeDBSubnetGroupsError =
+  | DBSubnetGroupNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
  *
@@ -14071,21 +14256,21 @@ export const describeDBSnapshotTenantDatabases: API.OperationMethod<
 export const describeDBSubnetGroups: API.OperationMethod<
   DescribeDBSubnetGroupsMessage,
   DBSubnetGroupMessage,
-  DBSubnetGroupNotFoundFault | CommonErrors,
+  DescribeDBSubnetGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
     DBSubnetGroupMessage,
-    DBSubnetGroupNotFoundFault | CommonErrors,
+    DescribeDBSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
     DBSubnetGroup,
-    DBSubnetGroupNotFoundFault | CommonErrors,
+    DescribeDBSubnetGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14099,6 +14284,7 @@ export const describeDBSubnetGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEngineDefaultClusterParametersError = CommonErrors;
 /**
  * Returns the default engine and system parameter information for the cluster database engine.
  *
@@ -14107,21 +14293,21 @@ export const describeDBSubnetGroups: API.OperationMethod<
 export const describeEngineDefaultClusterParameters: API.OperationMethod<
   DescribeEngineDefaultClusterParametersMessage,
   DescribeEngineDefaultClusterParametersResult,
-  CommonErrors,
+  DescribeEngineDefaultClusterParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEngineDefaultClusterParametersMessage,
   ) => stream.Stream<
     DescribeEngineDefaultClusterParametersResult,
-    CommonErrors,
+    DescribeEngineDefaultClusterParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineDefaultClusterParametersMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEngineDefaultClusterParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14135,27 +14321,28 @@ export const describeEngineDefaultClusterParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEngineDefaultParametersError = CommonErrors;
 /**
  * Returns the default engine and system parameter information for the specified database engine.
  */
 export const describeEngineDefaultParameters: API.OperationMethod<
   DescribeEngineDefaultParametersMessage,
   DescribeEngineDefaultParametersResult,
-  CommonErrors,
+  DescribeEngineDefaultParametersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
     DescribeEngineDefaultParametersResult,
-    CommonErrors,
+    DescribeEngineDefaultParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeEngineDefaultParametersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14169,19 +14356,21 @@ export const describeEngineDefaultParameters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEventCategoriesError = CommonErrors;
 /**
  * Displays a list of categories for all event source types, or, if specified, for a specified source type. You can also see this list in the "Amazon RDS event categories and event messages" section of the *Amazon RDS User Guide* or the *Amazon Aurora User Guide* .
  */
 export const describeEventCategories: API.OperationMethod<
   DescribeEventCategoriesMessage,
   EventCategoriesMessage,
-  CommonErrors,
+  DescribeEventCategoriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventCategoriesMessage,
   output: EventCategoriesMessage,
   errors: [],
 }));
+export type DescribeEventsError = CommonErrors;
 /**
  * Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter.
  *
@@ -14192,21 +14381,21 @@ export const describeEventCategories: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsMessage,
   EventsMessage,
-  CommonErrors,
+  DescribeEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
     EventsMessage,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
     Event,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14220,6 +14409,9 @@ export const describeEvents: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeEventSubscriptionsError =
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Lists all the subscription descriptions for a customer account. The description for a subscription includes `SubscriptionName`, `SNSTopicARN`, `CustomerID`, `SourceType`, `SourceID`, `CreationTime`, and `Status`.
  *
@@ -14228,21 +14420,21 @@ export const describeEvents: API.OperationMethod<
 export const describeEventSubscriptions: API.OperationMethod<
   DescribeEventSubscriptionsMessage,
   EventSubscriptionsMessage,
-  SubscriptionNotFoundFault | CommonErrors,
+  DescribeEventSubscriptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
     EventSubscriptionsMessage,
-    SubscriptionNotFoundFault | CommonErrors,
+    DescribeEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
     EventSubscription,
-    SubscriptionNotFoundFault | CommonErrors,
+    DescribeEventSubscriptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14256,27 +14448,28 @@ export const describeEventSubscriptions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeExportTasksError = ExportTaskNotFoundFault | CommonErrors;
 /**
  * Returns information about a snapshot or cluster export to Amazon S3. This API operation supports pagination.
  */
 export const describeExportTasks: API.OperationMethod<
   DescribeExportTasksMessage,
   ExportTasksMessage,
-  ExportTaskNotFoundFault | CommonErrors,
+  DescribeExportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeExportTasksMessage,
   ) => stream.Stream<
     ExportTasksMessage,
-    ExportTaskNotFoundFault | CommonErrors,
+    DescribeExportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeExportTasksMessage,
   ) => stream.Stream<
     ExportTask,
-    ExportTaskNotFoundFault | CommonErrors,
+    DescribeExportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14290,6 +14483,9 @@ export const describeExportTasks: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeGlobalClustersError =
+  | GlobalClusterNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about Aurora global database clusters. This API supports pagination.
  *
@@ -14300,21 +14496,21 @@ export const describeExportTasks: API.OperationMethod<
 export const describeGlobalClusters: API.OperationMethod<
   DescribeGlobalClustersMessage,
   GlobalClustersMessage,
-  GlobalClusterNotFoundFault | CommonErrors,
+  DescribeGlobalClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
     GlobalClustersMessage,
-    GlobalClusterNotFoundFault | CommonErrors,
+    DescribeGlobalClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
     GlobalCluster,
-    GlobalClusterNotFoundFault | CommonErrors,
+    DescribeGlobalClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14328,27 +14524,28 @@ export const describeGlobalClusters: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeIntegrationsError = IntegrationNotFoundFault | CommonErrors;
 /**
  * Describe one or more zero-ETL integrations with Amazon Redshift.
  */
 export const describeIntegrations: API.OperationMethod<
   DescribeIntegrationsMessage,
   DescribeIntegrationsResponse,
-  IntegrationNotFoundFault | CommonErrors,
+  DescribeIntegrationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeIntegrationsMessage,
   ) => stream.Stream<
     DescribeIntegrationsResponse,
-    IntegrationNotFoundFault | CommonErrors,
+    DescribeIntegrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeIntegrationsMessage,
   ) => stream.Stream<
     Integration,
-    IntegrationNotFoundFault | CommonErrors,
+    DescribeIntegrationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14362,27 +14559,28 @@ export const describeIntegrations: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeOptionGroupOptionsError = CommonErrors;
 /**
  * Describes all available options for the specified engine.
  */
 export const describeOptionGroupOptions: API.OperationMethod<
   DescribeOptionGroupOptionsMessage,
   OptionGroupOptionsMessage,
-  CommonErrors,
+  DescribeOptionGroupOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOptionGroupOptionsMessage,
   ) => stream.Stream<
     OptionGroupOptionsMessage,
-    CommonErrors,
+    DescribeOptionGroupOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOptionGroupOptionsMessage,
   ) => stream.Stream<
     OptionGroupOption,
-    CommonErrors,
+    DescribeOptionGroupOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14396,27 +14594,28 @@ export const describeOptionGroupOptions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeOptionGroupsError = OptionGroupNotFoundFault | CommonErrors;
 /**
  * Describes the available option groups.
  */
 export const describeOptionGroups: API.OperationMethod<
   DescribeOptionGroupsMessage,
   OptionGroups,
-  OptionGroupNotFoundFault | CommonErrors,
+  DescribeOptionGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOptionGroupsMessage,
   ) => stream.Stream<
     OptionGroups,
-    OptionGroupNotFoundFault | CommonErrors,
+    DescribeOptionGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOptionGroupsMessage,
   ) => stream.Stream<
     OptionGroup,
-    OptionGroupNotFoundFault | CommonErrors,
+    DescribeOptionGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14430,27 +14629,28 @@ export const describeOptionGroups: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
 /**
  * Describes the orderable DB instance options for a specified DB engine.
  */
 export const describeOrderableDBInstanceOptions: API.OperationMethod<
   DescribeOrderableDBInstanceOptionsMessage,
   OrderableDBInstanceOptionsMessage,
-  CommonErrors,
+  DescribeOrderableDBInstanceOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
     OrderableDBInstanceOptionsMessage,
-    CommonErrors,
+    DescribeOrderableDBInstanceOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
     OrderableDBInstanceOption,
-    CommonErrors,
+    DescribeOrderableDBInstanceOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14464,6 +14664,9 @@ export const describeOrderableDBInstanceOptions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribePendingMaintenanceActionsError =
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
  *
@@ -14472,21 +14675,21 @@ export const describeOrderableDBInstanceOptions: API.OperationMethod<
 export const describePendingMaintenanceActions: API.OperationMethod<
   DescribePendingMaintenanceActionsMessage,
   PendingMaintenanceActionsMessage,
-  ResourceNotFoundFault | CommonErrors,
+  DescribePendingMaintenanceActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
     PendingMaintenanceActionsMessage,
-    ResourceNotFoundFault | CommonErrors,
+    DescribePendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
     ResourcePendingMaintenanceActions,
-    ResourceNotFoundFault | CommonErrors,
+    DescribePendingMaintenanceActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14500,27 +14703,30 @@ export const describePendingMaintenanceActions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReservedDBInstancesError =
+  | ReservedDBInstanceNotFoundFault
+  | CommonErrors;
 /**
  * Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
  */
 export const describeReservedDBInstances: API.OperationMethod<
   DescribeReservedDBInstancesMessage,
   ReservedDBInstanceMessage,
-  ReservedDBInstanceNotFoundFault | CommonErrors,
+  DescribeReservedDBInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedDBInstancesMessage,
   ) => stream.Stream<
     ReservedDBInstanceMessage,
-    ReservedDBInstanceNotFoundFault | CommonErrors,
+    DescribeReservedDBInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedDBInstancesMessage,
   ) => stream.Stream<
     ReservedDBInstance,
-    ReservedDBInstanceNotFoundFault | CommonErrors,
+    DescribeReservedDBInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14534,27 +14740,30 @@ export const describeReservedDBInstances: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeReservedDBInstancesOfferingsError =
+  | ReservedDBInstancesOfferingNotFoundFault
+  | CommonErrors;
 /**
  * Lists available reserved DB instance offerings.
  */
 export const describeReservedDBInstancesOfferings: API.OperationMethod<
   DescribeReservedDBInstancesOfferingsMessage,
   ReservedDBInstancesOfferingMessage,
-  ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
+  DescribeReservedDBInstancesOfferingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeReservedDBInstancesOfferingsMessage,
   ) => stream.Stream<
     ReservedDBInstancesOfferingMessage,
-    ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
+    DescribeReservedDBInstancesOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedDBInstancesOfferingsMessage,
   ) => stream.Stream<
     ReservedDBInstancesOffering,
-    ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
+    DescribeReservedDBInstancesOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14568,6 +14777,7 @@ export const describeReservedDBInstancesOfferings: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeSourceRegionsError = CommonErrors;
 /**
  * Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica, copy a DB snapshot from, or replicate automated backups from.
  *
@@ -14578,21 +14788,21 @@ export const describeReservedDBInstancesOfferings: API.OperationMethod<
 export const describeSourceRegions: API.OperationMethod<
   DescribeSourceRegionsMessage,
   SourceRegionMessage,
-  CommonErrors,
+  DescribeSourceRegionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSourceRegionsMessage,
   ) => stream.Stream<
     SourceRegionMessage,
-    CommonErrors,
+    DescribeSourceRegionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSourceRegionsMessage,
   ) => stream.Stream<
     SourceRegion,
-    CommonErrors,
+    DescribeSourceRegionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14606,27 +14816,30 @@ export const describeSourceRegions: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeTenantDatabasesError =
+  | DBInstanceNotFoundFault
+  | CommonErrors;
 /**
  * Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported.
  */
 export const describeTenantDatabases: API.OperationMethod<
   DescribeTenantDatabasesMessage,
   TenantDatabasesMessage,
-  DBInstanceNotFoundFault | CommonErrors,
+  DescribeTenantDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeTenantDatabasesMessage,
   ) => stream.Stream<
     TenantDatabasesMessage,
-    DBInstanceNotFoundFault | CommonErrors,
+    DescribeTenantDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTenantDatabasesMessage,
   ) => stream.Stream<
     TenantDatabase,
-    DBInstanceNotFoundFault | CommonErrors,
+    DescribeTenantDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14640,6 +14853,10 @@ export const describeTenantDatabases: API.OperationMethod<
     pageSize: "MaxRecords",
   } as const,
 }));
+export type DescribeValidDBInstanceModificationsError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * You can call `DescribeValidDBInstanceModifications` to learn what modifications you can make to your DB instance. You can use this information when you call `ModifyDBInstance`.
  *
@@ -14648,13 +14865,17 @@ export const describeTenantDatabases: API.OperationMethod<
 export const describeValidDBInstanceModifications: API.OperationMethod<
   DescribeValidDBInstanceModificationsMessage,
   DescribeValidDBInstanceModificationsResult,
-  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
+  DescribeValidDBInstanceModificationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeValidDBInstanceModificationsMessage,
   output: DescribeValidDBInstanceModificationsResult,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
 }));
+export type DisableHttpEndpointError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API.
  *
@@ -14665,13 +14886,18 @@ export const describeValidDBInstanceModifications: API.OperationMethod<
 export const disableHttpEndpoint: API.OperationMethod<
   DisableHttpEndpointRequest,
   DisableHttpEndpointResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  DisableHttpEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableHttpEndpointRequest,
   output: DisableHttpEndpointResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type DownloadDBLogFilePortionError =
+  | DBInstanceNotFoundFault
+  | DBInstanceNotReadyFault
+  | DBLogFileNotFoundFault
+  | CommonErrors;
 /**
  * Downloads all or a portion of the specified log file, up to 1 MB in size.
  *
@@ -14682,30 +14908,21 @@ export const disableHttpEndpoint: API.OperationMethod<
 export const downloadDBLogFilePortion: API.OperationMethod<
   DownloadDBLogFilePortionMessage,
   DownloadDBLogFilePortionDetails,
-  | DBInstanceNotFoundFault
-  | DBInstanceNotReadyFault
-  | DBLogFileNotFoundFault
-  | CommonErrors,
+  DownloadDBLogFilePortionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DownloadDBLogFilePortionMessage,
   ) => stream.Stream<
     DownloadDBLogFilePortionDetails,
-    | DBInstanceNotFoundFault
-    | DBInstanceNotReadyFault
-    | DBLogFileNotFoundFault
-    | CommonErrors,
+    DownloadDBLogFilePortionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DownloadDBLogFilePortionMessage,
   ) => stream.Stream<
     unknown,
-    | DBInstanceNotFoundFault
-    | DBInstanceNotReadyFault
-    | DBLogFileNotFoundFault
-    | CommonErrors,
+    DownloadDBLogFilePortionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -14722,6 +14939,10 @@ export const downloadDBLogFilePortion: API.OperationMethod<
     pageSize: "NumberOfLines",
   } as const,
 }));
+export type EnableHttpEndpointError =
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled.
  *
@@ -14734,13 +14955,18 @@ export const downloadDBLogFilePortion: API.OperationMethod<
 export const enableHttpEndpoint: API.OperationMethod<
   EnableHttpEndpointRequest,
   EnableHttpEndpointResponse,
-  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  EnableHttpEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableHttpEndpointRequest,
   output: EnableHttpEndpointResponse,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
 }));
+export type FailoverDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Forces a failover for a DB cluster.
  *
@@ -14759,10 +14985,7 @@ export const enableHttpEndpoint: API.OperationMethod<
 export const failoverDBCluster: API.OperationMethod<
   FailoverDBClusterMessage,
   FailoverDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  FailoverDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverDBClusterMessage,
@@ -14773,6 +14996,12 @@ export const failoverDBCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type FailoverGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Promotes the specified secondary DB cluster to be the primary DB cluster in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers."
  *
@@ -14799,11 +15028,7 @@ export const failoverDBCluster: API.OperationMethod<
 export const failoverGlobalCluster: API.OperationMethod<
   FailoverGlobalClusterMessage,
   FailoverGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  FailoverGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverGlobalClusterMessage,
@@ -14815,14 +15040,7 @@ export const failoverGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
-/**
- * Lists all tags on an Amazon RDS resource.
- *
- * For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the *Amazon RDS User Guide* or Tagging Amazon Aurora and Amazon RDS Resources in the *Amazon Aurora User Guide*.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
-  TagListMessage,
+export type ListTagsForResourceError =
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -14834,7 +15052,16 @@ export const listTagsForResource: API.OperationMethod<
   | DBSnapshotTenantDatabaseNotFoundFault
   | IntegrationNotFoundFault
   | TenantDatabaseNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all tags on an Amazon RDS resource.
+ *
+ * For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the *Amazon RDS User Guide* or Tagging Amazon Aurora and Amazon RDS Resources in the *Amazon Aurora User Guide*.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
+  TagListMessage,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceMessage,
@@ -14853,6 +15080,11 @@ export const listTagsForResource: API.OperationMethod<
     TenantDatabaseNotFoundFault,
   ],
 }));
+export type ModifyActivityStreamError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Changes the audit policy state of a database activity stream to either locked (default) or unlocked. A locked policy is read-only, whereas an unlocked policy is read/write. If your activity stream is started and locked, you can unlock it, customize your audit policy, and then lock your activity stream. Restarting the activity stream isn't required. For more information, see Modifying a database activity stream in the *Amazon RDS User Guide*.
  *
@@ -14861,10 +15093,7 @@ export const listTagsForResource: API.OperationMethod<
 export const modifyActivityStream: API.OperationMethod<
   ModifyActivityStreamRequest,
   ModifyActivityStreamResponse,
-  | DBInstanceNotFoundFault
-  | InvalidDBInstanceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  ModifyActivityStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyActivityStreamRequest,
@@ -14875,6 +15104,7 @@ export const modifyActivityStream: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type ModifyCertificatesError = CertificateNotFoundFault | CommonErrors;
 /**
  * Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificate for Amazon RDS for new DB instances, or remove the override.
  *
@@ -14893,13 +15123,18 @@ export const modifyActivityStream: API.OperationMethod<
 export const modifyCertificates: API.OperationMethod<
   ModifyCertificatesMessage,
   ModifyCertificatesResult,
-  CertificateNotFoundFault | CommonErrors,
+  ModifyCertificatesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyCertificatesMessage,
   output: ModifyCertificatesResult,
   errors: [CertificateNotFoundFault],
 }));
+export type ModifyCurrentDBClusterCapacityError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterCapacityFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Set the capacity of an Aurora Serverless v1 DB cluster to a specific value.
  *
@@ -14916,10 +15151,7 @@ export const modifyCertificates: API.OperationMethod<
 export const modifyCurrentDBClusterCapacity: API.OperationMethod<
   ModifyCurrentDBClusterCapacityMessage,
   DBClusterCapacityInfo,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterCapacityFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  ModifyCurrentDBClusterCapacityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyCurrentDBClusterCapacityMessage,
@@ -14930,6 +15162,10 @@ export const modifyCurrentDBClusterCapacity: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type ModifyCustomDBEngineVersionError =
+  | CustomDBEngineVersionNotFoundFault
+  | InvalidCustomDBEngineVersionStateFault
+  | CommonErrors;
 /**
  * Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling `DescribeDBEngineVersions`.
  *
@@ -14940,9 +15176,7 @@ export const modifyCurrentDBClusterCapacity: API.OperationMethod<
 export const modifyCustomDBEngineVersion: API.OperationMethod<
   ModifyCustomDBEngineVersionMessage,
   DBEngineVersion,
-  | CustomDBEngineVersionNotFoundFault
-  | InvalidCustomDBEngineVersionStateFault
-  | CommonErrors,
+  ModifyCustomDBEngineVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyCustomDBEngineVersionMessage,
@@ -14952,16 +15186,7 @@ export const modifyCustomDBEngineVersion: API.OperationMethod<
     InvalidCustomDBEngineVersionStateFault,
   ],
 }));
-/**
- * Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request.
- *
- * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
- *
- * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
- */
-export const modifyDBCluster: API.OperationMethod<
-  ModifyDBClusterMessage,
-  ModifyDBClusterResult,
+export type ModifyDBClusterError =
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -14983,7 +15208,18 @@ export const modifyDBCluster: API.OperationMethod<
   | StorageTypeNotAvailableFault
   | StorageTypeNotSupportedFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request.
+ *
+ * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
+ *
+ * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
+ */
+export const modifyDBCluster: API.OperationMethod<
+  ModifyDBClusterMessage,
+  ModifyDBClusterResult,
+  ModifyDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterMessage,
@@ -15012,6 +15248,13 @@ export const modifyDBCluster: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
+export type ModifyDBClusterEndpointError =
+  | DBClusterEndpointNotFoundFault
+  | DBInstanceNotFoundFault
+  | InvalidDBClusterEndpointStateFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Modifies the properties of an endpoint in an Amazon Aurora DB cluster.
  *
@@ -15020,12 +15263,7 @@ export const modifyDBCluster: API.OperationMethod<
 export const modifyDBClusterEndpoint: API.OperationMethod<
   ModifyDBClusterEndpointMessage,
   DBClusterEndpoint,
-  | DBClusterEndpointNotFoundFault
-  | DBInstanceNotFoundFault
-  | InvalidDBClusterEndpointStateFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  ModifyDBClusterEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterEndpointMessage,
@@ -15038,6 +15276,10 @@ export const modifyDBClusterEndpoint: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type ModifyDBClusterParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: `ParameterName`, `ParameterValue`, and `ApplyMethod`. A maximum of 20 parameters can be modified in a single request.
  *
@@ -15050,15 +15292,18 @@ export const modifyDBClusterEndpoint: API.OperationMethod<
 export const modifyDBClusterParameterGroup: API.OperationMethod<
   ModifyDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ModifyDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterParameterGroupMessage,
   output: DBClusterParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type ModifyDBClusterSnapshotAttributeError =
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | SharedSnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot.
  *
@@ -15073,10 +15318,7 @@ export const modifyDBClusterParameterGroup: API.OperationMethod<
 export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
   ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
-  | DBClusterSnapshotNotFoundFault
-  | InvalidDBClusterSnapshotStateFault
-  | SharedSnapshotQuotaExceededFault
-  | CommonErrors,
+  ModifyDBClusterSnapshotAttributeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterSnapshotAttributeMessage,
@@ -15087,12 +15329,7 @@ export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
     SharedSnapshotQuotaExceededFault,
   ],
 }));
-/**
- * Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call `DescribeValidDBInstanceModifications` before you call `ModifyDBInstance`.
- */
-export const modifyDBInstance: API.OperationMethod<
-  ModifyDBInstanceMessage,
-  ModifyDBInstanceResult,
+export type ModifyDBInstanceError =
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
   | CertificateNotFoundFault
@@ -15115,7 +15352,14 @@ export const modifyDBInstance: API.OperationMethod<
   | StorageTypeNotSupportedFault
   | TenantDatabaseQuotaExceededFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call `DescribeValidDBInstanceModifications` before you call `ModifyDBInstance`.
+ */
+export const modifyDBInstance: API.OperationMethod<
+  ModifyDBInstanceMessage,
+  ModifyDBInstanceResult,
+  ModifyDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBInstanceMessage,
@@ -15145,6 +15389,10 @@ export const modifyDBInstance: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
+export type ModifyDBParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: `ParameterName`, `ParameterValue`, and `ApplyMethod`. A maximum of 20 parameters can be modified in a single request.
  *
@@ -15153,25 +15401,25 @@ export const modifyDBInstance: API.OperationMethod<
 export const modifyDBParameterGroup: API.OperationMethod<
   ModifyDBParameterGroupMessage,
   DBParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ModifyDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBParameterGroupMessage,
   output: DBParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type ModifyDBProxyError =
+  | DBProxyAlreadyExistsFault
+  | DBProxyNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Changes the settings for an existing DB proxy.
  */
 export const modifyDBProxy: API.OperationMethod<
   ModifyDBProxyRequest,
   ModifyDBProxyResponse,
-  | DBProxyAlreadyExistsFault
-  | DBProxyNotFoundFault
-  | InvalidDBProxyStateFault
-  | CommonErrors,
+  ModifyDBProxyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBProxyRequest,
@@ -15182,17 +15430,19 @@ export const modifyDBProxy: API.OperationMethod<
     InvalidDBProxyStateFault,
   ],
 }));
+export type ModifyDBProxyEndpointError =
+  | DBProxyEndpointAlreadyExistsFault
+  | DBProxyEndpointNotFoundFault
+  | InvalidDBProxyEndpointStateFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Changes the settings for an existing DB proxy endpoint.
  */
 export const modifyDBProxyEndpoint: API.OperationMethod<
   ModifyDBProxyEndpointRequest,
   ModifyDBProxyEndpointResponse,
-  | DBProxyEndpointAlreadyExistsFault
-  | DBProxyEndpointNotFoundFault
-  | InvalidDBProxyEndpointStateFault
-  | InvalidDBProxyStateFault
-  | CommonErrors,
+  ModifyDBProxyEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBProxyEndpointRequest,
@@ -15204,16 +15454,18 @@ export const modifyDBProxyEndpoint: API.OperationMethod<
     InvalidDBProxyStateFault,
   ],
 }));
+export type ModifyDBProxyTargetGroupError =
+  | DBProxyNotFoundFault
+  | DBProxyTargetGroupNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors;
 /**
  * Modifies the properties of a `DBProxyTargetGroup`.
  */
 export const modifyDBProxyTargetGroup: API.OperationMethod<
   ModifyDBProxyTargetGroupRequest,
   ModifyDBProxyTargetGroupResponse,
-  | DBProxyNotFoundFault
-  | DBProxyTargetGroupNotFoundFault
-  | InvalidDBProxyStateFault
-  | CommonErrors,
+  ModifyDBProxyTargetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBProxyTargetGroupRequest,
@@ -15224,29 +15476,32 @@ export const modifyDBProxyTargetGroup: API.OperationMethod<
     InvalidDBProxyStateFault,
   ],
 }));
+export type ModifyDBRecommendationError = CommonErrors;
 /**
  * Updates the recommendation status and recommended action status for the specified recommendation.
  */
 export const modifyDBRecommendation: API.OperationMethod<
   ModifyDBRecommendationMessage,
   DBRecommendationMessage,
-  CommonErrors,
+  ModifyDBRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBRecommendationMessage,
   output: DBRecommendationMessage,
   errors: [],
 }));
+export type ModifyDBShardGroupError =
+  | DBShardGroupAlreadyExistsFault
+  | DBShardGroupNotFoundFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by specifying these parameters and the new values in the request.
  */
 export const modifyDBShardGroup: API.OperationMethod<
   ModifyDBShardGroupMessage,
   DBShardGroup,
-  | DBShardGroupAlreadyExistsFault
-  | DBShardGroupNotFoundFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  ModifyDBShardGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBShardGroupMessage,
@@ -15257,6 +15512,11 @@ export const modifyDBShardGroup: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type ModifyDBSnapshotError =
+  | DBSnapshotNotFoundFault
+  | InvalidDBSnapshotStateFault
+  | KMSKeyNotAccessibleFault
+  | CommonErrors;
 /**
  * Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public.
  *
@@ -15265,10 +15525,7 @@ export const modifyDBShardGroup: API.OperationMethod<
 export const modifyDBSnapshot: API.OperationMethod<
   ModifyDBSnapshotMessage,
   ModifyDBSnapshotResult,
-  | DBSnapshotNotFoundFault
-  | InvalidDBSnapshotStateFault
-  | KMSKeyNotAccessibleFault
-  | CommonErrors,
+  ModifyDBSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBSnapshotMessage,
@@ -15279,6 +15536,11 @@ export const modifyDBSnapshot: API.OperationMethod<
     KMSKeyNotAccessibleFault,
   ],
 }));
+export type ModifyDBSnapshotAttributeError =
+  | DBSnapshotNotFoundFault
+  | InvalidDBSnapshotStateFault
+  | SharedSnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot.
  *
@@ -15293,10 +15555,7 @@ export const modifyDBSnapshot: API.OperationMethod<
 export const modifyDBSnapshotAttribute: API.OperationMethod<
   ModifyDBSnapshotAttributeMessage,
   ModifyDBSnapshotAttributeResult,
-  | DBSnapshotNotFoundFault
-  | InvalidDBSnapshotStateFault
-  | SharedSnapshotQuotaExceededFault
-  | CommonErrors,
+  ModifyDBSnapshotAttributeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBSnapshotAttributeMessage,
@@ -15307,19 +15566,21 @@ export const modifyDBSnapshotAttribute: API.OperationMethod<
     SharedSnapshotQuotaExceededFault,
   ],
 }));
-/**
- * Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
- */
-export const modifyDBSubnetGroup: API.OperationMethod<
-  ModifyDBSubnetGroupMessage,
-  ModifyDBSubnetGroupResult,
+export type ModifyDBSubnetGroupError =
   | DBSubnetGroupDoesNotCoverEnoughAZs
   | DBSubnetGroupNotFoundFault
   | DBSubnetQuotaExceededFault
   | InvalidDBSubnetGroupStateFault
   | InvalidSubnet
   | SubnetAlreadyInUse
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
+ */
+export const modifyDBSubnetGroup: API.OperationMethod<
+  ModifyDBSubnetGroupMessage,
+  ModifyDBSubnetGroupResult,
+  ModifyDBSubnetGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBSubnetGroupMessage,
@@ -15333,6 +15594,14 @@ export const modifyDBSubnetGroup: API.OperationMethod<
     SubnetAlreadyInUse,
   ],
 }));
+export type ModifyEventSubscriptionError =
+  | EventSubscriptionQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SubscriptionCategoryNotFoundFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identifiers for a subscription, use the `AddSourceIdentifierToSubscription` and `RemoveSourceIdentifierFromSubscription` calls.
  *
@@ -15341,13 +15610,7 @@ export const modifyDBSubnetGroup: API.OperationMethod<
 export const modifyEventSubscription: API.OperationMethod<
   ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResult,
-  | EventSubscriptionQuotaExceededFault
-  | SNSInvalidTopicFault
-  | SNSNoAuthorizationFault
-  | SNSTopicArnNotFoundFault
-  | SubscriptionCategoryNotFoundFault
-  | SubscriptionNotFoundFault
-  | CommonErrors,
+  ModifyEventSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyEventSubscriptionMessage,
@@ -15361,6 +15624,13 @@ export const modifyEventSubscription: API.OperationMethod<
     SubscriptionNotFoundFault,
   ],
 }));
+export type ModifyGlobalClusterError =
+  | GlobalClusterAlreadyExistsFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
  *
@@ -15369,12 +15639,7 @@ export const modifyEventSubscription: API.OperationMethod<
 export const modifyGlobalCluster: API.OperationMethod<
   ModifyGlobalClusterMessage,
   ModifyGlobalClusterResult,
-  | GlobalClusterAlreadyExistsFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  ModifyGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyGlobalClusterMessage,
@@ -15387,16 +15652,18 @@ export const modifyGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
+export type ModifyIntegrationError =
+  | IntegrationConflictOperationFault
+  | IntegrationNotFoundFault
+  | InvalidIntegrationStateFault
+  | CommonErrors;
 /**
  * Modifies a zero-ETL integration with Amazon Redshift.
  */
 export const modifyIntegration: API.OperationMethod<
   ModifyIntegrationMessage,
   Integration,
-  | IntegrationConflictOperationFault
-  | IntegrationNotFoundFault
-  | InvalidIntegrationStateFault
-  | CommonErrors,
+  ModifyIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIntegrationMessage,
@@ -15407,31 +15674,37 @@ export const modifyIntegration: API.OperationMethod<
     InvalidIntegrationStateFault,
   ],
 }));
+export type ModifyOptionGroupError =
+  | InvalidOptionGroupStateFault
+  | OptionGroupNotFoundFault
+  | CommonErrors;
 /**
  * Modifies an existing option group.
  */
 export const modifyOptionGroup: API.OperationMethod<
   ModifyOptionGroupMessage,
   ModifyOptionGroupResult,
-  InvalidOptionGroupStateFault | OptionGroupNotFoundFault | CommonErrors,
+  ModifyOptionGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyOptionGroupMessage,
   output: ModifyOptionGroupResult,
   errors: [InvalidOptionGroupStateFault, OptionGroupNotFoundFault],
 }));
+export type ModifyTenantDatabaseError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | KMSKeyNotAccessibleFault
+  | TenantDatabaseAlreadyExistsFault
+  | TenantDatabaseNotFoundFault
+  | CommonErrors;
 /**
  * Modifies an existing tenant database in a DB instance. You can change the tenant database name or the master user password. This operation is supported only for RDS for Oracle CDB instances using the multi-tenant configuration.
  */
 export const modifyTenantDatabase: API.OperationMethod<
   ModifyTenantDatabaseMessage,
   ModifyTenantDatabaseResult,
-  | DBInstanceNotFoundFault
-  | InvalidDBInstanceStateFault
-  | KMSKeyNotAccessibleFault
-  | TenantDatabaseAlreadyExistsFault
-  | TenantDatabaseNotFoundFault
-  | CommonErrors,
+  ModifyTenantDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyTenantDatabaseMessage,
@@ -15444,6 +15717,10 @@ export const modifyTenantDatabase: API.OperationMethod<
     TenantDatabaseNotFoundFault,
   ],
 }));
+export type PromoteReadReplicaError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Promotes a read replica DB instance to a standalone DB instance.
  *
@@ -15454,36 +15731,42 @@ export const modifyTenantDatabase: API.OperationMethod<
 export const promoteReadReplica: API.OperationMethod<
   PromoteReadReplicaMessage,
   PromoteReadReplicaResult,
-  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
+  PromoteReadReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromoteReadReplicaMessage,
   output: PromoteReadReplicaResult,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
 }));
+export type PromoteReadReplicaDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Promotes a read replica DB cluster to a standalone DB cluster.
  */
 export const promoteReadReplicaDBCluster: API.OperationMethod<
   PromoteReadReplicaDBClusterMessage,
   PromoteReadReplicaDBClusterResult,
-  DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
+  PromoteReadReplicaDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromoteReadReplicaDBClusterMessage,
   output: PromoteReadReplicaDBClusterResult,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault],
 }));
+export type PurchaseReservedDBInstancesOfferingError =
+  | ReservedDBInstanceAlreadyExistsFault
+  | ReservedDBInstanceQuotaExceededFault
+  | ReservedDBInstancesOfferingNotFoundFault
+  | CommonErrors;
 /**
  * Purchases a reserved DB instance offering.
  */
 export const purchaseReservedDBInstancesOffering: API.OperationMethod<
   PurchaseReservedDBInstancesOfferingMessage,
   PurchaseReservedDBInstancesOfferingResult,
-  | ReservedDBInstanceAlreadyExistsFault
-  | ReservedDBInstanceQuotaExceededFault
-  | ReservedDBInstancesOfferingNotFoundFault
-  | CommonErrors,
+  PurchaseReservedDBInstancesOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseReservedDBInstancesOfferingMessage,
@@ -15494,6 +15777,11 @@ export const purchaseReservedDBInstancesOffering: API.OperationMethod<
     ReservedDBInstancesOfferingNotFoundFault,
   ],
 }));
+export type RebootDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * You might need to reboot your DB cluster, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB cluster parameter group associated with the DB cluster, reboot the DB cluster for the changes to take effect.
  *
@@ -15506,10 +15794,7 @@ export const purchaseReservedDBInstancesOffering: API.OperationMethod<
 export const rebootDBCluster: API.OperationMethod<
   RebootDBClusterMessage,
   RebootDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  RebootDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDBClusterMessage,
@@ -15520,6 +15805,11 @@ export const rebootDBCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type RebootDBInstanceError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | KMSKeyNotAccessibleFault
+  | CommonErrors;
 /**
  * You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect.
  *
@@ -15534,10 +15824,7 @@ export const rebootDBCluster: API.OperationMethod<
 export const rebootDBInstance: API.OperationMethod<
   RebootDBInstanceMessage,
   RebootDBInstanceResult,
-  | DBInstanceNotFoundFault
-  | InvalidDBInstanceStateFault
-  | KMSKeyNotAccessibleFault
-  | CommonErrors,
+  RebootDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDBInstanceMessage,
@@ -15548,6 +15835,10 @@ export const rebootDBInstance: API.OperationMethod<
     KMSKeyNotAccessibleFault,
   ],
 }));
+export type RebootDBShardGroupError =
+  | DBShardGroupNotFoundFault
+  | InvalidDBShardGroupStateFault
+  | CommonErrors;
 /**
  * You might need to reboot your DB shard group, usually for maintenance reasons. For example, if you make certain modifications, reboot the DB shard group for the changes to take effect.
  *
@@ -15556,19 +15847,14 @@ export const rebootDBInstance: API.OperationMethod<
 export const rebootDBShardGroup: API.OperationMethod<
   RebootDBShardGroupMessage,
   DBShardGroup,
-  DBShardGroupNotFoundFault | InvalidDBShardGroupStateFault | CommonErrors,
+  RebootDBShardGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDBShardGroupMessage,
   output: DBShardGroup,
   errors: [DBShardGroupNotFoundFault, InvalidDBShardGroupStateFault],
 }));
-/**
- * Associate one or more `DBProxyTarget` data structures with a `DBProxyTargetGroup`.
- */
-export const registerDBProxyTargets: API.OperationMethod<
-  RegisterDBProxyTargetsRequest,
-  RegisterDBProxyTargetsResponse,
+export type RegisterDBProxyTargetsError =
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
   | DBProxyNotFoundFault
@@ -15578,7 +15864,14 @@ export const registerDBProxyTargets: API.OperationMethod<
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
   | InvalidDBProxyStateFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate one or more `DBProxyTarget` data structures with a `DBProxyTargetGroup`.
+ */
+export const registerDBProxyTargets: API.OperationMethod<
+  RegisterDBProxyTargetsRequest,
+  RegisterDBProxyTargetsResponse,
+  RegisterDBProxyTargetsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDBProxyTargetsRequest,
@@ -15595,6 +15888,12 @@ export const registerDBProxyTargets: API.OperationMethod<
     InvalidDBProxyStateFault,
   ],
 }));
+export type RemoveFromGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region.
  *
@@ -15603,11 +15902,7 @@ export const registerDBProxyTargets: API.OperationMethod<
 export const removeFromGlobalCluster: API.OperationMethod<
   RemoveFromGlobalClusterMessage,
   RemoveFromGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  RemoveFromGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFromGlobalClusterMessage,
@@ -15619,6 +15914,11 @@ export const removeFromGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
+export type RemoveRoleFromDBClusterError =
+  | DBClusterNotFoundFault
+  | DBClusterRoleNotFoundFault
+  | InvalidDBClusterStateFault
+  | CommonErrors;
 /**
  * Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM) role from a DB cluster.
  *
@@ -15629,10 +15929,7 @@ export const removeFromGlobalCluster: API.OperationMethod<
 export const removeRoleFromDBCluster: API.OperationMethod<
   RemoveRoleFromDBClusterMessage,
   RemoveRoleFromDBClusterResponse,
-  | DBClusterNotFoundFault
-  | DBClusterRoleNotFoundFault
-  | InvalidDBClusterStateFault
-  | CommonErrors,
+  RemoveRoleFromDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRoleFromDBClusterMessage,
@@ -15643,16 +15940,18 @@ export const removeRoleFromDBCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
   ],
 }));
+export type RemoveRoleFromDBInstanceError =
+  | DBInstanceNotFoundFault
+  | DBInstanceRoleNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Disassociates an Amazon Web Services Identity and Access Management (IAM) role from a DB instance.
  */
 export const removeRoleFromDBInstance: API.OperationMethod<
   RemoveRoleFromDBInstanceMessage,
   RemoveRoleFromDBInstanceResponse,
-  | DBInstanceNotFoundFault
-  | DBInstanceRoleNotFoundFault
-  | InvalidDBInstanceStateFault
-  | CommonErrors,
+  RemoveRoleFromDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRoleFromDBInstanceMessage,
@@ -15663,27 +15962,24 @@ export const removeRoleFromDBInstance: API.OperationMethod<
     InvalidDBInstanceStateFault,
   ],
 }));
+export type RemoveSourceIdentifierFromSubscriptionError =
+  | SourceNotFoundFault
+  | SubscriptionNotFoundFault
+  | CommonErrors;
 /**
  * Removes a source identifier from an existing RDS event notification subscription.
  */
 export const removeSourceIdentifierFromSubscription: API.OperationMethod<
   RemoveSourceIdentifierFromSubscriptionMessage,
   RemoveSourceIdentifierFromSubscriptionResult,
-  SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
+  RemoveSourceIdentifierFromSubscriptionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveSourceIdentifierFromSubscriptionMessage,
   output: RemoveSourceIdentifierFromSubscriptionResult,
   errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
 }));
-/**
- * Removes metadata tags from an Amazon RDS resource.
- *
- * For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the *Amazon RDS User Guide* or Tagging Amazon Aurora and Amazon RDS Resources in the *Amazon Aurora User Guide*.
- */
-export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
-  RemoveTagsFromResourceResponse,
+export type RemoveTagsFromResourceError =
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -15698,7 +15994,16 @@ export const removeTagsFromResource: API.OperationMethod<
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
   | TenantDatabaseNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes metadata tags from an Amazon RDS resource.
+ *
+ * For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the *Amazon RDS User Guide* or Tagging Amazon Aurora and Amazon RDS Resources in the *Amazon Aurora User Guide*.
+ */
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceResponse,
+  RemoveTagsFromResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceMessage,
@@ -15720,6 +16025,10 @@ export const removeTagsFromResource: API.OperationMethod<
     TenantDatabaseNotFoundFault,
   ],
 }));
+export type ResetDBClusterParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: `ParameterName` and `ApplyMethod`. To reset the entire DB cluster parameter group, specify the `DBClusterParameterGroupName` and `ResetAllParameters` parameters.
  *
@@ -15732,42 +16041,31 @@ export const removeTagsFromResource: API.OperationMethod<
 export const resetDBClusterParameterGroup: API.OperationMethod<
   ResetDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ResetDBClusterParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetDBClusterParameterGroupMessage,
   output: DBClusterParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
+export type ResetDBParameterGroupError =
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | CommonErrors;
 /**
  * Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: `ParameterName` and `ApplyMethod`. To reset the entire DB parameter group, specify the `DBParameterGroup` name and `ResetAllParameters` parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to `pending-reboot` to take effect on the next DB instance restart or `RebootDBInstance` request.
  */
 export const resetDBParameterGroup: API.OperationMethod<
   ResetDBParameterGroupMessage,
   DBParameterGroupNameMessage,
-  | DBParameterGroupNotFoundFault
-  | InvalidDBParameterGroupStateFault
-  | CommonErrors,
+  ResetDBParameterGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetDBParameterGroupMessage,
   output: DBParameterGroupNameMessage,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
 }));
-/**
- * Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in Migrating Data from MySQL by Using an Amazon S3 Bucket in the *Amazon Aurora User Guide*.
- *
- * This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterFromS3` operation has completed and the DB cluster is available.
- *
- * For more information on Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
- *
- * This operation only applies to Aurora DB clusters. The source DB engine must be MySQL.
- */
-export const restoreDBClusterFromS3: API.OperationMethod<
-  RestoreDBClusterFromS3Message,
-  RestoreDBClusterFromS3Result,
+export type RestoreDBClusterFromS3Error =
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
@@ -15784,7 +16082,20 @@ export const restoreDBClusterFromS3: API.OperationMethod<
   | NetworkTypeNotSupported
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in Migrating Data from MySQL by Using an Amazon S3 Bucket in the *Amazon Aurora User Guide*.
+ *
+ * This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterFromS3` operation has completed and the DB cluster is available.
+ *
+ * For more information on Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
+ *
+ * This operation only applies to Aurora DB clusters. The source DB engine must be MySQL.
+ */
+export const restoreDBClusterFromS3: API.OperationMethod<
+  RestoreDBClusterFromS3Message,
+  RestoreDBClusterFromS3Result,
+  RestoreDBClusterFromS3Error,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBClusterFromS3Message,
@@ -15808,20 +16119,7 @@ export const restoreDBClusterFromS3: API.OperationMethod<
     StorageTypeNotSupportedFault,
   ],
 }));
-/**
- * Creates a new DB cluster from a DB snapshot or DB cluster snapshot.
- *
- * The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.
- *
- * This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterFromSnapshot` operation has completed and the DB cluster is available.
- *
- * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
- *
- * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
- */
-export const restoreDBClusterFromSnapshot: API.OperationMethod<
-  RestoreDBClusterFromSnapshotMessage,
-  RestoreDBClusterFromSnapshotResult,
+export type RestoreDBClusterFromSnapshotError =
   | DBClusterAlreadyExistsFault
   | DBClusterParameterGroupNotFoundFault
   | DBClusterQuotaExceededFault
@@ -15845,7 +16143,22 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new DB cluster from a DB snapshot or DB cluster snapshot.
+ *
+ * The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.
+ *
+ * This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterFromSnapshot` operation has completed and the DB cluster is available.
+ *
+ * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
+ *
+ * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
+ */
+export const restoreDBClusterFromSnapshot: API.OperationMethod<
+  RestoreDBClusterFromSnapshotMessage,
+  RestoreDBClusterFromSnapshotResult,
+  RestoreDBClusterFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBClusterFromSnapshotMessage,
@@ -15876,18 +16189,7 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
-/**
- * Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before `LatestRestorableTime` for up to `BackupRetentionPeriod` days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the `RestoreType` is set to `copy-on-write`, the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ where RDS restores the DB cluster depends on the AZs in the specified subnet group.
- *
- * For Aurora, this operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterToPointInTime` operation has completed and the DB cluster is available.
- *
- * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
- *
- * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
- */
-export const restoreDBClusterToPointInTime: API.OperationMethod<
-  RestoreDBClusterToPointInTimeMessage,
-  RestoreDBClusterToPointInTimeResult,
+export type RestoreDBClusterToPointInTimeError =
   | DBClusterAlreadyExistsFault
   | DBClusterAutomatedBackupNotFoundFault
   | DBClusterNotFoundFault
@@ -15911,7 +16213,20 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before `LatestRestorableTime` for up to `BackupRetentionPeriod` days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the `RestoreType` is set to `copy-on-write`, the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ where RDS restores the DB cluster depends on the AZs in the specified subnet group.
+ *
+ * For Aurora, this operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterToPointInTime` operation has completed and the DB cluster is available.
+ *
+ * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
+ *
+ * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
+ */
+export const restoreDBClusterToPointInTime: API.OperationMethod<
+  RestoreDBClusterToPointInTimeMessage,
+  RestoreDBClusterToPointInTimeResult,
+  RestoreDBClusterToPointInTimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBClusterToPointInTimeMessage,
@@ -15942,20 +16257,7 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
-/**
- * Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment.
- *
- * If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the `RestoreDBInstanceFromDBSnapshot` operation. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the `DBInstanceIdentifier` in the call to the `RestoreDBInstanceFromDBSnapshot` operation. The result is that you replace the original DB instance with the DB instance created from the snapshot.
- *
- * If you are restoring from a shared manual DB snapshot, the `DBSnapshotIdentifier` must be the ARN of the shared DB snapshot.
- *
- * To restore from a DB snapshot with an unsupported engine version, you must first upgrade the engine version of the snapshot. For more information about upgrading a RDS for MySQL DB snapshot engine version, see Upgrading a MySQL DB snapshot engine version. For more information about upgrading a RDS for PostgreSQL DB snapshot engine version, Upgrading a PostgreSQL DB snapshot engine version.
- *
- * This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use `RestoreDBClusterFromSnapshot`.
- */
-export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
-  RestoreDBInstanceFromDBSnapshotMessage,
-  RestoreDBInstanceFromDBSnapshotResult,
+export type RestoreDBInstanceFromDBSnapshotError =
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
   | CertificateNotFoundFault
@@ -15981,7 +16283,22 @@ export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
   | StorageTypeNotSupportedFault
   | TenantDatabaseQuotaExceededFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment.
+ *
+ * If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the `RestoreDBInstanceFromDBSnapshot` operation. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the `DBInstanceIdentifier` in the call to the `RestoreDBInstanceFromDBSnapshot` operation. The result is that you replace the original DB instance with the DB instance created from the snapshot.
+ *
+ * If you are restoring from a shared manual DB snapshot, the `DBSnapshotIdentifier` must be the ARN of the shared DB snapshot.
+ *
+ * To restore from a DB snapshot with an unsupported engine version, you must first upgrade the engine version of the snapshot. For more information about upgrading a RDS for MySQL DB snapshot engine version, see Upgrading a MySQL DB snapshot engine version. For more information about upgrading a RDS for PostgreSQL DB snapshot engine version, Upgrading a PostgreSQL DB snapshot engine version.
+ *
+ * This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use `RestoreDBClusterFromSnapshot`.
+ */
+export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
+  RestoreDBInstanceFromDBSnapshotMessage,
+  RestoreDBInstanceFromDBSnapshotResult,
+  RestoreDBInstanceFromDBSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBInstanceFromDBSnapshotMessage,
@@ -16014,14 +16331,7 @@ export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
-/**
- * Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files. You can create a backup of your on-premises database, store it on Amazon Simple Storage Service (Amazon S3), and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Restoring a backup into an Amazon RDS for MySQL DB instance in the *Amazon RDS User Guide.*
- *
- * This operation doesn't apply to RDS Custom.
- */
-export const restoreDBInstanceFromS3: API.OperationMethod<
-  RestoreDBInstanceFromS3Message,
-  RestoreDBInstanceFromS3Result,
+export type RestoreDBInstanceFromS3Error =
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
   | CertificateNotFoundFault
@@ -16042,7 +16352,16 @@ export const restoreDBInstanceFromS3: API.OperationMethod<
   | StorageQuotaExceededFault
   | StorageTypeNotSupportedFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files. You can create a backup of your on-premises database, store it on Amazon Simple Storage Service (Amazon S3), and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Restoring a backup into an Amazon RDS for MySQL DB instance in the *Amazon RDS User Guide.*
+ *
+ * This operation doesn't apply to RDS Custom.
+ */
+export const restoreDBInstanceFromS3: API.OperationMethod<
+  RestoreDBInstanceFromS3Message,
+  RestoreDBInstanceFromS3Result,
+  RestoreDBInstanceFromS3Error,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBInstanceFromS3Message,
@@ -16070,16 +16389,7 @@ export const restoreDBInstanceFromS3: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
-/**
- * Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the `LatestRestorableTime` property. You can restore to a point up to the number of days specified by the `BackupRetentionPeriod` property.
- *
- * The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.
- *
- * This operation doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use `RestoreDBClusterToPointInTime`.
- */
-export const restoreDBInstanceToPointInTime: API.OperationMethod<
-  RestoreDBInstanceToPointInTimeMessage,
-  RestoreDBInstanceToPointInTimeResult,
+export type RestoreDBInstanceToPointInTimeError =
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
   | CertificateNotFoundFault
@@ -16106,7 +16416,18 @@ export const restoreDBInstanceToPointInTime: API.OperationMethod<
   | StorageTypeNotSupportedFault
   | TenantDatabaseQuotaExceededFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the `LatestRestorableTime` property. You can restore to a point up to the number of days specified by the `BackupRetentionPeriod` property.
+ *
+ * The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.
+ *
+ * This operation doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use `RestoreDBClusterToPointInTime`.
+ */
+export const restoreDBInstanceToPointInTime: API.OperationMethod<
+  RestoreDBInstanceToPointInTimeMessage,
+  RestoreDBInstanceToPointInTimeResult,
+  RestoreDBInstanceToPointInTimeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDBInstanceToPointInTimeMessage,
@@ -16140,6 +16461,11 @@ export const restoreDBInstanceToPointInTime: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
+export type RevokeDBSecurityGroupIngressError =
+  | AuthorizationNotFoundFault
+  | DBSecurityGroupNotFoundFault
+  | InvalidDBSecurityGroupStateFault
+  | CommonErrors;
 /**
  * Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId).
  *
@@ -16148,10 +16474,7 @@ export const restoreDBInstanceToPointInTime: API.OperationMethod<
 export const revokeDBSecurityGroupIngress: API.OperationMethod<
   RevokeDBSecurityGroupIngressMessage,
   RevokeDBSecurityGroupIngressResult,
-  | AuthorizationNotFoundFault
-  | DBSecurityGroupNotFoundFault
-  | InvalidDBSecurityGroupStateFault
-  | CommonErrors,
+  RevokeDBSecurityGroupIngressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeDBSecurityGroupIngressMessage,
@@ -16162,19 +16485,21 @@ export const revokeDBSecurityGroupIngress: API.OperationMethod<
     InvalidDBSecurityGroupStateFault,
   ],
 }));
-/**
- * Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the *Amazon Aurora User Guide* or Monitoring Amazon RDS with Database Activity Streams in the *Amazon RDS User Guide*.
- */
-export const startActivityStream: API.OperationMethod<
-  StartActivityStreamRequest,
-  StartActivityStreamResponse,
+export type StartActivityStreamError =
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
   | KMSKeyNotAccessibleFault
   | ResourceNotFoundFault
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the *Amazon Aurora User Guide* or Monitoring Amazon RDS with Database Activity Streams in the *Amazon RDS User Guide*.
+ */
+export const startActivityStream: API.OperationMethod<
+  StartActivityStreamRequest,
+  StartActivityStreamResponse,
+  StartActivityStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartActivityStreamRequest,
@@ -16188,6 +16513,14 @@ export const startActivityStream: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type StartDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidDBShardGroupStateFault
+  | KMSKeyNotAccessibleFault
+  | VpcEncryptionControlViolationException
+  | CommonErrors;
 /**
  * Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the `StopDBCluster` operation.
  *
@@ -16198,13 +16531,7 @@ export const startActivityStream: API.OperationMethod<
 export const startDBCluster: API.OperationMethod<
   StartDBClusterMessage,
   StartDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | InvalidDBShardGroupStateFault
-  | KMSKeyNotAccessibleFault
-  | VpcEncryptionControlViolationException
-  | CommonErrors,
+  StartDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDBClusterMessage,
@@ -16218,16 +16545,7 @@ export const startDBCluster: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
-/**
- * Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the `StopDBInstance` operation.
- *
- * For more information, see Starting an Amazon RDS DB instance That Was Previously Stopped in the *Amazon RDS User Guide.*
- *
- * This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use `StartDBCluster` instead.
- */
-export const startDBInstance: API.OperationMethod<
-  StartDBInstanceMessage,
-  StartDBInstanceResult,
+export type StartDBInstanceError =
   | AuthorizationNotFoundFault
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -16240,7 +16558,18 @@ export const startDBInstance: API.OperationMethod<
   | InvalidVPCNetworkStateFault
   | KMSKeyNotAccessibleFault
   | VpcEncryptionControlViolationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the `StopDBInstance` operation.
+ *
+ * For more information, see Starting an Amazon RDS DB instance That Was Previously Stopped in the *Amazon RDS User Guide.*
+ *
+ * This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use `StartDBCluster` instead.
+ */
+export const startDBInstance: API.OperationMethod<
+  StartDBInstanceMessage,
+  StartDBInstanceResult,
+  StartDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDBInstanceMessage,
@@ -16260,6 +16589,14 @@ export const startDBInstance: API.OperationMethod<
     VpcEncryptionControlViolationException,
   ],
 }));
+export type StartDBInstanceAutomatedBackupsReplicationError =
+  | DBInstanceAutomatedBackupQuotaExceededFault
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceAutomatedBackupStateFault
+  | InvalidDBInstanceStateFault
+  | KMSKeyNotAccessibleFault
+  | StorageTypeNotSupportedFault
+  | CommonErrors;
 /**
  * Enables replication of automated backups to a different Amazon Web Services Region.
  *
@@ -16270,13 +16607,7 @@ export const startDBInstance: API.OperationMethod<
 export const startDBInstanceAutomatedBackupsReplication: API.OperationMethod<
   StartDBInstanceAutomatedBackupsReplicationMessage,
   StartDBInstanceAutomatedBackupsReplicationResult,
-  | DBInstanceAutomatedBackupQuotaExceededFault
-  | DBInstanceNotFoundFault
-  | InvalidDBInstanceAutomatedBackupStateFault
-  | InvalidDBInstanceStateFault
-  | KMSKeyNotAccessibleFault
-  | StorageTypeNotSupportedFault
-  | CommonErrors,
+  StartDBInstanceAutomatedBackupsReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDBInstanceAutomatedBackupsReplicationMessage,
@@ -16290,6 +16621,18 @@ export const startDBInstanceAutomatedBackupsReplication: API.OperationMethod<
     StorageTypeNotSupportedFault,
   ],
 }));
+export type StartExportTaskError =
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotNotFoundFault
+  | DBSnapshotNotFoundFault
+  | ExportTaskAlreadyExistsFault
+  | IamRoleMissingPermissionsFault
+  | IamRoleNotFoundFault
+  | InvalidExportOnlyFault
+  | InvalidExportSourceStateFault
+  | InvalidS3BucketFault
+  | KMSKeyNotAccessibleFault
+  | CommonErrors;
 /**
  * Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket.
  *
@@ -16302,17 +16645,7 @@ export const startDBInstanceAutomatedBackupsReplication: API.OperationMethod<
 export const startExportTask: API.OperationMethod<
   StartExportTaskMessage,
   ExportTask,
-  | DBClusterNotFoundFault
-  | DBClusterSnapshotNotFoundFault
-  | DBSnapshotNotFoundFault
-  | ExportTaskAlreadyExistsFault
-  | IamRoleMissingPermissionsFault
-  | IamRoleNotFoundFault
-  | InvalidExportOnlyFault
-  | InvalidExportSourceStateFault
-  | InvalidS3BucketFault
-  | KMSKeyNotAccessibleFault
-  | CommonErrors,
+  StartExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportTaskMessage,
@@ -16330,6 +16663,13 @@ export const startExportTask: API.OperationMethod<
     KMSKeyNotAccessibleFault,
   ],
 }));
+export type StopActivityStreamError =
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors;
 /**
  * Stops a database activity stream that was started using the Amazon Web Services console, the `start-activity-stream` CLI command, or the `StartActivityStream` operation.
  *
@@ -16338,12 +16678,7 @@ export const startExportTask: API.OperationMethod<
 export const stopActivityStream: API.OperationMethod<
   StopActivityStreamRequest,
   StopActivityStreamResponse,
-  | DBClusterNotFoundFault
-  | DBInstanceNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | ResourceNotFoundFault
-  | CommonErrors,
+  StopActivityStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopActivityStreamRequest,
@@ -16356,6 +16691,12 @@ export const stopActivityStream: API.OperationMethod<
     ResourceNotFoundFault,
   ],
 }));
+export type StopDBClusterError =
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidDBShardGroupStateFault
+  | CommonErrors;
 /**
  * Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary.
  *
@@ -16366,11 +16707,7 @@ export const stopActivityStream: API.OperationMethod<
 export const stopDBCluster: API.OperationMethod<
   StopDBClusterMessage,
   StopDBClusterResult,
-  | DBClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | InvalidDBShardGroupStateFault
-  | CommonErrors,
+  StopDBClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDBClusterMessage,
@@ -16382,6 +16719,13 @@ export const stopDBCluster: API.OperationMethod<
     InvalidDBShardGroupStateFault,
   ],
 }));
+export type StopDBInstanceError =
+  | DBInstanceNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | SnapshotQuotaExceededFault
+  | CommonErrors;
 /**
  * Stops an Amazon RDS DB instance temporarily. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days.
  *
@@ -16392,12 +16736,7 @@ export const stopDBCluster: API.OperationMethod<
 export const stopDBInstance: API.OperationMethod<
   StopDBInstanceMessage,
   StopDBInstanceResult,
-  | DBInstanceNotFoundFault
-  | DBSnapshotAlreadyExistsFault
-  | InvalidDBClusterStateFault
-  | InvalidDBInstanceStateFault
-  | SnapshotQuotaExceededFault
-  | CommonErrors,
+  StopDBInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDBInstanceMessage,
@@ -16410,6 +16749,10 @@ export const stopDBInstance: API.OperationMethod<
     SnapshotQuotaExceededFault,
   ],
 }));
+export type StopDBInstanceAutomatedBackupsReplicationError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Stops automated backup replication for a DB instance.
  *
@@ -16420,13 +16763,17 @@ export const stopDBInstance: API.OperationMethod<
 export const stopDBInstanceAutomatedBackupsReplication: API.OperationMethod<
   StopDBInstanceAutomatedBackupsReplicationMessage,
   StopDBInstanceAutomatedBackupsReplicationResult,
-  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
+  StopDBInstanceAutomatedBackupsReplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDBInstanceAutomatedBackupsReplicationMessage,
   output: StopDBInstanceAutomatedBackupsReplicationResult,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
 }));
+export type SwitchoverBlueGreenDeploymentError =
+  | BlueGreenDeploymentNotFoundFault
+  | InvalidBlueGreenDeploymentStateFault
+  | CommonErrors;
 /**
  * Switches over a blue/green deployment.
  *
@@ -16437,9 +16784,7 @@ export const stopDBInstanceAutomatedBackupsReplication: API.OperationMethod<
 export const switchoverBlueGreenDeployment: API.OperationMethod<
   SwitchoverBlueGreenDeploymentRequest,
   SwitchoverBlueGreenDeploymentResponse,
-  | BlueGreenDeploymentNotFoundFault
-  | InvalidBlueGreenDeploymentStateFault
-  | CommonErrors,
+  SwitchoverBlueGreenDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SwitchoverBlueGreenDeploymentRequest,
@@ -16449,6 +16794,12 @@ export const switchoverBlueGreenDeployment: API.OperationMethod<
     InvalidBlueGreenDeploymentStateFault,
   ],
 }));
+export type SwitchoverGlobalClusterError =
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors;
 /**
  * Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster. Switchover operations were previously called "managed planned failovers."
  *
@@ -16459,11 +16810,7 @@ export const switchoverBlueGreenDeployment: API.OperationMethod<
 export const switchoverGlobalCluster: API.OperationMethod<
   SwitchoverGlobalClusterMessage,
   SwitchoverGlobalClusterResult,
-  | DBClusterNotFoundFault
-  | GlobalClusterNotFoundFault
-  | InvalidDBClusterStateFault
-  | InvalidGlobalClusterStateFault
-  | CommonErrors,
+  SwitchoverGlobalClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SwitchoverGlobalClusterMessage,
@@ -16475,13 +16822,17 @@ export const switchoverGlobalCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
   ],
 }));
+export type SwitchoverReadReplicaError =
+  | DBInstanceNotFoundFault
+  | InvalidDBInstanceStateFault
+  | CommonErrors;
 /**
  * Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
  */
 export const switchoverReadReplica: API.OperationMethod<
   SwitchoverReadReplicaMessage,
   SwitchoverReadReplicaResult,
-  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
+  SwitchoverReadReplicaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SwitchoverReadReplicaMessage,

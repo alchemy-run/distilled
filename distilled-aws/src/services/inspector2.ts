@@ -6261,6 +6261,13 @@ export class BadRequestException extends S.TaggedErrorClass<BadRequestException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateMemberError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response
  * indicates the association was successfully started, but doesn’t indicate whether it was
@@ -6270,12 +6277,7 @@ export class BadRequestException extends S.TaggedErrorClass<BadRequestException>
 export const associateMember: API.OperationMethod<
   AssociateMemberRequest,
   AssociateMemberResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberRequest,
@@ -6288,6 +6290,14 @@ export const associateMember: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchAssociateCodeSecurityScanConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates multiple code repositories with an Amazon Inspector code security scan
  * configuration.
@@ -6295,13 +6305,7 @@ export const associateMember: API.OperationMethod<
 export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
   BatchAssociateCodeSecurityScanConfigurationRequest,
   BatchAssociateCodeSecurityScanConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchAssociateCodeSecurityScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAssociateCodeSecurityScanConfigurationRequest,
@@ -6315,6 +6319,14 @@ export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDisassociateCodeSecurityScanConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates multiple code repositories from an Amazon Inspector code security scan
  * configuration.
@@ -6322,13 +6334,7 @@ export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
 export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod<
   BatchDisassociateCodeSecurityScanConfigurationRequest,
   BatchDisassociateCodeSecurityScanConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDisassociateCodeSecurityScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisassociateCodeSecurityScanConfigurationRequest,
@@ -6342,18 +6348,20 @@ export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod
     ValidationException,
   ],
 }));
+export type BatchGetAccountStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
  */
 export const batchGetAccountStatus: API.OperationMethod<
   BatchGetAccountStatusRequest,
   BatchGetAccountStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetAccountStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAccountStatusRequest,
@@ -6366,6 +6374,12 @@ export const batchGetAccountStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetCodeSnippetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities
  * in.
@@ -6373,11 +6387,7 @@ export const batchGetAccountStatus: API.OperationMethod<
 export const batchGetCodeSnippet: API.OperationMethod<
   BatchGetCodeSnippetRequest,
   BatchGetCodeSnippetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetCodeSnippetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCodeSnippetRequest,
@@ -6389,17 +6399,19 @@ export const batchGetCodeSnippet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetFindingDetailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets vulnerability details for findings.
  */
 export const batchGetFindingDetails: API.OperationMethod<
   BatchGetFindingDetailsRequest,
   BatchGetFindingDetailsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetFindingDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFindingDetailsRequest,
@@ -6411,17 +6423,19 @@ export const batchGetFindingDetails: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetFreeTrialInfoError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets free trial status for multiple Amazon Web Services accounts.
  */
 export const batchGetFreeTrialInfo: API.OperationMethod<
   BatchGetFreeTrialInfoRequest,
   BatchGetFreeTrialInfoResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetFreeTrialInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFreeTrialInfoRequest,
@@ -6433,6 +6447,12 @@ export const batchGetFreeTrialInfo: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetMemberEc2DeepInspectionStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within
  * your organization. You must be the delegated administrator of an organization in Amazon Inspector to
@@ -6441,11 +6461,7 @@ export const batchGetFreeTrialInfo: API.OperationMethod<
 export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
   BatchGetMemberEc2DeepInspectionStatusRequest,
   BatchGetMemberEc2DeepInspectionStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetMemberEc2DeepInspectionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetMemberEc2DeepInspectionStatusRequest,
@@ -6457,6 +6473,12 @@ export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchUpdateMemberEc2DeepInspectionStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your
  * organization. You must be the delegated administrator of an organization in Amazon Inspector to use
@@ -6465,11 +6487,7 @@ export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
 export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
   BatchUpdateMemberEc2DeepInspectionStatusRequest,
   BatchUpdateMemberEc2DeepInspectionStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchUpdateMemberEc2DeepInspectionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
@@ -6481,18 +6499,20 @@ export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelFindingsReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the given findings report.
  */
 export const cancelFindingsReport: API.OperationMethod<
   CancelFindingsReportRequest,
   CancelFindingsReportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelFindingsReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelFindingsReportRequest,
@@ -6505,18 +6525,20 @@ export const cancelFindingsReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelSbomExportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a software bill of materials (SBOM) report.
  */
 export const cancelSbomExport: API.OperationMethod<
   CancelSbomExportRequest,
   CancelSbomExportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelSbomExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSbomExportRequest,
@@ -6529,17 +6551,19 @@ export const cancelSbomExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCisScanConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a CIS scan configuration.
  */
 export const createCisScanConfiguration: API.OperationMethod<
   CreateCisScanConfigurationRequest,
   CreateCisScanConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCisScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCisScanConfigurationRequest,
@@ -6551,6 +6575,14 @@ export const createCisScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCodeSecurityIntegrationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a code security integration with a source code repository provider.
  *
@@ -6562,13 +6594,7 @@ export const createCisScanConfiguration: API.OperationMethod<
 export const createCodeSecurityIntegration: API.OperationMethod<
   CreateCodeSecurityIntegrationRequest,
   CreateCodeSecurityIntegrationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCodeSecurityIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCodeSecurityIntegrationRequest,
@@ -6582,19 +6608,21 @@ export const createCodeSecurityIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a scan configuration for code security scanning.
- */
-export const createCodeSecurityScanConfiguration: API.OperationMethod<
-  CreateCodeSecurityScanConfigurationRequest,
-  CreateCodeSecurityScanConfigurationResponse,
+export type CreateCodeSecurityScanConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a scan configuration for code security scanning.
+ */
+export const createCodeSecurityScanConfiguration: API.OperationMethod<
+  CreateCodeSecurityScanConfigurationRequest,
+  CreateCodeSecurityScanConfigurationResponse,
+  CreateCodeSecurityScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCodeSecurityScanConfigurationRequest,
@@ -6608,6 +6636,14 @@ export const createCodeSecurityScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateFilterError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a filter resource using specified filter criteria. When the filter action is set
  * to `SUPPRESS` this action creates a suppression rule.
@@ -6615,13 +6651,7 @@ export const createCodeSecurityScanConfiguration: API.OperationMethod<
 export const createFilter: API.OperationMethod<
   CreateFilterRequest,
   CreateFilterResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFilterRequest,
@@ -6635,6 +6665,13 @@ export const createFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateFindingsReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a finding report. By default only `ACTIVE` findings are returned in
  * the report. To see `SUPRESSED` or `CLOSED` findings you must specify
@@ -6643,12 +6680,7 @@ export const createFilter: API.OperationMethod<
 export const createFindingsReport: API.OperationMethod<
   CreateFindingsReportRequest,
   CreateFindingsReportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFindingsReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFindingsReportRequest,
@@ -6661,18 +6693,20 @@ export const createFindingsReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateSbomExportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a software bill of materials (SBOM) report.
  */
 export const createSbomExport: API.OperationMethod<
   CreateSbomExportRequest,
   CreateSbomExportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateSbomExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSbomExportRequest,
@@ -6685,18 +6719,20 @@ export const createSbomExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCisScanConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a CIS scan configuration.
  */
 export const deleteCisScanConfiguration: API.OperationMethod<
   DeleteCisScanConfigurationRequest,
   DeleteCisScanConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCisScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCisScanConfigurationRequest,
@@ -6709,18 +6745,20 @@ export const deleteCisScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCodeSecurityIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a code security integration.
  */
 export const deleteCodeSecurityIntegration: API.OperationMethod<
   DeleteCodeSecurityIntegrationRequest,
   DeleteCodeSecurityIntegrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCodeSecurityIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCodeSecurityIntegrationRequest,
@@ -6733,18 +6771,20 @@ export const deleteCodeSecurityIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCodeSecurityScanConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a code security scan configuration.
  */
 export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
   DeleteCodeSecurityScanConfigurationRequest,
   DeleteCodeSecurityScanConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCodeSecurityScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCodeSecurityScanConfigurationRequest,
@@ -6757,18 +6797,20 @@ export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteFilterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a filter resource.
  */
 export const deleteFilter: API.OperationMethod<
   DeleteFilterRequest,
   DeleteFilterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFilterRequest,
@@ -6781,17 +6823,19 @@ export const deleteFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeOrganizationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
   DescribeOrganizationConfigurationRequest,
   DescribeOrganizationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeOrganizationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOrganizationConfigurationRequest,
@@ -6803,6 +6847,13 @@ export const describeOrganizationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an
  * account disables the Amazon Inspector service.
@@ -6810,12 +6861,7 @@ export const describeOrganizationConfiguration: API.OperationMethod<
 export const disable: API.OperationMethod<
   DisableRequest,
   DisableResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRequest,
@@ -6828,19 +6874,21 @@ export const disable: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disables the Amazon Inspector delegated administrator for your organization.
- */
-export const disableDelegatedAdminAccount: API.OperationMethod<
-  DisableDelegatedAdminAccountRequest,
-  DisableDelegatedAdminAccountResponse,
+export type DisableDelegatedAdminAccountError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disables the Amazon Inspector delegated administrator for your organization.
+ */
+export const disableDelegatedAdminAccount: API.OperationMethod<
+  DisableDelegatedAdminAccountRequest,
+  DisableDelegatedAdminAccountResponse,
+  DisableDelegatedAdminAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDelegatedAdminAccountRequest,
@@ -6854,17 +6902,19 @@ export const disableDelegatedAdminAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateMemberError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a member account from an Amazon Inspector delegated administrator.
  */
 export const disassociateMember: API.OperationMethod<
   DisassociateMemberRequest,
   DisassociateMemberResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberRequest,
@@ -6876,18 +6926,20 @@ export const disassociateMember: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EnableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
  */
 export const enable: API.OperationMethod<
   EnableRequest,
   EnableResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  EnableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRequest,
@@ -6900,19 +6952,21 @@ export const enable: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Enables the Amazon Inspector delegated administrator for your Organizations organization.
- */
-export const enableDelegatedAdminAccount: API.OperationMethod<
-  EnableDelegatedAdminAccountRequest,
-  EnableDelegatedAdminAccountResponse,
+export type EnableDelegatedAdminAccountError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Enables the Amazon Inspector delegated administrator for your Organizations organization.
+ */
+export const enableDelegatedAdminAccount: API.OperationMethod<
+  EnableDelegatedAdminAccountRequest,
+  EnableDelegatedAdminAccountResponse,
+  EnableDelegatedAdminAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDelegatedAdminAccountRequest,
@@ -6926,18 +6980,20 @@ export const enableDelegatedAdminAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCisScanReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a CIS scan report.
  */
 export const getCisScanReport: API.OperationMethod<
   GetCisScanReportRequest,
   GetCisScanReportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCisScanReportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCisScanReportRequest,
@@ -6950,39 +7006,33 @@ export const getCisScanReport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCisScanResultDetailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves CIS scan result details.
  */
 export const getCisScanResultDetails: API.OperationMethod<
   GetCisScanResultDetailsRequest,
   GetCisScanResultDetailsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCisScanResultDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCisScanResultDetailsRequest,
   ) => stream.Stream<
     GetCisScanResultDetailsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCisScanResultDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCisScanResultDetailsRequest,
   ) => stream.Stream<
     CisScanResultDetails,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCisScanResultDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7001,39 +7051,33 @@ export const getCisScanResultDetails: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetClustersForImageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of clusters and metadata associated with an image.
  */
 export const getClustersForImage: API.OperationMethod<
   GetClustersForImageRequest,
   GetClustersForImageResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetClustersForImageError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetClustersForImageRequest,
   ) => stream.Stream<
     GetClustersForImageResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetClustersForImageError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetClustersForImageRequest,
   ) => stream.Stream<
     ClusterInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetClustersForImageError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7052,18 +7096,20 @@ export const getClustersForImage: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetCodeSecurityIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a code security integration.
  */
 export const getCodeSecurityIntegration: API.OperationMethod<
   GetCodeSecurityIntegrationRequest,
   GetCodeSecurityIntegrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCodeSecurityIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeSecurityIntegrationRequest,
@@ -7076,19 +7122,21 @@ export const getCodeSecurityIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Retrieves information about a specific code security scan.
- */
-export const getCodeSecurityScan: API.OperationMethod<
-  GetCodeSecurityScanRequest,
-  GetCodeSecurityScanResponse,
+export type GetCodeSecurityScanError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves information about a specific code security scan.
+ */
+export const getCodeSecurityScan: API.OperationMethod<
+  GetCodeSecurityScanRequest,
+  GetCodeSecurityScanResponse,
+  GetCodeSecurityScanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeSecurityScanRequest,
@@ -7102,18 +7150,20 @@ export const getCodeSecurityScan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCodeSecurityScanConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a code security scan configuration.
  */
 export const getCodeSecurityScanConfiguration: API.OperationMethod<
   GetCodeSecurityScanConfigurationRequest,
   GetCodeSecurityScanConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCodeSecurityScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeSecurityScanConfigurationRequest,
@@ -7126,16 +7176,18 @@ export const getCodeSecurityScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConfigurationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves setting configurations for Inspector scans.
  */
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
   GetConfigurationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
@@ -7146,6 +7198,13 @@ export const getConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetDelegatedAdminAccountError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the Amazon Inspector delegated administrator for your
  * organization.
@@ -7153,12 +7212,7 @@ export const getConfiguration: API.OperationMethod<
 export const getDelegatedAdminAccount: API.OperationMethod<
   GetDelegatedAdminAccountRequest,
   GetDelegatedAdminAccountResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDelegatedAdminAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDelegatedAdminAccountRequest,
@@ -7171,6 +7225,12 @@ export const getDelegatedAdminAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEc2DeepInspectionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated
  * with your account.
@@ -7178,11 +7238,7 @@ export const getDelegatedAdminAccount: API.OperationMethod<
 export const getEc2DeepInspectionConfiguration: API.OperationMethod<
   GetEc2DeepInspectionConfigurationRequest,
   GetEc2DeepInspectionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetEc2DeepInspectionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEc2DeepInspectionConfigurationRequest,
@@ -7194,18 +7250,20 @@ export const getEc2DeepInspectionConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetEncryptionKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an encryption key.
  */
 export const getEncryptionKey: API.OperationMethod<
   GetEncryptionKeyRequest,
   GetEncryptionKeyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEncryptionKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEncryptionKeyRequest,
@@ -7218,18 +7276,20 @@ export const getEncryptionKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFindingsReportStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the status of a findings report.
  */
 export const getFindingsReportStatus: API.OperationMethod<
   GetFindingsReportStatusRequest,
   GetFindingsReportStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFindingsReportStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingsReportStatusRequest,
@@ -7242,18 +7302,20 @@ export const getFindingsReportStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMemberError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets member information for your organization.
  */
 export const getMember: API.OperationMethod<
   GetMemberRequest,
   GetMemberResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMemberError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberRequest,
@@ -7266,18 +7328,20 @@ export const getMember: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSbomExportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details of a software bill of materials (SBOM) report.
  */
 export const getSbomExport: API.OperationMethod<
   GetSbomExportRequest,
   GetSbomExportResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSbomExportError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSbomExportRequest,
@@ -7290,6 +7354,12 @@ export const getSbomExport: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAccountPermissionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the permissions an account has to configure Amazon Inspector.
  * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
@@ -7297,33 +7367,21 @@ export const getSbomExport: API.OperationMethod<
 export const listAccountPermissions: API.OperationMethod<
   ListAccountPermissionsRequest,
   ListAccountPermissionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountPermissionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountPermissionsRequest,
   ) => stream.Stream<
     ListAccountPermissionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountPermissionsRequest,
   ) => stream.Stream<
     Permission,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountPermissionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7342,39 +7400,33 @@ export const listAccountPermissions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCisScanConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists CIS scan configurations.
  */
 export const listCisScanConfigurations: API.OperationMethod<
   ListCisScanConfigurationsRequest,
   ListCisScanConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCisScanConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCisScanConfigurationsRequest,
   ) => stream.Stream<
     ListCisScanConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScanConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCisScanConfigurationsRequest,
   ) => stream.Stream<
     CisScanConfiguration,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScanConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7393,39 +7445,33 @@ export const listCisScanConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCisScanResultsAggregatedByChecksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists scan results aggregated by checks.
  */
 export const listCisScanResultsAggregatedByChecks: API.OperationMethod<
   ListCisScanResultsAggregatedByChecksRequest,
   ListCisScanResultsAggregatedByChecksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCisScanResultsAggregatedByChecksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCisScanResultsAggregatedByChecksRequest,
   ) => stream.Stream<
     ListCisScanResultsAggregatedByChecksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScanResultsAggregatedByChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCisScanResultsAggregatedByChecksRequest,
   ) => stream.Stream<
     CisCheckAggregation,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScanResultsAggregatedByChecksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7444,39 +7490,33 @@ export const listCisScanResultsAggregatedByChecks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCisScanResultsAggregatedByTargetResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists scan results aggregated by a target resource.
  */
 export const listCisScanResultsAggregatedByTargetResource: API.OperationMethod<
   ListCisScanResultsAggregatedByTargetResourceRequest,
   ListCisScanResultsAggregatedByTargetResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCisScanResultsAggregatedByTargetResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
   ) => stream.Stream<
     ListCisScanResultsAggregatedByTargetResourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScanResultsAggregatedByTargetResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
   ) => stream.Stream<
     CisTargetResourceAggregation,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScanResultsAggregatedByTargetResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7495,39 +7535,33 @@ export const listCisScanResultsAggregatedByTargetResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCisScansError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a CIS scan list.
  */
 export const listCisScans: API.OperationMethod<
   ListCisScansRequest,
   ListCisScansResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCisScansError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCisScansRequest,
   ) => stream.Stream<
     ListCisScansResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScansError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCisScansRequest,
   ) => stream.Stream<
     CisScan,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCisScansError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7546,17 +7580,19 @@ export const listCisScans: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCodeSecurityIntegrationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all code security integrations in your account.
  */
 export const listCodeSecurityIntegrations: API.OperationMethod<
   ListCodeSecurityIntegrationsRequest,
   ListCodeSecurityIntegrationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCodeSecurityIntegrationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCodeSecurityIntegrationsRequest,
@@ -7568,6 +7604,13 @@ export const listCodeSecurityIntegrations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCodeSecurityScanConfigurationAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the associations between code repositories and Amazon Inspector code security scan
  * configurations.
@@ -7575,12 +7618,7 @@ export const listCodeSecurityIntegrations: API.OperationMethod<
 export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
   ListCodeSecurityScanConfigurationAssociationsRequest,
   ListCodeSecurityScanConfigurationAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCodeSecurityScanConfigurationAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCodeSecurityScanConfigurationAssociationsRequest,
@@ -7593,18 +7631,20 @@ export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCodeSecurityScanConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all code security scan configurations in your account.
  */
 export const listCodeSecurityScanConfigurations: API.OperationMethod<
   ListCodeSecurityScanConfigurationsRequest,
   ListCodeSecurityScanConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCodeSecurityScanConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCodeSecurityScanConfigurationsRequest,
@@ -7617,36 +7657,32 @@ export const listCodeSecurityScanConfigurations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCoverageError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists coverage details for your environment.
  */
 export const listCoverage: API.OperationMethod<
   ListCoverageRequest,
   ListCoverageResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCoverageError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCoverageRequest,
   ) => stream.Stream<
     ListCoverageResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCoverageError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCoverageRequest,
   ) => stream.Stream<
     CoveredResource,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCoverageError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7660,36 +7696,32 @@ export const listCoverage: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCoverageStatisticsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon Inspector coverage statistics for your environment.
  */
 export const listCoverageStatistics: API.OperationMethod<
   ListCoverageStatisticsRequest,
   ListCoverageStatisticsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCoverageStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCoverageStatisticsRequest,
   ) => stream.Stream<
     ListCoverageStatisticsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCoverageStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCoverageStatisticsRequest,
   ) => stream.Stream<
     Counts,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCoverageStatisticsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7702,39 +7734,33 @@ export const listCoverageStatistics: API.OperationMethod<
     items: "countsByGroup",
   } as const,
 }));
+export type ListDelegatedAdminAccountsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists information about the Amazon Inspector delegated administrator of your organization.
  */
 export const listDelegatedAdminAccounts: API.OperationMethod<
   ListDelegatedAdminAccountsRequest,
   ListDelegatedAdminAccountsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDelegatedAdminAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDelegatedAdminAccountsRequest,
   ) => stream.Stream<
     ListDelegatedAdminAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDelegatedAdminAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDelegatedAdminAccountsRequest,
   ) => stream.Stream<
     DelegatedAdminAccount,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDelegatedAdminAccountsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7753,39 +7779,33 @@ export const listDelegatedAdminAccounts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFiltersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the filters associated with your account.
  */
 export const listFilters: API.OperationMethod<
   ListFiltersRequest,
   ListFiltersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFiltersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFiltersRequest,
   ) => stream.Stream<
     ListFiltersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFiltersRequest,
   ) => stream.Stream<
     Filter,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7804,36 +7824,32 @@ export const listFilters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFindingAggregationsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists aggregated finding data for your environment based on specific criteria.
  */
 export const listFindingAggregations: API.OperationMethod<
   ListFindingAggregationsRequest,
   ListFindingAggregationsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFindingAggregationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingAggregationsRequest,
   ) => stream.Stream<
     ListFindingAggregationsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingAggregationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingAggregationsRequest,
   ) => stream.Stream<
     AggregationResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingAggregationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7847,36 +7863,32 @@ export const listFindingAggregations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListFindingsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists findings for your environment.
  */
 export const listFindings: API.OperationMethod<
   ListFindingsRequest,
   ListFindingsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFindingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     ListFindingsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFindingsRequest,
   ) => stream.Stream<
     Finding,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFindingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7890,6 +7902,12 @@ export const listFindings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMembersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List members associated with the Amazon Inspector delegated administrator for your
  * organization.
@@ -7897,33 +7915,21 @@ export const listFindings: API.OperationMethod<
 export const listMembers: API.OperationMethod<
   ListMembersRequest,
   ListMembersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMembersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
     ListMembersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMembersRequest,
   ) => stream.Stream<
     Member,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMembersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7942,17 +7948,19 @@ export const listMembers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags attached to a given resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -7964,39 +7972,33 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListUsageTotalsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the Amazon Inspector usage totals over the last 30 days.
  */
 export const listUsageTotals: API.OperationMethod<
   ListUsageTotalsRequest,
   ListUsageTotalsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListUsageTotalsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsageTotalsRequest,
   ) => stream.Stream<
     ListUsageTotalsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUsageTotalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsageTotalsRequest,
   ) => stream.Stream<
     UsageTotal,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListUsageTotalsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8015,6 +8017,13 @@ export const listUsageTotals: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ResetEncryptionKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Resets an encryption key. After the key is reset your resources will be encrypted by an
  * Amazon Web Services owned key.
@@ -8022,12 +8031,7 @@ export const listUsageTotals: API.OperationMethod<
 export const resetEncryptionKey: API.OperationMethod<
   ResetEncryptionKeyRequest,
   ResetEncryptionKeyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetEncryptionKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetEncryptionKeyRequest,
@@ -8040,39 +8044,33 @@ export const resetEncryptionKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchVulnerabilitiesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon Inspector coverage details for a specific vulnerability.
  */
 export const searchVulnerabilities: API.OperationMethod<
   SearchVulnerabilitiesRequest,
   SearchVulnerabilitiesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchVulnerabilitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchVulnerabilitiesRequest,
   ) => stream.Stream<
     SearchVulnerabilitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchVulnerabilitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchVulnerabilitiesRequest,
   ) => stream.Stream<
     Vulnerability,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchVulnerabilitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8090,6 +8088,13 @@ export const searchVulnerabilities: API.OperationMethod<
     items: "vulnerabilities",
   } as const,
 }));
+export type SendCisSessionHealthError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
@@ -8098,12 +8103,7 @@ export const searchVulnerabilities: API.OperationMethod<
 export const sendCisSessionHealth: API.OperationMethod<
   SendCisSessionHealthRequest,
   SendCisSessionHealthResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendCisSessionHealthError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendCisSessionHealthRequest,
@@ -8116,6 +8116,13 @@ export const sendCisSessionHealth: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendCisSessionTelemetryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
@@ -8124,12 +8131,7 @@ export const sendCisSessionHealth: API.OperationMethod<
 export const sendCisSessionTelemetry: API.OperationMethod<
   SendCisSessionTelemetryRequest,
   SendCisSessionTelemetryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendCisSessionTelemetryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendCisSessionTelemetryRequest,
@@ -8142,6 +8144,13 @@ export const sendCisSessionTelemetry: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartCisSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
@@ -8150,12 +8159,7 @@ export const sendCisSessionTelemetry: API.OperationMethod<
 export const startCisSession: API.OperationMethod<
   StartCisSessionRequest,
   StartCisSessionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartCisSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCisSessionRequest,
@@ -8168,19 +8172,21 @@ export const startCisSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Initiates a code security scan on a specified repository.
- */
-export const startCodeSecurityScan: API.OperationMethod<
-  StartCodeSecurityScanRequest,
-  StartCodeSecurityScanResponse,
+export type StartCodeSecurityScanError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a code security scan on a specified repository.
+ */
+export const startCodeSecurityScan: API.OperationMethod<
+  StartCodeSecurityScanRequest,
+  StartCodeSecurityScanResponse,
+  StartCodeSecurityScanError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCodeSecurityScanRequest,
@@ -8194,6 +8200,13 @@ export const startCodeSecurityScan: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopCisSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
@@ -8202,12 +8215,7 @@ export const startCodeSecurityScan: API.OperationMethod<
 export const stopCisSession: API.OperationMethod<
   StopCisSessionRequest,
   StopCisSessionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopCisSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCisSessionRequest,
@@ -8220,18 +8228,20 @@ export const stopCisSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8244,17 +8254,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8266,18 +8278,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateCisScanConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a CIS scan configuration.
  */
 export const updateCisScanConfiguration: API.OperationMethod<
   UpdateCisScanConfigurationRequest,
   UpdateCisScanConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateCisScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCisScanConfigurationRequest,
@@ -8290,6 +8304,14 @@ export const updateCisScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateCodeSecurityIntegrationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing code security integration.
  *
@@ -8301,13 +8323,7 @@ export const updateCisScanConfiguration: API.OperationMethod<
 export const updateCodeSecurityIntegration: API.OperationMethod<
   UpdateCodeSecurityIntegrationRequest,
   UpdateCodeSecurityIntegrationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateCodeSecurityIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCodeSecurityIntegrationRequest,
@@ -8321,19 +8337,21 @@ export const updateCodeSecurityIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing code security scan configuration.
- */
-export const updateCodeSecurityScanConfiguration: API.OperationMethod<
-  UpdateCodeSecurityScanConfigurationRequest,
-  UpdateCodeSecurityScanConfigurationResponse,
+export type UpdateCodeSecurityScanConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing code security scan configuration.
+ */
+export const updateCodeSecurityScanConfiguration: API.OperationMethod<
+  UpdateCodeSecurityScanConfigurationRequest,
+  UpdateCodeSecurityScanConfigurationResponse,
+  UpdateCodeSecurityScanConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCodeSecurityScanConfigurationRequest,
@@ -8347,6 +8365,12 @@ export const updateCodeSecurityScanConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector
  * delegated administrator this updates the setting for all accounts you manage. Member
@@ -8355,11 +8379,7 @@ export const updateCodeSecurityScanConfiguration: API.OperationMethod<
 export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationRequest,
   UpdateConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationRequest,
@@ -8371,17 +8391,19 @@ export const updateConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEc2DeepInspectionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
  */
 export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
   UpdateEc2DeepInspectionConfigurationRequest,
   UpdateEc2DeepInspectionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEc2DeepInspectionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEc2DeepInspectionConfigurationRequest,
@@ -8393,6 +8415,13 @@ export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEncryptionKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an encryption key. A `ResourceNotFoundException` means that an
  * Amazon Web Services owned key is being used for encryption.
@@ -8400,12 +8429,7 @@ export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
 export const updateEncryptionKey: API.OperationMethod<
   UpdateEncryptionKeyRequest,
   UpdateEncryptionKeyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEncryptionKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEncryptionKeyRequest,
@@ -8418,18 +8442,20 @@ export const updateEncryptionKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateFilterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Specifies the action that is to be applied to the findings that match the filter.
  */
 export const updateFilter: API.OperationMethod<
   UpdateFilterRequest,
   UpdateFilterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFilterRequest,
@@ -8442,17 +8468,19 @@ export const updateFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateOrganizationConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configurations for your Amazon Inspector organization.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
   UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateOrganizationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOrganizationConfigurationRequest,
@@ -8464,6 +8492,12 @@ export const updateOrganizationConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateOrgEc2DeepInspectionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an
  * Amazon Inspector delegated administrator to use this API.
@@ -8471,11 +8505,7 @@ export const updateOrganizationConfiguration: API.OperationMethod<
 export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
   UpdateOrgEc2DeepInspectionConfigurationRequest,
   UpdateOrgEc2DeepInspectionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateOrgEc2DeepInspectionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOrgEc2DeepInspectionConfigurationRequest,

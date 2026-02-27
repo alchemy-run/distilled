@@ -5955,6 +5955,12 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AssociateKmsKeyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Associates the specified KMS key with either one log group in the
  * account, or with all stored CloudWatch Logs query insights results in the
@@ -6006,11 +6012,7 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 export const associateKmsKey: API.OperationMethod<
   AssociateKmsKeyRequest,
   AssociateKmsKeyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  AssociateKmsKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateKmsKeyRequest,
@@ -6022,6 +6024,13 @@ export const associateKmsKey: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type AssociateSourceToS3TableIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a data source with an S3 Table Integration for query access in the 'logs'
  * namespace. This enables querying log data using analytics engines that support Iceberg such as
@@ -6030,12 +6039,7 @@ export const associateKmsKey: API.OperationMethod<
 export const associateSourceToS3TableIntegration: API.OperationMethod<
   AssociateSourceToS3TableIntegrationRequest,
   AssociateSourceToS3TableIntegrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateSourceToS3TableIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSourceToS3TableIntegrationRequest,
@@ -6048,6 +6052,12 @@ export const associateSourceToS3TableIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelExportTaskError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Cancels the specified export task.
  *
@@ -6056,11 +6066,7 @@ export const associateSourceToS3TableIntegration: API.OperationMethod<
 export const cancelExportTask: API.OperationMethod<
   CancelExportTaskRequest,
   CancelExportTaskResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CancelExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelExportTaskRequest,
@@ -6072,18 +6078,20 @@ export const cancelExportTask: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CancelImportTaskError =
+  | AccessDeniedException
+  | InvalidOperationException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store.
  */
 export const cancelImportTask: API.OperationMethod<
   CancelImportTaskRequest,
   CancelImportTaskResponse,
-  | AccessDeniedException
-  | InvalidOperationException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CancelImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelImportTaskRequest,
@@ -6096,6 +6104,15 @@ export const cancelImportTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateDeliveryError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a *delivery*. A delivery is a connection between a logical
  * *delivery source* and a logical *delivery destination*
@@ -6131,14 +6148,7 @@ export const cancelImportTask: API.OperationMethod<
 export const createDelivery: API.OperationMethod<
   CreateDeliveryRequest,
   CreateDeliveryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDeliveryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeliveryRequest,
@@ -6153,6 +6163,14 @@ export const createDelivery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateExportTaskError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates an export task so that you can efficiently export data from a log group to an
  * Amazon S3 bucket. When you perform a `CreateExportTask` operation, you must use
@@ -6186,13 +6204,7 @@ export const createDelivery: API.OperationMethod<
 export const createExportTask: API.OperationMethod<
   CreateExportTaskRequest,
   CreateExportTaskResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExportTaskRequest,
@@ -6206,6 +6218,15 @@ export const createExportTask: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreateImportTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InvalidOperationException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data.
  * Currently, CloudTrail Event Data Store is the only supported data source.
@@ -6246,14 +6267,7 @@ export const createExportTask: API.OperationMethod<
 export const createImportTask: API.OperationMethod<
   CreateImportTaskRequest,
   CreateImportTaskResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InvalidOperationException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImportTaskRequest,
@@ -6268,6 +6282,13 @@ export const createImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLogAnomalyDetectorError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates an *anomaly detector* that regularly scans one or more log
  * groups and look for patterns and anomalies in the logs.
@@ -6301,12 +6322,7 @@ export const createImportTask: API.OperationMethod<
 export const createLogAnomalyDetector: API.OperationMethod<
   CreateLogAnomalyDetectorRequest,
   CreateLogAnomalyDetectorResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateLogAnomalyDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLogAnomalyDetectorRequest,
@@ -6319,6 +6335,13 @@ export const createLogAnomalyDetector: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreateLogGroupError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a log group with the specified name. You can create up to 1,000,000 log groups
  * per Region per account.
@@ -6355,12 +6378,7 @@ export const createLogAnomalyDetector: API.OperationMethod<
 export const createLogGroup: API.OperationMethod<
   CreateLogGroupRequest,
   CreateLogGroupResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceAlreadyExistsException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateLogGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLogGroupRequest,
@@ -6373,6 +6391,12 @@ export const createLogGroup: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreateLogStreamError =
+  | InvalidParameterException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a log stream for the specified log group. A log stream is a sequence of log
  * events that originate from a single source, such as an application instance or a resource that
@@ -6393,11 +6417,7 @@ export const createLogGroup: API.OperationMethod<
 export const createLogStream: API.OperationMethod<
   CreateLogStreamRequest,
   CreateLogStreamResponse,
-  | InvalidParameterException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  CreateLogStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLogStreamRequest,
@@ -6409,6 +6429,15 @@ export const createLogStream: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type CreateScheduledQueryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals.
  * Scheduled queries enable proactive monitoring by automatically executing queries to detect
@@ -6418,14 +6447,7 @@ export const createLogStream: API.OperationMethod<
 export const createScheduledQuery: API.OperationMethod<
   CreateScheduledQueryRequest,
   CreateScheduledQueryResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduledQueryRequest,
@@ -6440,6 +6462,12 @@ export const createScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAccountPolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a CloudWatch Logs account policy. This stops the account-wide policy from
  * applying to log groups or data sources in the account. If you delete a data protection policy
@@ -6475,11 +6503,7 @@ export const createScheduledQuery: API.OperationMethod<
 export const deleteAccountPolicy: API.OperationMethod<
   DeleteAccountPolicyRequest,
   DeleteAccountPolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteAccountPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountPolicyRequest,
@@ -6491,6 +6515,12 @@ export const deleteAccountPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteDataProtectionPolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the data protection policy from the specified log group.
  *
@@ -6499,11 +6529,7 @@ export const deleteAccountPolicy: API.OperationMethod<
 export const deleteDataProtectionPolicy: API.OperationMethod<
   DeleteDataProtectionPolicyRequest,
   DeleteDataProtectionPolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteDataProtectionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataProtectionPolicyRequest,
@@ -6515,6 +6541,14 @@ export const deleteDataProtectionPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteDeliveryError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a *delivery*. A delivery is a connection between a logical
  * *delivery source* and a logical delivery
@@ -6525,13 +6559,7 @@ export const deleteDataProtectionPolicy: API.OperationMethod<
 export const deleteDelivery: API.OperationMethod<
   DeleteDeliveryRequest,
   DeleteDeliveryResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeliveryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeliveryRequest,
@@ -6545,6 +6573,14 @@ export const deleteDelivery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeliveryDestinationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a *delivery destination*. A delivery is a connection between a
  * logical *delivery source* and a logical delivery
@@ -6557,13 +6593,7 @@ export const deleteDelivery: API.OperationMethod<
 export const deleteDeliveryDestination: API.OperationMethod<
   DeleteDeliveryDestinationRequest,
   DeleteDeliveryDestinationResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeliveryDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeliveryDestinationRequest,
@@ -6577,6 +6607,12 @@ export const deleteDeliveryDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeliveryDestinationPolicyError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a delivery destination policy. For more information about these policies, see
  * PutDeliveryDestinationPolicy.
@@ -6584,11 +6620,7 @@ export const deleteDeliveryDestination: API.OperationMethod<
 export const deleteDeliveryDestinationPolicy: API.OperationMethod<
   DeleteDeliveryDestinationPolicyRequest,
   DeleteDeliveryDestinationPolicyResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeliveryDestinationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeliveryDestinationPolicyRequest,
@@ -6600,6 +6632,14 @@ export const deleteDeliveryDestinationPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDeliverySourceError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a *delivery source*. A delivery is a connection between a
  * logical *delivery source* and a logical delivery
@@ -6612,13 +6652,7 @@ export const deleteDeliveryDestinationPolicy: API.OperationMethod<
 export const deleteDeliverySource: API.OperationMethod<
   DeleteDeliverySourceRequest,
   DeleteDeliverySourceResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDeliverySourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeliverySourceRequest,
@@ -6632,6 +6666,12 @@ export const deleteDeliverySource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDestinationError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the specified destination, and eventually disables all the subscription filters
  * that publish to it. This operation does not delete the physical resource encapsulated by the
@@ -6640,11 +6680,7 @@ export const deleteDeliverySource: API.OperationMethod<
 export const deleteDestination: API.OperationMethod<
   DeleteDestinationRequest,
   DeleteDestinationResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDestinationRequest,
@@ -6656,6 +6692,13 @@ export const deleteDestination: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteIndexPolicyError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a log-group level field index policy that was applied to a single log group. The
  * indexing of the log events that happened before you delete the policy will still be used for
@@ -6676,12 +6719,7 @@ export const deleteDestination: API.OperationMethod<
 export const deleteIndexPolicy: API.OperationMethod<
   DeleteIndexPolicyRequest,
   DeleteIndexPolicyResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteIndexPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexPolicyRequest,
@@ -6694,6 +6732,12 @@ export const deleteIndexPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteIntegrationError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the integration between CloudWatch Logs and OpenSearch Service. If your
  * integration has active vended logs dashboards, you must specify `true` for the
@@ -6705,11 +6749,7 @@ export const deleteIndexPolicy: API.OperationMethod<
 export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationRequest,
   DeleteIntegrationResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  DeleteIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
@@ -6721,17 +6761,19 @@ export const deleteIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLogAnomalyDetectorError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the specified CloudWatch Logs anomaly detector.
  */
 export const deleteLogAnomalyDetector: API.OperationMethod<
   DeleteLogAnomalyDetectorRequest,
   DeleteLogAnomalyDetectorResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteLogAnomalyDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogAnomalyDetectorRequest,
@@ -6743,6 +6785,13 @@ export const deleteLogAnomalyDetector: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteLogGroupError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified log group and permanently deletes all the archived log events
  * associated with the log group.
@@ -6750,12 +6799,7 @@ export const deleteLogAnomalyDetector: API.OperationMethod<
 export const deleteLogGroup: API.OperationMethod<
   DeleteLogGroupRequest,
   DeleteLogGroupResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  DeleteLogGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogGroupRequest,
@@ -6768,6 +6812,13 @@ export const deleteLogGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLogStreamError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified log stream and permanently deletes all the archived log events
  * associated with the log stream.
@@ -6775,12 +6826,7 @@ export const deleteLogGroup: API.OperationMethod<
 export const deleteLogStream: API.OperationMethod<
   DeleteLogStreamRequest,
   DeleteLogStreamResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  DeleteLogStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogStreamRequest,
@@ -6793,17 +6839,19 @@ export const deleteLogStream: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMetricFilterError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the specified metric filter.
  */
 export const deleteMetricFilter: API.OperationMethod<
   DeleteMetricFilterRequest,
   DeleteMetricFilterResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteMetricFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMetricFilterRequest,
@@ -6815,6 +6863,11 @@ export const deleteMetricFilter: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteQueryDefinitionError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a saved CloudWatch Logs Insights query definition. A query definition contains
  * details about a saved CloudWatch Logs Insights query.
@@ -6827,10 +6880,7 @@ export const deleteMetricFilter: API.OperationMethod<
 export const deleteQueryDefinition: API.OperationMethod<
   DeleteQueryDefinitionRequest,
   DeleteQueryDefinitionResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteQueryDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueryDefinitionRequest,
@@ -6841,6 +6891,12 @@ export const deleteQueryDefinition: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a resource policy from this account. This revokes the access of the identities
  * in that policy to put log events to this account.
@@ -6848,11 +6904,7 @@ export const deleteQueryDefinition: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -6864,6 +6916,12 @@ export const deleteResourcePolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteRetentionPolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the specified retention policy.
  *
@@ -6873,11 +6931,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const deleteRetentionPolicy: API.OperationMethod<
   DeleteRetentionPolicyRequest,
   DeleteRetentionPolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteRetentionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRetentionPolicyRequest,
@@ -6889,6 +6943,13 @@ export const deleteRetentionPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteScheduledQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a scheduled query and stops all future executions. This operation also removes any
  * configured actions and associated resources.
@@ -6896,12 +6957,7 @@ export const deleteRetentionPolicy: API.OperationMethod<
 export const deleteScheduledQuery: API.OperationMethod<
   DeleteScheduledQueryRequest,
   DeleteScheduledQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduledQueryRequest,
@@ -6914,17 +6970,19 @@ export const deleteScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSubscriptionFilterError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the specified subscription filter.
  */
 export const deleteSubscriptionFilter: API.OperationMethod<
   DeleteSubscriptionFilterRequest,
   DeleteSubscriptionFilterResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteSubscriptionFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionFilterRequest,
@@ -6936,6 +6994,13 @@ export const deleteSubscriptionFilter: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DeleteTransformerError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes the log transformer for the specified log group. As soon as you do this, the
  * transformation of incoming log events according to that transformer stops. If this account has
@@ -6948,12 +7013,7 @@ export const deleteSubscriptionFilter: API.OperationMethod<
 export const deleteTransformer: API.OperationMethod<
   DeleteTransformerRequest,
   DeleteTransformerResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DeleteTransformerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTransformerRequest,
@@ -6966,6 +7026,12 @@ export const deleteTransformer: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeAccountPoliciesError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of all CloudWatch Logs account policies in the account.
  *
@@ -6989,11 +7055,7 @@ export const deleteTransformer: API.OperationMethod<
 export const describeAccountPolicies: API.OperationMethod<
   DescribeAccountPoliciesRequest,
   DescribeAccountPoliciesResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeAccountPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountPoliciesRequest,
@@ -7005,6 +7067,12 @@ export const describeAccountPolicies: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeConfigurationTemplatesError =
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to return the valid and default values that are used when creating
  * delivery sources, delivery destinations, and deliveries. For more information about
@@ -7013,33 +7081,21 @@ export const describeAccountPolicies: API.OperationMethod<
 export const describeConfigurationTemplates: API.OperationMethod<
   DescribeConfigurationTemplatesRequest,
   DescribeConfigurationTemplatesResponse,
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeConfigurationTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeConfigurationTemplatesRequest,
   ) => stream.Stream<
     DescribeConfigurationTemplatesResponse,
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeConfigurationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConfigurationTemplatesRequest,
   ) => stream.Stream<
     ConfigurationTemplate,
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeConfigurationTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7058,6 +7114,12 @@ export const describeConfigurationTemplates: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeDeliveriesError =
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of the deliveries that have been created in the account.
  *
@@ -7076,33 +7138,21 @@ export const describeConfigurationTemplates: API.OperationMethod<
 export const describeDeliveries: API.OperationMethod<
   DescribeDeliveriesRequest,
   DescribeDeliveriesResponse,
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeliveriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDeliveriesRequest,
   ) => stream.Stream<
     DescribeDeliveriesResponse,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeDeliveriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDeliveriesRequest,
   ) => stream.Stream<
     Delivery,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeDeliveriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7121,6 +7171,12 @@ export const describeDeliveries: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeDeliveryDestinationsError =
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of the delivery destinations that have been created in the
  * account.
@@ -7128,33 +7184,21 @@ export const describeDeliveries: API.OperationMethod<
 export const describeDeliveryDestinations: API.OperationMethod<
   DescribeDeliveryDestinationsRequest,
   DescribeDeliveryDestinationsResponse,
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeliveryDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDeliveryDestinationsRequest,
   ) => stream.Stream<
     DescribeDeliveryDestinationsResponse,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeDeliveryDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDeliveryDestinationsRequest,
   ) => stream.Stream<
     DeliveryDestination,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeDeliveryDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7173,39 +7217,33 @@ export const describeDeliveryDestinations: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeDeliverySourcesError =
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of the delivery sources that have been created in the account.
  */
 export const describeDeliverySources: API.OperationMethod<
   DescribeDeliverySourcesRequest,
   DescribeDeliverySourcesResponse,
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeliverySourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDeliverySourcesRequest,
   ) => stream.Stream<
     DescribeDeliverySourcesResponse,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeDeliverySourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDeliverySourcesRequest,
   ) => stream.Stream<
     DeliverySource,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeDeliverySourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7224,6 +7262,10 @@ export const describeDeliverySources: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeDestinationsError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists all your destinations. The results are ASCII-sorted by destination
  * name.
@@ -7231,21 +7273,21 @@ export const describeDeliverySources: API.OperationMethod<
 export const describeDestinations: API.OperationMethod<
   DescribeDestinationsRequest,
   DescribeDestinationsResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  DescribeDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeDestinationsRequest,
   ) => stream.Stream<
     DescribeDestinationsResponse,
-    InvalidParameterException | ServiceUnavailableException | CommonErrors,
+    DescribeDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDestinationsRequest,
   ) => stream.Stream<
     Destination,
-    InvalidParameterException | ServiceUnavailableException | CommonErrors,
+    DescribeDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7259,6 +7301,10 @@ export const describeDestinations: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeExportTasksError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the specified export tasks. You can list all your export tasks or filter the
  * results based on task ID or task status.
@@ -7266,13 +7312,20 @@ export const describeDestinations: API.OperationMethod<
 export const describeExportTasks: API.OperationMethod<
   DescribeExportTasksRequest,
   DescribeExportTasksResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  DescribeExportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExportTasksRequest,
   output: DescribeExportTasksResponse,
   errors: [InvalidParameterException, ServiceUnavailableException],
 }));
+export type DescribeFieldIndexesError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of custom and default field indexes which are discovered in log data. For
  * more information about field index policies, see PutIndexPolicy.
@@ -7280,12 +7333,7 @@ export const describeExportTasks: API.OperationMethod<
 export const describeFieldIndexes: API.OperationMethod<
   DescribeFieldIndexesRequest,
   DescribeFieldIndexesResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeFieldIndexesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFieldIndexesRequest,
@@ -7298,6 +7346,13 @@ export const describeFieldIndexes: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeImportTaskBatchesError =
+  | AccessDeniedException
+  | InvalidOperationException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets detailed information about the individual batches within an import task, including their status and any error messages.
  * For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime.
@@ -7305,12 +7360,7 @@ export const describeFieldIndexes: API.OperationMethod<
 export const describeImportTaskBatches: API.OperationMethod<
   DescribeImportTaskBatchesRequest,
   DescribeImportTaskBatchesResponse,
-  | AccessDeniedException
-  | InvalidOperationException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeImportTaskBatchesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImportTaskBatchesRequest,
@@ -7323,18 +7373,20 @@ export const describeImportTaskBatches: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeImportTasksError =
+  | AccessDeniedException
+  | InvalidOperationException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists and describes import tasks, with optional filtering by import status and source ARN.
  */
 export const describeImportTasks: API.OperationMethod<
   DescribeImportTasksRequest,
   DescribeImportTasksResponse,
-  | AccessDeniedException
-  | InvalidOperationException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeImportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImportTasksRequest,
@@ -7347,6 +7399,13 @@ export const describeImportTasks: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeIndexPoliciesError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns the field index policies of the specified log group. For more information about
  * field index policies, see PutIndexPolicy.
@@ -7362,12 +7421,7 @@ export const describeImportTasks: API.OperationMethod<
 export const describeIndexPolicies: API.OperationMethod<
   DescribeIndexPoliciesRequest,
   DescribeIndexPoliciesResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeIndexPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIndexPoliciesRequest,
@@ -7380,6 +7434,10 @@ export const describeIndexPolicies: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeLogGroupsError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns information about log groups, including data sources that ingest into each log
  * group. You can return all your log groups or filter the results by prefix. The results are
@@ -7402,21 +7460,21 @@ export const describeIndexPolicies: API.OperationMethod<
 export const describeLogGroups: API.OperationMethod<
   DescribeLogGroupsRequest,
   DescribeLogGroupsResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  DescribeLogGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeLogGroupsRequest,
   ) => stream.Stream<
     DescribeLogGroupsResponse,
-    InvalidParameterException | ServiceUnavailableException | CommonErrors,
+    DescribeLogGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLogGroupsRequest,
   ) => stream.Stream<
     LogGroup,
-    InvalidParameterException | ServiceUnavailableException | CommonErrors,
+    DescribeLogGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7430,6 +7488,11 @@ export const describeLogGroups: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeLogStreamsError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the log streams for the specified log group. You can list all the log streams or
  * filter the results by prefix. You can also control how the results are ordered.
@@ -7448,30 +7511,21 @@ export const describeLogGroups: API.OperationMethod<
 export const describeLogStreams: API.OperationMethod<
   DescribeLogStreamsRequest,
   DescribeLogStreamsResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeLogStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeLogStreamsRequest,
   ) => stream.Stream<
     DescribeLogStreamsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    DescribeLogStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLogStreamsRequest,
   ) => stream.Stream<
     LogStream,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    DescribeLogStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7489,6 +7543,11 @@ export const describeLogStreams: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeMetricFiltersError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the specified metric filters. You can list all of the metric filters or filter
  * the results by log name, prefix, metric name, or metric namespace. The results are
@@ -7497,30 +7556,21 @@ export const describeLogStreams: API.OperationMethod<
 export const describeMetricFilters: API.OperationMethod<
   DescribeMetricFiltersRequest,
   DescribeMetricFiltersResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeMetricFiltersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMetricFiltersRequest,
   ) => stream.Stream<
     DescribeMetricFiltersResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    DescribeMetricFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetricFiltersRequest,
   ) => stream.Stream<
     MetricFilter,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    DescribeMetricFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7538,6 +7588,11 @@ export const describeMetricFilters: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DescribeQueriesError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have
  * been run recently in this account. You can request all queries or limit it to queries of a
@@ -7551,10 +7606,7 @@ export const describeMetricFilters: API.OperationMethod<
 export const describeQueries: API.OperationMethod<
   DescribeQueriesRequest,
   DescribeQueriesResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQueriesRequest,
@@ -7565,6 +7617,10 @@ export const describeQueries: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DescribeQueryDefinitionsError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * This operation returns a paginated list of your saved CloudWatch Logs Insights query
  * definitions. You can retrieve query definitions from the current account or from a source
@@ -7576,26 +7632,35 @@ export const describeQueries: API.OperationMethod<
 export const describeQueryDefinitions: API.OperationMethod<
   DescribeQueryDefinitionsRequest,
   DescribeQueryDefinitionsResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  DescribeQueryDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQueryDefinitionsRequest,
   output: DescribeQueryDefinitionsResponse,
   errors: [InvalidParameterException, ServiceUnavailableException],
 }));
+export type DescribeResourcePoliciesError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the resource policies in this account.
  */
 export const describeResourcePolicies: API.OperationMethod<
   DescribeResourcePoliciesRequest,
   DescribeResourcePoliciesResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  DescribeResourcePoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourcePoliciesRequest,
   output: DescribeResourcePoliciesResponse,
   errors: [InvalidParameterException, ServiceUnavailableException],
 }));
+export type DescribeSubscriptionFiltersError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists the subscription filters for the specified log group. You can list all the
  * subscription filters or filter the results by prefix. The results are ASCII-sorted by filter
@@ -7604,30 +7669,21 @@ export const describeResourcePolicies: API.OperationMethod<
 export const describeSubscriptionFilters: API.OperationMethod<
   DescribeSubscriptionFiltersRequest,
   DescribeSubscriptionFiltersResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DescribeSubscriptionFiltersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeSubscriptionFiltersRequest,
   ) => stream.Stream<
     DescribeSubscriptionFiltersResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    DescribeSubscriptionFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSubscriptionFiltersRequest,
   ) => stream.Stream<
     SubscriptionFilter,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    DescribeSubscriptionFiltersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7645,6 +7701,12 @@ export const describeSubscriptionFilters: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type DisassociateKmsKeyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Disassociates the specified KMS key from the specified log group or
  * from all CloudWatch Logs Insights query results in the account.
@@ -7671,11 +7733,7 @@ export const describeSubscriptionFilters: API.OperationMethod<
 export const disassociateKmsKey: API.OperationMethod<
   DisassociateKmsKeyRequest,
   DisassociateKmsKeyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  DisassociateKmsKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateKmsKeyRequest,
@@ -7687,6 +7745,13 @@ export const disassociateKmsKey: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type DisassociateSourceFromS3TableIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a data source from an S3 Table Integration, removing query access and
  * deleting all associated data from the integration.
@@ -7694,12 +7759,7 @@ export const disassociateKmsKey: API.OperationMethod<
 export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
   DisassociateSourceFromS3TableIntegrationRequest,
   DisassociateSourceFromS3TableIntegrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateSourceFromS3TableIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSourceFromS3TableIntegrationRequest,
@@ -7712,6 +7772,11 @@ export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type FilterLogEventsError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists log events from the specified log group. You can list all the log events or
  * filter the results using one or more of the following:
@@ -7761,30 +7826,21 @@ export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
 export const filterLogEvents: API.OperationMethod<
   FilterLogEventsRequest,
   FilterLogEventsResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  FilterLogEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: FilterLogEventsRequest,
   ) => stream.Stream<
     FilterLogEventsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    FilterLogEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: FilterLogEventsRequest,
   ) => stream.Stream<
     unknown,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    FilterLogEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7801,17 +7857,19 @@ export const filterLogEvents: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetDataProtectionPolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns information about a log group data protection policy.
  */
 export const getDataProtectionPolicy: API.OperationMethod<
   GetDataProtectionPolicyRequest,
   GetDataProtectionPolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetDataProtectionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataProtectionPolicyRequest,
@@ -7823,6 +7881,13 @@ export const getDataProtectionPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetDeliveryError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns complete information about one logical *delivery*. A delivery
  * is a connection between a
@@ -7843,12 +7908,7 @@ export const getDataProtectionPolicy: API.OperationMethod<
 export const getDelivery: API.OperationMethod<
   GetDeliveryRequest,
   GetDeliveryResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeliveryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliveryRequest,
@@ -7861,18 +7921,20 @@ export const getDelivery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeliveryDestinationError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves complete information about one delivery destination.
  */
 export const getDeliveryDestination: API.OperationMethod<
   GetDeliveryDestinationRequest,
   GetDeliveryDestinationResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeliveryDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliveryDestinationRequest,
@@ -7885,6 +7947,11 @@ export const getDeliveryDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeliveryDestinationPolicyError =
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the delivery destination policy assigned to the delivery destination that you
  * specify. For more information about delivery destinations and their policies, see PutDeliveryDestinationPolicy.
@@ -7892,10 +7959,7 @@ export const getDeliveryDestination: API.OperationMethod<
 export const getDeliveryDestinationPolicy: API.OperationMethod<
   GetDeliveryDestinationPolicyRequest,
   GetDeliveryDestinationPolicyResponse,
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  GetDeliveryDestinationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliveryDestinationPolicyRequest,
@@ -7906,18 +7970,20 @@ export const getDeliveryDestinationPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeliverySourceError =
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves complete information about one delivery source.
  */
 export const getDeliverySource: API.OperationMethod<
   GetDeliverySourceRequest,
   GetDeliverySourceResponse,
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeliverySourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeliverySourceRequest,
@@ -7930,16 +7996,18 @@ export const getDeliverySource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIntegrationError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns information about one integration between CloudWatch Logs and OpenSearch Service.
  */
 export const getIntegration: API.OperationMethod<
   GetIntegrationRequest,
   GetIntegrationResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationRequest,
@@ -7950,17 +8018,19 @@ export const getIntegration: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetLogAnomalyDetectorError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Retrieves information about the log anomaly detector that you specify. The KMS key ARN detected is valid.
  */
 export const getLogAnomalyDetector: API.OperationMethod<
   GetLogAnomalyDetectorRequest,
   GetLogAnomalyDetectorResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetLogAnomalyDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogAnomalyDetectorRequest,
@@ -7972,6 +8042,11 @@ export const getLogAnomalyDetector: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetLogEventsError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Lists log events from the specified log stream. You can list all of the log events or
  * filter using a time range.
@@ -8010,30 +8085,21 @@ export const getLogAnomalyDetector: API.OperationMethod<
 export const getLogEvents: API.OperationMethod<
   GetLogEventsRequest,
   GetLogEventsResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetLogEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetLogEventsRequest,
   ) => stream.Stream<
     GetLogEventsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    GetLogEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetLogEventsRequest,
   ) => stream.Stream<
     OutputLogEvent,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    GetLogEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8051,6 +8117,12 @@ export const getLogEvents: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type GetLogFieldsError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Discovers available fields for a specific data source and type. The response includes any
  * field modifications introduced through pipelines, such as new fields or changed field types.
@@ -8058,11 +8130,7 @@ export const getLogEvents: API.OperationMethod<
 export const getLogFields: API.OperationMethod<
   GetLogFieldsRequest,
   GetLogFieldsResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetLogFieldsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogFieldsRequest,
@@ -8074,6 +8142,12 @@ export const getLogFields: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetLogGroupFieldsError =
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of the fields that are included in log events in the specified log group.
  * Includes the percentage of log events that contain each field. The search is limited to a time
@@ -8101,11 +8175,7 @@ export const getLogFields: API.OperationMethod<
 export const getLogGroupFields: API.OperationMethod<
   GetLogGroupFieldsRequest,
   GetLogGroupFieldsResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetLogGroupFieldsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogGroupFieldsRequest,
@@ -8117,6 +8187,13 @@ export const getLogGroupFields: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetLogObjectError =
+  | AccessDeniedException
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a large logging object (LLO) and streams it back. This API is used to fetch the
  * content of large portions of log events that have been ingested through the
@@ -8133,12 +8210,7 @@ export const getLogGroupFields: API.OperationMethod<
 export const getLogObject: API.OperationMethod<
   GetLogObjectRequest,
   GetLogObjectResponse,
-  | AccessDeniedException
-  | InvalidOperationException
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetLogObjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogObjectRequest,
@@ -8151,6 +8223,12 @@ export const getLogObject: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetLogRecordError =
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Retrieves all of the fields and values of a single log event. All fields are retrieved,
  * even if the original query that produced the `logRecordPointer` retrieved only a
@@ -8161,11 +8239,7 @@ export const getLogObject: API.OperationMethod<
 export const getLogRecord: API.OperationMethod<
   GetLogRecordRequest,
   GetLogRecordResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetLogRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogRecordRequest,
@@ -8177,6 +8251,11 @@ export const getLogRecord: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetQueryResultsError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns the results from the specified query.
  *
@@ -8206,10 +8285,7 @@ export const getLogRecord: API.OperationMethod<
 export const getQueryResults: API.OperationMethod<
   GetQueryResultsRequest,
   GetQueryResultsResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetQueryResultsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryResultsRequest,
@@ -8220,6 +8296,13 @@ export const getQueryResults: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type GetScheduledQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a specific scheduled query, including its configuration, execution
  * status, and metadata.
@@ -8227,12 +8310,7 @@ export const getQueryResults: API.OperationMethod<
 export const getScheduledQuery: API.OperationMethod<
   GetScheduledQueryRequest,
   GetScheduledQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduledQueryRequest,
@@ -8245,6 +8323,13 @@ export const getScheduledQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetScheduledQueryHistoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the execution history of a scheduled query within a specified time range,
  * including query results and destination processing status.
@@ -8252,36 +8337,21 @@ export const getScheduledQuery: API.OperationMethod<
 export const getScheduledQueryHistory: API.OperationMethod<
   GetScheduledQueryHistoryRequest,
   GetScheduledQueryHistoryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetScheduledQueryHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetScheduledQueryHistoryRequest,
   ) => stream.Stream<
     GetScheduledQueryHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetScheduledQueryHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetScheduledQueryHistoryRequest,
   ) => stream.Stream<
     TriggerHistoryRecord,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetScheduledQueryHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8301,6 +8371,12 @@ export const getScheduledQueryHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetTransformerError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns the information about the log transformer associated with this log group.
  *
@@ -8310,11 +8386,7 @@ export const getScheduledQueryHistory: API.OperationMethod<
 export const getTransformer: API.OperationMethod<
   GetTransformerRequest,
   GetTransformerResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  GetTransformerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTransformerRequest,
@@ -8326,6 +8398,11 @@ export const getTransformer: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListAggregateLogGroupSummariesError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an aggregate summary of all log groups in the Region grouped by specified data
  * source characteristics. Supports optional filtering by log group class, name patterns, and
@@ -8343,30 +8420,21 @@ export const getTransformer: API.OperationMethod<
 export const listAggregateLogGroupSummaries: API.OperationMethod<
   ListAggregateLogGroupSummariesRequest,
   ListAggregateLogGroupSummariesResponse,
-  | InvalidParameterException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  ListAggregateLogGroupSummariesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAggregateLogGroupSummariesRequest,
   ) => stream.Stream<
     ListAggregateLogGroupSummariesResponse,
-    | InvalidParameterException
-    | ServiceUnavailableException
-    | ValidationException
-    | CommonErrors,
+    ListAggregateLogGroupSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAggregateLogGroupSummariesRequest,
   ) => stream.Stream<
     AggregateLogGroupSummary,
-    | InvalidParameterException
-    | ServiceUnavailableException
-    | ValidationException
-    | CommonErrors,
+    ListAggregateLogGroupSummariesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8384,6 +8452,12 @@ export const listAggregateLogGroupSummaries: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListAnomaliesError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of anomalies that log anomaly detectors have found. For details about the
  * structure format of each anomaly object that is returned, see the example in this
@@ -8392,33 +8466,21 @@ export const listAggregateLogGroupSummaries: API.OperationMethod<
 export const listAnomalies: API.OperationMethod<
   ListAnomaliesRequest,
   ListAnomaliesResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListAnomaliesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnomaliesRequest,
   ) => stream.Stream<
     ListAnomaliesResponse,
-    | InvalidParameterException
-    | OperationAbortedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListAnomaliesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnomaliesRequest,
   ) => stream.Stream<
     Anomaly,
-    | InvalidParameterException
-    | OperationAbortedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListAnomaliesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8437,6 +8499,10 @@ export const listAnomalies: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListIntegrationsError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of integrations between CloudWatch Logs and other services in this
  * account. Currently, only one integration can be created in an account, and this integration
@@ -8445,46 +8511,40 @@ export const listAnomalies: API.OperationMethod<
 export const listIntegrations: API.OperationMethod<
   ListIntegrationsRequest,
   ListIntegrationsResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  ListIntegrationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIntegrationsRequest,
   output: ListIntegrationsResponse,
   errors: [InvalidParameterException, ServiceUnavailableException],
 }));
+export type ListLogAnomalyDetectorsError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Retrieves a list of the log anomaly detectors in the account.
  */
 export const listLogAnomalyDetectors: API.OperationMethod<
   ListLogAnomalyDetectorsRequest,
   ListLogAnomalyDetectorsResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListLogAnomalyDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLogAnomalyDetectorsRequest,
   ) => stream.Stream<
     ListLogAnomalyDetectorsResponse,
-    | InvalidParameterException
-    | OperationAbortedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListLogAnomalyDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLogAnomalyDetectorsRequest,
   ) => stream.Stream<
     AnomalyDetector,
-    | InvalidParameterException
-    | OperationAbortedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListLogAnomalyDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8503,6 +8563,10 @@ export const listLogAnomalyDetectors: API.OperationMethod<
     pageSize: "limit",
   } as const,
 }));
+export type ListLogGroupsError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of log groups in the Region in your account. If you are performing this
  * action in a monitoring account, you can choose to also return log groups from source accounts
@@ -8522,13 +8586,19 @@ export const listLogAnomalyDetectors: API.OperationMethod<
 export const listLogGroups: API.OperationMethod<
   ListLogGroupsRequest,
   ListLogGroupsResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  ListLogGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLogGroupsRequest,
   output: ListLogGroupsResponse,
   errors: [InvalidParameterException, ServiceUnavailableException],
 }));
+export type ListLogGroupsForQueryError =
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Returns a list of the log groups that were analyzed during a single CloudWatch Logs
  * Insights query. This can be useful for queries that use log group name prefixes or the
@@ -8541,33 +8611,21 @@ export const listLogGroups: API.OperationMethod<
 export const listLogGroupsForQuery: API.OperationMethod<
   ListLogGroupsForQueryRequest,
   ListLogGroupsForQueryResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListLogGroupsForQueryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLogGroupsForQueryRequest,
   ) => stream.Stream<
     ListLogGroupsForQueryResponse,
-    | AccessDeniedException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListLogGroupsForQueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLogGroupsForQueryRequest,
   ) => stream.Stream<
     LogGroupIdentifier,
-    | AccessDeniedException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
+    ListLogGroupsForQueryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8586,6 +8644,12 @@ export const listLogGroupsForQuery: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListScheduledQueriesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all scheduled queries in your account and region. You can filter results by state to
  * show only enabled or disabled queries.
@@ -8593,33 +8657,21 @@ export const listLogGroupsForQuery: API.OperationMethod<
 export const listScheduledQueries: API.OperationMethod<
   ListScheduledQueriesRequest,
   ListScheduledQueriesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListScheduledQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScheduledQueriesRequest,
   ) => stream.Stream<
     ListScheduledQueriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScheduledQueriesRequest,
   ) => stream.Stream<
     ScheduledQuerySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledQueriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8638,6 +8690,13 @@ export const listScheduledQueries: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSourcesForS3TableIntegrationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of data source associations for a specified S3 Table Integration, showing
  * which data sources are currently associated for query access.
@@ -8645,36 +8704,21 @@ export const listScheduledQueries: API.OperationMethod<
 export const listSourcesForS3TableIntegration: API.OperationMethod<
   ListSourcesForS3TableIntegrationRequest,
   ListSourcesForS3TableIntegrationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSourcesForS3TableIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSourcesForS3TableIntegrationRequest,
   ) => stream.Stream<
     ListSourcesForS3TableIntegrationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSourcesForS3TableIntegrationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourcesForS3TableIntegrationRequest,
   ) => stream.Stream<
     S3TableIntegrationSource,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSourcesForS3TableIntegrationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8694,6 +8738,11 @@ export const listSourcesForS3TableIntegration: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and
  * destinations support tagging.
@@ -8701,10 +8750,7 @@ export const listSourcesForS3TableIntegration: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -8715,6 +8761,10 @@ export const listTagsForResource: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type ListTagsLogGroupError =
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * The ListTagsLogGroup operation is on the path to deprecation. We recommend that you use
  * ListTagsForResource instead.
@@ -8724,13 +8774,19 @@ export const listTagsForResource: API.OperationMethod<
 export const listTagsLogGroup: API.OperationMethod<
   ListTagsLogGroupRequest,
   ListTagsLogGroupResponse,
-  ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
+  ListTagsLogGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsLogGroupRequest,
   output: ListTagsLogGroupResponse,
   errors: [ResourceNotFoundException, ServiceUnavailableException],
 }));
+export type PutAccountPolicyError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates an account-level data protection policy, subscription filter policy, field index
  * policy, transformer policy, or metric extraction policy that applies to all log groups, a
@@ -9054,11 +9110,7 @@ export const listTagsLogGroup: API.OperationMethod<
 export const putAccountPolicy: API.OperationMethod<
   PutAccountPolicyRequest,
   PutAccountPolicyResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutAccountPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountPolicyRequest,
@@ -9070,6 +9122,13 @@ export const putAccountPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutDataProtectionPolicyError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates a data protection policy for the specified log group. A data protection policy can
  * help safeguard sensitive data that's ingested by the log group by auditing and masking the
@@ -9099,12 +9158,7 @@ export const putAccountPolicy: API.OperationMethod<
 export const putDataProtectionPolicy: API.OperationMethod<
   PutDataProtectionPolicyRequest,
   PutDataProtectionPolicyResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutDataProtectionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDataProtectionPolicyRequest,
@@ -9117,6 +9171,14 @@ export const putDataProtectionPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutDeliveryDestinationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a logical *delivery destination*. A delivery
  * destination is an Amazon Web Services resource that represents an Amazon Web Services service
@@ -9156,13 +9218,7 @@ export const putDataProtectionPolicy: API.OperationMethod<
 export const putDeliveryDestination: API.OperationMethod<
   PutDeliveryDestinationRequest,
   PutDeliveryDestinationResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutDeliveryDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliveryDestinationRequest,
@@ -9176,6 +9232,12 @@ export const putDeliveryDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDeliveryDestinationPolicyError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver logs cross-account to a specified destination in this account. To
  * configure the delivery of logs from an Amazon Web Services service in another account to a logs
@@ -9205,11 +9267,7 @@ export const putDeliveryDestination: API.OperationMethod<
 export const putDeliveryDestinationPolicy: API.OperationMethod<
   PutDeliveryDestinationPolicyRequest,
   PutDeliveryDestinationPolicyResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  PutDeliveryDestinationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliveryDestinationPolicyRequest,
@@ -9221,6 +9279,14 @@ export const putDeliveryDestinationPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDeliverySourceError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a logical *delivery source*. A delivery source
  * represents an Amazon Web Services resource that sends logs to an logs delivery destination. The
@@ -9256,13 +9322,7 @@ export const putDeliveryDestinationPolicy: API.OperationMethod<
 export const putDeliverySource: API.OperationMethod<
   PutDeliverySourceRequest,
   PutDeliverySourceResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutDeliverySourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliverySourceRequest,
@@ -9276,6 +9336,11 @@ export const putDeliverySource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDestinationError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a destination. This operation is used only to create destinations
  * for cross-account subscriptions.
@@ -9295,10 +9360,7 @@ export const putDeliverySource: API.OperationMethod<
 export const putDestination: API.OperationMethod<
   PutDestinationRequest,
   PutDestinationResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDestinationRequest,
@@ -9309,6 +9371,11 @@ export const putDestination: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutDestinationPolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates an access policy associated with an existing destination. An access
  * policy is an IAM
@@ -9318,10 +9385,7 @@ export const putDestination: API.OperationMethod<
 export const putDestinationPolicy: API.OperationMethod<
   PutDestinationPolicyRequest,
   PutDestinationPolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutDestinationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDestinationPolicyRequest,
@@ -9332,6 +9396,13 @@ export const putDestinationPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutIndexPolicyError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a *field index policy* for the specified log group.
  * Only log groups in the Standard log class support field index policies. For more information
@@ -9398,12 +9469,7 @@ export const putDestinationPolicy: API.OperationMethod<
 export const putIndexPolicy: API.OperationMethod<
   PutIndexPolicyRequest,
   PutIndexPolicyResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutIndexPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIndexPolicyRequest,
@@ -9416,6 +9482,12 @@ export const putIndexPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutIntegrationError =
+  | InvalidParameterException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an integration between CloudWatch Logs and another service in this account.
  * Currently, only integrations with OpenSearch Service are supported, and currently you can have
@@ -9431,11 +9503,7 @@ export const putIndexPolicy: API.OperationMethod<
 export const putIntegration: API.OperationMethod<
   PutIntegrationRequest,
   PutIntegrationResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | ServiceUnavailableException
-  | ValidationException
-  | CommonErrors,
+  PutIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntegrationRequest,
@@ -9447,6 +9515,14 @@ export const putIntegration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutLogEventsError =
+  | DataAlreadyAcceptedException
+  | InvalidParameterException
+  | InvalidSequenceTokenException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | UnrecognizedClientException
+  | CommonErrors;
 /**
  * Uploads a batch of log events to the specified log stream.
  *
@@ -9493,13 +9569,7 @@ export const putIntegration: API.OperationMethod<
 export const putLogEvents: API.OperationMethod<
   PutLogEventsRequest,
   PutLogEventsResponse,
-  | DataAlreadyAcceptedException
-  | InvalidParameterException
-  | InvalidSequenceTokenException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | UnrecognizedClientException
-  | CommonErrors,
+  PutLogEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLogEventsRequest,
@@ -9513,6 +9583,14 @@ export const putLogEvents: API.OperationMethod<
     UnrecognizedClientException,
   ],
 }));
+export type PutLogGroupDeletionProtectionError =
+  | AccessDeniedException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Enables or disables deletion protection for the specified log group. When enabled on a
  * log group, deletion protection blocks all deletion operations until it is explicitly
@@ -9523,13 +9601,7 @@ export const putLogEvents: API.OperationMethod<
 export const putLogGroupDeletionProtection: API.OperationMethod<
   PutLogGroupDeletionProtectionRequest,
   PutLogGroupDeletionProtectionResponse,
-  | AccessDeniedException
-  | InvalidOperationException
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutLogGroupDeletionProtectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLogGroupDeletionProtectionRequest,
@@ -9543,6 +9615,14 @@ export const putLogGroupDeletionProtection: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutMetricFilterError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a metric filter and associates it with the specified log group. With
  * metric filters, you can configure rules to extract metric data from log events ingested
@@ -9575,13 +9655,7 @@ export const putLogGroupDeletionProtection: API.OperationMethod<
 export const putMetricFilter: API.OperationMethod<
   PutMetricFilterRequest,
   PutMetricFilterResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutMetricFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricFilterRequest,
@@ -9595,6 +9669,12 @@ export const putMetricFilter: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutQueryDefinitionError =
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a query definition for CloudWatch Logs Insights. For more information,
  * see Analyzing Log Data with CloudWatch Logs Insights.
@@ -9613,11 +9693,7 @@ export const putMetricFilter: API.OperationMethod<
 export const putQueryDefinition: API.OperationMethod<
   PutQueryDefinitionRequest,
   PutQueryDefinitionResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutQueryDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutQueryDefinitionRequest,
@@ -9629,6 +9705,13 @@ export const putQueryDefinition: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutResourcePolicyError =
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a resource policy allowing other Amazon Web Services services to put
  * log events to this account, such as Amazon Route 53. This API has the following
@@ -9652,12 +9735,7 @@ export const putQueryDefinition: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -9670,6 +9748,12 @@ export const putResourcePolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutRetentionPolicyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Sets the retention of the specified log group. With a retention policy, you can
  * configure the number of days for which to retain log events in the specified log
@@ -9696,11 +9780,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const putRetentionPolicy: API.OperationMethod<
   PutRetentionPolicyRequest,
   PutRetentionPolicyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutRetentionPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRetentionPolicyRequest,
@@ -9712,6 +9792,14 @@ export const putRetentionPolicy: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutSubscriptionFilterError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a subscription filter and associates it with the specified log
  * group. With subscription filters, you can subscribe to a real-time stream of log events
@@ -9750,13 +9838,7 @@ export const putRetentionPolicy: API.OperationMethod<
 export const putSubscriptionFilter: API.OperationMethod<
   PutSubscriptionFilterRequest,
   PutSubscriptionFilterResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutSubscriptionFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSubscriptionFilterRequest,
@@ -9770,6 +9852,14 @@ export const putSubscriptionFilter: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type PutTransformerError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitExceededException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Creates or updates a *log transformer* for a single log group. You use
  * log transformers to transform log events into a different format, making them easier for you
@@ -9806,13 +9896,7 @@ export const putSubscriptionFilter: API.OperationMethod<
 export const putTransformer: API.OperationMethod<
   PutTransformerRequest,
   PutTransformerResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | LimitExceededException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  PutTransformerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTransformerRequest,
@@ -9826,6 +9910,13 @@ export const putTransformer: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StartLiveTailError =
+  | AccessDeniedException
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a Live Tail streaming session for one or more log groups. A Live Tail session
  * returns a stream of log events that have been recently ingested in the log groups. For more
@@ -9873,12 +9964,7 @@ export const putTransformer: API.OperationMethod<
 export const startLiveTail: API.OperationMethod<
   StartLiveTailRequest,
   StartLiveTailResponse,
-  | AccessDeniedException
-  | InvalidOperationException
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartLiveTailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLiveTailRequest,
@@ -9891,6 +9977,13 @@ export const startLiveTail: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartQueryError =
+  | InvalidParameterException
+  | LimitExceededException
+  | MalformedQueryException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Starts a query of one or more log groups or data sources using CloudWatch Logs
  * Insights. You specify the log groups or data sources and time range to query and the query
@@ -9941,12 +10034,7 @@ export const startLiveTail: API.OperationMethod<
 export const startQuery: API.OperationMethod<
   StartQueryRequest,
   StartQueryResponse,
-  | InvalidParameterException
-  | LimitExceededException
-  | MalformedQueryException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  StartQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQueryRequest,
@@ -9959,6 +10047,11 @@ export const startQuery: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type StopQueryError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Stops a CloudWatch Logs Insights query that is in progress. If the query has already
  * ended, the operation returns an error indicating that the specified query is not
@@ -9972,10 +10065,7 @@ export const startQuery: API.OperationMethod<
 export const stopQuery: API.OperationMethod<
   StopQueryRequest,
   StopQueryResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  StopQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopQueryRequest,
@@ -9986,6 +10076,10 @@ export const stopQuery: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type TagLogGroupError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * The TagLogGroup operation is on the path to deprecation. We recommend that you use
  * TagResource
@@ -10007,13 +10101,19 @@ export const stopQuery: API.OperationMethod<
 export const tagLogGroup: API.OperationMethod<
   TagLogGroupRequest,
   TagLogGroupResponse,
-  InvalidParameterException | ResourceNotFoundException | CommonErrors,
+  TagLogGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagLogGroupRequest,
   output: TagLogGroupResponse,
   errors: [InvalidParameterException, ResourceNotFoundException],
 }));
+export type TagResourceError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource.
  * Currently, the only CloudWatch Logs resources that can be tagged are log groups and
@@ -10036,11 +10136,7 @@ export const tagLogGroup: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -10052,6 +10148,10 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type TestMetricFilterError =
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Tests the filter pattern of a metric filter against a sample of log event messages. You
  * can use this operation to validate the correctness of a metric filter pattern.
@@ -10059,13 +10159,18 @@ export const tagResource: API.OperationMethod<
 export const testMetricFilter: API.OperationMethod<
   TestMetricFilterRequest,
   TestMetricFilterResponse,
-  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  TestMetricFilterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestMetricFilterRequest,
   output: TestMetricFilterResponse,
   errors: [InvalidParameterException, ServiceUnavailableException],
 }));
+export type TestTransformerError =
+  | InvalidOperationException
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Use this operation to test a log transformer. You enter the transformer configuration and
  * a set of log events to test with. The operation responds with an array that includes the
@@ -10074,10 +10179,7 @@ export const testMetricFilter: API.OperationMethod<
 export const testTransformer: API.OperationMethod<
   TestTransformerRequest,
   TestTransformerResponse,
-  | InvalidOperationException
-  | InvalidParameterException
-  | ServiceUnavailableException
-  | CommonErrors,
+  TestTransformerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestTransformerRequest,
@@ -10088,6 +10190,7 @@ export const testTransformer: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type UntagLogGroupError = ResourceNotFoundException | CommonErrors;
 /**
  * The UntagLogGroup operation is on the path to deprecation. We recommend that you use
  * UntagResource instead.
@@ -10103,23 +10206,25 @@ export const testTransformer: API.OperationMethod<
 export const untagLogGroup: API.OperationMethod<
   UntagLogGroupRequest,
   UntagLogGroupResponse,
-  ResourceNotFoundException | CommonErrors,
+  UntagLogGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagLogGroupRequest,
   output: UntagLogGroupResponse,
   errors: [ResourceNotFoundException],
 }));
+export type UntagResourceError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -10130,6 +10235,12 @@ export const untagResource: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type UpdateAnomalyError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Use this operation to *suppress* anomaly detection for a specified
  * anomaly or pattern. If you suppress an anomaly, CloudWatch Logs won't report new
@@ -10147,11 +10258,7 @@ export const untagResource: API.OperationMethod<
 export const updateAnomaly: API.OperationMethod<
   UpdateAnomalyRequest,
   UpdateAnomalyResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UpdateAnomalyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAnomalyRequest,
@@ -10163,6 +10270,14 @@ export const updateAnomaly: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type UpdateDeliveryConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Use this operation to update the configuration of a delivery to change
  * either the S3 path pattern or the format of the delivered logs. You can't use this operation
@@ -10171,13 +10286,7 @@ export const updateAnomaly: API.OperationMethod<
 export const updateDeliveryConfiguration: API.OperationMethod<
   UpdateDeliveryConfigurationRequest,
   UpdateDeliveryConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDeliveryConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeliveryConfigurationRequest,
@@ -10191,17 +10300,19 @@ export const updateDeliveryConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLogAnomalyDetectorError =
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Updates an existing log anomaly detector.
  */
 export const updateLogAnomalyDetector: API.OperationMethod<
   UpdateLogAnomalyDetectorRequest,
   UpdateLogAnomalyDetectorResponse,
-  | InvalidParameterException
-  | OperationAbortedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
+  UpdateLogAnomalyDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLogAnomalyDetectorRequest,
@@ -10213,6 +10324,13 @@ export const updateLogAnomalyDetector: API.OperationMethod<
     ServiceUnavailableException,
   ],
 }));
+export type UpdateScheduledQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing scheduled query with new configuration. This operation uses PUT
  * semantics, allowing modification of query parameters, schedule, and destinations.
@@ -10220,12 +10338,7 @@ export const updateLogAnomalyDetector: API.OperationMethod<
 export const updateScheduledQuery: API.OperationMethod<
   UpdateScheduledQueryRequest,
   UpdateScheduledQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateScheduledQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduledQueryRequest,

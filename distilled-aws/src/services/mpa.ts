@@ -1416,18 +1416,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type GetPolicyVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for the version of a policy. Policies define the permissions for team resources.
  */
 export const getPolicyVersion: API.OperationMethod<
   GetPolicyVersionRequest,
   GetPolicyVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPolicyVersionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyVersionRequest,
@@ -1440,18 +1442,20 @@ export const getPolicyVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about a policy for a resource.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -1464,39 +1468,33 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of policies. Policies define the permissions for team resources.
  */
 export const listPolicies: API.OperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPoliciesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
     ListPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPoliciesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
     Policy,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPoliciesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1515,42 +1513,34 @@ export const listPolicies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPolicyVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the versions for policies. Policies define the permissions for team resources.
  */
 export const listPolicyVersions: API.OperationMethod<
   ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPolicyVersionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyVersionsRequest,
   ) => stream.Stream<
     ListPolicyVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyVersionsRequest,
   ) => stream.Stream<
     PolicyVersionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1570,42 +1560,34 @@ export const listPolicyVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourcePoliciesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of policies for a resource.
  */
 export const listResourcePolicies: API.OperationMethod<
   ListResourcePoliciesRequest,
   ListResourcePoliciesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListResourcePoliciesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcePoliciesRequest,
   ) => stream.Stream<
     ListResourcePoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResourcePoliciesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcePoliciesRequest,
   ) => stream.Stream<
     ListResourcePoliciesResponseResourcePolicy,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResourcePoliciesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1625,18 +1607,20 @@ export const listResourcePolicies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1649,19 +1633,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1675,18 +1661,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1699,19 +1687,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new approval team. For more information, see Approval team in the *Multi-party approval User Guide*.
- */
-export const createApprovalTeam: API.OperationMethod<
-  CreateApprovalTeamRequest,
-  CreateApprovalTeamResponse,
+export type CreateApprovalTeamError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new approval team. For more information, see Approval team in the *Multi-party approval User Guide*.
+ */
+export const createApprovalTeam: API.OperationMethod<
+  CreateApprovalTeamRequest,
+  CreateApprovalTeamResponse,
+  CreateApprovalTeamError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApprovalTeamRequest,
@@ -1725,18 +1715,20 @@ export const createApprovalTeam: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApprovalTeamError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for an approval team.
  */
 export const getApprovalTeam: API.OperationMethod<
   GetApprovalTeamRequest,
   GetApprovalTeamResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetApprovalTeamError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApprovalTeamRequest,
@@ -1749,6 +1741,15 @@ export const getApprovalTeam: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateApprovalTeamError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team.
  *
@@ -1759,14 +1760,7 @@ export const getApprovalTeam: API.OperationMethod<
 export const updateApprovalTeam: API.OperationMethod<
   UpdateApprovalTeamRequest,
   UpdateApprovalTeamResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateApprovalTeamError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApprovalTeamRequest,
@@ -1781,6 +1775,14 @@ export const updateApprovalTeam: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteInactiveApprovalTeamVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an inactive approval team. For more information, see Team health in the *Multi-party approval User Guide*.
  *
@@ -1789,13 +1791,7 @@ export const updateApprovalTeam: API.OperationMethod<
 export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
   DeleteInactiveApprovalTeamVersionRequest,
   DeleteInactiveApprovalTeamVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteInactiveApprovalTeamVersionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInactiveApprovalTeamVersionRequest,
@@ -1809,39 +1805,33 @@ export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApprovalTeamsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of approval teams.
  */
 export const listApprovalTeams: API.OperationMethod<
   ListApprovalTeamsRequest,
   ListApprovalTeamsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListApprovalTeamsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApprovalTeamsRequest,
   ) => stream.Stream<
     ListApprovalTeamsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApprovalTeamsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApprovalTeamsRequest,
   ) => stream.Stream<
     ListApprovalTeamsResponseApprovalTeam,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListApprovalTeamsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1860,6 +1850,14 @@ export const listApprovalTeams: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartActiveApprovalTeamDeletionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the deletion process for an active approval team.
  *
@@ -1870,13 +1868,7 @@ export const listApprovalTeams: API.OperationMethod<
 export const startActiveApprovalTeamDeletion: API.OperationMethod<
   StartActiveApprovalTeamDeletionRequest,
   StartActiveApprovalTeamDeletionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartActiveApprovalTeamDeletionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartActiveApprovalTeamDeletionRequest,
@@ -1890,18 +1882,20 @@ export const startActiveApprovalTeamDeletion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateIdentitySourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const createIdentitySource: API.OperationMethod<
   CreateIdentitySourceRequest,
   CreateIdentitySourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateIdentitySourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdentitySourceRequest,
@@ -1914,18 +1908,20 @@ export const createIdentitySource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIdentitySourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const getIdentitySource: API.OperationMethod<
   GetIdentitySourceRequest,
   GetIdentitySourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIdentitySourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentitySourceRequest,
@@ -1938,18 +1934,20 @@ export const getIdentitySource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIdentitySourceError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const deleteIdentitySource: API.OperationMethod<
   DeleteIdentitySourceRequest,
   DeleteIdentitySourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIdentitySourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentitySourceRequest,
@@ -1962,39 +1960,33 @@ export const deleteIdentitySource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIdentitySourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of identity sources. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const listIdentitySources: API.OperationMethod<
   ListIdentitySourcesRequest,
   ListIdentitySourcesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIdentitySourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdentitySourcesRequest,
   ) => stream.Stream<
     ListIdentitySourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdentitySourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentitySourcesRequest,
   ) => stream.Stream<
     IdentitySourceForList,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdentitySourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2013,18 +2005,20 @@ export const listIdentitySources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details for an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
   GetSessionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSessionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
@@ -2037,19 +2031,21 @@ export const getSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels an approval session. For more information, see Session in the *Multi-party approval User Guide*.
- */
-export const cancelSession: API.OperationMethod<
-  CancelSessionRequest,
-  CancelSessionResponse,
+export type CancelSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels an approval session. For more information, see Session in the *Multi-party approval User Guide*.
+ */
+export const cancelSession: API.OperationMethod<
+  CancelSessionRequest,
+  CancelSessionResponse,
+  CancelSessionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSessionRequest,
@@ -2063,42 +2059,34 @@ export const cancelSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSessionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of approval sessions. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const listSessions: API.OperationMethod<
   ListSessionsRequest,
   ListSessionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSessionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListSessionsRequest,
   ) => stream.Stream<
     ListSessionsResponseSession,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSessionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

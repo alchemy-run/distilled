@@ -15151,19 +15151,21 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
- */
-export const acceptPredictions: API.OperationMethod<
-  AcceptPredictionsInput,
-  AcceptPredictionsOutput,
+export type AcceptPredictionsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
+ */
+export const acceptPredictions: API.OperationMethod<
+  AcceptPredictionsInput,
+  AcceptPredictionsOutput,
+  AcceptPredictionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptPredictionsInput,
@@ -15177,12 +15179,7 @@ export const acceptPredictions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Accepts a subscription request to a specific asset.
- */
-export const acceptSubscriptionRequest: API.OperationMethod<
-  AcceptSubscriptionRequestInput,
-  AcceptSubscriptionRequestOutput,
+export type AcceptSubscriptionRequestError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15190,7 +15187,14 @@ export const acceptSubscriptionRequest: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accepts a subscription request to a specific asset.
+ */
+export const acceptSubscriptionRequest: API.OperationMethod<
+  AcceptSubscriptionRequestInput,
+  AcceptSubscriptionRequestOutput,
+  AcceptSubscriptionRequestError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptSubscriptionRequestInput,
@@ -15205,12 +15209,7 @@ export const acceptSubscriptionRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds the owner of an entity (a domain unit).
- */
-export const addEntityOwner: API.OperationMethod<
-  AddEntityOwnerInput,
-  AddEntityOwnerOutput,
+export type AddEntityOwnerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15218,7 +15217,14 @@ export const addEntityOwner: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds the owner of an entity (a domain unit).
+ */
+export const addEntityOwner: API.OperationMethod<
+  AddEntityOwnerInput,
+  AddEntityOwnerOutput,
+  AddEntityOwnerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddEntityOwnerInput,
@@ -15233,19 +15239,21 @@ export const addEntityOwner: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
- */
-export const addPolicyGrant: API.OperationMethod<
-  AddPolicyGrantInput,
-  AddPolicyGrantOutput,
+export type AddPolicyGrantError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
+ */
+export const addPolicyGrant: API.OperationMethod<
+  AddPolicyGrantInput,
+  AddPolicyGrantOutput,
+  AddPolicyGrantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPolicyGrantInput,
@@ -15259,19 +15267,21 @@ export const addPolicyGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates the environment role in Amazon DataZone.
- */
-export const associateEnvironmentRole: API.OperationMethod<
-  AssociateEnvironmentRoleInput,
-  AssociateEnvironmentRoleOutput,
+export type AssociateEnvironmentRoleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates the environment role in Amazon DataZone.
+ */
+export const associateEnvironmentRole: API.OperationMethod<
+  AssociateEnvironmentRoleInput,
+  AssociateEnvironmentRoleOutput,
+  AssociateEnvironmentRoleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateEnvironmentRoleInput,
@@ -15285,19 +15295,21 @@ export const associateEnvironmentRole: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates governed terms with an asset.
- */
-export const associateGovernedTerms: API.OperationMethod<
-  AssociateGovernedTermsInput,
-  AssociateGovernedTermsOutput,
+export type AssociateGovernedTermsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates governed terms with an asset.
+ */
+export const associateGovernedTerms: API.OperationMethod<
+  AssociateGovernedTermsInput,
+  AssociateGovernedTermsOutput,
+  AssociateGovernedTermsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateGovernedTermsInput,
@@ -15311,18 +15323,20 @@ export const associateGovernedTerms: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetAttributesMetadataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the attribute metadata.
  */
 export const batchGetAttributesMetadata: API.OperationMethod<
   BatchGetAttributesMetadataInput,
   BatchGetAttributesMetadataOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetAttributesMetadataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAttributesMetadataInput,
@@ -15335,19 +15349,21 @@ export const batchGetAttributesMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Writes the attribute metadata.
- */
-export const batchPutAttributesMetadata: API.OperationMethod<
-  BatchPutAttributesMetadataInput,
-  BatchPutAttributesMetadataOutput,
+export type BatchPutAttributesMetadataError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Writes the attribute metadata.
+ */
+export const batchPutAttributesMetadata: API.OperationMethod<
+  BatchPutAttributesMetadataInput,
+  BatchPutAttributesMetadataOutput,
+  BatchPutAttributesMetadataError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutAttributesMetadataInput,
@@ -15361,19 +15377,21 @@ export const batchPutAttributesMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels the subscription to the specified asset.
- */
-export const cancelSubscription: API.OperationMethod<
-  CancelSubscriptionInput,
-  CancelSubscriptionOutput,
+export type CancelSubscriptionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels the subscription to the specified asset.
+ */
+export const cancelSubscription: API.OperationMethod<
+  CancelSubscriptionInput,
+  CancelSubscriptionOutput,
+  CancelSubscriptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSubscriptionInput,
@@ -15387,12 +15405,7 @@ export const cancelSubscription: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an account pool.
- */
-export const createAccountPool: API.OperationMethod<
-  CreateAccountPoolInput,
-  CreateAccountPoolOutput,
+export type CreateAccountPoolError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15400,7 +15413,14 @@ export const createAccountPool: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an account pool.
+ */
+export const createAccountPool: API.OperationMethod<
+  CreateAccountPoolInput,
+  CreateAccountPoolOutput,
+  CreateAccountPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountPoolInput,
@@ -15415,6 +15435,15 @@ export const createAccountPool: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAssetFilterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a data asset filter.
  *
@@ -15433,14 +15462,7 @@ export const createAccountPool: API.OperationMethod<
 export const createAssetFilter: API.OperationMethod<
   CreateAssetFilterInput,
   CreateAssetFilterOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAssetFilterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetFilterInput,
@@ -15455,12 +15477,7 @@ export const createAssetFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
- */
-export const createConnection: API.OperationMethod<
-  CreateConnectionInput,
-  CreateConnectionOutput,
+export type CreateConnectionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15468,7 +15485,14 @@ export const createConnection: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+ */
+export const createConnection: API.OperationMethod<
+  CreateConnectionInput,
+  CreateConnectionOutput,
+  CreateConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionInput,
@@ -15483,19 +15507,21 @@ export const createConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Create an Amazon DataZone environment.
- */
-export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
-  CreateEnvironmentOutput,
+export type CreateEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create an Amazon DataZone environment.
+ */
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentInput,
+  CreateEnvironmentOutput,
+  CreateEnvironmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
@@ -15509,19 +15535,21 @@ export const createEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
- */
-export const createEnvironmentAction: API.OperationMethod<
-  CreateEnvironmentActionInput,
-  CreateEnvironmentActionOutput,
+export type CreateEnvironmentActionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
+ */
+export const createEnvironmentAction: API.OperationMethod<
+  CreateEnvironmentActionInput,
+  CreateEnvironmentActionOutput,
+  CreateEnvironmentActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentActionInput,
@@ -15535,12 +15563,7 @@ export const createEnvironmentAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a Amazon DataZone blueprint.
- */
-export const createEnvironmentBlueprint: API.OperationMethod<
-  CreateEnvironmentBlueprintInput,
-  CreateEnvironmentBlueprintOutput,
+export type CreateEnvironmentBlueprintError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15548,7 +15571,14 @@ export const createEnvironmentBlueprint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Amazon DataZone blueprint.
+ */
+export const createEnvironmentBlueprint: API.OperationMethod<
+  CreateEnvironmentBlueprintInput,
+  CreateEnvironmentBlueprintOutput,
+  CreateEnvironmentBlueprintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentBlueprintInput,
@@ -15563,12 +15593,7 @@ export const createEnvironmentBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon DataZone environment profile.
- */
-export const createEnvironmentProfile: API.OperationMethod<
-  CreateEnvironmentProfileInput,
-  CreateEnvironmentProfileOutput,
+export type CreateEnvironmentProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15576,7 +15601,14 @@ export const createEnvironmentProfile: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon DataZone environment profile.
+ */
+export const createEnvironmentProfile: API.OperationMethod<
+  CreateEnvironmentProfileInput,
+  CreateEnvironmentProfileOutput,
+  CreateEnvironmentProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentProfileInput,
@@ -15591,17 +15623,19 @@ export const createEnvironmentProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGroupProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a group profile in Amazon DataZone.
  */
 export const createGroupProfile: API.OperationMethod<
   CreateGroupProfileInput,
   CreateGroupProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateGroupProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupProfileInput,
@@ -15613,12 +15647,7 @@ export const createGroupProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
- */
-export const createListingChangeSet: API.OperationMethod<
-  CreateListingChangeSetInput,
-  CreateListingChangeSetOutput,
+export type CreateListingChangeSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15626,7 +15655,14 @@ export const createListingChangeSet: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
+ */
+export const createListingChangeSet: API.OperationMethod<
+  CreateListingChangeSetInput,
+  CreateListingChangeSetOutput,
+  CreateListingChangeSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateListingChangeSetInput,
@@ -15641,12 +15677,7 @@ export const createListingChangeSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon DataZone project.
- */
-export const createProject: API.OperationMethod<
-  CreateProjectInput,
-  CreateProjectOutput,
+export type CreateProjectError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15654,7 +15685,14 @@ export const createProject: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon DataZone project.
+ */
+export const createProject: API.OperationMethod<
+  CreateProjectInput,
+  CreateProjectOutput,
+  CreateProjectError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectInput,
@@ -15669,17 +15707,19 @@ export const createProject: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateProjectMembershipError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a project membership in Amazon DataZone.
  */
 export const createProjectMembership: API.OperationMethod<
   CreateProjectMembershipInput,
   CreateProjectMembershipOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateProjectMembershipError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectMembershipInput,
@@ -15691,12 +15731,7 @@ export const createProjectMembership: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a project profile.
- */
-export const createProjectProfile: API.OperationMethod<
-  CreateProjectProfileInput,
-  CreateProjectProfileOutput,
+export type CreateProjectProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15704,7 +15739,14 @@ export const createProjectProfile: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a project profile.
+ */
+export const createProjectProfile: API.OperationMethod<
+  CreateProjectProfileInput,
+  CreateProjectProfileOutput,
+  CreateProjectProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectProfileInput,
@@ -15719,19 +15761,21 @@ export const createProjectProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a subsscription grant in Amazon DataZone.
- */
-export const createSubscriptionGrant: API.OperationMethod<
-  CreateSubscriptionGrantInput,
-  CreateSubscriptionGrantOutput,
+export type CreateSubscriptionGrantError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a subsscription grant in Amazon DataZone.
+ */
+export const createSubscriptionGrant: API.OperationMethod<
+  CreateSubscriptionGrantInput,
+  CreateSubscriptionGrantOutput,
+  CreateSubscriptionGrantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionGrantInput,
@@ -15745,12 +15789,7 @@ export const createSubscriptionGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a subscription request in Amazon DataZone.
- */
-export const createSubscriptionRequest: API.OperationMethod<
-  CreateSubscriptionRequestInput,
-  CreateSubscriptionRequestOutput,
+export type CreateSubscriptionRequestError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -15758,7 +15797,14 @@ export const createSubscriptionRequest: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a subscription request in Amazon DataZone.
+ */
+export const createSubscriptionRequest: API.OperationMethod<
+  CreateSubscriptionRequestInput,
+  CreateSubscriptionRequestOutput,
+  CreateSubscriptionRequestError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionRequestInput,
@@ -15773,19 +15819,21 @@ export const createSubscriptionRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a subscription target in Amazon DataZone.
- */
-export const createSubscriptionTarget: API.OperationMethod<
-  CreateSubscriptionTargetInput,
-  CreateSubscriptionTargetOutput,
+export type CreateSubscriptionTargetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a subscription target in Amazon DataZone.
+ */
+export const createSubscriptionTarget: API.OperationMethod<
+  CreateSubscriptionTargetInput,
+  CreateSubscriptionTargetOutput,
+  CreateSubscriptionTargetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionTargetInput,
@@ -15799,17 +15847,19 @@ export const createSubscriptionTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateUserProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a user profile in Amazon DataZone.
  */
 export const createUserProfile: API.OperationMethod<
   CreateUserProfileInput,
   CreateUserProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateUserProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserProfileInput,
@@ -15821,18 +15871,20 @@ export const createUserProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAccountPoolError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an account pool.
  */
 export const deleteAccountPool: API.OperationMethod<
   DeleteAccountPoolInput,
   DeleteAccountPoolOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAccountPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountPoolInput,
@@ -15845,6 +15897,14 @@ export const deleteAccountPool: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssetFilterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an asset filter.
  *
@@ -15859,13 +15919,7 @@ export const deleteAccountPool: API.OperationMethod<
 export const deleteAssetFilter: API.OperationMethod<
   DeleteAssetFilterInput,
   DeleteAssetFilterResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssetFilterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetFilterInput,
@@ -15879,18 +15933,20 @@ export const deleteAssetFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const deleteConnection: API.OperationMethod<
   DeleteConnectionInput,
   DeleteConnectionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionInput,
@@ -15903,6 +15959,14 @@ export const deleteConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataExportConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes data export configuration for a domain.
  *
@@ -15913,13 +15977,7 @@ export const deleteConnection: API.OperationMethod<
 export const deleteDataExportConfiguration: API.OperationMethod<
   DeleteDataExportConfigurationInput,
   DeleteDataExportConfigurationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataExportConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataExportConfigurationInput,
@@ -15933,18 +15991,20 @@ export const deleteDataExportConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an environment in Amazon DataZone.
  */
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentInput,
   DeleteEnvironmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentInput,
@@ -15957,19 +16017,21 @@ export const deleteEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
- */
-export const deleteEnvironmentAction: API.OperationMethod<
-  DeleteEnvironmentActionInput,
-  DeleteEnvironmentActionResponse,
+export type DeleteEnvironmentActionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
+ */
+export const deleteEnvironmentAction: API.OperationMethod<
+  DeleteEnvironmentActionInput,
+  DeleteEnvironmentActionResponse,
+  DeleteEnvironmentActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentActionInput,
@@ -15983,19 +16045,21 @@ export const deleteEnvironmentAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a blueprint in Amazon DataZone.
- */
-export const deleteEnvironmentBlueprint: API.OperationMethod<
-  DeleteEnvironmentBlueprintInput,
-  DeleteEnvironmentBlueprintResponse,
+export type DeleteEnvironmentBlueprintError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a blueprint in Amazon DataZone.
+ */
+export const deleteEnvironmentBlueprint: API.OperationMethod<
+  DeleteEnvironmentBlueprintInput,
+  DeleteEnvironmentBlueprintResponse,
+  DeleteEnvironmentBlueprintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentBlueprintInput,
@@ -16009,18 +16073,20 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an environment profile in Amazon DataZone.
  */
 export const deleteEnvironmentProfile: API.OperationMethod<
   DeleteEnvironmentProfileInput,
   DeleteEnvironmentProfileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentProfileInput,
@@ -16033,18 +16099,20 @@ export const deleteEnvironmentProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProjectError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a project in Amazon DataZone.
  */
 export const deleteProject: API.OperationMethod<
   DeleteProjectInput,
   DeleteProjectOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteProjectError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectInput,
@@ -16057,19 +16125,21 @@ export const deleteProject: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes project membership in Amazon DataZone.
- */
-export const deleteProjectMembership: API.OperationMethod<
-  DeleteProjectMembershipInput,
-  DeleteProjectMembershipOutput,
+export type DeleteProjectMembershipError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes project membership in Amazon DataZone.
+ */
+export const deleteProjectMembership: API.OperationMethod<
+  DeleteProjectMembershipInput,
+  DeleteProjectMembershipOutput,
+  DeleteProjectMembershipError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectMembershipInput,
@@ -16083,18 +16153,20 @@ export const deleteProjectMembership: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteProjectProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a project profile.
  */
 export const deleteProjectProfile: API.OperationMethod<
   DeleteProjectProfileInput,
   DeleteProjectProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteProjectProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectProfileInput,
@@ -16107,19 +16179,21 @@ export const deleteProjectProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes and subscription grant in Amazon DataZone.
- */
-export const deleteSubscriptionGrant: API.OperationMethod<
-  DeleteSubscriptionGrantInput,
-  DeleteSubscriptionGrantOutput,
+export type DeleteSubscriptionGrantError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes and subscription grant in Amazon DataZone.
+ */
+export const deleteSubscriptionGrant: API.OperationMethod<
+  DeleteSubscriptionGrantInput,
+  DeleteSubscriptionGrantOutput,
+  DeleteSubscriptionGrantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionGrantInput,
@@ -16133,19 +16207,21 @@ export const deleteSubscriptionGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a subscription request in Amazon DataZone.
- */
-export const deleteSubscriptionRequest: API.OperationMethod<
-  DeleteSubscriptionRequestInput,
-  DeleteSubscriptionRequestResponse,
+export type DeleteSubscriptionRequestError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a subscription request in Amazon DataZone.
+ */
+export const deleteSubscriptionRequest: API.OperationMethod<
+  DeleteSubscriptionRequestInput,
+  DeleteSubscriptionRequestResponse,
+  DeleteSubscriptionRequestError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionRequestInput,
@@ -16159,19 +16235,21 @@ export const deleteSubscriptionRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a subscription target in Amazon DataZone.
- */
-export const deleteSubscriptionTarget: API.OperationMethod<
-  DeleteSubscriptionTargetInput,
-  DeleteSubscriptionTargetResponse,
+export type DeleteSubscriptionTargetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a subscription target in Amazon DataZone.
+ */
+export const deleteSubscriptionTarget: API.OperationMethod<
+  DeleteSubscriptionTargetInput,
+  DeleteSubscriptionTargetResponse,
+  DeleteSubscriptionTargetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionTargetInput,
@@ -16185,18 +16263,20 @@ export const deleteSubscriptionTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTimeSeriesDataPointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified time series form for the specified asset.
  */
 export const deleteTimeSeriesDataPoints: API.OperationMethod<
   DeleteTimeSeriesDataPointsInput,
   DeleteTimeSeriesDataPointsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTimeSeriesDataPointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTimeSeriesDataPointsInput,
@@ -16209,19 +16289,21 @@ export const deleteTimeSeriesDataPoints: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates the environment role in Amazon DataZone.
- */
-export const disassociateEnvironmentRole: API.OperationMethod<
-  DisassociateEnvironmentRoleInput,
-  DisassociateEnvironmentRoleOutput,
+export type DisassociateEnvironmentRoleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates the environment role in Amazon DataZone.
+ */
+export const disassociateEnvironmentRole: API.OperationMethod<
+  DisassociateEnvironmentRoleInput,
+  DisassociateEnvironmentRoleOutput,
+  DisassociateEnvironmentRoleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateEnvironmentRoleInput,
@@ -16235,19 +16317,21 @@ export const disassociateEnvironmentRole: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates restricted terms from an asset.
- */
-export const disassociateGovernedTerms: API.OperationMethod<
-  DisassociateGovernedTermsInput,
-  DisassociateGovernedTermsOutput,
+export type DisassociateGovernedTermsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates restricted terms from an asset.
+ */
+export const disassociateGovernedTerms: API.OperationMethod<
+  DisassociateGovernedTermsInput,
+  DisassociateGovernedTermsOutput,
+  DisassociateGovernedTermsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateGovernedTermsInput,
@@ -16261,18 +16345,20 @@ export const disassociateGovernedTerms: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAccountPoolError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of the account pool.
  */
 export const getAccountPool: API.OperationMethod<
   GetAccountPoolInput,
   GetAccountPoolOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAccountPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountPoolInput,
@@ -16285,6 +16371,13 @@ export const getAccountPool: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssetFilterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an asset filter.
  *
@@ -16299,12 +16392,7 @@ export const getAccountPool: API.OperationMethod<
 export const getAssetFilter: API.OperationMethod<
   GetAssetFilterInput,
   GetAssetFilterOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAssetFilterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetFilterInput,
@@ -16317,18 +16405,20 @@ export const getAssetFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const getConnection: API.OperationMethod<
   GetConnectionInput,
   GetConnectionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionInput,
@@ -16341,18 +16431,20 @@ export const getConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataExportConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets data export configuration details.
  */
 export const getDataExportConfiguration: API.OperationMethod<
   GetDataExportConfigurationInput,
   GetDataExportConfigurationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataExportConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataExportConfigurationInput,
@@ -16365,18 +16457,20 @@ export const getDataExportConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon DataZone environment.
  */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentInput,
   GetEnvironmentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentInput,
@@ -16389,18 +16483,20 @@ export const getEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentActionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the specified environment action.
  */
 export const getEnvironmentAction: API.OperationMethod<
   GetEnvironmentActionInput,
   GetEnvironmentActionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentActionInput,
@@ -16413,18 +16509,20 @@ export const getEnvironmentAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentBlueprintError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon DataZone blueprint.
  */
 export const getEnvironmentBlueprint: API.OperationMethod<
   GetEnvironmentBlueprintInput,
   GetEnvironmentBlueprintOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentBlueprintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentBlueprintInput,
@@ -16437,18 +16535,20 @@ export const getEnvironmentBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentCredentialsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the credentials of an environment in Amazon DataZone.
  */
 export const getEnvironmentCredentials: API.OperationMethod<
   GetEnvironmentCredentialsInput,
   GetEnvironmentCredentialsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentCredentialsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentCredentialsInput,
@@ -16461,18 +16561,20 @@ export const getEnvironmentCredentials: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an evinronment profile in Amazon DataZone.
  */
 export const getEnvironmentProfile: API.OperationMethod<
   GetEnvironmentProfileInput,
   GetEnvironmentProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentProfileInput,
@@ -16485,17 +16587,19 @@ export const getEnvironmentProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGroupProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a group profile in Amazon DataZone.
  */
 export const getGroupProfile: API.OperationMethod<
   GetGroupProfileInput,
   GetGroupProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetGroupProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupProfileInput,
@@ -16507,19 +16611,21 @@ export const getGroupProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets the data portal URL for the specified Amazon DataZone domain.
- */
-export const getIamPortalLoginUrl: API.OperationMethod<
-  GetIamPortalLoginUrlInput,
-  GetIamPortalLoginUrlOutput,
+export type GetIamPortalLoginUrlError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the data portal URL for the specified Amazon DataZone domain.
+ */
+export const getIamPortalLoginUrl: API.OperationMethod<
+  GetIamPortalLoginUrlInput,
+  GetIamPortalLoginUrlOutput,
+  GetIamPortalLoginUrlError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPortalLoginUrlInput,
@@ -16533,18 +16639,20 @@ export const getIamPortalLoginUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetJobRunError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The details of the job run.
  */
 export const getJobRun: API.OperationMethod<
   GetJobRunInput,
   GetJobRunOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetJobRunError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRunInput,
@@ -16557,18 +16665,20 @@ export const getJobRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLineageEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the lineage event.
  */
 export const getLineageEvent: API.OperationMethod<
   GetLineageEventInput,
   GetLineageEventOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLineageEventError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLineageEventInput,
@@ -16581,18 +16691,20 @@ export const getLineageEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLineageNodeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the data lineage node.
  */
 export const getLineageNode: API.OperationMethod<
   GetLineageNodeInput,
   GetLineageNodeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLineageNodeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLineageNodeInput,
@@ -16605,18 +16717,20 @@ export const getLineageNode: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProjectError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a project in Amazon DataZone.
  */
 export const getProject: API.OperationMethod<
   GetProjectInput,
   GetProjectOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProjectError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectInput,
@@ -16629,18 +16743,20 @@ export const getProject: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProjectProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The details of the project profile.
  */
 export const getProjectProfile: API.OperationMethod<
   GetProjectProfileInput,
   GetProjectProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProjectProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectProfileInput,
@@ -16653,18 +16769,20 @@ export const getProjectProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSubscriptionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a subscription in Amazon DataZone.
  */
 export const getSubscription: API.OperationMethod<
   GetSubscriptionInput,
   GetSubscriptionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSubscriptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionInput,
@@ -16677,18 +16795,20 @@ export const getSubscription: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSubscriptionGrantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the subscription grant in Amazon DataZone.
  */
 export const getSubscriptionGrant: API.OperationMethod<
   GetSubscriptionGrantInput,
   GetSubscriptionGrantOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSubscriptionGrantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionGrantInput,
@@ -16701,18 +16821,20 @@ export const getSubscriptionGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSubscriptionRequestDetailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of the specified subscription request.
  */
 export const getSubscriptionRequestDetails: API.OperationMethod<
   GetSubscriptionRequestDetailsInput,
   GetSubscriptionRequestDetailsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSubscriptionRequestDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionRequestDetailsInput,
@@ -16725,18 +16847,20 @@ export const getSubscriptionRequestDetails: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSubscriptionTargetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the subscription target in Amazon DataZone.
  */
 export const getSubscriptionTarget: API.OperationMethod<
   GetSubscriptionTargetInput,
   GetSubscriptionTargetOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSubscriptionTargetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionTargetInput,
@@ -16749,18 +16873,20 @@ export const getSubscriptionTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTimeSeriesDataPointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the existing data point for the asset.
  */
 export const getTimeSeriesDataPoint: API.OperationMethod<
   GetTimeSeriesDataPointInput,
   GetTimeSeriesDataPointOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTimeSeriesDataPointError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTimeSeriesDataPointInput,
@@ -16773,17 +16899,19 @@ export const getTimeSeriesDataPoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetUserProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a user profile in Amazon DataZone.
  */
 export const getUserProfile: API.OperationMethod<
   GetUserProfileInput,
   GetUserProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetUserProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserProfileInput,
@@ -16795,39 +16923,33 @@ export const getUserProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAccountPoolsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists existing account pools.
  */
 export const listAccountPools: API.OperationMethod<
   ListAccountPoolsInput,
   ListAccountPoolsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountPoolsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountPoolsInput,
   ) => stream.Stream<
     ListAccountPoolsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountPoolsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountPoolsInput,
   ) => stream.Stream<
     AccountPoolSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountPoolsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -16846,42 +16968,34 @@ export const listAccountPools: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAccountsInAccountPoolError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the accounts in the specified account pool.
  */
 export const listAccountsInAccountPool: API.OperationMethod<
   ListAccountsInAccountPoolInput,
   ListAccountsInAccountPoolOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAccountsInAccountPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAccountsInAccountPoolInput,
   ) => stream.Stream<
     ListAccountsInAccountPoolOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountsInAccountPoolError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountsInAccountPoolInput,
   ) => stream.Stream<
     AccountInfo,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAccountsInAccountPoolError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -16901,6 +17015,13 @@ export const listAccountsInAccountPool: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetFiltersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists asset filters.
  *
@@ -16913,36 +17034,21 @@ export const listAccountsInAccountPool: API.OperationMethod<
 export const listAssetFilters: API.OperationMethod<
   ListAssetFiltersInput,
   ListAssetFiltersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAssetFiltersError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetFiltersInput,
   ) => stream.Stream<
     ListAssetFiltersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAssetFiltersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetFiltersInput,
   ) => stream.Stream<
     AssetFilterSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAssetFiltersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -16962,6 +17068,13 @@ export const listAssetFilters: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssetRevisionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the revisions for the asset.
  *
@@ -16978,36 +17091,21 @@ export const listAssetFilters: API.OperationMethod<
 export const listAssetRevisions: API.OperationMethod<
   ListAssetRevisionsInput,
   ListAssetRevisionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAssetRevisionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssetRevisionsInput,
   ) => stream.Stream<
     ListAssetRevisionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAssetRevisionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAssetRevisionsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAssetRevisionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17026,39 +17124,33 @@ export const listAssetRevisions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListConnectionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const listConnections: API.OperationMethod<
   ListConnectionsInput,
   ListConnectionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConnectionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConnectionsInput,
   ) => stream.Stream<
     ListConnectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionsInput,
   ) => stream.Stream<
     ConnectionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConnectionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17077,6 +17169,13 @@ export const listConnections: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListDataProductRevisionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists data product revisions.
  *
@@ -17091,36 +17190,21 @@ export const listConnections: API.OperationMethod<
 export const listDataProductRevisions: API.OperationMethod<
   ListDataProductRevisionsInput,
   ListDataProductRevisionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataProductRevisionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataProductRevisionsInput,
   ) => stream.Stream<
     ListDataProductRevisionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataProductRevisionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDataProductRevisionsInput,
   ) => stream.Stream<
     DataProductRevision,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataProductRevisionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17140,12 +17224,7 @@ export const listDataProductRevisions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Lists data source run activities.
- */
-export const listDataSourceRunActivities: API.OperationMethod<
-  ListDataSourceRunActivitiesInput,
-  ListDataSourceRunActivitiesOutput,
+export type ListDataSourceRunActivitiesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -17153,35 +17232,28 @@ export const listDataSourceRunActivities: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists data source run activities.
+ */
+export const listDataSourceRunActivities: API.OperationMethod<
+  ListDataSourceRunActivitiesInput,
+  ListDataSourceRunActivitiesOutput,
+  ListDataSourceRunActivitiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSourceRunActivitiesInput,
   ) => stream.Stream<
     ListDataSourceRunActivitiesOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourceRunActivitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSourceRunActivitiesInput,
   ) => stream.Stream<
     DataSourceRunActivity,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourceRunActivitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17203,39 +17275,33 @@ export const listDataSourceRunActivities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEntityOwnersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the entity (domain units) owners.
  */
 export const listEntityOwners: API.OperationMethod<
   ListEntityOwnersInput,
   ListEntityOwnersOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEntityOwnersError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntityOwnersInput,
   ) => stream.Stream<
     ListEntityOwnersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEntityOwnersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEntityOwnersInput,
   ) => stream.Stream<
     OwnerPropertiesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEntityOwnersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17254,39 +17320,33 @@ export const listEntityOwners: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEnvironmentActionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists existing environment actions.
  */
 export const listEnvironmentActions: API.OperationMethod<
   ListEnvironmentActionsInput,
   ListEnvironmentActionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentActionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentActionsInput,
   ) => stream.Stream<
     ListEnvironmentActionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentActionsInput,
   ) => stream.Stream<
     EnvironmentActionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17305,42 +17365,34 @@ export const listEnvironmentActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEnvironmentBlueprintsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists blueprints in an Amazon DataZone environment.
  */
 export const listEnvironmentBlueprints: API.OperationMethod<
   ListEnvironmentBlueprintsInput,
   ListEnvironmentBlueprintsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentBlueprintsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentBlueprintsInput,
   ) => stream.Stream<
     ListEnvironmentBlueprintsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentBlueprintsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentBlueprintsInput,
   ) => stream.Stream<
     EnvironmentBlueprintSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentBlueprintsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17360,39 +17412,33 @@ export const listEnvironmentBlueprints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEnvironmentProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon DataZone environment profiles.
  */
 export const listEnvironmentProfiles: API.OperationMethod<
   ListEnvironmentProfilesInput,
   ListEnvironmentProfilesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentProfilesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentProfilesInput,
   ) => stream.Stream<
     ListEnvironmentProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentProfilesInput,
   ) => stream.Stream<
     EnvironmentProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17411,39 +17457,33 @@ export const listEnvironmentProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEnvironmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon DataZone environments.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsInput,
   ListEnvironmentsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
     ListEnvironmentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
     EnvironmentSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17462,42 +17502,34 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListJobRunsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists job runs.
  */
 export const listJobRuns: API.OperationMethod<
   ListJobRunsInput,
   ListJobRunsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListJobRunsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobRunsInput,
   ) => stream.Stream<
     ListJobRunsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobRunsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsInput,
   ) => stream.Stream<
     JobRunSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobRunsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17517,39 +17549,33 @@ export const listJobRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListLineageEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists lineage events.
  */
 export const listLineageEvents: API.OperationMethod<
   ListLineageEventsInput,
   ListLineageEventsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLineageEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLineageEventsInput,
   ) => stream.Stream<
     ListLineageEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLineageEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListLineageEventsInput,
   ) => stream.Stream<
     LineageEventSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLineageEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17568,42 +17594,34 @@ export const listLineageEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListLineageNodeHistoryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the history of the specified data lineage node.
  */
 export const listLineageNodeHistory: API.OperationMethod<
   ListLineageNodeHistoryInput,
   ListLineageNodeHistoryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLineageNodeHistoryError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLineageNodeHistoryInput,
   ) => stream.Stream<
     ListLineageNodeHistoryOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLineageNodeHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListLineageNodeHistoryInput,
   ) => stream.Stream<
     LineageNodeSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLineageNodeHistoryError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17623,39 +17641,33 @@ export const listLineageNodeHistory: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListNotificationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all Amazon DataZone notifications.
  */
 export const listNotifications: API.OperationMethod<
   ListNotificationsInput,
   ListNotificationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListNotificationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNotificationsInput,
   ) => stream.Stream<
     ListNotificationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationsInput,
   ) => stream.Stream<
     NotificationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListNotificationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17674,39 +17686,33 @@ export const listNotifications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListPolicyGrantsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists policy grants.
  */
 export const listPolicyGrants: API.OperationMethod<
   ListPolicyGrantsInput,
   ListPolicyGrantsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPolicyGrantsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPolicyGrantsInput,
   ) => stream.Stream<
     ListPolicyGrantsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGrantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyGrantsInput,
   ) => stream.Stream<
     PolicyGrantMember,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPolicyGrantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17725,42 +17731,34 @@ export const listPolicyGrants: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProjectMembershipsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all members of the specified project.
  */
 export const listProjectMemberships: API.OperationMethod<
   ListProjectMembershipsInput,
   ListProjectMembershipsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProjectMembershipsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectMembershipsInput,
   ) => stream.Stream<
     ListProjectMembershipsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProjectMembershipsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectMembershipsInput,
   ) => stream.Stream<
     ProjectMember,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProjectMembershipsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17780,39 +17778,33 @@ export const listProjectMemberships: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProjectProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists project profiles.
  */
 export const listProjectProfiles: API.OperationMethod<
   ListProjectProfilesInput,
   ListProjectProfilesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProjectProfilesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectProfilesInput,
   ) => stream.Stream<
     ListProjectProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProjectProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectProfilesInput,
   ) => stream.Stream<
     ProjectProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProjectProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17831,39 +17823,33 @@ export const listProjectProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProjectsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon DataZone projects.
  */
 export const listProjects: API.OperationMethod<
   ListProjectsInput,
   ListProjectsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProjectsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectsInput,
   ) => stream.Stream<
     ListProjectsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProjectsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsInput,
   ) => stream.Stream<
     ProjectSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProjectsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17882,42 +17868,34 @@ export const listProjects: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSubscriptionGrantsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists subscription grants.
  */
 export const listSubscriptionGrants: API.OperationMethod<
   ListSubscriptionGrantsInput,
   ListSubscriptionGrantsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSubscriptionGrantsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSubscriptionGrantsInput,
   ) => stream.Stream<
     ListSubscriptionGrantsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionGrantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListSubscriptionGrantsInput,
   ) => stream.Stream<
     SubscriptionGrantSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionGrantsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17937,42 +17915,34 @@ export const listSubscriptionGrants: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSubscriptionRequestsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists Amazon DataZone subscription requests.
  */
 export const listSubscriptionRequests: API.OperationMethod<
   ListSubscriptionRequestsInput,
   ListSubscriptionRequestsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSubscriptionRequestsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSubscriptionRequestsInput,
   ) => stream.Stream<
     ListSubscriptionRequestsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionRequestsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListSubscriptionRequestsInput,
   ) => stream.Stream<
     SubscriptionRequestSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionRequestsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -17992,42 +17962,34 @@ export const listSubscriptionRequests: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSubscriptionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists subscriptions in Amazon DataZone.
  */
 export const listSubscriptions: API.OperationMethod<
   ListSubscriptionsInput,
   ListSubscriptionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSubscriptionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSubscriptionsInput,
   ) => stream.Stream<
     ListSubscriptionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListSubscriptionsInput,
   ) => stream.Stream<
     SubscriptionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18047,42 +18009,34 @@ export const listSubscriptions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSubscriptionTargetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists subscription targets in Amazon DataZone.
  */
 export const listSubscriptionTargets: API.OperationMethod<
   ListSubscriptionTargetsInput,
   ListSubscriptionTargetsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSubscriptionTargetsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSubscriptionTargetsInput,
   ) => stream.Stream<
     ListSubscriptionTargetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionTargetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListSubscriptionTargetsInput,
   ) => stream.Stream<
     SubscriptionTargetSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSubscriptionTargetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18102,16 +18056,18 @@ export const listSubscriptionTargets: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags for the specified resource in Amazon DataZone.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -18122,42 +18078,34 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTimeSeriesDataPointsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists time series data points.
  */
 export const listTimeSeriesDataPoints: API.OperationMethod<
   ListTimeSeriesDataPointsInput,
   ListTimeSeriesDataPointsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTimeSeriesDataPointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTimeSeriesDataPointsInput,
   ) => stream.Stream<
     ListTimeSeriesDataPointsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTimeSeriesDataPointsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTimeSeriesDataPointsInput,
   ) => stream.Stream<
     TimeSeriesDataPointSummaryFormOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTimeSeriesDataPointsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18177,12 +18125,7 @@ export const listTimeSeriesDataPoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Posts a data lineage event.
- */
-export const postLineageEvent: API.OperationMethod<
-  PostLineageEventInput,
-  PostLineageEventOutput,
+export type PostLineageEventError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18190,7 +18133,14 @@ export const postLineageEvent: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Posts a data lineage event.
+ */
+export const postLineageEvent: API.OperationMethod<
+  PostLineageEventInput,
+  PostLineageEventOutput,
+  PostLineageEventError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostLineageEventInput,
@@ -18205,12 +18155,7 @@ export const postLineageEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Posts time series data points to Amazon DataZone for the specified asset.
- */
-export const postTimeSeriesDataPoints: API.OperationMethod<
-  PostTimeSeriesDataPointsInput,
-  PostTimeSeriesDataPointsOutput,
+export type PostTimeSeriesDataPointsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18218,7 +18163,14 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Posts time series data points to Amazon DataZone for the specified asset.
+ */
+export const postTimeSeriesDataPoints: API.OperationMethod<
+  PostTimeSeriesDataPointsInput,
+  PostTimeSeriesDataPointsOutput,
+  PostTimeSeriesDataPointsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostTimeSeriesDataPointsInput,
@@ -18233,6 +18185,15 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutDataExportConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates data export configuration details.
  *
@@ -18249,14 +18210,7 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
 export const putDataExportConfiguration: API.OperationMethod<
   PutDataExportConfigurationInput,
   PutDataExportConfigurationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutDataExportConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDataExportConfigurationInput,
@@ -18271,19 +18225,21 @@ export const putDataExportConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
- */
-export const rejectPredictions: API.OperationMethod<
-  RejectPredictionsInput,
-  RejectPredictionsOutput,
+export type RejectPredictionsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
+ */
+export const rejectPredictions: API.OperationMethod<
+  RejectPredictionsInput,
+  RejectPredictionsOutput,
+  RejectPredictionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectPredictionsInput,
@@ -18297,19 +18253,21 @@ export const rejectPredictions: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Rejects the specified subscription request.
- */
-export const rejectSubscriptionRequest: API.OperationMethod<
-  RejectSubscriptionRequestInput,
-  RejectSubscriptionRequestOutput,
+export type RejectSubscriptionRequestError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Rejects the specified subscription request.
+ */
+export const rejectSubscriptionRequest: API.OperationMethod<
+  RejectSubscriptionRequestInput,
+  RejectSubscriptionRequestOutput,
+  RejectSubscriptionRequestError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectSubscriptionRequestInput,
@@ -18323,18 +18281,20 @@ export const rejectSubscriptionRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemoveEntityOwnerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes an owner from an entity.
  */
 export const removeEntityOwner: API.OperationMethod<
   RemoveEntityOwnerInput,
   RemoveEntityOwnerOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemoveEntityOwnerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveEntityOwnerInput,
@@ -18347,17 +18307,19 @@ export const removeEntityOwner: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RemovePolicyGrantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a policy grant.
  */
 export const removePolicyGrant: API.OperationMethod<
   RemovePolicyGrantInput,
   RemovePolicyGrantOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  RemovePolicyGrantError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePolicyGrantInput,
@@ -18369,19 +18331,21 @@ export const removePolicyGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Revokes a specified subscription in Amazon DataZone.
- */
-export const revokeSubscription: API.OperationMethod<
-  RevokeSubscriptionInput,
-  RevokeSubscriptionOutput,
+export type RevokeSubscriptionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Revokes a specified subscription in Amazon DataZone.
+ */
+export const revokeSubscription: API.OperationMethod<
+  RevokeSubscriptionInput,
+  RevokeSubscriptionOutput,
+  RevokeSubscriptionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeSubscriptionInput,
@@ -18395,6 +18359,12 @@ export const revokeSubscription: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for assets in Amazon DataZone.
  *
@@ -18423,33 +18393,21 @@ export const revokeSubscription: API.OperationMethod<
 export const search: API.OperationMethod<
   SearchInput,
   SearchOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchInput,
   ) => stream.Stream<
     SearchOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchInput,
   ) => stream.Stream<
     SearchInventoryResultItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18468,39 +18426,33 @@ export const search: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchGroupProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches group profiles in Amazon DataZone.
  */
 export const searchGroupProfiles: API.OperationMethod<
   SearchGroupProfilesInput,
   SearchGroupProfilesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SearchGroupProfilesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchGroupProfilesInput,
   ) => stream.Stream<
     SearchGroupProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchGroupProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchGroupProfilesInput,
   ) => stream.Stream<
     GroupProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchGroupProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18519,6 +18471,12 @@ export const searchGroupProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchListingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches listings in Amazon DataZone.
  *
@@ -18537,33 +18495,21 @@ export const searchGroupProfiles: API.OperationMethod<
 export const searchListings: API.OperationMethod<
   SearchListingsInput,
   SearchListingsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchListingsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchListingsInput,
   ) => stream.Stream<
     SearchListingsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchListingsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchListingsInput,
   ) => stream.Stream<
     SearchResultItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchListingsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18582,6 +18528,12 @@ export const searchListings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for types in Amazon DataZone.
  *
@@ -18602,33 +18554,21 @@ export const searchListings: API.OperationMethod<
 export const searchTypes: API.OperationMethod<
   SearchTypesInput,
   SearchTypesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchTypesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchTypesInput,
   ) => stream.Stream<
     SearchTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchTypesInput,
   ) => stream.Stream<
     SearchTypesResultItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18647,39 +18587,33 @@ export const searchTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchUserProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches user profiles in Amazon DataZone.
  */
 export const searchUserProfiles: API.OperationMethod<
   SearchUserProfilesInput,
   SearchUserProfilesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  SearchUserProfilesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchUserProfilesInput,
   ) => stream.Stream<
     SearchUserProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchUserProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchUserProfilesInput,
   ) => stream.Stream<
     UserProfileSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    SearchUserProfilesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -18698,16 +18632,18 @@ export const searchUserProfiles: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags a resource in Amazon DataZone.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -18718,25 +18654,24 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Untags a resource in Amazon DataZone.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
-/**
- * Updates the account pool.
- */
-export const updateAccountPool: API.OperationMethod<
-  UpdateAccountPoolInput,
-  UpdateAccountPoolOutput,
+export type UpdateAccountPoolError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18744,7 +18679,14 @@ export const updateAccountPool: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the account pool.
+ */
+export const updateAccountPool: API.OperationMethod<
+  UpdateAccountPoolInput,
+  UpdateAccountPoolOutput,
+  UpdateAccountPoolError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountPoolInput,
@@ -18759,6 +18701,14 @@ export const updateAccountPool: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAssetFilterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an asset filter.
  *
@@ -18773,13 +18723,7 @@ export const updateAccountPool: API.OperationMethod<
 export const updateAssetFilter: API.OperationMethod<
   UpdateAssetFilterInput,
   UpdateAssetFilterOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAssetFilterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssetFilterInput,
@@ -18793,12 +18737,7 @@ export const updateAssetFilter: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
- */
-export const updateConnection: API.OperationMethod<
-  UpdateConnectionInput,
-  UpdateConnectionOutput,
+export type UpdateConnectionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18806,7 +18745,14 @@ export const updateConnection: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+ */
+export const updateConnection: API.OperationMethod<
+  UpdateConnectionInput,
+  UpdateConnectionOutput,
+  UpdateConnectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionInput,
@@ -18821,19 +18767,21 @@ export const updateConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified environment in Amazon DataZone.
- */
-export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
-  UpdateEnvironmentOutput,
+export type UpdateEnvironmentError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified environment in Amazon DataZone.
+ */
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentInput,
+  UpdateEnvironmentOutput,
+  UpdateEnvironmentError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentInput,
@@ -18847,19 +18795,21 @@ export const updateEnvironment: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an environment action.
- */
-export const updateEnvironmentAction: API.OperationMethod<
-  UpdateEnvironmentActionInput,
-  UpdateEnvironmentActionOutput,
+export type UpdateEnvironmentActionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an environment action.
+ */
+export const updateEnvironmentAction: API.OperationMethod<
+  UpdateEnvironmentActionInput,
+  UpdateEnvironmentActionOutput,
+  UpdateEnvironmentActionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentActionInput,
@@ -18873,12 +18823,7 @@ export const updateEnvironmentAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an environment blueprint in Amazon DataZone.
- */
-export const updateEnvironmentBlueprint: API.OperationMethod<
-  UpdateEnvironmentBlueprintInput,
-  UpdateEnvironmentBlueprintOutput,
+export type UpdateEnvironmentBlueprintError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18886,7 +18831,14 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an environment blueprint in Amazon DataZone.
+ */
+export const updateEnvironmentBlueprint: API.OperationMethod<
+  UpdateEnvironmentBlueprintInput,
+  UpdateEnvironmentBlueprintOutput,
+  UpdateEnvironmentBlueprintError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentBlueprintInput,
@@ -18901,12 +18853,7 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified environment profile in Amazon DataZone.
- */
-export const updateEnvironmentProfile: API.OperationMethod<
-  UpdateEnvironmentProfileInput,
-  UpdateEnvironmentProfileOutput,
+export type UpdateEnvironmentProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18914,7 +18861,14 @@ export const updateEnvironmentProfile: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified environment profile in Amazon DataZone.
+ */
+export const updateEnvironmentProfile: API.OperationMethod<
+  UpdateEnvironmentProfileInput,
+  UpdateEnvironmentProfileOutput,
+  UpdateEnvironmentProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentProfileInput,
@@ -18929,17 +18883,19 @@ export const updateEnvironmentProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGroupProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified group profile in Amazon DataZone.
  */
 export const updateGroupProfile: API.OperationMethod<
   UpdateGroupProfileInput,
   UpdateGroupProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateGroupProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupProfileInput,
@@ -18951,12 +18907,7 @@ export const updateGroupProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified project in Amazon DataZone.
- */
-export const updateProject: API.OperationMethod<
-  UpdateProjectInput,
-  UpdateProjectOutput,
+export type UpdateProjectError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18964,7 +18915,14 @@ export const updateProject: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified project in Amazon DataZone.
+ */
+export const updateProject: API.OperationMethod<
+  UpdateProjectInput,
+  UpdateProjectOutput,
+  UpdateProjectError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectInput,
@@ -18979,12 +18937,7 @@ export const updateProject: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a project profile.
- */
-export const updateProjectProfile: API.OperationMethod<
-  UpdateProjectProfileInput,
-  UpdateProjectProfileOutput,
+export type UpdateProjectProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -18992,7 +18945,14 @@ export const updateProjectProfile: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a project profile.
+ */
+export const updateProjectProfile: API.OperationMethod<
+  UpdateProjectProfileInput,
+  UpdateProjectProfileOutput,
+  UpdateProjectProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectProfileInput,
@@ -19007,19 +18967,21 @@ export const updateProjectProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the owner of the root domain unit.
- */
-export const updateRootDomainUnitOwner: API.OperationMethod<
-  UpdateRootDomainUnitOwnerInput,
-  UpdateRootDomainUnitOwnerOutput,
+export type UpdateRootDomainUnitOwnerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the owner of the root domain unit.
+ */
+export const updateRootDomainUnitOwner: API.OperationMethod<
+  UpdateRootDomainUnitOwnerInput,
+  UpdateRootDomainUnitOwnerOutput,
+  UpdateRootDomainUnitOwnerError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRootDomainUnitOwnerInput,
@@ -19033,19 +18995,21 @@ export const updateRootDomainUnitOwner: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the status of the specified subscription grant status in Amazon DataZone.
- */
-export const updateSubscriptionGrantStatus: API.OperationMethod<
-  UpdateSubscriptionGrantStatusInput,
-  UpdateSubscriptionGrantStatusOutput,
+export type UpdateSubscriptionGrantStatusError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the status of the specified subscription grant status in Amazon DataZone.
+ */
+export const updateSubscriptionGrantStatus: API.OperationMethod<
+  UpdateSubscriptionGrantStatusInput,
+  UpdateSubscriptionGrantStatusOutput,
+  UpdateSubscriptionGrantStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionGrantStatusInput,
@@ -19059,19 +19023,21 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a specified subscription request in Amazon DataZone.
- */
-export const updateSubscriptionRequest: API.OperationMethod<
-  UpdateSubscriptionRequestInput,
-  UpdateSubscriptionRequestOutput,
+export type UpdateSubscriptionRequestError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a specified subscription request in Amazon DataZone.
+ */
+export const updateSubscriptionRequest: API.OperationMethod<
+  UpdateSubscriptionRequestInput,
+  UpdateSubscriptionRequestOutput,
+  UpdateSubscriptionRequestError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionRequestInput,
@@ -19085,19 +19051,21 @@ export const updateSubscriptionRequest: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified subscription target in Amazon DataZone.
- */
-export const updateSubscriptionTarget: API.OperationMethod<
-  UpdateSubscriptionTargetInput,
-  UpdateSubscriptionTargetOutput,
+export type UpdateSubscriptionTargetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified subscription target in Amazon DataZone.
+ */
+export const updateSubscriptionTarget: API.OperationMethod<
+  UpdateSubscriptionTargetInput,
+  UpdateSubscriptionTargetOutput,
+  UpdateSubscriptionTargetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionTargetInput,
@@ -19111,17 +19079,19 @@ export const updateSubscriptionTarget: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateUserProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified user profile in Amazon DataZone.
  */
 export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileInput,
   UpdateUserProfileOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateUserProfileError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserProfileInput,
@@ -19133,6 +19103,15 @@ export const updateUserProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAssetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an asset in Amazon DataZone catalog.
  *
@@ -19159,14 +19138,7 @@ export const updateUserProfile: API.OperationMethod<
 export const createAsset: API.OperationMethod<
   CreateAssetInput,
   CreateAssetOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAssetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetInput,
@@ -19181,6 +19153,13 @@ export const createAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon DataZone asset.
  *
@@ -19197,12 +19176,7 @@ export const createAsset: API.OperationMethod<
 export const getAsset: API.OperationMethod<
   GetAssetInput,
   GetAssetOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAssetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetInput,
@@ -19215,6 +19189,14 @@ export const getAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an asset in Amazon DataZone.
  *
@@ -19231,13 +19213,7 @@ export const getAsset: API.OperationMethod<
 export const deleteAsset: API.OperationMethod<
   DeleteAssetInput,
   DeleteAssetOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetInput,
@@ -19251,6 +19227,14 @@ export const deleteAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAssetRevisionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a revision of the asset.
  *
@@ -19271,13 +19255,7 @@ export const deleteAsset: API.OperationMethod<
 export const createAssetRevision: API.OperationMethod<
   CreateAssetRevisionInput,
   CreateAssetRevisionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAssetRevisionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetRevisionInput,
@@ -19291,6 +19269,14 @@ export const createAssetRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAssetTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a custom asset type.
  *
@@ -19309,13 +19295,7 @@ export const createAssetRevision: API.OperationMethod<
 export const createAssetType: API.OperationMethod<
   CreateAssetTypeInput,
   CreateAssetTypeOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAssetTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetTypeInput,
@@ -19329,6 +19309,14 @@ export const createAssetType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAssetTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an asset type in Amazon DataZone.
  *
@@ -19345,13 +19333,7 @@ export const createAssetType: API.OperationMethod<
 export const deleteAssetType: API.OperationMethod<
   DeleteAssetTypeInput,
   DeleteAssetTypeOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteAssetTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetTypeInput,
@@ -19365,6 +19347,13 @@ export const deleteAssetType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssetTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon DataZone asset type.
  *
@@ -19381,12 +19370,7 @@ export const deleteAssetType: API.OperationMethod<
 export const getAssetType: API.OperationMethod<
   GetAssetTypeInput,
   GetAssetTypeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAssetTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetTypeInput,
@@ -19399,6 +19383,15 @@ export const getAssetType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDataProductError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a data product.
  *
@@ -19417,14 +19410,7 @@ export const getAssetType: API.OperationMethod<
 export const createDataProduct: API.OperationMethod<
   CreateDataProductInput,
   CreateDataProductOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDataProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataProductInput,
@@ -19439,6 +19425,13 @@ export const createDataProduct: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataProductError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the data product.
  *
@@ -19453,12 +19446,7 @@ export const createDataProduct: API.OperationMethod<
 export const getDataProduct: API.OperationMethod<
   GetDataProductInput,
   GetDataProductOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataProductInput,
@@ -19471,6 +19459,14 @@ export const getDataProduct: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataProductError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a data product in Amazon DataZone.
  *
@@ -19485,13 +19481,7 @@ export const getDataProduct: API.OperationMethod<
 export const deleteDataProduct: API.OperationMethod<
   DeleteDataProductInput,
   DeleteDataProductOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataProductError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataProductInput,
@@ -19505,6 +19495,14 @@ export const deleteDataProduct: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDataProductRevisionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a data product revision.
  *
@@ -19521,13 +19519,7 @@ export const deleteDataProduct: API.OperationMethod<
 export const createDataProductRevision: API.OperationMethod<
   CreateDataProductRevisionInput,
   CreateDataProductRevisionOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDataProductRevisionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataProductRevisionInput,
@@ -19541,12 +19533,7 @@ export const createDataProductRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon DataZone data source.
- */
-export const createDataSource: API.OperationMethod<
-  CreateDataSourceInput,
-  CreateDataSourceOutput,
+export type CreateDataSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19554,7 +19541,14 @@ export const createDataSource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon DataZone data source.
+ */
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceInput,
+  CreateDataSourceOutput,
+  CreateDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceInput,
@@ -19569,12 +19563,7 @@ export const createDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets an Amazon DataZone data source.
- */
-export const getDataSource: API.OperationMethod<
-  GetDataSourceInput,
-  GetDataSourceOutput,
+export type GetDataSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19582,7 +19571,14 @@ export const getDataSource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets an Amazon DataZone data source.
+ */
+export const getDataSource: API.OperationMethod<
+  GetDataSourceInput,
+  GetDataSourceOutput,
+  GetDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceInput,
@@ -19597,12 +19593,7 @@ export const getDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified data source in Amazon DataZone.
- */
-export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceInput,
-  UpdateDataSourceOutput,
+export type UpdateDataSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19610,7 +19601,14 @@ export const updateDataSource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified data source in Amazon DataZone.
+ */
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceInput,
+  UpdateDataSourceOutput,
+  UpdateDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceInput,
@@ -19625,12 +19623,7 @@ export const updateDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a data source in Amazon DataZone.
- */
-export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceInput,
-  DeleteDataSourceOutput,
+export type DeleteDataSourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19638,7 +19631,14 @@ export const deleteDataSource: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a data source in Amazon DataZone.
+ */
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceInput,
+  DeleteDataSourceOutput,
+  DeleteDataSourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceInput,
@@ -19653,12 +19653,7 @@ export const deleteDataSource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists data sources in Amazon DataZone.
- */
-export const listDataSources: API.OperationMethod<
-  ListDataSourcesInput,
-  ListDataSourcesOutput,
+export type ListDataSourcesError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19666,35 +19661,28 @@ export const listDataSources: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists data sources in Amazon DataZone.
+ */
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesInput,
+  ListDataSourcesOutput,
+  ListDataSourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSourcesInput,
   ) => stream.Stream<
     ListDataSourcesOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSourcesInput,
   ) => stream.Stream<
     DataSourceSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19716,12 +19704,7 @@ export const listDataSources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Start the run of the specified data source in Amazon DataZone.
- */
-export const startDataSourceRun: API.OperationMethod<
-  StartDataSourceRunInput,
-  StartDataSourceRunOutput,
+export type StartDataSourceRunError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19729,7 +19712,14 @@ export const startDataSourceRun: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start the run of the specified data source in Amazon DataZone.
+ */
+export const startDataSourceRun: API.OperationMethod<
+  StartDataSourceRunInput,
+  StartDataSourceRunOutput,
+  StartDataSourceRunError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDataSourceRunInput,
@@ -19744,12 +19734,7 @@ export const startDataSourceRun: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets an Amazon DataZone data source run.
- */
-export const getDataSourceRun: API.OperationMethod<
-  GetDataSourceRunInput,
-  GetDataSourceRunOutput,
+export type GetDataSourceRunError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19757,7 +19742,14 @@ export const getDataSourceRun: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets an Amazon DataZone data source run.
+ */
+export const getDataSourceRun: API.OperationMethod<
+  GetDataSourceRunInput,
+  GetDataSourceRunOutput,
+  GetDataSourceRunError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRunInput,
@@ -19772,12 +19764,7 @@ export const getDataSourceRun: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists data source runs in Amazon DataZone.
- */
-export const listDataSourceRuns: API.OperationMethod<
-  ListDataSourceRunsInput,
-  ListDataSourceRunsOutput,
+export type ListDataSourceRunsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19785,35 +19772,28 @@ export const listDataSourceRuns: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists data source runs in Amazon DataZone.
+ */
+export const listDataSourceRuns: API.OperationMethod<
+  ListDataSourceRunsInput,
+  ListDataSourceRunsOutput,
+  ListDataSourceRunsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSourceRunsInput,
   ) => stream.Stream<
     ListDataSourceRunsOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourceRunsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSourceRunsInput,
   ) => stream.Stream<
     DataSourceRunSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSourceRunsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -19835,12 +19815,7 @@ export const listDataSourceRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates an Amazon DataZone domain.
- */
-export const createDomain: API.OperationMethod<
-  CreateDomainInput,
-  CreateDomainOutput,
+export type CreateDomainError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19848,7 +19823,14 @@ export const createDomain: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon DataZone domain.
+ */
+export const createDomain: API.OperationMethod<
+  CreateDomainInput,
+  CreateDomainOutput,
+  CreateDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainInput,
@@ -19863,19 +19845,21 @@ export const createDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets an Amazon DataZone domain.
- */
-export const getDomain: API.OperationMethod<
-  GetDomainInput,
-  GetDomainOutput,
+export type GetDomainError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets an Amazon DataZone domain.
+ */
+export const getDomain: API.OperationMethod<
+  GetDomainInput,
+  GetDomainOutput,
+  GetDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainInput,
@@ -19889,12 +19873,7 @@ export const getDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a Amazon DataZone domain.
- */
-export const updateDomain: API.OperationMethod<
-  UpdateDomainInput,
-  UpdateDomainOutput,
+export type UpdateDomainError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19902,7 +19881,14 @@ export const updateDomain: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a Amazon DataZone domain.
+ */
+export const updateDomain: API.OperationMethod<
+  UpdateDomainInput,
+  UpdateDomainOutput,
+  UpdateDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainInput,
@@ -19917,19 +19903,21 @@ export const updateDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a Amazon DataZone domain.
- */
-export const deleteDomain: API.OperationMethod<
-  DeleteDomainInput,
-  DeleteDomainOutput,
+export type DeleteDomainError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Amazon DataZone domain.
+ */
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainInput,
+  DeleteDomainOutput,
+  DeleteDomainError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainInput,
@@ -19943,12 +19931,7 @@ export const deleteDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Lists Amazon DataZone domains.
- */
-export const listDomains: API.OperationMethod<
-  ListDomainsInput,
-  ListDomainsOutput,
+export type ListDomainsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -19956,35 +19939,28 @@ export const listDomains: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists Amazon DataZone domains.
+ */
+export const listDomains: API.OperationMethod<
+  ListDomainsInput,
+  ListDomainsOutput,
+  ListDomainsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsInput,
   ) => stream.Stream<
     ListDomainsOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsInput,
   ) => stream.Stream<
     DomainSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20006,19 +19982,21 @@ export const listDomains: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a domain unit in Amazon DataZone.
- */
-export const createDomainUnit: API.OperationMethod<
-  CreateDomainUnitInput,
-  CreateDomainUnitOutput,
+export type CreateDomainUnitError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a domain unit in Amazon DataZone.
+ */
+export const createDomainUnit: API.OperationMethod<
+  CreateDomainUnitInput,
+  CreateDomainUnitOutput,
+  CreateDomainUnitError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainUnitInput,
@@ -20032,18 +20010,20 @@ export const createDomainUnit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDomainUnitError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of the specified domain unit.
  */
 export const getDomainUnit: API.OperationMethod<
   GetDomainUnitInput,
   GetDomainUnitOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDomainUnitError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainUnitInput,
@@ -20056,19 +20036,21 @@ export const getDomainUnit: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the domain unit.
- */
-export const updateDomainUnit: API.OperationMethod<
-  UpdateDomainUnitInput,
-  UpdateDomainUnitOutput,
+export type UpdateDomainUnitError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the domain unit.
+ */
+export const updateDomainUnit: API.OperationMethod<
+  UpdateDomainUnitInput,
+  UpdateDomainUnitOutput,
+  UpdateDomainUnitError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainUnitInput,
@@ -20082,19 +20064,21 @@ export const updateDomainUnit: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a domain unit.
- */
-export const deleteDomainUnit: API.OperationMethod<
-  DeleteDomainUnitInput,
-  DeleteDomainUnitOutput,
+export type DeleteDomainUnitError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a domain unit.
+ */
+export const deleteDomainUnit: API.OperationMethod<
+  DeleteDomainUnitInput,
+  DeleteDomainUnitOutput,
+  DeleteDomainUnitError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainUnitInput,
@@ -20108,39 +20092,33 @@ export const deleteDomainUnit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDomainUnitsForParentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists child domain units for the specified parent domain unit.
  */
 export const listDomainUnitsForParent: API.OperationMethod<
   ListDomainUnitsForParentInput,
   ListDomainUnitsForParentOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDomainUnitsForParentError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainUnitsForParentInput,
   ) => stream.Stream<
     ListDomainUnitsForParentOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainUnitsForParentError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainUnitsForParentInput,
   ) => stream.Stream<
     DomainUnitSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainUnitsForParentError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20159,18 +20137,20 @@ export const listDomainUnitsForParent: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutEnvironmentBlueprintConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Writes the configuration for the specified environment blueprint in Amazon DataZone.
  */
 export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
   PutEnvironmentBlueprintConfigurationInput,
   PutEnvironmentBlueprintConfigurationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutEnvironmentBlueprintConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEnvironmentBlueprintConfigurationInput,
@@ -20183,17 +20163,19 @@ export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEnvironmentBlueprintConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the blueprint configuration in Amazon DataZone.
  */
 export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
   GetEnvironmentBlueprintConfigurationInput,
   GetEnvironmentBlueprintConfigurationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEnvironmentBlueprintConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentBlueprintConfigurationInput,
@@ -20205,55 +20187,51 @@ export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEnvironmentBlueprintConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the blueprint configuration in Amazon DataZone.
  */
 export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
   DeleteEnvironmentBlueprintConfigurationInput,
   DeleteEnvironmentBlueprintConfigurationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  DeleteEnvironmentBlueprintConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentBlueprintConfigurationInput,
   output: DeleteEnvironmentBlueprintConfigurationOutput,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
 }));
+export type ListEnvironmentBlueprintConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists blueprint configurations for a Amazon DataZone environment.
  */
 export const listEnvironmentBlueprintConfigurations: API.OperationMethod<
   ListEnvironmentBlueprintConfigurationsInput,
   ListEnvironmentBlueprintConfigurationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListEnvironmentBlueprintConfigurationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentBlueprintConfigurationsInput,
   ) => stream.Stream<
     ListEnvironmentBlueprintConfigurationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentBlueprintConfigurationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentBlueprintConfigurationsInput,
   ) => stream.Stream<
     EnvironmentBlueprintConfigurationItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListEnvironmentBlueprintConfigurationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20272,6 +20250,14 @@ export const listEnvironmentBlueprintConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateFormTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a metadata form type.
  *
@@ -20290,13 +20276,7 @@ export const listEnvironmentBlueprintConfigurations: API.OperationMethod<
 export const createFormType: API.OperationMethod<
   CreateFormTypeInput,
   CreateFormTypeOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFormTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFormTypeInput,
@@ -20310,6 +20290,14 @@ export const createFormType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteFormTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes and metadata form type in Amazon DataZone.
  *
@@ -20328,13 +20316,7 @@ export const createFormType: API.OperationMethod<
 export const deleteFormType: API.OperationMethod<
   DeleteFormTypeInput,
   DeleteFormTypeOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFormTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFormTypeInput,
@@ -20348,6 +20330,13 @@ export const deleteFormType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFormTypeError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a metadata form type in Amazon DataZone.
  *
@@ -20370,12 +20359,7 @@ export const deleteFormType: API.OperationMethod<
 export const getFormType: API.OperationMethod<
   GetFormTypeInput,
   GetFormTypeOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFormTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFormTypeInput,
@@ -20388,6 +20372,14 @@ export const getFormType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGlossaryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an Amazon DataZone business glossary.
  *
@@ -20406,13 +20398,7 @@ export const getFormType: API.OperationMethod<
 export const createGlossary: API.OperationMethod<
   CreateGlossaryInput,
   CreateGlossaryOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateGlossaryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlossaryInput,
@@ -20426,6 +20412,13 @@ export const createGlossary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGlossaryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a business glossary in Amazon DataZone.
  *
@@ -20438,12 +20431,7 @@ export const createGlossary: API.OperationMethod<
 export const getGlossary: API.OperationMethod<
   GetGlossaryInput,
   GetGlossaryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGlossaryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlossaryInput,
@@ -20456,6 +20444,14 @@ export const getGlossary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGlossaryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the business glossary in Amazon DataZone.
  *
@@ -20472,13 +20468,7 @@ export const getGlossary: API.OperationMethod<
 export const updateGlossary: API.OperationMethod<
   UpdateGlossaryInput,
   UpdateGlossaryOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateGlossaryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlossaryInput,
@@ -20492,6 +20482,14 @@ export const updateGlossary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGlossaryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a business glossary in Amazon DataZone.
  *
@@ -20510,13 +20508,7 @@ export const updateGlossary: API.OperationMethod<
 export const deleteGlossary: API.OperationMethod<
   DeleteGlossaryInput,
   DeleteGlossaryOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteGlossaryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlossaryInput,
@@ -20530,6 +20522,15 @@ export const deleteGlossary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGlossaryTermError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a business glossary term.
  *
@@ -20548,14 +20549,7 @@ export const deleteGlossary: API.OperationMethod<
 export const createGlossaryTerm: API.OperationMethod<
   CreateGlossaryTermInput,
   CreateGlossaryTermOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateGlossaryTermError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlossaryTermInput,
@@ -20570,6 +20564,13 @@ export const createGlossaryTerm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGlossaryTermError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a business glossary term in Amazon DataZone.
  *
@@ -20584,12 +20585,7 @@ export const createGlossaryTerm: API.OperationMethod<
 export const getGlossaryTerm: API.OperationMethod<
   GetGlossaryTermInput,
   GetGlossaryTermOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGlossaryTermError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlossaryTermInput,
@@ -20602,6 +20598,14 @@ export const getGlossaryTerm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGlossaryTermError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a business glossary term in Amazon DataZone.
  *
@@ -20618,13 +20622,7 @@ export const getGlossaryTerm: API.OperationMethod<
 export const updateGlossaryTerm: API.OperationMethod<
   UpdateGlossaryTermInput,
   UpdateGlossaryTermOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateGlossaryTermError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlossaryTermInput,
@@ -20638,6 +20636,14 @@ export const updateGlossaryTerm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGlossaryTermError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a business glossary term in Amazon DataZone.
  *
@@ -20654,13 +20660,7 @@ export const updateGlossaryTerm: API.OperationMethod<
 export const deleteGlossaryTerm: API.OperationMethod<
   DeleteGlossaryTermInput,
   DeleteGlossaryTermOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteGlossaryTermError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlossaryTermInput,
@@ -20674,18 +20674,20 @@ export const deleteGlossaryTerm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetListingError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
  */
 export const getListing: API.OperationMethod<
   GetListingInput,
   GetListingOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetListingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetListingInput,
@@ -20698,19 +20700,21 @@ export const getListing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a listing (a record of an asset at a given time).
- */
-export const deleteListing: API.OperationMethod<
-  DeleteListingInput,
-  DeleteListingOutput,
+export type DeleteListingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a listing (a record of an asset at a given time).
+ */
+export const deleteListing: API.OperationMethod<
+  DeleteListingInput,
+  DeleteListingOutput,
+  DeleteListingError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteListingInput,
@@ -20724,6 +20728,15 @@ export const deleteListing: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartMetadataGenerationRunError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the metadata generation run.
  *
@@ -20742,14 +20755,7 @@ export const deleteListing: API.OperationMethod<
 export const startMetadataGenerationRun: API.OperationMethod<
   StartMetadataGenerationRunInput,
   StartMetadataGenerationRunOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartMetadataGenerationRunError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetadataGenerationRunInput,
@@ -20764,6 +20770,13 @@ export const startMetadataGenerationRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMetadataGenerationRunError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a metadata generation run in Amazon DataZone.
  *
@@ -20778,12 +20791,7 @@ export const startMetadataGenerationRun: API.OperationMethod<
 export const getMetadataGenerationRun: API.OperationMethod<
   GetMetadataGenerationRunInput,
   GetMetadataGenerationRunOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMetadataGenerationRunError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetadataGenerationRunInput,
@@ -20796,6 +20804,14 @@ export const getMetadataGenerationRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelMetadataGenerationRunError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the metadata generation run.
  *
@@ -20810,13 +20826,7 @@ export const getMetadataGenerationRun: API.OperationMethod<
 export const cancelMetadataGenerationRun: API.OperationMethod<
   CancelMetadataGenerationRunInput,
   CancelMetadataGenerationRunOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelMetadataGenerationRunError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMetadataGenerationRunInput,
@@ -20830,6 +20840,13 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMetadataGenerationRunsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all metadata generation runs.
  *
@@ -20844,36 +20861,21 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
 export const listMetadataGenerationRuns: API.OperationMethod<
   ListMetadataGenerationRunsInput,
   ListMetadataGenerationRunsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMetadataGenerationRunsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMetadataGenerationRunsInput,
   ) => stream.Stream<
     ListMetadataGenerationRunsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMetadataGenerationRunsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListMetadataGenerationRunsInput,
   ) => stream.Stream<
     MetadataGenerationRunItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMetadataGenerationRunsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20893,12 +20895,7 @@ export const listMetadataGenerationRuns: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
- */
-export const createRule: API.OperationMethod<
-  CreateRuleInput,
-  CreateRuleOutput,
+export type CreateRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -20906,7 +20903,14 @@ export const createRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const createRule: API.OperationMethod<
+  CreateRuleInput,
+  CreateRuleOutput,
+  CreateRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleInput,
@@ -20921,18 +20925,20 @@ export const createRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const getRule: API.OperationMethod<
   GetRuleInput,
   GetRuleOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleInput,
@@ -20945,12 +20951,7 @@ export const getRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
- */
-export const updateRule: API.OperationMethod<
-  UpdateRuleInput,
-  UpdateRuleOutput,
+export type UpdateRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -20958,7 +20959,14 @@ export const updateRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const updateRule: API.OperationMethod<
+  UpdateRuleInput,
+  UpdateRuleOutput,
+  UpdateRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleInput,
@@ -20973,19 +20981,21 @@ export const updateRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
- */
-export const deleteRule: API.OperationMethod<
-  DeleteRuleInput,
-  DeleteRuleOutput,
+export type DeleteRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+ */
+export const deleteRule: API.OperationMethod<
+  DeleteRuleInput,
+  DeleteRuleOutput,
+  DeleteRuleError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleInput,
@@ -20999,42 +21009,34 @@ export const deleteRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const listRules: API.OperationMethod<
   ListRulesInput,
   ListRulesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRulesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRulesInput,
   ) => stream.Stream<
     ListRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesInput,
   ) => stream.Stream<
     RuleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRulesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

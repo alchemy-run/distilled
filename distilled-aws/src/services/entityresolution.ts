@@ -2420,19 +2420,21 @@ export class ExceedsLimitException extends S.TaggedErrorClass<ExceedsLimitExcept
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
- */
-export const addPolicyStatement: API.OperationMethod<
-  AddPolicyStatementInput,
-  AddPolicyStatementOutput,
+export type AddPolicyStatementError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
+ */
+export const addPolicyStatement: API.OperationMethod<
+  AddPolicyStatementInput,
+  AddPolicyStatementOutput,
+  AddPolicyStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPolicyStatementInput,
@@ -2446,16 +2448,18 @@ export const addPolicyStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDeleteUniqueIdError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes multiple unique IDs in a matching workflow.
  */
 export const batchDeleteUniqueId: API.OperationMethod<
   BatchDeleteUniqueIdInput,
   BatchDeleteUniqueIdOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteUniqueIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteUniqueIdInput,
@@ -2466,6 +2470,14 @@ export const batchDeleteUniqueId: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateIdMappingWorkflowError =
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an `IdMappingWorkflow` object which stores the configuration of the data processing job to be run. Each `IdMappingWorkflow` must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
  *
@@ -2474,13 +2486,7 @@ export const batchDeleteUniqueId: API.OperationMethod<
 export const createIdMappingWorkflow: API.OperationMethod<
   CreateIdMappingWorkflowInput,
   CreateIdMappingWorkflowOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateIdMappingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdMappingWorkflowInput,
@@ -2494,19 +2500,21 @@ export const createIdMappingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
- */
-export const createIdNamespace: API.OperationMethod<
-  CreateIdNamespaceInput,
-  CreateIdNamespaceOutput,
+export type CreateIdNamespaceError =
   | AccessDeniedException
   | ConflictException
   | ExceedsLimitException
   | InternalServerException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
+ */
+export const createIdNamespace: API.OperationMethod<
+  CreateIdNamespaceInput,
+  CreateIdNamespaceOutput,
+  CreateIdNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdNamespaceInput,
@@ -2520,6 +2528,14 @@ export const createIdNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateMatchingWorkflowError =
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
  *
@@ -2528,13 +2544,7 @@ export const createIdNamespace: API.OperationMethod<
 export const createMatchingWorkflow: API.OperationMethod<
   CreateMatchingWorkflowInput,
   CreateMatchingWorkflowOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateMatchingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMatchingWorkflowInput,
@@ -2548,19 +2558,21 @@ export const createMatchingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
- */
-export const createSchemaMapping: API.OperationMethod<
-  CreateSchemaMappingInput,
-  CreateSchemaMappingOutput,
+export type CreateSchemaMappingError =
   | AccessDeniedException
   | ConflictException
   | ExceedsLimitException
   | InternalServerException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
+ */
+export const createSchemaMapping: API.OperationMethod<
+  CreateSchemaMappingInput,
+  CreateSchemaMappingOutput,
+  CreateSchemaMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaMappingInput,
@@ -2574,18 +2586,20 @@ export const createSchemaMapping: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIdMappingWorkflowError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the `IdMappingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
  */
 export const deleteIdMappingWorkflow: API.OperationMethod<
   DeleteIdMappingWorkflowInput,
   DeleteIdMappingWorkflowOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIdMappingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdMappingWorkflowInput,
@@ -2598,17 +2612,19 @@ export const deleteIdMappingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteIdNamespaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the `IdNamespace` with a given name.
  */
 export const deleteIdNamespace: API.OperationMethod<
   DeleteIdNamespaceInput,
   DeleteIdNamespaceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteIdNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdNamespaceInput,
@@ -2620,18 +2636,20 @@ export const deleteIdNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMatchingWorkflowError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the `MatchingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
  */
 export const deleteMatchingWorkflow: API.OperationMethod<
   DeleteMatchingWorkflowInput,
   DeleteMatchingWorkflowOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMatchingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMatchingWorkflowInput,
@@ -2644,19 +2662,21 @@ export const deleteMatchingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the policy statement.
- */
-export const deletePolicyStatement: API.OperationMethod<
-  DeletePolicyStatementInput,
-  DeletePolicyStatementOutput,
+export type DeletePolicyStatementError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the policy statement.
+ */
+export const deletePolicyStatement: API.OperationMethod<
+  DeletePolicyStatementInput,
+  DeletePolicyStatementOutput,
+  DeletePolicyStatementError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyStatementInput,
@@ -2670,18 +2690,20 @@ export const deletePolicyStatement: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSchemaMappingError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the `SchemaMapping` with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a `MatchingWorkflow` object that references the `SchemaMapping` in the workflow's `InputSourceConfig`.
  */
 export const deleteSchemaMapping: API.OperationMethod<
   DeleteSchemaMappingInput,
   DeleteSchemaMappingOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteSchemaMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaMappingInput,
@@ -2694,6 +2716,13 @@ export const deleteSchemaMapping: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GenerateMatchIdError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.
  *
@@ -2702,12 +2731,7 @@ export const deleteSchemaMapping: API.OperationMethod<
 export const generateMatchId: API.OperationMethod<
   GenerateMatchIdInput,
   GenerateMatchIdOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GenerateMatchIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMatchIdInput,
@@ -2720,18 +2744,20 @@ export const generateMatchId: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIdMappingJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
 export const getIdMappingJob: API.OperationMethod<
   GetIdMappingJobInput,
   GetIdMappingJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIdMappingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdMappingJobInput,
@@ -2744,18 +2770,20 @@ export const getIdMappingJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIdMappingWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the `IdMappingWorkflow` with a given name, if it exists.
  */
 export const getIdMappingWorkflow: API.OperationMethod<
   GetIdMappingWorkflowInput,
   GetIdMappingWorkflowOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIdMappingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdMappingWorkflowInput,
@@ -2768,18 +2796,20 @@ export const getIdMappingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIdNamespaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the `IdNamespace` with a given name, if it exists.
  */
 export const getIdNamespace: API.OperationMethod<
   GetIdNamespaceInput,
   GetIdNamespaceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIdNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdNamespaceInput,
@@ -2792,6 +2822,13 @@ export const getIdNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMatchIdError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow.
  *
@@ -2800,12 +2837,7 @@ export const getIdNamespace: API.OperationMethod<
 export const getMatchId: API.OperationMethod<
   GetMatchIdInput,
   GetMatchIdOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMatchIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchIdInput,
@@ -2818,18 +2850,20 @@ export const getMatchId: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMatchingJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
 export const getMatchingJob: API.OperationMethod<
   GetMatchingJobInput,
   GetMatchingJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMatchingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchingJobInput,
@@ -2842,18 +2876,20 @@ export const getMatchingJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMatchingWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the `MatchingWorkflow` with a given name, if it exists.
  */
 export const getMatchingWorkflow: API.OperationMethod<
   GetMatchingWorkflowInput,
   GetMatchingWorkflowOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMatchingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchingWorkflowInput,
@@ -2866,18 +2902,20 @@ export const getMatchingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the resource-based policy.
  */
 export const getPolicy: API.OperationMethod<
   GetPolicyInput,
   GetPolicyOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyInput,
@@ -2890,18 +2928,20 @@ export const getPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetProviderServiceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the `ProviderService` of a given name.
  */
 export const getProviderService: API.OperationMethod<
   GetProviderServiceInput,
   GetProviderServiceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetProviderServiceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProviderServiceInput,
@@ -2914,18 +2954,20 @@ export const getProviderService: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSchemaMappingError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the SchemaMapping of a given name.
  */
 export const getSchemaMapping: API.OperationMethod<
   GetSchemaMappingInput,
   GetSchemaMappingOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetSchemaMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaMappingInput,
@@ -2938,42 +2980,34 @@ export const getSchemaMapping: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListIdMappingJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all ID mapping jobs for a given workflow.
  */
 export const listIdMappingJobs: API.OperationMethod<
   ListIdMappingJobsInput,
   ListIdMappingJobsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIdMappingJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdMappingJobsInput,
   ) => stream.Stream<
     ListIdMappingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdMappingJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdMappingJobsInput,
   ) => stream.Stream<
     JobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdMappingJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2993,39 +3027,33 @@ export const listIdMappingJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIdMappingWorkflowsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listIdMappingWorkflows: API.OperationMethod<
   ListIdMappingWorkflowsInput,
   ListIdMappingWorkflowsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIdMappingWorkflowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdMappingWorkflowsInput,
   ) => stream.Stream<
     ListIdMappingWorkflowsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdMappingWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdMappingWorkflowsInput,
   ) => stream.Stream<
     IdMappingWorkflowSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdMappingWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3044,39 +3072,33 @@ export const listIdMappingWorkflows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListIdNamespacesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all ID namespaces.
  */
 export const listIdNamespaces: API.OperationMethod<
   ListIdNamespacesInput,
   ListIdNamespacesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListIdNamespacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListIdNamespacesInput,
   ) => stream.Stream<
     ListIdNamespacesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdNamespacesInput,
   ) => stream.Stream<
     IdNamespaceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListIdNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3095,42 +3117,34 @@ export const listIdNamespaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMatchingJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all jobs for a given workflow.
  */
 export const listMatchingJobs: API.OperationMethod<
   ListMatchingJobsInput,
   ListMatchingJobsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMatchingJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMatchingJobsInput,
   ) => stream.Stream<
     ListMatchingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMatchingJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMatchingJobsInput,
   ) => stream.Stream<
     JobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMatchingJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3150,39 +3164,33 @@ export const listMatchingJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListMatchingWorkflowsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listMatchingWorkflows: API.OperationMethod<
   ListMatchingWorkflowsInput,
   ListMatchingWorkflowsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMatchingWorkflowsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMatchingWorkflowsInput,
   ) => stream.Stream<
     ListMatchingWorkflowsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMatchingWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMatchingWorkflowsInput,
   ) => stream.Stream<
     MatchingWorkflowSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMatchingWorkflowsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3201,39 +3209,33 @@ export const listMatchingWorkflows: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListProviderServicesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
  */
 export const listProviderServices: API.OperationMethod<
   ListProviderServicesInput,
   ListProviderServicesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListProviderServicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProviderServicesInput,
   ) => stream.Stream<
     ListProviderServicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProviderServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProviderServicesInput,
   ) => stream.Stream<
     ProviderServiceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListProviderServicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3252,39 +3254,33 @@ export const listProviderServices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSchemaMappingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
  */
 export const listSchemaMappings: API.OperationMethod<
   ListSchemaMappingsInput,
   ListSchemaMappingsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSchemaMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSchemaMappingsInput,
   ) => stream.Stream<
     ListSchemaMappingsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSchemaMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemaMappingsInput,
   ) => stream.Stream<
     SchemaMappingSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSchemaMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3303,16 +3299,18 @@ export const listSchemaMappings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -3323,19 +3321,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the resource-based policy.
- */
-export const putPolicy: API.OperationMethod<
-  PutPolicyInput,
-  PutPolicyOutput,
+export type PutPolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the resource-based policy.
+ */
+export const putPolicy: API.OperationMethod<
+  PutPolicyInput,
+  PutPolicyOutput,
+  PutPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPolicyInput,
@@ -3349,12 +3349,7 @@ export const putPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
- */
-export const startIdMappingJob: API.OperationMethod<
-  StartIdMappingJobInput,
-  StartIdMappingJobOutput,
+export type StartIdMappingJobError =
   | AccessDeniedException
   | ConflictException
   | ExceedsLimitException
@@ -3362,7 +3357,14 @@ export const startIdMappingJob: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
+ */
+export const startIdMappingJob: API.OperationMethod<
+  StartIdMappingJobInput,
+  StartIdMappingJobOutput,
+  StartIdMappingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIdMappingJobInput,
@@ -3377,12 +3379,7 @@ export const startIdMappingJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
- */
-export const startMatchingJob: API.OperationMethod<
-  StartMatchingJobInput,
-  StartMatchingJobOutput,
+export type StartMatchingJobError =
   | AccessDeniedException
   | ConflictException
   | ExceedsLimitException
@@ -3390,7 +3387,14 @@ export const startMatchingJob: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
+ */
+export const startMatchingJob: API.OperationMethod<
+  StartMatchingJobInput,
+  StartMatchingJobOutput,
+  StartMatchingJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMatchingJobInput,
@@ -3405,16 +3409,18 @@ export const startMatchingJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -3425,19 +3431,30 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
 }));
+export type UpdateIdMappingWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing `IdMappingWorkflow`. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP `PUT` request instead of a `POST` request, and the `IdMappingWorkflow` must already exist for the method to succeed.
  *
@@ -3446,12 +3463,7 @@ export const untagResource: API.OperationMethod<
 export const updateIdMappingWorkflow: API.OperationMethod<
   UpdateIdMappingWorkflowInput,
   UpdateIdMappingWorkflowOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateIdMappingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIdMappingWorkflowInput,
@@ -3464,18 +3476,20 @@ export const updateIdMappingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateIdNamespaceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing ID namespace.
  */
 export const updateIdNamespace: API.OperationMethod<
   UpdateIdNamespaceInput,
   UpdateIdNamespaceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateIdNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIdNamespaceInput,
@@ -3488,6 +3502,13 @@ export const updateIdNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateMatchingWorkflowError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing matching workflow. The workflow must already exist for this operation to succeed.
  *
@@ -3496,12 +3517,7 @@ export const updateIdNamespace: API.OperationMethod<
 export const updateMatchingWorkflow: API.OperationMethod<
   UpdateMatchingWorkflowInput,
   UpdateMatchingWorkflowOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateMatchingWorkflowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMatchingWorkflowInput,
@@ -3514,6 +3530,14 @@ export const updateMatchingWorkflow: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSchemaMappingError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a schema mapping.
  *
@@ -3522,13 +3546,7 @@ export const updateMatchingWorkflow: API.OperationMethod<
 export const updateSchemaMapping: API.OperationMethod<
   UpdateSchemaMappingInput,
   UpdateSchemaMappingOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateSchemaMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchemaMappingInput,

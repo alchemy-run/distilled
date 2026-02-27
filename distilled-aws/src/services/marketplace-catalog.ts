@@ -2314,17 +2314,19 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type BatchDescribeEntitiesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns metadata and content for multiple entities. This is the Batch version of the `DescribeEntity` API and uses the same IAM permission action as `DescribeEntity` API.
  */
 export const batchDescribeEntities: API.OperationMethod<
   BatchDescribeEntitiesRequest,
   BatchDescribeEntitiesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDescribeEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDescribeEntitiesRequest,
@@ -2336,6 +2338,14 @@ export const batchDescribeEntities: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelChangeSetError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Used to cancel an open change request. Must be sent before the status of the request
  * changes to `APPLYING`, the final stage of completing your change request. You
@@ -2345,13 +2355,7 @@ export const batchDescribeEntities: API.OperationMethod<
 export const cancelChangeSet: API.OperationMethod<
   CancelChangeSetRequest,
   CancelChangeSetResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelChangeSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelChangeSetRequest,
@@ -2365,6 +2369,13 @@ export const cancelChangeSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a resource-based policy on an entity that is identified by its resource
  * ARN.
@@ -2372,12 +2383,7 @@ export const cancelChangeSet: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -2390,18 +2396,20 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeChangeSetError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides information about a given change set.
  */
 export const describeChangeSet: API.OperationMethod<
   DescribeChangeSetRequest,
   DescribeChangeSetResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeChangeSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChangeSetRequest,
@@ -2414,19 +2422,21 @@ export const describeChangeSet: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Returns the metadata and content of the entity.
- */
-export const describeEntity: API.OperationMethod<
-  DescribeEntityRequest,
-  DescribeEntityResponse,
+export type DescribeEntityError =
   | AccessDeniedException
   | InternalServiceException
   | ResourceNotFoundException
   | ResourceNotSupportedException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the metadata and content of the entity.
+ */
+export const describeEntity: API.OperationMethod<
+  DescribeEntityRequest,
+  DescribeEntityResponse,
+  DescribeEntityError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntityRequest,
@@ -2440,6 +2450,13 @@ export const describeEntity: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a resource-based policy of an entity that is identified by its resource
  * ARN.
@@ -2447,12 +2464,7 @@ export const describeEntity: API.OperationMethod<
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -2465,6 +2477,12 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListChangeSetsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the list of change sets owned by the account being used to make the call. You
  * can filter this list by providing any combination of `entityId`,
@@ -2477,33 +2495,21 @@ export const getResourcePolicy: API.OperationMethod<
 export const listChangeSets: API.OperationMethod<
   ListChangeSetsRequest,
   ListChangeSetsResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListChangeSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChangeSetsRequest,
   ) => stream.Stream<
     ListChangeSetsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChangeSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChangeSetsRequest,
   ) => stream.Stream<
     ChangeSetSummaryListItem,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListChangeSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2522,42 +2528,34 @@ export const listChangeSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEntitiesError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides the list of entities of a given type.
  */
 export const listEntities: API.OperationMethod<
   ListEntitiesRequest,
   ListEntitiesResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEntitiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
     ListEntitiesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEntitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
     EntitySummary,
-    | AccessDeniedException
-    | InternalServiceException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEntitiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2577,18 +2575,20 @@ export const listEntities: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags that have been added to a resource (either an entity or change set).
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2601,6 +2601,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResourcePolicyError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches a resource-based policy to an entity. Examples of an entity include:
  * `AmiProduct` and `ContainerProduct`.
@@ -2608,12 +2615,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -2626,6 +2628,15 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartChangeSetError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you to request changes for your entities. Within a single
  * `ChangeSet`, you can't start the same change type against the same entity
@@ -2649,14 +2660,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const startChangeSet: API.OperationMethod<
   StartChangeSetRequest,
   StartChangeSetResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartChangeSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChangeSetRequest,
@@ -2671,18 +2675,20 @@ export const startChangeSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Tags a resource (either an entity or change set).
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2695,18 +2701,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag or list of tags from a resource (either an entity or change set).
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

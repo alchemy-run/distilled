@@ -4775,6 +4775,17 @@ export class InvalidManifestException extends S.TaggedErrorClass<InvalidManifest
 ) {}
 
 //# Operations
+export type AssociateFacesError =
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates one or more faces with an existing UserID. Takes an array of
  * `FaceIds`. Each `FaceId` that are present in the `FaceIds`
@@ -4813,16 +4824,7 @@ export class InvalidManifestException extends S.TaggedErrorClass<InvalidManifest
 export const associateFaces: API.OperationMethod<
   AssociateFacesRequest,
   AssociateFacesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFacesRequest,
@@ -4839,6 +4841,16 @@ export const associateFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CompareFacesError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Compares a face in the *source* input image with each of the 100
  * largest faces detected in the *target* input image.
@@ -4900,15 +4912,7 @@ export const associateFaces: API.OperationMethod<
 export const compareFaces: API.OperationMethod<
   CompareFacesRequest,
   CompareFacesResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CompareFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompareFacesRequest,
@@ -4924,6 +4928,17 @@ export const compareFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CopyProjectVersionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -4955,16 +4970,7 @@ export const compareFaces: API.OperationMethod<
 export const copyProjectVersion: API.OperationMethod<
   CopyProjectVersionRequest,
   CopyProjectVersionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CopyProjectVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyProjectVersionRequest,
@@ -4981,6 +4987,15 @@ export const copyProjectVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateCollectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceAlreadyExistsException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a collection in an AWS Region. You can add faces to the collection using the
  * IndexFaces operation.
@@ -5003,14 +5018,7 @@ export const copyProjectVersion: API.OperationMethod<
 export const createCollection: API.OperationMethod<
   CreateCollectionRequest,
   CreateCollectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceAlreadyExistsException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCollectionRequest,
@@ -5025,6 +5033,17 @@ export const createCollection: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateDatasetError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5054,16 +5073,7 @@ export const createCollection: API.OperationMethod<
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
@@ -5080,6 +5090,13 @@ export const createDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateFaceLivenessSessionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This API operation initiates a Face Liveness session. It returns a `SessionId`,
  * which you can use to start streaming Face Liveness video and get the results for a Face
@@ -5097,12 +5114,7 @@ export const createDataset: API.OperationMethod<
 export const createFaceLivenessSession: API.OperationMethod<
   CreateFaceLivenessSessionRequest,
   CreateFaceLivenessSessionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateFaceLivenessSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFaceLivenessSessionRequest,
@@ -5115,6 +5127,15 @@ export const createFaceLivenessSession: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateProjectError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model
  * versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can
@@ -5126,14 +5147,7 @@ export const createFaceLivenessSession: API.OperationMethod<
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ThrottlingException
-  | CommonErrors,
+  CreateProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
@@ -5148,6 +5162,17 @@ export const createProject: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateProjectVersionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter)
  * and begins training. Models and adapters are managed as part of a Rekognition project. The
@@ -5182,16 +5207,7 @@ export const createProject: API.OperationMethod<
 export const createProjectVersion: API.OperationMethod<
   CreateProjectVersionRequest,
   CreateProjectVersionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateProjectVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectVersionRequest,
@@ -5208,6 +5224,16 @@ export const createProjectVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateStreamProcessorError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video.
  *
@@ -5242,15 +5268,7 @@ export const createProjectVersion: API.OperationMethod<
 export const createStreamProcessor: API.OperationMethod<
   CreateStreamProcessorRequest,
   CreateStreamProcessorResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateStreamProcessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamProcessorRequest,
@@ -5266,6 +5284,17 @@ export const createStreamProcessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateUserError =
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a new User within a collection specified by `CollectionId`. Takes
  * `UserId` as a parameter, which is a user provided ID which should be unique
@@ -5280,16 +5309,7 @@ export const createStreamProcessor: API.OperationMethod<
 export const createUser: API.OperationMethod<
   CreateUserRequest,
   CreateUserResponse,
-  | AccessDeniedException
-  | ConflictException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  CreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -5306,6 +5326,14 @@ export const createUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteCollectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the specified collection. Note that this operation removes all faces in the
  * collection. For an example, see Deleting a
@@ -5317,13 +5345,7 @@ export const createUser: API.OperationMethod<
 export const deleteCollection: API.OperationMethod<
   DeleteCollectionRequest,
   DeleteCollectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCollectionRequest,
@@ -5337,6 +5359,16 @@ export const deleteCollection: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteDatasetError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5354,15 +5386,7 @@ export const deleteCollection: API.OperationMethod<
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
@@ -5378,6 +5402,14 @@ export const deleteDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteFacesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes faces from a collection. You specify a collection ID and an array of face IDs
  * to remove from the collection.
@@ -5388,13 +5420,7 @@ export const deleteDataset: API.OperationMethod<
 export const deleteFaces: API.OperationMethod<
   DeleteFacesRequest,
   DeleteFacesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFacesRequest,
@@ -5408,6 +5434,15 @@ export const deleteFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteProjectError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a Amazon Rekognition project. To delete a project you must first delete all models or
  * adapters associated with the project. To delete a model or adapter, see DeleteProjectVersion.
@@ -5423,14 +5458,7 @@ export const deleteFaces: API.OperationMethod<
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteProjectError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
@@ -5445,6 +5473,15 @@ export const deleteProject: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteProjectPolicyError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidPolicyRevisionIdException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5457,14 +5494,7 @@ export const deleteProject: API.OperationMethod<
 export const deleteProjectPolicy: API.OperationMethod<
   DeleteProjectPolicyRequest,
   DeleteProjectPolicyResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidPolicyRevisionIdException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteProjectPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectPolicyRequest,
@@ -5479,6 +5509,15 @@ export const deleteProjectPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteProjectVersionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a Rekognition project model or project version, like a Amazon Rekognition Custom Labels model or a custom
  * adapter.
@@ -5493,14 +5532,7 @@ export const deleteProjectPolicy: API.OperationMethod<
 export const deleteProjectVersion: API.OperationMethod<
   DeleteProjectVersionRequest,
   DeleteProjectVersionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteProjectVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectVersionRequest,
@@ -5515,13 +5547,7 @@ export const deleteProjectVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Deletes the stream processor identified by `Name`. You assign the value for `Name` when you create the stream processor with
- * CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling `DeleteStreamProcessor`.
- */
-export const deleteStreamProcessor: API.OperationMethod<
-  DeleteStreamProcessorRequest,
-  DeleteStreamProcessorResponse,
+export type DeleteStreamProcessorError =
   | AccessDeniedException
   | InternalServerError
   | InvalidParameterException
@@ -5529,7 +5555,15 @@ export const deleteStreamProcessor: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the stream processor identified by `Name`. You assign the value for `Name` when you create the stream processor with
+ * CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling `DeleteStreamProcessor`.
+ */
+export const deleteStreamProcessor: API.OperationMethod<
+  DeleteStreamProcessorRequest,
+  DeleteStreamProcessorResponse,
+  DeleteStreamProcessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamProcessorRequest,
@@ -5544,6 +5578,16 @@ export const deleteStreamProcessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteUserError =
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the specified UserID within the collection. Faces that are associated with the
  * UserID are disassociated from the UserID before deleting the specified UserID. If the
@@ -5554,15 +5598,7 @@ export const deleteStreamProcessor: API.OperationMethod<
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | AccessDeniedException
-  | ConflictException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
@@ -5578,6 +5614,14 @@ export const deleteUser: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeCollectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Describes the specified collection. You can use `DescribeCollection` to get
  * information, such as the number of faces indexed into a collection and the version of the
@@ -5589,13 +5633,7 @@ export const deleteUser: API.OperationMethod<
 export const describeCollection: API.OperationMethod<
   DescribeCollectionRequest,
   DescribeCollectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeCollectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCollectionRequest,
@@ -5609,6 +5647,14 @@ export const describeCollection: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDatasetError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5620,13 +5666,7 @@ export const describeCollection: API.OperationMethod<
 export const describeDataset: API.OperationMethod<
   DescribeDatasetRequest,
   DescribeDatasetResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
@@ -5640,6 +5680,14 @@ export const describeDataset: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeProjectsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about your Rekognition projects.
  *
@@ -5648,39 +5696,21 @@ export const describeDataset: API.OperationMethod<
 export const describeProjects: API.OperationMethod<
   DescribeProjectsRequest,
   DescribeProjectsResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeProjectsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeProjectsRequest,
   ) => stream.Stream<
     DescribeProjectsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeProjectsRequest,
   ) => stream.Stream<
     ProjectDescription,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeProjectsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5701,6 +5731,15 @@ export const describeProjects: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeProjectVersionsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or
  * adapter versions in `ProjectVersionArns`. If you don't specify a value,
@@ -5712,42 +5751,21 @@ export const describeProjects: API.OperationMethod<
 export const describeProjectVersions: API.OperationMethod<
   DescribeProjectVersionsRequest,
   DescribeProjectVersionsResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeProjectVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeProjectVersionsRequest,
   ) => stream.Stream<
     DescribeProjectVersionsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeProjectVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeProjectVersionsRequest,
   ) => stream.Stream<
     ProjectVersionDescription,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    DescribeProjectVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5769,6 +5787,14 @@ export const describeProjectVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeStreamProcessorError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed,
  * and the current status of the stream processor.
@@ -5776,13 +5802,7 @@ export const describeProjectVersions: API.OperationMethod<
 export const describeStreamProcessor: API.OperationMethod<
   DescribeStreamProcessorRequest,
   DescribeStreamProcessorResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeStreamProcessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamProcessorRequest,
@@ -5796,6 +5816,19 @@ export const describeStreamProcessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetectCustomLabelsError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5843,18 +5876,7 @@ export const describeStreamProcessor: API.OperationMethod<
 export const detectCustomLabels: API.OperationMethod<
   DetectCustomLabelsRequest,
   DetectCustomLabelsResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  DetectCustomLabelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectCustomLabelsRequest,
@@ -5873,6 +5895,16 @@ export const detectCustomLabels: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetectFacesError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Detects faces within an image that is provided as input.
  *
@@ -5899,15 +5931,7 @@ export const detectCustomLabels: API.OperationMethod<
 export const detectFaces: API.OperationMethod<
   DetectFacesRequest,
   DetectFacesResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  DetectFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectFacesRequest,
@@ -5923,6 +5947,16 @@ export const detectFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetectLabelsError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Detects instances of real-world entities within an image (JPEG or PNG) provided as
  * input. This includes objects like flower, tree, and table; events like wedding, graduation,
@@ -6032,15 +6066,7 @@ export const detectFaces: API.OperationMethod<
 export const detectLabels: API.OperationMethod<
   DetectLabelsRequest,
   DetectLabelsResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  DetectLabelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectLabelsRequest,
@@ -6056,6 +6082,19 @@ export const detectLabels: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetectModerationLabelsError =
+  | AccessDeniedException
+  | HumanLoopQuotaExceededException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Detects unsafe content in a specified JPEG or PNG format image. Use
  * `DetectModerationLabels` to moderate images depending on your requirements. For
@@ -6080,18 +6119,7 @@ export const detectLabels: API.OperationMethod<
 export const detectModerationLabels: API.OperationMethod<
   DetectModerationLabelsRequest,
   DetectModerationLabelsResponse,
-  | AccessDeniedException
-  | HumanLoopQuotaExceededException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  DetectModerationLabelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectModerationLabelsRequest,
@@ -6110,6 +6138,16 @@ export const detectModerationLabels: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetectProtectiveEquipmentError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Detects Personal Protective Equipment (PPE) worn by people detected in an image. Amazon Rekognition can detect the
  * following types of PPE.
@@ -6147,15 +6185,7 @@ export const detectModerationLabels: API.OperationMethod<
 export const detectProtectiveEquipment: API.OperationMethod<
   DetectProtectiveEquipmentRequest,
   DetectProtectiveEquipmentResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  DetectProtectiveEquipmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectProtectiveEquipmentRequest,
@@ -6171,6 +6201,16 @@ export const detectProtectiveEquipment: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DetectTextError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Detects text in the input image and converts it into machine-readable text.
  *
@@ -6206,15 +6246,7 @@ export const detectProtectiveEquipment: API.OperationMethod<
 export const detectText: API.OperationMethod<
   DetectTextRequest,
   DetectTextResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  DetectTextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectTextRequest,
@@ -6230,6 +6262,16 @@ export const detectText: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateFacesError =
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the association between a `Face` supplied in an array of
  * `FaceIds` and the User. If the User is not present already, then a
@@ -6243,15 +6285,7 @@ export const detectText: API.OperationMethod<
 export const disassociateFaces: API.OperationMethod<
   DisassociateFacesRequest,
   DisassociateFacesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFacesRequest,
@@ -6267,6 +6301,15 @@ export const disassociateFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DistributeDatasetEntriesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -6287,14 +6330,7 @@ export const disassociateFaces: API.OperationMethod<
 export const distributeDatasetEntries: API.OperationMethod<
   DistributeDatasetEntriesRequest,
   DistributeDatasetEntriesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  DistributeDatasetEntriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DistributeDatasetEntriesRequest,
@@ -6309,6 +6345,14 @@ export const distributeDatasetEntries: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetCelebrityInfoError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the name and additional information about a celebrity based on their Amazon Rekognition ID.
  * The additional information is returned as an array of URLs. If there is no additional
@@ -6323,13 +6367,7 @@ export const distributeDatasetEntries: API.OperationMethod<
 export const getCelebrityInfo: API.OperationMethod<
   GetCelebrityInfoRequest,
   GetCelebrityInfoResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetCelebrityInfoError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCelebrityInfoRequest,
@@ -6343,6 +6381,15 @@ export const getCelebrityInfo: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetCelebrityRecognitionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by
  * StartCelebrityRecognition.
@@ -6392,42 +6439,21 @@ export const getCelebrityInfo: API.OperationMethod<
 export const getCelebrityRecognition: API.OperationMethod<
   GetCelebrityRecognitionRequest,
   GetCelebrityRecognitionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetCelebrityRecognitionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCelebrityRecognitionRequest,
   ) => stream.Stream<
     GetCelebrityRecognitionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetCelebrityRecognitionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCelebrityRecognitionRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetCelebrityRecognitionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6448,6 +6474,15 @@ export const getCelebrityRecognition: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetContentModerationError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon Rekognition Video analysis started by
  * StartContentModeration. For a list of moderation labels in Amazon Rekognition, see
@@ -6484,42 +6519,21 @@ export const getCelebrityRecognition: API.OperationMethod<
 export const getContentModeration: API.OperationMethod<
   GetContentModerationRequest,
   GetContentModerationResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetContentModerationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetContentModerationRequest,
   ) => stream.Stream<
     GetContentModerationResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetContentModerationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetContentModerationRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetContentModerationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6540,6 +6554,15 @@ export const getContentModeration: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetFaceDetectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection.
  *
@@ -6563,42 +6586,21 @@ export const getContentModeration: API.OperationMethod<
 export const getFaceDetection: API.OperationMethod<
   GetFaceDetectionRequest,
   GetFaceDetectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFaceDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFaceDetectionRequest,
   ) => stream.Stream<
     GetFaceDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetFaceDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFaceDetectionRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetFaceDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6619,6 +6621,14 @@ export const getFaceDetection: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetFaceLivenessSessionResultsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | SessionNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the results of a specific Face Liveness session. It requires the
  * `sessionId` as input, which was created using
@@ -6634,13 +6644,7 @@ export const getFaceDetection: API.OperationMethod<
 export const getFaceLivenessSessionResults: API.OperationMethod<
   GetFaceLivenessSessionResultsRequest,
   GetFaceLivenessSessionResultsResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | SessionNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFaceLivenessSessionResultsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFaceLivenessSessionResultsRequest,
@@ -6654,6 +6658,15 @@ export const getFaceLivenessSessionResults: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFaceSearchError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the face search results for Amazon Rekognition Video face search started by
  * StartFaceSearch. The search returns faces in a collection that match the faces
@@ -6690,42 +6703,21 @@ export const getFaceLivenessSessionResults: API.OperationMethod<
 export const getFaceSearch: API.OperationMethod<
   GetFaceSearchRequest,
   GetFaceSearchResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFaceSearchError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetFaceSearchRequest,
   ) => stream.Stream<
     GetFaceSearchResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetFaceSearchError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetFaceSearchRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetFaceSearchError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6746,6 +6738,15 @@ export const getFaceSearch: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetLabelDetectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection.
  *
@@ -6817,42 +6818,21 @@ export const getFaceSearch: API.OperationMethod<
 export const getLabelDetection: API.OperationMethod<
   GetLabelDetectionRequest,
   GetLabelDetectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetLabelDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetLabelDetectionRequest,
   ) => stream.Stream<
     GetLabelDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetLabelDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetLabelDetectionRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetLabelDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6873,6 +6853,14 @@ export const getLabelDetection: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetMediaAnalysisJobError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the results for a given media analysis job.
  * Takes a `JobId` returned by StartMediaAnalysisJob.
@@ -6880,13 +6868,7 @@ export const getLabelDetection: API.OperationMethod<
 export const getMediaAnalysisJob: API.OperationMethod<
   GetMediaAnalysisJobRequest,
   GetMediaAnalysisJobResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetMediaAnalysisJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaAnalysisJobRequest,
@@ -6900,6 +6882,15 @@ export const getMediaAnalysisJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetPersonTrackingError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * *End of support notice:* On October 31, 2025, AWS will discontinue
  * support for Amazon Rekognition People Pathing. After October 31, 2025, you will no
@@ -6938,42 +6929,21 @@ export const getMediaAnalysisJob: API.OperationMethod<
 export const getPersonTracking: API.OperationMethod<
   GetPersonTrackingRequest,
   GetPersonTrackingResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetPersonTrackingError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetPersonTrackingRequest,
   ) => stream.Stream<
     GetPersonTrackingResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetPersonTrackingError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetPersonTrackingRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetPersonTrackingError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6994,6 +6964,15 @@ export const getPersonTracking: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetSegmentDetectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the segment detection results of a Amazon Rekognition Video analysis started by StartSegmentDetection.
  *
@@ -7025,42 +7004,21 @@ export const getPersonTracking: API.OperationMethod<
 export const getSegmentDetection: API.OperationMethod<
   GetSegmentDetectionRequest,
   GetSegmentDetectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetSegmentDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetSegmentDetectionRequest,
   ) => stream.Stream<
     GetSegmentDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetSegmentDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSegmentDetectionRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetSegmentDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7081,6 +7039,15 @@ export const getSegmentDetection: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetTextDetectionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection.
  *
@@ -7108,42 +7075,21 @@ export const getSegmentDetection: API.OperationMethod<
 export const getTextDetection: API.OperationMethod<
   GetTextDetectionRequest,
   GetTextDetectionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetTextDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetTextDetectionRequest,
   ) => stream.Stream<
     GetTextDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetTextDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetTextDetectionRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    GetTextDetectionError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7164,6 +7110,18 @@ export const getTextDetection: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type IndexFacesError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Detects faces in the input image and adds them to the specified collection.
  *
@@ -7261,17 +7219,7 @@ export const getTextDetection: API.OperationMethod<
 export const indexFaces: API.OperationMethod<
   IndexFacesRequest,
   IndexFacesResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  IndexFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IndexFacesRequest,
@@ -7289,6 +7237,15 @@ export const indexFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListCollectionsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns list of collection IDs in your account. If the result is truncated, the
  * response also provides a `NextToken` that you can use in the subsequent request to
@@ -7303,42 +7260,21 @@ export const indexFaces: API.OperationMethod<
 export const listCollections: API.OperationMethod<
   ListCollectionsRequest,
   ListCollectionsResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListCollectionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollectionsRequest,
   ) => stream.Stream<
     ListCollectionsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollectionsRequest,
   ) => stream.Stream<
     CollectionId,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListCollectionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7360,6 +7296,17 @@ export const listCollections: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatasetEntriesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -7381,48 +7328,21 @@ export const listCollections: API.OperationMethod<
 export const listDatasetEntries: API.OperationMethod<
   ListDatasetEntriesRequest,
   ListDatasetEntriesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  ListDatasetEntriesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetEntriesRequest,
   ) => stream.Stream<
     ListDatasetEntriesResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | ResourceNotReadyException
-    | ThrottlingException
-    | CommonErrors,
+    ListDatasetEntriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetEntriesRequest,
   ) => stream.Stream<
     DatasetEntry,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | ResourceNotReadyException
-    | ThrottlingException
-    | CommonErrors,
+    ListDatasetEntriesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7446,6 +7366,17 @@ export const listDatasetEntries: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatasetLabelsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -7458,48 +7389,21 @@ export const listDatasetEntries: API.OperationMethod<
 export const listDatasetLabels: API.OperationMethod<
   ListDatasetLabelsRequest,
   ListDatasetLabelsResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ResourceNotReadyException
-  | ThrottlingException
-  | CommonErrors,
+  ListDatasetLabelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatasetLabelsRequest,
   ) => stream.Stream<
     ListDatasetLabelsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | ResourceNotReadyException
-    | ThrottlingException
-    | CommonErrors,
+    ListDatasetLabelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetLabelsRequest,
   ) => stream.Stream<
     DatasetLabelDescription,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | ResourceNotReadyException
-    | ThrottlingException
-    | CommonErrors,
+    ListDatasetLabelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7523,6 +7427,15 @@ export const listDatasetLabels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFacesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns metadata for faces in the specified collection. This metadata
  * includes information such as the bounding box coordinates, the confidence (that the bounding
@@ -7535,42 +7448,21 @@ export const listDatasetLabels: API.OperationMethod<
 export const listFaces: API.OperationMethod<
   ListFacesRequest,
   ListFacesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListFacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFacesRequest,
   ) => stream.Stream<
     ListFacesResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListFacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFacesRequest,
   ) => stream.Stream<
     Face,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListFacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7592,45 +7484,35 @@ export const listFaces: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns a list of media analysis jobs. Results are sorted by `CreationTimestamp` in descending order.
- */
-export const listMediaAnalysisJobs: API.OperationMethod<
-  ListMediaAnalysisJobsRequest,
-  ListMediaAnalysisJobsResponse,
+export type ListMediaAnalysisJobsError =
   | AccessDeniedException
   | InternalServerError
   | InvalidPaginationTokenException
   | InvalidParameterException
   | ProvisionedThroughputExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of media analysis jobs. Results are sorted by `CreationTimestamp` in descending order.
+ */
+export const listMediaAnalysisJobs: API.OperationMethod<
+  ListMediaAnalysisJobsRequest,
+  ListMediaAnalysisJobsResponse,
+  ListMediaAnalysisJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMediaAnalysisJobsRequest,
   ) => stream.Stream<
     ListMediaAnalysisJobsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
+    ListMediaAnalysisJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMediaAnalysisJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
+    ListMediaAnalysisJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7650,6 +7532,15 @@ export const listMediaAnalysisJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProjectPoliciesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -7662,42 +7553,21 @@ export const listMediaAnalysisJobs: API.OperationMethod<
 export const listProjectPolicies: API.OperationMethod<
   ListProjectPoliciesRequest,
   ListProjectPoliciesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListProjectPoliciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProjectPoliciesRequest,
   ) => stream.Stream<
     ListProjectPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListProjectPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectPoliciesRequest,
   ) => stream.Stream<
     ProjectPolicy,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListProjectPoliciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7719,45 +7589,35 @@ export const listProjectPolicies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Gets a list of stream processors that you have created with CreateStreamProcessor.
- */
-export const listStreamProcessors: API.OperationMethod<
-  ListStreamProcessorsRequest,
-  ListStreamProcessorsResponse,
+export type ListStreamProcessorsError =
   | AccessDeniedException
   | InternalServerError
   | InvalidPaginationTokenException
   | InvalidParameterException
   | ProvisionedThroughputExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets a list of stream processors that you have created with CreateStreamProcessor.
+ */
+export const listStreamProcessors: API.OperationMethod<
+  ListStreamProcessorsRequest,
+  ListStreamProcessorsResponse,
+  ListStreamProcessorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamProcessorsRequest,
   ) => stream.Stream<
     ListStreamProcessorsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
+    ListStreamProcessorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamProcessorsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
+    ListStreamProcessorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7777,6 +7637,14 @@ export const listStreamProcessors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom Labels
  * model.
@@ -7787,13 +7655,7 @@ export const listStreamProcessors: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -7807,6 +7669,15 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListUsersError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns metadata of the User such as `UserID` in the specified collection.
  * Anonymous User (to reserve faces without any identity) is not returned as part of this
@@ -7817,42 +7688,21 @@ export const listTagsForResource: API.OperationMethod<
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidPaginationTokenException
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     User,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7874,6 +7724,19 @@ export const listUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutProjectPolicyError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidPolicyRevisionIdException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | ProvisionedThroughputExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -7900,18 +7763,7 @@ export const listUsers: API.OperationMethod<
 export const putProjectPolicy: API.OperationMethod<
   PutProjectPolicyRequest,
   PutProjectPolicyResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidPolicyRevisionIdException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | ProvisionedThroughputExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  PutProjectPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProjectPolicyRequest,
@@ -7930,6 +7782,16 @@ export const putProjectPolicy: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type RecognizeCelebritiesError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns an array of celebrities recognized in the input image. For more
  * information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
@@ -7967,15 +7829,7 @@ export const putProjectPolicy: API.OperationMethod<
 export const recognizeCelebrities: API.OperationMethod<
   RecognizeCelebritiesRequest,
   RecognizeCelebritiesResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | CommonErrors,
+  RecognizeCelebritiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecognizeCelebritiesRequest,
@@ -7991,6 +7845,14 @@ export const recognizeCelebrities: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchFacesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * For a given input face ID, searches for matching faces in the collection the face
  * belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with
@@ -8014,13 +7876,7 @@ export const recognizeCelebrities: API.OperationMethod<
 export const searchFaces: API.OperationMethod<
   SearchFacesRequest,
   SearchFacesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchFacesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchFacesRequest,
@@ -8034,6 +7890,17 @@ export const searchFaces: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchFacesByImageError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * For a given input image, first detects the largest face in the image, and then searches
  * the specified collection for matching faces. The operation compares the features of the input
@@ -8081,16 +7948,7 @@ export const searchFaces: API.OperationMethod<
 export const searchFacesByImage: API.OperationMethod<
   SearchFacesByImageRequest,
   SearchFacesByImageResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchFacesByImageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchFacesByImageRequest,
@@ -8107,6 +7965,14 @@ export const searchFacesByImage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchUsersError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for UserIDs within a collection based on a `FaceId` or
  * `UserId`. This API can be used to find the closest UserID (with a highest
@@ -8118,13 +7984,7 @@ export const searchFacesByImage: API.OperationMethod<
 export const searchUsers: API.OperationMethod<
   SearchUsersRequest,
   SearchUsersResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchUsersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchUsersRequest,
@@ -8138,6 +7998,17 @@ export const searchUsers: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type SearchUsersByImageError =
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Searches for UserIDs using a supplied image. It first detects the largest face in the
  * image, and then searches a specified collection for matching UserIDs.
@@ -8154,16 +8025,7 @@ export const searchUsers: API.OperationMethod<
 export const searchUsersByImage: API.OperationMethod<
   SearchUsersByImageRequest,
   SearchUsersByImageResponse,
-  | AccessDeniedException
-  | ImageTooLargeException
-  | InternalServerError
-  | InvalidImageFormatException
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  SearchUsersByImageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchUsersByImageRequest,
@@ -8180,6 +8042,17 @@ export const searchUsersByImage: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartCelebrityRecognitionError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts asynchronous recognition of celebrities in a stored video.
  *
@@ -8198,16 +8071,7 @@ export const searchUsersByImage: API.OperationMethod<
 export const startCelebrityRecognition: API.OperationMethod<
   StartCelebrityRecognitionRequest,
   StartCelebrityRecognitionResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartCelebrityRecognitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCelebrityRecognitionRequest,
@@ -8224,6 +8088,17 @@ export const startCelebrityRecognition: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StartContentModerationError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see
  * Using the image and video moderation APIs.
@@ -8243,16 +8118,7 @@ export const startCelebrityRecognition: API.OperationMethod<
 export const startContentModeration: API.OperationMethod<
   StartContentModerationRequest,
   StartContentModerationResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartContentModerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContentModerationRequest,
@@ -8269,6 +8135,17 @@ export const startContentModeration: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StartFaceDetectionError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts asynchronous detection of faces in a stored video.
  *
@@ -8288,16 +8165,7 @@ export const startContentModeration: API.OperationMethod<
 export const startFaceDetection: API.OperationMethod<
   StartFaceDetectionRequest,
   StartFaceDetectionResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartFaceDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFaceDetectionRequest,
@@ -8314,6 +8182,18 @@ export const startFaceDetection: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StartFaceSearchError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts the asynchronous search for faces in a collection that match the faces of persons detected in a stored video.
  *
@@ -8330,17 +8210,7 @@ export const startFaceDetection: API.OperationMethod<
 export const startFaceSearch: API.OperationMethod<
   StartFaceSearchRequest,
   StartFaceSearchResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartFaceSearchError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFaceSearchRequest,
@@ -8358,6 +8228,17 @@ export const startFaceSearch: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StartLabelDetectionError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts asynchronous detection of labels in a stored video.
  *
@@ -8391,16 +8272,7 @@ export const startFaceSearch: API.OperationMethod<
 export const startLabelDetection: API.OperationMethod<
   StartLabelDetectionRequest,
   StartLabelDetectionResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartLabelDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLabelDetectionRequest,
@@ -8417,13 +8289,7 @@ export const startLabelDetection: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
-/**
- * Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The
- * output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
- */
-export const startMediaAnalysisJob: API.OperationMethod<
-  StartMediaAnalysisJobRequest,
-  StartMediaAnalysisJobResponse,
+export type StartMediaAnalysisJobError =
   | AccessDeniedException
   | IdempotentParameterMismatchException
   | InternalServerError
@@ -8435,7 +8301,15 @@ export const startMediaAnalysisJob: API.OperationMethod<
   | ResourceNotFoundException
   | ResourceNotReadyException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The
+ * output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
+ */
+export const startMediaAnalysisJob: API.OperationMethod<
+  StartMediaAnalysisJobRequest,
+  StartMediaAnalysisJobResponse,
+  StartMediaAnalysisJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMediaAnalysisJobRequest,
@@ -8454,6 +8328,17 @@ export const startMediaAnalysisJob: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartPersonTrackingError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * *End of support notice:* On October 31, 2025, AWS will discontinue
  * support for Amazon Rekognition People Pathing. After October 31, 2025, you will no
@@ -8475,16 +8360,7 @@ export const startMediaAnalysisJob: API.OperationMethod<
 export const startPersonTracking: API.OperationMethod<
   StartPersonTrackingRequest,
   StartPersonTrackingResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartPersonTrackingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPersonTrackingRequest,
@@ -8501,6 +8377,16 @@ export const startPersonTracking: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StartProjectVersionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -8519,15 +8405,7 @@ export const startPersonTracking: API.OperationMethod<
 export const startProjectVersion: API.OperationMethod<
   StartProjectVersionRequest,
   StartProjectVersionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  StartProjectVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProjectVersionRequest,
@@ -8543,6 +8421,17 @@ export const startProjectVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartSegmentDetectionError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts asynchronous detection of segment detection in a stored video.
  *
@@ -8566,16 +8455,7 @@ export const startProjectVersion: API.OperationMethod<
 export const startSegmentDetection: API.OperationMethod<
   StartSegmentDetectionRequest,
   StartSegmentDetectionResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartSegmentDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSegmentDetectionRequest,
@@ -8592,6 +8472,15 @@ export const startSegmentDetection: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StartStreamProcessorError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor.
  * To tell `StartStreamProcessor` which stream processor to start, use the value of the `Name` field specified in the call to
@@ -8602,14 +8491,7 @@ export const startSegmentDetection: API.OperationMethod<
 export const startStreamProcessor: API.OperationMethod<
   StartStreamProcessorRequest,
   StartStreamProcessorResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  StartStreamProcessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartStreamProcessorRequest,
@@ -8624,6 +8506,17 @@ export const startStreamProcessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartTextDetectionError =
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | CommonErrors;
 /**
  * Starts asynchronous detection of text in a stored video.
  *
@@ -8639,16 +8532,7 @@ export const startStreamProcessor: API.OperationMethod<
 export const startTextDetection: API.OperationMethod<
   StartTextDetectionRequest,
   StartTextDetectionResponse,
-  | AccessDeniedException
-  | IdempotentParameterMismatchException
-  | InternalServerError
-  | InvalidParameterException
-  | InvalidS3ObjectException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ThrottlingException
-  | VideoTooLargeException
-  | CommonErrors,
+  StartTextDetectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTextDetectionRequest,
@@ -8665,6 +8549,15 @@ export const startTextDetection: API.OperationMethod<
     VideoTooLargeException,
   ],
 }));
+export type StopProjectVersionError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -8677,14 +8570,7 @@ export const startTextDetection: API.OperationMethod<
 export const stopProjectVersion: API.OperationMethod<
   StopProjectVersionRequest,
   StopProjectVersionResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  StopProjectVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopProjectVersionRequest,
@@ -8699,12 +8585,7 @@ export const stopProjectVersion: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Stops a running stream processor that was created by CreateStreamProcessor.
- */
-export const stopStreamProcessor: API.OperationMethod<
-  StopStreamProcessorRequest,
-  StopStreamProcessorResponse,
+export type StopStreamProcessorError =
   | AccessDeniedException
   | InternalServerError
   | InvalidParameterException
@@ -8712,7 +8593,14 @@ export const stopStreamProcessor: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a running stream processor that was created by CreateStreamProcessor.
+ */
+export const stopStreamProcessor: API.OperationMethod<
+  StopStreamProcessorRequest,
+  StopStreamProcessorResponse,
+  StopStreamProcessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopStreamProcessorRequest,
@@ -8727,6 +8615,15 @@ export const stopStreamProcessor: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or Custom
  * Labels model. For more information, see Tagging AWS
@@ -8738,14 +8635,7 @@ export const stopStreamProcessor: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8760,6 +8650,14 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels
  * model.
@@ -8770,13 +8668,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | ProvisionedThroughputExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8790,6 +8682,16 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateDatasetEntriesError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -8822,15 +8724,7 @@ export const untagResource: API.OperationMethod<
 export const updateDatasetEntries: API.OperationMethod<
   UpdateDatasetEntriesRequest,
   UpdateDatasetEntriesResponse,
-  | AccessDeniedException
-  | InternalServerError
-  | InvalidParameterException
-  | LimitExceededException
-  | ProvisionedThroughputExceededException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateDatasetEntriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetEntriesRequest,
@@ -8846,12 +8740,7 @@ export const updateDatasetEntries: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
- */
-export const updateStreamProcessor: API.OperationMethod<
-  UpdateStreamProcessorRequest,
-  UpdateStreamProcessorResponse,
+export type UpdateStreamProcessorError =
   | AccessDeniedException
   | InternalServerError
   | InvalidParameterException
@@ -8859,7 +8748,14 @@ export const updateStreamProcessor: API.OperationMethod<
   | ResourceInUseException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
+ */
+export const updateStreamProcessor: API.OperationMethod<
+  UpdateStreamProcessorRequest,
+  UpdateStreamProcessorResponse,
+  UpdateStreamProcessorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamProcessorRequest,

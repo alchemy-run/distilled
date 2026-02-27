@@ -1239,6 +1239,13 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type AssociateAttributeGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates an attribute group with an application to augment the application's metadata
  * with the group's attributes. This feature enables applications to be described with
@@ -1247,12 +1254,7 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 export const associateAttributeGroup: API.OperationMethod<
   AssociateAttributeGroupRequest,
   AssociateAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  AssociateAttributeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAttributeGroupRequest,
@@ -1265,6 +1267,14 @@ export const associateAttributeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociateResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a resource with an application.
  * The resource can be specified by its ARN or name.
@@ -1293,13 +1303,7 @@ export const associateAttributeGroup: API.OperationMethod<
 export const associateResource: API.OperationMethod<
   AssociateResourceRequest,
   AssociateResourceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  AssociateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceRequest,
@@ -1313,18 +1317,20 @@ export const associateResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateApplicationError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
  */
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1337,6 +1343,12 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateAttributeGroupError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new attribute group as a container for user-defined attributes. This feature
  * enables users to have full control over their cloud application's metadata in a rich
@@ -1346,11 +1358,7 @@ export const createApplication: API.OperationMethod<
 export const createAttributeGroup: API.OperationMethod<
   CreateAttributeGroupRequest,
   CreateAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateAttributeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAttributeGroupRequest,
@@ -1362,16 +1370,18 @@ export const createAttributeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -1382,16 +1392,18 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAttributeGroupError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
  */
 export const deleteAttributeGroup: API.OperationMethod<
   DeleteAttributeGroupRequest,
   DeleteAttributeGroupResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAttributeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttributeGroupRequest,
@@ -1402,16 +1414,18 @@ export const deleteAttributeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateAttributeGroupError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
  */
 export const disassociateAttributeGroup: API.OperationMethod<
   DisassociateAttributeGroupRequest,
   DisassociateAttributeGroupResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DisassociateAttributeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAttributeGroupRequest,
@@ -1422,6 +1436,12 @@ export const disassociateAttributeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a resource from application.
  * Both the resource and the application can be specified either by ID or name.
@@ -1449,11 +1469,7 @@ export const disassociateAttributeGroup: API.OperationMethod<
 export const disassociateResource: API.OperationMethod<
   DisassociateResourceRequest,
   DisassociateResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResourceRequest,
@@ -1465,6 +1481,12 @@ export const disassociateResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetApplicationError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves metadata information
  * about one
@@ -1487,11 +1509,7 @@ export const disassociateResource: API.OperationMethod<
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
   GetApplicationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -1503,16 +1521,18 @@ export const getApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssociatedResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the resource associated with the application.
  */
 export const getAssociatedResource: API.OperationMethod<
   GetAssociatedResourceRequest,
   GetAssociatedResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAssociatedResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssociatedResourceRequest,
@@ -1523,6 +1543,12 @@ export const getAssociatedResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAttributeGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves an attribute group
  * by its ARN, ID, or name.
@@ -1532,11 +1558,7 @@ export const getAssociatedResource: API.OperationMethod<
 export const getAttributeGroup: API.OperationMethod<
   GetAttributeGroupRequest,
   GetAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAttributeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttributeGroupRequest,
@@ -1548,6 +1570,7 @@ export const getAttributeGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConfigurationError = InternalServerException | CommonErrors;
 /**
  * Retrieves a `TagKey` configuration
  * from an account.
@@ -1555,34 +1578,38 @@ export const getAttributeGroup: API.OperationMethod<
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
   GetConfigurationResponse,
-  InternalServerException | CommonErrors,
+  GetConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
   output: GetConfigurationResponse,
   errors: [InternalServerException],
 }));
+export type ListApplicationsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all of your applications. Results are paginated.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ApplicationSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1596,36 +1623,32 @@ export const listApplications: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssociatedAttributeGroupsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all attribute groups that are associated with specified application. Results are paginated.
  */
 export const listAssociatedAttributeGroups: API.OperationMethod<
   ListAssociatedAttributeGroupsRequest,
   ListAssociatedAttributeGroupsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssociatedAttributeGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedAttributeGroupsRequest,
   ) => stream.Stream<
     ListAssociatedAttributeGroupsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedAttributeGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedAttributeGroupsRequest,
   ) => stream.Stream<
     AttributeGroupId,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedAttributeGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1643,6 +1666,11 @@ export const listAssociatedAttributeGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAssociatedResourcesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all
  * of the resources
@@ -1664,30 +1692,21 @@ export const listAssociatedAttributeGroups: API.OperationMethod<
 export const listAssociatedResources: API.OperationMethod<
   ListAssociatedResourcesRequest,
   ListAssociatedResourcesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAssociatedResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAssociatedResourcesRequest,
   ) => stream.Stream<
     ListAssociatedResourcesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociatedResourcesRequest,
   ) => stream.Stream<
     ResourceInfo,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAssociatedResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1705,27 +1724,31 @@ export const listAssociatedResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAttributeGroupsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all attribute groups which you have access to. Results are paginated.
  */
 export const listAttributeGroups: API.OperationMethod<
   ListAttributeGroupsRequest,
   ListAttributeGroupsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListAttributeGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAttributeGroupsRequest,
   ) => stream.Stream<
     ListAttributeGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListAttributeGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttributeGroupsRequest,
   ) => stream.Stream<
     AttributeGroupSummary,
-    InternalServerException | ValidationException | CommonErrors,
+    ListAttributeGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1739,36 +1762,32 @@ export const listAttributeGroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListAttributeGroupsForApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the details of all attribute groups associated with a specific application. The results display in pages.
  */
 export const listAttributeGroupsForApplication: API.OperationMethod<
   ListAttributeGroupsForApplicationRequest,
   ListAttributeGroupsForApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAttributeGroupsForApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAttributeGroupsForApplicationRequest,
   ) => stream.Stream<
     ListAttributeGroupsForApplicationResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAttributeGroupsForApplicationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttributeGroupsForApplicationRequest,
   ) => stream.Stream<
     AttributeGroupDetails,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAttributeGroupsForApplicationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1786,16 +1805,18 @@ export const listAttributeGroupsForApplication: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the tags on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1806,6 +1827,11 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutConfigurationError =
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a `TagKey` configuration
  * to an account.
@@ -1813,16 +1839,20 @@ export const listTagsForResource: API.OperationMethod<
 export const putConfiguration: API.OperationMethod<
   PutConfigurationRequest,
   PutConfigurationResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  PutConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationRequest,
   output: PutConfigurationResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
 }));
+export type SyncResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Syncs the resource with current AppRegistry records.
  *
@@ -1831,12 +1861,7 @@ export const putConfiguration: API.OperationMethod<
 export const syncResource: API.OperationMethod<
   SyncResourceRequest,
   SyncResourceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SyncResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SyncResourceRequest,
@@ -1849,6 +1874,11 @@ export const syncResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  *
@@ -1859,10 +1889,7 @@ export const syncResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1873,6 +1900,11 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  *
@@ -1881,10 +1913,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1895,18 +1924,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateApplicationError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing application with new attributes.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   UpdateApplicationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -1919,17 +1950,19 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAttributeGroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an existing attribute group with new details.
  */
 export const updateAttributeGroup: API.OperationMethod<
   UpdateAttributeGroupRequest,
   UpdateAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateAttributeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAttributeGroupRequest,

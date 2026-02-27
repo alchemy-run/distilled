@@ -551,6 +551,10 @@ export class UnsupportedActionException extends S.TaggedErrorClass<UnsupportedAc
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelResourceRequestError =
+  | ConcurrentModificationException
+  | RequestTokenNotFoundException
+  | CommonErrors;
 /**
  * Cancels the specified resource operation request. For more information, see Canceling resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
@@ -561,26 +565,14 @@ export class UnsupportedActionException extends S.TaggedErrorClass<UnsupportedAc
 export const cancelResourceRequest: API.OperationMethod<
   CancelResourceRequestInput,
   CancelResourceRequestOutput,
-  | ConcurrentModificationException
-  | RequestTokenNotFoundException
-  | CommonErrors,
+  CancelResourceRequestError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelResourceRequestInput,
   output: CancelResourceRequestOutput,
   errors: [ConcurrentModificationException, RequestTokenNotFoundException],
 }));
-/**
- * Creates the specified resource. For more information, see Creating a
- * resource in the *Amazon Web Services Cloud Control API User Guide*.
- *
- * After you have initiated a resource creation request, you can monitor the progress of your
- * request by calling GetResourceRequestStatus using the `RequestToken` of the
- * `ProgressEvent` type returned by `CreateResource`.
- */
-export const createResource: API.OperationMethod<
-  CreateResourceInput,
-  CreateResourceOutput,
+export type CreateResourceError =
   | AlreadyExistsException
   | ClientTokenConflictException
   | ConcurrentOperationException
@@ -600,7 +592,19 @@ export const createResource: API.OperationMethod<
   | ThrottlingException
   | TypeNotFoundException
   | UnsupportedActionException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates the specified resource. For more information, see Creating a
+ * resource in the *Amazon Web Services Cloud Control API User Guide*.
+ *
+ * After you have initiated a resource creation request, you can monitor the progress of your
+ * request by calling GetResourceRequestStatus using the `RequestToken` of the
+ * `ProgressEvent` type returned by `CreateResource`.
+ */
+export const createResource: API.OperationMethod<
+  CreateResourceInput,
+  CreateResourceOutput,
+  CreateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceInput,
@@ -627,17 +631,7 @@ export const createResource: API.OperationMethod<
     UnsupportedActionException,
   ],
 }));
-/**
- * Deletes the specified resource. For details, see Deleting a
- * resource in the *Amazon Web Services Cloud Control API User Guide*.
- *
- * After you have initiated a resource deletion request, you can monitor the progress of your
- * request by calling GetResourceRequestStatus using the `RequestToken` of the
- * `ProgressEvent` returned by `DeleteResource`.
- */
-export const deleteResource: API.OperationMethod<
-  DeleteResourceInput,
-  DeleteResourceOutput,
+export type DeleteResourceError =
   | AlreadyExistsException
   | ClientTokenConflictException
   | ConcurrentOperationException
@@ -657,7 +651,19 @@ export const deleteResource: API.OperationMethod<
   | ThrottlingException
   | TypeNotFoundException
   | UnsupportedActionException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified resource. For details, see Deleting a
+ * resource in the *Amazon Web Services Cloud Control API User Guide*.
+ *
+ * After you have initiated a resource deletion request, you can monitor the progress of your
+ * request by calling GetResourceRequestStatus using the `RequestToken` of the
+ * `ProgressEvent` returned by `DeleteResource`.
+ */
+export const deleteResource: API.OperationMethod<
+  DeleteResourceInput,
+  DeleteResourceOutput,
+  DeleteResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceInput,
@@ -684,16 +690,7 @@ export const deleteResource: API.OperationMethod<
     UnsupportedActionException,
   ],
 }));
-/**
- * Returns information about the current state of the specified resource. For details, see
- * Reading a resource's current state.
- *
- * You can use this action to return information about an existing resource in your account
- * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
- */
-export const getResource: API.OperationMethod<
-  GetResourceInput,
-  GetResourceOutput,
+export type GetResourceError =
   | AlreadyExistsException
   | GeneralServiceException
   | HandlerFailureException
@@ -711,7 +708,18 @@ export const getResource: API.OperationMethod<
   | ThrottlingException
   | TypeNotFoundException
   | UnsupportedActionException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the current state of the specified resource. For details, see
+ * Reading a resource's current state.
+ *
+ * You can use this action to return information about an existing resource in your account
+ * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
+ */
+export const getResource: API.OperationMethod<
+  GetResourceInput,
+  GetResourceOutput,
+  GetResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceInput,
@@ -736,6 +744,9 @@ export const getResource: API.OperationMethod<
     UnsupportedActionException,
   ],
 }));
+export type GetResourceRequestStatusError =
+  | RequestTokenNotFoundException
+  | CommonErrors;
 /**
  * Returns the current status of a resource operation request. For more information, see
  * Tracking the progress of resource operation requests in the
@@ -744,13 +755,14 @@ export const getResource: API.OperationMethod<
 export const getResourceRequestStatus: API.OperationMethod<
   GetResourceRequestStatusInput,
   GetResourceRequestStatusOutput,
-  RequestTokenNotFoundException | CommonErrors,
+  GetResourceRequestStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceRequestStatusInput,
   output: GetResourceRequestStatusOutput,
   errors: [RequestTokenNotFoundException],
 }));
+export type ListResourceRequestsError = CommonErrors;
 /**
  * Returns existing resource operation requests. This includes requests of all status types.
  * For more information, see Listing active resource operation requests in the
@@ -761,21 +773,21 @@ export const getResourceRequestStatus: API.OperationMethod<
 export const listResourceRequests: API.OperationMethod<
   ListResourceRequestsInput,
   ListResourceRequestsOutput,
-  CommonErrors,
+  ListResourceRequestsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceRequestsInput,
   ) => stream.Stream<
     ListResourceRequestsOutput,
-    CommonErrors,
+    ListResourceRequestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceRequestsInput,
   ) => stream.Stream<
     ProgressEvent,
-    CommonErrors,
+    ListResourceRequestsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -789,15 +801,7 @@ export const listResourceRequests: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Returns information about the specified resources. For more information, see Discovering resources in the *Amazon Web Services Cloud Control API User Guide*.
- *
- * You can use this action to return information about existing resources in your account and
- * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
- */
-export const listResources: API.OperationMethod<
-  ListResourcesInput,
-  ListResourcesOutput,
+export type ListResourcesError =
   | AlreadyExistsException
   | GeneralServiceException
   | HandlerFailureException
@@ -815,55 +819,31 @@ export const listResources: API.OperationMethod<
   | ThrottlingException
   | TypeNotFoundException
   | UnsupportedActionException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns information about the specified resources. For more information, see Discovering resources in the *Amazon Web Services Cloud Control API User Guide*.
+ *
+ * You can use this action to return information about existing resources in your account and
+ * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
+ */
+export const listResources: API.OperationMethod<
+  ListResourcesInput,
+  ListResourcesOutput,
+  ListResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourcesInput,
   ) => stream.Stream<
     ListResourcesOutput,
-    | AlreadyExistsException
-    | GeneralServiceException
-    | HandlerFailureException
-    | HandlerInternalFailureException
-    | InvalidCredentialsException
-    | InvalidRequestException
-    | NetworkFailureException
-    | NotStabilizedException
-    | NotUpdatableException
-    | PrivateTypeException
-    | ResourceConflictException
-    | ResourceNotFoundException
-    | ServiceInternalErrorException
-    | ServiceLimitExceededException
-    | ThrottlingException
-    | TypeNotFoundException
-    | UnsupportedActionException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcesInput,
   ) => stream.Stream<
     ResourceDescription,
-    | AlreadyExistsException
-    | GeneralServiceException
-    | HandlerFailureException
-    | HandlerInternalFailureException
-    | InvalidCredentialsException
-    | InvalidRequestException
-    | NetworkFailureException
-    | NotStabilizedException
-    | NotUpdatableException
-    | PrivateTypeException
-    | ResourceConflictException
-    | ResourceNotFoundException
-    | ServiceInternalErrorException
-    | ServiceLimitExceededException
-    | ThrottlingException
-    | TypeNotFoundException
-    | UnsupportedActionException
-    | CommonErrors,
+    ListResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -895,6 +875,27 @@ export const listResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type UpdateResourceError =
+  | AlreadyExistsException
+  | ClientTokenConflictException
+  | ConcurrentOperationException
+  | GeneralServiceException
+  | HandlerFailureException
+  | HandlerInternalFailureException
+  | InvalidCredentialsException
+  | InvalidRequestException
+  | NetworkFailureException
+  | NotStabilizedException
+  | NotUpdatableException
+  | PrivateTypeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceInternalErrorException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | TypeNotFoundException
+  | UnsupportedActionException
+  | CommonErrors;
 /**
  * Updates the specified property values in the resource.
  *
@@ -916,26 +917,7 @@ export const listResources: API.OperationMethod<
 export const updateResource: API.OperationMethod<
   UpdateResourceInput,
   UpdateResourceOutput,
-  | AlreadyExistsException
-  | ClientTokenConflictException
-  | ConcurrentOperationException
-  | GeneralServiceException
-  | HandlerFailureException
-  | HandlerInternalFailureException
-  | InvalidCredentialsException
-  | InvalidRequestException
-  | NetworkFailureException
-  | NotStabilizedException
-  | NotUpdatableException
-  | PrivateTypeException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | ServiceInternalErrorException
-  | ServiceLimitExceededException
-  | ThrottlingException
-  | TypeNotFoundException
-  | UnsupportedActionException
-  | CommonErrors,
+  UpdateResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceInput,

@@ -2618,12 +2618,7 @@ export class InvalidTagException extends S.TaggedErrorClass<InvalidTagException>
 ) {}
 
 //# Operations
-/**
- * Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
- */
-export const associateFirewallRuleGroup: API.OperationMethod<
-  AssociateFirewallRuleGroupRequest,
-  AssociateFirewallRuleGroupResponse,
+export type AssociateFirewallRuleGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
@@ -2631,7 +2626,14 @@ export const associateFirewallRuleGroup: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
+ */
+export const associateFirewallRuleGroup: API.OperationMethod<
+  AssociateFirewallRuleGroupRequest,
+  AssociateFirewallRuleGroupResponse,
+  AssociateFirewallRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFirewallRuleGroupRequest,
@@ -2646,6 +2648,15 @@ export const associateFirewallRuleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type AssociateResolverEndpointIpAddressError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address,
  * submit one `AssociateResolverEndpointIpAddress` request for each IP address.
@@ -2656,14 +2667,7 @@ export const associateFirewallRuleGroup: API.OperationMethod<
 export const associateResolverEndpointIpAddress: API.OperationMethod<
   AssociateResolverEndpointIpAddressRequest,
   AssociateResolverEndpointIpAddressResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateResolverEndpointIpAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResolverEndpointIpAddressRequest,
@@ -2678,6 +2682,16 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateResolverQueryLogConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs
  * that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one `AssociateResolverQueryLogConfig`
@@ -2691,15 +2705,7 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
 export const associateResolverQueryLogConfig: API.OperationMethod<
   AssociateResolverQueryLogConfigRequest,
   AssociateResolverQueryLogConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateResolverQueryLogConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResolverQueryLogConfigRequest,
@@ -2715,6 +2721,16 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type AssociateResolverRuleError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries
  * for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the
@@ -2724,15 +2740,7 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
 export const associateResolverRule: API.OperationMethod<
   AssociateResolverRuleRequest,
   AssociateResolverRuleResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | ThrottlingException
-  | CommonErrors,
+  AssociateResolverRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResolverRuleRequest,
@@ -2748,18 +2756,20 @@ export const associateResolverRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateFirewallDomainListError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
  */
 export const createFirewallDomainList: API.OperationMethod<
   CreateFirewallDomainListRequest,
   CreateFirewallDomainListResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFirewallDomainListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirewallDomainListRequest,
@@ -2772,19 +2782,21 @@ export const createFirewallDomainList: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
- */
-export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleRequest,
-  CreateFirewallRuleResponse,
+export type CreateFirewallRuleError =
   | AccessDeniedException
   | InternalServiceErrorException
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
+ */
+export const createFirewallRule: API.OperationMethod<
+  CreateFirewallRuleRequest,
+  CreateFirewallRuleResponse,
+  CreateFirewallRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirewallRuleRequest,
@@ -2798,6 +2810,13 @@ export const createFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateFirewallRuleGroupError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group
  * by calling CreateFirewallRule.
@@ -2805,12 +2824,7 @@ export const createFirewallRule: API.OperationMethod<
 export const createFirewallRuleGroup: API.OperationMethod<
   CreateFirewallRuleGroupRequest,
   CreateFirewallRuleGroupResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateFirewallRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirewallRuleGroupRequest,
@@ -2823,19 +2837,21 @@ export const createFirewallRuleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a Route 53 Resolver on an Outpost.
- */
-export const createOutpostResolver: API.OperationMethod<
-  CreateOutpostResolverRequest,
-  CreateOutpostResolverResponse,
+export type CreateOutpostResolverError =
   | AccessDeniedException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Route 53 Resolver on an Outpost.
+ */
+export const createOutpostResolver: API.OperationMethod<
+  CreateOutpostResolverRequest,
+  CreateOutpostResolverResponse,
+  CreateOutpostResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOutpostResolverRequest,
@@ -2849,6 +2865,16 @@ export const createOutpostResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateResolverEndpointError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:
  *
@@ -2861,15 +2887,7 @@ export const createOutpostResolver: API.OperationMethod<
 export const createResolverEndpoint: API.OperationMethod<
   CreateResolverEndpointRequest,
   CreateResolverEndpointResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateResolverEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResolverEndpointRequest,
@@ -2885,6 +2903,16 @@ export const createResolverEndpoint: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateResolverQueryLogConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs.
  * Resolver can log queries only for VPCs that are in the same Region as the query logging configuration.
@@ -2899,15 +2927,7 @@ export const createResolverEndpoint: API.OperationMethod<
 export const createResolverQueryLogConfig: API.OperationMethod<
   CreateResolverQueryLogConfigRequest,
   CreateResolverQueryLogConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  CreateResolverQueryLogConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResolverQueryLogConfigRequest,
@@ -2923,13 +2943,7 @@ export const createResolverQueryLogConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through,
- * one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
- */
-export const createResolverRule: API.OperationMethod<
-  CreateResolverRuleRequest,
-  CreateResolverRuleResponse,
+export type CreateResolverRuleError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2939,7 +2953,15 @@ export const createResolverRule: API.OperationMethod<
   | ResourceNotFoundException
   | ResourceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through,
+ * one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
+ */
+export const createResolverRule: API.OperationMethod<
+  CreateResolverRuleRequest,
+  CreateResolverRuleResponse,
+  CreateResolverRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResolverRuleRequest,
@@ -2956,18 +2978,20 @@ export const createResolverRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteFirewallDomainListError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes the specified domain list.
  */
 export const deleteFirewallDomainList: API.OperationMethod<
   DeleteFirewallDomainListRequest,
   DeleteFirewallDomainListResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteFirewallDomainListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFirewallDomainListRequest,
@@ -2980,18 +3004,20 @@ export const deleteFirewallDomainList: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteFirewallRuleError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified firewall rule.
  */
 export const deleteFirewallRule: API.OperationMethod<
   DeleteFirewallRuleRequest,
   DeleteFirewallRuleResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFirewallRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFirewallRuleRequest,
@@ -3004,19 +3030,21 @@ export const deleteFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified firewall rule group.
- */
-export const deleteFirewallRuleGroup: API.OperationMethod<
-  DeleteFirewallRuleGroupRequest,
-  DeleteFirewallRuleGroupResponse,
+export type DeleteFirewallRuleGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified firewall rule group.
+ */
+export const deleteFirewallRuleGroup: API.OperationMethod<
+  DeleteFirewallRuleGroupRequest,
+  DeleteFirewallRuleGroupResponse,
+  DeleteFirewallRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFirewallRuleGroupRequest,
@@ -3030,19 +3058,21 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a Resolver on the Outpost.
- */
-export const deleteOutpostResolver: API.OperationMethod<
-  DeleteOutpostResolverRequest,
-  DeleteOutpostResolverResponse,
+export type DeleteOutpostResolverError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a Resolver on the Outpost.
+ */
+export const deleteOutpostResolver: API.OperationMethod<
+  DeleteOutpostResolverRequest,
+  DeleteOutpostResolverResponse,
+  DeleteOutpostResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutpostResolverRequest,
@@ -3056,6 +3086,13 @@ export const deleteOutpostResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResolverEndpointError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
  * Resolver endpoint:
@@ -3068,12 +3105,7 @@ export const deleteOutpostResolver: API.OperationMethod<
 export const deleteResolverEndpoint: API.OperationMethod<
   DeleteResolverEndpointRequest,
   DeleteResolverEndpointResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteResolverEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResolverEndpointRequest,
@@ -3086,6 +3118,14 @@ export const deleteResolverEndpoint: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteResolverQueryLogConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are
  * associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and
@@ -3102,13 +3142,7 @@ export const deleteResolverEndpoint: API.OperationMethod<
 export const deleteResolverQueryLogConfig: API.OperationMethod<
   DeleteResolverQueryLogConfigRequest,
   DeleteResolverQueryLogConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteResolverQueryLogConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResolverQueryLogConfigRequest,
@@ -3122,6 +3156,13 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DeleteResolverRuleError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you
  * associated the Resolver rule with. For more information, see
@@ -3130,12 +3171,7 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
 export const deleteResolverRule: API.OperationMethod<
   DeleteResolverRuleRequest,
   DeleteResolverRuleResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteResolverRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResolverRuleRequest,
@@ -3148,19 +3184,21 @@ export const deleteResolverRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
- */
-export const disassociateFirewallRuleGroup: API.OperationMethod<
-  DisassociateFirewallRuleGroupRequest,
-  DisassociateFirewallRuleGroupResponse,
+export type DisassociateFirewallRuleGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
+ */
+export const disassociateFirewallRuleGroup: API.OperationMethod<
+  DisassociateFirewallRuleGroupRequest,
+  DisassociateFirewallRuleGroupResponse,
+  DisassociateFirewallRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFirewallRuleGroupRequest,
@@ -3174,6 +3212,14 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateResolverEndpointIpAddressError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address,
  * submit one `DisassociateResolverEndpointIpAddress` request for each IP address.
@@ -3184,13 +3230,7 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
 export const disassociateResolverEndpointIpAddress: API.OperationMethod<
   DisassociateResolverEndpointIpAddressRequest,
   DisassociateResolverEndpointIpAddressResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateResolverEndpointIpAddressError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResolverEndpointIpAddressRequest,
@@ -3204,6 +3244,14 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateResolverQueryLogConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Disassociates a VPC from a query logging configuration.
  *
@@ -3219,13 +3267,7 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
 export const disassociateResolverQueryLogConfig: API.OperationMethod<
   DisassociateResolverQueryLogConfigRequest,
   DisassociateResolverQueryLogConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateResolverQueryLogConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResolverQueryLogConfigRequest,
@@ -3239,6 +3281,12 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DisassociateResolverRuleError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes the association between a specified Resolver rule and a specified VPC.
  *
@@ -3248,11 +3296,7 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
 export const disassociateResolverRule: API.OperationMethod<
   DisassociateResolverRuleRequest,
   DisassociateResolverRuleResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DisassociateResolverRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateResolverRuleRequest,
@@ -3264,6 +3308,13 @@ export const disassociateResolverRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFirewallConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the configuration of the firewall behavior provided by DNS Firewall for a
  * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
@@ -3271,12 +3322,7 @@ export const disassociateResolverRule: API.OperationMethod<
 export const getFirewallConfig: API.OperationMethod<
   GetFirewallConfigRequest,
   GetFirewallConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFirewallConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallConfigRequest,
@@ -3289,17 +3335,19 @@ export const getFirewallConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetFirewallDomainListError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the specified firewall domain list.
  */
 export const getFirewallDomainList: API.OperationMethod<
   GetFirewallDomainListRequest,
   GetFirewallDomainListResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFirewallDomainListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallDomainListRequest,
@@ -3311,17 +3359,19 @@ export const getFirewallDomainList: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFirewallRuleGroupError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the specified firewall rule group.
  */
 export const getFirewallRuleGroup: API.OperationMethod<
   GetFirewallRuleGroupRequest,
   GetFirewallRuleGroupResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFirewallRuleGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallRuleGroupRequest,
@@ -3333,17 +3383,19 @@ export const getFirewallRuleGroup: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFirewallRuleGroupAssociationError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
  */
 export const getFirewallRuleGroupAssociation: API.OperationMethod<
   GetFirewallRuleGroupAssociationRequest,
   GetFirewallRuleGroupAssociationResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetFirewallRuleGroupAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallRuleGroupAssociationRequest,
@@ -3355,6 +3407,13 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetFirewallRuleGroupPolicyError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
  * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
@@ -3362,12 +3421,7 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
 export const getFirewallRuleGroupPolicy: API.OperationMethod<
   GetFirewallRuleGroupPolicyRequest,
   GetFirewallRuleGroupPolicyResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFirewallRuleGroupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirewallRuleGroupPolicyRequest,
@@ -3380,6 +3434,13 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOutpostResolverError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specified Resolver on the Outpost, such as its instance count and
  * type, name, and the current status of the Resolver.
@@ -3387,12 +3448,7 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
 export const getOutpostResolver: API.OperationMethod<
   GetOutpostResolverRequest,
   GetOutpostResolverResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOutpostResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOutpostResolverRequest,
@@ -3405,6 +3461,14 @@ export const getOutpostResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResolverConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
  * Amazon Virtual Private Cloud.
@@ -3412,13 +3476,7 @@ export const getOutpostResolver: API.OperationMethod<
 export const getResolverConfig: API.OperationMethod<
   GetResolverConfigRequest,
   GetResolverConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResolverConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverConfigRequest,
@@ -3432,19 +3490,21 @@ export const getResolverConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets DNSSEC validation information for a specified resource.
- */
-export const getResolverDnssecConfig: API.OperationMethod<
-  GetResolverDnssecConfigRequest,
-  GetResolverDnssecConfigResponse,
+export type GetResolverDnssecConfigError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets DNSSEC validation information for a specified resource.
+ */
+export const getResolverDnssecConfig: API.OperationMethod<
+  GetResolverDnssecConfigRequest,
+  GetResolverDnssecConfigResponse,
+  GetResolverDnssecConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverDnssecConfigRequest,
@@ -3458,6 +3518,12 @@ export const getResolverDnssecConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResolverEndpointError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the
  * current status of the endpoint.
@@ -3465,11 +3531,7 @@ export const getResolverDnssecConfig: API.OperationMethod<
 export const getResolverEndpoint: API.OperationMethod<
   GetResolverEndpointRequest,
   GetResolverEndpointResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetResolverEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverEndpointRequest,
@@ -3481,6 +3543,14 @@ export const getResolverEndpoint: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResolverQueryLogConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration
  * is logging queries for and the location that logs are sent to.
@@ -3488,13 +3558,7 @@ export const getResolverEndpoint: API.OperationMethod<
 export const getResolverQueryLogConfig: API.OperationMethod<
   GetResolverQueryLogConfigRequest,
   GetResolverQueryLogConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetResolverQueryLogConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverQueryLogConfigRequest,
@@ -3508,6 +3572,14 @@ export const getResolverQueryLogConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResolverQueryLogConfigAssociationError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC
  * with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
@@ -3515,13 +3587,7 @@ export const getResolverQueryLogConfig: API.OperationMethod<
 export const getResolverQueryLogConfigAssociation: API.OperationMethod<
   GetResolverQueryLogConfigAssociationRequest,
   GetResolverQueryLogConfigAssociationResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetResolverQueryLogConfigAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverQueryLogConfigAssociationRequest,
@@ -3535,6 +3601,13 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResolverQueryLogConfigPolicyError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Gets information about a query logging policy. A query logging policy specifies the Resolver query logging
  * operations and resources that you want to allow another Amazon Web Services account to be able to use.
@@ -3542,12 +3615,7 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
 export const getResolverQueryLogConfigPolicy: API.OperationMethod<
   GetResolverQueryLogConfigPolicyRequest,
   GetResolverQueryLogConfigPolicyResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | UnknownResourceException
-  | CommonErrors,
+  GetResolverQueryLogConfigPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverQueryLogConfigPolicyRequest,
@@ -3560,6 +3628,12 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type GetResolverRuleError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the
  * outbound Resolver endpoint that the rule is associated with.
@@ -3567,11 +3641,7 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
 export const getResolverRule: API.OperationMethod<
   GetResolverRuleRequest,
   GetResolverRuleResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetResolverRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverRuleRequest,
@@ -3583,6 +3653,12 @@ export const getResolverRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResolverRuleAssociationError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using
  * AssociateResolverRule.
@@ -3590,11 +3666,7 @@ export const getResolverRule: API.OperationMethod<
 export const getResolverRuleAssociation: API.OperationMethod<
   GetResolverRuleAssociationRequest,
   GetResolverRuleAssociationResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetResolverRuleAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverRuleAssociationRequest,
@@ -3606,6 +3678,12 @@ export const getResolverRuleAssociation: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetResolverRulePolicyError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share
  * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
@@ -3613,11 +3691,7 @@ export const getResolverRuleAssociation: API.OperationMethod<
 export const getResolverRulePolicy: API.OperationMethod<
   GetResolverRulePolicyRequest,
   GetResolverRulePolicyResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | UnknownResourceException
-  | CommonErrors,
+  GetResolverRulePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverRulePolicyRequest,
@@ -3629,6 +3703,15 @@ export const getResolverRulePolicy: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type ImportFirewallDomainsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
  *
@@ -3646,14 +3729,7 @@ export const getResolverRulePolicy: API.OperationMethod<
 export const importFirewallDomains: API.OperationMethod<
   ImportFirewallDomainsRequest,
   ImportFirewallDomainsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceErrorException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ImportFirewallDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportFirewallDomainsRequest,
@@ -3668,6 +3744,12 @@ export const importFirewallDomains: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFirewallConfigsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.
  *
@@ -3676,33 +3758,21 @@ export const importFirewallDomains: API.OperationMethod<
 export const listFirewallConfigs: API.OperationMethod<
   ListFirewallConfigsRequest,
   ListFirewallConfigsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallConfigsRequest,
   ) => stream.Stream<
     ListFirewallConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallConfigsRequest,
   ) => stream.Stream<
     FirewallConfig,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3721,6 +3791,12 @@ export const listFirewallConfigs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFirewallDomainListsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.
  *
@@ -3729,33 +3805,21 @@ export const listFirewallConfigs: API.OperationMethod<
 export const listFirewallDomainLists: API.OperationMethod<
   ListFirewallDomainListsRequest,
   ListFirewallDomainListsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallDomainListsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallDomainListsRequest,
   ) => stream.Stream<
     ListFirewallDomainListsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainListsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallDomainListsRequest,
   ) => stream.Stream<
     FirewallDomainListMetadata,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainListsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3774,6 +3838,13 @@ export const listFirewallDomainLists: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFirewallDomainsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the domains that you have defined for the specified firewall domain list.
  *
@@ -3782,36 +3853,21 @@ export const listFirewallDomainLists: API.OperationMethod<
 export const listFirewallDomains: API.OperationMethod<
   ListFirewallDomainsRequest,
   ListFirewallDomainsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallDomainsRequest,
   ) => stream.Stream<
     ListFirewallDomainsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallDomainsRequest,
   ) => stream.Stream<
     FirewallDomainName,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3831,6 +3887,12 @@ export const listFirewallDomains: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFirewallRuleGroupAssociationsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.
  *
@@ -3839,33 +3901,21 @@ export const listFirewallDomains: API.OperationMethod<
 export const listFirewallRuleGroupAssociations: API.OperationMethod<
   ListFirewallRuleGroupAssociationsRequest,
   ListFirewallRuleGroupAssociationsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallRuleGroupAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallRuleGroupAssociationsRequest,
   ) => stream.Stream<
     ListFirewallRuleGroupAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRuleGroupAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallRuleGroupAssociationsRequest,
   ) => stream.Stream<
     FirewallRuleGroupAssociation,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRuleGroupAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3884,6 +3934,12 @@ export const listFirewallRuleGroupAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFirewallRuleGroupsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the minimal high-level information for the rule groups that you have defined.
  *
@@ -3892,33 +3948,21 @@ export const listFirewallRuleGroupAssociations: API.OperationMethod<
 export const listFirewallRuleGroups: API.OperationMethod<
   ListFirewallRuleGroupsRequest,
   ListFirewallRuleGroupsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallRuleGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallRuleGroupsRequest,
   ) => stream.Stream<
     ListFirewallRuleGroupsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRuleGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallRuleGroupsRequest,
   ) => stream.Stream<
     FirewallRuleGroupMetadata,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRuleGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3937,6 +3981,13 @@ export const listFirewallRuleGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFirewallRulesError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.
  *
@@ -3945,36 +3996,21 @@ export const listFirewallRuleGroups: API.OperationMethod<
 export const listFirewallRules: API.OperationMethod<
   ListFirewallRulesRequest,
   ListFirewallRulesResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFirewallRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFirewallRulesRequest,
   ) => stream.Stream<
     ListFirewallRulesResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFirewallRulesRequest,
   ) => stream.Stream<
     FirewallRule,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFirewallRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3994,42 +4030,34 @@ export const listFirewallRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListOutpostResolversError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
  */
 export const listOutpostResolvers: API.OperationMethod<
   ListOutpostResolversRequest,
   ListOutpostResolversResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListOutpostResolversError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOutpostResolversRequest,
   ) => stream.Stream<
     ListOutpostResolversResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOutpostResolversError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOutpostResolversRequest,
   ) => stream.Stream<
     OutpostResolver,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListOutpostResolversError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4049,13 +4077,7 @@ export const listOutpostResolvers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieves the Resolver configurations that you have defined.
- * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
- */
-export const listResolverConfigs: API.OperationMethod<
-  ListResolverConfigsRequest,
-  ListResolverConfigsResponse,
+export type ListResolverConfigsError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
@@ -4063,35 +4085,29 @@ export const listResolverConfigs: API.OperationMethod<
   | InvalidRequestException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves the Resolver configurations that you have defined.
+ * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+ */
+export const listResolverConfigs: API.OperationMethod<
+  ListResolverConfigsRequest,
+  ListResolverConfigsResponse,
+  ListResolverConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverConfigsRequest,
   ) => stream.Stream<
     ListResolverConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResolverConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverConfigsRequest,
   ) => stream.Stream<
     ResolverConfig,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListResolverConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4113,45 +4129,35 @@ export const listResolverConfigs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
- */
-export const listResolverDnssecConfigs: API.OperationMethod<
-  ListResolverDnssecConfigsRequest,
-  ListResolverDnssecConfigsResponse,
+export type ListResolverDnssecConfigsError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
   | InvalidRequestException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
+ */
+export const listResolverDnssecConfigs: API.OperationMethod<
+  ListResolverDnssecConfigsRequest,
+  ListResolverDnssecConfigsResponse,
+  ListResolverDnssecConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverDnssecConfigsRequest,
   ) => stream.Stream<
     ListResolverDnssecConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverDnssecConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverDnssecConfigsRequest,
   ) => stream.Stream<
     ResolverDnssecConfig,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverDnssecConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4172,42 +4178,34 @@ export const listResolverDnssecConfigs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResolverEndpointIpAddressesError =
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the IP addresses for a specified Resolver endpoint.
  */
 export const listResolverEndpointIpAddresses: API.OperationMethod<
   ListResolverEndpointIpAddressesRequest,
   ListResolverEndpointIpAddressesResponse,
-  | InternalServiceErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListResolverEndpointIpAddressesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverEndpointIpAddressesRequest,
   ) => stream.Stream<
     ListResolverEndpointIpAddressesResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverEndpointIpAddressesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverEndpointIpAddressesRequest,
   ) => stream.Stream<
     IpAddressResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverEndpointIpAddressesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4227,42 +4225,34 @@ export const listResolverEndpointIpAddresses: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResolverEndpointsError =
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
  */
 export const listResolverEndpoints: API.OperationMethod<
   ListResolverEndpointsRequest,
   ListResolverEndpointsResponse,
-  | InternalServiceErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListResolverEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverEndpointsRequest,
   ) => stream.Stream<
     ListResolverEndpointsResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverEndpointsRequest,
   ) => stream.Stream<
     ResolverEndpoint,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4282,45 +4272,35 @@ export const listResolverEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists information about associations between Amazon VPCs and query logging configurations.
- */
-export const listResolverQueryLogConfigAssociations: API.OperationMethod<
-  ListResolverQueryLogConfigAssociationsRequest,
-  ListResolverQueryLogConfigAssociationsResponse,
+export type ListResolverQueryLogConfigAssociationsError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
   | LimitExceededException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists information about associations between Amazon VPCs and query logging configurations.
+ */
+export const listResolverQueryLogConfigAssociations: API.OperationMethod<
+  ListResolverQueryLogConfigAssociationsRequest,
+  ListResolverQueryLogConfigAssociationsResponse,
+  ListResolverQueryLogConfigAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverQueryLogConfigAssociationsRequest,
   ) => stream.Stream<
     ListResolverQueryLogConfigAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidParameterException
-    | InvalidRequestException
-    | LimitExceededException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverQueryLogConfigAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverQueryLogConfigAssociationsRequest,
   ) => stream.Stream<
     ResolverQueryLogConfigAssociation,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidParameterException
-    | InvalidRequestException
-    | LimitExceededException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverQueryLogConfigAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4341,6 +4321,14 @@ export const listResolverQueryLogConfigAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResolverQueryLogConfigsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
  * DNS query logs and specifies the VPCs that you want to log queries for.
@@ -4348,39 +4336,21 @@ export const listResolverQueryLogConfigAssociations: API.OperationMethod<
 export const listResolverQueryLogConfigs: API.OperationMethod<
   ListResolverQueryLogConfigsRequest,
   ListResolverQueryLogConfigsResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListResolverQueryLogConfigsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverQueryLogConfigsRequest,
   ) => stream.Stream<
     ListResolverQueryLogConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverQueryLogConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverQueryLogConfigsRequest,
   ) => stream.Stream<
     ResolverQueryLogConfig,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverQueryLogConfigsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4401,42 +4371,34 @@ export const listResolverQueryLogConfigs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResolverRuleAssociationsError =
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
  */
 export const listResolverRuleAssociations: API.OperationMethod<
   ListResolverRuleAssociationsRequest,
   ListResolverRuleAssociationsResponse,
-  | InternalServiceErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListResolverRuleAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverRuleAssociationsRequest,
   ) => stream.Stream<
     ListResolverRuleAssociationsResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverRuleAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverRuleAssociationsRequest,
   ) => stream.Stream<
     ResolverRuleAssociation,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverRuleAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4456,42 +4418,34 @@ export const listResolverRuleAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResolverRulesError =
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists the Resolver rules that were created using the current Amazon Web Services account.
  */
 export const listResolverRules: API.OperationMethod<
   ListResolverRulesRequest,
   ListResolverRulesResponse,
-  | InternalServiceErrorException
-  | InvalidNextTokenException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ThrottlingException
-  | CommonErrors,
+  ListResolverRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResolverRulesRequest,
   ) => stream.Stream<
     ListResolverRulesResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResolverRulesRequest,
   ) => stream.Stream<
     ResolverRule,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
+    ListResolverRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4511,45 +4465,35 @@ export const listResolverRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the tags that you associated with the specified resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags that you associated with the specified resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     Tag,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4570,6 +4514,13 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PutFirewallRuleGroupPolicyError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule
  * group. You can use the policy to share the rule group using Resource Access Manager
@@ -4578,12 +4529,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putFirewallRuleGroupPolicy: API.OperationMethod<
   PutFirewallRuleGroupPolicyRequest,
   PutFirewallRuleGroupPolicyResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutFirewallRuleGroupPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFirewallRuleGroupPolicyRequest,
@@ -4596,6 +4542,14 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResolverQueryLogConfigPolicyError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidPolicyDocument
+  | InvalidRequestException
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share,
  * and the operations that you want the account to be able to perform on the configuration.
@@ -4603,13 +4557,7 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
 export const putResolverQueryLogConfigPolicy: API.OperationMethod<
   PutResolverQueryLogConfigPolicyRequest,
   PutResolverQueryLogConfigPolicyResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidPolicyDocument
-  | InvalidRequestException
-  | UnknownResourceException
-  | CommonErrors,
+  PutResolverQueryLogConfigPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResolverQueryLogConfigPolicyRequest,
@@ -4623,6 +4571,13 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
+export type PutResolverRulePolicyError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidPolicyDocument
+  | UnknownResourceException
+  | CommonErrors;
 /**
  * Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with,
  * and the operations that you want the account to be able to perform on the rule.
@@ -4630,12 +4585,7 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
 export const putResolverRulePolicy: API.OperationMethod<
   PutResolverRulePolicyRequest,
   PutResolverRulePolicyResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidPolicyDocument
-  | UnknownResourceException
-  | CommonErrors,
+  PutResolverRulePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResolverRulePolicyRequest,
@@ -4648,12 +4598,7 @@ export const putResolverRulePolicy: API.OperationMethod<
     UnknownResourceException,
   ],
 }));
-/**
- * Adds one or more tags to a specified resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -4661,7 +4606,14 @@ export const tagResource: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds one or more tags to a specified resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4676,18 +4628,20 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4700,6 +4654,13 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateFirewallConfigError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of the firewall behavior provided by DNS Firewall for a single
  * VPC from Amazon Virtual Private Cloud (Amazon VPC).
@@ -4707,12 +4668,7 @@ export const untagResource: API.OperationMethod<
 export const updateFirewallConfig: API.OperationMethod<
   UpdateFirewallConfigRequest,
   UpdateFirewallConfigResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateFirewallConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFirewallConfigRequest,
@@ -4725,12 +4681,7 @@ export const updateFirewallConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the firewall domain list from an array of domain specifications.
- */
-export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsRequest,
-  UpdateFirewallDomainsResponse,
+export type UpdateFirewallDomainsError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
@@ -4738,7 +4689,14 @@ export const updateFirewallDomains: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the firewall domain list from an array of domain specifications.
+ */
+export const updateFirewallDomains: API.OperationMethod<
+  UpdateFirewallDomainsRequest,
+  UpdateFirewallDomainsResponse,
+  UpdateFirewallDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFirewallDomainsRequest,
@@ -4753,19 +4711,21 @@ export const updateFirewallDomains: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified firewall rule.
- */
-export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleRequest,
-  UpdateFirewallRuleResponse,
+export type UpdateFirewallRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified firewall rule.
+ */
+export const updateFirewallRule: API.OperationMethod<
+  UpdateFirewallRuleRequest,
+  UpdateFirewallRuleResponse,
+  UpdateFirewallRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFirewallRuleRequest,
@@ -4779,19 +4739,21 @@ export const updateFirewallRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
- */
-export const updateFirewallRuleGroupAssociation: API.OperationMethod<
-  UpdateFirewallRuleGroupAssociationRequest,
-  UpdateFirewallRuleGroupAssociationResponse,
+export type UpdateFirewallRuleGroupAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
+ */
+export const updateFirewallRuleGroupAssociation: API.OperationMethod<
+  UpdateFirewallRuleGroupAssociationRequest,
+  UpdateFirewallRuleGroupAssociationResponse,
+  UpdateFirewallRuleGroupAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFirewallRuleGroupAssociationRequest,
@@ -4805,12 +4767,7 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * You can use `UpdateOutpostResolver` to update the instance count, type, or name of a Resolver on an Outpost.
- */
-export const updateOutpostResolver: API.OperationMethod<
-  UpdateOutpostResolverRequest,
-  UpdateOutpostResolverResponse,
+export type UpdateOutpostResolverError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
@@ -4818,7 +4775,14 @@ export const updateOutpostResolver: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * You can use `UpdateOutpostResolver` to update the instance count, type, or name of a Resolver on an Outpost.
+ */
+export const updateOutpostResolver: API.OperationMethod<
+  UpdateOutpostResolverRequest,
+  UpdateOutpostResolverResponse,
+  UpdateOutpostResolverError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOutpostResolverRequest,
@@ -4833,13 +4797,7 @@ export const updateOutpostResolver: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
- * Amazon Virtual Private Cloud.
- */
-export const updateResolverConfig: API.OperationMethod<
-  UpdateResolverConfigRequest,
-  UpdateResolverConfigResponse,
+export type UpdateResolverConfigError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
@@ -4849,7 +4807,15 @@ export const updateResolverConfig: API.OperationMethod<
   | ResourceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
+ * Amazon Virtual Private Cloud.
+ */
+export const updateResolverConfig: API.OperationMethod<
+  UpdateResolverConfigRequest,
+  UpdateResolverConfigResponse,
+  UpdateResolverConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverConfigRequest,
@@ -4866,19 +4832,21 @@ export const updateResolverConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
- */
-export const updateResolverDnssecConfig: API.OperationMethod<
-  UpdateResolverDnssecConfigRequest,
-  UpdateResolverDnssecConfigResponse,
+export type UpdateResolverDnssecConfigError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
   | ResourceNotFoundException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
+ */
+export const updateResolverDnssecConfig: API.OperationMethod<
+  UpdateResolverDnssecConfigRequest,
+  UpdateResolverDnssecConfigResponse,
+  UpdateResolverDnssecConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverDnssecConfigRequest,
@@ -4892,6 +4860,14 @@ export const updateResolverDnssecConfig: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type UpdateResolverEndpointError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint.
  * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
@@ -4899,13 +4875,7 @@ export const updateResolverDnssecConfig: API.OperationMethod<
 export const updateResolverEndpoint: API.OperationMethod<
   UpdateResolverEndpointRequest,
   UpdateResolverEndpointResponse,
-  | AccessDeniedException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  UpdateResolverEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverEndpointRequest,
@@ -4919,13 +4889,7 @@ export const updateResolverEndpoint: API.OperationMethod<
     ThrottlingException,
   ],
 }));
-/**
- * Updates settings for a specified Resolver rule. `ResolverRuleId` is required, and all other parameters are optional.
- * If you don't specify a parameter, it retains its current value.
- */
-export const updateResolverRule: API.OperationMethod<
-  UpdateResolverRuleRequest,
-  UpdateResolverRuleResponse,
+export type UpdateResolverRuleError =
   | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
@@ -4934,7 +4898,15 @@ export const updateResolverRule: API.OperationMethod<
   | ResourceNotFoundException
   | ResourceUnavailableException
   | ThrottlingException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates settings for a specified Resolver rule. `ResolverRuleId` is required, and all other parameters are optional.
+ * If you don't specify a parameter, it retains its current value.
+ */
+export const updateResolverRule: API.OperationMethod<
+  UpdateResolverRuleRequest,
+  UpdateResolverRuleResponse,
+  UpdateResolverRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverRuleRequest,

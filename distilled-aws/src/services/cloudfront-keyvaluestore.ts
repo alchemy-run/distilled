@@ -433,19 +433,21 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Deletes the key value pair specified by the key.
- */
-export const deleteKey: API.OperationMethod<
-  DeleteKeyRequest,
-  DeleteKeyResponse,
+export type DeleteKeyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the key value pair specified by the key.
+ */
+export const deleteKey: API.OperationMethod<
+  DeleteKeyRequest,
+  DeleteKeyResponse,
+  DeleteKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyRequest,
@@ -459,17 +461,19 @@ export const deleteKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeKeyValueStoreError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns metadata information about Key Value Store.
  */
 export const describeKeyValueStore: API.OperationMethod<
   DescribeKeyValueStoreRequest,
   DescribeKeyValueStoreResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeKeyValueStoreError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeKeyValueStoreRequest,
@@ -481,17 +485,19 @@ export const describeKeyValueStore: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetKeyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a key value pair.
  */
 export const getKey: API.OperationMethod<
   GetKeyRequest,
   GetKeyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyRequest,
@@ -503,42 +509,34 @@ export const getKey: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListKeysError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of key value pairs.
  */
 export const listKeys: API.OperationMethod<
   ListKeysRequest,
   ListKeysResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListKeysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListKeysRequest,
   ) => stream.Stream<
     ListKeysResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeysRequest,
   ) => stream.Stream<
     ListKeysResponseListItem,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListKeysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -558,19 +556,21 @@ export const listKeys: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Creates a new key value pair or replaces the value of an existing key.
- */
-export const putKey: API.OperationMethod<
-  PutKeyRequest,
-  PutKeyResponse,
+export type PutKeyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new key value pair or replaces the value of an existing key.
+ */
+export const putKey: API.OperationMethod<
+  PutKeyRequest,
+  PutKeyResponse,
+  PutKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKeyRequest,
@@ -584,19 +584,21 @@ export const putKey: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
- */
-export const updateKeys: API.OperationMethod<
-  UpdateKeysRequest,
-  UpdateKeysResponse,
+export type UpdateKeysError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
+ */
+export const updateKeys: API.OperationMethod<
+  UpdateKeysRequest,
+  UpdateKeysResponse,
+  UpdateKeysError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeysRequest,

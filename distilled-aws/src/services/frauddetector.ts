@@ -187,12 +187,12 @@ export const BatchCreateVariableRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchCreateVariableRequest",
 }) as any as S.Schema<BatchCreateVariableRequest>;
-export interface BatchCreateVariableError {
+export interface BatchCreateVariableError_ {
   name?: string;
   code?: number;
   message?: string;
 }
-export const BatchCreateVariableError = S.suspend(() =>
+export const BatchCreateVariableError_ = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     code: S.optional(S.Number),
@@ -200,11 +200,11 @@ export const BatchCreateVariableError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchCreateVariableError",
-}) as any as S.Schema<BatchCreateVariableError>;
-export type BatchCreateVariableErrorList = BatchCreateVariableError[];
-export const BatchCreateVariableErrorList = S.Array(BatchCreateVariableError);
+}) as any as S.Schema<BatchCreateVariableError_>;
+export type BatchCreateVariableErrorList = BatchCreateVariableError_[];
+export const BatchCreateVariableErrorList = S.Array(BatchCreateVariableError_);
 export interface BatchCreateVariableResult {
-  errors?: BatchCreateVariableError[];
+  errors?: BatchCreateVariableError_[];
 }
 export const BatchCreateVariableResult = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchCreateVariableErrorList) }).pipe(ns),
@@ -271,12 +271,12 @@ export const Variable = S.suspend(() =>
 ).annotate({ identifier: "Variable" }) as any as S.Schema<Variable>;
 export type VariableList = Variable[];
 export const VariableList = S.Array(Variable);
-export interface BatchGetVariableError {
+export interface BatchGetVariableError_ {
   name?: string;
   code?: number;
   message?: string;
 }
-export const BatchGetVariableError = S.suspend(() =>
+export const BatchGetVariableError_ = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     code: S.optional(S.Number),
@@ -284,12 +284,12 @@ export const BatchGetVariableError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchGetVariableError",
-}) as any as S.Schema<BatchGetVariableError>;
-export type BatchGetVariableErrorList = BatchGetVariableError[];
-export const BatchGetVariableErrorList = S.Array(BatchGetVariableError);
+}) as any as S.Schema<BatchGetVariableError_>;
+export type BatchGetVariableErrorList = BatchGetVariableError_[];
+export const BatchGetVariableErrorList = S.Array(BatchGetVariableError_);
 export interface BatchGetVariableResult {
   variables?: Variable[];
-  errors?: BatchGetVariableError[];
+  errors?: BatchGetVariableError_[];
 }
 export const BatchGetVariableResult = S.suspend(() =>
   S.Struct({
@@ -3842,17 +3842,19 @@ export class ResourceUnavailableException extends S.TaggedErrorClass<ResourceUna
 ).pipe(C.withConflictError) {}
 
 //# Operations
+export type BatchCreateVariableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a batch of variables.
  */
 export const batchCreateVariable: API.OperationMethod<
   BatchCreateVariableRequest,
   BatchCreateVariableResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchCreateVariableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateVariableRequest,
@@ -3864,17 +3866,19 @@ export const batchCreateVariable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetVariableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a batch of variables.
  */
 export const batchGetVariable: API.OperationMethod<
   BatchGetVariableRequest,
   BatchGetVariableResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetVariableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetVariableRequest,
@@ -3886,18 +3890,20 @@ export const batchGetVariable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelBatchImportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels an in-progress batch import job.
  */
 export const cancelBatchImportJob: API.OperationMethod<
   CancelBatchImportJobRequest,
   CancelBatchImportJobResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelBatchImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelBatchImportJobRequest,
@@ -3910,18 +3916,20 @@ export const cancelBatchImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelBatchPredictionJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the specified batch prediction job.
  */
 export const cancelBatchPredictionJob: API.OperationMethod<
   CancelBatchPredictionJobRequest,
   CancelBatchPredictionJobResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelBatchPredictionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelBatchPredictionJobRequest,
@@ -3934,18 +3942,20 @@ export const cancelBatchPredictionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateBatchImportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a batch import job.
  */
 export const createBatchImportJob: API.OperationMethod<
   CreateBatchImportJobRequest,
   CreateBatchImportJobResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBatchImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBatchImportJobRequest,
@@ -3958,18 +3968,20 @@ export const createBatchImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateBatchPredictionJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a batch prediction job.
  */
 export const createBatchPredictionJob: API.OperationMethod<
   CreateBatchPredictionJobRequest,
   CreateBatchPredictionJobResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBatchPredictionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBatchPredictionJobRequest,
@@ -3982,18 +3994,20 @@ export const createBatchPredictionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDetectorVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a detector version. The detector version starts in a `DRAFT` status.
  */
 export const createDetectorVersion: API.OperationMethod<
   CreateDetectorVersionRequest,
   CreateDetectorVersionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDetectorVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDetectorVersionRequest,
@@ -4006,6 +4020,12 @@ export const createDetectorVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateListError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a list.
  *
@@ -4015,11 +4035,7 @@ export const createDetectorVersion: API.OperationMethod<
 export const createList: API.OperationMethod<
   CreateListRequest,
   CreateListResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateListRequest,
@@ -4031,17 +4047,19 @@ export const createList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateModelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a model using the specified model type.
  */
 export const createModel: API.OperationMethod<
   CreateModelRequest,
   CreateModelResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
@@ -4053,18 +4071,20 @@ export const createModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateModelVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a version of the model using the specified model type and model id.
  */
 export const createModelVersion: API.OperationMethod<
   CreateModelVersionRequest,
   CreateModelVersionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelVersionRequest,
@@ -4077,17 +4097,19 @@ export const createModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a rule for use with the specified detector.
  */
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
@@ -4099,17 +4121,19 @@ export const createRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateVariableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a variable.
  */
 export const createVariable: API.OperationMethod<
   CreateVariableRequest,
   CreateVariableResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateVariableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVariableRequest,
@@ -4121,17 +4145,19 @@ export const createVariable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBatchImportJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
  */
 export const deleteBatchImportJob: API.OperationMethod<
   DeleteBatchImportJobRequest,
   DeleteBatchImportJobResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBatchImportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBatchImportJobRequest,
@@ -4143,17 +4169,19 @@ export const deleteBatchImportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBatchPredictionJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a batch prediction job.
  */
 export const deleteBatchPredictionJob: API.OperationMethod<
   DeleteBatchPredictionJobRequest,
   DeleteBatchPredictionJobResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteBatchPredictionJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBatchPredictionJobRequest,
@@ -4165,6 +4193,13 @@ export const deleteBatchPredictionJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDetectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
  *
@@ -4173,12 +4208,7 @@ export const deleteBatchPredictionJob: API.OperationMethod<
 export const deleteDetector: API.OperationMethod<
   DeleteDetectorRequest,
   DeleteDetectorResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectorRequest,
@@ -4191,6 +4221,14 @@ export const deleteDetector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDetectorVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the detector version. You cannot delete detector versions that are in `ACTIVE` status.
  *
@@ -4199,13 +4237,7 @@ export const deleteDetector: API.OperationMethod<
 export const deleteDetectorVersion: API.OperationMethod<
   DeleteDetectorVersionRequest,
   DeleteDetectorVersionResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDetectorVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectorVersionRequest,
@@ -4219,6 +4251,13 @@ export const deleteDetectorVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEntityTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an entity type.
  *
@@ -4229,12 +4268,7 @@ export const deleteDetectorVersion: API.OperationMethod<
 export const deleteEntityType: API.OperationMethod<
   DeleteEntityTypeRequest,
   DeleteEntityTypeResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEntityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEntityTypeRequest,
@@ -4247,6 +4281,12 @@ export const deleteEntityType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified event.
  *
@@ -4256,11 +4296,7 @@ export const deleteEntityType: API.OperationMethod<
 export const deleteEvent: API.OperationMethod<
   DeleteEventRequest,
   DeleteEventResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventRequest,
@@ -4272,19 +4308,21 @@ export const deleteEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes all events of a particular event type.
- */
-export const deleteEventsByEventType: API.OperationMethod<
-  DeleteEventsByEventTypeRequest,
-  DeleteEventsByEventTypeResult,
+export type DeleteEventsByEventTypeError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes all events of a particular event type.
+ */
+export const deleteEventsByEventType: API.OperationMethod<
+  DeleteEventsByEventTypeRequest,
+  DeleteEventsByEventTypeResult,
+  DeleteEventsByEventTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventsByEventTypeRequest,
@@ -4298,6 +4336,13 @@ export const deleteEventsByEventType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEventTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an event type.
  *
@@ -4308,12 +4353,7 @@ export const deleteEventsByEventType: API.OperationMethod<
 export const deleteEventType: API.OperationMethod<
   DeleteEventTypeRequest,
   DeleteEventTypeResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEventTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventTypeRequest,
@@ -4326,6 +4366,13 @@ export const deleteEventType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteExternalModelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a SageMaker model from Amazon Fraud Detector.
  *
@@ -4334,12 +4381,7 @@ export const deleteEventType: API.OperationMethod<
 export const deleteExternalModel: API.OperationMethod<
   DeleteExternalModelRequest,
   DeleteExternalModelResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteExternalModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExternalModelRequest,
@@ -4352,6 +4394,12 @@ export const deleteExternalModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLabelError =
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a label.
  *
@@ -4364,11 +4412,7 @@ export const deleteExternalModel: API.OperationMethod<
 export const deleteLabel: API.OperationMethod<
   DeleteLabelRequest,
   DeleteLabelResult,
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelRequest,
@@ -4380,6 +4424,13 @@ export const deleteLabel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteListError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the list, provided it is not used in a rule.
  *
@@ -4388,12 +4439,7 @@ export const deleteLabel: API.OperationMethod<
 export const deleteList: API.OperationMethod<
   DeleteListRequest,
   DeleteListResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteListRequest,
@@ -4406,6 +4452,13 @@ export const deleteList: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteModelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a model.
  *
@@ -4416,12 +4469,7 @@ export const deleteList: API.OperationMethod<
 export const deleteModel: API.OperationMethod<
   DeleteModelRequest,
   DeleteModelResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
@@ -4434,6 +4482,13 @@ export const deleteModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteModelVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a model version.
  *
@@ -4444,12 +4499,7 @@ export const deleteModel: API.OperationMethod<
 export const deleteModelVersion: API.OperationMethod<
   DeleteModelVersionRequest,
   DeleteModelVersionResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelVersionRequest,
@@ -4462,6 +4512,13 @@ export const deleteModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteOutcomeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an outcome.
  *
@@ -4472,12 +4529,7 @@ export const deleteModelVersion: API.OperationMethod<
 export const deleteOutcome: API.OperationMethod<
   DeleteOutcomeRequest,
   DeleteOutcomeResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteOutcomeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutcomeRequest,
@@ -4490,6 +4542,13 @@ export const deleteOutcome: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRuleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the rule. You cannot delete a rule if it is used by an `ACTIVE` or `INACTIVE` detector version.
  *
@@ -4498,12 +4557,7 @@ export const deleteOutcome: API.OperationMethod<
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
@@ -4516,6 +4570,13 @@ export const deleteRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteVariableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a variable.
  *
@@ -4528,12 +4589,7 @@ export const deleteRule: API.OperationMethod<
 export const deleteVariable: API.OperationMethod<
   DeleteVariableRequest,
   DeleteVariableResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteVariableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVariableRequest,
@@ -4546,18 +4602,20 @@ export const deleteVariable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDetectorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all versions for a specified detector.
  */
 export const describeDetector: API.OperationMethod<
   DescribeDetectorRequest,
   DescribeDetectorResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectorRequest,
@@ -4570,42 +4628,34 @@ export const describeDetector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeModelVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
  */
 export const describeModelVersions: API.OperationMethod<
   DescribeModelVersionsRequest,
   DescribeModelVersionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeModelVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeModelVersionsRequest,
   ) => stream.Stream<
     DescribeModelVersionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeModelVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeModelVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    DescribeModelVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4624,6 +4674,13 @@ export const describeModelVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBatchImportJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null `maxResults`,
  * this action retrieves a maximum of 50 records per page. If you provide a `maxResults`, the value must be between 1 and 50.
@@ -4633,36 +4690,21 @@ export const describeModelVersions: API.OperationMethod<
 export const getBatchImportJobs: API.OperationMethod<
   GetBatchImportJobsRequest,
   GetBatchImportJobsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBatchImportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBatchImportJobsRequest,
   ) => stream.Stream<
     GetBatchImportJobsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetBatchImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBatchImportJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetBatchImportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4681,42 +4723,34 @@ export const getBatchImportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetBatchPredictionJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
  */
 export const getBatchPredictionJobs: API.OperationMethod<
   GetBatchPredictionJobsRequest,
   GetBatchPredictionJobsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetBatchPredictionJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetBatchPredictionJobsRequest,
   ) => stream.Stream<
     GetBatchPredictionJobsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetBatchPredictionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetBatchPredictionJobsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetBatchPredictionJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4735,18 +4769,20 @@ export const getBatchPredictionJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetDeleteEventsByEventTypeStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the status of a `DeleteEventsByEventType` action.
  */
 export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
   GetDeleteEventsByEventTypeStatusRequest,
   GetDeleteEventsByEventTypeStatusResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeleteEventsByEventTypeStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeleteEventsByEventTypeStatusRequest,
@@ -4759,6 +4795,13 @@ export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDetectorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all detectors or a single detector if a `detectorId` is specified. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 10 records
@@ -4770,36 +4813,21 @@ export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
 export const getDetectors: API.OperationMethod<
   GetDetectorsRequest,
   GetDetectorsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDetectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetDetectorsRequest,
   ) => stream.Stream<
     GetDetectorsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetDetectorsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetDetectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4818,18 +4846,20 @@ export const getDetectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetDetectorVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a particular detector version.
  */
 export const getDetectorVersion: API.OperationMethod<
   GetDetectorVersionRequest,
   GetDetectorVersionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDetectorVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDetectorVersionRequest,
@@ -4842,6 +4872,13 @@ export const getDetectorVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEntityTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 10 records
@@ -4853,36 +4890,21 @@ export const getDetectorVersion: API.OperationMethod<
 export const getEntityTypes: API.OperationMethod<
   GetEntityTypesRequest,
   GetEntityTypesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEntityTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEntityTypesRequest,
   ) => stream.Stream<
     GetEntityTypesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetEntityTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetEntityTypesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetEntityTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4901,18 +4923,20 @@ export const getEntityTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetEventError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
  */
 export const getEvent: API.OperationMethod<
   GetEventRequest,
   GetEventResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventRequest,
@@ -4925,12 +4949,7 @@ export const getEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Evaluates an event against a detector version. If a version ID is not provided, the detector’s (`ACTIVE`) version is used.
- */
-export const getEventPrediction: API.OperationMethod<
-  GetEventPredictionRequest,
-  GetEventPredictionResult,
+export type GetEventPredictionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -4938,7 +4957,14 @@ export const getEventPrediction: API.OperationMethod<
   | ResourceUnavailableException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Evaluates an event against a detector version. If a version ID is not provided, the detector’s (`ACTIVE`) version is used.
+ */
+export const getEventPrediction: API.OperationMethod<
+  GetEventPredictionRequest,
+  GetEventPredictionResult,
+  GetEventPredictionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventPredictionRequest,
@@ -4953,18 +4979,20 @@ export const getEventPrediction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEventPredictionMetadataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
  */
 export const getEventPredictionMetadata: API.OperationMethod<
   GetEventPredictionMetadataRequest,
   GetEventPredictionMetadataResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEventPredictionMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventPredictionMetadataRequest,
@@ -4977,6 +5005,13 @@ export const getEventPredictionMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEventTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all event types or a specific event type if name is provided. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 10 records
@@ -4988,36 +5023,21 @@ export const getEventPredictionMetadata: API.OperationMethod<
 export const getEventTypes: API.OperationMethod<
   GetEventTypesRequest,
   GetEventTypesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEventTypesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetEventTypesRequest,
   ) => stream.Stream<
     GetEventTypesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetEventTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetEventTypesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetEventTypesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5036,6 +5056,13 @@ export const getEventTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetExternalModelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details for one or more Amazon SageMaker models that have been imported into the
  * service. This is a paginated API. If you provide a null `maxResults`, this
@@ -5047,36 +5074,21 @@ export const getEventTypes: API.OperationMethod<
 export const getExternalModels: API.OperationMethod<
   GetExternalModelsRequest,
   GetExternalModelsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetExternalModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetExternalModelsRequest,
   ) => stream.Stream<
     GetExternalModelsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetExternalModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetExternalModelsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetExternalModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5095,17 +5107,19 @@ export const getExternalModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetKMSEncryptionKeyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
  */
 export const getKMSEncryptionKey: API.OperationMethod<
   GetKMSEncryptionKeyRequest,
   GetKMSEncryptionKeyResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetKMSEncryptionKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKMSEncryptionKeyRequest,
@@ -5117,6 +5131,13 @@ export const getKMSEncryptionKey: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetLabelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all labels or a specific label if name is provided. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 50 records
@@ -5128,36 +5149,21 @@ export const getKMSEncryptionKey: API.OperationMethod<
 export const getLabels: API.OperationMethod<
   GetLabelsRequest,
   GetLabelsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLabelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetLabelsRequest,
   ) => stream.Stream<
     GetLabelsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetLabelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetLabelsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetLabelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5176,42 +5182,34 @@ export const getLabels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetListElementsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all the elements in the specified list.
  */
 export const getListElements: API.OperationMethod<
   GetListElementsRequest,
   GetListElementsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetListElementsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetListElementsRequest,
   ) => stream.Stream<
     GetListElementsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetListElementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetListElementsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetListElementsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5230,42 +5228,34 @@ export const getListElements: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetListsMetadataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the metadata of either all the lists under the account or the specified list.
  */
 export const getListsMetadata: API.OperationMethod<
   GetListsMetadataRequest,
   GetListsMetadataResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetListsMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetListsMetadataRequest,
   ) => stream.Stream<
     GetListsMetadataResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetListsMetadataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetListsMetadataRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetListsMetadataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5284,6 +5274,13 @@ export const getListsMetadata: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetModelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.
  *
@@ -5297,36 +5294,21 @@ export const getListsMetadata: API.OperationMethod<
 export const getModels: API.OperationMethod<
   GetModelsRequest,
   GetModelsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetModelsRequest,
   ) => stream.Stream<
     GetModelsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetModelsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5345,18 +5327,20 @@ export const getModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetModelVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the details of the specified model version.
  */
 export const getModelVersion: API.OperationMethod<
   GetModelVersionRequest,
   GetModelVersionResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelVersionRequest,
@@ -5369,6 +5353,13 @@ export const getModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetOutcomesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets one or more outcomes. This is a paginated
  * API. If you provide a null `maxResults`, this actions retrieves a maximum of
@@ -5380,36 +5371,21 @@ export const getModelVersion: API.OperationMethod<
 export const getOutcomes: API.OperationMethod<
   GetOutcomesRequest,
   GetOutcomesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetOutcomesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetOutcomesRequest,
   ) => stream.Stream<
     GetOutcomesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetOutcomesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetOutcomesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetOutcomesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5428,6 +5404,13 @@ export const getOutcomes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get all rules for a detector (paginated) if `ruleId` and `ruleVersion` are not specified. Gets all rules for the detector and the `ruleId` if present (paginated). Gets a specific rule if both the `ruleId` and the `ruleVersion` are specified.
  *
@@ -5436,36 +5419,21 @@ export const getOutcomes: API.OperationMethod<
 export const getRules: API.OperationMethod<
   GetRulesRequest,
   GetRulesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetRulesRequest,
   ) => stream.Stream<
     GetRulesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetRulesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5484,6 +5452,13 @@ export const getRules: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetVariablesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets all of the variables or the specific variable. This is a
  * paginated API. Providing null `maxSizePerPage` results in retrieving maximum of
@@ -5495,36 +5470,21 @@ export const getRules: API.OperationMethod<
 export const getVariables: API.OperationMethod<
   GetVariablesRequest,
   GetVariablesResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetVariablesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetVariablesRequest,
   ) => stream.Stream<
     GetVariablesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetVariablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetVariablesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetVariablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5543,6 +5503,12 @@ export const getVariables: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListEventPredictionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period.
  * If filter is not specified, the most recent prediction is returned.
@@ -5560,33 +5526,21 @@ export const getVariables: API.OperationMethod<
 export const listEventPredictions: API.OperationMethod<
   ListEventPredictionsRequest,
   ListEventPredictionsResult,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEventPredictionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventPredictionsRequest,
   ) => stream.Stream<
     ListEventPredictionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventPredictionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventPredictionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventPredictionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5604,6 +5558,12 @@ export const listEventPredictions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the
  * response as part of your request. A null pagination token
@@ -5612,33 +5572,21 @@ export const listEventPredictions: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResult,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     ListTagsForResourceResult,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTagsForResourceError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5656,18 +5604,20 @@ export const listTagsForResource: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutDetectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a detector.
  */
 export const putDetector: API.OperationMethod<
   PutDetectorRequest,
   PutDetectorResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutDetectorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDetectorRequest,
@@ -5680,18 +5630,20 @@ export const putDetector: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutEntityTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
  */
 export const putEntityType: API.OperationMethod<
   PutEntityTypeRequest,
   PutEntityTypeResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutEntityTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEntityTypeRequest,
@@ -5704,18 +5656,20 @@ export const putEntityType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutEventTypeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
  */
 export const putEventType: API.OperationMethod<
   PutEventTypeRequest,
   PutEventTypeResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutEventTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventTypeRequest,
@@ -5728,18 +5682,20 @@ export const putEventType: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutExternalModelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
  */
 export const putExternalModel: API.OperationMethod<
   PutExternalModelRequest,
   PutExternalModelResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutExternalModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutExternalModelRequest,
@@ -5752,19 +5708,21 @@ export const putExternalModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
- */
-export const putKMSEncryptionKey: API.OperationMethod<
-  PutKMSEncryptionKeyRequest,
-  PutKMSEncryptionKeyResult,
+export type PutKMSEncryptionKeyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
+ */
+export const putKMSEncryptionKey: API.OperationMethod<
+  PutKMSEncryptionKeyRequest,
+  PutKMSEncryptionKeyResult,
+  PutKMSEncryptionKeyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKMSEncryptionKeyRequest,
@@ -5778,18 +5736,20 @@ export const putKMSEncryptionKey: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutLabelError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
  */
 export const putLabel: API.OperationMethod<
   PutLabelRequest,
   PutLabelResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLabelRequest,
@@ -5802,18 +5762,20 @@ export const putLabel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutOutcomeError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates an outcome.
  */
 export const putOutcome: API.OperationMethod<
   PutOutcomeRequest,
   PutOutcomeResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutOutcomeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutOutcomeRequest,
@@ -5826,19 +5788,21 @@ export const putOutcome: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use `SendEvent` to upload a historical dataset, which you can then later use to train a model.
- */
-export const sendEvent: API.OperationMethod<
-  SendEventRequest,
-  SendEventResult,
+export type SendEventError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use `SendEvent` to upload a historical dataset, which you can then later use to train a model.
+ */
+export const sendEvent: API.OperationMethod<
+  SendEventRequest,
+  SendEventResult,
+  SendEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEventRequest,
@@ -5852,17 +5816,19 @@ export const sendEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResult,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -5874,17 +5840,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResult,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -5896,19 +5864,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
- */
-export const updateDetectorVersion: API.OperationMethod<
-  UpdateDetectorVersionRequest,
-  UpdateDetectorVersionResult,
+export type UpdateDetectorVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
+ */
+export const updateDetectorVersion: API.OperationMethod<
+  UpdateDetectorVersionRequest,
+  UpdateDetectorVersionResult,
+  UpdateDetectorVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectorVersionRequest,
@@ -5922,6 +5892,13 @@ export const updateDetectorVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDetectorVersionMetadataError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the detector version's description. You can update the metadata for any detector version (`DRAFT, ACTIVE,` or
  * `INACTIVE`).
@@ -5929,12 +5906,7 @@ export const updateDetectorVersion: API.OperationMethod<
 export const updateDetectorVersionMetadata: API.OperationMethod<
   UpdateDetectorVersionMetadataRequest,
   UpdateDetectorVersionMetadataResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDetectorVersionMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectorVersionMetadataRequest,
@@ -5947,6 +5919,14 @@ export const updateDetectorVersionMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDetectorVersionStatusError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the detector version’s status. You can perform the following promotions or
  * demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`, and `INACTIVE` to `ACTIVE`.
@@ -5954,13 +5934,7 @@ export const updateDetectorVersionMetadata: API.OperationMethod<
 export const updateDetectorVersionStatus: API.OperationMethod<
   UpdateDetectorVersionStatusRequest,
   UpdateDetectorVersionStatusResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDetectorVersionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectorVersionStatusRequest,
@@ -5974,19 +5948,21 @@ export const updateDetectorVersionStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified event with a new label.
- */
-export const updateEventLabel: API.OperationMethod<
-  UpdateEventLabelRequest,
-  UpdateEventLabelResult,
+export type UpdateEventLabelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified event with a new label.
+ */
+export const updateEventLabel: API.OperationMethod<
+  UpdateEventLabelRequest,
+  UpdateEventLabelResult,
+  UpdateEventLabelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventLabelRequest,
@@ -6000,19 +5976,21 @@ export const updateEventLabel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a list.
- */
-export const updateList: API.OperationMethod<
-  UpdateListRequest,
-  UpdateListResult,
+export type UpdateListError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a list.
+ */
+export const updateList: API.OperationMethod<
+  UpdateListRequest,
+  UpdateListResult,
+  UpdateListError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateListRequest,
@@ -6026,19 +6004,21 @@ export const updateList: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates model description.
- */
-export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
-  UpdateModelResult,
+export type UpdateModelError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates model description.
+ */
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
+  UpdateModelResult,
+  UpdateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
@@ -6052,19 +6032,21 @@ export const updateModel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
- */
-export const updateModelVersion: API.OperationMethod<
-  UpdateModelVersionRequest,
-  UpdateModelVersionResult,
+export type UpdateModelVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
+ */
+export const updateModelVersion: API.OperationMethod<
+  UpdateModelVersionRequest,
+  UpdateModelVersionResult,
+  UpdateModelVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelVersionRequest,
@@ -6078,6 +6060,14 @@ export const updateModelVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateModelVersionStatusError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the status of a model version.
  *
@@ -6092,13 +6082,7 @@ export const updateModelVersion: API.OperationMethod<
 export const updateModelVersionStatus: API.OperationMethod<
   UpdateModelVersionStatusRequest,
   UpdateModelVersionStatusResult,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateModelVersionStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelVersionStatusRequest,
@@ -6112,19 +6096,21 @@ export const updateModelVersionStatus: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a rule's metadata. The description attribute can be updated.
- */
-export const updateRuleMetadata: API.OperationMethod<
-  UpdateRuleMetadataRequest,
-  UpdateRuleMetadataResult,
+export type UpdateRuleMetadataError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a rule's metadata. The description attribute can be updated.
+ */
+export const updateRuleMetadata: API.OperationMethod<
+  UpdateRuleMetadataRequest,
+  UpdateRuleMetadataResult,
+  UpdateRuleMetadataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleMetadataRequest,
@@ -6138,19 +6124,21 @@ export const updateRuleMetadata: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
- */
-export const updateRuleVersion: API.OperationMethod<
-  UpdateRuleVersionRequest,
-  UpdateRuleVersionResult,
+export type UpdateRuleVersionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
+ */
+export const updateRuleVersion: API.OperationMethod<
+  UpdateRuleVersionRequest,
+  UpdateRuleVersionResult,
+  UpdateRuleVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleVersionRequest,
@@ -6164,19 +6152,21 @@ export const updateRuleVersion: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a variable.
- */
-export const updateVariable: API.OperationMethod<
-  UpdateVariableRequest,
-  UpdateVariableResult,
+export type UpdateVariableError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a variable.
+ */
+export const updateVariable: API.OperationMethod<
+  UpdateVariableRequest,
+  UpdateVariableResult,
+  UpdateVariableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVariableRequest,

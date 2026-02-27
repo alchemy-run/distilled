@@ -776,6 +776,14 @@ export class CloudHsmResourceLimitExceededException extends S.TaggedErrorClass<C
 ) {}
 
 //# Operations
+export type CopyBackupToRegionError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Copy an CloudHSM cluster backup to a different region.
  *
@@ -784,13 +792,7 @@ export class CloudHsmResourceLimitExceededException extends S.TaggedErrorClass<C
 export const copyBackupToRegion: API.OperationMethod<
   CopyBackupToRegionRequest,
   CopyBackupToRegionResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  CopyBackupToRegionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyBackupToRegionRequest,
@@ -804,6 +806,14 @@ export const copyBackupToRegion: API.OperationMethod<
     CloudHsmTagException,
   ],
 }));
+export type CreateClusterError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Creates a new CloudHSM cluster.
  *
@@ -813,13 +823,7 @@ export const copyBackupToRegion: API.OperationMethod<
 export const createCluster: API.OperationMethod<
   CreateClusterRequest,
   CreateClusterResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  CreateClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -833,6 +837,13 @@ export const createCluster: API.OperationMethod<
     CloudHsmTagException,
   ],
 }));
+export type CreateHsmError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Creates a new hardware security module (HSM) in the specified CloudHSM
  * cluster.
@@ -842,12 +853,7 @@ export const createCluster: API.OperationMethod<
 export const createHsm: API.OperationMethod<
   CreateHsmRequest,
   CreateHsmResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  CreateHsmError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHsmRequest,
@@ -860,6 +866,13 @@ export const createHsm: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type DeleteBackupError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Deletes a specified CloudHSM backup. A backup can be restored up to 7 days
  * after the DeleteBackup request is made. For more information on restoring a backup, see
@@ -870,12 +883,7 @@ export const createHsm: API.OperationMethod<
 export const deleteBackup: API.OperationMethod<
   DeleteBackupRequest,
   DeleteBackupResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  DeleteBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackupRequest,
@@ -888,6 +896,14 @@ export const deleteBackup: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type DeleteClusterError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must
  * delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.
@@ -897,13 +913,7 @@ export const deleteBackup: API.OperationMethod<
 export const deleteCluster: API.OperationMethod<
   DeleteClusterRequest,
   DeleteClusterResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  DeleteClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -917,6 +927,13 @@ export const deleteCluster: API.OperationMethod<
     CloudHsmTagException,
   ],
 }));
+export type DeleteHsmError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
  * address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to
@@ -927,12 +944,7 @@ export const deleteCluster: API.OperationMethod<
 export const deleteHsm: API.OperationMethod<
   DeleteHsmRequest,
   DeleteHsmResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  DeleteHsmError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHsmRequest,
@@ -945,6 +957,13 @@ export const deleteHsm: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from
  * any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that
@@ -955,12 +974,7 @@ export const deleteHsm: API.OperationMethod<
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -973,6 +987,14 @@ export const deleteResourcePolicy: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type DescribeBackupsError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true.
  *
@@ -987,39 +1009,21 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const describeBackups: API.OperationMethod<
   DescribeBackupsRequest,
   DescribeBackupsResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  DescribeBackupsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeBackupsRequest,
   ) => stream.Stream<
     DescribeBackupsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
+    DescribeBackupsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBackupsRequest,
   ) => stream.Stream<
     unknown,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
+    DescribeBackupsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1039,6 +1043,13 @@ export const describeBackups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeClustersError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Gets information about CloudHSM clusters.
  *
@@ -1053,36 +1064,21 @@ export const describeBackups: API.OperationMethod<
 export const describeClusters: API.OperationMethod<
   DescribeClustersRequest,
   DescribeClustersResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  DescribeClustersError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeClustersRequest,
   ) => stream.Stream<
     DescribeClustersResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
+    DescribeClustersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClustersRequest,
   ) => stream.Stream<
     unknown,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
+    DescribeClustersError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1101,6 +1097,13 @@ export const describeClusters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetResourcePolicyError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Retrieves the resource policy document attached to a given resource.
  *
@@ -1109,12 +1112,7 @@ export const describeClusters: API.OperationMethod<
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -1127,6 +1125,13 @@ export const getResourcePolicy: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type InitializeClusterError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Claims an CloudHSM cluster by submitting the cluster certificate issued by your
  * issuing certificate authority (CA) and the CA's root certificate. Before you can claim a
@@ -1138,12 +1143,7 @@ export const getResourcePolicy: API.OperationMethod<
 export const initializeCluster: API.OperationMethod<
   InitializeClusterRequest,
   InitializeClusterResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  InitializeClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitializeClusterRequest,
@@ -1156,6 +1156,14 @@ export const initializeCluster: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type ListTagsError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Gets a list of tags for the specified CloudHSM cluster.
  *
@@ -1170,39 +1178,21 @@ export const initializeCluster: API.OperationMethod<
 export const listTags: API.OperationMethod<
   ListTagsRequest,
   ListTagsResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  ListTagsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTagsRequest,
   ) => stream.Stream<
     ListTagsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
+    ListTagsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsRequest,
   ) => stream.Stream<
     unknown,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
+    ListTagsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1222,6 +1212,13 @@ export const listTags: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ModifyBackupAttributesError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Modifies attributes for CloudHSM backup.
  *
@@ -1230,12 +1227,7 @@ export const listTags: API.OperationMethod<
 export const modifyBackupAttributes: API.OperationMethod<
   ModifyBackupAttributesRequest,
   ModifyBackupAttributesResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  ModifyBackupAttributesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyBackupAttributesRequest,
@@ -1248,6 +1240,13 @@ export const modifyBackupAttributes: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type ModifyClusterError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Modifies CloudHSM cluster.
  *
@@ -1256,12 +1255,7 @@ export const modifyBackupAttributes: API.OperationMethod<
 export const modifyCluster: API.OperationMethod<
   ModifyClusterRequest,
   ModifyClusterResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  ModifyClusterError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyClusterRequest,
@@ -1274,6 +1268,13 @@ export const modifyCluster: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type PutResourcePolicyError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity
  * (for example, an Amazon Web Services account) that can manage your CloudHSM resources. The following resources support
@@ -1296,12 +1297,7 @@ export const modifyCluster: API.OperationMethod<
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -1314,6 +1310,13 @@ export const putResourcePolicy: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type RestoreBackupError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors;
 /**
  * Restores a specified CloudHSM backup that is in the
  * `PENDING_DELETION` state. For more information on deleting a backup, see
@@ -1324,12 +1327,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const restoreBackup: API.OperationMethod<
   RestoreBackupRequest,
   RestoreBackupResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
+  RestoreBackupError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreBackupRequest,
@@ -1342,6 +1340,15 @@ export const restoreBackup: API.OperationMethod<
     CloudHsmServiceException,
   ],
 }));
+export type TagResourceError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceLimitExceededException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Adds or overwrites one or more tags for the specified CloudHSM cluster.
  *
@@ -1350,14 +1357,7 @@ export const restoreBackup: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceLimitExceededException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1372,6 +1372,14 @@ export const tagResource: API.OperationMethod<
     CloudHsmTagException,
   ],
 }));
+export type UntagResourceError =
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors;
 /**
  * Removes the specified tag or tags from the specified CloudHSM cluster.
  *
@@ -1380,13 +1388,7 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,

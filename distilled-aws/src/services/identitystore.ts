@@ -1003,6 +1003,10 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type GetGroupIdError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves `GroupId` in an identity store.
  *
@@ -1011,13 +1015,17 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 export const getGroupId: API.OperationMethod<
   GetGroupIdRequest,
   GetGroupIdResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetGroupIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupIdRequest,
   output: GetGroupIdResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetGroupMembershipIdError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the `MembershipId` in an identity store.
  *
@@ -1026,13 +1034,17 @@ export const getGroupId: API.OperationMethod<
 export const getGroupMembershipId: API.OperationMethod<
   GetGroupMembershipIdRequest,
   GetGroupMembershipIdResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetGroupMembershipIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupMembershipIdRequest,
   output: GetGroupMembershipIdResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type GetUserIdError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the `UserId` in an identity store.
  *
@@ -1041,13 +1053,17 @@ export const getGroupMembershipId: API.OperationMethod<
 export const getUserId: API.OperationMethod<
   GetUserIdRequest,
   GetUserIdResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetUserIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserIdRequest,
   output: GetUserIdResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type IsMemberInGroupsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
  *
@@ -1056,13 +1072,17 @@ export const getUserId: API.OperationMethod<
 export const isMemberInGroups: API.OperationMethod<
   IsMemberInGroupsRequest,
   IsMemberInGroupsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  IsMemberInGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IsMemberInGroupsRequest,
   output: IsMemberInGroupsResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListGroupMembershipsForMemberError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * For the specified member in the specified identity store, returns the list of all ` GroupMembership` objects and returns results in paginated form.
  *
@@ -1071,21 +1091,21 @@ export const isMemberInGroups: API.OperationMethod<
 export const listGroupMembershipsForMember: API.OperationMethod<
   ListGroupMembershipsForMemberRequest,
   ListGroupMembershipsForMemberResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListGroupMembershipsForMemberError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupMembershipsForMemberRequest,
   ) => stream.Stream<
     ListGroupMembershipsForMemberResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListGroupMembershipsForMemberError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupMembershipsForMemberRequest,
   ) => stream.Stream<
     GroupMembership,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListGroupMembershipsForMemberError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1099,17 +1119,19 @@ export const listGroupMembershipsForMember: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateGroupMembershipError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a relationship between a member and a group. The following identifiers must be specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
  */
 export const createGroupMembership: API.OperationMethod<
   CreateGroupMembershipRequest,
   CreateGroupMembershipResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateGroupMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupMembershipRequest,
@@ -1121,6 +1143,10 @@ export const createGroupMembership: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeGroupMembershipError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves membership metadata and attributes from `MembershipId` in an identity store.
  *
@@ -1129,29 +1155,35 @@ export const createGroupMembership: API.OperationMethod<
 export const describeGroupMembership: API.OperationMethod<
   DescribeGroupMembershipRequest,
   DescribeGroupMembershipResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeGroupMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupMembershipRequest,
   output: DescribeGroupMembershipResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type DeleteGroupMembershipError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a membership within a group given `MembershipId`.
  */
 export const deleteGroupMembership: API.OperationMethod<
   DeleteGroupMembershipRequest,
   DeleteGroupMembershipResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteGroupMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupMembershipRequest,
   output: DeleteGroupMembershipResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type ListGroupMembershipsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * For the specified group in the specified identity store, returns the list of all ` GroupMembership` objects and returns results in paginated form.
  *
@@ -1160,21 +1192,21 @@ export const deleteGroupMembership: API.OperationMethod<
 export const listGroupMemberships: API.OperationMethod<
   ListGroupMembershipsRequest,
   ListGroupMembershipsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListGroupMembershipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupMembershipsRequest,
   ) => stream.Stream<
     ListGroupMembershipsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListGroupMembershipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupMembershipsRequest,
   ) => stream.Stream<
     GroupMembership,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListGroupMembershipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1188,17 +1220,19 @@ export const listGroupMemberships: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateGroupError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a group within the specified identity store.
  */
 export const createGroup: API.OperationMethod<
   CreateGroupRequest,
   CreateGroupResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
@@ -1210,6 +1244,10 @@ export const createGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeGroupError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the group metadata and attributes from `GroupId` in an identity store.
  *
@@ -1218,24 +1256,26 @@ export const createGroup: API.OperationMethod<
 export const describeGroup: API.OperationMethod<
   DescribeGroupRequest,
   DescribeGroupResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupRequest,
   output: DescribeGroupResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateGroupError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified group metadata and attributes in the specified identity store.
  */
 export const updateGroup: API.OperationMethod<
   UpdateGroupRequest,
   UpdateGroupResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
@@ -1247,22 +1287,28 @@ export const updateGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGroupError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Delete a group within an identity store given `GroupId`.
  */
 export const deleteGroup: API.OperationMethod<
   DeleteGroupRequest,
   DeleteGroupResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type ListGroupsError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all groups in the identity store. Returns a paginated list of complete `Group` objects. Filtering for a `Group` by the `DisplayName` attribute is deprecated. Instead, use the `GetGroupId` API action.
  *
@@ -1271,21 +1317,21 @@ export const deleteGroup: API.OperationMethod<
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     ListGroupsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
   ) => stream.Stream<
     Group,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1299,17 +1345,19 @@ export const listGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateUserError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a user within the specified identity store.
  */
 export const createUser: API.OperationMethod<
   CreateUserRequest,
   CreateUserResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
@@ -1321,6 +1369,10 @@ export const createUser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeUserError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the user metadata and attributes from the `UserId` in an identity store.
  *
@@ -1329,24 +1381,26 @@ export const createUser: API.OperationMethod<
 export const describeUser: API.OperationMethod<
   DescribeUserRequest,
   DescribeUserResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  DescribeUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateUserError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified user metadata and attributes in the specified identity store.
  */
 export const updateUser: API.OperationMethod<
   UpdateUserRequest,
   UpdateUserResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  UpdateUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
@@ -1358,22 +1412,28 @@ export const updateUser: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteUserError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a user within an identity store given `UserId`.
  */
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
+export type ListUsersError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all users in the identity store. Returns a paginated list of complete `User` objects. Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use the `GetUserId` API action.
  *
@@ -1382,21 +1442,21 @@ export const deleteUser: API.OperationMethod<
 export const listUsers: API.OperationMethod<
   ListUsersRequest,
   ListUsersResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
     ListUsersResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
   ) => stream.Stream<
     User,
-    ResourceNotFoundException | ValidationException | CommonErrors,
+    ListUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

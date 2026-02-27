@@ -565,12 +565,12 @@ export const BatchCreateRumMetricDefinitionsRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchCreateRumMetricDefinitionsRequest",
 }) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
-export interface BatchCreateRumMetricDefinitionsError {
+export interface BatchCreateRumMetricDefinitionsError_ {
   MetricDefinition: MetricDefinitionRequest;
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchCreateRumMetricDefinitionsError = S.suspend(() =>
+export const BatchCreateRumMetricDefinitionsError_ = S.suspend(() =>
   S.Struct({
     MetricDefinition: MetricDefinitionRequest,
     ErrorCode: S.String,
@@ -578,11 +578,11 @@ export const BatchCreateRumMetricDefinitionsError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchCreateRumMetricDefinitionsError",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsError>;
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsError_>;
 export type BatchCreateRumMetricDefinitionsErrors =
-  BatchCreateRumMetricDefinitionsError[];
+  BatchCreateRumMetricDefinitionsError_[];
 export const BatchCreateRumMetricDefinitionsErrors = S.Array(
-  BatchCreateRumMetricDefinitionsError,
+  BatchCreateRumMetricDefinitionsError_,
 );
 export interface MetricDefinition {
   MetricDefinitionId: string;
@@ -609,7 +609,7 @@ export const MetricDefinition = S.suspend(() =>
 export type MetricDefinitions = MetricDefinition[];
 export const MetricDefinitions = S.Array(MetricDefinition);
 export interface BatchCreateRumMetricDefinitionsResponse {
-  Errors: BatchCreateRumMetricDefinitionsError[];
+  Errors: BatchCreateRumMetricDefinitionsError_[];
   MetricDefinitions?: MetricDefinition[];
 }
 export const BatchCreateRumMetricDefinitionsResponse = S.suspend(() =>
@@ -649,12 +649,12 @@ export const BatchDeleteRumMetricDefinitionsRequest = S.suspend(() =>
 ).annotate({
   identifier: "BatchDeleteRumMetricDefinitionsRequest",
 }) as any as S.Schema<BatchDeleteRumMetricDefinitionsRequest>;
-export interface BatchDeleteRumMetricDefinitionsError {
+export interface BatchDeleteRumMetricDefinitionsError_ {
   MetricDefinitionId: string;
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchDeleteRumMetricDefinitionsError = S.suspend(() =>
+export const BatchDeleteRumMetricDefinitionsError_ = S.suspend(() =>
   S.Struct({
     MetricDefinitionId: S.String,
     ErrorCode: S.String,
@@ -662,14 +662,14 @@ export const BatchDeleteRumMetricDefinitionsError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDeleteRumMetricDefinitionsError",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsError>;
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsError_>;
 export type BatchDeleteRumMetricDefinitionsErrors =
-  BatchDeleteRumMetricDefinitionsError[];
+  BatchDeleteRumMetricDefinitionsError_[];
 export const BatchDeleteRumMetricDefinitionsErrors = S.Array(
-  BatchDeleteRumMetricDefinitionsError,
+  BatchDeleteRumMetricDefinitionsError_,
 );
 export interface BatchDeleteRumMetricDefinitionsResponse {
-  Errors: BatchDeleteRumMetricDefinitionsError[];
+  Errors: BatchDeleteRumMetricDefinitionsError_[];
   MetricDefinitionIds?: string[];
 }
 export const BatchDeleteRumMetricDefinitionsResponse = S.suspend(() =>
@@ -1138,16 +1138,18 @@ export class PolicySizeLimitExceededException extends S.TaggedErrorClass<PolicyS
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Displays the tags associated with a CloudWatch RUM resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1158,6 +1160,13 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRumEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes `PutRumEvents` operations to send this data to RUM.
  *
@@ -1166,12 +1175,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putRumEvents: API.OperationMethod<
   PutRumEventsRequest,
   PutRumEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutRumEventsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRumEventsRequest,
@@ -1184,6 +1188,11 @@ export const putRumEvents: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors.
  *
@@ -1200,10 +1209,7 @@ export const putRumEvents: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1214,16 +1220,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1234,18 +1242,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAppMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the complete configuration information for one app monitor.
  */
 export const getAppMonitor: API.OperationMethod<
   GetAppMonitorRequest,
   GetAppMonitorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAppMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppMonitorRequest,
@@ -1258,6 +1268,14 @@ export const getAppMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateAppMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept.
  *
@@ -1270,13 +1288,7 @@ export const getAppMonitor: API.OperationMethod<
 export const updateAppMonitor: API.OperationMethod<
   UpdateAppMonitorRequest,
   UpdateAppMonitorResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateAppMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppMonitorRequest,
@@ -1290,19 +1302,21 @@ export const updateAppMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes an existing app monitor. This immediately stops the collection of data.
- */
-export const deleteAppMonitor: API.OperationMethod<
-  DeleteAppMonitorRequest,
-  DeleteAppMonitorResponse,
+export type DeleteAppMonitorError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an existing app monitor. This immediately stops the collection of data.
+ */
+export const deleteAppMonitor: API.OperationMethod<
+  DeleteAppMonitorRequest,
+  DeleteAppMonitorResponse,
+  DeleteAppMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppMonitorRequest,
@@ -1316,39 +1330,33 @@ export const deleteAppMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAppMonitorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
  */
 export const listAppMonitors: API.OperationMethod<
   ListAppMonitorsRequest,
   ListAppMonitorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAppMonitorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppMonitorsRequest,
   ) => stream.Stream<
     ListAppMonitorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppMonitorsRequest,
   ) => stream.Stream<
     AppMonitorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAppMonitorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1367,6 +1375,15 @@ export const listAppMonitors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type BatchCreateRumMetricDefinitionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently.
  *
@@ -1393,14 +1410,7 @@ export const listAppMonitors: API.OperationMethod<
 export const batchCreateRumMetricDefinitions: API.OperationMethod<
   BatchCreateRumMetricDefinitionsRequest,
   BatchCreateRumMetricDefinitionsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchCreateRumMetricDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateRumMetricDefinitionsRequest,
@@ -1415,6 +1425,14 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchDeleteRumMetricDefinitionsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified metrics from being sent to an extended metrics destination.
  *
@@ -1425,13 +1443,7 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
 export const batchDeleteRumMetricDefinitions: API.OperationMethod<
   BatchDeleteRumMetricDefinitionsRequest,
   BatchDeleteRumMetricDefinitionsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchDeleteRumMetricDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteRumMetricDefinitionsRequest,
@@ -1445,39 +1457,33 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type BatchGetRumMetricDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
  */
 export const batchGetRumMetricDefinitions: API.OperationMethod<
   BatchGetRumMetricDefinitionsRequest,
   BatchGetRumMetricDefinitionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  BatchGetRumMetricDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: BatchGetRumMetricDefinitionsRequest,
   ) => stream.Stream<
     BatchGetRumMetricDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    BatchGetRumMetricDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: BatchGetRumMetricDefinitionsRequest,
   ) => stream.Stream<
     MetricDefinition,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    BatchGetRumMetricDefinitionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1496,6 +1502,15 @@ export const batchGetRumMetricDefinitions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateAppMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors, and user behavior.
  *
@@ -1506,14 +1521,7 @@ export const batchGetRumMetricDefinitions: API.OperationMethod<
 export const createAppMonitor: API.OperationMethod<
   CreateAppMonitorRequest,
   CreateAppMonitorResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateAppMonitorError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppMonitorRequest,
@@ -1528,12 +1536,7 @@ export const createAppMonitor: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes the association of a resource-based policy from an app monitor.
- */
-export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
-  DeleteResourcePolicyResponse,
+export type DeleteResourcePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1542,7 +1545,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the association of a resource-based policy from an app monitor.
+ */
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyResponse,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -1558,19 +1568,21 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
- */
-export const deleteRumMetricsDestination: API.OperationMethod<
-  DeleteRumMetricsDestinationRequest,
-  DeleteRumMetricsDestinationResponse,
+export type DeleteRumMetricsDestinationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
+ */
+export const deleteRumMetricsDestination: API.OperationMethod<
+  DeleteRumMetricsDestinationRequest,
+  DeleteRumMetricsDestinationResponse,
+  DeleteRumMetricsDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRumMetricsDestinationRequest,
@@ -1584,42 +1596,34 @@ export const deleteRumMetricsDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAppMonitorDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
  */
 export const getAppMonitorData: API.OperationMethod<
   GetAppMonitorDataRequest,
   GetAppMonitorDataResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAppMonitorDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetAppMonitorDataRequest,
   ) => stream.Stream<
     GetAppMonitorDataResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetAppMonitorDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAppMonitorDataRequest,
   ) => stream.Stream<
     EventData,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetAppMonitorDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1639,12 +1643,7 @@ export const getAppMonitorData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
- */
-export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
-  GetResourcePolicyResponse,
+export type GetResourcePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1652,7 +1651,14 @@ export const getResourcePolicy: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
+ */
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
+  GetResourcePolicyResponse,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -1667,6 +1673,12 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRumMetricsDestinationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor.
  *
@@ -1675,33 +1687,21 @@ export const getResourcePolicy: API.OperationMethod<
 export const listRumMetricsDestinations: API.OperationMethod<
   ListRumMetricsDestinationsRequest,
   ListRumMetricsDestinationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListRumMetricsDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRumMetricsDestinationsRequest,
   ) => stream.Stream<
     ListRumMetricsDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListRumMetricsDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRumMetricsDestinationsRequest,
   ) => stream.Stream<
     MetricDestinationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListRumMetricsDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1720,12 +1720,7 @@ export const listRumMetricsDestinations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
- */
-export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
-  PutResourcePolicyResponse,
+export type PutResourcePolicyError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1735,7 +1730,14 @@ export const putResourcePolicy: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
+ */
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
+  PutResourcePolicyResponse,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -1752,6 +1754,14 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutRumMetricsDestinationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment.
  *
@@ -1760,13 +1770,7 @@ export const putResourcePolicy: API.OperationMethod<
 export const putRumMetricsDestination: API.OperationMethod<
   PutRumMetricsDestinationRequest,
   PutRumMetricsDestinationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutRumMetricsDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRumMetricsDestinationRequest,
@@ -1780,12 +1784,7 @@ export const putRumMetricsDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
- */
-export const updateRumMetricDefinition: API.OperationMethod<
-  UpdateRumMetricDefinitionRequest,
-  UpdateRumMetricDefinitionResponse,
+export type UpdateRumMetricDefinitionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1793,7 +1792,14 @@ export const updateRumMetricDefinition: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
+ */
+export const updateRumMetricDefinition: API.OperationMethod<
+  UpdateRumMetricDefinitionRequest,
+  UpdateRumMetricDefinitionResponse,
+  UpdateRumMetricDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRumMetricDefinitionRequest,

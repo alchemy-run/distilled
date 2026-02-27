@@ -172,13 +172,13 @@ export const BatchGetRecordResultDetail = S.suspend(() =>
 }) as any as S.Schema<BatchGetRecordResultDetail>;
 export type BatchGetRecordResultDetails = BatchGetRecordResultDetail[];
 export const BatchGetRecordResultDetails = S.Array(BatchGetRecordResultDetail);
-export interface BatchGetRecordError {
+export interface BatchGetRecordError_ {
   FeatureGroupName?: string;
   RecordIdentifierValueAsString?: string;
   ErrorCode?: string;
   ErrorMessage?: string;
 }
-export const BatchGetRecordError = S.suspend(() =>
+export const BatchGetRecordError_ = S.suspend(() =>
   S.Struct({
     FeatureGroupName: S.optional(S.String),
     RecordIdentifierValueAsString: S.optional(S.String),
@@ -187,9 +187,9 @@ export const BatchGetRecordError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchGetRecordError",
-}) as any as S.Schema<BatchGetRecordError>;
-export type BatchGetRecordErrors = BatchGetRecordError[];
-export const BatchGetRecordErrors = S.Array(BatchGetRecordError);
+}) as any as S.Schema<BatchGetRecordError_>;
+export type BatchGetRecordErrors = BatchGetRecordError_[];
+export const BatchGetRecordErrors = S.Array(BatchGetRecordError_);
 export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
 export const UnprocessedIdentifiers = S.Array(BatchGetRecordIdentifier);
 export interface BatchGetRecordResponse {
@@ -363,17 +363,19 @@ export class ResourceNotFound extends S.TaggedErrorClass<ResourceNotFound>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type BatchGetRecordError =
+  | AccessForbidden
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * Retrieves a batch of `Records` from a `FeatureGroup`.
  */
 export const batchGetRecord: API.OperationMethod<
   BatchGetRecordRequest,
   BatchGetRecordResponse,
-  | AccessForbidden
-  | InternalFailure
-  | ServiceUnavailable
-  | ValidationError
-  | CommonErrors,
+  BatchGetRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRecordRequest,
@@ -385,6 +387,12 @@ export const batchGetRecord: API.OperationMethod<
     ValidationError,
   ],
 }));
+export type DeleteRecordError =
+  | AccessForbidden
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * Deletes a `Record` from a `FeatureGroup` in the
  * `OnlineStore`. Feature Store supports both `SoftDelete` and
@@ -421,11 +429,7 @@ export const batchGetRecord: API.OperationMethod<
 export const deleteRecord: API.OperationMethod<
   DeleteRecordRequest,
   DeleteRecordResponse,
-  | AccessForbidden
-  | InternalFailure
-  | ServiceUnavailable
-  | ValidationError
-  | CommonErrors,
+  DeleteRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecordRequest,
@@ -437,6 +441,13 @@ export const deleteRecord: API.OperationMethod<
     ValidationError,
   ],
 }));
+export type GetRecordError =
+  | AccessForbidden
+  | InternalFailure
+  | ResourceNotFound
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * Use for `OnlineStore` serving from a `FeatureStore`. Only the
  * latest records stored in the `OnlineStore` can be retrieved. If no Record with
@@ -445,12 +456,7 @@ export const deleteRecord: API.OperationMethod<
 export const getRecord: API.OperationMethod<
   GetRecordRequest,
   GetRecordResponse,
-  | AccessForbidden
-  | InternalFailure
-  | ResourceNotFound
-  | ServiceUnavailable
-  | ValidationError
-  | CommonErrors,
+  GetRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordRequest,
@@ -463,6 +469,12 @@ export const getRecord: API.OperationMethod<
     ValidationError,
   ],
 }));
+export type PutRecordError =
+  | AccessForbidden
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
 /**
  * The `PutRecord` API is used to ingest a list of `Records` into
  * your feature group.
@@ -487,11 +499,7 @@ export const getRecord: API.OperationMethod<
 export const putRecord: API.OperationMethod<
   PutRecordRequest,
   PutRecordResponse,
-  | AccessForbidden
-  | InternalFailure
-  | ServiceUnavailable
-  | ValidationError
-  | CommonErrors,
+  PutRecordError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordRequest,

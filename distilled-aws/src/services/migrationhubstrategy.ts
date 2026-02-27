@@ -1748,16 +1748,18 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type GetApplicationComponentDetailsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves details about an application component.
  */
 export const getApplicationComponentDetails: API.OperationMethod<
   GetApplicationComponentDetailsRequest,
   GetApplicationComponentDetailsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetApplicationComponentDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationComponentDetailsRequest,
@@ -1768,6 +1770,11 @@ export const getApplicationComponentDetails: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetApplicationComponentStrategiesError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves a list of all the recommended strategies and tools for an application component
  * running on a server.
@@ -1775,10 +1782,7 @@ export const getApplicationComponentDetails: API.OperationMethod<
 export const getApplicationComponentStrategies: API.OperationMethod<
   GetApplicationComponentStrategiesRequest,
   GetApplicationComponentStrategiesResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetApplicationComponentStrategiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationComponentStrategiesRequest,
@@ -1789,17 +1793,19 @@ export const getApplicationComponentStrategies: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the status of an on-going assessment.
  */
 export const getAssessment: API.OperationMethod<
   GetAssessmentRequest,
   GetAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentRequest,
@@ -1811,18 +1817,20 @@ export const getAssessment: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetImportFileTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details about a specific import task.
  */
 export const getImportFileTask: API.OperationMethod<
   GetImportFileTaskRequest,
   GetImportFileTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetImportFileTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportFileTaskRequest,
@@ -1835,17 +1843,19 @@ export const getImportFileTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLatestAssessmentIdError =
+  | AccessDeniedException
+  | DependencyException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve the latest ID of a specific assessment task.
  */
 export const getLatestAssessmentId: API.OperationMethod<
   GetLatestAssessmentIdRequest,
   GetLatestAssessmentIdResponse,
-  | AccessDeniedException
-  | DependencyException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  GetLatestAssessmentIdError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLatestAssessmentIdRequest,
@@ -1857,17 +1867,19 @@ export const getLatestAssessmentId: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPortfolioPreferencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves your migration and modernization preferences.
  */
 export const getPortfolioPreferences: API.OperationMethod<
   GetPortfolioPreferencesRequest,
   GetPortfolioPreferencesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetPortfolioPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortfolioPreferencesRequest,
@@ -1879,6 +1891,11 @@ export const getPortfolioPreferences: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type GetPortfolioSummaryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves overall summary including the number of servers to rehost and the overall
  * number of anti-patterns.
@@ -1886,28 +1903,27 @@ export const getPortfolioPreferences: API.OperationMethod<
 export const getPortfolioSummary: API.OperationMethod<
   GetPortfolioSummaryRequest,
   GetPortfolioSummaryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  GetPortfolioSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortfolioSummaryRequest,
   output: GetPortfolioSummaryResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
 }));
+export type GetRecommendationReportDetailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about the specified recommendation report.
  */
 export const getRecommendationReportDetails: API.OperationMethod<
   GetRecommendationReportDetailsRequest,
   GetRecommendationReportDetailsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRecommendationReportDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationReportDetailsRequest,
@@ -1920,42 +1936,34 @@ export const getRecommendationReportDetails: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServerDetailsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves detailed information about a specified server.
  */
 export const getServerDetails: API.OperationMethod<
   GetServerDetailsRequest,
   GetServerDetailsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServerDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetServerDetailsRequest,
   ) => stream.Stream<
     GetServerDetailsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetServerDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetServerDetailsRequest,
   ) => stream.Stream<
     AssociatedApplication,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetServerDetailsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1975,18 +1983,20 @@ export const getServerDetails: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetServerStrategiesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves recommended strategies and tools for the specified server.
  */
 export const getServerStrategies: API.OperationMethod<
   GetServerStrategiesRequest,
   GetServerStrategiesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServerStrategiesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServerStrategiesRequest,
@@ -1999,39 +2009,33 @@ export const getServerStrategies: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAnalyzableServersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
  */
 export const listAnalyzableServers: API.OperationMethod<
   ListAnalyzableServersRequest,
   ListAnalyzableServersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListAnalyzableServersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAnalyzableServersRequest,
   ) => stream.Stream<
     ListAnalyzableServersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnalyzableServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAnalyzableServersRequest,
   ) => stream.Stream<
     AnalyzableServerSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListAnalyzableServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2050,39 +2054,33 @@ export const listAnalyzableServers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListApplicationComponentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceLinkedRoleLockClientException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all the application components (processes).
  */
 export const listApplicationComponents: API.OperationMethod<
   ListApplicationComponentsRequest,
   ListApplicationComponentsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceLinkedRoleLockClientException
-  | ValidationException
-  | CommonErrors,
+  ListApplicationComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationComponentsRequest,
   ) => stream.Stream<
     ListApplicationComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceLinkedRoleLockClientException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationComponentsRequest,
   ) => stream.Stream<
     ApplicationComponentDetail,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceLinkedRoleLockClientException
-    | ValidationException
-    | CommonErrors,
+    ListApplicationComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2101,39 +2099,33 @@ export const listApplicationComponents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCollectorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all the installed collectors.
  */
 export const listCollectors: API.OperationMethod<
   ListCollectorsRequest,
   ListCollectorsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCollectorsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollectorsRequest,
   ) => stream.Stream<
     ListCollectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollectorsRequest,
   ) => stream.Stream<
     Collector,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollectorsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2152,39 +2144,33 @@ export const listCollectors: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListImportFileTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of all the imports performed.
  */
 export const listImportFileTask: API.OperationMethod<
   ListImportFileTaskRequest,
   ListImportFileTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListImportFileTaskError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportFileTaskRequest,
   ) => stream.Stream<
     ListImportFileTaskResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportFileTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportFileTaskRequest,
   ) => stream.Stream<
     ImportFileTaskInformation,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportFileTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2203,39 +2189,33 @@ export const listImportFileTask: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListServersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all the servers.
  */
 export const listServers: API.OperationMethod<
   ListServersRequest,
   ListServersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServersRequest,
   ) => stream.Stream<
     ListServersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServersRequest,
   ) => stream.Stream<
     ServerDetail,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2254,18 +2234,20 @@ export const listServers: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutPortfolioPreferencesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Saves the specified migration and modernization preferences.
  */
 export const putPortfolioPreferences: API.OperationMethod<
   PutPortfolioPreferencesRequest,
   PutPortfolioPreferencesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutPortfolioPreferencesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPortfolioPreferencesRequest,
@@ -2278,17 +2260,19 @@ export const putPortfolioPreferences: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts the assessment of an on-premises environment.
  */
 export const startAssessment: API.OperationMethod<
   StartAssessmentRequest,
   StartAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | CommonErrors,
+  StartAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAssessmentRequest,
@@ -2300,18 +2284,20 @@ export const startAssessment: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartImportFileTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a file import.
  */
 export const startImportFileTask: API.OperationMethod<
   StartImportFileTaskRequest,
   StartImportFileTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartImportFileTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportFileTaskRequest,
@@ -2324,18 +2310,20 @@ export const startImportFileTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartRecommendationReportGenerationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts generating a recommendation report.
  */
 export const startRecommendationReportGeneration: API.OperationMethod<
   StartRecommendationReportGenerationRequest,
   StartRecommendationReportGenerationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartRecommendationReportGenerationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRecommendationReportGenerationRequest,
@@ -2348,17 +2336,19 @@ export const startRecommendationReportGeneration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopAssessmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the assessment of an on-premises environment.
  */
 export const stopAssessment: API.OperationMethod<
   StopAssessmentRequest,
   StopAssessmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopAssessmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAssessmentRequest,
@@ -2370,17 +2360,19 @@ export const stopAssessment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateApplicationComponentConfigError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of an application component.
  */
 export const updateApplicationComponentConfig: API.OperationMethod<
   UpdateApplicationComponentConfigRequest,
   UpdateApplicationComponentConfigResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateApplicationComponentConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationComponentConfigRequest,
@@ -2392,17 +2384,19 @@ export const updateApplicationComponentConfig: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateServerConfigError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of the specified server.
  */
 export const updateServerConfig: API.OperationMethod<
   UpdateServerConfigRequest,
   UpdateServerConfigResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateServerConfigError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServerConfigRequest,

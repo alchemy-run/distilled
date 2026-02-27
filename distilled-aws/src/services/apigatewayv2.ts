@@ -7391,17 +7391,19 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 ).pipe(C.withAuthError) {}
 
 //# Operations
+export type CreateApiError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an Api resource.
  */
 export const createApi: API.OperationMethod<
   CreateApiRequest,
   CreateApiResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiRequest,
@@ -7413,17 +7415,19 @@ export const createApi: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateApiMappingError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an API mapping.
  */
 export const createApiMapping: API.OperationMethod<
   CreateApiMappingRequest,
   CreateApiMappingResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateApiMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiMappingRequest,
@@ -7435,17 +7439,19 @@ export const createApiMapping: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateAuthorizerError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an Authorizer for an API.
  */
 export const createAuthorizer: API.OperationMethod<
   CreateAuthorizerRequest,
   CreateAuthorizerResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
@@ -7457,17 +7463,19 @@ export const createAuthorizer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateDeploymentError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a Deployment for an API.
  */
 export const createDeployment: API.OperationMethod<
   CreateDeploymentRequest,
   CreateDeploymentResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
@@ -7479,18 +7487,20 @@ export const createDeployment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateDomainNameError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a domain name.
  */
 export const createDomainName: API.OperationMethod<
   CreateDomainNameRequest,
   CreateDomainNameResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameRequest,
@@ -7503,17 +7513,19 @@ export const createDomainName: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateIntegrationError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an Integration.
  */
 export const createIntegration: API.OperationMethod<
   CreateIntegrationRequest,
   CreateIntegrationResult,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationRequest,
@@ -7525,17 +7537,19 @@ export const createIntegration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateIntegrationResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an IntegrationResponses.
  */
 export const createIntegrationResponse: API.OperationMethod<
   CreateIntegrationResponseRequest,
   CreateIntegrationResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationResponseRequest,
@@ -7547,17 +7561,19 @@ export const createIntegrationResponse: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateModelError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a Model for an API.
  */
 export const createModel: API.OperationMethod<
   CreateModelRequest,
   CreateModelResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
@@ -7569,16 +7585,18 @@ export const createModel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreatePortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a portal.
  */
 export const createPortal: API.OperationMethod<
   CreatePortalRequest,
   CreatePortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreatePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortalRequest,
@@ -7589,16 +7607,18 @@ export const createPortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreatePortalProductError =
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new portal product.
  */
 export const createPortalProduct: API.OperationMethod<
   CreatePortalProductRequest,
   CreatePortalProductResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreatePortalProductError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortalProductRequest,
@@ -7609,17 +7629,19 @@ export const createPortalProduct: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateProductPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new product page for a portal product.
  */
 export const createProductPage: API.OperationMethod<
   CreateProductPageRequest,
   CreateProductPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateProductPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProductPageRequest,
@@ -7631,17 +7653,19 @@ export const createProductPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateProductRestEndpointPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a product REST endpoint page for a portal product.
  */
 export const createProductRestEndpointPage: API.OperationMethod<
   CreateProductRestEndpointPageRequest,
   CreateProductRestEndpointPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateProductRestEndpointPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProductRestEndpointPageRequest,
@@ -7653,17 +7677,19 @@ export const createProductRestEndpointPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateRouteError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a Route for an API.
  */
 export const createRoute: API.OperationMethod<
   CreateRouteRequest,
   CreateRouteResult,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteRequest,
@@ -7675,17 +7701,19 @@ export const createRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateRouteResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a RouteResponse for a Route.
  */
 export const createRouteResponse: API.OperationMethod<
   CreateRouteResponseRequest,
   CreateRouteResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateRouteResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteResponseRequest,
@@ -7697,17 +7725,19 @@ export const createRouteResponse: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateRoutingRuleError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a RoutingRule.
  */
 export const createRoutingRule: API.OperationMethod<
   CreateRoutingRuleRequest,
   CreateRoutingRuleResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateRoutingRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoutingRuleRequest,
@@ -7719,17 +7749,19 @@ export const createRoutingRule: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateStageError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a Stage for an API.
  */
 export const createStage: API.OperationMethod<
   CreateStageRequest,
   CreateStageResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStageRequest,
@@ -7741,162 +7773,206 @@ export const createStage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateVpcLinkError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a VPC link.
  */
 export const createVpcLink: API.OperationMethod<
   CreateVpcLinkRequest,
   CreateVpcLinkResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  CreateVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcLinkRequest,
   output: CreateVpcLinkResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type DeleteAccessLogSettingsError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
  */
 export const deleteAccessLogSettings: API.OperationMethod<
   DeleteAccessLogSettingsRequest,
   DeleteAccessLogSettingsResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteAccessLogSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessLogSettingsRequest,
   output: DeleteAccessLogSettingsResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteApiError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an Api resource.
  */
 export const deleteApi: API.OperationMethod<
   DeleteApiRequest,
   DeleteApiResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiRequest,
   output: DeleteApiResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteApiMappingError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an API mapping.
  */
 export const deleteApiMapping: API.OperationMethod<
   DeleteApiMappingRequest,
   DeleteApiMappingResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteApiMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiMappingRequest,
   output: DeleteApiMappingResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteAuthorizerError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an Authorizer.
  */
 export const deleteAuthorizer: API.OperationMethod<
   DeleteAuthorizerRequest,
   DeleteAuthorizerResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthorizerRequest,
   output: DeleteAuthorizerResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteCorsConfigurationError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a CORS configuration.
  */
 export const deleteCorsConfiguration: API.OperationMethod<
   DeleteCorsConfigurationRequest,
   DeleteCorsConfigurationResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteCorsConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCorsConfigurationRequest,
   output: DeleteCorsConfigurationResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteDeploymentError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a Deployment.
  */
 export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentRequest,
   DeleteDeploymentResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentRequest,
   output: DeleteDeploymentResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteDomainNameError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a domain name.
  */
 export const deleteDomainName: API.OperationMethod<
   DeleteDomainNameRequest,
   DeleteDomainNameResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameRequest,
   output: DeleteDomainNameResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteIntegrationError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an Integration.
  */
 export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationRequest,
   DeleteIntegrationResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
   output: DeleteIntegrationResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteIntegrationResponseError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes an IntegrationResponses.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
   DeleteIntegrationResponseRequest,
   DeleteIntegrationResponseResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationResponseRequest,
   output: DeleteIntegrationResponseResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteModelError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a Model.
  */
 export const deleteModel: API.OperationMethod<
   DeleteModelRequest,
   DeleteModelResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
   output: DeleteModelResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeletePortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a portal.
  */
 export const deletePortal: API.OperationMethod<
   DeletePortalRequest,
   DeletePortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeletePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalRequest,
@@ -7907,17 +7983,19 @@ export const deletePortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeletePortalProductError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a portal product.
  */
 export const deletePortalProduct: API.OperationMethod<
   DeletePortalProductRequest,
   DeletePortalProductResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeletePortalProductError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalProductRequest,
@@ -7929,17 +8007,19 @@ export const deletePortalProduct: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeletePortalProductSharingPolicyError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the sharing policy for a portal product.
  */
 export const deletePortalProductSharingPolicy: API.OperationMethod<
   DeletePortalProductSharingPolicyRequest,
   DeletePortalProductSharingPolicyResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeletePortalProductSharingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalProductSharingPolicyRequest,
@@ -7951,17 +8031,19 @@ export const deletePortalProductSharingPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteProductPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a product page of a portal product.
  */
 export const deleteProductPage: API.OperationMethod<
   DeleteProductPageRequest,
   DeleteProductPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteProductPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductPageRequest,
@@ -7973,17 +8055,19 @@ export const deleteProductPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteProductRestEndpointPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a product REST endpoint page.
  */
 export const deleteProductRestEndpointPage: API.OperationMethod<
   DeleteProductRestEndpointPageRequest,
   DeleteProductRestEndpointPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteProductRestEndpointPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductRestEndpointPageRequest,
@@ -7995,112 +8079,140 @@ export const deleteProductRestEndpointPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteRouteError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a Route.
  */
 export const deleteRoute: API.OperationMethod<
   DeleteRouteRequest,
   DeleteRouteResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteRequest,
   output: DeleteRouteResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteRouteRequestParameterError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a route request parameter. Supported only for WebSocket APIs.
  */
 export const deleteRouteRequestParameter: API.OperationMethod<
   DeleteRouteRequestParameterRequest,
   DeleteRouteRequestParameterResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteRouteRequestParameterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteRequestParameterRequest,
   output: DeleteRouteRequestParameterResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteRouteResponseError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a RouteResponse.
  */
 export const deleteRouteResponse: API.OperationMethod<
   DeleteRouteResponseRequest,
   DeleteRouteResponseResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteRouteResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteResponseRequest,
   output: DeleteRouteResponseResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteRouteSettingsError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the RouteSettings for a stage.
  */
 export const deleteRouteSettings: API.OperationMethod<
   DeleteRouteSettingsRequest,
   DeleteRouteSettingsResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteRouteSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteSettingsRequest,
   output: DeleteRouteSettingsResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteRoutingRuleError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a routing rule.
  */
 export const deleteRoutingRule: API.OperationMethod<
   DeleteRoutingRuleRequest,
   DeleteRoutingRuleResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteRoutingRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoutingRuleRequest,
   output: DeleteRoutingRuleResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type DeleteStageError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a Stage.
  */
 export const deleteStage: API.OperationMethod<
   DeleteStageRequest,
   DeleteStageResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStageRequest,
   output: DeleteStageResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DeleteVpcLinkError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a VPC link.
  */
 export const deleteVpcLink: API.OperationMethod<
   DeleteVpcLinkRequest,
   DeleteVpcLinkResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  DeleteVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcLinkRequest,
   output: DeleteVpcLinkResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type DisablePortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes the publication of a portal portal.
  */
 export const disablePortal: API.OperationMethod<
   DisablePortalRequest,
   DisablePortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DisablePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisablePortalRequest,
@@ -8113,281 +8225,335 @@ export const disablePortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ExportApiError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  *
  */
 export const exportApi: API.OperationMethod<
   ExportApiRequest,
   ExportApiResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ExportApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportApiRequest,
   output: ExportApiResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetApiError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets an Api resource.
  */
 export const getApi: API.OperationMethod<
   GetApiRequest,
   GetApiResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiRequest,
   output: GetApiResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetApiMappingError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets an API mapping.
  */
 export const getApiMapping: API.OperationMethod<
   GetApiMappingRequest,
   GetApiMappingResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetApiMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiMappingRequest,
   output: GetApiMappingResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetApiMappingsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets API mappings.
  */
 export const getApiMappings: API.OperationMethod<
   GetApiMappingsRequest,
   GetApiMappingsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetApiMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiMappingsRequest,
   output: GetApiMappingsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetApisError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a collection of Api resources.
  */
 export const getApis: API.OperationMethod<
   GetApisRequest,
   GetApisResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetApisError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApisRequest,
   output: GetApisResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetAuthorizerError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets an Authorizer.
  */
 export const getAuthorizer: API.OperationMethod<
   GetAuthorizerRequest,
   GetAuthorizerResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizerRequest,
   output: GetAuthorizerResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetAuthorizersError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the Authorizers for an API.
  */
 export const getAuthorizers: API.OperationMethod<
   GetAuthorizersRequest,
   GetAuthorizersResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetAuthorizersError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizersRequest,
   output: GetAuthorizersResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDeploymentError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a Deployment.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
   GetDeploymentResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: GetDeploymentResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetDeploymentsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the Deployments for an API.
  */
 export const getDeployments: API.OperationMethod<
   GetDeploymentsRequest,
   GetDeploymentsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetDomainNameError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a domain name.
  */
 export const getDomainName: API.OperationMethod<
   GetDomainNameRequest,
   GetDomainNameResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameRequest,
   output: GetDomainNameResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetDomainNamesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the domain names for an AWS account.
  */
 export const getDomainNames: API.OperationMethod<
   GetDomainNamesRequest,
   GetDomainNamesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetDomainNamesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNamesRequest,
   output: GetDomainNamesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetIntegrationError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets an Integration.
  */
 export const getIntegration: API.OperationMethod<
   GetIntegrationRequest,
   GetIntegrationResult,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationRequest,
   output: GetIntegrationResult,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetIntegrationResponseError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets an IntegrationResponses.
  */
 export const getIntegrationResponse: API.OperationMethod<
   GetIntegrationResponseRequest,
   GetIntegrationResponseResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationResponseRequest,
   output: GetIntegrationResponseResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetIntegrationResponsesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the IntegrationResponses for an Integration.
  */
 export const getIntegrationResponses: API.OperationMethod<
   GetIntegrationResponsesRequest,
   GetIntegrationResponsesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetIntegrationResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationResponsesRequest,
   output: GetIntegrationResponsesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetIntegrationsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the Integrations for an API.
  */
 export const getIntegrations: API.OperationMethod<
   GetIntegrationsRequest,
   GetIntegrationsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetIntegrationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationsRequest,
   output: GetIntegrationsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetModelError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a Model.
  */
 export const getModel: API.OperationMethod<
   GetModelRequest,
   GetModelResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelRequest,
   output: GetModelResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetModelsError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the Models for an API.
  */
 export const getModels: API.OperationMethod<
   GetModelsRequest,
   GetModelsResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetModelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelsRequest,
   output: GetModelsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetModelTemplateError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a model template.
  */
 export const getModelTemplate: API.OperationMethod<
   GetModelTemplateRequest,
   GetModelTemplateResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetModelTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelTemplateRequest,
   output: GetModelTemplateResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetPortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a portal.
  */
 export const getPortal: API.OperationMethod<
   GetPortalRequest,
   GetPortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetPortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortalRequest,
@@ -8399,17 +8565,19 @@ export const getPortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetPortalProductError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a portal product.
  */
 export const getPortalProduct: API.OperationMethod<
   GetPortalProductRequest,
   GetPortalProductResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetPortalProductError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortalProductRequest,
@@ -8421,17 +8589,19 @@ export const getPortalProduct: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetPortalProductSharingPolicyError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the sharing policy for a portal product.
  */
 export const getPortalProductSharingPolicy: API.OperationMethod<
   GetPortalProductSharingPolicyRequest,
   GetPortalProductSharingPolicyResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetPortalProductSharingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortalProductSharingPolicyRequest,
@@ -8443,17 +8613,19 @@ export const getPortalProductSharingPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetProductPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a product page of a portal product.
  */
 export const getProductPage: API.OperationMethod<
   GetProductPageRequest,
   GetProductPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetProductPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProductPageRequest,
@@ -8465,17 +8637,19 @@ export const getProductPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetProductRestEndpointPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a product REST endpoint page.
  */
 export const getProductRestEndpointPage: API.OperationMethod<
   GetProductRestEndpointPageRequest,
   GetProductRestEndpointPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetProductRestEndpointPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProductRestEndpointPageRequest,
@@ -8487,120 +8661,142 @@ export const getProductRestEndpointPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetRouteError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a Route.
  */
 export const getRoute: API.OperationMethod<
   GetRouteRequest,
   GetRouteResult,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteRequest,
   output: GetRouteResult,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetRouteResponseError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a RouteResponse.
  */
 export const getRouteResponse: API.OperationMethod<
   GetRouteResponseRequest,
   GetRouteResponseResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetRouteResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteResponseRequest,
   output: GetRouteResponseResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetRouteResponsesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the RouteResponses for a Route.
  */
 export const getRouteResponses: API.OperationMethod<
   GetRouteResponsesRequest,
   GetRouteResponsesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetRouteResponsesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteResponsesRequest,
   output: GetRouteResponsesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetRoutesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the Routes for an API.
  */
 export const getRoutes: API.OperationMethod<
   GetRoutesRequest,
   GetRoutesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetRoutesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoutesRequest,
   output: GetRoutesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetRoutingRuleError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a routing rule.
  */
 export const getRoutingRule: API.OperationMethod<
   GetRoutingRuleRequest,
   GetRoutingRuleResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetRoutingRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoutingRuleRequest,
   output: GetRoutingRuleResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetStageError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a Stage.
  */
 export const getStage: API.OperationMethod<
   GetStageRequest,
   GetStageResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStageRequest,
   output: GetStageResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetStagesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the Stages for an API.
  */
 export const getStages: API.OperationMethod<
   GetStagesRequest,
   GetStagesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetStagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStagesRequest,
   output: GetStagesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
 }));
+export type GetTagsError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a collection of Tag resources.
  */
 export const getTags: API.OperationMethod<
   GetTagsRequest,
   GetTagsResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
@@ -8612,43 +8808,53 @@ export const getTags: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetVpcLinkError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a VPC link.
  */
 export const getVpcLink: API.OperationMethod<
   GetVpcLinkRequest,
   GetVpcLinkResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  GetVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinkRequest,
   output: GetVpcLinkResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type GetVpcLinksError =
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a collection of VPC links.
  */
 export const getVpcLinks: API.OperationMethod<
   GetVpcLinksRequest,
   GetVpcLinksResponse,
-  BadRequestException | TooManyRequestsException | CommonErrors,
+  GetVpcLinksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinksRequest,
   output: GetVpcLinksResponse,
   errors: [BadRequestException, TooManyRequestsException],
 }));
+export type ImportApiError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Imports an API.
  */
 export const importApi: API.OperationMethod<
   ImportApiRequest,
   ImportApiResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ImportApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportApiRequest,
@@ -8660,16 +8866,18 @@ export const importApi: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListPortalProductsError =
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists portal products.
  */
 export const listPortalProducts: API.OperationMethod<
   ListPortalProductsRequest,
   ListPortalProductsResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListPortalProductsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPortalProductsRequest,
@@ -8680,16 +8888,18 @@ export const listPortalProducts: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListPortalsError =
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists portals.
  */
 export const listPortals: API.OperationMethod<
   ListPortalsRequest,
   ListPortalsResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListPortalsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPortalsRequest,
@@ -8700,17 +8910,19 @@ export const listPortals: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListProductPagesError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the product pages for a portal product.
  */
 export const listProductPages: API.OperationMethod<
   ListProductPagesRequest,
   ListProductPagesResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListProductPagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProductPagesRequest,
@@ -8722,17 +8934,19 @@ export const listProductPages: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListProductRestEndpointPagesError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists the product REST endpoint pages of a portal product.
  */
 export const listProductRestEndpointPages: API.OperationMethod<
   ListProductRestEndpointPagesRequest,
   ListProductRestEndpointPagesResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListProductRestEndpointPagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProductRestEndpointPagesRequest,
@@ -8744,36 +8958,32 @@ export const listProductRestEndpointPages: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListRoutingRulesError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists routing rules.
  */
 export const listRoutingRules: API.OperationMethod<
   ListRoutingRulesRequest,
   ListRoutingRulesResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListRoutingRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRoutingRulesRequest,
   ) => stream.Stream<
     ListRoutingRulesResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRoutingRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoutingRulesRequest,
   ) => stream.Stream<
     RoutingRule,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListRoutingRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8787,18 +8997,20 @@ export const listRoutingRules: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PreviewPortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a portal preview.
  */
 export const previewPortal: API.OperationMethod<
   PreviewPortalRequest,
   PreviewPortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PreviewPortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PreviewPortalRequest,
@@ -8811,18 +9023,20 @@ export const previewPortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PublishPortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Publishes a portal.
  */
 export const publishPortal: API.OperationMethod<
   PublishPortalRequest,
   PublishPortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PublishPortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishPortalRequest,
@@ -8835,17 +9049,19 @@ export const publishPortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutPortalProductSharingPolicyError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the sharing policy for a portal product.
  */
 export const putPortalProductSharingPolicy: API.OperationMethod<
   PutPortalProductSharingPolicyRequest,
   PutPortalProductSharingPolicyResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutPortalProductSharingPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPortalProductSharingPolicyRequest,
@@ -8857,17 +9073,19 @@ export const putPortalProductSharingPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type PutRoutingRuleError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a routing rule.
  */
 export const putRoutingRule: API.OperationMethod<
   PutRoutingRuleRequest,
   PutRoutingRuleResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutRoutingRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRoutingRuleRequest,
@@ -8879,17 +9097,19 @@ export const putRoutingRule: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ReimportApiError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Puts an Api resource.
  */
 export const reimportApi: API.OperationMethod<
   ReimportApiRequest,
   ReimportApiResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ReimportApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReimportApiRequest,
@@ -8901,30 +9121,36 @@ export const reimportApi: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ResetAuthorizersCacheError =
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
  */
 export const resetAuthorizersCache: API.OperationMethod<
   ResetAuthorizersCacheRequest,
   ResetAuthorizersCacheResponse,
-  NotFoundException | TooManyRequestsException | CommonErrors,
+  ResetAuthorizersCacheError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAuthorizersCacheRequest,
   output: ResetAuthorizersCacheResponse,
   errors: [NotFoundException, TooManyRequestsException],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates a new Tag resource to represent a tag.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8936,17 +9162,19 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a Tag.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8958,17 +9186,19 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateApiError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an Api resource.
  */
 export const updateApi: API.OperationMethod<
   UpdateApiRequest,
   UpdateApiResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateApiError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiRequest,
@@ -8980,17 +9210,19 @@ export const updateApi: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateApiMappingError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * The API mapping.
  */
 export const updateApiMapping: API.OperationMethod<
   UpdateApiMappingRequest,
   UpdateApiMappingResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateApiMappingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiMappingRequest,
@@ -9002,17 +9234,19 @@ export const updateApiMapping: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateAuthorizerError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an Authorizer.
  */
 export const updateAuthorizer: API.OperationMethod<
   UpdateAuthorizerRequest,
   UpdateAuthorizerResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateAuthorizerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
@@ -9024,17 +9258,19 @@ export const updateAuthorizer: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateDeploymentError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a Deployment.
  */
 export const updateDeployment: API.OperationMethod<
   UpdateDeploymentRequest,
   UpdateDeploymentResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentRequest,
@@ -9046,17 +9282,19 @@ export const updateDeployment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateDomainNameError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a domain name.
  */
 export const updateDomainName: API.OperationMethod<
   UpdateDomainNameRequest,
   UpdateDomainNameResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateDomainNameError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
@@ -9068,17 +9306,19 @@ export const updateDomainName: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateIntegrationError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an Integration.
  */
 export const updateIntegration: API.OperationMethod<
   UpdateIntegrationRequest,
   UpdateIntegrationResult,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateIntegrationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationRequest,
@@ -9090,17 +9330,19 @@ export const updateIntegration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateIntegrationResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates an IntegrationResponses.
  */
 export const updateIntegrationResponse: API.OperationMethod<
   UpdateIntegrationResponseRequest,
   UpdateIntegrationResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateIntegrationResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationResponseRequest,
@@ -9112,17 +9354,19 @@ export const updateIntegrationResponse: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateModelError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a Model.
  */
 export const updateModel: API.OperationMethod<
   UpdateModelRequest,
   UpdateModelResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
@@ -9134,18 +9378,20 @@ export const updateModel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdatePortalError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a portal.
  */
 export const updatePortal: API.OperationMethod<
   UpdatePortalRequest,
   UpdatePortalResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdatePortalError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortalRequest,
@@ -9158,17 +9404,19 @@ export const updatePortal: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdatePortalProductError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates the portal product.
  */
 export const updatePortalProduct: API.OperationMethod<
   UpdatePortalProductRequest,
   UpdatePortalProductResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdatePortalProductError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortalProductRequest,
@@ -9180,17 +9428,19 @@ export const updatePortalProduct: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateProductPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a product page of a portal product.
  */
 export const updateProductPage: API.OperationMethod<
   UpdateProductPageRequest,
   UpdateProductPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateProductPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProductPageRequest,
@@ -9202,17 +9452,19 @@ export const updateProductPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateProductRestEndpointPageError =
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a product REST endpoint page.
  */
 export const updateProductRestEndpointPage: API.OperationMethod<
   UpdateProductRestEndpointPageRequest,
   UpdateProductRestEndpointPageResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateProductRestEndpointPageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProductRestEndpointPageRequest,
@@ -9224,17 +9476,19 @@ export const updateProductRestEndpointPage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateRouteError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a Route.
  */
 export const updateRoute: API.OperationMethod<
   UpdateRouteRequest,
   UpdateRouteResult,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateRouteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteRequest,
@@ -9246,17 +9500,19 @@ export const updateRoute: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateRouteResponseError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a RouteResponse.
  */
 export const updateRouteResponse: API.OperationMethod<
   UpdateRouteResponseRequest,
   UpdateRouteResponseResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateRouteResponseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteResponseRequest,
@@ -9268,17 +9524,19 @@ export const updateRouteResponse: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateStageError =
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a Stage.
  */
 export const updateStage: API.OperationMethod<
   UpdateStageRequest,
   UpdateStageResponse,
-  | BadRequestException
-  | ConflictException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateStageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStageRequest,
@@ -9290,16 +9548,18 @@ export const updateStage: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UpdateVpcLinkError =
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Updates a VPC link.
  */
 export const updateVpcLink: API.OperationMethod<
   UpdateVpcLinkRequest,
   UpdateVpcLinkResponse,
-  | BadRequestException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UpdateVpcLinkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcLinkRequest,

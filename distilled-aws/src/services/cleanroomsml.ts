@@ -4218,36 +4218,32 @@ export class InternalServiceException extends S.TaggedErrorClass<InternalService
 ).pipe(C.withServerError) {}
 
 //# Operations
+export type ListCollaborationConfiguredModelAlgorithmAssociationsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the configured model algorithm associations in a collaboration.
  */
 export const listCollaborationConfiguredModelAlgorithmAssociations: API.OperationMethod<
   ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
   ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCollaborationConfiguredModelAlgorithmAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
   ) => stream.Stream<
     ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationConfiguredModelAlgorithmAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
   ) => stream.Stream<
     CollaborationConfiguredModelAlgorithmAssociationSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationConfiguredModelAlgorithmAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4261,36 +4257,32 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: API.Operatio
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCollaborationMLInputChannelsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the ML input channels in a collaboration.
  */
 export const listCollaborationMLInputChannels: API.OperationMethod<
   ListCollaborationMLInputChannelsRequest,
   ListCollaborationMLInputChannelsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCollaborationMLInputChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollaborationMLInputChannelsRequest,
   ) => stream.Stream<
     ListCollaborationMLInputChannelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationMLInputChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollaborationMLInputChannelsRequest,
   ) => stream.Stream<
     CollaborationMLInputChannelSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationMLInputChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4304,36 +4296,32 @@ export const listCollaborationMLInputChannels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCollaborationTrainedModelExportJobsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the export jobs for a trained model in a collaboration.
  */
 export const listCollaborationTrainedModelExportJobs: API.OperationMethod<
   ListCollaborationTrainedModelExportJobsRequest,
   ListCollaborationTrainedModelExportJobsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCollaborationTrainedModelExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollaborationTrainedModelExportJobsRequest,
   ) => stream.Stream<
     ListCollaborationTrainedModelExportJobsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationTrainedModelExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollaborationTrainedModelExportJobsRequest,
   ) => stream.Stream<
     CollaborationTrainedModelExportJobSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationTrainedModelExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4347,36 +4335,32 @@ export const listCollaborationTrainedModelExportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCollaborationTrainedModelInferenceJobsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of trained model inference jobs in a specified collaboration.
  */
 export const listCollaborationTrainedModelInferenceJobs: API.OperationMethod<
   ListCollaborationTrainedModelInferenceJobsRequest,
   ListCollaborationTrainedModelInferenceJobsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCollaborationTrainedModelInferenceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollaborationTrainedModelInferenceJobsRequest,
   ) => stream.Stream<
     ListCollaborationTrainedModelInferenceJobsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationTrainedModelInferenceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollaborationTrainedModelInferenceJobsRequest,
   ) => stream.Stream<
     CollaborationTrainedModelInferenceJobSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationTrainedModelInferenceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4390,36 +4374,32 @@ export const listCollaborationTrainedModelInferenceJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCollaborationTrainedModelsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the trained models in a collaboration.
  */
 export const listCollaborationTrainedModels: API.OperationMethod<
   ListCollaborationTrainedModelsRequest,
   ListCollaborationTrainedModelsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCollaborationTrainedModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCollaborationTrainedModelsRequest,
   ) => stream.Stream<
     ListCollaborationTrainedModelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationTrainedModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollaborationTrainedModelsRequest,
   ) => stream.Stream<
     CollaborationTrainedModelSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCollaborationTrainedModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4433,16 +4413,18 @@ export const listCollaborationTrainedModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags for a provided resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -4453,16 +4435,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds metadata tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -4473,16 +4457,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes metadata tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -4493,18 +4479,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartAudienceExportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Export an audience of a specified size after you have generated an audience.
  */
 export const startAudienceExportJob: API.OperationMethod<
   StartAudienceExportJobRequest,
   StartAudienceExportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartAudienceExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAudienceExportJobRequest,
@@ -4517,27 +4505,31 @@ export const startAudienceExportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAudienceExportJobsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the audience export jobs.
  */
 export const listAudienceExportJobs: API.OperationMethod<
   ListAudienceExportJobsRequest,
   ListAudienceExportJobsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListAudienceExportJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAudienceExportJobsRequest,
   ) => stream.Stream<
     ListAudienceExportJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAudienceExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAudienceExportJobsRequest,
   ) => stream.Stream<
     AudienceExportJobSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAudienceExportJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4551,19 +4543,21 @@ export const listAudienceExportJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Information necessary to start the audience generation job.
- */
-export const startAudienceGenerationJob: API.OperationMethod<
-  StartAudienceGenerationJobRequest,
-  StartAudienceGenerationJobResponse,
+export type StartAudienceGenerationJobError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Information necessary to start the audience generation job.
+ */
+export const startAudienceGenerationJob: API.OperationMethod<
+  StartAudienceGenerationJobRequest,
+  StartAudienceGenerationJobResponse,
+  StartAudienceGenerationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAudienceGenerationJobRequest,
@@ -4577,16 +4571,18 @@ export const startAudienceGenerationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAudienceGenerationJobError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an audience generation job.
  */
 export const getAudienceGenerationJob: API.OperationMethod<
   GetAudienceGenerationJobRequest,
   GetAudienceGenerationJobResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAudienceGenerationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAudienceGenerationJobRequest,
@@ -4597,17 +4593,19 @@ export const getAudienceGenerationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAudienceGenerationJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified audience generation job, and removes all data associated with the job.
  */
 export const deleteAudienceGenerationJob: API.OperationMethod<
   DeleteAudienceGenerationJobRequest,
   DeleteAudienceGenerationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAudienceGenerationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAudienceGenerationJobRequest,
@@ -4619,27 +4617,31 @@ export const deleteAudienceGenerationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAudienceGenerationJobsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of audience generation jobs.
  */
 export const listAudienceGenerationJobs: API.OperationMethod<
   ListAudienceGenerationJobsRequest,
   ListAudienceGenerationJobsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListAudienceGenerationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAudienceGenerationJobsRequest,
   ) => stream.Stream<
     ListAudienceGenerationJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAudienceGenerationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAudienceGenerationJobsRequest,
   ) => stream.Stream<
     AudienceGenerationJobSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAudienceGenerationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4653,18 +4655,20 @@ export const listAudienceGenerationJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateAudienceModelError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API.
  */
 export const createAudienceModel: API.OperationMethod<
   CreateAudienceModelRequest,
   CreateAudienceModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAudienceModelRequest,
@@ -4677,16 +4681,18 @@ export const createAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAudienceModelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an audience model
  */
 export const getAudienceModel: API.OperationMethod<
   GetAudienceModelRequest,
   GetAudienceModelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAudienceModelRequest,
@@ -4697,17 +4703,19 @@ export const getAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAudienceModelError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model.
  */
 export const deleteAudienceModel: API.OperationMethod<
   DeleteAudienceModelRequest,
   DeleteAudienceModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAudienceModelRequest,
@@ -4719,27 +4727,31 @@ export const deleteAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAudienceModelsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of audience models.
  */
 export const listAudienceModels: API.OperationMethod<
   ListAudienceModelsRequest,
   ListAudienceModelsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListAudienceModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAudienceModelsRequest,
   ) => stream.Stream<
     ListAudienceModelsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAudienceModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAudienceModelsRequest,
   ) => stream.Stream<
     AudienceModelSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListAudienceModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4753,18 +4765,20 @@ export const listAudienceModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateConfiguredAudienceModelError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Defines the information necessary to create a configured audience model.
  */
 export const createConfiguredAudienceModel: API.OperationMethod<
   CreateConfiguredAudienceModelRequest,
   CreateConfiguredAudienceModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateConfiguredAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfiguredAudienceModelRequest,
@@ -4777,16 +4791,18 @@ export const createConfiguredAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConfiguredAudienceModelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specified configured audience model.
  */
 export const getConfiguredAudienceModel: API.OperationMethod<
   GetConfiguredAudienceModelRequest,
   GetConfiguredAudienceModelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetConfiguredAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfiguredAudienceModelRequest,
@@ -4797,17 +4813,19 @@ export const getConfiguredAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateConfiguredAudienceModelError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs.
  */
 export const updateConfiguredAudienceModel: API.OperationMethod<
   UpdateConfiguredAudienceModelRequest,
   UpdateConfiguredAudienceModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateConfiguredAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfiguredAudienceModelRequest,
@@ -4819,17 +4837,19 @@ export const updateConfiguredAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConfiguredAudienceModelError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to.
  */
 export const deleteConfiguredAudienceModel: API.OperationMethod<
   DeleteConfiguredAudienceModelRequest,
   DeleteConfiguredAudienceModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteConfiguredAudienceModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfiguredAudienceModelRequest,
@@ -4841,27 +4861,31 @@ export const deleteConfiguredAudienceModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConfiguredAudienceModelsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the configured audience models.
  */
 export const listConfiguredAudienceModels: API.OperationMethod<
   ListConfiguredAudienceModelsRequest,
   ListConfiguredAudienceModelsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListConfiguredAudienceModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfiguredAudienceModelsRequest,
   ) => stream.Stream<
     ListConfiguredAudienceModelsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListConfiguredAudienceModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfiguredAudienceModelsRequest,
   ) => stream.Stream<
     ConfiguredAudienceModelSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListConfiguredAudienceModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4875,16 +4899,18 @@ export const listConfiguredAudienceModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutConfiguredAudienceModelPolicyError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create or update the resource policy for a configured audience model.
  */
 export const putConfiguredAudienceModelPolicy: API.OperationMethod<
   PutConfiguredAudienceModelPolicyRequest,
   PutConfiguredAudienceModelPolicyResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  PutConfiguredAudienceModelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfiguredAudienceModelPolicyRequest,
@@ -4895,16 +4921,18 @@ export const putConfiguredAudienceModelPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConfiguredAudienceModelPolicyError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a configured audience model policy.
  */
 export const getConfiguredAudienceModelPolicy: API.OperationMethod<
   GetConfiguredAudienceModelPolicyRequest,
   GetConfiguredAudienceModelPolicyResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetConfiguredAudienceModelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfiguredAudienceModelPolicyRequest,
@@ -4915,16 +4943,18 @@ export const getConfiguredAudienceModelPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConfiguredAudienceModelPolicyError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified configured audience model policy.
  */
 export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
   DeleteConfiguredAudienceModelPolicyRequest,
   DeleteConfiguredAudienceModelPolicyResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteConfiguredAudienceModelPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfiguredAudienceModelPolicyRequest,
@@ -4935,17 +4965,19 @@ export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateConfiguredModelAlgorithmError =
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a configured model algorithm using a container image stored in an ECR repository.
  */
 export const createConfiguredModelAlgorithm: API.OperationMethod<
   CreateConfiguredModelAlgorithmRequest,
   CreateConfiguredModelAlgorithmResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateConfiguredModelAlgorithmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfiguredModelAlgorithmRequest,
@@ -4957,16 +4989,18 @@ export const createConfiguredModelAlgorithm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConfiguredModelAlgorithmError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a configured model algorithm.
  */
 export const getConfiguredModelAlgorithm: API.OperationMethod<
   GetConfiguredModelAlgorithmRequest,
   GetConfiguredModelAlgorithmResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetConfiguredModelAlgorithmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfiguredModelAlgorithmRequest,
@@ -4977,17 +5011,19 @@ export const getConfiguredModelAlgorithm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConfiguredModelAlgorithmError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a configured model algorithm.
  */
 export const deleteConfiguredModelAlgorithm: API.OperationMethod<
   DeleteConfiguredModelAlgorithmRequest,
   DeleteConfiguredModelAlgorithmResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteConfiguredModelAlgorithmError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfiguredModelAlgorithmRequest,
@@ -4999,27 +5035,31 @@ export const deleteConfiguredModelAlgorithm: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConfiguredModelAlgorithmsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of configured model algorithms.
  */
 export const listConfiguredModelAlgorithms: API.OperationMethod<
   ListConfiguredModelAlgorithmsRequest,
   ListConfiguredModelAlgorithmsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListConfiguredModelAlgorithmsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfiguredModelAlgorithmsRequest,
   ) => stream.Stream<
     ListConfiguredModelAlgorithmsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListConfiguredModelAlgorithmsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfiguredModelAlgorithmsRequest,
   ) => stream.Stream<
     ConfiguredModelAlgorithmSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListConfiguredModelAlgorithmsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5033,19 +5073,21 @@ export const listConfiguredModelAlgorithms: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
- */
-export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
-  CreateConfiguredModelAlgorithmAssociationRequest,
-  CreateConfiguredModelAlgorithmAssociationResponse,
+export type CreateConfiguredModelAlgorithmAssociationError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
+ */
+export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
+  CreateConfiguredModelAlgorithmAssociationRequest,
+  CreateConfiguredModelAlgorithmAssociationResponse,
+  CreateConfiguredModelAlgorithmAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfiguredModelAlgorithmAssociationRequest,
@@ -5059,17 +5101,19 @@ export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetConfiguredModelAlgorithmAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a configured model algorithm association.
  */
 export const getConfiguredModelAlgorithmAssociation: API.OperationMethod<
   GetConfiguredModelAlgorithmAssociationRequest,
   GetConfiguredModelAlgorithmAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetConfiguredModelAlgorithmAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfiguredModelAlgorithmAssociationRequest,
@@ -5081,18 +5125,20 @@ export const getConfiguredModelAlgorithmAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteConfiguredModelAlgorithmAssociationError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a configured model algorithm association.
  */
 export const deleteConfiguredModelAlgorithmAssociation: API.OperationMethod<
   DeleteConfiguredModelAlgorithmAssociationRequest,
   DeleteConfiguredModelAlgorithmAssociationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteConfiguredModelAlgorithmAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfiguredModelAlgorithmAssociationRequest,
@@ -5105,36 +5151,32 @@ export const deleteConfiguredModelAlgorithmAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListConfiguredModelAlgorithmAssociationsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of configured model algorithm associations.
  */
 export const listConfiguredModelAlgorithmAssociations: API.OperationMethod<
   ListConfiguredModelAlgorithmAssociationsRequest,
   ListConfiguredModelAlgorithmAssociationsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListConfiguredModelAlgorithmAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfiguredModelAlgorithmAssociationsRequest,
   ) => stream.Stream<
     ListConfiguredModelAlgorithmAssociationsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConfiguredModelAlgorithmAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfiguredModelAlgorithmAssociationsRequest,
   ) => stream.Stream<
     ConfiguredModelAlgorithmAssociationSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListConfiguredModelAlgorithmAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5148,17 +5190,19 @@ export const listConfiguredModelAlgorithmAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetCollaborationConfiguredModelAlgorithmAssociationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the configured model algorithm association in a collaboration.
  */
 export const getCollaborationConfiguredModelAlgorithmAssociation: API.OperationMethod<
   GetCollaborationConfiguredModelAlgorithmAssociationRequest,
   GetCollaborationConfiguredModelAlgorithmAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCollaborationConfiguredModelAlgorithmAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCollaborationConfiguredModelAlgorithmAssociationRequest,
@@ -5170,33 +5214,37 @@ export const getCollaborationConfiguredModelAlgorithmAssociation: API.OperationM
     ValidationException,
   ],
 }));
+export type PutMLConfigurationError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns information about an ML configuration.
  */
 export const putMLConfiguration: API.OperationMethod<
   PutMLConfigurationRequest,
   PutMLConfigurationResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutMLConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMLConfigurationRequest,
   output: PutMLConfigurationResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
 }));
+export type GetMLConfigurationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific ML configuration.
  */
 export const getMLConfiguration: API.OperationMethod<
   GetMLConfigurationRequest,
   GetMLConfigurationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMLConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLConfigurationRequest,
@@ -5208,17 +5256,19 @@ export const getMLConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMLConfigurationError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a ML modeling configuration.
  */
 export const deleteMLConfiguration: API.OperationMethod<
   DeleteMLConfigurationRequest,
   DeleteMLConfigurationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMLConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMLConfigurationRequest,
@@ -5230,19 +5280,21 @@ export const deleteMLConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
- */
-export const createMLInputChannel: API.OperationMethod<
-  CreateMLInputChannelRequest,
-  CreateMLInputChannelResponse,
+export type CreateMLInputChannelError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
+ */
+export const createMLInputChannel: API.OperationMethod<
+  CreateMLInputChannelRequest,
+  CreateMLInputChannelResponse,
+  CreateMLInputChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMLInputChannelRequest,
@@ -5256,17 +5308,19 @@ export const createMLInputChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMLInputChannelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an ML input channel.
  */
 export const getMLInputChannel: API.OperationMethod<
   GetMLInputChannelRequest,
   GetMLInputChannelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMLInputChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLInputChannelRequest,
@@ -5278,18 +5332,20 @@ export const getMLInputChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteMLInputChannelDataError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides the information necessary to delete an ML input channel.
  */
 export const deleteMLInputChannelData: API.OperationMethod<
   DeleteMLInputChannelDataRequest,
   DeleteMLInputChannelDataResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteMLInputChannelDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMLInputChannelDataRequest,
@@ -5302,36 +5358,32 @@ export const deleteMLInputChannelData: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListMLInputChannelsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of ML input channels.
  */
 export const listMLInputChannels: API.OperationMethod<
   ListMLInputChannelsRequest,
   ListMLInputChannelsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMLInputChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMLInputChannelsRequest,
   ) => stream.Stream<
     ListMLInputChannelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMLInputChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMLInputChannelsRequest,
   ) => stream.Stream<
     MLInputChannelSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMLInputChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5345,17 +5397,19 @@ export const listMLInputChannels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetCollaborationMLInputChannelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific ML input channel in a collaboration.
  */
 export const getCollaborationMLInputChannel: API.OperationMethod<
   GetCollaborationMLInputChannelRequest,
   GetCollaborationMLInputChannelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCollaborationMLInputChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCollaborationMLInputChannelRequest,
@@ -5367,12 +5421,7 @@ export const getCollaborationMLInputChannel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
- */
-export const createTrainedModel: API.OperationMethod<
-  CreateTrainedModelRequest,
-  CreateTrainedModelResponse,
+export type CreateTrainedModelError =
   | AccessDeniedException
   | ConflictException
   | InternalServiceException
@@ -5380,7 +5429,14 @@ export const createTrainedModel: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
+ */
+export const createTrainedModel: API.OperationMethod<
+  CreateTrainedModelRequest,
+  CreateTrainedModelResponse,
+  CreateTrainedModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrainedModelRequest,
@@ -5395,17 +5451,19 @@ export const createTrainedModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTrainedModelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a trained model.
  */
 export const getTrainedModel: API.OperationMethod<
   GetTrainedModelRequest,
   GetTrainedModelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTrainedModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrainedModelRequest,
@@ -5417,18 +5475,20 @@ export const getTrainedModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTrainedModelOutputError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the model artifacts stored by the service.
  */
 export const deleteTrainedModelOutput: API.OperationMethod<
   DeleteTrainedModelOutputRequest,
   DeleteTrainedModelOutputResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTrainedModelOutputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrainedModelOutputRequest,
@@ -5441,36 +5501,32 @@ export const deleteTrainedModelOutput: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTrainedModelsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of trained models.
  */
 export const listTrainedModels: API.OperationMethod<
   ListTrainedModelsRequest,
   ListTrainedModelsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTrainedModelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrainedModelsRequest,
   ) => stream.Stream<
     ListTrainedModelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrainedModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrainedModelsRequest,
   ) => stream.Stream<
     TrainedModelSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrainedModelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5484,18 +5540,20 @@ export const listTrainedModels: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CancelTrainedModelError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Submits a request to cancel the trained model job.
  */
 export const cancelTrainedModel: API.OperationMethod<
   CancelTrainedModelRequest,
   CancelTrainedModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelTrainedModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTrainedModelRequest,
@@ -5508,17 +5566,19 @@ export const cancelTrainedModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCollaborationTrainedModelError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a trained model in a collaboration.
  */
 export const getCollaborationTrainedModel: API.OperationMethod<
   GetCollaborationTrainedModelRequest,
   GetCollaborationTrainedModelResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCollaborationTrainedModelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCollaborationTrainedModelRequest,
@@ -5530,39 +5590,33 @@ export const getCollaborationTrainedModel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTrainedModelVersionsError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
  */
 export const listTrainedModelVersions: API.OperationMethod<
   ListTrainedModelVersionsRequest,
   ListTrainedModelVersionsResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTrainedModelVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrainedModelVersionsRequest,
   ) => stream.Stream<
     ListTrainedModelVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrainedModelVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrainedModelVersionsRequest,
   ) => stream.Stream<
     TrainedModelSummary,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrainedModelVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5581,18 +5635,20 @@ export const listTrainedModelVersions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartTrainedModelExportJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides the information necessary to start a trained model export job.
  */
 export const startTrainedModelExportJob: API.OperationMethod<
   StartTrainedModelExportJobRequest,
   StartTrainedModelExportJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartTrainedModelExportJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTrainedModelExportJobRequest,
@@ -5605,19 +5661,21 @@ export const startTrainedModelExportJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Defines the information necessary to begin a trained model inference job.
- */
-export const startTrainedModelInferenceJob: API.OperationMethod<
-  StartTrainedModelInferenceJobRequest,
-  StartTrainedModelInferenceJobResponse,
+export type StartTrainedModelInferenceJobError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Defines the information necessary to begin a trained model inference job.
+ */
+export const startTrainedModelInferenceJob: API.OperationMethod<
+  StartTrainedModelInferenceJobRequest,
+  StartTrainedModelInferenceJobResponse,
+  StartTrainedModelInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTrainedModelInferenceJobRequest,
@@ -5631,17 +5689,19 @@ export const startTrainedModelInferenceJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTrainedModelInferenceJobError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a trained model inference job.
  */
 export const getTrainedModelInferenceJob: API.OperationMethod<
   GetTrainedModelInferenceJobRequest,
   GetTrainedModelInferenceJobResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTrainedModelInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrainedModelInferenceJobRequest,
@@ -5653,36 +5713,32 @@ export const getTrainedModelInferenceJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTrainedModelInferenceJobsError =
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of trained model inference jobs that match the request parameters.
  */
 export const listTrainedModelInferenceJobs: API.OperationMethod<
   ListTrainedModelInferenceJobsRequest,
   ListTrainedModelInferenceJobsResponse,
-  | AccessDeniedException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTrainedModelInferenceJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrainedModelInferenceJobsRequest,
   ) => stream.Stream<
     ListTrainedModelInferenceJobsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrainedModelInferenceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrainedModelInferenceJobsRequest,
   ) => stream.Stream<
     TrainedModelInferenceJobSummary,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTrainedModelInferenceJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -5696,18 +5752,20 @@ export const listTrainedModelInferenceJobs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CancelTrainedModelInferenceJobError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Submits a request to cancel a trained model inference job.
  */
 export const cancelTrainedModelInferenceJob: API.OperationMethod<
   CancelTrainedModelInferenceJobRequest,
   CancelTrainedModelInferenceJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelTrainedModelInferenceJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTrainedModelInferenceJobRequest,
@@ -5720,32 +5778,36 @@ export const cancelTrainedModelInferenceJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTrainingDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | ValidationException
+  | CommonErrors;
 /**
  * Defines the information necessary to create a training dataset. In Clean Rooms ML, the `TrainingDataset` is metadata that points to a Glue table, which is read only during `AudienceModel` creation.
  */
 export const createTrainingDataset: API.OperationMethod<
   CreateTrainingDatasetRequest,
   CreateTrainingDatasetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ValidationException
-  | CommonErrors,
+  CreateTrainingDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrainingDatasetRequest,
   output: CreateTrainingDatasetResponse,
   errors: [AccessDeniedException, ConflictException, ValidationException],
 }));
+export type GetTrainingDatasetError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a training dataset.
  */
 export const getTrainingDataset: API.OperationMethod<
   GetTrainingDatasetRequest,
   GetTrainingDatasetResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetTrainingDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrainingDatasetRequest,
@@ -5756,17 +5818,19 @@ export const getTrainingDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTrainingDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the `TrainingDataset` is metadata that points to a Glue table, which is read only during `AudienceModel` creation. This action deletes the metadata.
  */
 export const deleteTrainingDataset: API.OperationMethod<
   DeleteTrainingDatasetRequest,
   DeleteTrainingDatasetResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteTrainingDatasetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrainingDatasetRequest,
@@ -5778,27 +5842,31 @@ export const deleteTrainingDataset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTrainingDatasetsError =
+  | AccessDeniedException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of training datasets.
  */
 export const listTrainingDatasets: API.OperationMethod<
   ListTrainingDatasetsRequest,
   ListTrainingDatasetsResponse,
-  AccessDeniedException | ValidationException | CommonErrors,
+  ListTrainingDatasetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTrainingDatasetsRequest,
   ) => stream.Stream<
     ListTrainingDatasetsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListTrainingDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrainingDatasetsRequest,
   ) => stream.Stream<
     TrainingDatasetSummary,
-    AccessDeniedException | ValidationException | CommonErrors,
+    ListTrainingDatasetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

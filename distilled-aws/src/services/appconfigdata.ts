@@ -223,6 +223,12 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+export type GetLatestConfigurationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Retrieves the latest deployed configuration. This API may return empty configuration
  * data if the client already has the latest version. For more information about this API
@@ -243,11 +249,7 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 export const getLatestConfiguration: API.OperationMethod<
   GetLatestConfigurationRequest,
   GetLatestConfigurationResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  GetLatestConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLatestConfigurationRequest,
@@ -259,6 +261,12 @@ export const getLatestConfiguration: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type StartConfigurationSessionError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Starts a configuration session used to retrieve a deployed configuration. For more
  * information about this API action and to view example CLI commands that show how to use
@@ -268,11 +276,7 @@ export const getLatestConfiguration: API.OperationMethod<
 export const startConfigurationSession: API.OperationMethod<
   StartConfigurationSessionRequest,
   StartConfigurationSessionResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  StartConfigurationSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConfigurationSessionRequest,

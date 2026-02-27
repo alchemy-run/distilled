@@ -2830,19 +2830,21 @@ export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLim
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * This operation accepts a data grant.
- */
-export const acceptDataGrant: API.OperationMethod<
-  AcceptDataGrantRequest,
-  AcceptDataGrantResponse,
+export type AcceptDataGrantError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation accepts a data grant.
+ */
+export const acceptDataGrant: API.OperationMethod<
+  AcceptDataGrantRequest,
+  AcceptDataGrantResponse,
+  AcceptDataGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptDataGrantRequest,
@@ -2856,6 +2858,13 @@ export const acceptDataGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelJobError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING
  * state.
@@ -2863,12 +2872,7 @@ export const acceptDataGrant: API.OperationMethod<
 export const cancelJob: API.OperationMethod<
   CancelJobRequest,
   CancelJobResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
@@ -2881,19 +2885,21 @@ export const cancelJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation creates a data grant.
- */
-export const createDataGrant: API.OperationMethod<
-  CreateDataGrantRequest,
-  CreateDataGrantResponse,
+export type CreateDataGrantError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceLimitExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation creates a data grant.
+ */
+export const createDataGrant: API.OperationMethod<
+  CreateDataGrantRequest,
+  CreateDataGrantResponse,
+  CreateDataGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataGrantRequest,
@@ -2907,18 +2913,20 @@ export const createDataGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDataSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation creates a data set.
  */
 export const createDataSet: API.OperationMethod<
   CreateDataSetRequest,
   CreateDataSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceLimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDataSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSetRequest,
@@ -2931,18 +2939,20 @@ export const createDataSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateEventActionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation creates an event action.
  */
 export const createEventAction: API.OperationMethod<
   CreateEventActionRequest,
   CreateEventActionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceLimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateEventActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventActionRequest,
@@ -2955,19 +2965,21 @@ export const createEventAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation creates a job.
- */
-export const createJob: API.OperationMethod<
-  CreateJobRequest,
-  CreateJobResponse,
+export type CreateJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation creates a job.
+ */
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
+  CreateJobResponse,
+  CreateJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
@@ -2981,18 +2993,20 @@ export const createJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateRevisionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation creates a revision for a data set.
  */
 export const createRevision: API.OperationMethod<
   CreateRevisionRequest,
   CreateRevisionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRevisionRequest,
@@ -3005,19 +3019,21 @@ export const createRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation deletes an asset.
- */
-export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
-  DeleteAssetResponse,
+export type DeleteAssetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation deletes an asset.
+ */
+export const deleteAsset: API.OperationMethod<
+  DeleteAssetRequest,
+  DeleteAssetResponse,
+  DeleteAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetRequest,
@@ -3031,18 +3047,20 @@ export const deleteAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDataGrantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation deletes a data grant.
  */
 export const deleteDataGrant: API.OperationMethod<
   DeleteDataGrantRequest,
   DeleteDataGrantResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDataGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataGrantRequest,
@@ -3055,19 +3073,21 @@ export const deleteDataGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation deletes a data set.
- */
-export const deleteDataSet: API.OperationMethod<
-  DeleteDataSetRequest,
-  DeleteDataSetResponse,
+export type DeleteDataSetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation deletes a data set.
+ */
+export const deleteDataSet: API.OperationMethod<
+  DeleteDataSetRequest,
+  DeleteDataSetResponse,
+  DeleteDataSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSetRequest,
@@ -3081,17 +3101,19 @@ export const deleteDataSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEventActionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation deletes the event action.
  */
 export const deleteEventAction: API.OperationMethod<
   DeleteEventActionRequest,
   DeleteEventActionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteEventActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventActionRequest,
@@ -3103,19 +3125,21 @@ export const deleteEventAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation deletes a revision.
- */
-export const deleteRevision: API.OperationMethod<
-  DeleteRevisionRequest,
-  DeleteRevisionResponse,
+export type DeleteRevisionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation deletes a revision.
+ */
+export const deleteRevision: API.OperationMethod<
+  DeleteRevisionRequest,
+  DeleteRevisionResponse,
+  DeleteRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRevisionRequest,
@@ -3129,17 +3153,19 @@ export const deleteRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAssetError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about an asset.
  */
 export const getAsset: API.OperationMethod<
   GetAssetRequest,
   GetAssetResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetRequest,
@@ -3151,18 +3177,20 @@ export const getAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataGrantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about a data grant.
  */
 export const getDataGrant: API.OperationMethod<
   GetDataGrantRequest,
   GetDataGrantResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataGrantRequest,
@@ -3175,17 +3203,19 @@ export const getDataGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDataSetError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about a data set.
  */
 export const getDataSet: API.OperationMethod<
   GetDataSetRequest,
   GetDataSetResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDataSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSetRequest,
@@ -3197,17 +3227,19 @@ export const getDataSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEventActionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation retrieves information about an event action.
  */
 export const getEventAction: API.OperationMethod<
   GetEventActionRequest,
   GetEventActionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetEventActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventActionRequest,
@@ -3219,17 +3251,19 @@ export const getEventAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about a job.
  */
 export const getJob: API.OperationMethod<
   GetJobRequest,
   GetJobResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
@@ -3241,18 +3275,20 @@ export const getJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReceivedDataGrantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about a received data grant.
  */
 export const getReceivedDataGrant: API.OperationMethod<
   GetReceivedDataGrantRequest,
   GetReceivedDataGrantResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReceivedDataGrantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReceivedDataGrantRequest,
@@ -3265,17 +3301,19 @@ export const getReceivedDataGrant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRevisionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about a revision.
  */
 export const getRevision: API.OperationMethod<
   GetRevisionRequest,
   GetRevisionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRevisionRequest,
@@ -3287,42 +3325,34 @@ export const getRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDataGrantsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about all data grants.
  */
 export const listDataGrants: API.OperationMethod<
   ListDataGrantsRequest,
   ListDataGrantsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataGrantsRequest,
   ) => stream.Stream<
     ListDataGrantsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataGrantsRequest,
   ) => stream.Stream<
     DataGrantSummaryEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3342,6 +3372,12 @@ export const listDataGrants: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDataSetRevisionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation lists a data set's revisions sorted by CreatedAt in descending
  * order.
@@ -3349,33 +3385,21 @@ export const listDataGrants: API.OperationMethod<
 export const listDataSetRevisions: API.OperationMethod<
   ListDataSetRevisionsRequest,
   ListDataSetRevisionsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataSetRevisionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSetRevisionsRequest,
   ) => stream.Stream<
     ListDataSetRevisionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSetRevisionsRequest,
   ) => stream.Stream<
     RevisionEntry,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetRevisionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3394,6 +3418,12 @@ export const listDataSetRevisions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDataSetsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation lists your data sets. When listing by origin OWNED, results are sorted by
  * CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
@@ -3401,33 +3431,21 @@ export const listDataSetRevisions: API.OperationMethod<
 export const listDataSets: API.OperationMethod<
   ListDataSetsRequest,
   ListDataSetsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDataSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
     ListDataSetsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
     DataSetEntry,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDataSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3446,39 +3464,33 @@ export const listDataSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEventActionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation lists your event actions.
  */
 export const listEventActions: API.OperationMethod<
   ListEventActionsRequest,
   ListEventActionsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEventActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventActionsRequest,
   ) => stream.Stream<
     ListEventActionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventActionsRequest,
   ) => stream.Stream<
     EventActionEntry,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListEventActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3497,39 +3509,33 @@ export const listEventActions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListJobsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation lists your jobs sorted by CreatedAt in descending order.
  */
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
     ListJobsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
   ) => stream.Stream<
     JobEntry,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3548,42 +3554,34 @@ export const listJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListReceivedDataGrantsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation returns information about all received data grants.
  */
 export const listReceivedDataGrants: API.OperationMethod<
   ListReceivedDataGrantsRequest,
   ListReceivedDataGrantsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReceivedDataGrantsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReceivedDataGrantsRequest,
   ) => stream.Stream<
     ListReceivedDataGrantsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReceivedDataGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReceivedDataGrantsRequest,
   ) => stream.Stream<
     ReceivedDataGrantSummariesEntry,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReceivedDataGrantsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3603,6 +3601,12 @@ export const listReceivedDataGrants: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListRevisionAssetsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation lists a revision's assets sorted alphabetically in descending
  * order.
@@ -3610,33 +3614,21 @@ export const listReceivedDataGrants: API.OperationMethod<
 export const listRevisionAssets: API.OperationMethod<
   ListRevisionAssetsRequest,
   ListRevisionAssetsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListRevisionAssetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRevisionAssetsRequest,
   ) => stream.Stream<
     ListRevisionAssetsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRevisionAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRevisionAssetsRequest,
   ) => stream.Stream<
     AssetEntry,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListRevisionAssetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3655,32 +3647,35 @@ export const listRevisionAssets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError = CommonErrors;
 /**
  * This operation lists the tags on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
 }));
-/**
- * This operation revokes subscribers' access to a revision.
- */
-export const revokeRevision: API.OperationMethod<
-  RevokeRevisionRequest,
-  RevokeRevisionResponse,
+export type RevokeRevisionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation revokes subscribers' access to a revision.
+ */
+export const revokeRevision: API.OperationMethod<
+  RevokeRevisionRequest,
+  RevokeRevisionResponse,
+  RevokeRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeRevisionRequest,
@@ -3694,6 +3689,13 @@ export const revokeRevision: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendApiAssetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation invokes an API Gateway API asset. The request is proxied to the
  * provider’s API Gateway API.
@@ -3701,12 +3703,7 @@ export const revokeRevision: API.OperationMethod<
 export const sendApiAsset: API.OperationMethod<
   SendApiAssetRequest,
   SendApiAssetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendApiAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendApiAssetRequest,
@@ -3719,19 +3716,21 @@ export const sendApiAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * The type of event associated with the data set.
- */
-export const sendDataSetNotification: API.OperationMethod<
-  SendDataSetNotificationRequest,
-  SendDataSetNotificationResponse,
+export type SendDataSetNotificationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The type of event associated with the data set.
+ */
+export const sendDataSetNotification: API.OperationMethod<
+  SendDataSetNotificationRequest,
+  SendDataSetNotificationResponse,
+  SendDataSetNotificationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDataSetNotificationRequest,
@@ -3745,19 +3744,21 @@ export const sendDataSetNotification: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation starts a job.
- */
-export const startJob: API.OperationMethod<
-  StartJobRequest,
-  StartJobResponse,
+export type StartJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation starts a job.
+ */
+export const startJob: API.OperationMethod<
+  StartJobRequest,
+  StartJobResponse,
+  StartJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRequest,
@@ -3771,45 +3772,49 @@ export const startJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError = CommonErrors;
 /**
  * This operation tags a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
 }));
+export type UntagResourceError = CommonErrors;
 /**
  * This operation removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
 }));
-/**
- * This operation updates an asset.
- */
-export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
-  UpdateAssetResponse,
+export type UpdateAssetError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation updates an asset.
+ */
+export const updateAsset: API.OperationMethod<
+  UpdateAssetRequest,
+  UpdateAssetResponse,
+  UpdateAssetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssetRequest,
@@ -3823,18 +3828,20 @@ export const updateAsset: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDataSetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation updates a data set.
  */
 export const updateDataSet: API.OperationMethod<
   UpdateDataSetRequest,
   UpdateDataSetResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDataSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSetRequest,
@@ -3847,18 +3854,20 @@ export const updateDataSet: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEventActionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * This operation updates the event action.
  */
 export const updateEventAction: API.OperationMethod<
   UpdateEventActionRequest,
   UpdateEventActionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEventActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventActionRequest,
@@ -3871,19 +3880,21 @@ export const updateEventAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * This operation updates a revision.
- */
-export const updateRevision: API.OperationMethod<
-  UpdateRevisionRequest,
-  UpdateRevisionResponse,
+export type UpdateRevisionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * This operation updates a revision.
+ */
+export const updateRevision: API.OperationMethod<
+  UpdateRevisionRequest,
+  UpdateRevisionResponse,
+  UpdateRevisionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRevisionRequest,

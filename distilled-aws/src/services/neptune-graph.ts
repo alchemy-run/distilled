@@ -2218,18 +2218,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type CancelQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels a specified query.
  */
 export const cancelQuery: API.OperationMethod<
   CancelQueryInput,
   CancelQueryResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQueryInput,
@@ -2242,6 +2244,14 @@ export const cancelQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ExecuteQueryError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | UnprocessableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Execute an openCypher query.
  *
@@ -2256,13 +2266,7 @@ export const cancelQuery: API.OperationMethod<
 export const executeQuery: API.OperationMethod<
   ExecuteQueryInput,
   ExecuteQueryOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | UnprocessableException
-  | ValidationException
-  | CommonErrors,
+  ExecuteQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteQueryInput,
@@ -2276,18 +2280,20 @@ export const executeQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGraphSummaryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a graph summary for a property graph.
  */
 export const getGraphSummary: API.OperationMethod<
   GetGraphSummaryInput,
   GetGraphSummaryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGraphSummaryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphSummaryInput,
@@ -2300,6 +2306,13 @@ export const getGraphSummary: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetQueryError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the status of a specified query.
  *
@@ -2308,12 +2321,7 @@ export const getGraphSummary: API.OperationMethod<
 export const getQuery: API.OperationMethod<
   GetQueryInput,
   GetQueryOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetQueryError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryInput,
@@ -2326,17 +2334,19 @@ export const getQuery: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListQueriesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists active openCypher queries.
  */
 export const listQueries: API.OperationMethod<
   ListQueriesInput,
   ListQueriesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListQueriesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQueriesInput,
@@ -2348,17 +2358,19 @@ export const listQueries: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -2370,17 +2382,19 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -2392,17 +2406,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -2414,18 +2430,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGraphError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Neptune Analytics graph.
  */
 export const createGraph: API.OperationMethod<
   CreateGraphInput,
   CreateGraphOutput,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphInput,
@@ -2438,18 +2456,20 @@ export const createGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGraphError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
  */
 export const deleteGraph: API.OperationMethod<
   DeleteGraphInput,
   DeleteGraphOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphInput,
@@ -2462,17 +2482,19 @@ export const deleteGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGraphError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a specified graph.
  */
 export const getGraph: API.OperationMethod<
   GetGraphInput,
   GetGraphOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphInput,
@@ -2484,36 +2506,32 @@ export const getGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGraphsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists available Neptune Analytics graphs.
  */
 export const listGraphs: API.OperationMethod<
   ListGraphsInput,
   ListGraphsOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  ListGraphsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGraphsInput,
   ) => stream.Stream<
     ListGraphsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListGraphsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGraphsInput,
   ) => stream.Stream<
     GraphSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
+    ListGraphsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2531,18 +2549,20 @@ export const listGraphs: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ResetGraphError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Empties the data from a specified Neptune Analytics graph.
  */
 export const resetGraph: API.OperationMethod<
   ResetGraphInput,
   ResetGraphOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetGraphInput,
@@ -2555,19 +2575,21 @@ export const resetGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Restores a graph from a snapshot.
- */
-export const restoreGraphFromSnapshot: API.OperationMethod<
-  RestoreGraphFromSnapshotInput,
-  RestoreGraphFromSnapshotOutput,
+export type RestoreGraphFromSnapshotError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restores a graph from a snapshot.
+ */
+export const restoreGraphFromSnapshot: API.OperationMethod<
+  RestoreGraphFromSnapshotInput,
+  RestoreGraphFromSnapshotOutput,
+  RestoreGraphFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreGraphFromSnapshotInput,
@@ -2581,18 +2603,20 @@ export const restoreGraphFromSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartGraphError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the specific graph.
  */
 export const startGraph: API.OperationMethod<
   StartGraphInput,
   StartGraphOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartGraphInput,
@@ -2605,18 +2629,20 @@ export const startGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopGraphError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the specific graph.
  */
 export const stopGraph: API.OperationMethod<
   StopGraphInput,
   StopGraphOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StopGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopGraphInput,
@@ -2629,18 +2655,20 @@ export const stopGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateGraphError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the configuration of a specified Neptune Analytics graph
  */
 export const updateGraph: API.OperationMethod<
   UpdateGraphInput,
   UpdateGraphOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateGraphError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGraphInput,
@@ -2653,6 +2681,14 @@ export const updateGraph: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreatePrivateGraphEndpointError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint.
  *
@@ -2661,13 +2697,7 @@ export const updateGraph: API.OperationMethod<
 export const createPrivateGraphEndpoint: API.OperationMethod<
   CreatePrivateGraphEndpointInput,
   CreatePrivateGraphEndpointOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreatePrivateGraphEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePrivateGraphEndpointInput,
@@ -2681,18 +2711,20 @@ export const createPrivateGraphEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeletePrivateGraphEndpointError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a private graph endpoint.
  */
 export const deletePrivateGraphEndpoint: API.OperationMethod<
   DeletePrivateGraphEndpointInput,
   DeletePrivateGraphEndpointOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeletePrivateGraphEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePrivateGraphEndpointInput,
@@ -2705,17 +2737,19 @@ export const deletePrivateGraphEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPrivateGraphEndpointError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a specified private endpoint.
  */
 export const getPrivateGraphEndpoint: API.OperationMethod<
   GetPrivateGraphEndpointInput,
   GetPrivateGraphEndpointOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPrivateGraphEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPrivateGraphEndpointInput,
@@ -2727,39 +2761,33 @@ export const getPrivateGraphEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPrivateGraphEndpointsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists private endpoints for a specified Neptune Analytics graph.
  */
 export const listPrivateGraphEndpoints: API.OperationMethod<
   ListPrivateGraphEndpointsInput,
   ListPrivateGraphEndpointsOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPrivateGraphEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPrivateGraphEndpointsInput,
   ) => stream.Stream<
     ListPrivateGraphEndpointsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPrivateGraphEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPrivateGraphEndpointsInput,
   ) => stream.Stream<
     PrivateGraphEndpointSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPrivateGraphEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2778,19 +2806,21 @@ export const listPrivateGraphEndpoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a snapshot of the specific graph.
- */
-export const createGraphSnapshot: API.OperationMethod<
-  CreateGraphSnapshotInput,
-  CreateGraphSnapshotOutput,
+export type CreateGraphSnapshotError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a snapshot of the specific graph.
+ */
+export const createGraphSnapshot: API.OperationMethod<
+  CreateGraphSnapshotInput,
+  CreateGraphSnapshotOutput,
+  CreateGraphSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphSnapshotInput,
@@ -2804,18 +2834,20 @@ export const createGraphSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteGraphSnapshotError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified graph snapshot.
  */
 export const deleteGraphSnapshot: API.OperationMethod<
   DeleteGraphSnapshotInput,
   DeleteGraphSnapshotOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteGraphSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphSnapshotInput,
@@ -2828,17 +2860,19 @@ export const deleteGraphSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetGraphSnapshotError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a specified graph snapshot.
  */
 export const getGraphSnapshot: API.OperationMethod<
   GetGraphSnapshotInput,
   GetGraphSnapshotOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetGraphSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphSnapshotInput,
@@ -2850,39 +2884,33 @@ export const getGraphSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListGraphSnapshotsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists available snapshots of a specified Neptune Analytics graph.
  */
 export const listGraphSnapshots: API.OperationMethod<
   ListGraphSnapshotsInput,
   ListGraphSnapshotsOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListGraphSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGraphSnapshotsInput,
   ) => stream.Stream<
     ListGraphSnapshotsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGraphSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGraphSnapshotsInput,
   ) => stream.Stream<
     GraphSnapshotSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListGraphSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2901,18 +2929,20 @@ export const listGraphSnapshots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CancelExportTaskError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancel the specified export task.
  */
 export const cancelExportTask: API.OperationMethod<
   CancelExportTaskInput,
   CancelExportTaskOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelExportTaskInput,
@@ -2925,18 +2955,20 @@ export const cancelExportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CancelImportTaskError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified import task.
  */
 export const cancelImportTask: API.OperationMethod<
   CancelImportTaskInput,
   CancelImportTaskOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelImportTaskInput,
@@ -2949,6 +2981,13 @@ export const cancelImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateGraphUsingImportTaskError =
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot.
  *
@@ -2957,12 +2996,7 @@ export const cancelImportTask: API.OperationMethod<
 export const createGraphUsingImportTask: API.OperationMethod<
   CreateGraphUsingImportTaskInput,
   CreateGraphUsingImportTaskOutput,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateGraphUsingImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphUsingImportTaskInput,
@@ -2975,17 +3009,19 @@ export const createGraphUsingImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetExportTaskError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a specified export task.
  */
 export const getExportTask: API.OperationMethod<
   GetExportTaskInput,
   GetExportTaskOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportTaskInput,
@@ -2997,17 +3033,19 @@ export const getExportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetImportTaskError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a specified import task.
  */
 export const getImportTask: API.OperationMethod<
   GetImportTaskInput,
   GetImportTaskOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportTaskInput,
@@ -3019,39 +3057,33 @@ export const getImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListExportTasksError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of export tasks.
  */
 export const listExportTasks: API.OperationMethod<
   ListExportTasksInput,
   ListExportTasksOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListExportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExportTasksInput,
   ) => stream.Stream<
     ListExportTasksOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListExportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExportTasksInput,
   ) => stream.Stream<
     ExportTaskSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListExportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3070,39 +3102,33 @@ export const listExportTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListImportTasksError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists import tasks.
  */
 export const listImportTasks: API.OperationMethod<
   ListImportTasksInput,
   ListImportTasksOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListImportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportTasksInput,
   ) => stream.Stream<
     ListImportTasksOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportTasksInput,
   ) => stream.Stream<
     ImportTaskSummary,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListImportTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3121,18 +3147,20 @@ export const listImportTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type StartExportTaskError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be `AVAILABLE`.
  */
 export const startExportTask: API.OperationMethod<
   StartExportTaskInput,
   StartExportTaskOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartExportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportTaskInput,
@@ -3145,18 +3173,20 @@ export const startExportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartImportTaskError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
  */
 export const startImportTask: API.OperationMethod<
   StartImportTaskInput,
   StartImportTaskOutput,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportTaskInput,

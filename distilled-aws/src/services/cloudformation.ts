@@ -421,12 +421,12 @@ export const BatchDescribeTypeConfigurationsInput = S.suspend(() =>
 ).annotate({
   identifier: "BatchDescribeTypeConfigurationsInput",
 }) as any as S.Schema<BatchDescribeTypeConfigurationsInput>;
-export interface BatchDescribeTypeConfigurationsError {
+export interface BatchDescribeTypeConfigurationsError_ {
   ErrorCode?: string;
   ErrorMessage?: string;
   TypeConfigurationIdentifier?: TypeConfigurationIdentifier;
 }
-export const BatchDescribeTypeConfigurationsError = S.suspend(() =>
+export const BatchDescribeTypeConfigurationsError_ = S.suspend(() =>
   S.Struct({
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
@@ -434,11 +434,11 @@ export const BatchDescribeTypeConfigurationsError = S.suspend(() =>
   }),
 ).annotate({
   identifier: "BatchDescribeTypeConfigurationsError",
-}) as any as S.Schema<BatchDescribeTypeConfigurationsError>;
+}) as any as S.Schema<BatchDescribeTypeConfigurationsError_>;
 export type BatchDescribeTypeConfigurationsErrors =
-  BatchDescribeTypeConfigurationsError[];
+  BatchDescribeTypeConfigurationsError_[];
 export const BatchDescribeTypeConfigurationsErrors = S.Array(
-  BatchDescribeTypeConfigurationsError,
+  BatchDescribeTypeConfigurationsError_,
 );
 export type UnprocessedTypeConfigurations = TypeConfigurationIdentifier[];
 export const UnprocessedTypeConfigurations = S.Array(
@@ -471,7 +471,7 @@ export const TypeConfigurationDetails = S.suspend(() =>
 export type TypeConfigurationDetailsList = TypeConfigurationDetails[];
 export const TypeConfigurationDetailsList = S.Array(TypeConfigurationDetails);
 export interface BatchDescribeTypeConfigurationsOutput {
-  Errors?: BatchDescribeTypeConfigurationsError[];
+  Errors?: BatchDescribeTypeConfigurationsError_[];
   UnprocessedTypeConfigurations?: TypeConfigurationIdentifier[];
   TypeConfigurations?: TypeConfigurationDetails[];
 }
@@ -6445,6 +6445,10 @@ export class ResourceScanLimitExceededException extends S.TaggedErrorClass<Resou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ActivateOrganizationsAccessError =
+  | InvalidOperationException
+  | OperationNotFoundException
+  | CommonErrors;
 /**
  * Activate trusted access with Organizations. With trusted access between StackSets
  * and Organizations activated, the management account has permissions to create
@@ -6453,13 +6457,17 @@ export class ResourceScanLimitExceededException extends S.TaggedErrorClass<Resou
 export const activateOrganizationsAccess: API.OperationMethod<
   ActivateOrganizationsAccessInput,
   ActivateOrganizationsAccessOutput,
-  InvalidOperationException | OperationNotFoundException | CommonErrors,
+  ActivateOrganizationsAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateOrganizationsAccessInput,
   output: ActivateOrganizationsAccessOutput,
   errors: [InvalidOperationException, OperationNotFoundException],
 }));
+export type ActivateTypeError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Activates a public third-party extension, such as a resource or module, to make it
  * available for use in stack templates in your current account and Region. It can also create
@@ -6479,13 +6487,17 @@ export const activateOrganizationsAccess: API.OperationMethod<
 export const activateType: API.OperationMethod<
   ActivateTypeInput,
   ActivateTypeOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  ActivateTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateTypeInput,
   output: ActivateTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type BatchDescribeTypeConfigurationsError =
+  | CFNRegistryException
+  | TypeConfigurationNotFoundException
+  | CommonErrors;
 /**
  * Returns configuration data for the specified CloudFormation extensions, from the CloudFormation
  * registry in your current account and Region.
@@ -6497,13 +6509,14 @@ export const activateType: API.OperationMethod<
 export const batchDescribeTypeConfigurations: API.OperationMethod<
   BatchDescribeTypeConfigurationsInput,
   BatchDescribeTypeConfigurationsOutput,
-  CFNRegistryException | TypeConfigurationNotFoundException | CommonErrors,
+  BatchDescribeTypeConfigurationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDescribeTypeConfigurationsInput,
   output: BatchDescribeTypeConfigurationsOutput,
   errors: [CFNRegistryException, TypeConfigurationNotFoundException],
 }));
+export type CancelUpdateStackError = TokenAlreadyExistsException | CommonErrors;
 /**
  * Cancels an update on the specified stack. If the call completes successfully, the stack
  * rolls back the update and reverts to the previous stack configuration.
@@ -6513,13 +6526,16 @@ export const batchDescribeTypeConfigurations: API.OperationMethod<
 export const cancelUpdateStack: API.OperationMethod<
   CancelUpdateStackInput,
   CancelUpdateStackResponse,
-  TokenAlreadyExistsException | CommonErrors,
+  CancelUpdateStackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelUpdateStackInput,
   output: CancelUpdateStackResponse,
   errors: [TokenAlreadyExistsException],
 }));
+export type ContinueUpdateRollbackError =
+  | TokenAlreadyExistsException
+  | CommonErrors;
 /**
  * Continues rolling back a stack from `UPDATE_ROLLBACK_FAILED` to
  * `UPDATE_ROLLBACK_COMPLETE` state. Depending on the cause of the failure, you can
@@ -6539,13 +6555,18 @@ export const cancelUpdateStack: API.OperationMethod<
 export const continueUpdateRollback: API.OperationMethod<
   ContinueUpdateRollbackInput,
   ContinueUpdateRollbackOutput,
-  TokenAlreadyExistsException | CommonErrors,
+  ContinueUpdateRollbackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ContinueUpdateRollbackInput,
   output: ContinueUpdateRollbackOutput,
   errors: [TokenAlreadyExistsException],
 }));
+export type CreateChangeSetError =
+  | AlreadyExistsException
+  | InsufficientCapabilitiesException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a list of changes that will be applied to a stack so that you can review the
  * changes before executing them. You can create a change set for a stack that doesn't exist or
@@ -6573,10 +6594,7 @@ export const continueUpdateRollback: API.OperationMethod<
 export const createChangeSet: API.OperationMethod<
   CreateChangeSetInput,
   CreateChangeSetOutput,
-  | AlreadyExistsException
-  | InsufficientCapabilitiesException
-  | LimitExceededException
-  | CommonErrors,
+  CreateChangeSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChangeSetInput,
@@ -6587,6 +6605,11 @@ export const createChangeSet: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type CreateGeneratedTemplateError =
+  | AlreadyExistsException
+  | ConcurrentResourcesLimitExceededException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Creates a template from existing resources that are not already managed with CloudFormation.
  * You can check the status of the template generation using the
@@ -6595,10 +6618,7 @@ export const createChangeSet: API.OperationMethod<
 export const createGeneratedTemplate: API.OperationMethod<
   CreateGeneratedTemplateInput,
   CreateGeneratedTemplateOutput,
-  | AlreadyExistsException
-  | ConcurrentResourcesLimitExceededException
-  | LimitExceededException
-  | CommonErrors,
+  CreateGeneratedTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGeneratedTemplateInput,
@@ -6609,6 +6629,12 @@ export const createGeneratedTemplate: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type CreateStackError =
+  | AlreadyExistsException
+  | InsufficientCapabilitiesException
+  | LimitExceededException
+  | TokenAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a stack as specified in the template. After the call completes successfully, the
  * stack creation starts. You can check the status of the stack through the DescribeStacks operation.
@@ -6620,11 +6646,7 @@ export const createGeneratedTemplate: API.OperationMethod<
 export const createStack: API.OperationMethod<
   CreateStackInput,
   CreateStackOutput,
-  | AlreadyExistsException
-  | InsufficientCapabilitiesException
-  | LimitExceededException
-  | TokenAlreadyExistsException
-  | CommonErrors,
+  CreateStackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackInput,
@@ -6636,6 +6658,14 @@ export const createStack: API.OperationMethod<
     TokenAlreadyExistsException,
   ],
 }));
+export type CreateStackInstancesError =
+  | InvalidOperationException
+  | LimitExceededException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | CommonErrors;
 /**
  * Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A
  * stack instance refers to a stack in a specific account and Region. You must specify at least
@@ -6657,13 +6687,7 @@ export const createStack: API.OperationMethod<
 export const createStackInstances: API.OperationMethod<
   CreateStackInstancesInput,
   CreateStackInstancesOutput,
-  | InvalidOperationException
-  | LimitExceededException
-  | OperationIdAlreadyExistsException
-  | OperationInProgressException
-  | StackSetNotFoundException
-  | StaleRequestException
-  | CommonErrors,
+  CreateStackInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackInstancesInput,
@@ -6677,6 +6701,7 @@ export const createStackInstances: API.OperationMethod<
     StaleRequestException,
   ],
 }));
+export type CreateStackRefactorError = CommonErrors;
 /**
  * Creates a refactor across multiple stacks, with the list of stacks and resources that are
  * affected.
@@ -6684,23 +6709,25 @@ export const createStackInstances: API.OperationMethod<
 export const createStackRefactor: API.OperationMethod<
   CreateStackRefactorInput,
   CreateStackRefactorOutput,
-  CommonErrors,
+  CreateStackRefactorError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackRefactorInput,
   output: CreateStackRefactorOutput,
   errors: [],
 }));
+export type CreateStackSetError =
+  | CreatedButModifiedException
+  | LimitExceededException
+  | NameAlreadyExistsException
+  | CommonErrors;
 /**
  * Creates a StackSet.
  */
 export const createStackSet: API.OperationMethod<
   CreateStackSetInput,
   CreateStackSetOutput,
-  | CreatedButModifiedException
-  | LimitExceededException
-  | NameAlreadyExistsException
-  | CommonErrors,
+  CreateStackSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackSetInput,
@@ -6711,6 +6738,10 @@ export const createStackSet: API.OperationMethod<
     NameAlreadyExistsException,
   ],
 }));
+export type DeactivateOrganizationsAccessError =
+  | InvalidOperationException
+  | OperationNotFoundException
+  | CommonErrors;
 /**
  * Deactivates trusted access with Organizations. If trusted access is deactivated,
  * the management account does not have permissions to create and manage
@@ -6719,13 +6750,17 @@ export const createStackSet: API.OperationMethod<
 export const deactivateOrganizationsAccess: API.OperationMethod<
   DeactivateOrganizationsAccessInput,
   DeactivateOrganizationsAccessOutput,
-  InvalidOperationException | OperationNotFoundException | CommonErrors,
+  DeactivateOrganizationsAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateOrganizationsAccessInput,
   output: DeactivateOrganizationsAccessOutput,
   errors: [InvalidOperationException, OperationNotFoundException],
 }));
+export type DeactivateTypeError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Deactivates a public third-party extension, such as a resource or module, or a CloudFormation
  * Hook when you no longer use it.
@@ -6743,13 +6778,16 @@ export const deactivateOrganizationsAccess: API.OperationMethod<
 export const deactivateType: API.OperationMethod<
   DeactivateTypeInput,
   DeactivateTypeOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  DeactivateTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateTypeInput,
   output: DeactivateTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type DeleteChangeSetError =
+  | InvalidChangeSetStatusException
+  | CommonErrors;
 /**
  * Deletes the specified change set. Deleting change sets ensures that no one executes the
  * wrong change set.
@@ -6764,22 +6802,24 @@ export const deactivateType: API.OperationMethod<
 export const deleteChangeSet: API.OperationMethod<
   DeleteChangeSetInput,
   DeleteChangeSetOutput,
-  InvalidChangeSetStatusException | CommonErrors,
+  DeleteChangeSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChangeSetInput,
   output: DeleteChangeSetOutput,
   errors: [InvalidChangeSetStatusException],
 }));
+export type DeleteGeneratedTemplateError =
+  | ConcurrentResourcesLimitExceededException
+  | GeneratedTemplateNotFoundException
+  | CommonErrors;
 /**
  * Deleted a generated template.
  */
 export const deleteGeneratedTemplate: API.OperationMethod<
   DeleteGeneratedTemplateInput,
   DeleteGeneratedTemplateResponse,
-  | ConcurrentResourcesLimitExceededException
-  | GeneratedTemplateNotFoundException
-  | CommonErrors,
+  DeleteGeneratedTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGeneratedTemplateInput,
@@ -6789,6 +6829,7 @@ export const deleteGeneratedTemplate: API.OperationMethod<
     GeneratedTemplateNotFoundException,
   ],
 }));
+export type DeleteStackError = TokenAlreadyExistsException | CommonErrors;
 /**
  * Deletes a specified stack. Once the call completes successfully, stack deletion starts.
  * Deleted stacks don't show up in the DescribeStacks operation if the deletion
@@ -6800,13 +6841,20 @@ export const deleteGeneratedTemplate: API.OperationMethod<
 export const deleteStack: API.OperationMethod<
   DeleteStackInput,
   DeleteStackResponse,
-  TokenAlreadyExistsException | CommonErrors,
+  DeleteStackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStackInput,
   output: DeleteStackResponse,
   errors: [TokenAlreadyExistsException],
 }));
+export type DeleteStackInstancesError =
+  | InvalidOperationException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | CommonErrors;
 /**
  * Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions.
  *
@@ -6825,12 +6873,7 @@ export const deleteStack: API.OperationMethod<
 export const deleteStackInstances: API.OperationMethod<
   DeleteStackInstancesInput,
   DeleteStackInstancesOutput,
-  | InvalidOperationException
-  | OperationIdAlreadyExistsException
-  | OperationInProgressException
-  | StackSetNotFoundException
-  | StaleRequestException
-  | CommonErrors,
+  DeleteStackInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStackInstancesInput,
@@ -6843,6 +6886,10 @@ export const deleteStackInstances: API.OperationMethod<
     StaleRequestException,
   ],
 }));
+export type DeleteStackSetError =
+  | OperationInProgressException
+  | StackSetNotEmptyException
+  | CommonErrors;
 /**
  * Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must
  * be deleted. For more information about how to complete this, see DeleteStackInstances.
@@ -6850,13 +6897,17 @@ export const deleteStackInstances: API.OperationMethod<
 export const deleteStackSet: API.OperationMethod<
   DeleteStackSetInput,
   DeleteStackSetOutput,
-  OperationInProgressException | StackSetNotEmptyException | CommonErrors,
+  DeleteStackSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStackSetInput,
   output: DeleteStackSetOutput,
   errors: [OperationInProgressException, StackSetNotEmptyException],
 }));
+export type DeregisterTypeError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Marks an extension or extension version as `DEPRECATED` in the CloudFormation
  * registry, removing it from active use. Deprecated extensions or extension versions cannot be
@@ -6880,13 +6931,14 @@ export const deleteStackSet: API.OperationMethod<
 export const deregisterType: API.OperationMethod<
   DeregisterTypeInput,
   DeregisterTypeOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  DeregisterTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTypeInput,
   output: DeregisterTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type DescribeAccountLimitsError = CommonErrors;
 /**
  * Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you
  * can create in your account. For more information about account limits, see Understand CloudFormation quotas in the *CloudFormation User Guide*.
@@ -6894,21 +6946,21 @@ export const deregisterType: API.OperationMethod<
 export const describeAccountLimits: API.OperationMethod<
   DescribeAccountLimitsInput,
   DescribeAccountLimitsOutput,
-  CommonErrors,
+  DescribeAccountLimitsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAccountLimitsInput,
   ) => stream.Stream<
     DescribeAccountLimitsOutput,
-    CommonErrors,
+    DescribeAccountLimitsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAccountLimitsInput,
   ) => stream.Stream<
     AccountLimit,
-    CommonErrors,
+    DescribeAccountLimitsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6921,6 +6973,7 @@ export const describeAccountLimits: API.OperationMethod<
     items: "AccountLimits",
   } as const,
 }));
+export type DescribeChangeSetError = ChangeSetNotFoundException | CommonErrors;
 /**
  * Returns the inputs for the change set and a list of changes that CloudFormation will make if
  * you execute the change set. For more information, see Update
@@ -6930,21 +6983,21 @@ export const describeAccountLimits: API.OperationMethod<
 export const describeChangeSet: API.OperationMethod<
   DescribeChangeSetInput,
   DescribeChangeSetOutput,
-  ChangeSetNotFoundException | CommonErrors,
+  DescribeChangeSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeChangeSetInput,
   ) => stream.Stream<
     DescribeChangeSetOutput,
-    ChangeSetNotFoundException | CommonErrors,
+    DescribeChangeSetError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeChangeSetInput,
   ) => stream.Stream<
     Change,
-    ChangeSetNotFoundException | CommonErrors,
+    DescribeChangeSetError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -6957,6 +7010,9 @@ export const describeChangeSet: API.OperationMethod<
     items: "Changes",
   } as const,
 }));
+export type DescribeChangeSetHooksError =
+  | ChangeSetNotFoundException
+  | CommonErrors;
 /**
  * Returns Hook-related information for the change set and a list of changes that
  * CloudFormation makes when you run the change set.
@@ -6964,13 +7020,14 @@ export const describeChangeSet: API.OperationMethod<
 export const describeChangeSetHooks: API.OperationMethod<
   DescribeChangeSetHooksInput,
   DescribeChangeSetHooksOutput,
-  ChangeSetNotFoundException | CommonErrors,
+  DescribeChangeSetHooksError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChangeSetHooksInput,
   output: DescribeChangeSetHooksOutput,
   errors: [ChangeSetNotFoundException],
 }));
+export type DescribeEventsError = CommonErrors;
 /**
  * Returns CloudFormation events based on flexible query criteria. Groups events by operation ID,
  * enabling you to focus on individual stack operations during deployment.
@@ -7000,21 +7057,21 @@ export const describeChangeSetHooks: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsInput,
   DescribeEventsOutput,
-  CommonErrors,
+  DescribeEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsInput,
   ) => stream.Stream<
     DescribeEventsOutput,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsInput,
   ) => stream.Stream<
     OperationEvent,
-    CommonErrors,
+    DescribeEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7027,6 +7084,9 @@ export const describeEvents: API.OperationMethod<
     items: "OperationEvents",
   } as const,
 }));
+export type DescribeGeneratedTemplateError =
+  | GeneratedTemplateNotFoundException
+  | CommonErrors;
 /**
  * Describes a generated template. The output includes details about the progress of the
  * creation of a generated template started by a `CreateGeneratedTemplate` API action
@@ -7036,13 +7096,17 @@ export const describeEvents: API.OperationMethod<
 export const describeGeneratedTemplate: API.OperationMethod<
   DescribeGeneratedTemplateInput,
   DescribeGeneratedTemplateOutput,
-  GeneratedTemplateNotFoundException | CommonErrors,
+  DescribeGeneratedTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGeneratedTemplateInput,
   output: DescribeGeneratedTemplateOutput,
   errors: [GeneratedTemplateNotFoundException],
 }));
+export type DescribeOrganizationsAccessError =
+  | InvalidOperationException
+  | OperationNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about the account's `OrganizationAccess` status. This API
  * can be called either by the management account or the delegated administrator by using the
@@ -7052,13 +7116,14 @@ export const describeGeneratedTemplate: API.OperationMethod<
 export const describeOrganizationsAccess: API.OperationMethod<
   DescribeOrganizationsAccessInput,
   DescribeOrganizationsAccessOutput,
-  InvalidOperationException | OperationNotFoundException | CommonErrors,
+  DescribeOrganizationsAccessError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOrganizationsAccessInput,
   output: DescribeOrganizationsAccessOutput,
   errors: [InvalidOperationException, OperationNotFoundException],
 }));
+export type DescribePublisherError = CFNRegistryException | CommonErrors;
 /**
  * Returns information about a CloudFormation extension publisher.
  *
@@ -7077,26 +7142,30 @@ export const describeOrganizationsAccess: API.OperationMethod<
 export const describePublisher: API.OperationMethod<
   DescribePublisherInput,
   DescribePublisherOutput,
-  CFNRegistryException | CommonErrors,
+  DescribePublisherError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePublisherInput,
   output: DescribePublisherOutput,
   errors: [CFNRegistryException],
 }));
+export type DescribeResourceScanError =
+  | ResourceScanNotFoundException
+  | CommonErrors;
 /**
  * Describes details of a resource scan.
  */
 export const describeResourceScan: API.OperationMethod<
   DescribeResourceScanInput,
   DescribeResourceScanOutput,
-  ResourceScanNotFoundException | CommonErrors,
+  DescribeResourceScanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResourceScanInput,
   output: DescribeResourceScanOutput,
   errors: [ResourceScanNotFoundException],
 }));
+export type DescribeStackDriftDetectionStatusError = CommonErrors;
 /**
  * Returns information about a stack drift detection operation. A stack drift detection
  * operation detects whether a stack's actual configuration differs, or has
@@ -7115,13 +7184,14 @@ export const describeResourceScan: API.OperationMethod<
 export const describeStackDriftDetectionStatus: API.OperationMethod<
   DescribeStackDriftDetectionStatusInput,
   DescribeStackDriftDetectionStatusOutput,
-  CommonErrors,
+  DescribeStackDriftDetectionStatusError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackDriftDetectionStatusInput,
   output: DescribeStackDriftDetectionStatusOutput,
   errors: [],
 }));
+export type DescribeStackEventsError = CommonErrors;
 /**
  * Returns all stack related events for a specified stack in reverse chronological order. For
  * more information about a stack's event history, see Understand CloudFormation stack creation events in the
@@ -7133,21 +7203,21 @@ export const describeStackDriftDetectionStatus: API.OperationMethod<
 export const describeStackEvents: API.OperationMethod<
   DescribeStackEventsInput,
   DescribeStackEventsOutput,
-  CommonErrors,
+  DescribeStackEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeStackEventsInput,
   ) => stream.Stream<
     DescribeStackEventsOutput,
-    CommonErrors,
+    DescribeStackEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeStackEventsInput,
   ) => stream.Stream<
     StackEvent,
-    CommonErrors,
+    DescribeStackEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7160,6 +7230,10 @@ export const describeStackEvents: API.OperationMethod<
     items: "StackEvents",
   } as const,
 }));
+export type DescribeStackInstanceError =
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account,
  * and Amazon Web Services Region.
@@ -7169,26 +7243,30 @@ export const describeStackEvents: API.OperationMethod<
 export const describeStackInstance: API.OperationMethod<
   DescribeStackInstanceInput,
   DescribeStackInstanceOutput,
-  StackInstanceNotFoundException | StackSetNotFoundException | CommonErrors,
+  DescribeStackInstanceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackInstanceInput,
   output: DescribeStackInstanceOutput,
   errors: [StackInstanceNotFoundException, StackSetNotFoundException],
 }));
+export type DescribeStackRefactorError =
+  | StackRefactorNotFoundException
+  | CommonErrors;
 /**
  * Describes the stack refactor status.
  */
 export const describeStackRefactor: API.OperationMethod<
   DescribeStackRefactorInput,
   DescribeStackRefactorOutput,
-  StackRefactorNotFoundException | CommonErrors,
+  DescribeStackRefactorError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackRefactorInput,
   output: DescribeStackRefactorOutput,
   errors: [StackRefactorNotFoundException],
 }));
+export type DescribeStackResourceError = CommonErrors;
 /**
  * Returns a description of the specified resource in the specified stack.
  *
@@ -7198,13 +7276,14 @@ export const describeStackRefactor: API.OperationMethod<
 export const describeStackResource: API.OperationMethod<
   DescribeStackResourceInput,
   DescribeStackResourceOutput,
-  CommonErrors,
+  DescribeStackResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackResourceInput,
   output: DescribeStackResourceOutput,
   errors: [],
 }));
+export type DescribeStackResourceDriftsError = CommonErrors;
 /**
  * Returns drift information for the resources that have been checked for drift in the
  * specified stack. This includes actual and expected configuration values for resources where
@@ -7223,21 +7302,21 @@ export const describeStackResource: API.OperationMethod<
 export const describeStackResourceDrifts: API.OperationMethod<
   DescribeStackResourceDriftsInput,
   DescribeStackResourceDriftsOutput,
-  CommonErrors,
+  DescribeStackResourceDriftsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeStackResourceDriftsInput,
   ) => stream.Stream<
     DescribeStackResourceDriftsOutput,
-    CommonErrors,
+    DescribeStackResourceDriftsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeStackResourceDriftsInput,
   ) => stream.Stream<
     unknown,
-    CommonErrors,
+    DescribeStackResourceDriftsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7250,6 +7329,7 @@ export const describeStackResourceDrifts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeStackResourcesError = CommonErrors;
 /**
  * Returns Amazon Web Services resource descriptions for running and deleted stacks. If
  * `StackName` is specified, all the associated resources that are part of the stack
@@ -7273,13 +7353,14 @@ export const describeStackResourceDrifts: API.OperationMethod<
 export const describeStackResources: API.OperationMethod<
   DescribeStackResourcesInput,
   DescribeStackResourcesOutput,
-  CommonErrors,
+  DescribeStackResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackResourcesInput,
   output: DescribeStackResourcesOutput,
   errors: [],
 }));
+export type DescribeStacksError = CommonErrors;
 /**
  * Returns the description for the specified stack; if no stack name was specified, then it
  * returns the description for all the stacks created. For more information about a stack's event
@@ -7291,21 +7372,21 @@ export const describeStackResources: API.OperationMethod<
 export const describeStacks: API.OperationMethod<
   DescribeStacksInput,
   DescribeStacksOutput,
-  CommonErrors,
+  DescribeStacksError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeStacksInput,
   ) => stream.Stream<
     DescribeStacksOutput,
-    CommonErrors,
+    DescribeStacksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeStacksInput,
   ) => stream.Stream<
     Stack,
-    CommonErrors,
+    DescribeStacksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7318,6 +7399,7 @@ export const describeStacks: API.OperationMethod<
     items: "Stacks",
   } as const,
 }));
+export type DescribeStackSetError = StackSetNotFoundException | CommonErrors;
 /**
  * Returns the description of the specified StackSet.
  *
@@ -7327,13 +7409,17 @@ export const describeStacks: API.OperationMethod<
 export const describeStackSet: API.OperationMethod<
   DescribeStackSetInput,
   DescribeStackSetOutput,
-  StackSetNotFoundException | CommonErrors,
+  DescribeStackSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackSetInput,
   output: DescribeStackSetOutput,
   errors: [StackSetNotFoundException],
 }));
+export type DescribeStackSetOperationError =
+  | OperationNotFoundException
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Returns the description of the specified StackSet operation.
  *
@@ -7343,13 +7429,17 @@ export const describeStackSet: API.OperationMethod<
 export const describeStackSetOperation: API.OperationMethod<
   DescribeStackSetOperationInput,
   DescribeStackSetOperationOutput,
-  OperationNotFoundException | StackSetNotFoundException | CommonErrors,
+  DescribeStackSetOperationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackSetOperationInput,
   output: DescribeStackSetOperationOutput,
   errors: [OperationNotFoundException, StackSetNotFoundException],
 }));
+export type DescribeTypeError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Returns detailed information about an extension from the CloudFormation registry in your
  * current account and Region.
@@ -7365,13 +7455,14 @@ export const describeStackSetOperation: API.OperationMethod<
 export const describeType: API.OperationMethod<
   DescribeTypeInput,
   DescribeTypeOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  DescribeTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTypeInput,
   output: DescribeTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type DescribeTypeRegistrationError = CFNRegistryException | CommonErrors;
 /**
  * Returns information about an extension's registration, including its current status and
  * type and version identifiers.
@@ -7386,13 +7477,14 @@ export const describeType: API.OperationMethod<
 export const describeTypeRegistration: API.OperationMethod<
   DescribeTypeRegistrationInput,
   DescribeTypeRegistrationOutput,
-  CFNRegistryException | CommonErrors,
+  DescribeTypeRegistrationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTypeRegistrationInput,
   output: DescribeTypeRegistrationOutput,
   errors: [CFNRegistryException],
 }));
+export type DetectStackDriftError = CommonErrors;
 /**
  * Detects whether a stack's actual configuration differs, or has
  * *drifted*, from its expected configuration, as defined in the stack
@@ -7423,13 +7515,14 @@ export const describeTypeRegistration: API.OperationMethod<
 export const detectStackDrift: API.OperationMethod<
   DetectStackDriftInput,
   DetectStackDriftOutput,
-  CommonErrors,
+  DetectStackDriftError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectStackDriftInput,
   output: DetectStackDriftOutput,
   errors: [],
 }));
+export type DetectStackResourceDriftError = CommonErrors;
 /**
  * Returns information about whether a resource's actual configuration differs, or has
  * *drifted*, from its expected configuration, as defined in the stack
@@ -7450,13 +7543,18 @@ export const detectStackDrift: API.OperationMethod<
 export const detectStackResourceDrift: API.OperationMethod<
   DetectStackResourceDriftInput,
   DetectStackResourceDriftOutput,
-  CommonErrors,
+  DetectStackResourceDriftError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectStackResourceDriftInput,
   output: DetectStackResourceDriftOutput,
   errors: [],
 }));
+export type DetectStackSetDriftError =
+  | InvalidOperationException
+  | OperationInProgressException
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Detect drift on a StackSet. When CloudFormation performs drift detection on a StackSet, it
  * performs drift detection on the stack associated with each stack instance in the StackSet. For
@@ -7492,10 +7590,7 @@ export const detectStackResourceDrift: API.OperationMethod<
 export const detectStackSetDrift: API.OperationMethod<
   DetectStackSetDriftInput,
   DetectStackSetDriftOutput,
-  | InvalidOperationException
-  | OperationInProgressException
-  | StackSetNotFoundException
-  | CommonErrors,
+  DetectStackSetDriftError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectStackSetDriftInput,
@@ -7506,6 +7601,7 @@ export const detectStackSetDrift: API.OperationMethod<
     StackSetNotFoundException,
   ],
 }));
+export type EstimateTemplateCostError = CommonErrors;
 /**
  * Returns the estimated monthly cost of a template. The return value is an Amazon Web Services Simple
  * Monthly Calculator URL with a query string that describes the resources required to run the
@@ -7514,13 +7610,19 @@ export const detectStackSetDrift: API.OperationMethod<
 export const estimateTemplateCost: API.OperationMethod<
   EstimateTemplateCostInput,
   EstimateTemplateCostOutput,
-  CommonErrors,
+  EstimateTemplateCostError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EstimateTemplateCostInput,
   output: EstimateTemplateCostOutput,
   errors: [],
 }));
+export type ExecuteChangeSetError =
+  | ChangeSetNotFoundException
+  | InsufficientCapabilitiesException
+  | InvalidChangeSetStatusException
+  | TokenAlreadyExistsException
+  | CommonErrors;
 /**
  * Updates a stack using the input information that was provided when the specified change
  * set was created. After the call successfully completes, CloudFormation starts updating the stack.
@@ -7538,11 +7640,7 @@ export const estimateTemplateCost: API.OperationMethod<
 export const executeChangeSet: API.OperationMethod<
   ExecuteChangeSetInput,
   ExecuteChangeSetOutput,
-  | ChangeSetNotFoundException
-  | InsufficientCapabilitiesException
-  | InvalidChangeSetStatusException
-  | TokenAlreadyExistsException
-  | CommonErrors,
+  ExecuteChangeSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteChangeSetInput,
@@ -7554,19 +7652,23 @@ export const executeChangeSet: API.OperationMethod<
     TokenAlreadyExistsException,
   ],
 }));
+export type ExecuteStackRefactorError = CommonErrors;
 /**
  * Executes the stack refactor operation.
  */
 export const executeStackRefactor: API.OperationMethod<
   ExecuteStackRefactorInput,
   ExecuteStackRefactorResponse,
-  CommonErrors,
+  ExecuteStackRefactorError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteStackRefactorInput,
   output: ExecuteStackRefactorResponse,
   errors: [],
 }));
+export type GetGeneratedTemplateError =
+  | GeneratedTemplateNotFoundException
+  | CommonErrors;
 /**
  * Retrieves a generated template. If the template is in an `InProgress` or
  * `Pending` status then the template returned will be the template when the
@@ -7576,13 +7678,14 @@ export const executeStackRefactor: API.OperationMethod<
 export const getGeneratedTemplate: API.OperationMethod<
   GetGeneratedTemplateInput,
   GetGeneratedTemplateOutput,
-  GeneratedTemplateNotFoundException | CommonErrors,
+  GetGeneratedTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeneratedTemplateInput,
   output: GetGeneratedTemplateOutput,
   errors: [GeneratedTemplateNotFoundException],
 }));
+export type GetHookResultError = HookResultNotFoundException | CommonErrors;
 /**
  * Retrieves detailed information and remediation guidance for a Hook invocation
  * result.
@@ -7596,13 +7699,14 @@ export const getGeneratedTemplate: API.OperationMethod<
 export const getHookResult: API.OperationMethod<
   GetHookResultInput,
   GetHookResultOutput,
-  HookResultNotFoundException | CommonErrors,
+  GetHookResultError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHookResultInput,
   output: GetHookResultOutput,
   errors: [HookResultNotFoundException],
 }));
+export type GetStackPolicyError = CommonErrors;
 /**
  * Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null
  * value is returned.
@@ -7610,13 +7714,14 @@ export const getHookResult: API.OperationMethod<
 export const getStackPolicy: API.OperationMethod<
   GetStackPolicyInput,
   GetStackPolicyOutput,
-  CommonErrors,
+  GetStackPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStackPolicyInput,
   output: GetStackPolicyOutput,
   errors: [],
 }));
+export type GetTemplateError = ChangeSetNotFoundException | CommonErrors;
 /**
  * Returns the template body for a specified stack. You can get the template for running or
  * deleted stacks.
@@ -7629,13 +7734,14 @@ export const getStackPolicy: API.OperationMethod<
 export const getTemplate: API.OperationMethod<
   GetTemplateInput,
   GetTemplateOutput,
-  ChangeSetNotFoundException | CommonErrors,
+  GetTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateInput,
   output: GetTemplateOutput,
   errors: [ChangeSetNotFoundException],
 }));
+export type GetTemplateSummaryError = StackSetNotFoundException | CommonErrors;
 /**
  * Returns information about a new or existing template. The `GetTemplateSummary`
  * action is useful for viewing parameter information, such as default parameter values and
@@ -7651,13 +7757,22 @@ export const getTemplate: API.OperationMethod<
 export const getTemplateSummary: API.OperationMethod<
   GetTemplateSummaryInput,
   GetTemplateSummaryOutput,
-  StackSetNotFoundException | CommonErrors,
+  GetTemplateSummaryError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateSummaryInput,
   output: GetTemplateSummaryOutput,
   errors: [StackSetNotFoundException],
 }));
+export type ImportStacksToStackSetError =
+  | InvalidOperationException
+  | LimitExceededException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackNotFoundException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | CommonErrors;
 /**
  * Import existing stacks into a new StackSets. Use the stack import operation to import up
  * to 10 stacks into a new StackSet in the same account as the source stack or in a different
@@ -7667,14 +7782,7 @@ export const getTemplateSummary: API.OperationMethod<
 export const importStacksToStackSet: API.OperationMethod<
   ImportStacksToStackSetInput,
   ImportStacksToStackSetOutput,
-  | InvalidOperationException
-  | LimitExceededException
-  | OperationIdAlreadyExistsException
-  | OperationInProgressException
-  | StackNotFoundException
-  | StackSetNotFoundException
-  | StaleRequestException
-  | CommonErrors,
+  ImportStacksToStackSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportStacksToStackSetInput,
@@ -7689,6 +7797,7 @@ export const importStacksToStackSet: API.OperationMethod<
     StaleRequestException,
   ],
 }));
+export type ListChangeSetsError = CommonErrors;
 /**
  * Returns the ID and status of each active change set for a stack. For example, CloudFormation
  * lists change sets that are in the `CREATE_IN_PROGRESS` or
@@ -7697,21 +7806,21 @@ export const importStacksToStackSet: API.OperationMethod<
 export const listChangeSets: API.OperationMethod<
   ListChangeSetsInput,
   ListChangeSetsOutput,
-  CommonErrors,
+  ListChangeSetsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChangeSetsInput,
   ) => stream.Stream<
     ListChangeSetsOutput,
-    CommonErrors,
+    ListChangeSetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListChangeSetsInput,
   ) => stream.Stream<
     ChangeSetSummary,
-    CommonErrors,
+    ListChangeSetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7724,6 +7833,7 @@ export const listChangeSets: API.OperationMethod<
     items: "Summaries",
   } as const,
 }));
+export type ListExportsError = CommonErrors;
 /**
  * Lists all exported output values in the account and Region in which you call this action.
  * Use this action to see the exported output values that you can import into other stacks. To
@@ -7735,21 +7845,21 @@ export const listChangeSets: API.OperationMethod<
 export const listExports: API.OperationMethod<
   ListExportsInput,
   ListExportsOutput,
-  CommonErrors,
+  ListExportsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExportsInput,
   ) => stream.Stream<
     ListExportsOutput,
-    CommonErrors,
+    ListExportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListExportsInput,
   ) => stream.Stream<
     Export,
-    CommonErrors,
+    ListExportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7762,27 +7872,28 @@ export const listExports: API.OperationMethod<
     items: "Exports",
   } as const,
 }));
+export type ListGeneratedTemplatesError = CommonErrors;
 /**
  * Lists your generated templates in this Region.
  */
 export const listGeneratedTemplates: API.OperationMethod<
   ListGeneratedTemplatesInput,
   ListGeneratedTemplatesOutput,
-  CommonErrors,
+  ListGeneratedTemplatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListGeneratedTemplatesInput,
   ) => stream.Stream<
     ListGeneratedTemplatesOutput,
-    CommonErrors,
+    ListGeneratedTemplatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListGeneratedTemplatesInput,
   ) => stream.Stream<
     TemplateSummary,
-    CommonErrors,
+    ListGeneratedTemplatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7796,6 +7907,7 @@ export const listGeneratedTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListHookResultsError = HookResultNotFoundException | CommonErrors;
 /**
  * Returns summaries of invoked Hooks. For more information, see View invocation
  * summaries for CloudFormation Hooks in the *CloudFormation Hooks User Guide*.
@@ -7815,13 +7927,14 @@ export const listGeneratedTemplates: API.OperationMethod<
 export const listHookResults: API.OperationMethod<
   ListHookResultsInput,
   ListHookResultsOutput,
-  HookResultNotFoundException | CommonErrors,
+  ListHookResultsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHookResultsInput,
   output: ListHookResultsOutput,
   errors: [HookResultNotFoundException],
 }));
+export type ListImportsError = CommonErrors;
 /**
  * Lists all stacks that are importing an exported output value. To modify or remove an
  * exported output value, first use this action to see which stacks are using it. To see the
@@ -7832,21 +7945,21 @@ export const listHookResults: API.OperationMethod<
 export const listImports: API.OperationMethod<
   ListImportsInput,
   ListImportsOutput,
-  CommonErrors,
+  ListImportsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListImportsInput,
   ) => stream.Stream<
     ListImportsOutput,
-    CommonErrors,
+    ListImportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListImportsInput,
   ) => stream.Stream<
     StackName,
-    CommonErrors,
+    ListImportsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7859,6 +7972,10 @@ export const listImports: API.OperationMethod<
     items: "Imports",
   } as const,
 }));
+export type ListResourceScanRelatedResourcesError =
+  | ResourceScanInProgressException
+  | ResourceScanNotFoundException
+  | CommonErrors;
 /**
  * Lists the related resources for a list of resources from a resource scan. The response
  * indicates whether each returned resource is already managed by CloudFormation.
@@ -7866,27 +7983,21 @@ export const listImports: API.OperationMethod<
 export const listResourceScanRelatedResources: API.OperationMethod<
   ListResourceScanRelatedResourcesInput,
   ListResourceScanRelatedResourcesOutput,
-  | ResourceScanInProgressException
-  | ResourceScanNotFoundException
-  | CommonErrors,
+  ListResourceScanRelatedResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceScanRelatedResourcesInput,
   ) => stream.Stream<
     ListResourceScanRelatedResourcesOutput,
-    | ResourceScanInProgressException
-    | ResourceScanNotFoundException
-    | CommonErrors,
+    ListResourceScanRelatedResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceScanRelatedResourcesInput,
   ) => stream.Stream<
     ScannedResource,
-    | ResourceScanInProgressException
-    | ResourceScanNotFoundException
-    | CommonErrors,
+    ListResourceScanRelatedResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7900,6 +8011,10 @@ export const listResourceScanRelatedResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceScanResourcesError =
+  | ResourceScanInProgressException
+  | ResourceScanNotFoundException
+  | CommonErrors;
 /**
  * Lists the resources from a resource scan. The results can be filtered by resource
  * identifier, resource type prefix, tag key, and tag value. Only resources that match all
@@ -7909,27 +8024,21 @@ export const listResourceScanRelatedResources: API.OperationMethod<
 export const listResourceScanResources: API.OperationMethod<
   ListResourceScanResourcesInput,
   ListResourceScanResourcesOutput,
-  | ResourceScanInProgressException
-  | ResourceScanNotFoundException
-  | CommonErrors,
+  ListResourceScanResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceScanResourcesInput,
   ) => stream.Stream<
     ListResourceScanResourcesOutput,
-    | ResourceScanInProgressException
-    | ResourceScanNotFoundException
-    | CommonErrors,
+    ListResourceScanResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceScanResourcesInput,
   ) => stream.Stream<
     ScannedResource,
-    | ResourceScanInProgressException
-    | ResourceScanNotFoundException
-    | CommonErrors,
+    ListResourceScanResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7943,6 +8052,7 @@ export const listResourceScanResources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListResourceScansError = CommonErrors;
 /**
  * List the resource scans from newest to oldest. By default it will return up to 10 resource
  * scans.
@@ -7950,21 +8060,21 @@ export const listResourceScanResources: API.OperationMethod<
 export const listResourceScans: API.OperationMethod<
   ListResourceScansInput,
   ListResourceScansOutput,
-  CommonErrors,
+  ListResourceScansError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListResourceScansInput,
   ) => stream.Stream<
     ListResourceScansOutput,
-    CommonErrors,
+    ListResourceScansError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceScansInput,
   ) => stream.Stream<
     ResourceScanSummary,
-    CommonErrors,
+    ListResourceScansError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7978,6 +8088,11 @@ export const listResourceScans: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStackInstanceResourceDriftsError =
+  | OperationNotFoundException
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Returns drift information for resources in a stack instance.
  *
@@ -7988,10 +8103,7 @@ export const listResourceScans: API.OperationMethod<
 export const listStackInstanceResourceDrifts: API.OperationMethod<
   ListStackInstanceResourceDriftsInput,
   ListStackInstanceResourceDriftsOutput,
-  | OperationNotFoundException
-  | StackInstanceNotFoundException
-  | StackSetNotFoundException
-  | CommonErrors,
+  ListStackInstanceResourceDriftsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStackInstanceResourceDriftsInput,
@@ -8002,6 +8114,7 @@ export const listStackInstanceResourceDrifts: API.OperationMethod<
     StackSetNotFoundException,
   ],
 }));
+export type ListStackInstancesError = StackSetNotFoundException | CommonErrors;
 /**
  * Returns summary information about stack instances that are associated with the specified
  * StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account
@@ -8010,21 +8123,21 @@ export const listStackInstanceResourceDrifts: API.OperationMethod<
 export const listStackInstances: API.OperationMethod<
   ListStackInstancesInput,
   ListStackInstancesOutput,
-  StackSetNotFoundException | CommonErrors,
+  ListStackInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackInstancesInput,
   ) => stream.Stream<
     ListStackInstancesOutput,
-    StackSetNotFoundException | CommonErrors,
+    ListStackInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackInstancesInput,
   ) => stream.Stream<
     StackInstanceSummary,
-    StackSetNotFoundException | CommonErrors,
+    ListStackInstancesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8038,27 +8151,28 @@ export const listStackInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStackRefactorActionsError = CommonErrors;
 /**
  * Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action.
  */
 export const listStackRefactorActions: API.OperationMethod<
   ListStackRefactorActionsInput,
   ListStackRefactorActionsOutput,
-  CommonErrors,
+  ListStackRefactorActionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackRefactorActionsInput,
   ) => stream.Stream<
     ListStackRefactorActionsOutput,
-    CommonErrors,
+    ListStackRefactorActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackRefactorActionsInput,
   ) => stream.Stream<
     StackRefactorAction,
-    CommonErrors,
+    ListStackRefactorActionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8072,27 +8186,28 @@ export const listStackRefactorActions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStackRefactorsError = CommonErrors;
 /**
  * Lists all account stack refactor operations and their statuses.
  */
 export const listStackRefactors: API.OperationMethod<
   ListStackRefactorsInput,
   ListStackRefactorsOutput,
-  CommonErrors,
+  ListStackRefactorsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackRefactorsInput,
   ) => stream.Stream<
     ListStackRefactorsOutput,
-    CommonErrors,
+    ListStackRefactorsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackRefactorsInput,
   ) => stream.Stream<
     StackRefactorSummary,
-    CommonErrors,
+    ListStackRefactorsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8106,6 +8221,7 @@ export const listStackRefactors: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStackResourcesError = CommonErrors;
 /**
  * Returns descriptions of all resources of the specified stack.
  *
@@ -8115,21 +8231,21 @@ export const listStackRefactors: API.OperationMethod<
 export const listStackResources: API.OperationMethod<
   ListStackResourcesInput,
   ListStackResourcesOutput,
-  CommonErrors,
+  ListStackResourcesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackResourcesInput,
   ) => stream.Stream<
     ListStackResourcesOutput,
-    CommonErrors,
+    ListStackResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackResourcesInput,
   ) => stream.Stream<
     StackResourceSummary,
-    CommonErrors,
+    ListStackResourcesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8142,6 +8258,7 @@ export const listStackResources: API.OperationMethod<
     items: "StackResourceSummaries",
   } as const,
 }));
+export type ListStacksError = CommonErrors;
 /**
  * Returns the summary information for stacks whose status matches the specified
  * `StackStatusFilter`. Summary information for stacks that have been deleted is
@@ -8152,21 +8269,21 @@ export const listStackResources: API.OperationMethod<
 export const listStacks: API.OperationMethod<
   ListStacksInput,
   ListStacksOutput,
-  CommonErrors,
+  ListStacksError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStacksInput,
   ) => stream.Stream<
     ListStacksOutput,
-    CommonErrors,
+    ListStacksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStacksInput,
   ) => stream.Stream<
     StackSummary,
-    CommonErrors,
+    ListStacksError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8179,19 +8296,26 @@ export const listStacks: API.OperationMethod<
     items: "StackSummaries",
   } as const,
 }));
+export type ListStackSetAutoDeploymentTargetsError =
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Returns summary information about deployment targets for a StackSet.
  */
 export const listStackSetAutoDeploymentTargets: API.OperationMethod<
   ListStackSetAutoDeploymentTargetsInput,
   ListStackSetAutoDeploymentTargetsOutput,
-  StackSetNotFoundException | CommonErrors,
+  ListStackSetAutoDeploymentTargetsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStackSetAutoDeploymentTargetsInput,
   output: ListStackSetAutoDeploymentTargetsOutput,
   errors: [StackSetNotFoundException],
 }));
+export type ListStackSetOperationResultsError =
+  | OperationNotFoundException
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Returns summary information about the results of a StackSet operation.
  *
@@ -8201,21 +8325,21 @@ export const listStackSetAutoDeploymentTargets: API.OperationMethod<
 export const listStackSetOperationResults: API.OperationMethod<
   ListStackSetOperationResultsInput,
   ListStackSetOperationResultsOutput,
-  OperationNotFoundException | StackSetNotFoundException | CommonErrors,
+  ListStackSetOperationResultsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackSetOperationResultsInput,
   ) => stream.Stream<
     ListStackSetOperationResultsOutput,
-    OperationNotFoundException | StackSetNotFoundException | CommonErrors,
+    ListStackSetOperationResultsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackSetOperationResultsInput,
   ) => stream.Stream<
     StackSetOperationResultSummary,
-    OperationNotFoundException | StackSetNotFoundException | CommonErrors,
+    ListStackSetOperationResultsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8229,6 +8353,9 @@ export const listStackSetOperationResults: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStackSetOperationsError =
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Returns summary information about operations performed on a StackSet.
  *
@@ -8238,21 +8365,21 @@ export const listStackSetOperationResults: API.OperationMethod<
 export const listStackSetOperations: API.OperationMethod<
   ListStackSetOperationsInput,
   ListStackSetOperationsOutput,
-  StackSetNotFoundException | CommonErrors,
+  ListStackSetOperationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackSetOperationsInput,
   ) => stream.Stream<
     ListStackSetOperationsOutput,
-    StackSetNotFoundException | CommonErrors,
+    ListStackSetOperationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackSetOperationsInput,
   ) => stream.Stream<
     StackSetOperationSummary,
-    StackSetNotFoundException | CommonErrors,
+    ListStackSetOperationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8266,6 +8393,7 @@ export const listStackSetOperations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStackSetsError = CommonErrors;
 /**
  * Returns summary information about StackSets that are associated with the user.
  *
@@ -8288,21 +8416,21 @@ export const listStackSetOperations: API.OperationMethod<
 export const listStackSets: API.OperationMethod<
   ListStackSetsInput,
   ListStackSetsOutput,
-  CommonErrors,
+  ListStackSetsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStackSetsInput,
   ) => stream.Stream<
     ListStackSetsOutput,
-    CommonErrors,
+    ListStackSetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStackSetsInput,
   ) => stream.Stream<
     StackSetSummary,
-    CommonErrors,
+    ListStackSetsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8316,27 +8444,28 @@ export const listStackSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTypeRegistrationsError = CFNRegistryException | CommonErrors;
 /**
  * Returns a list of registration tokens for the specified extension(s).
  */
 export const listTypeRegistrations: API.OperationMethod<
   ListTypeRegistrationsInput,
   ListTypeRegistrationsOutput,
-  CFNRegistryException | CommonErrors,
+  ListTypeRegistrationsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTypeRegistrationsInput,
   ) => stream.Stream<
     ListTypeRegistrationsOutput,
-    CFNRegistryException | CommonErrors,
+    ListTypeRegistrationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTypeRegistrationsInput,
   ) => stream.Stream<
     unknown,
-    CFNRegistryException | CommonErrors,
+    ListTypeRegistrationsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8349,6 +8478,7 @@ export const listTypeRegistrations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTypesError = CFNRegistryException | CommonErrors;
 /**
  * Returns summary information about all extensions, including your private resource types,
  * modules, and Hooks as well as all public extensions from Amazon Web Services and third-party
@@ -8357,21 +8487,21 @@ export const listTypeRegistrations: API.OperationMethod<
 export const listTypes: API.OperationMethod<
   ListTypesInput,
   ListTypesOutput,
-  CFNRegistryException | CommonErrors,
+  ListTypesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTypesInput,
   ) => stream.Stream<
     ListTypesOutput,
-    CFNRegistryException | CommonErrors,
+    ListTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTypesInput,
   ) => stream.Stream<
     TypeSummary,
-    CFNRegistryException | CommonErrors,
+    ListTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8385,27 +8515,28 @@ export const listTypes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTypeVersionsError = CFNRegistryException | CommonErrors;
 /**
  * Returns summary information about the versions of an extension.
  */
 export const listTypeVersions: API.OperationMethod<
   ListTypeVersionsInput,
   ListTypeVersionsOutput,
-  CFNRegistryException | CommonErrors,
+  ListTypeVersionsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTypeVersionsInput,
   ) => stream.Stream<
     ListTypeVersionsOutput,
-    CFNRegistryException | CommonErrors,
+    ListTypeVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTypeVersionsInput,
   ) => stream.Stream<
     unknown,
-    CFNRegistryException | CommonErrors,
+    ListTypeVersionsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8418,6 +8549,10 @@ export const listTypeVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type PublishTypeError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Publishes the specified extension to the CloudFormation registry as a public extension in this
  * Region. Public extensions are available for use by all CloudFormation users. For more information
@@ -8431,13 +8566,17 @@ export const listTypeVersions: API.OperationMethod<
 export const publishType: API.OperationMethod<
   PublishTypeInput,
   PublishTypeOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  PublishTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishTypeInput,
   output: PublishTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type RecordHandlerProgressError =
+  | InvalidStateTransitionException
+  | OperationStatusCheckFailedException
+  | CommonErrors;
 /**
  * Reports progress of a resource handler to CloudFormation.
  *
@@ -8447,9 +8586,7 @@ export const publishType: API.OperationMethod<
 export const recordHandlerProgress: API.OperationMethod<
   RecordHandlerProgressInput,
   RecordHandlerProgressOutput,
-  | InvalidStateTransitionException
-  | OperationStatusCheckFailedException
-  | CommonErrors,
+  RecordHandlerProgressError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecordHandlerProgressInput,
@@ -8459,6 +8596,7 @@ export const recordHandlerProgress: API.OperationMethod<
     OperationStatusCheckFailedException,
   ],
 }));
+export type RegisterPublisherError = CFNRegistryException | CommonErrors;
 /**
  * Registers your account as a publisher of public extensions in the CloudFormation registry.
  * Public extensions are available for use by all CloudFormation users. This publisher ID applies to
@@ -8471,13 +8609,14 @@ export const recordHandlerProgress: API.OperationMethod<
 export const registerPublisher: API.OperationMethod<
   RegisterPublisherInput,
   RegisterPublisherOutput,
-  CFNRegistryException | CommonErrors,
+  RegisterPublisherError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterPublisherInput,
   output: RegisterPublisherOutput,
   errors: [CFNRegistryException],
 }));
+export type RegisterTypeError = CFNRegistryException | CommonErrors;
 /**
  * Registers an extension with the CloudFormation service. Registering an extension makes it
  * available for use in CloudFormation templates in your Amazon Web Services account, and includes:
@@ -8508,13 +8647,14 @@ export const registerPublisher: API.OperationMethod<
 export const registerType: API.OperationMethod<
   RegisterTypeInput,
   RegisterTypeOutput,
-  CFNRegistryException | CommonErrors,
+  RegisterTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTypeInput,
   output: RegisterTypeOutput,
   errors: [CFNRegistryException],
 }));
+export type RollbackStackError = TokenAlreadyExistsException | CommonErrors;
 /**
  * When specifying `RollbackStack`, you preserve the state of previously
  * provisioned resources when an operation fails. You can check the status of the stack through
@@ -8540,26 +8680,31 @@ export const registerType: API.OperationMethod<
 export const rollbackStack: API.OperationMethod<
   RollbackStackInput,
   RollbackStackOutput,
-  TokenAlreadyExistsException | CommonErrors,
+  RollbackStackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackStackInput,
   output: RollbackStackOutput,
   errors: [TokenAlreadyExistsException],
 }));
+export type SetStackPolicyError = CommonErrors;
 /**
  * Sets a stack policy for a specified stack.
  */
 export const setStackPolicy: API.OperationMethod<
   SetStackPolicyInput,
   SetStackPolicyResponse,
-  CommonErrors,
+  SetStackPolicyError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetStackPolicyInput,
   output: SetStackPolicyResponse,
   errors: [],
 }));
+export type SetTypeConfigurationError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Specifies the configuration data for a CloudFormation extension, such as a resource or Hook,
  * in the given account and Region.
@@ -8582,13 +8727,17 @@ export const setStackPolicy: API.OperationMethod<
 export const setTypeConfiguration: API.OperationMethod<
   SetTypeConfigurationInput,
   SetTypeConfigurationOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  SetTypeConfigurationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTypeConfigurationInput,
   output: SetTypeConfigurationOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type SetTypeDefaultVersionError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Specify the default version of an extension. The default version of an extension will be
  * used in CloudFormation operations.
@@ -8596,13 +8745,14 @@ export const setTypeConfiguration: API.OperationMethod<
 export const setTypeDefaultVersion: API.OperationMethod<
   SetTypeDefaultVersionInput,
   SetTypeDefaultVersionOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  SetTypeDefaultVersionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTypeDefaultVersionInput,
   output: SetTypeDefaultVersionOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type SignalResourceError = CommonErrors;
 /**
  * Sends a signal to the specified resource with a success or failure status. You can use the
  * `SignalResource` operation in conjunction with a creation policy or update
@@ -8614,13 +8764,17 @@ export const setTypeDefaultVersion: API.OperationMethod<
 export const signalResource: API.OperationMethod<
   SignalResourceInput,
   SignalResourceResponse,
-  CommonErrors,
+  SignalResourceError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignalResourceInput,
   output: SignalResourceResponse,
   errors: [],
 }));
+export type StartResourceScanError =
+  | ResourceScanInProgressException
+  | ResourceScanLimitExceededException
+  | CommonErrors;
 /**
  * Starts a scan of the resources in this account in this Region. You can the status of a
  * scan using the `ListResourceScans` API action.
@@ -8628,15 +8782,18 @@ export const signalResource: API.OperationMethod<
 export const startResourceScan: API.OperationMethod<
   StartResourceScanInput,
   StartResourceScanOutput,
-  | ResourceScanInProgressException
-  | ResourceScanLimitExceededException
-  | CommonErrors,
+  StartResourceScanError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartResourceScanInput,
   output: StartResourceScanOutput,
   errors: [ResourceScanInProgressException, ResourceScanLimitExceededException],
 }));
+export type StopStackSetOperationError =
+  | InvalidOperationException
+  | OperationNotFoundException
+  | StackSetNotFoundException
+  | CommonErrors;
 /**
  * Stops an in-progress operation on a StackSet and its associated stack instances. StackSets
  * will cancel all the unstarted stack instance deployments and wait for those are in-progress to
@@ -8645,10 +8802,7 @@ export const startResourceScan: API.OperationMethod<
 export const stopStackSetOperation: API.OperationMethod<
   StopStackSetOperationInput,
   StopStackSetOperationOutput,
-  | InvalidOperationException
-  | OperationNotFoundException
-  | StackSetNotFoundException
-  | CommonErrors,
+  StopStackSetOperationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopStackSetOperationInput,
@@ -8659,6 +8813,10 @@ export const stopStackSetOperation: API.OperationMethod<
     StackSetNotFoundException,
   ],
 }));
+export type TestTypeError =
+  | CFNRegistryException
+  | TypeNotFoundException
+  | CommonErrors;
 /**
  * Tests a registered extension to make sure it meets all necessary requirements for being
  * published in the CloudFormation registry.
@@ -8690,13 +8848,18 @@ export const stopStackSetOperation: API.OperationMethod<
 export const testType: API.OperationMethod<
   TestTypeInput,
   TestTypeOutput,
-  CFNRegistryException | TypeNotFoundException | CommonErrors,
+  TestTypeError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestTypeInput,
   output: TestTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
 }));
+export type UpdateGeneratedTemplateError =
+  | AlreadyExistsException
+  | GeneratedTemplateNotFoundException
+  | LimitExceededException
+  | CommonErrors;
 /**
  * Updates a generated template. This can be used to change the name, add and remove
  * resources, refresh resources, and change the `DeletionPolicy` and
@@ -8706,10 +8869,7 @@ export const testType: API.OperationMethod<
 export const updateGeneratedTemplate: API.OperationMethod<
   UpdateGeneratedTemplateInput,
   UpdateGeneratedTemplateOutput,
-  | AlreadyExistsException
-  | GeneratedTemplateNotFoundException
-  | LimitExceededException
-  | CommonErrors,
+  UpdateGeneratedTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGeneratedTemplateInput,
@@ -8720,6 +8880,10 @@ export const updateGeneratedTemplate: API.OperationMethod<
     LimitExceededException,
   ],
 }));
+export type UpdateStackError =
+  | InsufficientCapabilitiesException
+  | TokenAlreadyExistsException
+  | CommonErrors;
 /**
  * Updates a stack as specified in the template. After the call completes successfully, the
  * stack update starts. You can check the status of the stack through the DescribeStacks action.
@@ -8734,15 +8898,21 @@ export const updateGeneratedTemplate: API.OperationMethod<
 export const updateStack: API.OperationMethod<
   UpdateStackInput,
   UpdateStackOutput,
-  | InsufficientCapabilitiesException
-  | TokenAlreadyExistsException
-  | CommonErrors,
+  UpdateStackError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStackInput,
   output: UpdateStackOutput,
   errors: [InsufficientCapabilitiesException, TokenAlreadyExistsException],
 }));
+export type UpdateStackInstancesError =
+  | InvalidOperationException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | CommonErrors;
 /**
  * Updates the parameter values for stack instances for the specified accounts, within the
  * specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and
@@ -8777,13 +8947,7 @@ export const updateStack: API.OperationMethod<
 export const updateStackInstances: API.OperationMethod<
   UpdateStackInstancesInput,
   UpdateStackInstancesOutput,
-  | InvalidOperationException
-  | OperationIdAlreadyExistsException
-  | OperationInProgressException
-  | StackInstanceNotFoundException
-  | StackSetNotFoundException
-  | StaleRequestException
-  | CommonErrors,
+  UpdateStackInstancesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStackInstancesInput,
@@ -8797,6 +8961,14 @@ export const updateStackInstances: API.OperationMethod<
     StaleRequestException,
   ],
 }));
+export type UpdateStackSetError =
+  | InvalidOperationException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | CommonErrors;
 /**
  * Updates the StackSet and associated stack instances in the specified accounts and
  * Amazon Web Services Regions.
@@ -8821,13 +8993,7 @@ export const updateStackInstances: API.OperationMethod<
 export const updateStackSet: API.OperationMethod<
   UpdateStackSetInput,
   UpdateStackSetOutput,
-  | InvalidOperationException
-  | OperationIdAlreadyExistsException
-  | OperationInProgressException
-  | StackInstanceNotFoundException
-  | StackSetNotFoundException
-  | StaleRequestException
-  | CommonErrors,
+  UpdateStackSetError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStackSetInput,
@@ -8841,6 +9007,7 @@ export const updateStackSet: API.OperationMethod<
     StaleRequestException,
   ],
 }));
+export type UpdateTerminationProtectionError = CommonErrors;
 /**
  * Updates termination protection for the specified stack. If a user attempts to delete a
  * stack with termination protection enabled, the operation fails and the stack remains
@@ -8854,13 +9021,14 @@ export const updateStackSet: API.OperationMethod<
 export const updateTerminationProtection: API.OperationMethod<
   UpdateTerminationProtectionInput,
   UpdateTerminationProtectionOutput,
-  CommonErrors,
+  UpdateTerminationProtectionError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTerminationProtectionInput,
   output: UpdateTerminationProtectionOutput,
   errors: [],
 }));
+export type ValidateTemplateError = CommonErrors;
 /**
  * Validates a specified template. CloudFormation first checks if the template is valid JSON. If
  * it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail,
@@ -8869,7 +9037,7 @@ export const updateTerminationProtection: API.OperationMethod<
 export const validateTemplate: API.OperationMethod<
   ValidateTemplateInput,
   ValidateTemplateOutput,
-  CommonErrors,
+  ValidateTemplateError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateTemplateInput,

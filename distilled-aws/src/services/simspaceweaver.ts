@@ -775,19 +775,28 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags on a SimSpace Weaver resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds tags to a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.
@@ -795,10 +804,7 @@ export const listTagsForResource: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -809,6 +815,10 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.
@@ -816,13 +826,20 @@ export const tagResource: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type StartSimulationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a simulation with the given name. You must choose to start your
  * simulation from a schema or from a snapshot.
@@ -834,12 +851,7 @@ export const untagResource: API.OperationMethod<
 export const startSimulation: API.OperationMethod<
   StartSimulationInput,
   StartSimulationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartSimulationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSimulationInput,
@@ -852,17 +864,19 @@ export const startSimulation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSimulationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the current state of the given simulation.
  */
 export const describeSimulation: API.OperationMethod<
   DescribeSimulationInput,
   DescribeSimulationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeSimulationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSimulationInput,
@@ -874,6 +888,13 @@ export const describeSimulation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopSimulationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the given simulation.
  *
@@ -883,12 +904,7 @@ export const describeSimulation: API.OperationMethod<
 export const stopSimulation: API.OperationMethod<
   StopSimulationInput,
   StopSimulationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopSimulationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSimulationInput,
@@ -901,6 +917,13 @@ export const stopSimulation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSimulationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes all SimSpace Weaver resources assigned to the given simulation.
  *
@@ -910,12 +933,7 @@ export const stopSimulation: API.OperationMethod<
 export const deleteSimulation: API.OperationMethod<
   DeleteSimulationInput,
   DeleteSimulationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSimulationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSimulationInput,
@@ -928,36 +946,32 @@ export const deleteSimulation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListSimulationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
  */
 export const listSimulations: API.OperationMethod<
   ListSimulationsInput,
   ListSimulationsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
+  ListSimulationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSimulationsInput,
   ) => stream.Stream<
     ListSimulationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListSimulationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSimulationsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
+    ListSimulationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -970,6 +984,13 @@ export const listSimulations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type CreateSnapshotError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a snapshot of the specified simulation.
  * A snapshot is a file that contains simulation state data at a specific time.
@@ -1017,12 +1038,7 @@ export const listSimulations: API.OperationMethod<
 export const createSnapshot: API.OperationMethod<
   CreateSnapshotInput,
   CreateSnapshotOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotInput,
@@ -1035,18 +1051,20 @@ export const createSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteAppError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the instance of the given custom app.
  */
 export const deleteApp: API.OperationMethod<
   DeleteAppInput,
   DeleteAppOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInput,
@@ -1059,17 +1077,19 @@ export const deleteApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeAppError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the state of the given custom app.
  */
 export const describeApp: API.OperationMethod<
   DescribeAppInput,
   DescribeAppOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInput,
@@ -1081,39 +1101,33 @@ export const describeApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListAppsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all custom apps or service apps for the given simulation and domain.
  */
 export const listApps: API.OperationMethod<
   ListAppsInput,
   ListAppsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListAppsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppsInput,
   ) => stream.Stream<
     ListAppsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAppsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppsInput,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListAppsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1131,18 +1145,20 @@ export const listApps: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartAppError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a custom app with the configuration specified in the simulation schema.
  */
 export const startApp: API.OperationMethod<
   StartAppInput,
   StartAppOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  StartAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAppInput,
@@ -1155,18 +1171,20 @@ export const startApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartClockError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts the simulation clock.
  */
 export const startClock: API.OperationMethod<
   StartClockInput,
   StartClockOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StartClockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartClockInput,
@@ -1179,18 +1197,20 @@ export const startClock: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopAppError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the given custom app and shuts down all of its allocated compute resources.
  */
 export const stopApp: API.OperationMethod<
   StopAppInput,
   StopAppOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopAppError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAppInput,
@@ -1203,18 +1223,20 @@ export const stopApp: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StopClockError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops the simulation clock.
  */
 export const stopClock: API.OperationMethod<
   StopClockInput,
   StopClockOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  StopClockError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopClockInput,

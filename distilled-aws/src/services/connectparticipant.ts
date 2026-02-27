@@ -838,6 +838,12 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CancelParticipantAuthenticationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Cancels the authentication session. The opted out branch of the Authenticate Customer
  * flow block will be taken.
@@ -854,11 +860,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const cancelParticipantAuthentication: API.OperationMethod<
   CancelParticipantAuthenticationRequest,
   CancelParticipantAuthenticationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelParticipantAuthenticationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelParticipantAuthenticationRequest,
@@ -870,6 +872,14 @@ export const cancelParticipantAuthentication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CompleteAttachmentUploadError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Allows you to confirm that the attachment has been uploaded using the pre-signed URL
  * provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment
@@ -886,13 +896,7 @@ export const cancelParticipantAuthentication: API.OperationMethod<
 export const completeAttachmentUpload: API.OperationMethod<
   CompleteAttachmentUploadRequest,
   CompleteAttachmentUploadResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CompleteAttachmentUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteAttachmentUploadRequest,
@@ -906,6 +910,12 @@ export const completeAttachmentUpload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateParticipantConnectionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates the participant's connection.
  *
@@ -975,11 +985,7 @@ export const completeAttachmentUpload: API.OperationMethod<
 export const createParticipantConnection: API.OperationMethod<
   CreateParticipantConnectionRequest,
   CreateParticipantConnectionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateParticipantConnectionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateParticipantConnectionRequest,
@@ -991,6 +997,13 @@ export const createParticipantConnection: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeViewError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the view for the specified view token.
  *
@@ -999,12 +1012,7 @@ export const createParticipantConnection: API.OperationMethod<
 export const describeView: API.OperationMethod<
   DescribeViewRequest,
   DescribeViewResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeViewError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeViewRequest,
@@ -1017,6 +1025,12 @@ export const describeView: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisconnectParticipantError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disconnects a participant.
  *
@@ -1031,11 +1045,7 @@ export const describeView: API.OperationMethod<
 export const disconnectParticipant: API.OperationMethod<
   DisconnectParticipantRequest,
   DisconnectParticipantResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisconnectParticipantError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisconnectParticipantRequest,
@@ -1047,6 +1057,12 @@ export const disconnectParticipant: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAttachmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a pre-signed URL for download of a completed attachment. This is an
  * asynchronous API for use with active contacts.
@@ -1067,11 +1083,7 @@ export const disconnectParticipant: API.OperationMethod<
 export const getAttachment: API.OperationMethod<
   GetAttachmentRequest,
   GetAttachmentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAttachmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttachmentRequest,
@@ -1083,6 +1095,12 @@ export const getAttachment: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetAuthenticationUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the AuthenticationUrl for the current authentication session for the
  * AuthenticateCustomer flow block.
@@ -1104,11 +1122,7 @@ export const getAttachment: API.OperationMethod<
 export const getAuthenticationUrl: API.OperationMethod<
   GetAuthenticationUrlRequest,
   GetAuthenticationUrlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetAuthenticationUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthenticationUrlRequest,
@@ -1120,6 +1134,12 @@ export const getAuthenticationUrl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTranscriptError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a transcript of the session, including details about any attachments. For
  * information about accessing past chat contact transcripts for a persistent chat, see
@@ -1152,33 +1172,21 @@ export const getAuthenticationUrl: API.OperationMethod<
 export const getTranscript: API.OperationMethod<
   GetTranscriptRequest,
   GetTranscriptResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTranscriptError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetTranscriptRequest,
   ) => stream.Stream<
     GetTranscriptResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetTranscriptError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetTranscriptRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetTranscriptError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1196,6 +1204,13 @@ export const getTranscript: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type SendEventError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The `application/vnd.amazonaws.connect.event.connection.acknowledged`
  * ContentType is no longer maintained since December 31, 2024. This event has been
@@ -1217,12 +1232,7 @@ export const getTranscript: API.OperationMethod<
 export const sendEvent: API.OperationMethod<
   SendEventRequest,
   SendEventResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendEventError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEventRequest,
@@ -1235,6 +1245,12 @@ export const sendEvent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendMessageError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends a message.
  *
@@ -1249,11 +1265,7 @@ export const sendEvent: API.OperationMethod<
 export const sendMessage: API.OperationMethod<
   SendMessageRequest,
   SendMessageResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendMessageError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
@@ -1265,6 +1277,13 @@ export const sendMessage: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartAttachmentUploadError =
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a pre-signed Amazon S3 URL in response for uploading the file directly to
  * S3.
@@ -1280,12 +1299,7 @@ export const sendMessage: API.OperationMethod<
 export const startAttachmentUpload: API.OperationMethod<
   StartAttachmentUploadRequest,
   StartAttachmentUploadResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartAttachmentUploadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAttachmentUploadRequest,

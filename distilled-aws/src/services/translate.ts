@@ -1045,6 +1045,16 @@ export class TextSizeLimitExceededException extends S.TaggedErrorClass<TextSizeL
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateParallelDataError =
+  | ConcurrentModificationException
+  | ConflictException
+  | InternalServerException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates a parallel data resource in Amazon Translate by importing an input file from
  * Amazon S3. Parallel data files contain examples that show how you want segments of text to be
@@ -1054,15 +1064,7 @@ export class TextSizeLimitExceededException extends S.TaggedErrorClass<TextSizeL
 export const createParallelData: API.OperationMethod<
   CreateParallelDataRequest,
   CreateParallelDataResponse,
-  | ConcurrentModificationException
-  | ConflictException
-  | InternalServerException
-  | InvalidParameterValueException
-  | InvalidRequestException
-  | LimitExceededException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  CreateParallelDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateParallelDataRequest,
@@ -1078,17 +1080,19 @@ export const createParallelData: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type DeleteParallelDataError =
+  | ConcurrentModificationException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Deletes a parallel data resource in Amazon Translate.
  */
 export const deleteParallelData: API.OperationMethod<
   DeleteParallelDataRequest,
   DeleteParallelDataResponse,
-  | ConcurrentModificationException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteParallelDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteParallelDataRequest,
@@ -1100,17 +1104,19 @@ export const deleteParallelData: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTerminologyError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * A synchronous action that deletes a custom terminology.
  */
 export const deleteTerminology: API.OperationMethod<
   DeleteTerminologyRequest,
   DeleteTerminologyResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DeleteTerminologyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTerminologyRequest,
@@ -1122,6 +1128,11 @@ export const deleteTerminology: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DescribeTextTranslationJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the properties associated with an asynchronous batch translation job including name,
  * ID, status, source and target languages, input/output S3 buckets, and so on.
@@ -1129,10 +1140,7 @@ export const deleteTerminology: API.OperationMethod<
 export const describeTextTranslationJob: API.OperationMethod<
   DescribeTextTranslationJobRequest,
   DescribeTextTranslationJobResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  DescribeTextTranslationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTextTranslationJobRequest,
@@ -1143,17 +1151,19 @@ export const describeTextTranslationJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetParallelDataError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides information about a parallel data resource.
  */
 export const getParallelData: API.OperationMethod<
   GetParallelDataRequest,
   GetParallelDataResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetParallelDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParallelDataRequest,
@@ -1165,17 +1175,19 @@ export const getParallelData: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetTerminologyError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves a custom terminology.
  */
 export const getTerminology: API.OperationMethod<
   GetTerminologyRequest,
   GetTerminologyResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetTerminologyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTerminologyRequest,
@@ -1187,6 +1199,14 @@ export const getTerminology: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ImportTerminologyError =
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Creates or updates a custom terminology, depending on whether one already exists for the
  * given terminology name. Importing a terminology with the same name as an existing one will
@@ -1201,13 +1221,7 @@ export const getTerminology: API.OperationMethod<
 export const importTerminology: API.OperationMethod<
   ImportTerminologyRequest,
   ImportTerminologyResponse,
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidParameterValueException
-  | LimitExceededException
-  | TooManyRequestsException
-  | TooManyTagsException
-  | CommonErrors,
+  ImportTerminologyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportTerminologyRequest,
@@ -1221,39 +1235,33 @@ export const importTerminology: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type ListLanguagesError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | TooManyRequestsException
+  | UnsupportedDisplayLanguageCodeException
+  | CommonErrors;
 /**
  * Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
  */
 export const listLanguages: API.OperationMethod<
   ListLanguagesRequest,
   ListLanguagesResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | TooManyRequestsException
-  | UnsupportedDisplayLanguageCodeException
-  | CommonErrors,
+  ListLanguagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLanguagesRequest,
   ) => stream.Stream<
     ListLanguagesResponse,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | UnsupportedDisplayLanguageCodeException
-    | CommonErrors,
+    ListLanguagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLanguagesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | UnsupportedDisplayLanguageCodeException
-    | CommonErrors,
+    ListLanguagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1271,36 +1279,32 @@ export const listLanguages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListParallelDataError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides a list of your parallel data resources in Amazon Translate.
  */
 export const listParallelData: API.OperationMethod<
   ListParallelDataRequest,
   ListParallelDataResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListParallelDataError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListParallelDataRequest,
   ) => stream.Stream<
     ListParallelDataResponse,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListParallelDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListParallelDataRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListParallelDataError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1317,6 +1321,11 @@ export const listParallelData: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists all tags associated with a given Amazon Translate resource.
  * For more information, see
@@ -1325,10 +1334,7 @@ export const listParallelData: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1339,36 +1345,32 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListTerminologiesError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Provides a list of custom terminologies associated with your account.
  */
 export const listTerminologies: API.OperationMethod<
   ListTerminologiesRequest,
   ListTerminologiesResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTerminologiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTerminologiesRequest,
   ) => stream.Stream<
     ListTerminologiesResponse,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTerminologiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTerminologiesRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTerminologiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1385,39 +1387,33 @@ export const listTerminologies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTextTranslationJobsError =
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets a list of the batch translation jobs that you have submitted.
  */
 export const listTextTranslationJobs: API.OperationMethod<
   ListTextTranslationJobsRequest,
   ListTextTranslationJobsResponse,
-  | InternalServerException
-  | InvalidFilterException
-  | InvalidRequestException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListTextTranslationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTextTranslationJobsRequest,
   ) => stream.Stream<
     ListTextTranslationJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTextTranslationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTextTranslationJobsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListTextTranslationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1435,6 +1431,14 @@ export const listTextTranslationJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type StartTextTranslationJobError =
+  | InternalServerException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnsupportedLanguagePairException
+  | CommonErrors;
 /**
  * Starts an asynchronous batch translation job. Use batch translation jobs to
  * translate large volumes of text across multiple documents at once.
@@ -1449,13 +1453,7 @@ export const listTextTranslationJobs: API.OperationMethod<
 export const startTextTranslationJob: API.OperationMethod<
   StartTextTranslationJobRequest,
   StartTextTranslationJobResponse,
-  | InternalServerException
-  | InvalidParameterValueException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | UnsupportedLanguagePairException
-  | CommonErrors,
+  StartTextTranslationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTextTranslationJobRequest,
@@ -1469,6 +1467,11 @@ export const startTextTranslationJob: API.OperationMethod<
     UnsupportedLanguagePairException,
   ],
 }));
+export type StopTextTranslationJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Stops an asynchronous batch translation job that is in progress.
  *
@@ -1483,10 +1486,7 @@ export const startTextTranslationJob: API.OperationMethod<
 export const stopTextTranslationJob: API.OperationMethod<
   StopTextTranslationJobRequest,
   StopTextTranslationJobResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  StopTextTranslationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTextTranslationJobRequest,
@@ -1497,6 +1497,13 @@ export const stopTextTranslationJob: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type TagResourceError =
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors;
 /**
  * Associates a specific tag with a resource. A tag is a key-value pair
  * that adds as a metadata to a resource.
@@ -1506,12 +1513,7 @@ export const stopTextTranslationJob: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1524,6 +1526,15 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
   ],
 }));
+export type TranslateDocumentError =
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnsupportedLanguagePairException
+  | CommonErrors;
 /**
  * Translates the input document from the source language to the target language.
  * This synchronous operation supports text, HTML, or Word documents as the input document.
@@ -1539,14 +1550,7 @@ export const tagResource: API.OperationMethod<
 export const translateDocument: API.OperationMethod<
   TranslateDocumentRequest,
   TranslateDocumentResponse,
-  | InternalServerException
-  | InvalidRequestException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | TooManyRequestsException
-  | UnsupportedLanguagePairException
-  | CommonErrors,
+  TranslateDocumentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TranslateDocumentRequest,
@@ -1561,13 +1565,7 @@ export const translateDocument: API.OperationMethod<
     UnsupportedLanguagePairException,
   ],
 }));
-/**
- * Translates input text from the source language to the target language. For a list of
- * available languages and language codes, see Supported languages.
- */
-export const translateText: API.OperationMethod<
-  TranslateTextRequest,
-  TranslateTextResponse,
+export type TranslateTextError =
   | DetectedLanguageLowConfidenceException
   | InternalServerException
   | InvalidRequestException
@@ -1576,7 +1574,15 @@ export const translateText: API.OperationMethod<
   | TextSizeLimitExceededException
   | TooManyRequestsException
   | UnsupportedLanguagePairException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Translates input text from the source language to the target language. For a list of
+ * available languages and language codes, see Supported languages.
+ */
+export const translateText: API.OperationMethod<
+  TranslateTextRequest,
+  TranslateTextResponse,
+  TranslateTextError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TranslateTextRequest,
@@ -1592,6 +1598,12 @@ export const translateText: API.OperationMethod<
     UnsupportedLanguagePairException,
   ],
 }));
+export type UntagResourceError =
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes a specific tag associated with an Amazon Translate resource.
  * For more information, see
@@ -1600,11 +1612,7 @@ export const translateText: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ConcurrentModificationException
-  | InternalServerException
-  | InvalidParameterValueException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1616,13 +1624,7 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Updates a previously created parallel data resource by importing a new input file from
- * Amazon S3.
- */
-export const updateParallelData: API.OperationMethod<
-  UpdateParallelDataRequest,
-  UpdateParallelDataResponse,
+export type UpdateParallelDataError =
   | ConcurrentModificationException
   | ConflictException
   | InternalServerException
@@ -1631,7 +1633,15 @@ export const updateParallelData: API.OperationMethod<
   | LimitExceededException
   | ResourceNotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a previously created parallel data resource by importing a new input file from
+ * Amazon S3.
+ */
+export const updateParallelData: API.OperationMethod<
+  UpdateParallelDataRequest,
+  UpdateParallelDataResponse,
+  UpdateParallelDataError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateParallelDataRequest,

@@ -2482,19 +2482,21 @@ export class Ipv6CidrBlockNotFoundException extends S.TaggedErrorClass<Ipv6CidrB
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Creates a custom domain association for Amazon Redshift Serverless.
- */
-export const createCustomDomainAssociation: API.OperationMethod<
-  CreateCustomDomainAssociationRequest,
-  CreateCustomDomainAssociationResponse,
+export type CreateCustomDomainAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a custom domain association for Amazon Redshift Serverless.
+ */
+export const createCustomDomainAssociation: API.OperationMethod<
+  CreateCustomDomainAssociationRequest,
+  CreateCustomDomainAssociationResponse,
+  CreateCustomDomainAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomDomainAssociationRequest,
@@ -2508,19 +2510,21 @@ export const createCustomDomainAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a custom domain association for Amazon Redshift Serverless.
- */
-export const deleteCustomDomainAssociation: API.OperationMethod<
-  DeleteCustomDomainAssociationRequest,
-  DeleteCustomDomainAssociationResponse,
+export type DeleteCustomDomainAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a custom domain association for Amazon Redshift Serverless.
+ */
+export const deleteCustomDomainAssociation: API.OperationMethod<
+  DeleteCustomDomainAssociationRequest,
+  DeleteCustomDomainAssociationResponse,
+  DeleteCustomDomainAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomDomainAssociationRequest,
@@ -2534,16 +2538,18 @@ export const deleteCustomDomainAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteResourcePolicyError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
@@ -2554,6 +2560,11 @@ export const deleteResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCredentialsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless.
  *
@@ -2566,10 +2577,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 export const getCredentials: API.OperationMethod<
   GetCredentialsRequest,
   GetCredentialsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetCredentialsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCredentialsRequest,
@@ -2580,19 +2588,21 @@ export const getCredentials: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Gets information about a specific custom domain association.
- */
-export const getCustomDomainAssociation: API.OperationMethod<
-  GetCustomDomainAssociationRequest,
-  GetCustomDomainAssociationResponse,
+export type GetCustomDomainAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets information about a specific custom domain association.
+ */
+export const getCustomDomainAssociation: API.OperationMethod<
+  GetCustomDomainAssociationRequest,
+  GetCustomDomainAssociationResponse,
+  GetCustomDomainAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomDomainAssociationRequest,
@@ -2606,6 +2616,15 @@ export const getCustomDomainAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetIdentityCenterAuthTokenError =
+  | AccessDeniedException
+  | ConflictException
+  | DryRunException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups.
  *
@@ -2616,14 +2635,7 @@ export const getCustomDomainAssociation: API.OperationMethod<
 export const getIdentityCenterAuthToken: API.OperationMethod<
   GetIdentityCenterAuthTokenRequest,
   GetIdentityCenterAuthTokenResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DryRunException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetIdentityCenterAuthTokenError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityCenterAuthTokenRequest,
@@ -2638,16 +2650,18 @@ export const getIdentityCenterAuthToken: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePolicyError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a resource policy.
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyRequest,
   GetResourcePolicyResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
@@ -2658,12 +2672,7 @@ export const getResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get the Redshift Serverless version for a specified track.
- */
-export const getTrack: API.OperationMethod<
-  GetTrackRequest,
-  GetTrackResponse,
+export type GetTrackError =
   | AccessDeniedException
   | ConflictException
   | DryRunException
@@ -2671,7 +2680,14 @@ export const getTrack: API.OperationMethod<
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the Redshift Serverless version for a specified track.
+ */
+export const getTrack: API.OperationMethod<
+  GetTrackRequest,
+  GetTrackResponse,
+  GetTrackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrackRequest,
@@ -2686,42 +2702,34 @@ export const getTrack: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListCustomDomainAssociationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidPaginationException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists custom domain associations for Amazon Redshift Serverless.
  */
 export const listCustomDomainAssociations: API.OperationMethod<
   ListCustomDomainAssociationsRequest,
   ListCustomDomainAssociationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidPaginationException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCustomDomainAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCustomDomainAssociationsRequest,
   ) => stream.Stream<
     ListCustomDomainAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidPaginationException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomDomainAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomDomainAssociationsRequest,
   ) => stream.Stream<
     Association,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidPaginationException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCustomDomainAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2741,17 +2749,19 @@ export const listCustomDomainAssociations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags assigned to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2763,42 +2773,34 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTracksError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidPaginationException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the Amazon Redshift Serverless versions.
  */
 export const listTracks: API.OperationMethod<
   ListTracksRequest,
   ListTracksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidPaginationException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTracksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTracksRequest,
   ) => stream.Stream<
     ListTracksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidPaginationException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTracksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTracksRequest,
   ) => stream.Stream<
     ServerlessTrack,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidPaginationException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTracksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2818,18 +2820,20 @@ export const listTracks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type PutResourcePolicyError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
  */
 export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyRequest,
   PutResourcePolicyResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  PutResourcePolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
@@ -2842,18 +2846,20 @@ export const putResourcePolicy: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Assigns one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2866,17 +2872,19 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag or set of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2888,19 +2896,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates an Amazon Redshift Serverless certificate associated with a custom domain.
- */
-export const updateCustomDomainAssociation: API.OperationMethod<
-  UpdateCustomDomainAssociationRequest,
-  UpdateCustomDomainAssociationResponse,
+export type UpdateCustomDomainAssociationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an Amazon Redshift Serverless certificate associated with a custom domain.
+ */
+export const updateCustomDomainAssociation: API.OperationMethod<
+  UpdateCustomDomainAssociationRequest,
+  UpdateCustomDomainAssociationResponse,
+  UpdateCustomDomainAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomDomainAssociationRequest,
@@ -2914,19 +2924,21 @@ export const updateCustomDomainAssociation: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon Redshift Serverless managed VPC endpoint.
- */
-export const createEndpointAccess: API.OperationMethod<
-  CreateEndpointAccessRequest,
-  CreateEndpointAccessResponse,
+export type CreateEndpointAccessError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Redshift Serverless managed VPC endpoint.
+ */
+export const createEndpointAccess: API.OperationMethod<
+  CreateEndpointAccessRequest,
+  CreateEndpointAccessResponse,
+  CreateEndpointAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointAccessRequest,
@@ -2940,17 +2952,19 @@ export const createEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteEndpointAccessError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes an Amazon Redshift Serverless managed VPC endpoint.
  */
 export const deleteEndpointAccess: API.OperationMethod<
   DeleteEndpointAccessRequest,
   DeleteEndpointAccessResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteEndpointAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointAccessRequest,
@@ -2962,17 +2976,19 @@ export const deleteEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEndpointAccessError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information, such as the name, about a VPC endpoint.
  */
 export const getEndpointAccess: API.OperationMethod<
   GetEndpointAccessRequest,
   GetEndpointAccessResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetEndpointAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEndpointAccessRequest,
@@ -2984,39 +3000,33 @@ export const getEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEndpointAccessError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an array of `EndpointAccess` objects and relevant information.
  */
 export const listEndpointAccess: API.OperationMethod<
   ListEndpointAccessRequest,
   ListEndpointAccessResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListEndpointAccessError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEndpointAccessRequest,
   ) => stream.Stream<
     ListEndpointAccessResponse,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListEndpointAccessError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEndpointAccessRequest,
   ) => stream.Stream<
     EndpointAccess,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListEndpointAccessError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3035,18 +3045,20 @@ export const listEndpointAccess: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateEndpointAccessError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates an Amazon Redshift Serverless managed endpoint.
  */
 export const updateEndpointAccess: API.OperationMethod<
   UpdateEndpointAccessRequest,
   UpdateEndpointAccessResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateEndpointAccessError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEndpointAccessRequest,
@@ -3059,27 +3071,31 @@ export const updateEndpointAccess: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListManagedWorkgroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Returns information about a list of specified managed workgroups in your account.
  */
 export const listManagedWorkgroups: API.OperationMethod<
   ListManagedWorkgroupsRequest,
   ListManagedWorkgroupsResponse,
-  AccessDeniedException | InternalServerException | CommonErrors,
+  ListManagedWorkgroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListManagedWorkgroupsRequest,
   ) => stream.Stream<
     ListManagedWorkgroupsResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListManagedWorkgroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedWorkgroupsRequest,
   ) => stream.Stream<
     ManagedWorkgroupListItem,
-    AccessDeniedException | InternalServerException | CommonErrors,
+    ListManagedWorkgroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3093,17 +3109,19 @@ export const listManagedWorkgroups: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateNamespaceError =
+  | ConflictException
+  | InternalServerException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a namespace in Amazon Redshift Serverless.
  */
 export const createNamespace: API.OperationMethod<
   CreateNamespaceRequest,
   CreateNamespaceResponse,
-  | ConflictException
-  | InternalServerException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamespaceRequest,
@@ -3115,16 +3133,18 @@ export const createNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNamespaceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a namespace in Amazon Redshift Serverless.
  */
 export const getNamespace: API.OperationMethod<
   GetNamespaceRequest,
   GetNamespaceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
@@ -3135,17 +3155,19 @@ export const getNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateNamespaceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both `adminUsername` and `adminUserPassword` to update either field, but you can't update both `kmsKeyId` and `logExports` in a single request.
  */
 export const updateNamespace: API.OperationMethod<
   UpdateNamespaceRequest,
   UpdateNamespaceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNamespaceRequest,
@@ -3157,17 +3179,19 @@ export const updateNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteNamespaceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
  */
 export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceRequest,
   DeleteNamespaceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteNamespaceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
@@ -3179,27 +3203,31 @@ export const deleteNamespace: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListNamespacesError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a list of specified namespaces.
  */
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
   ListNamespacesResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListNamespacesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
     ListNamespacesResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
     Namespace,
-    InternalServerException | ValidationException | CommonErrors,
+    ListNamespacesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3213,18 +3241,20 @@ export const listNamespaces: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateLakehouseConfigurationError =
+  | ConflictException
+  | DryRunException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
 export const updateLakehouseConfiguration: API.OperationMethod<
   UpdateLakehouseConfigurationRequest,
   UpdateLakehouseConfigurationResponse,
-  | ConflictException
-  | DryRunException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateLakehouseConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLakehouseConfigurationRequest,
@@ -3237,19 +3267,21 @@ export const updateLakehouseConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
- */
-export const convertRecoveryPointToSnapshot: API.OperationMethod<
-  ConvertRecoveryPointToSnapshotRequest,
-  ConvertRecoveryPointToSnapshotResponse,
+export type ConvertRecoveryPointToSnapshotError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
+ */
+export const convertRecoveryPointToSnapshot: API.OperationMethod<
+  ConvertRecoveryPointToSnapshotRequest,
+  ConvertRecoveryPointToSnapshotResponse,
+  ConvertRecoveryPointToSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConvertRecoveryPointToSnapshotRequest,
@@ -3263,17 +3295,19 @@ export const convertRecoveryPointToSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetRecoveryPointError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a recovery point.
  */
 export const getRecoveryPoint: API.OperationMethod<
   GetRecoveryPointRequest,
   GetRecoveryPointResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetRecoveryPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecoveryPointRequest,
@@ -3285,27 +3319,31 @@ export const getRecoveryPoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListRecoveryPointsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns an array of recovery points.
  */
 export const listRecoveryPoints: API.OperationMethod<
   ListRecoveryPointsRequest,
   ListRecoveryPointsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListRecoveryPointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListRecoveryPointsRequest,
   ) => stream.Stream<
     ListRecoveryPointsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListRecoveryPointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecoveryPointsRequest,
   ) => stream.Stream<
     RecoveryPoint,
-    InternalServerException | ValidationException | CommonErrors,
+    ListRecoveryPointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3319,17 +3357,19 @@ export const listRecoveryPoints: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RestoreFromRecoveryPointError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Restore the data from a recovery point.
  */
 export const restoreFromRecoveryPoint: API.OperationMethod<
   RestoreFromRecoveryPointRequest,
   RestoreFromRecoveryPointResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RestoreFromRecoveryPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreFromRecoveryPointRequest,
@@ -3341,17 +3381,19 @@ export const restoreFromRecoveryPoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RestoreTableFromRecoveryPointError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
 export const restoreTableFromRecoveryPoint: API.OperationMethod<
   RestoreTableFromRecoveryPointRequest,
   RestoreTableFromRecoveryPointResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RestoreTableFromRecoveryPointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreTableFromRecoveryPointRequest,
@@ -3363,12 +3405,7 @@ export const restoreTableFromRecoveryPoint: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
- */
-export const createReservation: API.OperationMethod<
-  CreateReservationRequest,
-  CreateReservationResponse,
+export type CreateReservationError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
@@ -3376,7 +3413,14 @@ export const createReservation: API.OperationMethod<
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
+ */
+export const createReservation: API.OperationMethod<
+  CreateReservationRequest,
+  CreateReservationResponse,
+  CreateReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReservationRequest,
@@ -3391,17 +3435,19 @@ export const createReservation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReservationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
 export const getReservation: API.OperationMethod<
   GetReservationRequest,
   GetReservationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReservationRequest,
@@ -3413,17 +3459,19 @@ export const getReservation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetReservationOfferingError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the reservation offering. The offering determines the payment schedule for the reservation.
  */
 export const getReservationOffering: API.OperationMethod<
   GetReservationOfferingRequest,
   GetReservationOfferingResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetReservationOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReservationOfferingRequest,
@@ -3435,36 +3483,32 @@ export const getReservationOffering: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListReservationOfferingsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the current reservation offerings in your account.
  */
 export const listReservationOfferings: API.OperationMethod<
   ListReservationOfferingsRequest,
   ListReservationOfferingsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReservationOfferingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReservationOfferingsRequest,
   ) => stream.Stream<
     ListReservationOfferingsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReservationOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReservationOfferingsRequest,
   ) => stream.Stream<
     ReservationOffering,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReservationOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3478,36 +3522,32 @@ export const listReservationOfferings: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListReservationsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of Reservation objects.
  */
 export const listReservations: API.OperationMethod<
   ListReservationsRequest,
   ListReservationsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListReservationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReservationsRequest,
   ) => stream.Stream<
     ListReservationsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReservationsRequest,
   ) => stream.Stream<
     Reservation,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3521,17 +3561,19 @@ export const listReservations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateScheduledActionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the `CreateSnapshot` API operation.
  */
 export const createScheduledAction: API.OperationMethod<
   CreateScheduledActionRequest,
   CreateScheduledActionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduledActionRequest,
@@ -3543,16 +3585,18 @@ export const createScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteScheduledActionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
   DeleteScheduledActionRequest,
   DeleteScheduledActionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduledActionRequest,
@@ -3563,16 +3607,18 @@ export const deleteScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetScheduledActionError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a scheduled action.
  */
 export const getScheduledAction: API.OperationMethod<
   GetScheduledActionRequest,
   GetScheduledActionResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduledActionRequest,
@@ -3583,39 +3629,33 @@ export const getScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListScheduledActionsError =
+  | InternalServerException
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
  */
 export const listScheduledActions: API.OperationMethod<
   ListScheduledActionsRequest,
   ListScheduledActionsResponse,
-  | InternalServerException
-  | InvalidPaginationException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListScheduledActionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListScheduledActionsRequest,
   ) => stream.Stream<
     ListScheduledActionsResponse,
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListScheduledActionsRequest,
   ) => stream.Stream<
     ScheduledActionAssociation,
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListScheduledActionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3634,17 +3674,19 @@ export const listScheduledActions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateScheduledActionError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a scheduled action.
  */
 export const updateScheduledAction: API.OperationMethod<
   UpdateScheduledActionRequest,
   UpdateScheduledActionResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateScheduledActionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduledActionRequest,
@@ -3656,19 +3698,21 @@ export const updateScheduledAction: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points.
- */
-export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
-  CreateSnapshotResponse,
+export type CreateSnapshotError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points.
+ */
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
+  CreateSnapshotResponse,
+  CreateSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
@@ -3682,19 +3726,21 @@ export const createSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
- */
-export const createSnapshotCopyConfiguration: API.OperationMethod<
-  CreateSnapshotCopyConfigurationRequest,
-  CreateSnapshotCopyConfigurationResponse,
+export type CreateSnapshotCopyConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
+ */
+export const createSnapshotCopyConfiguration: API.OperationMethod<
+  CreateSnapshotCopyConfigurationRequest,
+  CreateSnapshotCopyConfigurationResponse,
+  CreateSnapshotCopyConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotCopyConfigurationRequest,
@@ -3708,17 +3754,19 @@ export const createSnapshotCopyConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSnapshotError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a snapshot from Amazon Redshift Serverless.
  */
 export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotRequest,
   DeleteSnapshotResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
@@ -3730,18 +3778,20 @@ export const deleteSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteSnapshotCopyConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a snapshot copy configuration
  */
 export const deleteSnapshotCopyConfiguration: API.OperationMethod<
   DeleteSnapshotCopyConfigurationRequest,
   DeleteSnapshotCopyConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteSnapshotCopyConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotCopyConfigurationRequest,
@@ -3754,16 +3804,18 @@ export const deleteSnapshotCopyConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetSnapshotError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific snapshot.
  */
 export const getSnapshot: API.OperationMethod<
   GetSnapshotRequest,
   GetSnapshotResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnapshotRequest,
@@ -3774,55 +3826,51 @@ export const getSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTableRestoreStatusError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a `TableRestoreStatus` object.
  */
 export const getTableRestoreStatus: API.OperationMethod<
   GetTableRestoreStatusRequest,
   GetTableRestoreStatusResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  GetTableRestoreStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRestoreStatusRequest,
   output: GetTableRestoreStatusResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListSnapshotCopyConfigurationsError =
+  | ConflictException
+  | InternalServerException
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of snapshot copy configurations.
  */
 export const listSnapshotCopyConfigurations: API.OperationMethod<
   ListSnapshotCopyConfigurationsRequest,
   ListSnapshotCopyConfigurationsResponse,
-  | ConflictException
-  | InternalServerException
-  | InvalidPaginationException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListSnapshotCopyConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSnapshotCopyConfigurationsRequest,
   ) => stream.Stream<
     ListSnapshotCopyConfigurationsResponse,
-    | ConflictException
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSnapshotCopyConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSnapshotCopyConfigurationsRequest,
   ) => stream.Stream<
     SnapshotCopyConfiguration,
-    | ConflictException
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSnapshotCopyConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3842,36 +3890,32 @@ export const listSnapshotCopyConfigurations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListSnapshotsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of snapshots.
  */
 export const listSnapshots: API.OperationMethod<
   ListSnapshotsRequest,
   ListSnapshotsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListSnapshotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSnapshotsRequest,
   ) => stream.Stream<
     ListSnapshotsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSnapshotsRequest,
   ) => stream.Stream<
     Snapshot,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListSnapshotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3889,36 +3933,32 @@ export const listSnapshots: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListTableRestoreStatusError =
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an array of `TableRestoreStatus` objects.
  */
 export const listTableRestoreStatus: API.OperationMethod<
   ListTableRestoreStatusRequest,
   ListTableRestoreStatusResponse,
-  | InvalidPaginationException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTableRestoreStatusError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTableRestoreStatusRequest,
   ) => stream.Stream<
     ListTableRestoreStatusResponse,
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTableRestoreStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTableRestoreStatusRequest,
   ) => stream.Stream<
     TableRestoreStatus,
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListTableRestoreStatusError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3936,18 +3976,20 @@ export const listTableRestoreStatus: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type RestoreFromSnapshotError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Restores a namespace from a snapshot.
  */
 export const restoreFromSnapshot: API.OperationMethod<
   RestoreFromSnapshotRequest,
   RestoreFromSnapshotResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  RestoreFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreFromSnapshotRequest,
@@ -3960,17 +4002,19 @@ export const restoreFromSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type RestoreTableFromSnapshotError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
 export const restoreTableFromSnapshot: API.OperationMethod<
   RestoreTableFromSnapshotRequest,
   RestoreTableFromSnapshotResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RestoreTableFromSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreTableFromSnapshotRequest,
@@ -3982,17 +4026,19 @@ export const restoreTableFromSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSnapshotError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a snapshot.
  */
 export const updateSnapshot: API.OperationMethod<
   UpdateSnapshotRequest,
   UpdateSnapshotResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSnapshotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSnapshotRequest,
@@ -4004,18 +4050,20 @@ export const updateSnapshot: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateSnapshotCopyConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a snapshot copy configuration.
  */
 export const updateSnapshotCopyConfiguration: API.OperationMethod<
   UpdateSnapshotCopyConfigurationRequest,
   UpdateSnapshotCopyConfigurationResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateSnapshotCopyConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSnapshotCopyConfigurationRequest,
@@ -4028,18 +4076,20 @@ export const updateSnapshotCopyConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateUsageLimitError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
  */
 export const createUsageLimit: API.OperationMethod<
   CreateUsageLimitRequest,
   CreateUsageLimitResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
+  CreateUsageLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsageLimitRequest,
@@ -4052,17 +4102,19 @@ export const createUsageLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteUsageLimitError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a usage limit from Amazon Redshift Serverless.
  */
 export const deleteUsageLimit: API.OperationMethod<
   DeleteUsageLimitRequest,
   DeleteUsageLimitResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteUsageLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsageLimitRequest,
@@ -4074,17 +4126,19 @@ export const deleteUsageLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetUsageLimitError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a usage limit.
  */
 export const getUsageLimit: API.OperationMethod<
   GetUsageLimitRequest,
   GetUsageLimitResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetUsageLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsageLimitRequest,
@@ -4096,42 +4150,34 @@ export const getUsageLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListUsageLimitsError =
+  | ConflictException
+  | InternalServerException
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all usage limits within Amazon Redshift Serverless.
  */
 export const listUsageLimits: API.OperationMethod<
   ListUsageLimitsRequest,
   ListUsageLimitsResponse,
-  | ConflictException
-  | InternalServerException
-  | InvalidPaginationException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListUsageLimitsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListUsageLimitsRequest,
   ) => stream.Stream<
     ListUsageLimitsResponse,
-    | ConflictException
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListUsageLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsageLimitsRequest,
   ) => stream.Stream<
     UsageLimit,
-    | ConflictException
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListUsageLimitsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4151,17 +4197,19 @@ export const listUsageLimits: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type UpdateUsageLimitError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
  */
 export const updateUsageLimit: API.OperationMethod<
   UpdateUsageLimitRequest,
   UpdateUsageLimitResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateUsageLimitError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsageLimitRequest,
@@ -4173,6 +4221,15 @@ export const updateUsageLimit: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateWorkgroupError =
+  | ConflictException
+  | InsufficientCapacityException
+  | InternalServerException
+  | Ipv6CidrBlockNotFoundException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an workgroup in Amazon Redshift Serverless.
  *
@@ -4189,14 +4246,7 @@ export const updateUsageLimit: API.OperationMethod<
 export const createWorkgroup: API.OperationMethod<
   CreateWorkgroupRequest,
   CreateWorkgroupResponse,
-  | ConflictException
-  | InsufficientCapacityException
-  | InternalServerException
-  | Ipv6CidrBlockNotFoundException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  CreateWorkgroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkgroupRequest,
@@ -4211,16 +4261,18 @@ export const createWorkgroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWorkgroupError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific workgroup.
  */
 export const getWorkgroup: API.OperationMethod<
   GetWorkgroupRequest,
   GetWorkgroupResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  GetWorkgroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkgroupRequest,
@@ -4231,6 +4283,14 @@ export const getWorkgroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateWorkgroupError =
+  | ConflictException
+  | InsufficientCapacityException
+  | InternalServerException
+  | Ipv6CidrBlockNotFoundException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update `baseCapacity` or `port` in a single request, but you can't update both in the same request.
  *
@@ -4247,13 +4307,7 @@ export const getWorkgroup: API.OperationMethod<
 export const updateWorkgroup: API.OperationMethod<
   UpdateWorkgroupRequest,
   UpdateWorkgroupResponse,
-  | ConflictException
-  | InsufficientCapacityException
-  | InternalServerException
-  | Ipv6CidrBlockNotFoundException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateWorkgroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkgroupRequest,
@@ -4267,17 +4321,19 @@ export const updateWorkgroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWorkgroupError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a workgroup.
  */
 export const deleteWorkgroup: API.OperationMethod<
   DeleteWorkgroupRequest,
   DeleteWorkgroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteWorkgroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkgroupRequest,
@@ -4289,27 +4345,31 @@ export const deleteWorkgroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWorkgroupsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a list of specified workgroups.
  */
 export const listWorkgroups: API.OperationMethod<
   ListWorkgroupsRequest,
   ListWorkgroupsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListWorkgroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkgroupsRequest,
   ) => stream.Stream<
     ListWorkgroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListWorkgroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkgroupsRequest,
   ) => stream.Stream<
     Workgroup,
-    InternalServerException | ValidationException | CommonErrors,
+    ListWorkgroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

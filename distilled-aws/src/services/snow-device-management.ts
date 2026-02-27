@@ -839,16 +839,18 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tags for a managed device or task.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -859,16 +861,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds or replaces tags on a device or task.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -879,16 +883,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag from a device or task.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -899,6 +905,13 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks device-specific information, such as the device type, software version, IP
  * addresses, and lock status.
@@ -906,12 +919,7 @@ export const untagResource: API.OperationMethod<
 export const describeDevice: API.OperationMethod<
   DescribeDeviceInput,
   DescribeDeviceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceInput,
@@ -924,6 +932,12 @@ export const describeDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDevicesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management
  * enabled in the Amazon Web Services Region where the command is run.
@@ -931,33 +945,21 @@ export const describeDevice: API.OperationMethod<
 export const listDevices: API.OperationMethod<
   ListDevicesInput,
   ListDevicesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDevicesInput,
   ) => stream.Stream<
     ListDevicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevicesInput,
   ) => stream.Stream<
     DeviceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -976,6 +978,13 @@ export const listDevices: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeDeviceEc2InstancesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks the current state of the Amazon EC2 instances. The output is similar to
  * `describeDevice`, but the results are sourced from the device cache in the
@@ -984,12 +993,7 @@ export const listDevices: API.OperationMethod<
 export const describeDeviceEc2Instances: API.OperationMethod<
   DescribeDeviceEc2Input,
   DescribeDeviceEc2Output,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDeviceEc2InstancesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceEc2Input,
@@ -1002,42 +1006,34 @@ export const describeDeviceEc2Instances: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDeviceResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
  */
 export const listDeviceResources: API.OperationMethod<
   ListDeviceResourcesInput,
   ListDeviceResourcesOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDeviceResourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeviceResourcesInput,
   ) => stream.Stream<
     ListDeviceResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeviceResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeviceResourcesInput,
   ) => stream.Stream<
     ResourceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeviceResourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1057,19 +1053,21 @@ export const listDeviceResources: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Instructs one or more devices to start a task, such as unlocking or rebooting.
- */
-export const createTask: API.OperationMethod<
-  CreateTaskInput,
-  CreateTaskOutput,
+export type CreateTaskError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Instructs one or more devices to start a task, such as unlocking or rebooting.
+ */
+export const createTask: API.OperationMethod<
+  CreateTaskInput,
+  CreateTaskOutput,
+  CreateTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskInput,
@@ -1083,18 +1081,20 @@ export const createTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks the metadata for a given task on a device.
  */
 export const describeTask: API.OperationMethod<
   DescribeTaskInput,
   DescribeTaskOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTaskInput,
@@ -1107,39 +1107,33 @@ export const describeTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of tasks that can be filtered by state.
  */
 export const listTasks: API.OperationMethod<
   ListTasksInput,
   ListTasksOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTasksInput,
   ) => stream.Stream<
     ListTasksOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTasksInput,
   ) => stream.Stream<
     TaskSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1158,6 +1152,13 @@ export const listTasks: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CancelTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends a cancel request for a specified task. You can cancel a task only if it's still in a
  * `QUEUED` state. Tasks that are already running can't be cancelled.
@@ -1168,12 +1169,7 @@ export const listTasks: API.OperationMethod<
 export const cancelTask: API.OperationMethod<
   CancelTaskInput,
   CancelTaskOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CancelTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTaskInput,
@@ -1186,18 +1182,20 @@ export const cancelTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeExecutionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Checks the status of a remote task running on one or more target devices.
  */
 export const describeExecution: API.OperationMethod<
   DescribeExecutionInput,
   DescribeExecutionOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeExecutionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExecutionInput,
@@ -1210,42 +1208,34 @@ export const describeExecution: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the status of tasks for one or more target devices.
  */
 export const listExecutions: API.OperationMethod<
   ListExecutionsInput,
   ListExecutionsOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListExecutionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExecutionsInput,
   ) => stream.Stream<
     ListExecutionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExecutionsInput,
   ) => stream.Stream<
     ExecutionSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListExecutionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

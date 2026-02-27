@@ -177,6 +177,14 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type GetMediaError =
+  | ClientLimitExceededException
+  | ConnectionLimitExceededException
+  | InvalidArgumentException
+  | InvalidEndpointException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Use this API to retrieve media content from a Kinesis video stream. In the request,
  * you identify the stream name or stream Amazon Resource Name (ARN), and the starting chunk.
@@ -217,13 +225,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 export const getMedia: API.OperationMethod<
   GetMediaInput,
   GetMediaOutput,
-  | ClientLimitExceededException
-  | ConnectionLimitExceededException
-  | InvalidArgumentException
-  | InvalidEndpointException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetMediaError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaInput,

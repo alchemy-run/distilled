@@ -19089,12 +19089,7 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
- */
-export const acceptInputDeviceTransfer: API.OperationMethod<
-  AcceptInputDeviceTransferRequest,
-  AcceptInputDeviceTransferResponse,
+export type AcceptInputDeviceTransferError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19104,7 +19099,14 @@ export const acceptInputDeviceTransfer: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
+ */
+export const acceptInputDeviceTransfer: API.OperationMethod<
+  AcceptInputDeviceTransferRequest,
+  AcceptInputDeviceTransferResponse,
+  AcceptInputDeviceTransferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInputDeviceTransferRequest,
@@ -19121,12 +19123,7 @@ export const acceptInputDeviceTransfer: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Starts delete of resources.
- */
-export const batchDelete: API.OperationMethod<
-  BatchDeleteRequest,
-  BatchDeleteResponse,
+export type BatchDeleteError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19135,7 +19132,14 @@ export const batchDelete: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts delete of resources.
+ */
+export const batchDelete: API.OperationMethod<
+  BatchDeleteRequest,
+  BatchDeleteResponse,
+  BatchDeleteError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteRequest,
@@ -19151,12 +19155,7 @@ export const batchDelete: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Starts existing resources
- */
-export const batchStart: API.OperationMethod<
-  BatchStartRequest,
-  BatchStartResponse,
+export type BatchStartError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19165,7 +19164,14 @@ export const batchStart: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts existing resources
+ */
+export const batchStart: API.OperationMethod<
+  BatchStartRequest,
+  BatchStartResponse,
+  BatchStartError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchStartRequest,
@@ -19181,12 +19187,7 @@ export const batchStart: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Stops running resources
- */
-export const batchStop: API.OperationMethod<
-  BatchStopRequest,
-  BatchStopResponse,
+export type BatchStopError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19195,7 +19196,14 @@ export const batchStop: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops running resources
+ */
+export const batchStop: API.OperationMethod<
+  BatchStopRequest,
+  BatchStopResponse,
+  BatchStopError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchStopRequest,
@@ -19211,12 +19219,7 @@ export const batchStop: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Update a channel schedule
- */
-export const batchUpdateSchedule: API.OperationMethod<
-  BatchUpdateScheduleRequest,
-  BatchUpdateScheduleResponse,
+export type BatchUpdateScheduleError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -19225,7 +19228,14 @@ export const batchUpdateSchedule: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a channel schedule
+ */
+export const batchUpdateSchedule: API.OperationMethod<
+  BatchUpdateScheduleRequest,
+  BatchUpdateScheduleResponse,
+  BatchUpdateScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateScheduleRequest,
@@ -19241,12 +19251,7 @@ export const batchUpdateSchedule: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Cancel an input device transfer that you have requested.
- */
-export const cancelInputDeviceTransfer: API.OperationMethod<
-  CancelInputDeviceTransferRequest,
-  CancelInputDeviceTransferResponse,
+export type CancelInputDeviceTransferError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19256,7 +19261,14 @@ export const cancelInputDeviceTransfer: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancel an input device transfer that you have requested.
+ */
+export const cancelInputDeviceTransfer: API.OperationMethod<
+  CancelInputDeviceTransferRequest,
+  CancelInputDeviceTransferResponse,
+  CancelInputDeviceTransferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelInputDeviceTransferRequest,
@@ -19273,12 +19285,7 @@ export const cancelInputDeviceTransfer: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
- */
-export const claimDevice: API.OperationMethod<
-  ClaimDeviceRequest,
-  ClaimDeviceResponse,
+export type ClaimDeviceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -19287,7 +19294,14 @@ export const claimDevice: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
+ */
+export const claimDevice: API.OperationMethod<
+  ClaimDeviceRequest,
+  ClaimDeviceResponse,
+  ClaimDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimDeviceRequest,
@@ -19303,12 +19317,7 @@ export const claimDevice: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a new channel
- */
-export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
-  CreateChannelResponse,
+export type CreateChannelError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19317,7 +19326,14 @@ export const createChannel: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new channel
+ */
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
+  CreateChannelResponse,
+  CreateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
@@ -19333,12 +19349,7 @@ export const createChannel: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
- */
-export const createChannelPlacementGroup: API.OperationMethod<
-  CreateChannelPlacementGroupRequest,
-  CreateChannelPlacementGroupResponse,
+export type CreateChannelPlacementGroupError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -19346,7 +19357,14 @@ export const createChannelPlacementGroup: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
+ */
+export const createChannelPlacementGroup: API.OperationMethod<
+  CreateChannelPlacementGroupRequest,
+  CreateChannelPlacementGroupResponse,
+  CreateChannelPlacementGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelPlacementGroupRequest,
@@ -19361,19 +19379,21 @@ export const createChannelPlacementGroup: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
- */
-export const createCloudWatchAlarmTemplate: API.OperationMethod<
-  CreateCloudWatchAlarmTemplateRequest,
-  CreateCloudWatchAlarmTemplateResponse,
+export type CreateCloudWatchAlarmTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
+ */
+export const createCloudWatchAlarmTemplate: API.OperationMethod<
+  CreateCloudWatchAlarmTemplateRequest,
+  CreateCloudWatchAlarmTemplateResponse,
+  CreateCloudWatchAlarmTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCloudWatchAlarmTemplateRequest,
@@ -19387,19 +19407,21 @@ export const createCloudWatchAlarmTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
- */
-export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  CreateCloudWatchAlarmTemplateGroupRequest,
-  CreateCloudWatchAlarmTemplateGroupResponse,
+export type CreateCloudWatchAlarmTemplateGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
+ */
+export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  CreateCloudWatchAlarmTemplateGroupRequest,
+  CreateCloudWatchAlarmTemplateGroupResponse,
+  CreateCloudWatchAlarmTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCloudWatchAlarmTemplateGroupRequest,
@@ -19413,12 +19435,7 @@ export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new Cluster.
- */
-export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
-  CreateClusterResponse,
+export type CreateClusterError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19426,7 +19443,14 @@ export const createCluster: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new Cluster.
+ */
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
+  CreateClusterResponse,
+  CreateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
@@ -19441,19 +19465,21 @@ export const createCluster: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
- */
-export const createEventBridgeRuleTemplate: API.OperationMethod<
-  CreateEventBridgeRuleTemplateRequest,
-  CreateEventBridgeRuleTemplateResponse,
+export type CreateEventBridgeRuleTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
+ */
+export const createEventBridgeRuleTemplate: API.OperationMethod<
+  CreateEventBridgeRuleTemplateRequest,
+  CreateEventBridgeRuleTemplateResponse,
+  CreateEventBridgeRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventBridgeRuleTemplateRequest,
@@ -19467,19 +19493,21 @@ export const createEventBridgeRuleTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
- */
-export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
-  CreateEventBridgeRuleTemplateGroupRequest,
-  CreateEventBridgeRuleTemplateGroupResponse,
+export type CreateEventBridgeRuleTemplateGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
+ */
+export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
+  CreateEventBridgeRuleTemplateGroupRequest,
+  CreateEventBridgeRuleTemplateGroupResponse,
+  CreateEventBridgeRuleTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventBridgeRuleTemplateGroupRequest,
@@ -19493,19 +19521,21 @@ export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create an input
- */
-export const createInput: API.OperationMethod<
-  CreateInputRequest,
-  CreateInputResponse,
+export type CreateInputError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create an input
+ */
+export const createInput: API.OperationMethod<
+  CreateInputRequest,
+  CreateInputResponse,
+  CreateInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInputRequest,
@@ -19519,19 +19549,21 @@ export const createInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Creates a Input Security Group
- */
-export const createInputSecurityGroup: API.OperationMethod<
-  CreateInputSecurityGroupRequest,
-  CreateInputSecurityGroupResponse,
+export type CreateInputSecurityGroupError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a Input Security Group
+ */
+export const createInputSecurityGroup: API.OperationMethod<
+  CreateInputSecurityGroupRequest,
+  CreateInputSecurityGroupResponse,
+  CreateInputSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInputSecurityGroupRequest,
@@ -19545,12 +19577,7 @@ export const createInputSecurityGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a new multiplex.
- */
-export const createMultiplex: API.OperationMethod<
-  CreateMultiplexRequest,
-  CreateMultiplexResponse,
+export type CreateMultiplexError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19559,7 +19586,14 @@ export const createMultiplex: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new multiplex.
+ */
+export const createMultiplex: API.OperationMethod<
+  CreateMultiplexRequest,
+  CreateMultiplexResponse,
+  CreateMultiplexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMultiplexRequest,
@@ -19575,12 +19609,7 @@ export const createMultiplex: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Create a new program in the multiplex.
- */
-export const createMultiplexProgram: API.OperationMethod<
-  CreateMultiplexProgramRequest,
-  CreateMultiplexProgramResponse,
+export type CreateMultiplexProgramError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19589,7 +19618,14 @@ export const createMultiplexProgram: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a new program in the multiplex.
+ */
+export const createMultiplexProgram: API.OperationMethod<
+  CreateMultiplexProgramRequest,
+  CreateMultiplexProgramResponse,
+  CreateMultiplexProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMultiplexProgramRequest,
@@ -19605,12 +19641,7 @@ export const createMultiplexProgram: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
- */
-export const createNetwork: API.OperationMethod<
-  CreateNetworkRequest,
-  CreateNetworkResponse,
+export type CreateNetworkError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19618,7 +19649,14 @@ export const createNetwork: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
+ */
+export const createNetwork: API.OperationMethod<
+  CreateNetworkRequest,
+  CreateNetworkResponse,
+  CreateNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkRequest,
@@ -19633,12 +19671,7 @@ export const createNetwork: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
- */
-export const createNode: API.OperationMethod<
-  CreateNodeRequest,
-  CreateNodeResponse,
+export type CreateNodeError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -19646,7 +19679,14 @@ export const createNode: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
+ */
+export const createNode: API.OperationMethod<
+  CreateNodeRequest,
+  CreateNodeResponse,
+  CreateNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodeRequest,
@@ -19661,12 +19701,7 @@ export const createNode: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
- */
-export const createNodeRegistrationScript: API.OperationMethod<
-  CreateNodeRegistrationScriptRequest,
-  CreateNodeRegistrationScriptResponse,
+export type CreateNodeRegistrationScriptError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19674,7 +19709,14 @@ export const createNodeRegistrationScript: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
+ */
+export const createNodeRegistrationScript: API.OperationMethod<
+  CreateNodeRegistrationScriptRequest,
+  CreateNodeRegistrationScriptResponse,
+  CreateNodeRegistrationScriptError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodeRegistrationScriptRequest,
@@ -19689,19 +19731,21 @@ export const createNodeRegistrationScript: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create a partner input
- */
-export const createPartnerInput: API.OperationMethod<
-  CreatePartnerInputRequest,
-  CreatePartnerInputResponse,
+export type CreatePartnerInputError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create a partner input
+ */
+export const createPartnerInput: API.OperationMethod<
+  CreatePartnerInputRequest,
+  CreatePartnerInputResponse,
+  CreatePartnerInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnerInputRequest,
@@ -19715,12 +19759,7 @@ export const createPartnerInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
- */
-export const createSdiSource: API.OperationMethod<
-  CreateSdiSourceRequest,
-  CreateSdiSourceResponse,
+export type CreateSdiSourceError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19728,7 +19767,14 @@ export const createSdiSource: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
+ */
+export const createSdiSource: API.OperationMethod<
+  CreateSdiSourceRequest,
+  CreateSdiSourceResponse,
+  CreateSdiSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSdiSourceRequest,
@@ -19743,19 +19789,21 @@ export const createSdiSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
- */
-export const createSignalMap: API.OperationMethod<
-  CreateSignalMapRequest,
-  CreateSignalMapResponse,
+export type CreateSignalMapError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
+ */
+export const createSignalMap: API.OperationMethod<
+  CreateSignalMapRequest,
+  CreateSignalMapResponse,
+  CreateSignalMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSignalMapRequest,
@@ -19769,17 +19817,19 @@ export const createSignalMap: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateTagsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Create tags for a resource
  */
 export const createTags: API.OperationMethod<
   CreateTagsRequest,
   CreateTagsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  CreateTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
@@ -19791,12 +19841,7 @@ export const createTags: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Starts deletion of channel. The associated outputs are also deleted.
- */
-export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
-  DeleteChannelResponse,
+export type DeleteChannelError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19805,7 +19850,14 @@ export const deleteChannel: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts deletion of channel. The associated outputs are also deleted.
+ */
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
+  DeleteChannelResponse,
+  DeleteChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
@@ -19821,12 +19873,7 @@ export const deleteChannel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
- */
-export const deleteChannelPlacementGroup: API.OperationMethod<
-  DeleteChannelPlacementGroupRequest,
-  DeleteChannelPlacementGroupResponse,
+export type DeleteChannelPlacementGroupError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19835,7 +19882,14 @@ export const deleteChannelPlacementGroup: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
+ */
+export const deleteChannelPlacementGroup: API.OperationMethod<
+  DeleteChannelPlacementGroupRequest,
+  DeleteChannelPlacementGroupResponse,
+  DeleteChannelPlacementGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelPlacementGroupRequest,
@@ -19851,19 +19905,21 @@ export const deleteChannelPlacementGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a cloudwatch alarm template.
- */
-export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
-  DeleteCloudWatchAlarmTemplateRequest,
-  DeleteCloudWatchAlarmTemplateResponse,
+export type DeleteCloudWatchAlarmTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a cloudwatch alarm template.
+ */
+export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
+  DeleteCloudWatchAlarmTemplateRequest,
+  DeleteCloudWatchAlarmTemplateResponse,
+  DeleteCloudWatchAlarmTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCloudWatchAlarmTemplateRequest,
@@ -19877,19 +19933,21 @@ export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
- */
-export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  DeleteCloudWatchAlarmTemplateGroupRequest,
-  DeleteCloudWatchAlarmTemplateGroupResponse,
+export type DeleteCloudWatchAlarmTemplateGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
+ */
+export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  DeleteCloudWatchAlarmTemplateGroupRequest,
+  DeleteCloudWatchAlarmTemplateGroupResponse,
+  DeleteCloudWatchAlarmTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCloudWatchAlarmTemplateGroupRequest,
@@ -19903,12 +19961,7 @@ export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete a Cluster. The Cluster must be idle.
- */
-export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
-  DeleteClusterResponse,
+export type DeleteClusterError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19917,7 +19970,14 @@ export const deleteCluster: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a Cluster. The Cluster must be idle.
+ */
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
+  DeleteClusterResponse,
+  DeleteClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
@@ -19933,19 +19993,21 @@ export const deleteCluster: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an eventbridge rule template.
- */
-export const deleteEventBridgeRuleTemplate: API.OperationMethod<
-  DeleteEventBridgeRuleTemplateRequest,
-  DeleteEventBridgeRuleTemplateResponse,
+export type DeleteEventBridgeRuleTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an eventbridge rule template.
+ */
+export const deleteEventBridgeRuleTemplate: API.OperationMethod<
+  DeleteEventBridgeRuleTemplateRequest,
+  DeleteEventBridgeRuleTemplateResponse,
+  DeleteEventBridgeRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventBridgeRuleTemplateRequest,
@@ -19959,19 +20021,21 @@ export const deleteEventBridgeRuleTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
- */
-export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
-  DeleteEventBridgeRuleTemplateGroupRequest,
-  DeleteEventBridgeRuleTemplateGroupResponse,
+export type DeleteEventBridgeRuleTemplateGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
+ */
+export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
+  DeleteEventBridgeRuleTemplateGroupRequest,
+  DeleteEventBridgeRuleTemplateGroupResponse,
+  DeleteEventBridgeRuleTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventBridgeRuleTemplateGroupRequest,
@@ -19985,12 +20049,7 @@ export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes the input end point
- */
-export const deleteInput: API.OperationMethod<
-  DeleteInputRequest,
-  DeleteInputResponse,
+export type DeleteInputError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -19999,7 +20058,14 @@ export const deleteInput: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the input end point
+ */
+export const deleteInput: API.OperationMethod<
+  DeleteInputRequest,
+  DeleteInputResponse,
+  DeleteInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInputRequest,
@@ -20015,12 +20081,7 @@ export const deleteInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes an Input Security Group
- */
-export const deleteInputSecurityGroup: API.OperationMethod<
-  DeleteInputSecurityGroupRequest,
-  DeleteInputSecurityGroupResponse,
+export type DeleteInputSecurityGroupError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20028,7 +20089,14 @@ export const deleteInputSecurityGroup: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an Input Security Group
+ */
+export const deleteInputSecurityGroup: API.OperationMethod<
+  DeleteInputSecurityGroupRequest,
+  DeleteInputSecurityGroupResponse,
+  DeleteInputSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInputSecurityGroupRequest,
@@ -20043,12 +20111,7 @@ export const deleteInputSecurityGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete a multiplex. The multiplex must be idle.
- */
-export const deleteMultiplex: API.OperationMethod<
-  DeleteMultiplexRequest,
-  DeleteMultiplexResponse,
+export type DeleteMultiplexError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20057,7 +20120,14 @@ export const deleteMultiplex: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a multiplex. The multiplex must be idle.
+ */
+export const deleteMultiplex: API.OperationMethod<
+  DeleteMultiplexRequest,
+  DeleteMultiplexResponse,
+  DeleteMultiplexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMultiplexRequest,
@@ -20073,12 +20143,7 @@ export const deleteMultiplex: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete a program from a multiplex.
- */
-export const deleteMultiplexProgram: API.OperationMethod<
-  DeleteMultiplexProgramRequest,
-  DeleteMultiplexProgramResponse,
+export type DeleteMultiplexProgramError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20087,7 +20152,14 @@ export const deleteMultiplexProgram: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a program from a multiplex.
+ */
+export const deleteMultiplexProgram: API.OperationMethod<
+  DeleteMultiplexProgramRequest,
+  DeleteMultiplexProgramResponse,
+  DeleteMultiplexProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMultiplexProgramRequest,
@@ -20103,12 +20175,7 @@ export const deleteMultiplexProgram: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete a Network. The Network must have no resources associated with it.
- */
-export const deleteNetwork: API.OperationMethod<
-  DeleteNetworkRequest,
-  DeleteNetworkResponse,
+export type DeleteNetworkError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20117,7 +20184,14 @@ export const deleteNetwork: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a Network. The Network must have no resources associated with it.
+ */
+export const deleteNetwork: API.OperationMethod<
+  DeleteNetworkRequest,
+  DeleteNetworkResponse,
+  DeleteNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNetworkRequest,
@@ -20133,12 +20207,7 @@ export const deleteNetwork: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete a Node. The Node must be IDLE.
- */
-export const deleteNode: API.OperationMethod<
-  DeleteNodeRequest,
-  DeleteNodeResponse,
+export type DeleteNodeError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20147,7 +20216,14 @@ export const deleteNode: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete a Node. The Node must be IDLE.
+ */
+export const deleteNode: API.OperationMethod<
+  DeleteNodeRequest,
+  DeleteNodeResponse,
+  DeleteNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNodeRequest,
@@ -20163,12 +20239,7 @@ export const deleteNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete an expired reservation.
- */
-export const deleteReservation: API.OperationMethod<
-  DeleteReservationRequest,
-  DeleteReservationResponse,
+export type DeleteReservationError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20177,7 +20248,14 @@ export const deleteReservation: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an expired reservation.
+ */
+export const deleteReservation: API.OperationMethod<
+  DeleteReservationRequest,
+  DeleteReservationResponse,
+  DeleteReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReservationRequest,
@@ -20193,12 +20271,7 @@ export const deleteReservation: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete all schedule actions on a channel.
- */
-export const deleteSchedule: API.OperationMethod<
-  DeleteScheduleRequest,
-  DeleteScheduleResponse,
+export type DeleteScheduleError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20206,7 +20279,14 @@ export const deleteSchedule: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete all schedule actions on a channel.
+ */
+export const deleteSchedule: API.OperationMethod<
+  DeleteScheduleRequest,
+  DeleteScheduleResponse,
+  DeleteScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduleRequest,
@@ -20221,12 +20301,7 @@ export const deleteSchedule: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
- */
-export const deleteSdiSource: API.OperationMethod<
-  DeleteSdiSourceRequest,
-  DeleteSdiSourceResponse,
+export type DeleteSdiSourceError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20235,7 +20310,14 @@ export const deleteSdiSource: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
+ */
+export const deleteSdiSource: API.OperationMethod<
+  DeleteSdiSourceRequest,
+  DeleteSdiSourceResponse,
+  DeleteSdiSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSdiSourceRequest,
@@ -20251,19 +20333,21 @@ export const deleteSdiSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes the specified signal map.
- */
-export const deleteSignalMap: API.OperationMethod<
-  DeleteSignalMapRequest,
-  DeleteSignalMapResponse,
+export type DeleteSignalMapError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified signal map.
+ */
+export const deleteSignalMap: API.OperationMethod<
+  DeleteSignalMapRequest,
+  DeleteSignalMapResponse,
+  DeleteSignalMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSignalMapRequest,
@@ -20277,17 +20361,19 @@ export const deleteSignalMap: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteTagsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Removes tags for a resource
  */
 export const deleteTags: API.OperationMethod<
   DeleteTagsRequest,
   DeleteTagsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  DeleteTagsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
@@ -20299,19 +20385,21 @@ export const deleteTags: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Describe account configuration
- */
-export const describeAccountConfiguration: API.OperationMethod<
-  DescribeAccountConfigurationRequest,
-  DescribeAccountConfigurationResponse,
+export type DescribeAccountConfigurationError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describe account configuration
+ */
+export const describeAccountConfiguration: API.OperationMethod<
+  DescribeAccountConfigurationRequest,
+  DescribeAccountConfigurationResponse,
+  DescribeAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountConfigurationRequest,
@@ -20325,12 +20413,7 @@ export const describeAccountConfiguration: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Gets details about a channel
- */
-export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
-  DescribeChannelResponse,
+export type DescribeChannelError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20338,7 +20421,14 @@ export const describeChannel: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets details about a channel
+ */
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
+  DescribeChannelResponse,
+  DescribeChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
@@ -20353,12 +20443,7 @@ export const describeChannel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get details about a ChannelPlacementGroup.
- */
-export const describeChannelPlacementGroup: API.OperationMethod<
-  DescribeChannelPlacementGroupRequest,
-  DescribeChannelPlacementGroupResponse,
+export type DescribeChannelPlacementGroupError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20366,7 +20451,14 @@ export const describeChannelPlacementGroup: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details about a ChannelPlacementGroup.
+ */
+export const describeChannelPlacementGroup: API.OperationMethod<
+  DescribeChannelPlacementGroupRequest,
+  DescribeChannelPlacementGroupResponse,
+  DescribeChannelPlacementGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelPlacementGroupRequest,
@@ -20381,12 +20473,7 @@ export const describeChannelPlacementGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get details about a Cluster.
- */
-export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
-  DescribeClusterResponse,
+export type DescribeClusterError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20394,7 +20481,14 @@ export const describeCluster: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details about a Cluster.
+ */
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
+  DescribeClusterResponse,
+  DescribeClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
@@ -20409,12 +20503,7 @@ export const describeCluster: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Produces details about an input
- */
-export const describeInput: API.OperationMethod<
-  DescribeInputRequest,
-  DescribeInputResponse,
+export type DescribeInputError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20422,7 +20511,14 @@ export const describeInput: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Produces details about an input
+ */
+export const describeInput: API.OperationMethod<
+  DescribeInputRequest,
+  DescribeInputResponse,
+  DescribeInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInputRequest,
@@ -20437,12 +20533,7 @@ export const describeInput: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Gets the details for the input device
- */
-export const describeInputDevice: API.OperationMethod<
-  DescribeInputDeviceRequest,
-  DescribeInputDeviceResponse,
+export type DescribeInputDeviceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20450,7 +20541,14 @@ export const describeInputDevice: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the details for the input device
+ */
+export const describeInputDevice: API.OperationMethod<
+  DescribeInputDeviceRequest,
+  DescribeInputDeviceResponse,
+  DescribeInputDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInputDeviceRequest,
@@ -20465,12 +20563,7 @@ export const describeInputDevice: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get the latest thumbnail data for the input device.
- */
-export const describeInputDeviceThumbnail: API.OperationMethod<
-  DescribeInputDeviceThumbnailRequest,
-  DescribeInputDeviceThumbnailResponse,
+export type DescribeInputDeviceThumbnailError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20478,7 +20571,14 @@ export const describeInputDeviceThumbnail: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the latest thumbnail data for the input device.
+ */
+export const describeInputDeviceThumbnail: API.OperationMethod<
+  DescribeInputDeviceThumbnailRequest,
+  DescribeInputDeviceThumbnailResponse,
+  DescribeInputDeviceThumbnailError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInputDeviceThumbnailRequest,
@@ -20493,12 +20593,7 @@ export const describeInputDeviceThumbnail: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Produces a summary of an Input Security Group
- */
-export const describeInputSecurityGroup: API.OperationMethod<
-  DescribeInputSecurityGroupRequest,
-  DescribeInputSecurityGroupResponse,
+export type DescribeInputSecurityGroupError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20506,7 +20601,14 @@ export const describeInputSecurityGroup: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Produces a summary of an Input Security Group
+ */
+export const describeInputSecurityGroup: API.OperationMethod<
+  DescribeInputSecurityGroupRequest,
+  DescribeInputSecurityGroupResponse,
+  DescribeInputSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInputSecurityGroupRequest,
@@ -20521,12 +20623,7 @@ export const describeInputSecurityGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Gets details about a multiplex.
- */
-export const describeMultiplex: API.OperationMethod<
-  DescribeMultiplexRequest,
-  DescribeMultiplexResponse,
+export type DescribeMultiplexError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20534,7 +20631,14 @@ export const describeMultiplex: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets details about a multiplex.
+ */
+export const describeMultiplex: API.OperationMethod<
+  DescribeMultiplexRequest,
+  DescribeMultiplexResponse,
+  DescribeMultiplexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMultiplexRequest,
@@ -20549,12 +20653,7 @@ export const describeMultiplex: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get the details for a program in a multiplex.
- */
-export const describeMultiplexProgram: API.OperationMethod<
-  DescribeMultiplexProgramRequest,
-  DescribeMultiplexProgramResponse,
+export type DescribeMultiplexProgramError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20562,7 +20661,14 @@ export const describeMultiplexProgram: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the details for a program in a multiplex.
+ */
+export const describeMultiplexProgram: API.OperationMethod<
+  DescribeMultiplexProgramRequest,
+  DescribeMultiplexProgramResponse,
+  DescribeMultiplexProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMultiplexProgramRequest,
@@ -20577,12 +20683,7 @@ export const describeMultiplexProgram: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get details about a Network.
- */
-export const describeNetwork: API.OperationMethod<
-  DescribeNetworkRequest,
-  DescribeNetworkResponse,
+export type DescribeNetworkError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20590,7 +20691,14 @@ export const describeNetwork: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details about a Network.
+ */
+export const describeNetwork: API.OperationMethod<
+  DescribeNetworkRequest,
+  DescribeNetworkResponse,
+  DescribeNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNetworkRequest,
@@ -20605,12 +20713,7 @@ export const describeNetwork: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get details about a Node in the specified Cluster.
- */
-export const describeNode: API.OperationMethod<
-  DescribeNodeRequest,
-  DescribeNodeResponse,
+export type DescribeNodeError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20618,7 +20721,14 @@ export const describeNode: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details about a Node in the specified Cluster.
+ */
+export const describeNode: API.OperationMethod<
+  DescribeNodeRequest,
+  DescribeNodeResponse,
+  DescribeNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNodeRequest,
@@ -20633,12 +20743,7 @@ export const describeNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get details for an offering.
- */
-export const describeOffering: API.OperationMethod<
-  DescribeOfferingRequest,
-  DescribeOfferingResponse,
+export type DescribeOfferingError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20646,7 +20751,14 @@ export const describeOffering: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details for an offering.
+ */
+export const describeOffering: API.OperationMethod<
+  DescribeOfferingRequest,
+  DescribeOfferingResponse,
+  DescribeOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOfferingRequest,
@@ -20661,12 +20773,7 @@ export const describeOffering: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get details for a reservation.
- */
-export const describeReservation: API.OperationMethod<
-  DescribeReservationRequest,
-  DescribeReservationResponse,
+export type DescribeReservationError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20674,7 +20781,14 @@ export const describeReservation: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get details for a reservation.
+ */
+export const describeReservation: API.OperationMethod<
+  DescribeReservationRequest,
+  DescribeReservationResponse,
+  DescribeReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReservationRequest,
@@ -20689,12 +20803,7 @@ export const describeReservation: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Get a channel schedule
- */
-export const describeSchedule: API.OperationMethod<
-  DescribeScheduleRequest,
-  DescribeScheduleResponse,
+export type DescribeScheduleError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20702,35 +20811,28 @@ export const describeSchedule: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get a channel schedule
+ */
+export const describeSchedule: API.OperationMethod<
+  DescribeScheduleRequest,
+  DescribeScheduleResponse,
+  DescribeScheduleError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeScheduleRequest,
   ) => stream.Stream<
     DescribeScheduleResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    DescribeScheduleError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScheduleRequest,
   ) => stream.Stream<
     ScheduleAction,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    DescribeScheduleError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20752,12 +20854,7 @@ export const describeSchedule: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Gets details about a SdiSource.
- */
-export const describeSdiSource: API.OperationMethod<
-  DescribeSdiSourceRequest,
-  DescribeSdiSourceResponse,
+export type DescribeSdiSourceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20765,7 +20862,14 @@ export const describeSdiSource: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets details about a SdiSource.
+ */
+export const describeSdiSource: API.OperationMethod<
+  DescribeSdiSourceRequest,
+  DescribeSdiSourceResponse,
+  DescribeSdiSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSdiSourceRequest,
@@ -20780,12 +20884,7 @@ export const describeSdiSource: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Describe the latest thumbnails data.
- */
-export const describeThumbnails: API.OperationMethod<
-  DescribeThumbnailsRequest,
-  DescribeThumbnailsResponse,
+export type DescribeThumbnailsError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -20794,7 +20893,14 @@ export const describeThumbnails: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Describe the latest thumbnails data.
+ */
+export const describeThumbnails: API.OperationMethod<
+  DescribeThumbnailsRequest,
+  DescribeThumbnailsResponse,
+  DescribeThumbnailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThumbnailsRequest,
@@ -20810,18 +20916,20 @@ export const describeThumbnails: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetCloudWatchAlarmTemplateError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the specified cloudwatch alarm template.
  */
 export const getCloudWatchAlarmTemplate: API.OperationMethod<
   GetCloudWatchAlarmTemplateRequest,
   GetCloudWatchAlarmTemplateResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCloudWatchAlarmTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudWatchAlarmTemplateRequest,
@@ -20834,18 +20942,20 @@ export const getCloudWatchAlarmTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetCloudWatchAlarmTemplateGroupError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the specified cloudwatch alarm template group.
  */
 export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
   GetCloudWatchAlarmTemplateGroupRequest,
   GetCloudWatchAlarmTemplateGroupResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCloudWatchAlarmTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudWatchAlarmTemplateGroupRequest,
@@ -20858,18 +20968,20 @@ export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetEventBridgeRuleTemplateError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the specified eventbridge rule template.
  */
 export const getEventBridgeRuleTemplate: API.OperationMethod<
   GetEventBridgeRuleTemplateRequest,
   GetEventBridgeRuleTemplateResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEventBridgeRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventBridgeRuleTemplateRequest,
@@ -20882,18 +20994,20 @@ export const getEventBridgeRuleTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetEventBridgeRuleTemplateGroupError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the specified eventbridge rule template group.
  */
 export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
   GetEventBridgeRuleTemplateGroupRequest,
   GetEventBridgeRuleTemplateGroupResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetEventBridgeRuleTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventBridgeRuleTemplateGroupRequest,
@@ -20906,18 +21020,20 @@ export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetSignalMapError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the specified signal map.
  */
 export const getSignalMap: API.OperationMethod<
   GetSignalMapRequest,
   GetSignalMapResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetSignalMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSignalMapRequest,
@@ -20930,12 +21046,7 @@ export const getSignalMap: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * List the alerts for a channel with optional filtering based on alert state.
- */
-export const listAlerts: API.OperationMethod<
-  ListAlertsRequest,
-  ListAlertsResponse,
+export type ListAlertsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -20943,35 +21054,28 @@ export const listAlerts: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the alerts for a channel with optional filtering based on alert state.
+ */
+export const listAlerts: API.OperationMethod<
+  ListAlertsRequest,
+  ListAlertsResponse,
+  ListAlertsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAlertsRequest,
   ) => stream.Stream<
     ListAlertsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAlertsRequest,
   ) => stream.Stream<
     ChannelAlert,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -20993,45 +21097,35 @@ export const listAlerts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve the list of ChannelPlacementGroups in the specified Cluster.
- */
-export const listChannelPlacementGroups: API.OperationMethod<
-  ListChannelPlacementGroupsRequest,
-  ListChannelPlacementGroupsResponse,
+export type ListChannelPlacementGroupsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the list of ChannelPlacementGroups in the specified Cluster.
+ */
+export const listChannelPlacementGroups: API.OperationMethod<
+  ListChannelPlacementGroupsRequest,
+  ListChannelPlacementGroupsResponse,
+  ListChannelPlacementGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelPlacementGroupsRequest,
   ) => stream.Stream<
     ListChannelPlacementGroupsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListChannelPlacementGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelPlacementGroupsRequest,
   ) => stream.Stream<
     DescribeChannelPlacementGroupSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListChannelPlacementGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21052,45 +21146,35 @@ export const listChannelPlacementGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Produces list of channels that have been created
- */
-export const listChannels: API.OperationMethod<
-  ListChannelsRequest,
-  ListChannelsResponse,
+export type ListChannelsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Produces list of channels that have been created
+ */
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  ListChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ListChannelsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListChannelsRequest,
   ) => stream.Stream<
     ChannelSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21111,42 +21195,34 @@ export const listChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCloudWatchAlarmTemplateGroupsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists cloudwatch alarm template groups.
  */
 export const listCloudWatchAlarmTemplateGroups: API.OperationMethod<
   ListCloudWatchAlarmTemplateGroupsRequest,
   ListCloudWatchAlarmTemplateGroupsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListCloudWatchAlarmTemplateGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCloudWatchAlarmTemplateGroupsRequest,
   ) => stream.Stream<
     ListCloudWatchAlarmTemplateGroupsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListCloudWatchAlarmTemplateGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCloudWatchAlarmTemplateGroupsRequest,
   ) => stream.Stream<
     CloudWatchAlarmTemplateGroupSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListCloudWatchAlarmTemplateGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21166,42 +21242,34 @@ export const listCloudWatchAlarmTemplateGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCloudWatchAlarmTemplatesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists cloudwatch alarm templates.
  */
 export const listCloudWatchAlarmTemplates: API.OperationMethod<
   ListCloudWatchAlarmTemplatesRequest,
   ListCloudWatchAlarmTemplatesResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListCloudWatchAlarmTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCloudWatchAlarmTemplatesRequest,
   ) => stream.Stream<
     ListCloudWatchAlarmTemplatesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListCloudWatchAlarmTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCloudWatchAlarmTemplatesRequest,
   ) => stream.Stream<
     CloudWatchAlarmTemplateSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListCloudWatchAlarmTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21221,12 +21289,7 @@ export const listCloudWatchAlarmTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List the alerts for a cluster with optional filtering based on alert state.
- */
-export const listClusterAlerts: API.OperationMethod<
-  ListClusterAlertsRequest,
-  ListClusterAlertsResponse,
+export type ListClusterAlertsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -21234,35 +21297,28 @@ export const listClusterAlerts: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the alerts for a cluster with optional filtering based on alert state.
+ */
+export const listClusterAlerts: API.OperationMethod<
+  ListClusterAlertsRequest,
+  ListClusterAlertsResponse,
+  ListClusterAlertsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClusterAlertsRequest,
   ) => stream.Stream<
     ListClusterAlertsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListClusterAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClusterAlertsRequest,
   ) => stream.Stream<
     ClusterAlert,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListClusterAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21284,45 +21340,35 @@ export const listClusterAlerts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve the list of Clusters.
- */
-export const listClusters: API.OperationMethod<
-  ListClustersRequest,
-  ListClustersResponse,
+export type ListClustersError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the list of Clusters.
+ */
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  ListClustersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
     ListClustersResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
   ) => stream.Stream<
     DescribeClusterSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListClustersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21343,42 +21389,34 @@ export const listClusters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEventBridgeRuleTemplateGroupsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists eventbridge rule template groups.
  */
 export const listEventBridgeRuleTemplateGroups: API.OperationMethod<
   ListEventBridgeRuleTemplateGroupsRequest,
   ListEventBridgeRuleTemplateGroupsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEventBridgeRuleTemplateGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventBridgeRuleTemplateGroupsRequest,
   ) => stream.Stream<
     ListEventBridgeRuleTemplateGroupsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventBridgeRuleTemplateGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventBridgeRuleTemplateGroupsRequest,
   ) => stream.Stream<
     EventBridgeRuleTemplateGroupSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventBridgeRuleTemplateGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21398,42 +21436,34 @@ export const listEventBridgeRuleTemplateGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEventBridgeRuleTemplatesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists eventbridge rule templates.
  */
 export const listEventBridgeRuleTemplates: API.OperationMethod<
   ListEventBridgeRuleTemplatesRequest,
   ListEventBridgeRuleTemplatesResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListEventBridgeRuleTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEventBridgeRuleTemplatesRequest,
   ) => stream.Stream<
     ListEventBridgeRuleTemplatesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventBridgeRuleTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventBridgeRuleTemplatesRequest,
   ) => stream.Stream<
     EventBridgeRuleTemplateSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListEventBridgeRuleTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21453,45 +21483,35 @@ export const listEventBridgeRuleTemplates: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List input devices
- */
-export const listInputDevices: API.OperationMethod<
-  ListInputDevicesRequest,
-  ListInputDevicesResponse,
+export type ListInputDevicesError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List input devices
+ */
+export const listInputDevices: API.OperationMethod<
+  ListInputDevicesRequest,
+  ListInputDevicesResponse,
+  ListInputDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInputDevicesRequest,
   ) => stream.Stream<
     ListInputDevicesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListInputDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInputDevicesRequest,
   ) => stream.Stream<
     InputDeviceSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListInputDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21512,12 +21532,7 @@ export const listInputDevices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
- */
-export const listInputDeviceTransfers: API.OperationMethod<
-  ListInputDeviceTransfersRequest,
-  ListInputDeviceTransfersResponse,
+export type ListInputDeviceTransfersError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -21525,35 +21540,28 @@ export const listInputDeviceTransfers: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+ */
+export const listInputDeviceTransfers: API.OperationMethod<
+  ListInputDeviceTransfersRequest,
+  ListInputDeviceTransfersResponse,
+  ListInputDeviceTransfersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInputDeviceTransfersRequest,
   ) => stream.Stream<
     ListInputDeviceTransfersResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListInputDeviceTransfersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInputDeviceTransfersRequest,
   ) => stream.Stream<
     TransferringInputDeviceSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
+    ListInputDeviceTransfersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21575,45 +21583,35 @@ export const listInputDeviceTransfers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Produces list of inputs that have been created
- */
-export const listInputs: API.OperationMethod<
-  ListInputsRequest,
-  ListInputsResponse,
+export type ListInputsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Produces list of inputs that have been created
+ */
+export const listInputs: API.OperationMethod<
+  ListInputsRequest,
+  ListInputsResponse,
+  ListInputsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInputsRequest,
   ) => stream.Stream<
     ListInputsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListInputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInputsRequest,
   ) => stream.Stream<
     Input,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListInputsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21634,45 +21632,35 @@ export const listInputs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Produces a list of Input Security Groups for an account
- */
-export const listInputSecurityGroups: API.OperationMethod<
-  ListInputSecurityGroupsRequest,
-  ListInputSecurityGroupsResponse,
+export type ListInputSecurityGroupsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Produces a list of Input Security Groups for an account
+ */
+export const listInputSecurityGroups: API.OperationMethod<
+  ListInputSecurityGroupsRequest,
+  ListInputSecurityGroupsResponse,
+  ListInputSecurityGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInputSecurityGroupsRequest,
   ) => stream.Stream<
     ListInputSecurityGroupsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListInputSecurityGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInputSecurityGroupsRequest,
   ) => stream.Stream<
     InputSecurityGroup,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListInputSecurityGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21693,12 +21681,7 @@ export const listInputSecurityGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List the alerts for a multiplex with optional filtering based on alert state.
- */
-export const listMultiplexAlerts: API.OperationMethod<
-  ListMultiplexAlertsRequest,
-  ListMultiplexAlertsResponse,
+export type ListMultiplexAlertsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -21706,35 +21689,28 @@ export const listMultiplexAlerts: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the alerts for a multiplex with optional filtering based on alert state.
+ */
+export const listMultiplexAlerts: API.OperationMethod<
+  ListMultiplexAlertsRequest,
+  ListMultiplexAlertsResponse,
+  ListMultiplexAlertsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMultiplexAlertsRequest,
   ) => stream.Stream<
     ListMultiplexAlertsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMultiplexAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiplexAlertsRequest,
   ) => stream.Stream<
     MultiplexAlert,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMultiplexAlertsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21756,45 +21732,35 @@ export const listMultiplexAlerts: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve a list of the existing multiplexes.
- */
-export const listMultiplexes: API.OperationMethod<
-  ListMultiplexesRequest,
-  ListMultiplexesResponse,
+export type ListMultiplexesError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve a list of the existing multiplexes.
+ */
+export const listMultiplexes: API.OperationMethod<
+  ListMultiplexesRequest,
+  ListMultiplexesResponse,
+  ListMultiplexesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMultiplexesRequest,
   ) => stream.Stream<
     ListMultiplexesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMultiplexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiplexesRequest,
   ) => stream.Stream<
     MultiplexSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMultiplexesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21815,12 +21781,7 @@ export const listMultiplexes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List the programs that currently exist for a specific multiplex.
- */
-export const listMultiplexPrograms: API.OperationMethod<
-  ListMultiplexProgramsRequest,
-  ListMultiplexProgramsResponse,
+export type ListMultiplexProgramsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -21828,35 +21789,28 @@ export const listMultiplexPrograms: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the programs that currently exist for a specific multiplex.
+ */
+export const listMultiplexPrograms: API.OperationMethod<
+  ListMultiplexProgramsRequest,
+  ListMultiplexProgramsResponse,
+  ListMultiplexProgramsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMultiplexProgramsRequest,
   ) => stream.Stream<
     ListMultiplexProgramsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMultiplexProgramsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiplexProgramsRequest,
   ) => stream.Stream<
     MultiplexProgramSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListMultiplexProgramsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21878,45 +21832,35 @@ export const listMultiplexPrograms: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve the list of Networks.
- */
-export const listNetworks: API.OperationMethod<
-  ListNetworksRequest,
-  ListNetworksResponse,
+export type ListNetworksError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the list of Networks.
+ */
+export const listNetworks: API.OperationMethod<
+  ListNetworksRequest,
+  ListNetworksResponse,
+  ListNetworksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNetworksRequest,
   ) => stream.Stream<
     ListNetworksResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListNetworksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNetworksRequest,
   ) => stream.Stream<
     DescribeNetworkSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListNetworksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21937,45 +21881,35 @@ export const listNetworks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Retrieve the list of Nodes.
- */
-export const listNodes: API.OperationMethod<
-  ListNodesRequest,
-  ListNodesResponse,
+export type ListNodesError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieve the list of Nodes.
+ */
+export const listNodes: API.OperationMethod<
+  ListNodesRequest,
+  ListNodesResponse,
+  ListNodesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
     ListNodesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNodesRequest,
   ) => stream.Stream<
     DescribeNodeSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListNodesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -21996,45 +21930,35 @@ export const listNodes: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List offerings available for purchase.
- */
-export const listOfferings: API.OperationMethod<
-  ListOfferingsRequest,
-  ListOfferingsResponse,
+export type ListOfferingsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List offerings available for purchase.
+ */
+export const listOfferings: API.OperationMethod<
+  ListOfferingsRequest,
+  ListOfferingsResponse,
+  ListOfferingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
     ListOfferingsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
     Offering,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListOfferingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22055,45 +21979,35 @@ export const listOfferings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List purchased reservations.
- */
-export const listReservations: API.OperationMethod<
-  ListReservationsRequest,
-  ListReservationsResponse,
+export type ListReservationsError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List purchased reservations.
+ */
+export const listReservations: API.OperationMethod<
+  ListReservationsRequest,
+  ListReservationsResponse,
+  ListReservationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListReservationsRequest,
   ) => stream.Stream<
     ListReservationsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReservationsRequest,
   ) => stream.Stream<
     Reservation,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListReservationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22114,45 +22028,35 @@ export const listReservations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List all the SdiSources in the AWS account.
- */
-export const listSdiSources: API.OperationMethod<
-  ListSdiSourcesRequest,
-  ListSdiSourcesResponse,
+export type ListSdiSourcesError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List all the SdiSources in the AWS account.
+ */
+export const listSdiSources: API.OperationMethod<
+  ListSdiSourcesRequest,
+  ListSdiSourcesResponse,
+  ListSdiSourcesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSdiSourcesRequest,
   ) => stream.Stream<
     ListSdiSourcesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSdiSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSdiSourcesRequest,
   ) => stream.Stream<
     SdiSourceSummary,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSdiSourcesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22173,42 +22077,34 @@ export const listSdiSources: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSignalMapsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists signal maps.
  */
 export const listSignalMaps: API.OperationMethod<
   ListSignalMapsRequest,
   ListSignalMapsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListSignalMapsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSignalMapsRequest,
   ) => stream.Stream<
     ListSignalMapsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSignalMapsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSignalMapsRequest,
   ) => stream.Stream<
     SignalMapSummary,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListSignalMapsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -22228,17 +22124,19 @@ export const listSignalMaps: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Produces list of tags that have been created for a resource
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -22250,12 +22148,7 @@ export const listTagsForResource: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Retrieves an array of all the encoder engine versions that are available in this AWS account.
- */
-export const listVersions: API.OperationMethod<
-  ListVersionsRequest,
-  ListVersionsResponse,
+export type ListVersionsError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22264,7 +22157,14 @@ export const listVersions: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Retrieves an array of all the encoder engine versions that are available in this AWS account.
+ */
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
+  ListVersionsResponse,
+  ListVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVersionsRequest,
@@ -22280,12 +22180,7 @@ export const listVersions: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Purchase an offering and create a reservation.
- */
-export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
-  PurchaseOfferingResponse,
+export type PurchaseOfferingError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22294,7 +22189,14 @@ export const purchaseOffering: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Purchase an offering and create a reservation.
+ */
+export const purchaseOffering: API.OperationMethod<
+  PurchaseOfferingRequest,
+  PurchaseOfferingResponse,
+  PurchaseOfferingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseOfferingRequest,
@@ -22310,12 +22212,7 @@ export const purchaseOffering: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
- */
-export const rebootInputDevice: API.OperationMethod<
-  RebootInputDeviceRequest,
-  RebootInputDeviceResponse,
+export type RebootInputDeviceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -22324,7 +22221,14 @@ export const rebootInputDevice: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
+ */
+export const rebootInputDevice: API.OperationMethod<
+  RebootInputDeviceRequest,
+  RebootInputDeviceResponse,
+  RebootInputDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootInputDeviceRequest,
@@ -22340,12 +22244,7 @@ export const rebootInputDevice: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Reject the transfer of the specified input device to your AWS account.
- */
-export const rejectInputDeviceTransfer: API.OperationMethod<
-  RejectInputDeviceTransferRequest,
-  RejectInputDeviceTransferResponse,
+export type RejectInputDeviceTransferError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22355,7 +22254,14 @@ export const rejectInputDeviceTransfer: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Reject the transfer of the specified input device to your AWS account.
+ */
+export const rejectInputDeviceTransfer: API.OperationMethod<
+  RejectInputDeviceTransferRequest,
+  RejectInputDeviceTransferResponse,
+  RejectInputDeviceTransferError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectInputDeviceTransferRequest,
@@ -22372,12 +22278,7 @@ export const rejectInputDeviceTransfer: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Restart pipelines in one channel that is currently running.
- */
-export const restartChannelPipelines: API.OperationMethod<
-  RestartChannelPipelinesRequest,
-  RestartChannelPipelinesResponse,
+export type RestartChannelPipelinesError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22386,7 +22287,14 @@ export const restartChannelPipelines: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Restart pipelines in one channel that is currently running.
+ */
+export const restartChannelPipelines: API.OperationMethod<
+  RestartChannelPipelinesRequest,
+  RestartChannelPipelinesResponse,
+  RestartChannelPipelinesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestartChannelPipelinesRequest,
@@ -22402,12 +22310,7 @@ export const restartChannelPipelines: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Starts an existing channel
- */
-export const startChannel: API.OperationMethod<
-  StartChannelRequest,
-  StartChannelResponse,
+export type StartChannelError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22416,7 +22319,14 @@ export const startChannel: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts an existing channel
+ */
+export const startChannel: API.OperationMethod<
+  StartChannelRequest,
+  StartChannelResponse,
+  StartChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChannelRequest,
@@ -22432,19 +22342,21 @@ export const startChannel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Initiates a deployment to delete the monitor of the specified signal map.
- */
-export const startDeleteMonitorDeployment: API.OperationMethod<
-  StartDeleteMonitorDeploymentRequest,
-  StartDeleteMonitorDeploymentResponse,
+export type StartDeleteMonitorDeploymentError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a deployment to delete the monitor of the specified signal map.
+ */
+export const startDeleteMonitorDeployment: API.OperationMethod<
+  StartDeleteMonitorDeploymentRequest,
+  StartDeleteMonitorDeploymentResponse,
+  StartDeleteMonitorDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeleteMonitorDeploymentRequest,
@@ -22458,12 +22370,7 @@ export const startDeleteMonitorDeployment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
- */
-export const startInputDevice: API.OperationMethod<
-  StartInputDeviceRequest,
-  StartInputDeviceResponse,
+export type StartInputDeviceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -22472,7 +22379,14 @@ export const startInputDevice: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
+ */
+export const startInputDevice: API.OperationMethod<
+  StartInputDeviceRequest,
+  StartInputDeviceResponse,
+  StartInputDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInputDeviceRequest,
@@ -22488,12 +22402,7 @@ export const startInputDevice: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
- */
-export const startInputDeviceMaintenanceWindow: API.OperationMethod<
-  StartInputDeviceMaintenanceWindowRequest,
-  StartInputDeviceMaintenanceWindowResponse,
+export type StartInputDeviceMaintenanceWindowError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -22502,7 +22411,14 @@ export const startInputDeviceMaintenanceWindow: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
+ */
+export const startInputDeviceMaintenanceWindow: API.OperationMethod<
+  StartInputDeviceMaintenanceWindowRequest,
+  StartInputDeviceMaintenanceWindowResponse,
+  StartInputDeviceMaintenanceWindowError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInputDeviceMaintenanceWindowRequest,
@@ -22518,19 +22434,21 @@ export const startInputDeviceMaintenanceWindow: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Initiates a deployment to deploy the latest monitor of the specified signal map.
- */
-export const startMonitorDeployment: API.OperationMethod<
-  StartMonitorDeploymentRequest,
-  StartMonitorDeploymentResponse,
+export type StartMonitorDeploymentError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates a deployment to deploy the latest monitor of the specified signal map.
+ */
+export const startMonitorDeployment: API.OperationMethod<
+  StartMonitorDeploymentRequest,
+  StartMonitorDeploymentResponse,
+  StartMonitorDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMonitorDeploymentRequest,
@@ -22544,12 +22462,7 @@ export const startMonitorDeployment: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
- */
-export const startMultiplex: API.OperationMethod<
-  StartMultiplexRequest,
-  StartMultiplexResponse,
+export type StartMultiplexError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22558,7 +22471,14 @@ export const startMultiplex: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
+ */
+export const startMultiplex: API.OperationMethod<
+  StartMultiplexRequest,
+  StartMultiplexResponse,
+  StartMultiplexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMultiplexRequest,
@@ -22574,19 +22494,21 @@ export const startMultiplex: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
- */
-export const startUpdateSignalMap: API.OperationMethod<
-  StartUpdateSignalMapRequest,
-  StartUpdateSignalMapResponse,
+export type StartUpdateSignalMapError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
+ */
+export const startUpdateSignalMap: API.OperationMethod<
+  StartUpdateSignalMapRequest,
+  StartUpdateSignalMapResponse,
+  StartUpdateSignalMapError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartUpdateSignalMapRequest,
@@ -22600,12 +22522,7 @@ export const startUpdateSignalMap: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Stops a running channel
- */
-export const stopChannel: API.OperationMethod<
-  StopChannelRequest,
-  StopChannelResponse,
+export type StopChannelError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22614,7 +22531,14 @@ export const stopChannel: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a running channel
+ */
+export const stopChannel: API.OperationMethod<
+  StopChannelRequest,
+  StopChannelResponse,
+  StopChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopChannelRequest,
@@ -22630,12 +22554,7 @@ export const stopChannel: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
- */
-export const stopInputDevice: API.OperationMethod<
-  StopInputDeviceRequest,
-  StopInputDeviceResponse,
+export type StopInputDeviceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -22644,7 +22563,14 @@ export const stopInputDevice: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
+ */
+export const stopInputDevice: API.OperationMethod<
+  StopInputDeviceRequest,
+  StopInputDeviceResponse,
+  StopInputDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopInputDeviceRequest,
@@ -22660,12 +22586,7 @@ export const stopInputDevice: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Stops a running multiplex. If the multiplex isn't running, this action has no effect.
- */
-export const stopMultiplex: API.OperationMethod<
-  StopMultiplexRequest,
-  StopMultiplexResponse,
+export type StopMultiplexError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22674,7 +22595,14 @@ export const stopMultiplex: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Stops a running multiplex. If the multiplex isn't running, this action has no effect.
+ */
+export const stopMultiplex: API.OperationMethod<
+  StopMultiplexRequest,
+  StopMultiplexResponse,
+  StopMultiplexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMultiplexRequest,
@@ -22690,12 +22618,7 @@ export const stopMultiplex: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
- */
-export const transferInputDevice: API.OperationMethod<
-  TransferInputDeviceRequest,
-  TransferInputDeviceResponse,
+export type TransferInputDeviceError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22705,7 +22628,14 @@ export const transferInputDevice: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
+ */
+export const transferInputDevice: API.OperationMethod<
+  TransferInputDeviceRequest,
+  TransferInputDeviceResponse,
+  TransferInputDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferInputDeviceRequest,
@@ -22722,12 +22652,7 @@ export const transferInputDevice: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Update account configuration
- */
-export const updateAccountConfiguration: API.OperationMethod<
-  UpdateAccountConfigurationRequest,
-  UpdateAccountConfigurationResponse,
+export type UpdateAccountConfigurationError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -22735,7 +22660,14 @@ export const updateAccountConfiguration: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update account configuration
+ */
+export const updateAccountConfiguration: API.OperationMethod<
+  UpdateAccountConfigurationRequest,
+  UpdateAccountConfigurationResponse,
+  UpdateAccountConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountConfigurationRequest,
@@ -22750,12 +22682,7 @@ export const updateAccountConfiguration: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Updates a channel.
- */
-export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
-  UpdateChannelResponse,
+export type UpdateChannelError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22763,7 +22690,14 @@ export const updateChannel: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a channel.
+ */
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
+  UpdateChannelResponse,
+  UpdateChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
@@ -22778,12 +22712,7 @@ export const updateChannel: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Changes the class of the channel.
- */
-export const updateChannelClass: API.OperationMethod<
-  UpdateChannelClassRequest,
-  UpdateChannelClassResponse,
+export type UpdateChannelClassError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22793,7 +22722,14 @@ export const updateChannelClass: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Changes the class of the channel.
+ */
+export const updateChannelClass: API.OperationMethod<
+  UpdateChannelClassRequest,
+  UpdateChannelClassResponse,
+  UpdateChannelClassError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelClassRequest,
@@ -22810,12 +22746,7 @@ export const updateChannelClass: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Change the settings for a ChannelPlacementGroup.
- */
-export const updateChannelPlacementGroup: API.OperationMethod<
-  UpdateChannelPlacementGroupRequest,
-  UpdateChannelPlacementGroupResponse,
+export type UpdateChannelPlacementGroupError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22824,7 +22755,14 @@ export const updateChannelPlacementGroup: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Change the settings for a ChannelPlacementGroup.
+ */
+export const updateChannelPlacementGroup: API.OperationMethod<
+  UpdateChannelPlacementGroupRequest,
+  UpdateChannelPlacementGroupResponse,
+  UpdateChannelPlacementGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelPlacementGroupRequest,
@@ -22840,19 +22778,21 @@ export const updateChannelPlacementGroup: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Updates the specified cloudwatch alarm template.
- */
-export const updateCloudWatchAlarmTemplate: API.OperationMethod<
-  UpdateCloudWatchAlarmTemplateRequest,
-  UpdateCloudWatchAlarmTemplateResponse,
+export type UpdateCloudWatchAlarmTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified cloudwatch alarm template.
+ */
+export const updateCloudWatchAlarmTemplate: API.OperationMethod<
+  UpdateCloudWatchAlarmTemplateRequest,
+  UpdateCloudWatchAlarmTemplateResponse,
+  UpdateCloudWatchAlarmTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCloudWatchAlarmTemplateRequest,
@@ -22866,19 +22806,21 @@ export const updateCloudWatchAlarmTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the specified cloudwatch alarm template group.
- */
-export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  UpdateCloudWatchAlarmTemplateGroupRequest,
-  UpdateCloudWatchAlarmTemplateGroupResponse,
+export type UpdateCloudWatchAlarmTemplateGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified cloudwatch alarm template group.
+ */
+export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  UpdateCloudWatchAlarmTemplateGroupRequest,
+  UpdateCloudWatchAlarmTemplateGroupResponse,
+  UpdateCloudWatchAlarmTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCloudWatchAlarmTemplateGroupRequest,
@@ -22892,12 +22834,7 @@ export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Change the settings for a Cluster.
- */
-export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
-  UpdateClusterResponse,
+export type UpdateClusterError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22905,7 +22842,14 @@ export const updateCluster: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Change the settings for a Cluster.
+ */
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
+  UpdateClusterResponse,
+  UpdateClusterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
@@ -22920,19 +22864,21 @@ export const updateCluster: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the specified eventbridge rule template.
- */
-export const updateEventBridgeRuleTemplate: API.OperationMethod<
-  UpdateEventBridgeRuleTemplateRequest,
-  UpdateEventBridgeRuleTemplateResponse,
+export type UpdateEventBridgeRuleTemplateError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified eventbridge rule template.
+ */
+export const updateEventBridgeRuleTemplate: API.OperationMethod<
+  UpdateEventBridgeRuleTemplateRequest,
+  UpdateEventBridgeRuleTemplateResponse,
+  UpdateEventBridgeRuleTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventBridgeRuleTemplateRequest,
@@ -22946,19 +22892,21 @@ export const updateEventBridgeRuleTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the specified eventbridge rule template group.
- */
-export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
-  UpdateEventBridgeRuleTemplateGroupRequest,
-  UpdateEventBridgeRuleTemplateGroupResponse,
+export type UpdateEventBridgeRuleTemplateGroupError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified eventbridge rule template group.
+ */
+export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
+  UpdateEventBridgeRuleTemplateGroupRequest,
+  UpdateEventBridgeRuleTemplateGroupResponse,
+  UpdateEventBridgeRuleTemplateGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventBridgeRuleTemplateGroupRequest,
@@ -22972,12 +22920,7 @@ export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates an input.
- */
-export const updateInput: API.OperationMethod<
-  UpdateInputRequest,
-  UpdateInputResponse,
+export type UpdateInputError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -22985,7 +22928,14 @@ export const updateInput: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | NotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates an input.
+ */
+export const updateInput: API.OperationMethod<
+  UpdateInputRequest,
+  UpdateInputResponse,
+  UpdateInputError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInputRequest,
@@ -23000,12 +22950,7 @@ export const updateInput: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Updates the parameters for the input device.
- */
-export const updateInputDevice: API.OperationMethod<
-  UpdateInputDeviceRequest,
-  UpdateInputDeviceResponse,
+export type UpdateInputDeviceError =
   | BadGatewayException
   | BadRequestException
   | ForbiddenException
@@ -23014,7 +22959,14 @@ export const updateInputDevice: API.OperationMethod<
   | NotFoundException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the parameters for the input device.
+ */
+export const updateInputDevice: API.OperationMethod<
+  UpdateInputDeviceRequest,
+  UpdateInputDeviceResponse,
+  UpdateInputDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInputDeviceRequest,
@@ -23030,12 +22982,7 @@ export const updateInputDevice: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Update an Input Security Group's Whilelists.
- */
-export const updateInputSecurityGroup: API.OperationMethod<
-  UpdateInputSecurityGroupRequest,
-  UpdateInputSecurityGroupResponse,
+export type UpdateInputSecurityGroupError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23043,7 +22990,14 @@ export const updateInputSecurityGroup: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | NotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update an Input Security Group's Whilelists.
+ */
+export const updateInputSecurityGroup: API.OperationMethod<
+  UpdateInputSecurityGroupRequest,
+  UpdateInputSecurityGroupResponse,
+  UpdateInputSecurityGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInputSecurityGroupRequest,
@@ -23058,12 +23012,7 @@ export const updateInputSecurityGroup: API.OperationMethod<
     NotFoundException,
   ],
 }));
-/**
- * Updates a multiplex.
- */
-export const updateMultiplex: API.OperationMethod<
-  UpdateMultiplexRequest,
-  UpdateMultiplexResponse,
+export type UpdateMultiplexError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23072,7 +23021,14 @@ export const updateMultiplex: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a multiplex.
+ */
+export const updateMultiplex: API.OperationMethod<
+  UpdateMultiplexRequest,
+  UpdateMultiplexResponse,
+  UpdateMultiplexError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMultiplexRequest,
@@ -23088,12 +23044,7 @@ export const updateMultiplex: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Update a program in a multiplex.
- */
-export const updateMultiplexProgram: API.OperationMethod<
-  UpdateMultiplexProgramRequest,
-  UpdateMultiplexProgramResponse,
+export type UpdateMultiplexProgramError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23102,7 +23053,14 @@ export const updateMultiplexProgram: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update a program in a multiplex.
+ */
+export const updateMultiplexProgram: API.OperationMethod<
+  UpdateMultiplexProgramRequest,
+  UpdateMultiplexProgramResponse,
+  UpdateMultiplexProgramError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMultiplexProgramRequest,
@@ -23118,12 +23076,7 @@ export const updateMultiplexProgram: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Change the settings for a Network.
- */
-export const updateNetwork: API.OperationMethod<
-  UpdateNetworkRequest,
-  UpdateNetworkResponse,
+export type UpdateNetworkError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23131,7 +23084,14 @@ export const updateNetwork: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Change the settings for a Network.
+ */
+export const updateNetwork: API.OperationMethod<
+  UpdateNetworkRequest,
+  UpdateNetworkResponse,
+  UpdateNetworkError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNetworkRequest,
@@ -23146,12 +23106,7 @@ export const updateNetwork: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Change the settings for a Node.
- */
-export const updateNode: API.OperationMethod<
-  UpdateNodeRequest,
-  UpdateNodeResponse,
+export type UpdateNodeError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23159,7 +23114,14 @@ export const updateNode: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Change the settings for a Node.
+ */
+export const updateNode: API.OperationMethod<
+  UpdateNodeRequest,
+  UpdateNodeResponse,
+  UpdateNodeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNodeRequest,
@@ -23174,12 +23136,7 @@ export const updateNode: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Update the state of a node.
- */
-export const updateNodeState: API.OperationMethod<
-  UpdateNodeStateRequest,
-  UpdateNodeStateResponse,
+export type UpdateNodeStateError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23188,7 +23145,14 @@ export const updateNodeState: API.OperationMethod<
   | InternalServerErrorException
   | TooManyRequestsException
   | UnprocessableEntityException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the state of a node.
+ */
+export const updateNodeState: API.OperationMethod<
+  UpdateNodeStateRequest,
+  UpdateNodeStateResponse,
+  UpdateNodeStateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNodeStateRequest,
@@ -23204,12 +23168,7 @@ export const updateNodeState: API.OperationMethod<
     UnprocessableEntityException,
   ],
 }));
-/**
- * Update reservation.
- */
-export const updateReservation: API.OperationMethod<
-  UpdateReservationRequest,
-  UpdateReservationResponse,
+export type UpdateReservationError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23218,7 +23177,14 @@ export const updateReservation: API.OperationMethod<
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update reservation.
+ */
+export const updateReservation: API.OperationMethod<
+  UpdateReservationRequest,
+  UpdateReservationResponse,
+  UpdateReservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReservationRequest,
@@ -23234,12 +23200,7 @@ export const updateReservation: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Change some of the settings in an SdiSource.
- */
-export const updateSdiSource: API.OperationMethod<
-  UpdateSdiSourceRequest,
-  UpdateSdiSourceResponse,
+export type UpdateSdiSourceError =
   | BadGatewayException
   | BadRequestException
   | ConflictException
@@ -23247,7 +23208,14 @@ export const updateSdiSource: API.OperationMethod<
   | GatewayTimeoutException
   | InternalServerErrorException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Change some of the settings in an SdiSource.
+ */
+export const updateSdiSource: API.OperationMethod<
+  UpdateSdiSourceRequest,
+  UpdateSdiSourceResponse,
+  UpdateSdiSourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSdiSourceRequest,

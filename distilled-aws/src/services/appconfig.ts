@@ -2068,6 +2068,11 @@ export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLarge
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateApplicationError =
+  | BadRequestException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates an application. In AppConfig, an application is simply an
  * organizational construct like a folder. This organizational construct has a relationship
@@ -2078,10 +2083,7 @@ export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLarge
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   Application,
-  | BadRequestException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -2092,6 +2094,12 @@ export const createApplication: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateConfigurationProfileError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a configuration profile, which is information that enables AppConfig
  * to access the configuration source. Valid configuration sources include the
@@ -2126,11 +2134,7 @@ export const createApplication: API.OperationMethod<
 export const createConfigurationProfile: API.OperationMethod<
   CreateConfigurationProfileRequest,
   ConfigurationProfile,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateConfigurationProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationProfileRequest,
@@ -2142,6 +2146,11 @@ export const createConfigurationProfile: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateDeploymentStrategyError =
+  | BadRequestException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a deployment strategy that defines important criteria for rolling out your
  * configuration to the designated targets. A deployment strategy includes the overall
@@ -2151,10 +2160,7 @@ export const createConfigurationProfile: API.OperationMethod<
 export const createDeploymentStrategy: API.OperationMethod<
   CreateDeploymentStrategyRequest,
   DeploymentStrategy,
-  | BadRequestException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateDeploymentStrategyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentStrategyRequest,
@@ -2165,6 +2171,12 @@ export const createDeploymentStrategy: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateEnvironmentError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates an environment. For each application, you define one or more environments. An
  * environment is a deployment group of AppConfig targets, such as applications in a
@@ -2178,11 +2190,7 @@ export const createDeploymentStrategy: API.OperationMethod<
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentRequest,
   Environment,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
@@ -2194,6 +2202,12 @@ export const createEnvironment: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateExtensionError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates an AppConfig extension. An extension augments your ability to inject
  * logic or behavior at different points during the AppConfig workflow of creating
@@ -2220,11 +2234,7 @@ export const createEnvironment: API.OperationMethod<
 export const createExtension: API.OperationMethod<
   CreateExtensionRequest,
   Extension,
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateExtensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExtensionRequest,
@@ -2236,6 +2246,12 @@ export const createExtension: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateExtensionAssociationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * When you create an extension or configure an Amazon Web Services authored extension, you
  * associate the extension with an AppConfig application, environment, or
@@ -2253,11 +2269,7 @@ export const createExtension: API.OperationMethod<
 export const createExtensionAssociation: API.OperationMethod<
   CreateExtensionAssociationRequest,
   ExtensionAssociation,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateExtensionAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExtensionAssociationRequest,
@@ -2269,6 +2281,14 @@ export const createExtensionAssociation: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type CreateHostedConfigurationVersionError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | PayloadTooLargeException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | CommonErrors;
 /**
  * Creates a new configuration in the AppConfig hosted configuration store. If
  * you're creating a feature flag, we recommend you familiarize yourself with the JSON schema
@@ -2278,13 +2298,7 @@ export const createExtensionAssociation: API.OperationMethod<
 export const createHostedConfigurationVersion: API.OperationMethod<
   CreateHostedConfigurationVersionRequest,
   HostedConfigurationVersion,
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | PayloadTooLargeException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | CommonErrors,
+  CreateHostedConfigurationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHostedConfigurationVersionRequest,
@@ -2298,16 +2312,18 @@ export const createHostedConfigurationVersion: API.OperationMethod<
     ServiceQuotaExceededException,
   ],
 }));
+export type DeleteApplicationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -2318,6 +2334,12 @@ export const deleteApplication: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteConfigurationProfileError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a configuration profile.
  *
@@ -2328,11 +2350,7 @@ export const deleteApplication: API.OperationMethod<
 export const deleteConfigurationProfile: API.OperationMethod<
   DeleteConfigurationProfileRequest,
   DeleteConfigurationProfileResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteConfigurationProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationProfileRequest,
@@ -2344,16 +2362,18 @@ export const deleteConfigurationProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteDeploymentStrategyError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a deployment strategy.
  */
 export const deleteDeploymentStrategy: API.OperationMethod<
   DeleteDeploymentStrategyRequest,
   DeleteDeploymentStrategyResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteDeploymentStrategyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentStrategyRequest,
@@ -2364,6 +2384,12 @@ export const deleteDeploymentStrategy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteEnvironmentError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an environment.
  *
@@ -2373,11 +2399,7 @@ export const deleteDeploymentStrategy: API.OperationMethod<
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
@@ -2389,6 +2411,11 @@ export const deleteEnvironment: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteExtensionError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an AppConfig extension. You must delete all associations to an
  * extension before you delete the extension.
@@ -2396,10 +2423,7 @@ export const deleteEnvironment: API.OperationMethod<
 export const deleteExtension: API.OperationMethod<
   DeleteExtensionRequest,
   DeleteExtensionResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteExtensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExtensionRequest,
@@ -2410,6 +2434,11 @@ export const deleteExtension: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteExtensionAssociationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes an extension association. This action doesn't delete extensions defined in the
  * association.
@@ -2417,10 +2446,7 @@ export const deleteExtension: API.OperationMethod<
 export const deleteExtensionAssociation: API.OperationMethod<
   DeleteExtensionAssociationRequest,
   DeleteExtensionAssociationResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteExtensionAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExtensionAssociationRequest,
@@ -2431,6 +2457,11 @@ export const deleteExtensionAssociation: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DeleteHostedConfigurationVersionError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a version of a configuration from the AppConfig hosted configuration
  * store.
@@ -2438,10 +2469,7 @@ export const deleteExtensionAssociation: API.OperationMethod<
 export const deleteHostedConfigurationVersion: API.OperationMethod<
   DeleteHostedConfigurationVersionRequest,
   DeleteHostedConfigurationVersionResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DeleteHostedConfigurationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHostedConfigurationVersionRequest,
@@ -2452,6 +2480,10 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetAccountSettingsError =
+  | BadRequestException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Returns information about the status of the `DeletionProtection`
  * parameter.
@@ -2459,23 +2491,25 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
 export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsRequest,
   AccountSettings,
-  BadRequestException | InternalServerException | CommonErrors,
+  GetAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: AccountSettings,
   errors: [BadRequestException, InternalServerException],
 }));
+export type GetApplicationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about an application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
   Application,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -2486,6 +2520,11 @@ export const getApplication: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetConfigurationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * (Deprecated) Retrieves the latest deployed configuration.
  *
@@ -2500,10 +2539,7 @@ export const getApplication: API.OperationMethod<
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
   Configuration,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
@@ -2514,16 +2550,18 @@ export const getConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetConfigurationProfileError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a configuration profile.
  */
 export const getConfigurationProfile: API.OperationMethod<
   GetConfigurationProfileRequest,
   ConfigurationProfile,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetConfigurationProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationProfileRequest,
@@ -2534,16 +2572,18 @@ export const getConfigurationProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetDeploymentError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a configuration deployment.
  */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
   Deployment,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
@@ -2554,6 +2594,11 @@ export const getDeployment: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetDeploymentStrategyError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a deployment strategy. A deployment strategy defines
  * important criteria for rolling out your configuration to the designated targets. A
@@ -2564,10 +2609,7 @@ export const getDeployment: API.OperationMethod<
 export const getDeploymentStrategy: API.OperationMethod<
   GetDeploymentStrategyRequest,
   DeploymentStrategy,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetDeploymentStrategyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentStrategyRequest,
@@ -2578,6 +2620,11 @@ export const getDeploymentStrategy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetEnvironmentError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about an environment. An environment is a deployment group of
  * AppConfig applications, such as applications in a `Production`
@@ -2589,10 +2636,7 @@ export const getDeploymentStrategy: API.OperationMethod<
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentRequest,
   Environment,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
@@ -2603,16 +2647,18 @@ export const getEnvironment: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetExtensionError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns information about an AppConfig extension.
  */
 export const getExtension: API.OperationMethod<
   GetExtensionRequest,
   Extension,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetExtensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExtensionRequest,
@@ -2623,6 +2669,11 @@ export const getExtension: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetExtensionAssociationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns information about an AppConfig extension association. For more
  * information about extensions and associations, see Extending
@@ -2631,10 +2682,7 @@ export const getExtension: API.OperationMethod<
 export const getExtensionAssociation: API.OperationMethod<
   GetExtensionAssociationRequest,
   ExtensionAssociation,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetExtensionAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExtensionAssociationRequest,
@@ -2645,16 +2693,18 @@ export const getExtensionAssociation: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetHostedConfigurationVersionError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves information about a specific configuration version.
  */
 export const getHostedConfigurationVersion: API.OperationMethod<
   GetHostedConfigurationVersionRequest,
   HostedConfigurationVersion,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetHostedConfigurationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedConfigurationVersionRequest,
@@ -2665,27 +2715,31 @@ export const getHostedConfigurationVersion: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListApplicationsError =
+  | BadRequestException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Lists all applications in your Amazon Web Services account.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   Applications,
-  BadRequestException | InternalServerException | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     Applications,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     Application,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2699,36 +2753,32 @@ export const listApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListConfigurationProfilesError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the configuration profiles for an application.
  */
 export const listConfigurationProfiles: API.OperationMethod<
   ListConfigurationProfilesRequest,
   ConfigurationProfiles,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListConfigurationProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationProfilesRequest,
   ) => stream.Stream<
     ConfigurationProfiles,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListConfigurationProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationProfilesRequest,
   ) => stream.Stream<
     ConfigurationProfileSummary,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListConfigurationProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2746,36 +2796,32 @@ export const listConfigurationProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDeploymentsError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the deployments for an environment in descending deployment number order.
  */
 export const listDeployments: API.OperationMethod<
   ListDeploymentsRequest,
   Deployments,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListDeploymentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
     Deployments,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
     DeploymentSummary,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListDeploymentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2793,27 +2839,31 @@ export const listDeployments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDeploymentStrategiesError =
+  | BadRequestException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Lists deployment strategies.
  */
 export const listDeploymentStrategies: API.OperationMethod<
   ListDeploymentStrategiesRequest,
   DeploymentStrategies,
-  BadRequestException | InternalServerException | CommonErrors,
+  ListDeploymentStrategiesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeploymentStrategiesRequest,
   ) => stream.Stream<
     DeploymentStrategies,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListDeploymentStrategiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentStrategiesRequest,
   ) => stream.Stream<
     DeploymentStrategy,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListDeploymentStrategiesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2827,36 +2877,32 @@ export const listDeploymentStrategies: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListEnvironmentsError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists the environments for an application.
  */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   Environments,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListEnvironmentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     Environments,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
     Environment,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListEnvironmentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2874,6 +2920,10 @@ export const listEnvironments: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListExtensionAssociationsError =
+  | BadRequestException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Lists all AppConfig extension associations in the account. For more
  * information about extensions and associations, see Extending
@@ -2882,21 +2932,21 @@ export const listEnvironments: API.OperationMethod<
 export const listExtensionAssociations: API.OperationMethod<
   ListExtensionAssociationsRequest,
   ExtensionAssociations,
-  BadRequestException | InternalServerException | CommonErrors,
+  ListExtensionAssociationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExtensionAssociationsRequest,
   ) => stream.Stream<
     ExtensionAssociations,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListExtensionAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExtensionAssociationsRequest,
   ) => stream.Stream<
     ExtensionAssociationSummary,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListExtensionAssociationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2910,6 +2960,10 @@ export const listExtensionAssociations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListExtensionsError =
+  | BadRequestException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Lists all custom and Amazon Web Services authored AppConfig extensions in the
  * account. For more information about extensions, see Extending
@@ -2918,21 +2972,21 @@ export const listExtensionAssociations: API.OperationMethod<
 export const listExtensions: API.OperationMethod<
   ListExtensionsRequest,
   Extensions,
-  BadRequestException | InternalServerException | CommonErrors,
+  ListExtensionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListExtensionsRequest,
   ) => stream.Stream<
     Extensions,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListExtensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExtensionsRequest,
   ) => stream.Stream<
     ExtensionSummary,
-    BadRequestException | InternalServerException | CommonErrors,
+    ListExtensionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2946,6 +3000,11 @@ export const listExtensions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListHostedConfigurationVersionsError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Lists configurations stored in the AppConfig hosted configuration store by
  * version.
@@ -2953,30 +3012,21 @@ export const listExtensions: API.OperationMethod<
 export const listHostedConfigurationVersions: API.OperationMethod<
   ListHostedConfigurationVersionsRequest,
   HostedConfigurationVersions,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListHostedConfigurationVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListHostedConfigurationVersionsRequest,
   ) => stream.Stream<
     HostedConfigurationVersions,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListHostedConfigurationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHostedConfigurationVersionsRequest,
   ) => stream.Stream<
     HostedConfigurationVersionSummary,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
+    ListHostedConfigurationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2994,16 +3044,18 @@ export const listHostedConfigurationVersions: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the list of key-value tags assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ResourceTags,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -3014,17 +3066,19 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartDeploymentError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Starts a deployment.
  */
 export const startDeployment: API.OperationMethod<
   StartDeploymentRequest,
   Deployment,
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeploymentRequest,
@@ -3036,6 +3090,11 @@ export const startDeployment: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StopDeploymentError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Stops a deployment. This API action works only on deployments that have a status of
  * `DEPLOYING`, unless an `AllowRevert` parameter is supplied. If the
@@ -3047,10 +3106,7 @@ export const startDeployment: API.OperationMethod<
 export const stopDeployment: API.OperationMethod<
   StopDeploymentRequest,
   Deployment,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StopDeploymentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDeploymentRequest,
@@ -3061,6 +3117,11 @@ export const stopDeployment: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Assigns metadata to an AppConfig resource. Tags help organize and categorize
  * your AppConfig resources. Each tag consists of a key and an optional value, both
@@ -3069,10 +3130,7 @@ export const stopDeployment: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -3083,16 +3141,18 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagResourceError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Deletes a tag key and value from an AppConfig resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -3103,29 +3163,35 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateAccountSettingsError =
+  | BadRequestException
+  | InternalServerException
+  | CommonErrors;
 /**
  * Updates the value of the `DeletionProtection` parameter.
  */
 export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsRequest,
   AccountSettings,
-  BadRequestException | InternalServerException | CommonErrors,
+  UpdateAccountSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsRequest,
   output: AccountSettings,
   errors: [BadRequestException, InternalServerException],
 }));
+export type UpdateApplicationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an application.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   Application,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -3136,16 +3202,18 @@ export const updateApplication: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateConfigurationProfileError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a configuration profile.
  */
 export const updateConfigurationProfile: API.OperationMethod<
   UpdateConfigurationProfileRequest,
   ConfigurationProfile,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateConfigurationProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationProfileRequest,
@@ -3156,16 +3224,18 @@ export const updateConfigurationProfile: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateDeploymentStrategyError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates a deployment strategy.
  */
 export const updateDeploymentStrategy: API.OperationMethod<
   UpdateDeploymentStrategyRequest,
   DeploymentStrategy,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateDeploymentStrategyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentStrategyRequest,
@@ -3176,16 +3246,18 @@ export const updateDeploymentStrategy: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateEnvironmentError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an environment.
  */
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentRequest,
   Environment,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateEnvironmentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
@@ -3196,6 +3268,12 @@ export const updateEnvironment: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateExtensionError =
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an AppConfig extension. For more information about extensions, see
  * Extending
@@ -3204,11 +3282,7 @@ export const updateEnvironment: API.OperationMethod<
 export const updateExtension: API.OperationMethod<
   UpdateExtensionRequest,
   Extension,
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateExtensionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExtensionRequest,
@@ -3220,6 +3294,11 @@ export const updateExtension: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateExtensionAssociationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Updates an association. For more information about extensions and associations, see
  * Extending
@@ -3228,10 +3307,7 @@ export const updateExtension: API.OperationMethod<
 export const updateExtensionAssociation: API.OperationMethod<
   UpdateExtensionAssociationRequest,
   ExtensionAssociation,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateExtensionAssociationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExtensionAssociationRequest,
@@ -3242,16 +3318,18 @@ export const updateExtensionAssociation: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ValidateConfigurationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Uses the validators in a configuration profile to validate a configuration.
  */
 export const validateConfiguration: API.OperationMethod<
   ValidateConfigurationRequest,
   ValidateConfigurationResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ValidateConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateConfigurationRequest,

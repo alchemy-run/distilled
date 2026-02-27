@@ -1676,6 +1676,14 @@ export class NoDataRetentionException extends S.TaggedErrorClass<NoDataRetention
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateSignalingChannelError =
+  | AccessDeniedException
+  | AccountChannelLimitExceededException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors;
 /**
  * Creates a signaling channel.
  *
@@ -1684,13 +1692,7 @@ export class NoDataRetentionException extends S.TaggedErrorClass<NoDataRetention
 export const createSignalingChannel: API.OperationMethod<
   CreateSignalingChannelInput,
   CreateSignalingChannelOutput,
-  | AccessDeniedException
-  | AccountChannelLimitExceededException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
+  CreateSignalingChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSignalingChannelInput,
@@ -1704,6 +1706,15 @@ export const createSignalingChannel: API.OperationMethod<
     TagsPerResourceExceededLimitException,
   ],
 }));
+export type CreateStreamError =
+  | AccountStreamLimitExceededException
+  | ClientLimitExceededException
+  | DeviceStreamLimitExceededException
+  | InvalidArgumentException
+  | InvalidDeviceException
+  | ResourceInUseException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors;
 /**
  * Creates a new Kinesis video stream.
  *
@@ -1720,14 +1731,7 @@ export const createSignalingChannel: API.OperationMethod<
 export const createStream: API.OperationMethod<
   CreateStreamInput,
   CreateStreamOutput,
-  | AccountStreamLimitExceededException
-  | ClientLimitExceededException
-  | DeviceStreamLimitExceededException
-  | InvalidArgumentException
-  | InvalidDeviceException
-  | ResourceInUseException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
+  CreateStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamInput,
@@ -1742,6 +1746,13 @@ export const createStream: API.OperationMethod<
     TagsPerResourceExceededLimitException,
   ],
 }));
+export type DeleteEdgeConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | StreamEdgeConfigurationNotFoundException
+  | CommonErrors;
 /**
  * An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent.
  *
@@ -1752,12 +1763,7 @@ export const createStream: API.OperationMethod<
 export const deleteEdgeConfiguration: API.OperationMethod<
   DeleteEdgeConfigurationInput,
   DeleteEdgeConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | StreamEdgeConfigurationNotFoundException
-  | CommonErrors,
+  DeleteEdgeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEdgeConfigurationInput,
@@ -1770,6 +1776,14 @@ export const deleteEdgeConfiguration: API.OperationMethod<
     StreamEdgeConfigurationNotFoundException,
   ],
 }));
+export type DeleteSignalingChannelError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors;
 /**
  * Deletes a specified signaling channel. `DeleteSignalingChannel` is an
  * asynchronous operation. If you don't specify the channel's current version, the most
@@ -1778,13 +1792,7 @@ export const deleteEdgeConfiguration: API.OperationMethod<
 export const deleteSignalingChannel: API.OperationMethod<
   DeleteSignalingChannelInput,
   DeleteSignalingChannelOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
+  DeleteSignalingChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSignalingChannelInput,
@@ -1798,6 +1806,14 @@ export const deleteSignalingChannel: API.OperationMethod<
     VersionMismatchException,
   ],
 }));
+export type DeleteStreamError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors;
 /**
  * Deletes a Kinesis video stream and the data contained in the stream.
  *
@@ -1815,13 +1831,7 @@ export const deleteSignalingChannel: API.OperationMethod<
 export const deleteStream: API.OperationMethod<
   DeleteStreamInput,
   DeleteStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
+  DeleteStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamInput,
@@ -1835,6 +1845,13 @@ export const deleteStream: API.OperationMethod<
     VersionMismatchException,
   ],
 }));
+export type DescribeEdgeConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | StreamEdgeConfigurationNotFoundException
+  | CommonErrors;
 /**
  * Describes a stream’s edge configuration that was set using the
  * `StartEdgeConfigurationUpdate` API and the latest status of the edge
@@ -1845,12 +1862,7 @@ export const deleteStream: API.OperationMethod<
 export const describeEdgeConfiguration: API.OperationMethod<
   DescribeEdgeConfigurationInput,
   DescribeEdgeConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | StreamEdgeConfigurationNotFoundException
-  | CommonErrors,
+  DescribeEdgeConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEdgeConfigurationInput,
@@ -1863,17 +1875,19 @@ export const describeEdgeConfiguration: API.OperationMethod<
     StreamEdgeConfigurationNotFoundException,
   ],
 }));
+export type DescribeImageGenerationConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
  */
 export const describeImageGenerationConfiguration: API.OperationMethod<
   DescribeImageGenerationConfigurationInput,
   DescribeImageGenerationConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeImageGenerationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImageGenerationConfigurationInput,
@@ -1885,6 +1899,12 @@ export const describeImageGenerationConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeMappedResourceConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the most current information about the stream. The `streamName`
  * or `streamARN` should be provided in the input.
@@ -1892,33 +1912,21 @@ export const describeImageGenerationConfiguration: API.OperationMethod<
 export const describeMappedResourceConfiguration: API.OperationMethod<
   DescribeMappedResourceConfigurationInput,
   DescribeMappedResourceConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeMappedResourceConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeMappedResourceConfigurationInput,
   ) => stream.Stream<
     DescribeMappedResourceConfigurationOutput,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | CommonErrors,
+    DescribeMappedResourceConfigurationError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMappedResourceConfigurationInput,
   ) => stream.Stream<
     MappedResourceConfigurationListItem,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | CommonErrors,
+    DescribeMappedResourceConfigurationError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1937,6 +1945,12 @@ export const describeMappedResourceConfiguration: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type DescribeMediaStorageConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the most current information about the channel. Specify the `ChannelName`
  * or `ChannelARN` in the input.
@@ -1944,11 +1958,7 @@ export const describeMappedResourceConfiguration: API.OperationMethod<
 export const describeMediaStorageConfiguration: API.OperationMethod<
   DescribeMediaStorageConfigurationInput,
   DescribeMediaStorageConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeMediaStorageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMediaStorageConfigurationInput,
@@ -1960,17 +1970,19 @@ export const describeMediaStorageConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeNotificationConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets the `NotificationConfiguration` for a given Kinesis video stream.
  */
 export const describeNotificationConfiguration: API.OperationMethod<
   DescribeNotificationConfigurationInput,
   DescribeNotificationConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNotificationConfigurationInput,
@@ -1982,6 +1994,12 @@ export const describeNotificationConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeSignalingChannelError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the most current information about the signaling channel. You must specify
  * either the name or the Amazon Resource Name (ARN) of the channel that you want to
@@ -1990,11 +2008,7 @@ export const describeNotificationConfiguration: API.OperationMethod<
 export const describeSignalingChannel: API.OperationMethod<
   DescribeSignalingChannelInput,
   DescribeSignalingChannelOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeSignalingChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSignalingChannelInput,
@@ -2006,6 +2020,12 @@ export const describeSignalingChannel: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeStreamError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns the most current information about the specified stream. You must specify
  * either the `StreamName` or the `StreamARN`.
@@ -2013,11 +2033,7 @@ export const describeSignalingChannel: API.OperationMethod<
 export const describeStream: API.OperationMethod<
   DescribeStreamInput,
   DescribeStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamInput,
@@ -2029,6 +2045,12 @@ export const describeStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type DescribeStreamStorageConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Retrieves the current storage configuration for the specified Kinesis video stream.
  *
@@ -2039,11 +2061,7 @@ export const describeStream: API.OperationMethod<
 export const describeStreamStorageConfiguration: API.OperationMethod<
   DescribeStreamStorageConfigurationInput,
   DescribeStreamStorageConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeStreamStorageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamStorageConfigurationInput,
@@ -2055,6 +2073,12 @@ export const describeStreamStorageConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetDataEndpointError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Gets an endpoint for a specified stream for either reading or writing. Use this
  * endpoint in your application to read from the specified stream (using the
@@ -2070,11 +2094,7 @@ export const describeStreamStorageConfiguration: API.OperationMethod<
 export const getDataEndpoint: API.OperationMethod<
   GetDataEndpointInput,
   GetDataEndpointOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetDataEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataEndpointInput,
@@ -2086,6 +2106,13 @@ export const getDataEndpoint: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type GetSignalingChannelEndpointError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Provides an endpoint for the specified signaling channel to send and receive messages.
  * This API uses the `SingleMasterChannelEndpointConfiguration` input parameter,
@@ -2106,12 +2133,7 @@ export const getDataEndpoint: API.OperationMethod<
 export const getSignalingChannelEndpoint: API.OperationMethod<
   GetSignalingChannelEndpointInput,
   GetSignalingChannelEndpointOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  GetSignalingChannelEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSignalingChannelEndpointInput,
@@ -2124,6 +2146,11 @@ export const getSignalingChannelEndpoint: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListEdgeAgentConfigurationsError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors;
 /**
  * Returns an array of edge configurations associated with the specified Edge Agent.
  *
@@ -2132,30 +2159,21 @@ export const getSignalingChannelEndpoint: API.OperationMethod<
 export const listEdgeAgentConfigurations: API.OperationMethod<
   ListEdgeAgentConfigurationsInput,
   ListEdgeAgentConfigurationsOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
+  ListEdgeAgentConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListEdgeAgentConfigurationsInput,
   ) => stream.Stream<
     ListEdgeAgentConfigurationsOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListEdgeAgentConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEdgeAgentConfigurationsInput,
   ) => stream.Stream<
     ListEdgeAgentConfigurationsEdgeConfig,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
+    ListEdgeAgentConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2173,6 +2191,11 @@ export const listEdgeAgentConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSignalingChannelsError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Returns an array of `ChannelInfo` objects. Each object describes a
  * signaling channel. To retrieve only those channels that satisfy a specific condition,
@@ -2181,30 +2204,21 @@ export const listEdgeAgentConfigurations: API.OperationMethod<
 export const listSignalingChannels: API.OperationMethod<
   ListSignalingChannelsInput,
   ListSignalingChannelsOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | CommonErrors,
+  ListSignalingChannelsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSignalingChannelsInput,
   ) => stream.Stream<
     ListSignalingChannelsOutput,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | CommonErrors,
+    ListSignalingChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSignalingChannelsInput,
   ) => stream.Stream<
     ChannelInfo,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | CommonErrors,
+    ListSignalingChannelsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2222,6 +2236,10 @@ export const listSignalingChannels: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListStreamsError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | CommonErrors;
 /**
  * Returns an array of `StreamInfo` objects. Each object describes a
  * stream. To retrieve only streams that satisfy a specific condition, you can specify a
@@ -2230,21 +2248,21 @@ export const listSignalingChannels: API.OperationMethod<
 export const listStreams: API.OperationMethod<
   ListStreamsInput,
   ListStreamsOutput,
-  ClientLimitExceededException | InvalidArgumentException | CommonErrors,
+  ListStreamsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListStreamsInput,
   ) => stream.Stream<
     ListStreamsOutput,
-    ClientLimitExceededException | InvalidArgumentException | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamsInput,
   ) => stream.Stream<
     StreamInfo,
-    ClientLimitExceededException | InvalidArgumentException | CommonErrors,
+    ListStreamsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2258,17 +2276,19 @@ export const listStreams: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of tags associated with the specified signaling channel.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -2280,6 +2300,13 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type ListTagsForStreamError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidResourceFormatException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Returns a list of tags associated with the specified stream.
  *
@@ -2289,12 +2316,7 @@ export const listTagsForResource: API.OperationMethod<
 export const listTagsForStream: API.OperationMethod<
   ListTagsForStreamInput,
   ListTagsForStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidResourceFormatException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListTagsForStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForStreamInput,
@@ -2307,6 +2329,14 @@ export const listTagsForStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type StartEdgeConfigurationUpdateError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NoDataRetentionException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * An asynchronous API that updates a stream’s existing edge configuration.
  * The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
@@ -2328,13 +2358,7 @@ export const listTagsForStream: API.OperationMethod<
 export const startEdgeConfigurationUpdate: API.OperationMethod<
   StartEdgeConfigurationUpdateInput,
   StartEdgeConfigurationUpdateOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NoDataRetentionException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  StartEdgeConfigurationUpdateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEdgeConfigurationUpdateInput,
@@ -2348,6 +2372,13 @@ export const startEdgeConfigurationUpdate: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors;
 /**
  * Adds one or more tags to a signaling channel. A *tag* is a
  * key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources.
@@ -2359,12 +2390,7 @@ export const startEdgeConfigurationUpdate: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -2377,6 +2403,14 @@ export const tagResource: API.OperationMethod<
     TagsPerResourceExceededLimitException,
   ],
 }));
+export type TagStreamError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidResourceFormatException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors;
 /**
  * Adds one or more tags to a stream. A *tag* is a key-value pair
  * (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify
@@ -2395,13 +2429,7 @@ export const tagResource: API.OperationMethod<
 export const tagStream: API.OperationMethod<
   TagStreamInput,
   TagStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidResourceFormatException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
+  TagStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagStreamInput,
@@ -2415,6 +2443,12 @@ export const tagStream: API.OperationMethod<
     TagsPerResourceExceededLimitException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from a signaling channel. In the request, specify only a tag
  * key or keys; don't specify the value. If you specify a tag key that does not exist, it's
@@ -2423,11 +2457,7 @@ export const tagStream: API.OperationMethod<
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -2439,6 +2469,13 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UntagStreamError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidResourceFormatException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Removes one or more tags from a stream. In the request, specify only a tag key or
  * keys; don't specify the value. If you specify a tag key that does not exist, it's
@@ -2450,12 +2487,7 @@ export const untagResource: API.OperationMethod<
 export const untagStream: API.OperationMethod<
   UntagStreamInput,
   UntagStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidResourceFormatException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UntagStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagStreamInput,
@@ -2468,6 +2500,14 @@ export const untagStream: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateDataRetentionError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors;
 /**
  * Increases or decreases the stream's data retention period by the value that you
  * specify. To indicate whether you want to increase or decrease the data retention period,
@@ -2493,13 +2533,7 @@ export const untagStream: API.OperationMethod<
 export const updateDataRetention: API.OperationMethod<
   UpdateDataRetentionInput,
   UpdateDataRetentionOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
+  UpdateDataRetentionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataRetentionInput,
@@ -2513,19 +2547,21 @@ export const updateDataRetention: API.OperationMethod<
     VersionMismatchException,
   ],
 }));
-/**
- * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
- */
-export const updateImageGenerationConfiguration: API.OperationMethod<
-  UpdateImageGenerationConfigurationInput,
-  UpdateImageGenerationConfigurationOutput,
+export type UpdateImageGenerationConfigurationError =
   | AccessDeniedException
   | ClientLimitExceededException
   | InvalidArgumentException
   | NoDataRetentionException
   | ResourceInUseException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
+ */
+export const updateImageGenerationConfiguration: API.OperationMethod<
+  UpdateImageGenerationConfigurationInput,
+  UpdateImageGenerationConfigurationOutput,
+  UpdateImageGenerationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateImageGenerationConfigurationInput,
@@ -2539,6 +2575,14 @@ export const updateImageGenerationConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateMediaStorageConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NoDataRetentionException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors;
 /**
  * Associates a `SignalingChannel` to a stream to store the media. There are
  * two signaling modes that you can specify :
@@ -2558,13 +2602,7 @@ export const updateImageGenerationConfiguration: API.OperationMethod<
 export const updateMediaStorageConfiguration: API.OperationMethod<
   UpdateMediaStorageConfigurationInput,
   UpdateMediaStorageConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NoDataRetentionException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
+  UpdateMediaStorageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMediaStorageConfigurationInput,
@@ -2578,19 +2616,21 @@ export const updateMediaStorageConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
-/**
- * Updates the notification information for a stream.
- */
-export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationInput,
-  UpdateNotificationConfigurationOutput,
+export type UpdateNotificationConfigurationError =
   | AccessDeniedException
   | ClientLimitExceededException
   | InvalidArgumentException
   | NoDataRetentionException
   | ResourceInUseException
   | ResourceNotFoundException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the notification information for a stream.
+ */
+export const updateNotificationConfiguration: API.OperationMethod<
+  UpdateNotificationConfigurationInput,
+  UpdateNotificationConfigurationOutput,
+  UpdateNotificationConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationConfigurationInput,
@@ -2604,6 +2644,14 @@ export const updateNotificationConfiguration: API.OperationMethod<
     ResourceNotFoundException,
   ],
 }));
+export type UpdateSignalingChannelError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors;
 /**
  * Updates the existing signaling channel. This is an asynchronous operation and takes
  * time to complete.
@@ -2616,13 +2664,7 @@ export const updateNotificationConfiguration: API.OperationMethod<
 export const updateSignalingChannel: API.OperationMethod<
   UpdateSignalingChannelInput,
   UpdateSignalingChannelOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
+  UpdateSignalingChannelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSignalingChannelInput,
@@ -2636,6 +2678,14 @@ export const updateSignalingChannel: API.OperationMethod<
     VersionMismatchException,
   ],
 }));
+export type UpdateStreamError =
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors;
 /**
  * Updates stream metadata, such as the device name and media type.
  *
@@ -2653,13 +2703,7 @@ export const updateSignalingChannel: API.OperationMethod<
 export const updateStream: API.OperationMethod<
   UpdateStreamInput,
   UpdateStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
+  UpdateStreamError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamInput,
@@ -2673,6 +2717,14 @@ export const updateStream: API.OperationMethod<
     VersionMismatchException,
   ],
 }));
+export type UpdateStreamStorageConfigurationError =
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors;
 /**
  * Updates the storage configuration for an existing Kinesis video stream.
  *
@@ -2685,13 +2737,7 @@ export const updateStream: API.OperationMethod<
 export const updateStreamStorageConfiguration: API.OperationMethod<
   UpdateStreamStorageConfigurationInput,
   UpdateStreamStorageConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
+  UpdateStreamStorageConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamStorageConfigurationInput,

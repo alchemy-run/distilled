@@ -1086,6 +1086,16 @@ export class RejectedRecordsException extends S.TaggedErrorClass<RejectedRecords
 ) {}
 
 //# Operations
+export type CreateBatchLoadTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Timestream batch load task. A batch load task processes data from
  * a CSV source in an S3 location and writes to a Timestream table. A mapping from
@@ -1100,15 +1110,7 @@ export class RejectedRecordsException extends S.TaggedErrorClass<RejectedRecords
 export const createBatchLoadTask: API.OperationMethod<
   CreateBatchLoadTaskRequest,
   CreateBatchLoadTaskResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateBatchLoadTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBatchLoadTaskRequest,
@@ -1124,6 +1126,15 @@ export const createBatchLoadTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDatabaseError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new Timestream database. If the KMS key is not
  * specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys. Service quotas apply. For
@@ -1132,14 +1143,7 @@ export const createBatchLoadTask: API.OperationMethod<
 export const createDatabase: API.OperationMethod<
   CreateDatabaseRequest,
   CreateDatabaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidEndpointException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatabaseRequest,
@@ -1154,6 +1158,16 @@ export const createDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a new table to an existing database in your account. In an Amazon Web Services account, table names must be at least unique within each Region if they are in the same
  * database. You might have identical table names in the same Region if the tables are in
@@ -1165,15 +1179,7 @@ export const createDatabase: API.OperationMethod<
 export const createTable: API.OperationMethod<
   CreateTableRequest,
   CreateTableResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
@@ -1189,6 +1195,14 @@ export const createTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDatabaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a given Timestream database. This is an irreversible
  * operation. After a database is deleted, the time-series data from its tables cannot be
@@ -1206,13 +1220,7 @@ export const createTable: API.OperationMethod<
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
   DeleteDatabaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatabaseRequest,
@@ -1226,6 +1234,14 @@ export const deleteDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTableError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a given Timestream table. This is an irreversible operation. After a
  * Timestream database table is deleted, the time-series data stored in the table
@@ -1240,13 +1256,7 @@ export const deleteDatabase: API.OperationMethod<
 export const deleteTable: API.OperationMethod<
   DeleteTableRequest,
   DeleteTableResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
@@ -1260,6 +1270,13 @@ export const deleteTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeBatchLoadTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Returns information about the batch load task, including configurations, mappings,
  * progress, and other details. Service quotas apply. See
@@ -1269,12 +1286,7 @@ export const deleteTable: API.OperationMethod<
 export const describeBatchLoadTask: API.OperationMethod<
   DescribeBatchLoadTaskRequest,
   DescribeBatchLoadTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DescribeBatchLoadTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBatchLoadTaskRequest,
@@ -1287,6 +1299,14 @@ export const describeBatchLoadTask: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type DescribeDatabaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the database, including the database name, time that the
  * database was created, and the total number of tables found within the database. Service
@@ -1296,13 +1316,7 @@ export const describeBatchLoadTask: API.OperationMethod<
 export const describeDatabase: API.OperationMethod<
   DescribeDatabaseRequest,
   DescribeDatabaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatabaseRequest,
@@ -1316,6 +1330,11 @@ export const describeDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeEndpointsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of available endpoints to make Timestream API calls against.
  * This API operation is available through both the Write and Query APIs.
@@ -1338,16 +1357,21 @@ export const describeDatabase: API.OperationMethod<
 export const describeEndpoints: API.OperationMethod<
   DescribeEndpointsRequest,
   DescribeEndpointsResponse,
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointsRequest,
   output: DescribeEndpointsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
 }));
+export type DescribeTableError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the table, including the table name, database name, retention
  * duration of the memory store and the magnetic store. Service quotas apply. See
@@ -1357,13 +1381,7 @@ export const describeEndpoints: API.OperationMethod<
 export const describeTable: API.OperationMethod<
   DescribeTableRequest,
   DescribeTableResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTableRequest,
@@ -1377,6 +1395,13 @@ export const describeTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListBatchLoadTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a list of batch load tasks, along with the name, status, when the task is
  * resumable until, and other details. See code
@@ -1385,36 +1410,21 @@ export const describeTable: API.OperationMethod<
 export const listBatchLoadTasks: API.OperationMethod<
   ListBatchLoadTasksRequest,
   ListBatchLoadTasksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListBatchLoadTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListBatchLoadTasksRequest,
   ) => stream.Stream<
     ListBatchLoadTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBatchLoadTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchLoadTasksRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListBatchLoadTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1433,6 +1443,13 @@ export const listBatchLoadTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDatabasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a list of your Timestream databases. Service quotas apply. See
  * code sample for
@@ -1441,36 +1458,21 @@ export const listBatchLoadTasks: API.OperationMethod<
 export const listDatabases: API.OperationMethod<
   ListDatabasesRequest,
   ListDatabasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDatabasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDatabasesRequest,
   ) => stream.Stream<
     ListDatabasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatabasesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDatabasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1489,6 +1491,14 @@ export const listDatabases: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTablesError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provides a list of tables, along with the name, status, and retention properties of each
  * table. See code sample
@@ -1497,39 +1507,21 @@ export const listDatabases: API.OperationMethod<
 export const listTables: API.OperationMethod<
   ListTablesRequest,
   ListTablesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTablesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
     ListTablesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTablesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTablesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1549,17 +1541,19 @@ export const listTables: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags on a Timestream resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1571,19 +1565,21 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- *
- */
-export const resumeBatchLoadTask: API.OperationMethod<
-  ResumeBatchLoadTaskRequest,
-  ResumeBatchLoadTaskResponse,
+export type ResumeBatchLoadTaskError =
   | AccessDeniedException
   | InternalServerException
   | InvalidEndpointException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ *
+ */
+export const resumeBatchLoadTask: API.OperationMethod<
+  ResumeBatchLoadTaskRequest,
+  ResumeBatchLoadTaskResponse,
+  ResumeBatchLoadTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeBatchLoadTaskRequest,
@@ -1597,6 +1593,13 @@ export const resumeBatchLoadTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Associates a set of tags with a Timestream resource. You can then activate
  * these user-defined tags so that they appear on the Billing and Cost Management console for
@@ -1605,12 +1608,7 @@ export const resumeBatchLoadTask: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -1623,18 +1621,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the association of tags from a Timestream resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -1647,6 +1647,15 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDatabaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the KMS key for an existing database. While updating the
  * database, you must specify the database name and the identifier of the new KMS key to be used (`KmsKeyId`). If there are any concurrent
@@ -1658,14 +1667,7 @@ export const untagResource: API.OperationMethod<
 export const updateDatabase: API.OperationMethod<
   UpdateDatabaseRequest,
   UpdateDatabaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDatabaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
@@ -1680,6 +1682,14 @@ export const updateDatabase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTableError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Modifies the retention duration of the memory store and magnetic store for your Timestream table. Note that the change in retention duration takes effect immediately.
  * For example, if the retention period of the memory store was initially set to 2 hours and
@@ -1692,13 +1702,7 @@ export const updateDatabase: API.OperationMethod<
 export const updateTable: API.OperationMethod<
   UpdateTableRequest,
   UpdateTableResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateTableError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableRequest,
@@ -1712,6 +1716,15 @@ export const updateTable: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type WriteRecordsError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | RejectedRecordsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Enables you to write your time-series data into Timestream. You can specify a
  * single data point or a batch of data points to be inserted into the system. Timestream offers you a flexible schema that auto detects the column names and data
@@ -1760,14 +1773,7 @@ export const updateTable: API.OperationMethod<
 export const writeRecords: API.OperationMethod<
   WriteRecordsRequest,
   WriteRecordsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidEndpointException
-  | RejectedRecordsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  WriteRecordsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteRecordsRequest,

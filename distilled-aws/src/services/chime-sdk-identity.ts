@@ -1468,6 +1468,16 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateAppInstanceError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Creates an Amazon Chime SDK messaging `AppInstance` under an AWS account.
  * Only SDK messaging customers use this API. `CreateAppInstance` supports
@@ -1478,15 +1488,7 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 export const createAppInstance: API.OperationMethod<
   CreateAppInstanceRequest,
   CreateAppInstanceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateAppInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppInstanceRequest,
@@ -1502,6 +1504,16 @@ export const createAppInstance: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type CreateAppInstanceAdminError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Promotes an `AppInstanceUser` or `AppInstanceBot` to an
  * `AppInstanceAdmin`. The
@@ -1518,15 +1530,7 @@ export const createAppInstance: API.OperationMethod<
 export const createAppInstanceAdmin: API.OperationMethod<
   CreateAppInstanceAdminRequest,
   CreateAppInstanceAdminResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | ResourceLimitExceededException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  CreateAppInstanceAdminError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppInstanceAdminRequest,
@@ -1542,13 +1546,7 @@ export const createAppInstanceAdmin: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a bot under an Amazon Chime `AppInstance`. The request consists of a
- * unique `Configuration` and `Name` for that bot.
- */
-export const createAppInstanceBot: API.OperationMethod<
-  CreateAppInstanceBotRequest,
-  CreateAppInstanceBotResponse,
+export type CreateAppInstanceBotError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1557,7 +1555,15 @@ export const createAppInstanceBot: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a bot under an Amazon Chime `AppInstance`. The request consists of a
+ * unique `Configuration` and `Name` for that bot.
+ */
+export const createAppInstanceBot: API.OperationMethod<
+  CreateAppInstanceBotRequest,
+  CreateAppInstanceBotResponse,
+  CreateAppInstanceBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppInstanceBotRequest,
@@ -1573,13 +1579,7 @@ export const createAppInstanceBot: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Creates a user under an Amazon Chime `AppInstance`. The request consists of a
- * unique `appInstanceUserId` and `Name` for that user.
- */
-export const createAppInstanceUser: API.OperationMethod<
-  CreateAppInstanceUserRequest,
-  CreateAppInstanceUserResponse,
+export type CreateAppInstanceUserError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1588,7 +1588,15 @@ export const createAppInstanceUser: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a user under an Amazon Chime `AppInstance`. The request consists of a
+ * unique `appInstanceUserId` and `Name` for that user.
+ */
+export const createAppInstanceUser: API.OperationMethod<
+  CreateAppInstanceUserRequest,
+  CreateAppInstanceUserResponse,
+  CreateAppInstanceUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppInstanceUserRequest,
@@ -1604,12 +1612,7 @@ export const createAppInstanceUser: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes an `AppInstance` and all associated data asynchronously.
- */
-export const deleteAppInstance: API.OperationMethod<
-  DeleteAppInstanceRequest,
-  DeleteAppInstanceResponse,
+export type DeleteAppInstanceError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -1617,7 +1620,14 @@ export const deleteAppInstance: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an `AppInstance` and all associated data asynchronously.
+ */
+export const deleteAppInstance: API.OperationMethod<
+  DeleteAppInstanceRequest,
+  DeleteAppInstanceResponse,
+  DeleteAppInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInstanceRequest,
@@ -1632,14 +1642,7 @@ export const deleteAppInstance: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Demotes an `AppInstanceAdmin` to an `AppInstanceUser` or
- * `AppInstanceBot`. This action
- * does not delete the user.
- */
-export const deleteAppInstanceAdmin: API.OperationMethod<
-  DeleteAppInstanceAdminRequest,
-  DeleteAppInstanceAdminResponse,
+export type DeleteAppInstanceAdminError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1648,7 +1651,16 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Demotes an `AppInstanceAdmin` to an `AppInstanceUser` or
+ * `AppInstanceBot`. This action
+ * does not delete the user.
+ */
+export const deleteAppInstanceAdmin: API.OperationMethod<
+  DeleteAppInstanceAdminRequest,
+  DeleteAppInstanceAdminResponse,
+  DeleteAppInstanceAdminError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInstanceAdminRequest,
@@ -1664,12 +1676,7 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes an `AppInstanceBot`.
- */
-export const deleteAppInstanceBot: API.OperationMethod<
-  DeleteAppInstanceBotRequest,
-  DeleteAppInstanceBotResponse,
+export type DeleteAppInstanceBotError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1678,7 +1685,14 @@ export const deleteAppInstanceBot: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an `AppInstanceBot`.
+ */
+export const deleteAppInstanceBot: API.OperationMethod<
+  DeleteAppInstanceBotRequest,
+  DeleteAppInstanceBotResponse,
+  DeleteAppInstanceBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInstanceBotRequest,
@@ -1694,12 +1708,7 @@ export const deleteAppInstanceBot: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deletes an `AppInstanceUser`.
- */
-export const deleteAppInstanceUser: API.OperationMethod<
-  DeleteAppInstanceUserRequest,
-  DeleteAppInstanceUserResponse,
+export type DeleteAppInstanceUserError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -1708,7 +1717,14 @@ export const deleteAppInstanceUser: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes an `AppInstanceUser`.
+ */
+export const deleteAppInstanceUser: API.OperationMethod<
+  DeleteAppInstanceUserRequest,
+  DeleteAppInstanceUserResponse,
+  DeleteAppInstanceUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInstanceUserRequest,
@@ -1724,19 +1740,21 @@ export const deleteAppInstanceUser: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Deregisters an `AppInstanceUserEndpoint`.
- */
-export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
-  DeregisterAppInstanceUserEndpointRequest,
-  DeregisterAppInstanceUserEndpointResponse,
+export type DeregisterAppInstanceUserEndpointError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deregisters an `AppInstanceUserEndpoint`.
+ */
+export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
+  DeregisterAppInstanceUserEndpointRequest,
+  DeregisterAppInstanceUserEndpointResponse,
+  DeregisterAppInstanceUserEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterAppInstanceUserEndpointRequest,
@@ -1750,19 +1768,21 @@ export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns the full details of an `AppInstance`.
- */
-export const describeAppInstance: API.OperationMethod<
-  DescribeAppInstanceRequest,
-  DescribeAppInstanceResponse,
+export type DescribeAppInstanceError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the full details of an `AppInstance`.
+ */
+export const describeAppInstance: API.OperationMethod<
+  DescribeAppInstanceRequest,
+  DescribeAppInstanceResponse,
+  DescribeAppInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInstanceRequest,
@@ -1776,19 +1796,21 @@ export const describeAppInstance: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns the full details of an `AppInstanceAdmin`.
- */
-export const describeAppInstanceAdmin: API.OperationMethod<
-  DescribeAppInstanceAdminRequest,
-  DescribeAppInstanceAdminResponse,
+export type DescribeAppInstanceAdminError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the full details of an `AppInstanceAdmin`.
+ */
+export const describeAppInstanceAdmin: API.OperationMethod<
+  DescribeAppInstanceAdminRequest,
+  DescribeAppInstanceAdminResponse,
+  DescribeAppInstanceAdminError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInstanceAdminRequest,
@@ -1802,12 +1824,7 @@ export const describeAppInstanceAdmin: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * The `AppInstanceBot's` information.
- */
-export const describeAppInstanceBot: API.OperationMethod<
-  DescribeAppInstanceBotRequest,
-  DescribeAppInstanceBotResponse,
+export type DescribeAppInstanceBotError =
   | BadRequestException
   | ForbiddenException
   | NotFoundException
@@ -1815,7 +1832,14 @@ export const describeAppInstanceBot: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * The `AppInstanceBot's` information.
+ */
+export const describeAppInstanceBot: API.OperationMethod<
+  DescribeAppInstanceBotRequest,
+  DescribeAppInstanceBotResponse,
+  DescribeAppInstanceBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInstanceBotRequest,
@@ -1830,19 +1854,21 @@ export const describeAppInstanceBot: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns the full details of an `AppInstanceUser`.
- */
-export const describeAppInstanceUser: API.OperationMethod<
-  DescribeAppInstanceUserRequest,
-  DescribeAppInstanceUserResponse,
+export type DescribeAppInstanceUserError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the full details of an `AppInstanceUser`.
+ */
+export const describeAppInstanceUser: API.OperationMethod<
+  DescribeAppInstanceUserRequest,
+  DescribeAppInstanceUserResponse,
+  DescribeAppInstanceUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInstanceUserRequest,
@@ -1856,19 +1882,21 @@ export const describeAppInstanceUser: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns the full details of an `AppInstanceUserEndpoint`.
- */
-export const describeAppInstanceUserEndpoint: API.OperationMethod<
-  DescribeAppInstanceUserEndpointRequest,
-  DescribeAppInstanceUserEndpointResponse,
+export type DescribeAppInstanceUserEndpointError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns the full details of an `AppInstanceUserEndpoint`.
+ */
+export const describeAppInstanceUserEndpoint: API.OperationMethod<
+  DescribeAppInstanceUserEndpointRequest,
+  DescribeAppInstanceUserEndpointResponse,
+  DescribeAppInstanceUserEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInstanceUserEndpointRequest,
@@ -1882,19 +1910,21 @@ export const describeAppInstanceUserEndpoint: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Gets the retention settings for an `AppInstance`.
- */
-export const getAppInstanceRetentionSettings: API.OperationMethod<
-  GetAppInstanceRetentionSettingsRequest,
-  GetAppInstanceRetentionSettingsResponse,
+export type GetAppInstanceRetentionSettingsError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Gets the retention settings for an `AppInstance`.
+ */
+export const getAppInstanceRetentionSettings: API.OperationMethod<
+  GetAppInstanceRetentionSettingsRequest,
+  GetAppInstanceRetentionSettingsResponse,
+  GetAppInstanceRetentionSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppInstanceRetentionSettingsRequest,
@@ -1908,12 +1938,7 @@ export const getAppInstanceRetentionSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Returns a list of the administrators in the `AppInstance`.
- */
-export const listAppInstanceAdmins: API.OperationMethod<
-  ListAppInstanceAdminsRequest,
-  ListAppInstanceAdminsResponse,
+export type ListAppInstanceAdminsError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -1921,35 +1946,28 @@ export const listAppInstanceAdmins: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Returns a list of the administrators in the `AppInstance`.
+ */
+export const listAppInstanceAdmins: API.OperationMethod<
+  ListAppInstanceAdminsRequest,
+  ListAppInstanceAdminsResponse,
+  ListAppInstanceAdminsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppInstanceAdminsRequest,
   ) => stream.Stream<
     ListAppInstanceAdminsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceAdminsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppInstanceAdminsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceAdminsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1970,12 +1988,7 @@ export const listAppInstanceAdmins: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists all `AppInstanceBots` created under a single `AppInstance`.
- */
-export const listAppInstanceBots: API.OperationMethod<
-  ListAppInstanceBotsRequest,
-  ListAppInstanceBotsResponse,
+export type ListAppInstanceBotsError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -1983,35 +1996,28 @@ export const listAppInstanceBots: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all `AppInstanceBots` created under a single `AppInstance`.
+ */
+export const listAppInstanceBots: API.OperationMethod<
+  ListAppInstanceBotsRequest,
+  ListAppInstanceBotsResponse,
+  ListAppInstanceBotsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppInstanceBotsRequest,
   ) => stream.Stream<
     ListAppInstanceBotsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppInstanceBotsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceBotsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2032,6 +2038,14 @@ export const listAppInstanceBots: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAppInstancesError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Lists all Amazon Chime `AppInstance`s created under a single AWS
  * account.
@@ -2039,39 +2053,21 @@ export const listAppInstanceBots: API.OperationMethod<
 export const listAppInstances: API.OperationMethod<
   ListAppInstancesRequest,
   ListAppInstancesResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  ListAppInstancesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppInstancesRequest,
   ) => stream.Stream<
     ListAppInstancesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppInstancesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstancesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2091,45 +2087,35 @@ export const listAppInstances: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists all the `AppInstanceUserEndpoints` created under a single `AppInstanceUser`.
- */
-export const listAppInstanceUserEndpoints: API.OperationMethod<
-  ListAppInstanceUserEndpointsRequest,
-  ListAppInstanceUserEndpointsResponse,
+export type ListAppInstanceUserEndpointsError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists all the `AppInstanceUserEndpoints` created under a single `AppInstanceUser`.
+ */
+export const listAppInstanceUserEndpoints: API.OperationMethod<
+  ListAppInstanceUserEndpointsRequest,
+  ListAppInstanceUserEndpointsResponse,
+  ListAppInstanceUserEndpointsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppInstanceUserEndpointsRequest,
   ) => stream.Stream<
     ListAppInstanceUserEndpointsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceUserEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppInstanceUserEndpointsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceUserEndpointsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2149,6 +2135,14 @@ export const listAppInstanceUserEndpoints: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListAppInstanceUsersError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * List all `AppInstanceUsers` created under a single
  * `AppInstance`.
@@ -2156,39 +2150,21 @@ export const listAppInstanceUserEndpoints: API.OperationMethod<
 export const listAppInstanceUsers: API.OperationMethod<
   ListAppInstanceUsersRequest,
   ListAppInstanceUsersResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  ListAppInstanceUsersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListAppInstanceUsersRequest,
   ) => stream.Stream<
     ListAppInstanceUsersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAppInstanceUsersRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
+    ListAppInstanceUsersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2208,19 +2184,21 @@ export const listAppInstanceUsers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * Lists the tags applied to an Amazon Chime SDK identity resource.
- */
-export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
-  ListTagsForResourceResponse,
+export type ListTagsForResourceError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Lists the tags applied to an Amazon Chime SDK identity resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2234,6 +2212,14 @@ export const listTagsForResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type PutAppInstanceRetentionSettingsError =
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Sets the amount of time in days that a given `AppInstance` retains
  * data.
@@ -2241,13 +2227,7 @@ export const listTagsForResource: API.OperationMethod<
 export const putAppInstanceRetentionSettings: API.OperationMethod<
   PutAppInstanceRetentionSettingsRequest,
   PutAppInstanceRetentionSettingsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  PutAppInstanceRetentionSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAppInstanceRetentionSettingsRequest,
@@ -2261,6 +2241,15 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
+export type PutAppInstanceUserExpirationSettingsError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors;
 /**
  * Sets the number of days before the `AppInstanceUser` is automatically deleted.
  *
@@ -2273,14 +2262,7 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
 export const putAppInstanceUserExpirationSettings: API.OperationMethod<
   PutAppInstanceUserExpirationSettingsRequest,
   PutAppInstanceUserExpirationSettingsResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | ServiceFailureException
-  | ServiceUnavailableException
-  | ThrottledClientException
-  | UnauthorizedClientException
-  | CommonErrors,
+  PutAppInstanceUserExpirationSettingsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAppInstanceUserExpirationSettingsRequest,
@@ -2295,12 +2277,7 @@ export const putAppInstanceUserExpirationSettings: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
- */
-export const registerAppInstanceUserEndpoint: API.OperationMethod<
-  RegisterAppInstanceUserEndpointRequest,
-  RegisterAppInstanceUserEndpointResponse,
+export type RegisterAppInstanceUserEndpointError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2309,7 +2286,14 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
+ */
+export const registerAppInstanceUserEndpoint: API.OperationMethod<
+  RegisterAppInstanceUserEndpointRequest,
+  RegisterAppInstanceUserEndpointResponse,
+  RegisterAppInstanceUserEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAppInstanceUserEndpointRequest,
@@ -2325,12 +2309,7 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Applies the specified tags to the specified Amazon Chime SDK identity resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | BadRequestException
   | ForbiddenException
   | ResourceLimitExceededException
@@ -2338,7 +2317,14 @@ export const tagResource: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Applies the specified tags to the specified Amazon Chime SDK identity resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2353,19 +2339,21 @@ export const tagResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Removes the specified tags from the specified Amazon Chime SDK identity resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | BadRequestException
   | ForbiddenException
   | ServiceFailureException
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes the specified tags from the specified Amazon Chime SDK identity resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2379,12 +2367,7 @@ export const untagResource: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates `AppInstance` metadata.
- */
-export const updateAppInstance: API.OperationMethod<
-  UpdateAppInstanceRequest,
-  UpdateAppInstanceResponse,
+export type UpdateAppInstanceError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2392,7 +2375,14 @@ export const updateAppInstance: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates `AppInstance` metadata.
+ */
+export const updateAppInstance: API.OperationMethod<
+  UpdateAppInstanceRequest,
+  UpdateAppInstanceResponse,
+  UpdateAppInstanceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppInstanceRequest,
@@ -2407,12 +2397,7 @@ export const updateAppInstance: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the name and metadata of an `AppInstanceBot`.
- */
-export const updateAppInstanceBot: API.OperationMethod<
-  UpdateAppInstanceBotRequest,
-  UpdateAppInstanceBotResponse,
+export type UpdateAppInstanceBotError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2421,7 +2406,14 @@ export const updateAppInstanceBot: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the name and metadata of an `AppInstanceBot`.
+ */
+export const updateAppInstanceBot: API.OperationMethod<
+  UpdateAppInstanceBotRequest,
+  UpdateAppInstanceBotResponse,
+  UpdateAppInstanceBotError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppInstanceBotRequest,
@@ -2437,13 +2429,7 @@ export const updateAppInstanceBot: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the details of an `AppInstanceUser`. You can update names and
- * metadata.
- */
-export const updateAppInstanceUser: API.OperationMethod<
-  UpdateAppInstanceUserRequest,
-  UpdateAppInstanceUserResponse,
+export type UpdateAppInstanceUserError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2452,7 +2438,15 @@ export const updateAppInstanceUser: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the details of an `AppInstanceUser`. You can update names and
+ * metadata.
+ */
+export const updateAppInstanceUser: API.OperationMethod<
+  UpdateAppInstanceUserRequest,
+  UpdateAppInstanceUserResponse,
+  UpdateAppInstanceUserError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppInstanceUserRequest,
@@ -2468,12 +2462,7 @@ export const updateAppInstanceUser: API.OperationMethod<
     UnauthorizedClientException,
   ],
 }));
-/**
- * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
- */
-export const updateAppInstanceUserEndpoint: API.OperationMethod<
-  UpdateAppInstanceUserEndpointRequest,
-  UpdateAppInstanceUserEndpointResponse,
+export type UpdateAppInstanceUserEndpointError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -2481,7 +2470,14 @@ export const updateAppInstanceUserEndpoint: API.OperationMethod<
   | ServiceUnavailableException
   | ThrottledClientException
   | UnauthorizedClientException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
+ */
+export const updateAppInstanceUserEndpoint: API.OperationMethod<
+  UpdateAppInstanceUserEndpointRequest,
+  UpdateAppInstanceUserEndpointResponse,
+  UpdateAppInstanceUserEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppInstanceUserEndpointRequest,

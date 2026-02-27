@@ -669,39 +669,33 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListControlMappingsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
  */
 export const listControlMappings: API.OperationMethod<
   ListControlMappingsRequest,
   ListControlMappingsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListControlMappingsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlMappingsRequest,
   ) => stream.Stream<
     ListControlMappingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListControlMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListControlMappingsRequest,
   ) => stream.Stream<
     ControlMapping,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListControlMappingsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -720,6 +714,12 @@ export const listControlMappings: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListCommonControlsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of common controls from the Amazon Web Services Control Catalog.
  *
@@ -728,33 +728,21 @@ export const listControlMappings: API.OperationMethod<
 export const listCommonControls: API.OperationMethod<
   ListCommonControlsRequest,
   ListCommonControlsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCommonControlsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommonControlsRequest,
   ) => stream.Stream<
     ListCommonControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCommonControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCommonControlsRequest,
   ) => stream.Stream<
     CommonControlSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCommonControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -773,6 +761,13 @@ export const listCommonControls: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type GetControlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the *ControlArn* parameter, in ARN form. `GetControl` accepts *controltower* or *controlcatalog* control ARNs as input. Returns a *controlcatalog* ARN format.
  *
@@ -781,12 +776,7 @@ export const listCommonControls: API.OperationMethod<
 export const getControl: API.OperationMethod<
   GetControlRequest,
   GetControlResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetControlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetControlRequest,
@@ -799,39 +789,33 @@ export const getControl: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListControlsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type *controlSummary*. The ARN is returned in the global *controlcatalog* format, as shown in the examples.
  */
 export const listControls: API.OperationMethod<
   ListControlsRequest,
   ListControlsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListControlsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListControlsRequest,
   ) => stream.Stream<
     ListControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListControlsRequest,
   ) => stream.Stream<
     ControlSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListControlsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -850,39 +834,33 @@ export const listControls: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDomainsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of domains from the Control Catalog.
  */
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     ListDomainsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     DomainSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -901,6 +879,12 @@ export const listDomains: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListObjectivesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of objectives from the Control Catalog.
  *
@@ -909,33 +893,21 @@ export const listDomains: API.OperationMethod<
 export const listObjectives: API.OperationMethod<
   ListObjectivesRequest,
   ListObjectivesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListObjectivesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListObjectivesRequest,
   ) => stream.Stream<
     ListObjectivesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListObjectivesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListObjectivesRequest,
   ) => stream.Stream<
     ObjectiveSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListObjectivesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

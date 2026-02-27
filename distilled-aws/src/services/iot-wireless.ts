@@ -6200,19 +6200,21 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Associates a partner account with your AWS account.
- */
-export const associateAwsAccountWithPartnerAccount: API.OperationMethod<
-  AssociateAwsAccountWithPartnerAccountRequest,
-  AssociateAwsAccountWithPartnerAccountResponse,
+export type AssociateAwsAccountWithPartnerAccountError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a partner account with your AWS account.
+ */
+export const associateAwsAccountWithPartnerAccount: API.OperationMethod<
+  AssociateAwsAccountWithPartnerAccountRequest,
+  AssociateAwsAccountWithPartnerAccountResponse,
+  AssociateAwsAccountWithPartnerAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAwsAccountWithPartnerAccountRequest,
@@ -6226,19 +6228,21 @@ export const associateAwsAccountWithPartnerAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate a multicast group with a FUOTA task.
- */
-export const associateMulticastGroupWithFuotaTask: API.OperationMethod<
-  AssociateMulticastGroupWithFuotaTaskRequest,
-  AssociateMulticastGroupWithFuotaTaskResponse,
+export type AssociateMulticastGroupWithFuotaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate a multicast group with a FUOTA task.
+ */
+export const associateMulticastGroupWithFuotaTask: API.OperationMethod<
+  AssociateMulticastGroupWithFuotaTaskRequest,
+  AssociateMulticastGroupWithFuotaTaskResponse,
+  AssociateMulticastGroupWithFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMulticastGroupWithFuotaTaskRequest,
@@ -6252,19 +6256,21 @@ export const associateMulticastGroupWithFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associate a wireless device with a FUOTA task.
- */
-export const associateWirelessDeviceWithFuotaTask: API.OperationMethod<
-  AssociateWirelessDeviceWithFuotaTaskRequest,
-  AssociateWirelessDeviceWithFuotaTaskResponse,
+export type AssociateWirelessDeviceWithFuotaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associate a wireless device with a FUOTA task.
+ */
+export const associateWirelessDeviceWithFuotaTask: API.OperationMethod<
+  AssociateWirelessDeviceWithFuotaTaskRequest,
+  AssociateWirelessDeviceWithFuotaTaskResponse,
+  AssociateWirelessDeviceWithFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWirelessDeviceWithFuotaTaskRequest,
@@ -6278,19 +6284,21 @@ export const associateWirelessDeviceWithFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a wireless device with a multicast group.
- */
-export const associateWirelessDeviceWithMulticastGroup: API.OperationMethod<
-  AssociateWirelessDeviceWithMulticastGroupRequest,
-  AssociateWirelessDeviceWithMulticastGroupResponse,
+export type AssociateWirelessDeviceWithMulticastGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a wireless device with a multicast group.
+ */
+export const associateWirelessDeviceWithMulticastGroup: API.OperationMethod<
+  AssociateWirelessDeviceWithMulticastGroupRequest,
+  AssociateWirelessDeviceWithMulticastGroupResponse,
+  AssociateWirelessDeviceWithMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWirelessDeviceWithMulticastGroupRequest,
@@ -6304,19 +6312,21 @@ export const associateWirelessDeviceWithMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a wireless device with a thing.
- */
-export const associateWirelessDeviceWithThing: API.OperationMethod<
-  AssociateWirelessDeviceWithThingRequest,
-  AssociateWirelessDeviceWithThingResponse,
+export type AssociateWirelessDeviceWithThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a wireless device with a thing.
+ */
+export const associateWirelessDeviceWithThing: API.OperationMethod<
+  AssociateWirelessDeviceWithThingRequest,
+  AssociateWirelessDeviceWithThingResponse,
+  AssociateWirelessDeviceWithThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWirelessDeviceWithThingRequest,
@@ -6330,19 +6340,21 @@ export const associateWirelessDeviceWithThing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a wireless gateway with a certificate.
- */
-export const associateWirelessGatewayWithCertificate: API.OperationMethod<
-  AssociateWirelessGatewayWithCertificateRequest,
-  AssociateWirelessGatewayWithCertificateResponse,
+export type AssociateWirelessGatewayWithCertificateError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a wireless gateway with a certificate.
+ */
+export const associateWirelessGatewayWithCertificate: API.OperationMethod<
+  AssociateWirelessGatewayWithCertificateRequest,
+  AssociateWirelessGatewayWithCertificateResponse,
+  AssociateWirelessGatewayWithCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWirelessGatewayWithCertificateRequest,
@@ -6356,19 +6368,21 @@ export const associateWirelessGatewayWithCertificate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Associates a wireless gateway with a thing.
- */
-export const associateWirelessGatewayWithThing: API.OperationMethod<
-  AssociateWirelessGatewayWithThingRequest,
-  AssociateWirelessGatewayWithThingResponse,
+export type AssociateWirelessGatewayWithThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates a wireless gateway with a thing.
+ */
+export const associateWirelessGatewayWithThing: API.OperationMethod<
+  AssociateWirelessGatewayWithThingRequest,
+  AssociateWirelessGatewayWithThingResponse,
+  AssociateWirelessGatewayWithThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWirelessGatewayWithThingRequest,
@@ -6382,19 +6396,21 @@ export const associateWirelessGatewayWithThing: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Cancels an existing multicast group session.
- */
-export const cancelMulticastGroupSession: API.OperationMethod<
-  CancelMulticastGroupSessionRequest,
-  CancelMulticastGroupSessionResponse,
+export type CancelMulticastGroupSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Cancels an existing multicast group session.
+ */
+export const cancelMulticastGroupSession: API.OperationMethod<
+  CancelMulticastGroupSessionRequest,
+  CancelMulticastGroupSessionResponse,
+  CancelMulticastGroupSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMulticastGroupSessionRequest,
@@ -6408,19 +6424,21 @@ export const cancelMulticastGroupSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new destination that maps a device message to an AWS IoT rule.
- */
-export const createDestination: API.OperationMethod<
-  CreateDestinationRequest,
-  CreateDestinationResponse,
+export type CreateDestinationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new destination that maps a device message to an AWS IoT rule.
+ */
+export const createDestination: API.OperationMethod<
+  CreateDestinationRequest,
+  CreateDestinationResponse,
+  CreateDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDestinationRequest,
@@ -6434,18 +6452,20 @@ export const createDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDeviceProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new device profile.
  */
 export const createDeviceProfile: API.OperationMethod<
   CreateDeviceProfileRequest,
   CreateDeviceProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDeviceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeviceProfileRequest,
@@ -6458,19 +6478,21 @@ export const createDeviceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a FUOTA task.
- */
-export const createFuotaTask: API.OperationMethod<
-  CreateFuotaTaskRequest,
-  CreateFuotaTaskResponse,
+export type CreateFuotaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a FUOTA task.
+ */
+export const createFuotaTask: API.OperationMethod<
+  CreateFuotaTaskRequest,
+  CreateFuotaTaskResponse,
+  CreateFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFuotaTaskRequest,
@@ -6484,19 +6506,21 @@ export const createFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a multicast group.
- */
-export const createMulticastGroup: API.OperationMethod<
-  CreateMulticastGroupRequest,
-  CreateMulticastGroupResponse,
+export type CreateMulticastGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a multicast group.
+ */
+export const createMulticastGroup: API.OperationMethod<
+  CreateMulticastGroupRequest,
+  CreateMulticastGroupResponse,
+  CreateMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMulticastGroupRequest,
@@ -6510,19 +6534,21 @@ export const createMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a new network analyzer configuration.
- */
-export const createNetworkAnalyzerConfiguration: API.OperationMethod<
-  CreateNetworkAnalyzerConfigurationRequest,
-  CreateNetworkAnalyzerConfigurationResponse,
+export type CreateNetworkAnalyzerConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new network analyzer configuration.
+ */
+export const createNetworkAnalyzerConfiguration: API.OperationMethod<
+  CreateNetworkAnalyzerConfigurationRequest,
+  CreateNetworkAnalyzerConfigurationResponse,
+  CreateNetworkAnalyzerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkAnalyzerConfigurationRequest,
@@ -6536,18 +6562,20 @@ export const createNetworkAnalyzerConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateServiceProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a new service profile.
  */
 export const createServiceProfile: API.OperationMethod<
   CreateServiceProfileRequest,
   CreateServiceProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateServiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceProfileRequest,
@@ -6560,19 +6588,21 @@ export const createServiceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Provisions a wireless device.
- */
-export const createWirelessDevice: API.OperationMethod<
-  CreateWirelessDeviceRequest,
-  CreateWirelessDeviceResponse,
+export type CreateWirelessDeviceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Provisions a wireless device.
+ */
+export const createWirelessDevice: API.OperationMethod<
+  CreateWirelessDeviceRequest,
+  CreateWirelessDeviceResponse,
+  CreateWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWirelessDeviceRequest,
@@ -6586,6 +6616,13 @@ export const createWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateWirelessGatewayError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Provisions a wireless gateway.
  *
@@ -6603,12 +6640,7 @@ export const createWirelessDevice: API.OperationMethod<
 export const createWirelessGateway: API.OperationMethod<
   CreateWirelessGatewayRequest,
   CreateWirelessGatewayResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateWirelessGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWirelessGatewayRequest,
@@ -6621,19 +6653,21 @@ export const createWirelessGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a task for a wireless gateway.
- */
-export const createWirelessGatewayTask: API.OperationMethod<
-  CreateWirelessGatewayTaskRequest,
-  CreateWirelessGatewayTaskResponse,
+export type CreateWirelessGatewayTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a task for a wireless gateway.
+ */
+export const createWirelessGatewayTask: API.OperationMethod<
+  CreateWirelessGatewayTaskRequest,
+  CreateWirelessGatewayTaskResponse,
+  CreateWirelessGatewayTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWirelessGatewayTaskRequest,
@@ -6647,19 +6681,21 @@ export const createWirelessGatewayTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a gateway task definition.
- */
-export const createWirelessGatewayTaskDefinition: API.OperationMethod<
-  CreateWirelessGatewayTaskDefinitionRequest,
-  CreateWirelessGatewayTaskDefinitionResponse,
+export type CreateWirelessGatewayTaskDefinitionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a gateway task definition.
+ */
+export const createWirelessGatewayTaskDefinition: API.OperationMethod<
+  CreateWirelessGatewayTaskDefinitionRequest,
+  CreateWirelessGatewayTaskDefinitionResponse,
+  CreateWirelessGatewayTaskDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWirelessGatewayTaskDefinitionRequest,
@@ -6673,19 +6709,21 @@ export const createWirelessGatewayTaskDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a destination.
- */
-export const deleteDestination: API.OperationMethod<
-  DeleteDestinationRequest,
-  DeleteDestinationResponse,
+export type DeleteDestinationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a destination.
+ */
+export const deleteDestination: API.OperationMethod<
+  DeleteDestinationRequest,
+  DeleteDestinationResponse,
+  DeleteDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDestinationRequest,
@@ -6699,19 +6737,21 @@ export const deleteDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a device profile.
- */
-export const deleteDeviceProfile: API.OperationMethod<
-  DeleteDeviceProfileRequest,
-  DeleteDeviceProfileResponse,
+export type DeleteDeviceProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a device profile.
+ */
+export const deleteDeviceProfile: API.OperationMethod<
+  DeleteDeviceProfileRequest,
+  DeleteDeviceProfileResponse,
+  DeleteDeviceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceProfileRequest,
@@ -6725,18 +6765,20 @@ export const deleteDeviceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteFuotaTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a FUOTA task.
  */
 export const deleteFuotaTask: API.OperationMethod<
   DeleteFuotaTaskRequest,
   DeleteFuotaTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFuotaTaskRequest,
@@ -6749,19 +6791,21 @@ export const deleteFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a multicast group if it is not in use by a FUOTA task.
- */
-export const deleteMulticastGroup: API.OperationMethod<
-  DeleteMulticastGroupRequest,
-  DeleteMulticastGroupResponse,
+export type DeleteMulticastGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a multicast group if it is not in use by a FUOTA task.
+ */
+export const deleteMulticastGroup: API.OperationMethod<
+  DeleteMulticastGroupRequest,
+  DeleteMulticastGroupResponse,
+  DeleteMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMulticastGroupRequest,
@@ -6775,19 +6819,21 @@ export const deleteMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a network analyzer configuration.
- */
-export const deleteNetworkAnalyzerConfiguration: API.OperationMethod<
-  DeleteNetworkAnalyzerConfigurationRequest,
-  DeleteNetworkAnalyzerConfigurationResponse,
+export type DeleteNetworkAnalyzerConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a network analyzer configuration.
+ */
+export const deleteNetworkAnalyzerConfiguration: API.OperationMethod<
+  DeleteNetworkAnalyzerConfigurationRequest,
+  DeleteNetworkAnalyzerConfigurationResponse,
+  DeleteNetworkAnalyzerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNetworkAnalyzerConfigurationRequest,
@@ -6801,18 +6847,20 @@ export const deleteNetworkAnalyzerConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteQueuedMessagesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove queued messages from the downlink queue.
  */
 export const deleteQueuedMessages: API.OperationMethod<
   DeleteQueuedMessagesRequest,
   DeleteQueuedMessagesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteQueuedMessagesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueuedMessagesRequest,
@@ -6825,19 +6873,21 @@ export const deleteQueuedMessages: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes a service profile.
- */
-export const deleteServiceProfile: API.OperationMethod<
-  DeleteServiceProfileRequest,
-  DeleteServiceProfileResponse,
+export type DeleteServiceProfileError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes a service profile.
+ */
+export const deleteServiceProfile: API.OperationMethod<
+  DeleteServiceProfileRequest,
+  DeleteServiceProfileResponse,
+  DeleteServiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceProfileRequest,
@@ -6851,18 +6901,20 @@ export const deleteServiceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWirelessDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a wireless device.
  */
 export const deleteWirelessDevice: API.OperationMethod<
   DeleteWirelessDeviceRequest,
   DeleteWirelessDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWirelessDeviceRequest,
@@ -6875,19 +6927,21 @@ export const deleteWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Delete an import task.
- */
-export const deleteWirelessDeviceImportTask: API.OperationMethod<
-  DeleteWirelessDeviceImportTaskRequest,
-  DeleteWirelessDeviceImportTaskResponse,
+export type DeleteWirelessDeviceImportTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Delete an import task.
+ */
+export const deleteWirelessDeviceImportTask: API.OperationMethod<
+  DeleteWirelessDeviceImportTaskRequest,
+  DeleteWirelessDeviceImportTaskResponse,
+  DeleteWirelessDeviceImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWirelessDeviceImportTaskRequest,
@@ -6901,6 +6955,13 @@ export const deleteWirelessDeviceImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWirelessGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a wireless gateway.
  *
@@ -6918,12 +6979,7 @@ export const deleteWirelessDeviceImportTask: API.OperationMethod<
 export const deleteWirelessGateway: API.OperationMethod<
   DeleteWirelessGatewayRequest,
   DeleteWirelessGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWirelessGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWirelessGatewayRequest,
@@ -6936,18 +6992,20 @@ export const deleteWirelessGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWirelessGatewayTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a wireless gateway task.
  */
 export const deleteWirelessGatewayTask: API.OperationMethod<
   DeleteWirelessGatewayTaskRequest,
   DeleteWirelessGatewayTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWirelessGatewayTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWirelessGatewayTaskRequest,
@@ -6960,6 +7018,13 @@ export const deleteWirelessGatewayTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWirelessGatewayTaskDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a wireless gateway task definition. Deleting this task definition does not
  * affect tasks that are currently in progress.
@@ -6967,12 +7032,7 @@ export const deleteWirelessGatewayTask: API.OperationMethod<
 export const deleteWirelessGatewayTaskDefinition: API.OperationMethod<
   DeleteWirelessGatewayTaskDefinitionRequest,
   DeleteWirelessGatewayTaskDefinitionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWirelessGatewayTaskDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWirelessGatewayTaskDefinitionRequest,
@@ -6985,17 +7045,19 @@ export const deleteWirelessGatewayTaskDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeregisterWirelessDeviceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deregister a wireless device from AWS IoT Wireless.
  */
 export const deregisterWirelessDevice: API.OperationMethod<
   DeregisterWirelessDeviceRequest,
   DeregisterWirelessDeviceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeregisterWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterWirelessDeviceRequest,
@@ -7007,6 +7069,12 @@ export const deregisterWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateAwsAccountFromPartnerAccountError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates your AWS account from a partner account. If
  * `PartnerAccountId` and `PartnerType` are `null`,
@@ -7015,11 +7083,7 @@ export const deregisterWirelessDevice: API.OperationMethod<
 export const disassociateAwsAccountFromPartnerAccount: API.OperationMethod<
   DisassociateAwsAccountFromPartnerAccountRequest,
   DisassociateAwsAccountFromPartnerAccountResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateAwsAccountFromPartnerAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAwsAccountFromPartnerAccountRequest,
@@ -7031,18 +7095,20 @@ export const disassociateAwsAccountFromPartnerAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateMulticastGroupFromFuotaTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a multicast group from a FUOTA task.
  */
 export const disassociateMulticastGroupFromFuotaTask: API.OperationMethod<
   DisassociateMulticastGroupFromFuotaTaskRequest,
   DisassociateMulticastGroupFromFuotaTaskResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DisassociateMulticastGroupFromFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMulticastGroupFromFuotaTaskRequest,
@@ -7055,19 +7121,21 @@ export const disassociateMulticastGroupFromFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a wireless device from a FUOTA task.
- */
-export const disassociateWirelessDeviceFromFuotaTask: API.OperationMethod<
-  DisassociateWirelessDeviceFromFuotaTaskRequest,
-  DisassociateWirelessDeviceFromFuotaTaskResponse,
+export type DisassociateWirelessDeviceFromFuotaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a wireless device from a FUOTA task.
+ */
+export const disassociateWirelessDeviceFromFuotaTask: API.OperationMethod<
+  DisassociateWirelessDeviceFromFuotaTaskRequest,
+  DisassociateWirelessDeviceFromFuotaTaskResponse,
+  DisassociateWirelessDeviceFromFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWirelessDeviceFromFuotaTaskRequest,
@@ -7081,18 +7149,20 @@ export const disassociateWirelessDeviceFromFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateWirelessDeviceFromMulticastGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a wireless device from a multicast group.
  */
 export const disassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
   DisassociateWirelessDeviceFromMulticastGroupRequest,
   DisassociateWirelessDeviceFromMulticastGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateWirelessDeviceFromMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWirelessDeviceFromMulticastGroupRequest,
@@ -7105,19 +7175,21 @@ export const disassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a wireless device from its currently associated thing.
- */
-export const disassociateWirelessDeviceFromThing: API.OperationMethod<
-  DisassociateWirelessDeviceFromThingRequest,
-  DisassociateWirelessDeviceFromThingResponse,
+export type DisassociateWirelessDeviceFromThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a wireless device from its currently associated thing.
+ */
+export const disassociateWirelessDeviceFromThing: API.OperationMethod<
+  DisassociateWirelessDeviceFromThingRequest,
+  DisassociateWirelessDeviceFromThingResponse,
+  DisassociateWirelessDeviceFromThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWirelessDeviceFromThingRequest,
@@ -7131,18 +7203,20 @@ export const disassociateWirelessDeviceFromThing: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateWirelessGatewayFromCertificateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates a wireless gateway from its currently associated certificate.
  */
 export const disassociateWirelessGatewayFromCertificate: API.OperationMethod<
   DisassociateWirelessGatewayFromCertificateRequest,
   DisassociateWirelessGatewayFromCertificateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateWirelessGatewayFromCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWirelessGatewayFromCertificateRequest,
@@ -7155,19 +7229,21 @@ export const disassociateWirelessGatewayFromCertificate: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Disassociates a wireless gateway from its currently associated thing.
- */
-export const disassociateWirelessGatewayFromThing: API.OperationMethod<
-  DisassociateWirelessGatewayFromThingRequest,
-  DisassociateWirelessGatewayFromThingResponse,
+export type DisassociateWirelessGatewayFromThingError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Disassociates a wireless gateway from its currently associated thing.
+ */
+export const disassociateWirelessGatewayFromThing: API.OperationMethod<
+  DisassociateWirelessGatewayFromThingRequest,
+  DisassociateWirelessGatewayFromThingResponse,
+  DisassociateWirelessGatewayFromThingError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWirelessGatewayFromThingRequest,
@@ -7181,18 +7257,20 @@ export const disassociateWirelessGatewayFromThing: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a destination.
  */
 export const getDestination: API.OperationMethod<
   GetDestinationRequest,
   GetDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDestinationRequest,
@@ -7205,18 +7283,20 @@ export const getDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDeviceProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a device profile.
  */
 export const getDeviceProfile: API.OperationMethod<
   GetDeviceProfileRequest,
   GetDeviceProfileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDeviceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceProfileRequest,
@@ -7229,34 +7309,38 @@ export const getDeviceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetEventConfigurationByResourceTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get the event configuration based on resource types.
  */
 export const getEventConfigurationByResourceTypes: API.OperationMethod<
   GetEventConfigurationByResourceTypesRequest,
   GetEventConfigurationByResourceTypesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors,
+  GetEventConfigurationByResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventConfigurationByResourceTypesRequest,
   output: GetEventConfigurationByResourceTypesResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
 }));
+export type GetFuotaTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a FUOTA task.
  */
 export const getFuotaTask: API.OperationMethod<
   GetFuotaTaskRequest,
   GetFuotaTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFuotaTaskRequest,
@@ -7269,6 +7353,13 @@ export const getFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLogLevelsByResourceTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns current default log levels or log levels by resource types. Based on the
  * resource type, log levels can be returned for wireless device, wireless gateway, or
@@ -7277,12 +7368,7 @@ export const getFuotaTask: API.OperationMethod<
 export const getLogLevelsByResourceTypes: API.OperationMethod<
   GetLogLevelsByResourceTypesRequest,
   GetLogLevelsByResourceTypesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLogLevelsByResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLogLevelsByResourceTypesRequest,
@@ -7295,19 +7381,21 @@ export const getLogLevelsByResourceTypes: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get the metric configuration status for this AWS account.
- */
-export const getMetricConfiguration: API.OperationMethod<
-  GetMetricConfigurationRequest,
-  GetMetricConfigurationResponse,
+export type GetMetricConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the metric configuration status for this AWS account.
+ */
+export const getMetricConfiguration: API.OperationMethod<
+  GetMetricConfigurationRequest,
+  GetMetricConfigurationResponse,
+  GetMetricConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricConfigurationRequest,
@@ -7321,19 +7409,21 @@ export const getMetricConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Get the summary metrics for this AWS account.
- */
-export const getMetrics: API.OperationMethod<
-  GetMetricsRequest,
-  GetMetricsResponse,
+export type GetMetricsError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Get the summary metrics for this AWS account.
+ */
+export const getMetrics: API.OperationMethod<
+  GetMetricsRequest,
+  GetMetricsResponse,
+  GetMetricsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricsRequest,
@@ -7347,18 +7437,20 @@ export const getMetrics: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMulticastGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a multicast group.
  */
 export const getMulticastGroup: API.OperationMethod<
   GetMulticastGroupRequest,
   GetMulticastGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMulticastGroupRequest,
@@ -7371,18 +7463,20 @@ export const getMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetMulticastGroupSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a multicast group session.
  */
 export const getMulticastGroupSession: API.OperationMethod<
   GetMulticastGroupSessionRequest,
   GetMulticastGroupSessionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetMulticastGroupSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMulticastGroupSessionRequest,
@@ -7395,18 +7489,20 @@ export const getMulticastGroupSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetNetworkAnalyzerConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get network analyzer configuration.
  */
 export const getNetworkAnalyzerConfiguration: API.OperationMethod<
   GetNetworkAnalyzerConfigurationRequest,
   GetNetworkAnalyzerConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetNetworkAnalyzerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkAnalyzerConfigurationRequest,
@@ -7419,6 +7515,12 @@ export const getNetworkAnalyzerConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPartnerAccountError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a partner account. If `PartnerAccountId` and
  * `PartnerType` are `null`, returns all partner accounts.
@@ -7426,11 +7528,7 @@ export const getNetworkAnalyzerConfiguration: API.OperationMethod<
 export const getPartnerAccount: API.OperationMethod<
   GetPartnerAccountRequest,
   GetPartnerAccountResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPartnerAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnerAccountRequest,
@@ -7442,6 +7540,13 @@ export const getPartnerAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the position information for a given resource.
  *
@@ -7451,12 +7556,7 @@ export const getPartnerAccount: API.OperationMethod<
 export const getPosition: API.OperationMethod<
   GetPositionRequest,
   GetPositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPositionRequest,
@@ -7469,6 +7569,13 @@ export const getPosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPositionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get position configuration for a given resource.
  *
@@ -7478,12 +7585,7 @@ export const getPosition: API.OperationMethod<
 export const getPositionConfiguration: API.OperationMethod<
   GetPositionConfigurationRequest,
   GetPositionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPositionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPositionConfigurationRequest,
@@ -7496,6 +7598,13 @@ export const getPositionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetPositionEstimateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get estimated position information as a payload in GeoJSON format. The payload
  * measurement data is resolved using solvers that are provided by third-party
@@ -7504,12 +7613,7 @@ export const getPositionConfiguration: API.OperationMethod<
 export const getPositionEstimate: API.OperationMethod<
   GetPositionEstimateRequest,
   GetPositionEstimateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetPositionEstimateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPositionEstimateRequest,
@@ -7522,18 +7626,20 @@ export const getPositionEstimate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourceEventConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the event configuration for a particular resource identifier.
  */
 export const getResourceEventConfiguration: API.OperationMethod<
   GetResourceEventConfigurationRequest,
   GetResourceEventConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourceEventConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceEventConfigurationRequest,
@@ -7546,6 +7652,13 @@ export const getResourceEventConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourceLogLevelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Fetches the log-level override, if any, for a given resource ID and resource
  * type..
@@ -7553,12 +7666,7 @@ export const getResourceEventConfiguration: API.OperationMethod<
 export const getResourceLogLevel: API.OperationMethod<
   GetResourceLogLevelRequest,
   GetResourceLogLevelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourceLogLevelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceLogLevelRequest,
@@ -7571,6 +7679,13 @@ export const getResourceLogLevel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetResourcePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get the position information for a given wireless device or a wireless gateway
  * resource. The position information uses the World Geodetic System
@@ -7579,12 +7694,7 @@ export const getResourceLogLevel: API.OperationMethod<
 export const getResourcePosition: API.OperationMethod<
   GetResourcePositionRequest,
   GetResourcePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetResourcePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePositionRequest,
@@ -7597,6 +7707,12 @@ export const getResourcePosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceEndpointError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol
  * or LoRaWAN Network Server (LNS) connections.
@@ -7604,11 +7720,7 @@ export const getResourcePosition: API.OperationMethod<
 export const getServiceEndpoint: API.OperationMethod<
   GetServiceEndpointRequest,
   GetServiceEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceEndpointError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceEndpointRequest,
@@ -7620,18 +7732,20 @@ export const getServiceEndpoint: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetServiceProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a service profile.
  */
 export const getServiceProfile: API.OperationMethod<
   GetServiceProfileRequest,
   GetServiceProfileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetServiceProfileError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceProfileRequest,
@@ -7644,18 +7758,20 @@ export const getServiceProfile: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a wireless device.
  */
 export const getWirelessDevice: API.OperationMethod<
   GetWirelessDeviceRequest,
   GetWirelessDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessDeviceRequest,
@@ -7668,6 +7784,14 @@ export const getWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessDeviceImportTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Get information about an import task and count of device onboarding summary
  * information for the import task.
@@ -7675,13 +7799,7 @@ export const getWirelessDevice: API.OperationMethod<
 export const getWirelessDeviceImportTask: API.OperationMethod<
   GetWirelessDeviceImportTaskRequest,
   GetWirelessDeviceImportTaskResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessDeviceImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessDeviceImportTaskRequest,
@@ -7695,18 +7813,20 @@ export const getWirelessDeviceImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessDeviceStatisticsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets operating information about a wireless device.
  */
 export const getWirelessDeviceStatistics: API.OperationMethod<
   GetWirelessDeviceStatisticsRequest,
   GetWirelessDeviceStatisticsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessDeviceStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessDeviceStatisticsRequest,
@@ -7719,18 +7839,20 @@ export const getWirelessDeviceStatistics: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a wireless gateway.
  */
 export const getWirelessGateway: API.OperationMethod<
   GetWirelessGatewayRequest,
   GetWirelessGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayRequest,
@@ -7743,6 +7865,13 @@ export const getWirelessGateway: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessGatewayCertificateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the ID of the certificate that is currently associated with a wireless
  * gateway.
@@ -7750,12 +7879,7 @@ export const getWirelessGateway: API.OperationMethod<
 export const getWirelessGatewayCertificate: API.OperationMethod<
   GetWirelessGatewayCertificateRequest,
   GetWirelessGatewayCertificateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessGatewayCertificateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayCertificateRequest,
@@ -7768,18 +7892,20 @@ export const getWirelessGatewayCertificate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessGatewayFirmwareInformationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets the firmware version and other information about a wireless gateway.
  */
 export const getWirelessGatewayFirmwareInformation: API.OperationMethod<
   GetWirelessGatewayFirmwareInformationRequest,
   GetWirelessGatewayFirmwareInformationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessGatewayFirmwareInformationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayFirmwareInformationRequest,
@@ -7792,18 +7918,20 @@ export const getWirelessGatewayFirmwareInformation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessGatewayStatisticsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets operating information about a wireless gateway.
  */
 export const getWirelessGatewayStatistics: API.OperationMethod<
   GetWirelessGatewayStatisticsRequest,
   GetWirelessGatewayStatisticsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessGatewayStatisticsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayStatisticsRequest,
@@ -7816,18 +7944,20 @@ export const getWirelessGatewayStatistics: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessGatewayTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a wireless gateway task.
  */
 export const getWirelessGatewayTask: API.OperationMethod<
   GetWirelessGatewayTaskRequest,
   GetWirelessGatewayTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessGatewayTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayTaskRequest,
@@ -7840,18 +7970,20 @@ export const getWirelessGatewayTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetWirelessGatewayTaskDefinitionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets information about a wireless gateway task definition.
  */
 export const getWirelessGatewayTaskDefinition: API.OperationMethod<
   GetWirelessGatewayTaskDefinitionRequest,
   GetWirelessGatewayTaskDefinitionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetWirelessGatewayTaskDefinitionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayTaskDefinitionRequest,
@@ -7864,39 +7996,33 @@ export const getWirelessGatewayTaskDefinition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDestinationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the destinations registered to your AWS account.
  */
 export const listDestinations: API.OperationMethod<
   ListDestinationsRequest,
   ListDestinationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDestinationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDestinationsRequest,
   ) => stream.Stream<
     ListDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDestinationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDestinationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7914,39 +8040,33 @@ export const listDestinations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListDeviceProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the device profiles registered to your AWS account.
  */
 export const listDeviceProfiles: API.OperationMethod<
   ListDeviceProfilesRequest,
   ListDeviceProfilesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDeviceProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDeviceProfilesRequest,
   ) => stream.Stream<
     ListDeviceProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeviceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeviceProfilesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDeviceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -7964,19 +8084,21 @@ export const listDeviceProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
-/**
- * List the Sidewalk devices in an import task and their onboarding status.
- */
-export const listDevicesForWirelessDeviceImportTask: API.OperationMethod<
-  ListDevicesForWirelessDeviceImportTaskRequest,
-  ListDevicesForWirelessDeviceImportTaskResponse,
+export type ListDevicesForWirelessDeviceImportTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * List the Sidewalk devices in an import task and their onboarding status.
+ */
+export const listDevicesForWirelessDeviceImportTask: API.OperationMethod<
+  ListDevicesForWirelessDeviceImportTaskRequest,
+  ListDevicesForWirelessDeviceImportTaskResponse,
+  ListDevicesForWirelessDeviceImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDevicesForWirelessDeviceImportTaskRequest,
@@ -7990,17 +8112,19 @@ export const listDevicesForWirelessDeviceImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListEventConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List event configurations where at least one event topic has been enabled.
  */
 export const listEventConfigurations: API.OperationMethod<
   ListEventConfigurationsRequest,
   ListEventConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListEventConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventConfigurationsRequest,
@@ -8012,39 +8136,33 @@ export const listEventConfigurations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFuotaTasksError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the FUOTA tasks registered to your AWS account.
  */
 export const listFuotaTasks: API.OperationMethod<
   ListFuotaTasksRequest,
   ListFuotaTasksResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFuotaTasksError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFuotaTasksRequest,
   ) => stream.Stream<
     ListFuotaTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFuotaTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFuotaTasksRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFuotaTasksError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8062,39 +8180,33 @@ export const listFuotaTasks: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMulticastGroupsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the multicast groups registered to your AWS account.
  */
 export const listMulticastGroups: API.OperationMethod<
   ListMulticastGroupsRequest,
   ListMulticastGroupsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMulticastGroupsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMulticastGroupsRequest,
   ) => stream.Stream<
     ListMulticastGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMulticastGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMulticastGroupsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMulticastGroupsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8112,42 +8224,34 @@ export const listMulticastGroups: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListMulticastGroupsByFuotaTaskError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List all multicast groups associated with a FUOTA task.
  */
 export const listMulticastGroupsByFuotaTask: API.OperationMethod<
   ListMulticastGroupsByFuotaTaskRequest,
   ListMulticastGroupsByFuotaTaskResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListMulticastGroupsByFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMulticastGroupsByFuotaTaskRequest,
   ) => stream.Stream<
     ListMulticastGroupsByFuotaTaskResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMulticastGroupsByFuotaTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMulticastGroupsByFuotaTaskRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListMulticastGroupsByFuotaTaskError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8166,39 +8270,33 @@ export const listMulticastGroupsByFuotaTask: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListNetworkAnalyzerConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the network analyzer configurations.
  */
 export const listNetworkAnalyzerConfigurations: API.OperationMethod<
   ListNetworkAnalyzerConfigurationsRequest,
   ListNetworkAnalyzerConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListNetworkAnalyzerConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListNetworkAnalyzerConfigurationsRequest,
   ) => stream.Stream<
     ListNetworkAnalyzerConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNetworkAnalyzerConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNetworkAnalyzerConfigurationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListNetworkAnalyzerConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8216,17 +8314,19 @@ export const listNetworkAnalyzerConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListPartnerAccountsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the partner accounts associated with your AWS account.
  */
 export const listPartnerAccounts: API.OperationMethod<
   ListPartnerAccountsRequest,
   ListPartnerAccountsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPartnerAccountsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPartnerAccountsRequest,
@@ -8238,6 +8338,12 @@ export const listPartnerAccounts: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListPositionConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List position configurations for a given resource, such as positioning solvers.
  *
@@ -8247,33 +8353,21 @@ export const listPartnerAccounts: API.OperationMethod<
 export const listPositionConfigurations: API.OperationMethod<
   ListPositionConfigurationsRequest,
   ListPositionConfigurationsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListPositionConfigurationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListPositionConfigurationsRequest,
   ) => stream.Stream<
     ListPositionConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPositionConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPositionConfigurationsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListPositionConfigurationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8291,42 +8385,34 @@ export const listPositionConfigurations: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListQueuedMessagesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List queued messages in the downlink queue.
  */
 export const listQueuedMessages: API.OperationMethod<
   ListQueuedMessagesRequest,
   ListQueuedMessagesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListQueuedMessagesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListQueuedMessagesRequest,
   ) => stream.Stream<
     ListQueuedMessagesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueuedMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueuedMessagesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListQueuedMessagesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8345,39 +8431,33 @@ export const listQueuedMessages: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListServiceProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the service profiles registered to your AWS account.
  */
 export const listServiceProfiles: API.OperationMethod<
   ListServiceProfilesRequest,
   ListServiceProfilesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListServiceProfilesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListServiceProfilesRequest,
   ) => stream.Stream<
     ListServiceProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceProfilesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListServiceProfilesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8395,18 +8475,20 @@ export const listServiceProfiles: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -8419,6 +8501,14 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWirelessDeviceImportTasksError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List of import tasks and summary information of onboarding status of devices in each
  * import task.
@@ -8426,13 +8516,7 @@ export const listTagsForResource: API.OperationMethod<
 export const listWirelessDeviceImportTasks: API.OperationMethod<
   ListWirelessDeviceImportTasksRequest,
   ListWirelessDeviceImportTasksResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWirelessDeviceImportTasksError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWirelessDeviceImportTasksRequest,
@@ -8446,39 +8530,33 @@ export const listWirelessDeviceImportTasks: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWirelessDevicesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the wireless devices registered to your AWS account.
  */
 export const listWirelessDevices: API.OperationMethod<
   ListWirelessDevicesRequest,
   ListWirelessDevicesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWirelessDevicesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWirelessDevicesRequest,
   ) => stream.Stream<
     ListWirelessDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWirelessDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWirelessDevicesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWirelessDevicesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8496,39 +8574,33 @@ export const listWirelessDevices: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWirelessGatewaysError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the wireless gateways registered to your AWS account.
  */
 export const listWirelessGateways: API.OperationMethod<
   ListWirelessGatewaysRequest,
   ListWirelessGatewaysResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWirelessGatewaysError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWirelessGatewaysRequest,
   ) => stream.Stream<
     ListWirelessGatewaysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWirelessGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWirelessGatewaysRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWirelessGatewaysError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -8546,17 +8618,19 @@ export const listWirelessGateways: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListWirelessGatewayTaskDefinitionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * List the wireless gateway tasks definitions registered to your AWS account.
  */
 export const listWirelessGatewayTaskDefinitions: API.OperationMethod<
   ListWirelessGatewayTaskDefinitionsRequest,
   ListWirelessGatewayTaskDefinitionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWirelessGatewayTaskDefinitionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWirelessGatewayTaskDefinitionsRequest,
@@ -8568,6 +8642,13 @@ export const listWirelessGatewayTaskDefinitions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutPositionConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Put position configuration for a given resource.
  *
@@ -8577,12 +8658,7 @@ export const listWirelessGatewayTaskDefinitions: API.OperationMethod<
 export const putPositionConfiguration: API.OperationMethod<
   PutPositionConfigurationRequest,
   PutPositionConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutPositionConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPositionConfigurationRequest,
@@ -8595,6 +8671,13 @@ export const putPositionConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type PutResourceLogLevelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sets the log-level override for a resource ID and resource type. A limit of 200 log
  * level override can be set per account.
@@ -8602,12 +8685,7 @@ export const putPositionConfiguration: API.OperationMethod<
 export const putResourceLogLevel: API.OperationMethod<
   PutResourceLogLevelRequest,
   PutResourceLogLevelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  PutResourceLogLevelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourceLogLevelRequest,
@@ -8620,6 +8698,13 @@ export const putResourceLogLevel: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResetAllResourceLogLevelsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the log-level overrides for all resources; wireless devices, wireless
  * gateways, and FUOTA tasks.
@@ -8627,12 +8712,7 @@ export const putResourceLogLevel: API.OperationMethod<
 export const resetAllResourceLogLevels: API.OperationMethod<
   ResetAllResourceLogLevelsRequest,
   ResetAllResourceLogLevelsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetAllResourceLogLevelsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllResourceLogLevelsRequest,
@@ -8645,6 +8725,13 @@ export const resetAllResourceLogLevels: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ResetResourceLogLevelError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the log-level override, if any, for a specific resource ID and resource type.
  * It can be used for a wireless device, a wireless gateway, or a FUOTA task.
@@ -8652,12 +8739,7 @@ export const resetAllResourceLogLevels: API.OperationMethod<
 export const resetResourceLogLevel: API.OperationMethod<
   ResetResourceLogLevelRequest,
   ResetResourceLogLevelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ResetResourceLogLevelError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetResourceLogLevelRequest,
@@ -8670,19 +8752,21 @@ export const resetResourceLogLevel: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Sends the specified data to a multicast group.
- */
-export const sendDataToMulticastGroup: API.OperationMethod<
-  SendDataToMulticastGroupRequest,
-  SendDataToMulticastGroupResponse,
+export type SendDataToMulticastGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Sends the specified data to a multicast group.
+ */
+export const sendDataToMulticastGroup: API.OperationMethod<
+  SendDataToMulticastGroupRequest,
+  SendDataToMulticastGroupResponse,
+  SendDataToMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDataToMulticastGroupRequest,
@@ -8696,17 +8780,19 @@ export const sendDataToMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SendDataToWirelessDeviceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Sends a decrypted application data frame to a device.
  */
 export const sendDataToWirelessDevice: API.OperationMethod<
   SendDataToWirelessDeviceRequest,
   SendDataToWirelessDeviceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SendDataToWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDataToWirelessDeviceRequest,
@@ -8718,6 +8804,13 @@ export const sendDataToWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartBulkAssociateWirelessDeviceWithMulticastGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a bulk association of all qualifying wireless devices with a multicast
  * group.
@@ -8725,12 +8818,7 @@ export const sendDataToWirelessDevice: API.OperationMethod<
 export const startBulkAssociateWirelessDeviceWithMulticastGroup: API.OperationMethod<
   StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
   StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartBulkAssociateWirelessDeviceWithMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
@@ -8743,6 +8831,13 @@ export const startBulkAssociateWirelessDeviceWithMulticastGroup: API.OperationMe
     ValidationException,
   ],
 }));
+export type StartBulkDisassociateWirelessDeviceFromMulticastGroupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a bulk disassociatin of all qualifying wireless devices from a multicast
  * group.
@@ -8750,12 +8845,7 @@ export const startBulkAssociateWirelessDeviceWithMulticastGroup: API.OperationMe
 export const startBulkDisassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
   StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
   StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartBulkDisassociateWirelessDeviceFromMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
@@ -8768,19 +8858,21 @@ export const startBulkDisassociateWirelessDeviceFromMulticastGroup: API.Operatio
     ValidationException,
   ],
 }));
-/**
- * Starts a FUOTA task.
- */
-export const startFuotaTask: API.OperationMethod<
-  StartFuotaTaskRequest,
-  StartFuotaTaskResponse,
+export type StartFuotaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a FUOTA task.
+ */
+export const startFuotaTask: API.OperationMethod<
+  StartFuotaTaskRequest,
+  StartFuotaTaskResponse,
+  StartFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFuotaTaskRequest,
@@ -8794,19 +8886,21 @@ export const startFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a multicast group session.
- */
-export const startMulticastGroupSession: API.OperationMethod<
-  StartMulticastGroupSessionRequest,
-  StartMulticastGroupSessionResponse,
+export type StartMulticastGroupSessionError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a multicast group session.
+ */
+export const startMulticastGroupSession: API.OperationMethod<
+  StartMulticastGroupSessionRequest,
+  StartMulticastGroupSessionResponse,
+  StartMulticastGroupSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMulticastGroupSessionRequest,
@@ -8820,19 +8914,21 @@ export const startMulticastGroupSession: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Start import task for a single wireless device.
- */
-export const startSingleWirelessDeviceImportTask: API.OperationMethod<
-  StartSingleWirelessDeviceImportTaskRequest,
-  StartSingleWirelessDeviceImportTaskResponse,
+export type StartSingleWirelessDeviceImportTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Start import task for a single wireless device.
+ */
+export const startSingleWirelessDeviceImportTask: API.OperationMethod<
+  StartSingleWirelessDeviceImportTaskRequest,
+  StartSingleWirelessDeviceImportTaskResponse,
+  StartSingleWirelessDeviceImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSingleWirelessDeviceImportTaskRequest,
@@ -8846,6 +8942,14 @@ export const startSingleWirelessDeviceImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartWirelessDeviceImportTaskError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Start import task for provisioning Sidewalk devices in bulk using an S3 CSV
  * file.
@@ -8853,13 +8957,7 @@ export const startSingleWirelessDeviceImportTask: API.OperationMethod<
 export const startWirelessDeviceImportTask: API.OperationMethod<
   StartWirelessDeviceImportTaskRequest,
   StartWirelessDeviceImportTaskResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  StartWirelessDeviceImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWirelessDeviceImportTaskRequest,
@@ -8873,19 +8971,21 @@ export const startWirelessDeviceImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds a tag to a resource.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds a tag to a resource.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -8899,6 +8999,12 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TestWirelessDeviceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Simulates a provisioned device by sending an uplink data payload of
  * `Hello`.
@@ -8906,11 +9012,7 @@ export const tagResource: API.OperationMethod<
 export const testWirelessDevice: API.OperationMethod<
   TestWirelessDeviceRequest,
   TestWirelessDeviceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TestWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestWirelessDeviceRequest,
@@ -8922,18 +9024,20 @@ export const testWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -8946,18 +9050,20 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDestinationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates properties of a destination.
  */
 export const updateDestination: API.OperationMethod<
   UpdateDestinationRequest,
   UpdateDestinationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDestinationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDestinationRequest,
@@ -8970,17 +9076,19 @@ export const updateDestination: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateEventConfigurationByResourceTypesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the event configuration based on resource types.
  */
 export const updateEventConfigurationByResourceTypes: API.OperationMethod<
   UpdateEventConfigurationByResourceTypesRequest,
   UpdateEventConfigurationByResourceTypesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateEventConfigurationByResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventConfigurationByResourceTypesRequest,
@@ -8992,19 +9100,21 @@ export const updateEventConfigurationByResourceTypes: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates properties of a FUOTA task.
- */
-export const updateFuotaTask: API.OperationMethod<
-  UpdateFuotaTaskRequest,
-  UpdateFuotaTaskResponse,
+export type UpdateFuotaTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates properties of a FUOTA task.
+ */
+export const updateFuotaTask: API.OperationMethod<
+  UpdateFuotaTaskRequest,
+  UpdateFuotaTaskResponse,
+  UpdateFuotaTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFuotaTaskRequest,
@@ -9018,6 +9128,14 @@ export const updateFuotaTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLogLevelsByResourceTypesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Set default log level, or log levels by resource types. This can be for wireless
  * device, wireless gateway, or FUOTA task log options, and is used to control the log
@@ -9026,13 +9144,7 @@ export const updateFuotaTask: API.OperationMethod<
 export const updateLogLevelsByResourceTypes: API.OperationMethod<
   UpdateLogLevelsByResourceTypesRequest,
   UpdateLogLevelsByResourceTypesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateLogLevelsByResourceTypesError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLogLevelsByResourceTypesRequest,
@@ -9046,19 +9158,21 @@ export const updateLogLevelsByResourceTypes: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the summary metric configuration.
- */
-export const updateMetricConfiguration: API.OperationMethod<
-  UpdateMetricConfigurationRequest,
-  UpdateMetricConfigurationResponse,
+export type UpdateMetricConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the summary metric configuration.
+ */
+export const updateMetricConfiguration: API.OperationMethod<
+  UpdateMetricConfigurationRequest,
+  UpdateMetricConfigurationResponse,
+  UpdateMetricConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMetricConfigurationRequest,
@@ -9072,19 +9186,21 @@ export const updateMetricConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates properties of a multicast group session.
- */
-export const updateMulticastGroup: API.OperationMethod<
-  UpdateMulticastGroupRequest,
-  UpdateMulticastGroupResponse,
+export type UpdateMulticastGroupError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates properties of a multicast group session.
+ */
+export const updateMulticastGroup: API.OperationMethod<
+  UpdateMulticastGroupRequest,
+  UpdateMulticastGroupResponse,
+  UpdateMulticastGroupError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMulticastGroupRequest,
@@ -9098,18 +9214,20 @@ export const updateMulticastGroup: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateNetworkAnalyzerConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update network analyzer configuration.
  */
 export const updateNetworkAnalyzerConfiguration: API.OperationMethod<
   UpdateNetworkAnalyzerConfigurationRequest,
   UpdateNetworkAnalyzerConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateNetworkAnalyzerConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNetworkAnalyzerConfigurationRequest,
@@ -9122,17 +9240,19 @@ export const updateNetworkAnalyzerConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePartnerAccountError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates properties of a partner account.
  */
 export const updatePartnerAccount: API.OperationMethod<
   UpdatePartnerAccountRequest,
   UpdatePartnerAccountResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePartnerAccountError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePartnerAccountRequest,
@@ -9144,6 +9264,13 @@ export const updatePartnerAccount: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdatePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the position information of a resource.
  *
@@ -9153,12 +9280,7 @@ export const updatePartnerAccount: API.OperationMethod<
 export const updatePosition: API.OperationMethod<
   UpdatePositionRequest,
   UpdatePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdatePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePositionRequest,
@@ -9171,19 +9293,21 @@ export const updatePosition: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update the event configuration for a particular resource identifier.
- */
-export const updateResourceEventConfiguration: API.OperationMethod<
-  UpdateResourceEventConfigurationRequest,
-  UpdateResourceEventConfigurationResponse,
+export type UpdateResourceEventConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update the event configuration for a particular resource identifier.
+ */
+export const updateResourceEventConfiguration: API.OperationMethod<
+  UpdateResourceEventConfigurationRequest,
+  UpdateResourceEventConfigurationResponse,
+  UpdateResourceEventConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceEventConfigurationRequest,
@@ -9197,6 +9321,13 @@ export const updateResourceEventConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateResourcePositionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Update the position information of a given wireless device or a wireless gateway
  * resource. The position coordinates are based on the World Geodetic System
@@ -9205,12 +9336,7 @@ export const updateResourceEventConfiguration: API.OperationMethod<
 export const updateResourcePosition: API.OperationMethod<
   UpdateResourcePositionRequest,
   UpdateResourcePositionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateResourcePositionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourcePositionRequest,
@@ -9223,18 +9349,20 @@ export const updateResourcePosition: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateWirelessDeviceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates properties of a wireless device.
  */
 export const updateWirelessDevice: API.OperationMethod<
   UpdateWirelessDeviceRequest,
   UpdateWirelessDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateWirelessDeviceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWirelessDeviceRequest,
@@ -9247,19 +9375,21 @@ export const updateWirelessDevice: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Update an import task to add more devices to the task.
- */
-export const updateWirelessDeviceImportTask: API.OperationMethod<
-  UpdateWirelessDeviceImportTaskRequest,
-  UpdateWirelessDeviceImportTaskResponse,
+export type UpdateWirelessDeviceImportTaskError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Update an import task to add more devices to the task.
+ */
+export const updateWirelessDeviceImportTask: API.OperationMethod<
+  UpdateWirelessDeviceImportTaskRequest,
+  UpdateWirelessDeviceImportTaskResponse,
+  UpdateWirelessDeviceImportTaskError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWirelessDeviceImportTaskRequest,
@@ -9273,18 +9403,20 @@ export const updateWirelessDeviceImportTask: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateWirelessGatewayError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates properties of a wireless gateway.
  */
 export const updateWirelessGateway: API.OperationMethod<
   UpdateWirelessGatewayRequest,
   UpdateWirelessGatewayResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateWirelessGatewayError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWirelessGatewayRequest,

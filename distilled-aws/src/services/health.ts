@@ -1071,6 +1071,9 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 ) {}
 
 //# Operations
+export type DescribeAffectedAccountsForOrganizationError =
+  | InvalidPaginationToken
+  | CommonErrors;
 /**
  * Returns a list of accounts in the organization from Organizations that are affected by the
  * provided event. For more information about the different types of Health events, see
@@ -1085,21 +1088,21 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
 export const describeAffectedAccountsForOrganization: API.OperationMethod<
   DescribeAffectedAccountsForOrganizationRequest,
   DescribeAffectedAccountsForOrganizationResponse,
-  InvalidPaginationToken | CommonErrors,
+  DescribeAffectedAccountsForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAffectedAccountsForOrganizationRequest,
   ) => stream.Stream<
     DescribeAffectedAccountsForOrganizationResponse,
-    InvalidPaginationToken | CommonErrors,
+    DescribeAffectedAccountsForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAffectedAccountsForOrganizationRequest,
   ) => stream.Stream<
     AccountId,
-    InvalidPaginationToken | CommonErrors,
+    DescribeAffectedAccountsForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1113,6 +1116,10 @@ export const describeAffectedAccountsForOrganization: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeAffectedEntitiesError =
+  | InvalidPaginationToken
+  | UnsupportedLocale
+  | CommonErrors;
 /**
  * Returns a list of entities that have been affected by the specified events, based on the
  * specified filter criteria. Entities can refer to individual customer resources, groups of
@@ -1130,21 +1137,21 @@ export const describeAffectedAccountsForOrganization: API.OperationMethod<
 export const describeAffectedEntities: API.OperationMethod<
   DescribeAffectedEntitiesRequest,
   DescribeAffectedEntitiesResponse,
-  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  DescribeAffectedEntitiesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAffectedEntitiesRequest,
   ) => stream.Stream<
     DescribeAffectedEntitiesResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeAffectedEntitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAffectedEntitiesRequest,
   ) => stream.Stream<
     AffectedEntity,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeAffectedEntitiesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1158,6 +1165,10 @@ export const describeAffectedEntities: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeAffectedEntitiesForOrganizationError =
+  | InvalidPaginationToken
+  | UnsupportedLocale
+  | CommonErrors;
 /**
  * Returns a list of entities that have been affected by one or more events for one or more
  * accounts in your organization in Organizations, based on the filter criteria. Entities can refer
@@ -1178,21 +1189,21 @@ export const describeAffectedEntities: API.OperationMethod<
 export const describeAffectedEntitiesForOrganization: API.OperationMethod<
   DescribeAffectedEntitiesForOrganizationRequest,
   DescribeAffectedEntitiesForOrganizationResponse,
-  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  DescribeAffectedEntitiesForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeAffectedEntitiesForOrganizationRequest,
   ) => stream.Stream<
     DescribeAffectedEntitiesForOrganizationResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeAffectedEntitiesForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAffectedEntitiesForOrganizationRequest,
   ) => stream.Stream<
     AffectedEntity,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeAffectedEntitiesForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1206,32 +1217,37 @@ export const describeAffectedEntitiesForOrganization: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeEntityAggregatesError = CommonErrors;
 /**
  * Returns the number of entities that are affected by each of the specified events.
  */
 export const describeEntityAggregates: API.OperationMethod<
   DescribeEntityAggregatesRequest,
   DescribeEntityAggregatesResponse,
-  CommonErrors,
+  DescribeEntityAggregatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntityAggregatesRequest,
   output: DescribeEntityAggregatesResponse,
   errors: [],
 }));
+export type DescribeEntityAggregatesForOrganizationError = CommonErrors;
 /**
  * Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
  */
 export const describeEntityAggregatesForOrganization: API.OperationMethod<
   DescribeEntityAggregatesForOrganizationRequest,
   DescribeEntityAggregatesForOrganizationResponse,
-  CommonErrors,
+  DescribeEntityAggregatesForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntityAggregatesForOrganizationRequest,
   output: DescribeEntityAggregatesForOrganizationResponse,
   errors: [],
 }));
+export type DescribeEventAggregatesError =
+  | InvalidPaginationToken
+  | CommonErrors;
 /**
  * Returns the number of events of each event type (issue, scheduled change, and account
  * notification). If no filter is specified, the counts of all events in each category are
@@ -1242,21 +1258,21 @@ export const describeEntityAggregatesForOrganization: API.OperationMethod<
 export const describeEventAggregates: API.OperationMethod<
   DescribeEventAggregatesRequest,
   DescribeEventAggregatesResponse,
-  InvalidPaginationToken | CommonErrors,
+  DescribeEventAggregatesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventAggregatesRequest,
   ) => stream.Stream<
     DescribeEventAggregatesResponse,
-    InvalidPaginationToken | CommonErrors,
+    DescribeEventAggregatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventAggregatesRequest,
   ) => stream.Stream<
     EventAggregate,
-    InvalidPaginationToken | CommonErrors,
+    DescribeEventAggregatesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1270,6 +1286,7 @@ export const describeEventAggregates: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeEventDetailsError = UnsupportedLocale | CommonErrors;
 /**
  * Returns detailed information about one or more specified events. Information includes
  * standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents), a detailed event description, and possible additional metadata
@@ -1285,13 +1302,16 @@ export const describeEventAggregates: API.OperationMethod<
 export const describeEventDetails: API.OperationMethod<
   DescribeEventDetailsRequest,
   DescribeEventDetailsResponse,
-  UnsupportedLocale | CommonErrors,
+  DescribeEventDetailsError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventDetailsRequest,
   output: DescribeEventDetailsResponse,
   errors: [UnsupportedLocale],
 }));
+export type DescribeEventDetailsForOrganizationError =
+  | UnsupportedLocale
+  | CommonErrors;
 /**
  * Returns detailed information about one or more specified events for one or more
  * Amazon Web Services accounts in your organization. This information includes standard event data (such as
@@ -1325,13 +1345,17 @@ export const describeEventDetails: API.OperationMethod<
 export const describeEventDetailsForOrganization: API.OperationMethod<
   DescribeEventDetailsForOrganizationRequest,
   DescribeEventDetailsForOrganizationResponse,
-  UnsupportedLocale | CommonErrors,
+  DescribeEventDetailsForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventDetailsForOrganizationRequest,
   output: DescribeEventDetailsForOrganizationResponse,
   errors: [UnsupportedLocale],
 }));
+export type DescribeEventsError =
+  | InvalidPaginationToken
+  | UnsupportedLocale
+  | CommonErrors;
 /**
  * Returns information about events that meet the specified filter criteria. Events are
  * returned in a summary form and do not include the detailed description, any additional
@@ -1355,21 +1379,21 @@ export const describeEventDetailsForOrganization: API.OperationMethod<
 export const describeEvents: API.OperationMethod<
   DescribeEventsRequest,
   DescribeEventsResponse,
-  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  DescribeEventsError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsRequest,
   ) => stream.Stream<
     DescribeEventsResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsRequest,
   ) => stream.Stream<
     Event,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeEventsError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1383,6 +1407,10 @@ export const describeEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeEventsForOrganizationError =
+  | InvalidPaginationToken
+  | UnsupportedLocale
+  | CommonErrors;
 /**
  * Returns information about events across your organization in Organizations. You can use
  * the`filters` parameter to specify the events that you want to return. Events
@@ -1411,21 +1439,21 @@ export const describeEvents: API.OperationMethod<
 export const describeEventsForOrganization: API.OperationMethod<
   DescribeEventsForOrganizationRequest,
   DescribeEventsForOrganizationResponse,
-  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  DescribeEventsForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventsForOrganizationRequest,
   ) => stream.Stream<
     DescribeEventsForOrganizationResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeEventsForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsForOrganizationRequest,
   ) => stream.Stream<
     OrganizationEvent,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeEventsForOrganizationError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1439,6 +1467,10 @@ export const describeEventsForOrganization: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeEventTypesError =
+  | InvalidPaginationToken
+  | UnsupportedLocale
+  | CommonErrors;
 /**
  * Returns the event types that meet the specified filter criteria. You can use this API
  * operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the EventType object.
@@ -1451,21 +1483,21 @@ export const describeEventsForOrganization: API.OperationMethod<
 export const describeEventTypes: API.OperationMethod<
   DescribeEventTypesRequest,
   DescribeEventTypesResponse,
-  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  DescribeEventTypesError,
   Credentials | Rgn | HttpClient.HttpClient
 > & {
   pages: (
     input: DescribeEventTypesRequest,
   ) => stream.Stream<
     DescribeEventTypesResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeEventTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventTypesRequest,
   ) => stream.Stream<
     EventType,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+    DescribeEventTypesError,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1479,6 +1511,7 @@ export const describeEventTypes: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type DescribeHealthServiceStatusForOrganizationError = CommonErrors;
 /**
  * This operation provides status information on enabling or disabling Health to work
  * with your organization. To call this operation, you must use the organization's
@@ -1487,13 +1520,16 @@ export const describeEventTypes: API.OperationMethod<
 export const describeHealthServiceStatusForOrganization: API.OperationMethod<
   DescribeHealthServiceStatusForOrganizationRequest,
   DescribeHealthServiceStatusForOrganizationResponse,
-  CommonErrors,
+  DescribeHealthServiceStatusForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHealthServiceStatusForOrganizationRequest,
   output: DescribeHealthServiceStatusForOrganizationResponse,
   errors: [],
 }));
+export type DisableHealthServiceAccessForOrganizationError =
+  | ConcurrentModificationException
+  | CommonErrors;
 /**
  * Disables Health from working with Organizations. To call this operation, you must sign
  * in to the organization's management account. For more information, see Aggregating
@@ -1513,13 +1549,16 @@ export const describeHealthServiceStatusForOrganization: API.OperationMethod<
 export const disableHealthServiceAccessForOrganization: API.OperationMethod<
   DisableHealthServiceAccessForOrganizationRequest,
   DisableHealthServiceAccessForOrganizationResponse,
-  ConcurrentModificationException | CommonErrors,
+  DisableHealthServiceAccessForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableHealthServiceAccessForOrganizationRequest,
   output: DisableHealthServiceAccessForOrganizationResponse,
   errors: [ConcurrentModificationException],
 }));
+export type EnableHealthServiceAccessForOrganizationError =
+  | ConcurrentModificationException
+  | CommonErrors;
 /**
  * Enables Health to work with Organizations. You can use the organizational view feature
  * to aggregate events from all Amazon Web Services accounts in your organization in a centralized location.
@@ -1545,7 +1584,7 @@ export const disableHealthServiceAccessForOrganization: API.OperationMethod<
 export const enableHealthServiceAccessForOrganization: API.OperationMethod<
   EnableHealthServiceAccessForOrganizationRequest,
   EnableHealthServiceAccessForOrganizationResponse,
-  ConcurrentModificationException | CommonErrors,
+  EnableHealthServiceAccessForOrganizationError,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableHealthServiceAccessForOrganizationRequest,

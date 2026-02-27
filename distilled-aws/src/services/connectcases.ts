@@ -2817,18 +2817,20 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -2841,18 +2843,20 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2865,18 +2869,20 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2889,6 +2895,14 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCaseError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * If you provide a value for `PerformedBy.UserArn` you must also have connect:DescribeUser permission on the User ARN resource that you provide
  *
@@ -2905,13 +2919,7 @@ export const untagResource: API.OperationMethod<
 export const createCase: API.OperationMethod<
   CreateCaseRequest,
   CreateCaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRequest,
@@ -2925,42 +2933,34 @@ export const createCase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific case if it exists.
  */
 export const getCase: API.OperationMethod<
   GetCaseRequest,
   GetCaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCaseError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCaseRequest,
   ) => stream.Stream<
     GetCaseResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCaseError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCaseRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCaseError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2975,6 +2975,13 @@ export const getCase: API.OperationMethod<
   ],
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
 }));
+export type UpdateCaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * If you provide a value for `PerformedBy.UserArn` you must also have connect:DescribeUser permission on the User ARN resource that you provide
  *
@@ -2985,12 +2992,7 @@ export const getCase: API.OperationMethod<
 export const updateCase: API.OperationMethod<
   UpdateCaseRequest,
   UpdateCaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseRequest,
@@ -3003,6 +3005,13 @@ export const updateCase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCaseError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:
  *
@@ -3017,12 +3026,7 @@ export const updateCase: API.OperationMethod<
 export const deleteCase: API.OperationMethod<
   DeleteCaseRequest,
   DeleteCaseResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCaseRequest,
@@ -3035,42 +3039,34 @@ export const deleteCase: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetCaseAuditEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the audit history about a specific case if it exists.
  */
 export const getCaseAuditEvents: API.OperationMethod<
   GetCaseAuditEventsRequest,
   GetCaseAuditEventsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCaseAuditEventsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: GetCaseAuditEventsRequest,
   ) => stream.Stream<
     GetCaseAuditEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCaseAuditEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCaseAuditEventsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    GetCaseAuditEventsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3089,42 +3085,34 @@ export const getCaseAuditEvents: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCasesForContactError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists cases for a given contact.
  */
 export const listCasesForContact: API.OperationMethod<
   ListCasesForContactRequest,
   ListCasesForContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCasesForContactError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCasesForContactRequest,
   ) => stream.Stream<
     ListCasesForContactResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCasesForContactError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCasesForContactRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCasesForContactError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3143,6 +3131,13 @@ export const listCasesForContact: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SearchCasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
  *
@@ -3151,36 +3146,21 @@ export const listCasesForContact: API.OperationMethod<
 export const searchCases: API.OperationMethod<
   SearchCasesRequest,
   SearchCasesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchCasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchCasesRequest,
   ) => stream.Stream<
     SearchCasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchCasesRequest,
   ) => stream.Stream<
     SearchCasesResponseItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3200,6 +3180,14 @@ export const searchCases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateRelatedItemError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a related item (comments, tasks, and contacts) and associates it with a case.
  *
@@ -3236,13 +3224,7 @@ export const searchCases: API.OperationMethod<
 export const createRelatedItem: API.OperationMethod<
   CreateRelatedItemRequest,
   CreateRelatedItemResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateRelatedItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelatedItemRequest,
@@ -3256,6 +3238,13 @@ export const createRelatedItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteRelatedItemError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the related item resource under a case.
  *
@@ -3264,12 +3253,7 @@ export const createRelatedItem: API.OperationMethod<
 export const deleteRelatedItem: API.OperationMethod<
   DeleteRelatedItemRequest,
   DeleteRelatedItemResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteRelatedItemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelatedItemRequest,
@@ -3282,6 +3266,13 @@ export const deleteRelatedItem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchRelatedItemsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for related items that are associated with a case.
  *
@@ -3290,36 +3281,21 @@ export const deleteRelatedItem: API.OperationMethod<
 export const searchRelatedItems: API.OperationMethod<
   SearchRelatedItemsRequest,
   SearchRelatedItemsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchRelatedItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchRelatedItemsRequest,
   ) => stream.Stream<
     SearchRelatedItemsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchRelatedItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchRelatedItemsRequest,
   ) => stream.Stream<
     SearchRelatedItemsResponseItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchRelatedItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3339,12 +3315,7 @@ export const searchRelatedItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
- */
-export const createCaseRule: API.OperationMethod<
-  CreateCaseRuleRequest,
-  CreateCaseRuleResponse,
+export type CreateCaseRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3352,7 +3323,14 @@ export const createCaseRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
+ */
+export const createCaseRule: API.OperationMethod<
+  CreateCaseRuleRequest,
+  CreateCaseRuleResponse,
+  CreateCaseRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRuleRequest,
@@ -3367,12 +3345,7 @@ export const createCaseRule: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
- */
-export const updateCaseRule: API.OperationMethod<
-  UpdateCaseRuleRequest,
-  UpdateCaseRuleResponse,
+export type UpdateCaseRuleError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3380,7 +3353,14 @@ export const updateCaseRule: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
+ */
+export const updateCaseRule: API.OperationMethod<
+  UpdateCaseRuleRequest,
+  UpdateCaseRuleResponse,
+  UpdateCaseRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseRuleRequest,
@@ -3395,18 +3375,20 @@ export const updateCaseRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteCaseRuleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const deleteCaseRule: API.OperationMethod<
   DeleteCaseRuleRequest,
   DeleteCaseRuleResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
+  DeleteCaseRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCaseRuleRequest,
@@ -3419,42 +3401,34 @@ export const deleteCaseRule: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type ListCaseRulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const listCaseRules: API.OperationMethod<
   ListCaseRulesRequest,
   ListCaseRulesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListCaseRulesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCaseRulesRequest,
   ) => stream.Stream<
     ListCaseRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCaseRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCaseRulesRequest,
   ) => stream.Stream<
     CaseRuleSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListCaseRulesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3474,18 +3448,20 @@ export const listCaseRules: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchGetCaseRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const batchGetCaseRule: API.OperationMethod<
   BatchGetCaseRuleRequest,
   BatchGetCaseRuleResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetCaseRuleError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCaseRuleRequest,
@@ -3498,6 +3474,14 @@ export const batchGetCaseRule: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateDomainError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain.
  *
@@ -3506,13 +3490,7 @@ export const batchGetCaseRule: API.OperationMethod<
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
@@ -3526,18 +3504,20 @@ export const createDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetDomainError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specific domain if it exists.
  */
 export const getDomain: API.OperationMethod<
   GetDomainRequest,
   GetDomainResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
@@ -3550,6 +3530,14 @@ export const getDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteDomainError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a Cases domain.
  *
@@ -3558,13 +3546,7 @@ export const getDomain: API.OperationMethod<
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
@@ -3578,39 +3560,33 @@ export const deleteDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDomainsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
  */
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     ListDomainsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3628,18 +3604,20 @@ export const listDomains: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type GetCaseEventConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the case event publishing configuration.
  */
 export const getCaseEventConfiguration: API.OperationMethod<
   GetCaseEventConfigurationRequest,
   GetCaseEventConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetCaseEventConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCaseEventConfigurationRequest,
@@ -3652,19 +3630,21 @@ export const getCaseEventConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
- */
-export const putCaseEventConfiguration: API.OperationMethod<
-  PutCaseEventConfigurationRequest,
-  PutCaseEventConfigurationResponse,
+export type PutCaseEventConfigurationError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
+ */
+export const putCaseEventConfiguration: API.OperationMethod<
+  PutCaseEventConfigurationRequest,
+  PutCaseEventConfigurationResponse,
+  PutCaseEventConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCaseEventConfigurationRequest,
@@ -3678,6 +3658,13 @@ export const putCaseEventConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type SearchAllRelatedItemsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.
  *
@@ -3702,36 +3689,21 @@ export const putCaseEventConfiguration: API.OperationMethod<
 export const searchAllRelatedItems: API.OperationMethod<
   SearchAllRelatedItemsRequest,
   SearchAllRelatedItemsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  SearchAllRelatedItemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: SearchAllRelatedItemsRequest,
   ) => stream.Stream<
     SearchAllRelatedItemsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchAllRelatedItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SearchAllRelatedItemsRequest,
   ) => stream.Stream<
     SearchAllRelatedItemsResponseItem,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    SearchAllRelatedItemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3751,12 +3723,7 @@ export const searchAllRelatedItems: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
- */
-export const createField: API.OperationMethod<
-  CreateFieldRequest,
-  CreateFieldResponse,
+export type CreateFieldError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3764,7 +3731,14 @@ export const createField: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
+ */
+export const createField: API.OperationMethod<
+  CreateFieldRequest,
+  CreateFieldResponse,
+  CreateFieldError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFieldRequest,
@@ -3779,19 +3753,21 @@ export const createField: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the properties of an existing field.
- */
-export const updateField: API.OperationMethod<
-  UpdateFieldRequest,
-  UpdateFieldResponse,
+export type UpdateFieldError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the properties of an existing field.
+ */
+export const updateField: API.OperationMethod<
+  UpdateFieldRequest,
+  UpdateFieldResponse,
+  UpdateFieldError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFieldRequest,
@@ -3805,6 +3781,15 @@ export const updateField: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteFieldError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a field from a cases template.
  *
@@ -3837,14 +3822,7 @@ export const updateField: API.OperationMethod<
 export const deleteField: API.OperationMethod<
   DeleteFieldRequest,
   DeleteFieldResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteFieldError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFieldRequest,
@@ -3859,42 +3837,34 @@ export const deleteField: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFieldsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all fields in a Cases domain.
  */
 export const listFields: API.OperationMethod<
   ListFieldsRequest,
   ListFieldsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFieldsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFieldsRequest,
   ) => stream.Stream<
     ListFieldsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFieldsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFieldsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFieldsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3913,19 +3883,21 @@ export const listFields: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
-/**
- * Creates and updates a set of field options for a single select field in a Cases domain.
- */
-export const batchPutFieldOptions: API.OperationMethod<
-  BatchPutFieldOptionsRequest,
-  BatchPutFieldOptionsResponse,
+export type BatchPutFieldOptionsError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates and updates a set of field options for a single select field in a Cases domain.
+ */
+export const batchPutFieldOptions: API.OperationMethod<
+  BatchPutFieldOptionsRequest,
+  BatchPutFieldOptionsResponse,
+  BatchPutFieldOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutFieldOptionsRequest,
@@ -3939,42 +3911,34 @@ export const batchPutFieldOptions: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFieldOptionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the field options for a field identifier in the domain.
  */
 export const listFieldOptions: API.OperationMethod<
   ListFieldOptionsRequest,
   ListFieldOptionsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFieldOptionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFieldOptionsRequest,
   ) => stream.Stream<
     ListFieldOptionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFieldOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFieldOptionsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFieldOptionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -3993,18 +3957,20 @@ export const listFieldOptions: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchGetFieldError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the description for the list of fields in the request parameters.
  */
 export const batchGetField: API.OperationMethod<
   BatchGetFieldRequest,
   BatchGetFieldResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  BatchGetFieldError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFieldRequest,
@@ -4017,6 +3983,15 @@ export const batchGetField: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLayoutError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a layout in the Cases domain. Layouts define the following configuration in the top section and More Info tab of the Cases user interface:
  *
@@ -4029,14 +4004,7 @@ export const batchGetField: API.OperationMethod<
 export const createLayout: API.OperationMethod<
   CreateLayoutRequest,
   CreateLayoutResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateLayoutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLayoutRequest,
@@ -4051,18 +4019,20 @@ export const createLayout: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetLayoutError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the details for the requested layout.
  */
 export const getLayout: API.OperationMethod<
   GetLayoutRequest,
   GetLayoutResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetLayoutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayoutRequest,
@@ -4075,6 +4045,15 @@ export const getLayout: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLayoutError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the attributes of an existing layout.
  *
@@ -4087,14 +4066,7 @@ export const getLayout: API.OperationMethod<
 export const updateLayout: API.OperationMethod<
   UpdateLayoutRequest,
   UpdateLayoutResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateLayoutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLayoutRequest,
@@ -4109,6 +4081,14 @@ export const updateLayout: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLayoutError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a layout from a cases template. You can delete up to 100 layouts per domain.
  *
@@ -4123,13 +4103,7 @@ export const updateLayout: API.OperationMethod<
 export const deleteLayout: API.OperationMethod<
   DeleteLayoutRequest,
   DeleteLayoutResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteLayoutError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLayoutRequest,
@@ -4143,42 +4117,34 @@ export const deleteLayout: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListLayoutsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
  */
 export const listLayouts: API.OperationMethod<
   ListLayoutsRequest,
   ListLayoutsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListLayoutsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLayoutsRequest,
   ) => stream.Stream<
     ListLayoutsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLayoutsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLayoutsRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListLayoutsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -4197,6 +4163,15 @@ export const listLayouts: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CreateTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
  *
@@ -4213,14 +4188,7 @@ export const listLayouts: API.OperationMethod<
 export const createTemplate: API.OperationMethod<
   CreateTemplateRequest,
   CreateTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  CreateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
@@ -4235,6 +4203,13 @@ export const createTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type GetTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns the details for the requested template. Other template APIs are:
  *
@@ -4249,12 +4224,7 @@ export const createTemplate: API.OperationMethod<
 export const getTemplate: API.OperationMethod<
   GetTemplateRequest,
   GetTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  GetTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
@@ -4267,6 +4237,15 @@ export const getTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the attributes of an existing template. The template attributes that can be modified include `name`, `description`, `layoutConfiguration`, `requiredFields`, and `status`. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
  *
@@ -4283,14 +4262,7 @@ export const getTemplate: API.OperationMethod<
 export const updateTemplate: API.OperationMethod<
   UpdateTemplateRequest,
   UpdateTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
@@ -4305,6 +4277,14 @@ export const updateTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteTemplateError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a cases template. You can delete up to 100 templates per domain.
  *
@@ -4321,13 +4301,7 @@ export const updateTemplate: API.OperationMethod<
 export const deleteTemplate: API.OperationMethod<
   DeleteTemplateRequest,
   DeleteTemplateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
@@ -4341,6 +4315,13 @@ export const deleteTemplate: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
  *
@@ -4357,36 +4338,21 @@ export const deleteTemplate: API.OperationMethod<
 export const listTemplates: API.OperationMethod<
   ListTemplatesRequest,
   ListTemplatesResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTemplatesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListTemplatesRequest,
   ) => stream.Stream<
     ListTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplatesRequest,
   ) => stream.Stream<
     unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListTemplatesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

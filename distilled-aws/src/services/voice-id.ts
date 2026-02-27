@@ -1344,12 +1344,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Associates the fraudsters with the watchlist specified in the same domain.
- */
-export const associateFraudster: API.OperationMethod<
-  AssociateFraudsterRequest,
-  AssociateFraudsterResponse,
+export type AssociateFraudsterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1357,7 +1352,14 @@ export const associateFraudster: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Associates the fraudsters with the watchlist specified in the same domain.
+ */
+export const associateFraudster: API.OperationMethod<
+  AssociateFraudsterRequest,
+  AssociateFraudsterResponse,
+  AssociateFraudsterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFraudsterRequest,
@@ -1372,12 +1374,7 @@ export const associateFraudster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a watchlist that fraudsters can be a part of.
- */
-export const createWatchlist: API.OperationMethod<
-  CreateWatchlistRequest,
-  CreateWatchlistResponse,
+export type CreateWatchlistError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1385,7 +1382,14 @@ export const createWatchlist: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a watchlist that fraudsters can be a part of.
+ */
+export const createWatchlist: API.OperationMethod<
+  CreateWatchlistRequest,
+  CreateWatchlistResponse,
+  CreateWatchlistError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWatchlistRequest,
@@ -1400,19 +1404,21 @@ export const createWatchlist: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
- */
-export const deleteFraudster: API.OperationMethod<
-  DeleteFraudsterRequest,
-  DeleteFraudsterResponse,
+export type DeleteFraudsterError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
+ */
+export const deleteFraudster: API.OperationMethod<
+  DeleteFraudsterRequest,
+  DeleteFraudsterResponse,
+  DeleteFraudsterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFraudsterRequest,
@@ -1426,19 +1432,21 @@ export const deleteFraudster: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified speaker from Voice ID.
- */
-export const deleteSpeaker: API.OperationMethod<
-  DeleteSpeakerRequest,
-  DeleteSpeakerResponse,
+export type DeleteSpeakerError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified speaker from Voice ID.
+ */
+export const deleteSpeaker: API.OperationMethod<
+  DeleteSpeakerRequest,
+  DeleteSpeakerResponse,
+  DeleteSpeakerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpeakerRequest,
@@ -1452,6 +1460,14 @@ export const deleteSpeaker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteWatchlistError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified watchlist from Voice ID. This API throws an exception when
  * there are fraudsters in the watchlist that you are trying to delete. You must delete the
@@ -1460,13 +1476,7 @@ export const deleteSpeaker: API.OperationMethod<
 export const deleteWatchlist: API.OperationMethod<
   DeleteWatchlistRequest,
   DeleteWatchlistResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DeleteWatchlistError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWatchlistRequest,
@@ -1480,18 +1490,20 @@ export const deleteWatchlist: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFraudsterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified fraudster.
  */
 export const describeFraudster: API.OperationMethod<
   DescribeFraudsterRequest,
   DescribeFraudsterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeFraudsterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFraudsterRequest,
@@ -1504,18 +1516,20 @@ export const describeFraudster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeFraudsterRegistrationJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified fraudster registration job.
  */
 export const describeFraudsterRegistrationJob: API.OperationMethod<
   DescribeFraudsterRegistrationJobRequest,
   DescribeFraudsterRegistrationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeFraudsterRegistrationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFraudsterRegistrationJobRequest,
@@ -1528,18 +1542,20 @@ export const describeFraudsterRegistrationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSpeakerError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified speaker.
  */
 export const describeSpeaker: API.OperationMethod<
   DescribeSpeakerRequest,
   DescribeSpeakerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeSpeakerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSpeakerRequest,
@@ -1552,18 +1568,20 @@ export const describeSpeaker: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeSpeakerEnrollmentJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified speaker enrollment job.
  */
 export const describeSpeakerEnrollmentJob: API.OperationMethod<
   DescribeSpeakerEnrollmentJobRequest,
   DescribeSpeakerEnrollmentJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeSpeakerEnrollmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSpeakerEnrollmentJobRequest,
@@ -1576,18 +1594,20 @@ export const describeSpeakerEnrollmentJob: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeWatchlistError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified watchlist.
  */
 export const describeWatchlist: API.OperationMethod<
   DescribeWatchlistRequest,
   DescribeWatchlistResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeWatchlistError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWatchlistRequest,
@@ -1600,6 +1620,14 @@ export const describeWatchlist: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DisassociateFraudsterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Disassociates the fraudsters from the watchlist specified. Voice ID always expects a
  * fraudster to be a part of at least one watchlist. If
@@ -1608,13 +1636,7 @@ export const describeWatchlist: API.OperationMethod<
 export const disassociateFraudster: API.OperationMethod<
   DisassociateFraudsterRequest,
   DisassociateFraudsterResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DisassociateFraudsterError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFraudsterRequest,
@@ -1628,6 +1650,14 @@ export const disassociateFraudster: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type EvaluateSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Evaluates a specified session based on audio data accumulated during a streaming
  * Amazon Connect Voice ID call.
@@ -1635,13 +1665,7 @@ export const disassociateFraudster: API.OperationMethod<
 export const evaluateSession: API.OperationMethod<
   EvaluateSessionRequest,
   EvaluateSessionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  EvaluateSessionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateSessionRequest,
@@ -1655,6 +1679,13 @@ export const evaluateSession: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListFraudsterRegistrationJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the fraudster registration jobs in the domain with the given
  * `JobStatus`. If `JobStatus` is not provided, this lists all
@@ -1663,36 +1694,21 @@ export const evaluateSession: API.OperationMethod<
 export const listFraudsterRegistrationJobs: API.OperationMethod<
   ListFraudsterRegistrationJobsRequest,
   ListFraudsterRegistrationJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFraudsterRegistrationJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFraudsterRegistrationJobsRequest,
   ) => stream.Stream<
     ListFraudsterRegistrationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFraudsterRegistrationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFraudsterRegistrationJobsRequest,
   ) => stream.Stream<
     FraudsterRegistrationJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFraudsterRegistrationJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1712,42 +1728,34 @@ export const listFraudsterRegistrationJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListFraudstersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all fraudsters in a specified watchlist or domain.
  */
 export const listFraudsters: API.OperationMethod<
   ListFraudstersRequest,
   ListFraudstersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListFraudstersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListFraudstersRequest,
   ) => stream.Stream<
     ListFraudstersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFraudstersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFraudstersRequest,
   ) => stream.Stream<
     FraudsterSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListFraudstersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1767,6 +1775,13 @@ export const listFraudsters: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSpeakerEnrollmentJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the speaker enrollment jobs in the domain with the specified
  * `JobStatus`. If `JobStatus` is not provided, this lists all
@@ -1775,36 +1790,21 @@ export const listFraudsters: API.OperationMethod<
 export const listSpeakerEnrollmentJobs: API.OperationMethod<
   ListSpeakerEnrollmentJobsRequest,
   ListSpeakerEnrollmentJobsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSpeakerEnrollmentJobsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSpeakerEnrollmentJobsRequest,
   ) => stream.Stream<
     ListSpeakerEnrollmentJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSpeakerEnrollmentJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpeakerEnrollmentJobsRequest,
   ) => stream.Stream<
     SpeakerEnrollmentJobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSpeakerEnrollmentJobsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1824,42 +1824,34 @@ export const listSpeakerEnrollmentJobs: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListSpeakersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all speakers in a specified domain.
  */
 export const listSpeakers: API.OperationMethod<
   ListSpeakersRequest,
   ListSpeakersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListSpeakersError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListSpeakersRequest,
   ) => stream.Stream<
     ListSpeakersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSpeakersError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpeakersRequest,
   ) => stream.Stream<
     SpeakerSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListSpeakersError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1879,18 +1871,20 @@ export const listSpeakers: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all tags associated with a specified Voice ID resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
@@ -1903,42 +1897,34 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListWatchlistsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all watchlists in a specified domain.
  */
 export const listWatchlists: API.OperationMethod<
   ListWatchlistsRequest,
   ListWatchlistsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListWatchlistsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWatchlistsRequest,
   ) => stream.Stream<
     ListWatchlistsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWatchlistsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWatchlistsRequest,
   ) => stream.Stream<
     WatchlistSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListWatchlistsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1958,6 +1944,15 @@ export const listWatchlists: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type OptOutSpeakerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or
  * not they already exist in Voice ID. If they don't yet exist, a new speaker is created
@@ -1969,14 +1964,7 @@ export const listWatchlists: API.OperationMethod<
 export const optOutSpeaker: API.OperationMethod<
   OptOutSpeakerRequest,
   OptOutSpeakerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  OptOutSpeakerError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OptOutSpeakerRequest,
@@ -1991,12 +1979,7 @@ export const optOutSpeaker: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a new batch fraudster registration job using provided details.
- */
-export const startFraudsterRegistrationJob: API.OperationMethod<
-  StartFraudsterRegistrationJobRequest,
-  StartFraudsterRegistrationJobResponse,
+export type StartFraudsterRegistrationJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2004,7 +1987,14 @@ export const startFraudsterRegistrationJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a new batch fraudster registration job using provided details.
+ */
+export const startFraudsterRegistrationJob: API.OperationMethod<
+  StartFraudsterRegistrationJobRequest,
+  StartFraudsterRegistrationJobResponse,
+  StartFraudsterRegistrationJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFraudsterRegistrationJobRequest,
@@ -2019,12 +2009,7 @@ export const startFraudsterRegistrationJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Starts a new batch speaker enrollment job using specified details.
- */
-export const startSpeakerEnrollmentJob: API.OperationMethod<
-  StartSpeakerEnrollmentJobRequest,
-  StartSpeakerEnrollmentJobResponse,
+export type StartSpeakerEnrollmentJobError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2032,7 +2017,14 @@ export const startSpeakerEnrollmentJob: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Starts a new batch speaker enrollment job using specified details.
+ */
+export const startSpeakerEnrollmentJob: API.OperationMethod<
+  StartSpeakerEnrollmentJobRequest,
+  StartSpeakerEnrollmentJobResponse,
+  StartSpeakerEnrollmentJobError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSpeakerEnrollmentJobRequest,
@@ -2047,19 +2039,21 @@ export const startSpeakerEnrollmentJob: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Tags a Voice ID resource with the provided list of tags.
- */
-export const tagResource: API.OperationMethod<
-  TagResourceRequest,
-  TagResourceResponse,
+export type TagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Tags a Voice ID resource with the provided list of tags.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2073,19 +2067,21 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Removes specified tags from a specified Amazon Connect Voice ID resource.
- */
-export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
-  UntagResourceResponse,
+export type UntagResourceError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Removes specified tags from a specified Amazon Connect Voice ID resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
@@ -2099,19 +2095,21 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
- */
-export const updateWatchlist: API.OperationMethod<
-  UpdateWatchlistRequest,
-  UpdateWatchlistResponse,
+export type UpdateWatchlistError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
+ */
+export const updateWatchlist: API.OperationMethod<
+  UpdateWatchlistRequest,
+  UpdateWatchlistResponse,
+  UpdateWatchlistError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWatchlistRequest,
@@ -2125,13 +2123,7 @@ export const updateWatchlist: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters,
- * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
- */
-export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
-  CreateDomainResponse,
+export type CreateDomainError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -2139,7 +2131,15 @@ export const createDomain: API.OperationMethod<
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters,
+ * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
+ */
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
+  CreateDomainResponse,
+  CreateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
@@ -2154,18 +2154,20 @@ export const createDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeDomainError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the specified domain.
  */
 export const describeDomain: API.OperationMethod<
   DescribeDomainRequest,
   DescribeDomainResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  DescribeDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
@@ -2178,6 +2180,14 @@ export const describeDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateDomainError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the specified domain. This API has clobber behavior, and clears and replaces
  * all attributes. If an optional field, such as 'Description' is not provided, it is
@@ -2186,13 +2196,7 @@ export const describeDomain: API.OperationMethod<
 export const updateDomain: API.OperationMethod<
   UpdateDomainRequest,
   UpdateDomainResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainRequest,
@@ -2206,19 +2210,21 @@ export const updateDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Deletes the specified domain from Voice ID.
- */
-export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
-  DeleteDomainResponse,
+export type DeleteDomainError =
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified domain from Voice ID.
+ */
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
+  DeleteDomainResponse,
+  DeleteDomainError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
@@ -2232,39 +2238,33 @@ export const deleteDomain: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListDomainsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all the domains in the Amazon Web Services account.
  */
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  ListDomainsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     ListDomainsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsRequest,
   ) => stream.Stream<
     DomainSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
+    ListDomainsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({

@@ -1496,17 +1496,19 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type AddWorkloadError =
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a workload to a component. Each component can have at most five workloads.
  */
 export const addWorkload: API.OperationMethod<
   AddWorkloadRequest,
   AddWorkloadResponse,
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  AddWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddWorkloadRequest,
@@ -1518,19 +1520,21 @@ export const addWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
-/**
- * Adds an application that is created from a resource group.
- */
-export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
-  CreateApplicationResponse,
+export type CreateApplicationError =
   | AccessDeniedException
   | InternalServerException
   | ResourceInUseException
   | ResourceNotFoundException
   | TagsAlreadyExistException
   | ValidationException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Adds an application that is created from a resource group.
+ */
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1544,17 +1548,19 @@ export const createApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateComponentError =
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a custom component by grouping similar standalone instances to monitor.
  */
 export const createComponent: API.OperationMethod<
   CreateComponentRequest,
   CreateComponentResponse,
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentRequest,
@@ -1566,17 +1572,19 @@ export const createComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateLogPatternError =
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds an log pattern to a `LogPatternSet`.
  */
 export const createLogPattern: API.OperationMethod<
   CreateLogPatternRequest,
   CreateLogPatternResponse,
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  CreateLogPatternError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLogPatternRequest,
@@ -1588,6 +1596,12 @@ export const createLogPattern: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteApplicationError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified application from monitoring. Does not delete the
  * application.
@@ -1595,11 +1609,7 @@ export const createLogPattern: API.OperationMethod<
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -1611,6 +1621,11 @@ export const deleteApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteComponentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Ungroups a custom component. When you ungroup custom components, all applicable monitors
  * that are set up for the component are removed and the instances revert to their standalone
@@ -1619,10 +1634,7 @@ export const deleteApplication: API.OperationMethod<
 export const deleteComponent: API.OperationMethod<
   DeleteComponentRequest,
   DeleteComponentResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
@@ -1633,17 +1645,19 @@ export const deleteComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteLogPatternError =
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes the specified log pattern from a `LogPatternSet`.
  */
 export const deleteLogPattern: API.OperationMethod<
   DeleteLogPatternRequest,
   DeleteLogPatternResponse,
-  | BadRequestException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteLogPatternError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogPatternRequest,
@@ -1655,16 +1669,18 @@ export const deleteLogPattern: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the application.
  */
 export const describeApplication: API.OperationMethod<
   DescribeApplicationRequest,
   DescribeApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationRequest,
@@ -1675,6 +1691,11 @@ export const describeApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeComponentError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes a component and lists the resources that are grouped together in a
  * component.
@@ -1682,10 +1703,7 @@ export const describeApplication: API.OperationMethod<
 export const describeComponent: API.OperationMethod<
   DescribeComponentRequest,
   DescribeComponentResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComponentRequest,
@@ -1696,16 +1714,18 @@ export const describeComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeComponentConfigurationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the monitoring configuration of the component.
  */
 export const describeComponentConfiguration: API.OperationMethod<
   DescribeComponentConfigurationRequest,
   DescribeComponentConfigurationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeComponentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComponentConfigurationRequest,
@@ -1716,16 +1736,18 @@ export const describeComponentConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeComponentConfigurationRecommendationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the recommended monitoring configuration of the component.
  */
 export const describeComponentConfigurationRecommendation: API.OperationMethod<
   DescribeComponentConfigurationRecommendationRequest,
   DescribeComponentConfigurationRecommendationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeComponentConfigurationRecommendationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComponentConfigurationRecommendationRequest,
@@ -1736,16 +1758,18 @@ export const describeComponentConfigurationRecommendation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeLogPatternError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describe a specific log pattern from a `LogPatternSet`.
  */
 export const describeLogPattern: API.OperationMethod<
   DescribeLogPatternRequest,
   DescribeLogPatternResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeLogPatternError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLogPatternRequest,
@@ -1756,16 +1780,18 @@ export const describeLogPattern: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeObservationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes an anomaly or error with the application.
  */
 export const describeObservation: API.OperationMethod<
   DescribeObservationRequest,
   DescribeObservationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeObservationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeObservationRequest,
@@ -1776,16 +1802,18 @@ export const describeObservation: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeProblemError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes an application problem.
  */
 export const describeProblem: API.OperationMethod<
   DescribeProblemRequest,
   DescribeProblemResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeProblemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProblemRequest,
@@ -1796,16 +1824,18 @@ export const describeProblem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeProblemObservationsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes the anomalies or errors associated with the problem.
  */
 export const describeProblemObservations: API.OperationMethod<
   DescribeProblemObservationsRequest,
   DescribeProblemObservationsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeProblemObservationsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProblemObservationsRequest,
@@ -1816,16 +1846,18 @@ export const describeProblemObservations: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DescribeWorkloadError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Describes a workload and its configuration.
  */
 export const describeWorkload: API.OperationMethod<
   DescribeWorkloadRequest,
   DescribeWorkloadResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DescribeWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkloadRequest,
@@ -1836,27 +1868,31 @@ export const describeWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type ListApplicationsError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the IDs of the applications that you are monitoring.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  InternalServerException | ValidationException | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     unknown,
-    InternalServerException | ValidationException | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1869,36 +1905,32 @@ export const listApplications: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListComponentsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the auto-grouped, standalone, and custom components of the application.
  */
 export const listComponents: API.OperationMethod<
   ListComponentsRequest,
   ListComponentsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListComponentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     ListComponentsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListComponentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1915,6 +1947,11 @@ export const listComponents: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListConfigurationHistoryError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
  * Application Insights. Examples of events represented are:
@@ -1929,30 +1966,21 @@ export const listComponents: API.OperationMethod<
 export const listConfigurationHistory: API.OperationMethod<
   ListConfigurationHistoryRequest,
   ListConfigurationHistoryResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListConfigurationHistoryError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListConfigurationHistoryRequest,
   ) => stream.Stream<
     ListConfigurationHistoryResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListConfigurationHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationHistoryRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListConfigurationHistoryError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1969,36 +1997,32 @@ export const listConfigurationHistory: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLogPatternsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the log patterns in the specific log `LogPatternSet`.
  */
 export const listLogPatterns: API.OperationMethod<
   ListLogPatternsRequest,
   ListLogPatternsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListLogPatternsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLogPatternsRequest,
   ) => stream.Stream<
     ListLogPatternsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListLogPatternsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLogPatternsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListLogPatternsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2015,36 +2039,32 @@ export const listLogPatterns: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListLogPatternSetsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the log pattern sets in the specific application.
  */
 export const listLogPatternSets: API.OperationMethod<
   ListLogPatternSetsRequest,
   ListLogPatternSetsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListLogPatternSetsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListLogPatternSetsRequest,
   ) => stream.Stream<
     ListLogPatternSetsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListLogPatternSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLogPatternSetsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListLogPatternSetsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2061,36 +2081,32 @@ export const listLogPatternSets: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListProblemsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the problems with your application.
  */
 export const listProblems: API.OperationMethod<
   ListProblemsRequest,
   ListProblemsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListProblemsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListProblemsRequest,
   ) => stream.Stream<
     ListProblemsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListProblemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProblemsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListProblemsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2107,6 +2123,10 @@ export const listProblems: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListTagsForResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve a list of the tags (keys and values) that are associated with a specified
  * application. A *tag* is a label that you optionally define and associate
@@ -2118,43 +2138,39 @@ export const listProblems: API.OperationMethod<
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
   ListTagsForResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type ListWorkloadsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the workloads that are configured on a given component.
  */
 export const listWorkloads: API.OperationMethod<
   ListWorkloadsRequest,
   ListWorkloadsResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListWorkloadsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListWorkloadsRequest,
   ) => stream.Stream<
     ListWorkloadsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadsRequest,
   ) => stream.Stream<
     unknown,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
+    ListWorkloadsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -2171,16 +2187,18 @@ export const listWorkloads: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type RemoveWorkloadError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove workload from a component.
  */
 export const removeWorkload: API.OperationMethod<
   RemoveWorkloadRequest,
   RemoveWorkloadResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  RemoveWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveWorkloadRequest,
@@ -2191,6 +2209,11 @@ export const removeWorkload: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
 /**
  * Add one or more tags (keys and values) to a specified application. A
  * *tag* is a label that you optionally define and associate with an
@@ -2205,10 +2228,7 @@ export const removeWorkload: API.OperationMethod<
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
   TagResourceResponse,
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
@@ -2219,29 +2239,35 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Remove one or more tags (keys and values) from a specified application.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,
   UntagResourceResponse,
-  ResourceNotFoundException | ValidationException | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
 }));
+export type UpdateApplicationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the application.
  */
 export const updateApplication: API.OperationMethod<
   UpdateApplicationRequest,
   UpdateApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
@@ -2252,6 +2278,12 @@ export const updateApplication: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateComponentError =
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the custom component name and/or the list of resources that make up the
  * component.
@@ -2259,11 +2291,7 @@ export const updateApplication: API.OperationMethod<
 export const updateComponent: API.OperationMethod<
   UpdateComponentRequest,
   UpdateComponentResponse,
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateComponentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentRequest,
@@ -2275,6 +2303,12 @@ export const updateComponent: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateComponentConfigurationError =
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the monitoring configurations for the component. The configuration input
  * parameter is an escaped JSON of the configuration and should match the schema of what is
@@ -2283,11 +2317,7 @@ export const updateComponent: API.OperationMethod<
 export const updateComponentConfiguration: API.OperationMethod<
   UpdateComponentConfigurationRequest,
   UpdateComponentConfigurationResponse,
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateComponentConfigurationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentConfigurationRequest,
@@ -2299,17 +2329,19 @@ export const updateComponentConfiguration: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateLogPatternError =
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a log pattern to a `LogPatternSet`.
  */
 export const updateLogPattern: API.OperationMethod<
   UpdateLogPatternRequest,
   UpdateLogPatternResponse,
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateLogPatternError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLogPatternRequest,
@@ -2321,6 +2353,11 @@ export const updateLogPattern: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateProblemError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Updates the visibility of the problem or specifies the problem as
  * `RESOLVED`.
@@ -2328,10 +2365,7 @@ export const updateLogPattern: API.OperationMethod<
 export const updateProblem: API.OperationMethod<
   UpdateProblemRequest,
   UpdateProblemResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateProblemError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProblemRequest,
@@ -2342,16 +2376,18 @@ export const updateProblem: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UpdateWorkloadError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a workload to a component. Each component can have at most five workloads.
  */
 export const updateWorkload: API.OperationMethod<
   UpdateWorkloadRequest,
   UpdateWorkloadResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UpdateWorkloadError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadRequest,

@@ -1221,18 +1221,20 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type CreateApplicationError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
  */
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   CreateApplicationResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
@@ -1245,18 +1247,20 @@ export const createApplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateApplicationVersionError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an application version.
  */
 export const createApplicationVersion: API.OperationMethod<
   CreateApplicationVersionRequest,
   CreateApplicationVersionResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateApplicationVersionError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationVersionRequest,
@@ -1269,17 +1273,19 @@ export const createApplicationVersion: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateCloudFormationChangeSetError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an AWS CloudFormation change set for the given application.
  */
 export const createCloudFormationChangeSet: API.OperationMethod<
   CreateCloudFormationChangeSetRequest,
   CreateCloudFormationChangeSetResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateCloudFormationChangeSetError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCloudFormationChangeSetRequest,
@@ -1291,18 +1297,20 @@ export const createCloudFormationChangeSet: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type CreateCloudFormationTemplateError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Creates an AWS CloudFormation template.
  */
 export const createCloudFormationTemplate: API.OperationMethod<
   CreateCloudFormationTemplateRequest,
   CreateCloudFormationTemplateResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  CreateCloudFormationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCloudFormationTemplateRequest,
@@ -1315,19 +1323,21 @@ export const createCloudFormationTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Deletes the specified application.
- */
-export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
-  DeleteApplicationResponse,
+export type DeleteApplicationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Deletes the specified application.
+ */
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
+  DeleteApplicationResponse,
+  DeleteApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
@@ -1341,18 +1351,20 @@ export const deleteApplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetApplicationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the specified application.
  */
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
   GetApplicationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
@@ -1365,18 +1377,20 @@ export const getApplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetApplicationPolicyError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the policy for the application.
  */
 export const getApplicationPolicy: API.OperationMethod<
   GetApplicationPolicyRequest,
   GetApplicationPolicyResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetApplicationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationPolicyRequest,
@@ -1389,18 +1403,20 @@ export const getApplicationPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type GetCloudFormationTemplateError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Gets the specified AWS CloudFormation template.
  */
 export const getCloudFormationTemplate: API.OperationMethod<
   GetCloudFormationTemplateRequest,
   GetCloudFormationTemplateResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  GetCloudFormationTemplateError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudFormationTemplateRequest,
@@ -1413,42 +1429,34 @@ export const getCloudFormationTemplate: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type ListApplicationDependenciesError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Retrieves the list of applications nested in the containing application.
  */
 export const listApplicationDependencies: API.OperationMethod<
   ListApplicationDependenciesRequest,
   ListApplicationDependenciesResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListApplicationDependenciesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationDependenciesRequest,
   ) => stream.Stream<
     ListApplicationDependenciesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListApplicationDependenciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationDependenciesRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListApplicationDependenciesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1467,39 +1475,33 @@ export const listApplicationDependencies: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListApplicationsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors;
 /**
  * Lists applications owned by the requester.
  */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
   ListApplicationsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | CommonErrors,
+  ListApplicationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     ListApplicationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | CommonErrors,
+    ListApplicationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1517,42 +1519,34 @@ export const listApplications: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type ListApplicationVersionsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Lists versions for the specified application.
  */
 export const listApplicationVersions: API.OperationMethod<
   ListApplicationVersionsRequest,
   ListApplicationVersionsResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  ListApplicationVersionsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
     ListApplicationVersionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListApplicationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
     unknown,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
+    ListApplicationVersionsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1571,6 +1565,13 @@ export const listApplicationVersions: API.OperationMethod<
     pageSize: "MaxItems",
   } as const,
 }));
+export type PutApplicationPolicyError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Sets the permission policy for an application. For the list of actions supported for this operation, see
  * Application
@@ -1580,12 +1581,7 @@ export const listApplicationVersions: API.OperationMethod<
 export const putApplicationPolicy: API.OperationMethod<
   PutApplicationPolicyRequest,
   PutApplicationPolicyResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  PutApplicationPolicyError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApplicationPolicyRequest,
@@ -1598,6 +1594,13 @@ export const putApplicationPolicy: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type UnshareApplicationError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
 /**
  * Unshares an application from an AWS Organization.
  *
@@ -1606,12 +1609,7 @@ export const putApplicationPolicy: API.OperationMethod<
 export const unshareApplication: API.OperationMethod<
   UnshareApplicationRequest,
   UnshareApplicationResponse,
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
+  UnshareApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnshareApplicationRequest,
@@ -1624,19 +1622,21 @@ export const unshareApplication: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
-/**
- * Updates the specified application.
- */
-export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
-  UpdateApplicationResponse,
+export type UpdateApplicationError =
   | BadRequestException
   | ConflictException
   | ForbiddenException
   | InternalServerErrorException
   | NotFoundException
   | TooManyRequestsException
-  | CommonErrors,
+  | CommonErrors;
+/**
+ * Updates the specified application.
+ */
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
+  UpdateApplicationResponse,
+  UpdateApplicationError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,

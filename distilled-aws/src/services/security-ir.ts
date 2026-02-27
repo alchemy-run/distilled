@@ -1435,16 +1435,18 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+export type ListTagsForResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns currently configured tags on a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
   ListTagsForResourceOutput,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  ListTagsForResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
@@ -1455,16 +1457,18 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type TagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Adds a tag(s) to a designated resource.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput,
   TagResourceOutput,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  TagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
@@ -1475,16 +1479,18 @@ export const tagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type UntagResourceError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
 /**
  * Removes a tag(s) from a designate resource.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput,
   UntagResourceOutput,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
@@ -1495,66 +1501,70 @@ export const untagResource: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type CreateCaseError = CommonErrors;
 /**
  * Creates a new case.
  */
 export const createCase: API.OperationMethod<
   CreateCaseRequest,
   CreateCaseResponse,
-  CommonErrors,
+  CreateCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRequest,
   output: CreateCaseResponse,
   errors: [],
 }));
+export type GetCaseError = CommonErrors;
 /**
  * Returns the attributes of a case.
  */
 export const getCase: API.OperationMethod<
   GetCaseRequest,
   GetCaseResponse,
-  CommonErrors,
+  GetCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCaseRequest,
   output: GetCaseResponse,
   errors: [],
 }));
+export type UpdateCaseError = CommonErrors;
 /**
  * Updates an existing case.
  */
 export const updateCase: API.OperationMethod<
   UpdateCaseRequest,
   UpdateCaseResponse,
-  CommonErrors,
+  UpdateCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseRequest,
   output: UpdateCaseResponse,
   errors: [],
 }));
+export type ListCasesError = CommonErrors;
 /**
  * Lists all cases the requester has access to.
  */
 export const listCases: API.OperationMethod<
   ListCasesRequest,
   ListCasesResponse,
-  CommonErrors,
+  ListCasesError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCasesRequest,
   ) => stream.Stream<
     ListCasesResponse,
-    CommonErrors,
+    ListCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCasesRequest,
   ) => stream.Stream<
     ListCasesItem,
-    CommonErrors,
+    ListCasesError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1568,79 +1578,84 @@ export const listCases: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type CloseCaseError = CommonErrors;
 /**
  * Closes an existing case.
  */
 export const closeCase: API.OperationMethod<
   CloseCaseRequest,
   CloseCaseResponse,
-  CommonErrors,
+  CloseCaseError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseCaseRequest,
   output: CloseCaseResponse,
   errors: [],
 }));
+export type CreateCaseCommentError = CommonErrors;
 /**
  * Adds a comment to an existing case.
  */
 export const createCaseComment: API.OperationMethod<
   CreateCaseCommentRequest,
   CreateCaseCommentResponse,
-  CommonErrors,
+  CreateCaseCommentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseCommentRequest,
   output: CreateCaseCommentResponse,
   errors: [],
 }));
+export type GetCaseAttachmentDownloadUrlError = CommonErrors;
 /**
  * Returns a Pre-Signed URL for uploading attachments into a case.
  */
 export const getCaseAttachmentDownloadUrl: API.OperationMethod<
   GetCaseAttachmentDownloadUrlRequest,
   GetCaseAttachmentDownloadUrlResponse,
-  CommonErrors,
+  GetCaseAttachmentDownloadUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCaseAttachmentDownloadUrlRequest,
   output: GetCaseAttachmentDownloadUrlResponse,
   errors: [],
 }));
+export type GetCaseAttachmentUploadUrlError = CommonErrors;
 /**
  * Uploads an attachment to a case.
  */
 export const getCaseAttachmentUploadUrl: API.OperationMethod<
   GetCaseAttachmentUploadUrlRequest,
   GetCaseAttachmentUploadUrlResponse,
-  CommonErrors,
+  GetCaseAttachmentUploadUrlError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCaseAttachmentUploadUrlRequest,
   output: GetCaseAttachmentUploadUrlResponse,
   errors: [],
 }));
+export type ListCaseEditsError = CommonErrors;
 /**
  * Views the case history for edits made to a designated case.
  */
 export const listCaseEdits: API.OperationMethod<
   ListCaseEditsRequest,
   ListCaseEditsResponse,
-  CommonErrors,
+  ListCaseEditsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCaseEditsRequest,
   ) => stream.Stream<
     ListCaseEditsResponse,
-    CommonErrors,
+    ListCaseEditsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCaseEditsRequest,
   ) => stream.Stream<
     CaseEditItem,
-    CommonErrors,
+    ListCaseEditsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1654,27 +1669,28 @@ export const listCaseEdits: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListCommentsError = CommonErrors;
 /**
  * Returns comments for a designated case.
  */
 export const listComments: API.OperationMethod<
   ListCommentsRequest,
   ListCommentsResponse,
-  CommonErrors,
+  ListCommentsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListCommentsRequest,
   ) => stream.Stream<
     ListCommentsResponse,
-    CommonErrors,
+    ListCommentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCommentsRequest,
   ) => stream.Stream<
     ListCommentsItem,
-    CommonErrors,
+    ListCommentsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1688,27 +1704,28 @@ export const listComments: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type ListInvestigationsError = CommonErrors;
 /**
  * Investigation performed by an agent for a security incident...
  */
 export const listInvestigations: API.OperationMethod<
   ListInvestigationsRequest,
   ListInvestigationsResponse,
-  CommonErrors,
+  ListInvestigationsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListInvestigationsRequest,
   ) => stream.Stream<
     ListInvestigationsResponse,
-    CommonErrors,
+    ListInvestigationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvestigationsRequest,
   ) => stream.Stream<
     InvestigationAction,
-    CommonErrors,
+    ListInvestigationsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1722,32 +1739,35 @@ export const listInvestigations: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type SendFeedbackError = CommonErrors;
 /**
  * Send feedback based on response investigation action
  */
 export const sendFeedback: API.OperationMethod<
   SendFeedbackRequest,
   SendFeedbackResponse,
-  CommonErrors,
+  SendFeedbackError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendFeedbackRequest,
   output: SendFeedbackResponse,
   errors: [],
 }));
+export type UpdateCaseCommentError = CommonErrors;
 /**
  * Updates an existing case comment.
  */
 export const updateCaseComment: API.OperationMethod<
   UpdateCaseCommentRequest,
   UpdateCaseCommentResponse,
-  CommonErrors,
+  UpdateCaseCommentError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseCommentRequest,
   output: UpdateCaseCommentResponse,
   errors: [],
 }));
+export type UpdateCaseStatusError = CommonErrors;
 /**
  * Updates the state transitions for a designated cases.
  *
@@ -1774,13 +1794,14 @@ export const updateCaseComment: API.OperationMethod<
 export const updateCaseStatus: API.OperationMethod<
   UpdateCaseStatusRequest,
   UpdateCaseStatusResponse,
-  CommonErrors,
+  UpdateCaseStatusError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseStatusRequest,
   output: UpdateCaseStatusResponse,
   errors: [],
 }));
+export type UpdateResolverTypeError = CommonErrors;
 /**
  * Updates the resolver type for a case.
  *
@@ -1789,73 +1810,77 @@ export const updateCaseStatus: API.OperationMethod<
 export const updateResolverType: API.OperationMethod<
   UpdateResolverTypeRequest,
   UpdateResolverTypeResponse,
-  CommonErrors,
+  UpdateResolverTypeError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverTypeRequest,
   output: UpdateResolverTypeResponse,
   errors: [],
 }));
+export type CreateMembershipError = CommonErrors;
 /**
  * Creates a new membership.
  */
 export const createMembership: API.OperationMethod<
   CreateMembershipRequest,
   CreateMembershipResponse,
-  CommonErrors,
+  CreateMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMembershipRequest,
   output: CreateMembershipResponse,
   errors: [],
 }));
+export type GetMembershipError = CommonErrors;
 /**
  * Returns the attributes of a membership.
  */
 export const getMembership: API.OperationMethod<
   GetMembershipRequest,
   GetMembershipResponse,
-  CommonErrors,
+  GetMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembershipRequest,
   output: GetMembershipResponse,
   errors: [],
 }));
+export type UpdateMembershipError = CommonErrors;
 /**
  * Updates membership configuration.
  */
 export const updateMembership: API.OperationMethod<
   UpdateMembershipRequest,
   UpdateMembershipResponse,
-  CommonErrors,
+  UpdateMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMembershipRequest,
   output: UpdateMembershipResponse,
   errors: [],
 }));
+export type ListMembershipsError = CommonErrors;
 /**
  * Returns the memberships that the calling principal can access.
  */
 export const listMemberships: API.OperationMethod<
   ListMembershipsRequest,
   ListMembershipsResponse,
-  CommonErrors,
+  ListMembershipsError,
   Credentials | Region | HttpClient.HttpClient
 > & {
   pages: (
     input: ListMembershipsRequest,
   ) => stream.Stream<
     ListMembershipsResponse,
-    CommonErrors,
+    ListMembershipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMembershipsRequest,
   ) => stream.Stream<
     ListMembershipItem,
-    CommonErrors,
+    ListMembershipsError,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
@@ -1869,6 +1894,7 @@ export const listMemberships: API.OperationMethod<
     pageSize: "maxResults",
   } as const,
 }));
+export type BatchGetMemberAccountDetailsError = CommonErrors;
 /**
  * Provides information on whether the supplied account IDs are associated with a membership.
  *
@@ -1877,20 +1903,21 @@ export const listMemberships: API.OperationMethod<
 export const batchGetMemberAccountDetails: API.OperationMethod<
   BatchGetMemberAccountDetailsRequest,
   BatchGetMemberAccountDetailsResponse,
-  CommonErrors,
+  BatchGetMemberAccountDetailsError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetMemberAccountDetailsRequest,
   output: BatchGetMemberAccountDetailsResponse,
   errors: [],
 }));
+export type CancelMembershipError = CommonErrors;
 /**
  * Cancels an existing membership.
  */
 export const cancelMembership: API.OperationMethod<
   CancelMembershipRequest,
   CancelMembershipResponse,
-  CommonErrors,
+  CancelMembershipError,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMembershipRequest,
